@@ -290,7 +290,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.will.yeye.view.PeriscopeLayout
+    <com.angelatech.yeyelive.view.PeriscopeLayout
         android:id="@+id/PeriscopeLayout"
         android:layout_width="80dp"
         android:layout_height="240dp"

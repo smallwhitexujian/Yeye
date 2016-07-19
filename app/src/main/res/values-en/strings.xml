@@ -267,7 +267,7 @@
   <string name="diamond_balance">Diamond Balance</string>
   <string name="exchange_coin">Exchange to Coins</string>
   <string name="balance">Balance</string>
-  <string name="recharge_unit">$ </string>
+  <string name="recharge_unit">MYR </string>
   <string name="cancel">Cancel</string>
   <string name="sure">Sure</string>
   <string name="purchase_cancel">purchase cancel</string>

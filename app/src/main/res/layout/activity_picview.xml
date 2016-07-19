@@ -6,7 +6,7 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
-    <com.will.yeye.view.PicView
+    <com.angelatech.yeyelive.view.PicView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/picture_view"

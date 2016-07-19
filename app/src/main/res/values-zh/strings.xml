@@ -267,7 +267,7 @@
     <string name="diamond_balance">钻石余额</string>
     <string name="exchange_coin">兑换金币</string>
     <string name="balance">余额</string>
-    <string name="recharge_unit">$ </string>
+    <string name="recharge_unit">MYR </string>
     <string name="cancel">取消</string>
     <string name="sure">确定</string>
     <string name="purchase_cancel">取消购买</string>

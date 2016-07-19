@@ -5,7 +5,7 @@ android {
     buildToolsVersion '23.0.3'
 
     defaultConfig {
-        applicationId "com.will.yeye"
+        applicationId "com.angelatech.yeyelive"
         minSdkVersion 15
         targetSdkVersion 16
         versionCode 1

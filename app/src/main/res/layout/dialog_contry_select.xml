@@ -7,7 +7,7 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
-    <com.will.yeye.view.HeaderLayout
+    <com.angelatech.yeyelive.view.HeaderLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="45dp" />

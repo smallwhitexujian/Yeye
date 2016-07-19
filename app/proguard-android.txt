@@ -93,7 +93,7 @@
 # 微信
 -dontwarn com.tencent.mm.**
 -keep class com.tencent.mm.**{*;}
--keep class com.will.yeye.wxapi.**{*;}
+-keep class com.angelatech.yeyelive.wxapi.**{*;}
 
 #音视频
 -dontwarn com.will.libmedia.**
@@ -115,7 +115,7 @@
 -keep class com.tencent.open.PKDialog {*;}
 -keep class com.tencent.open.PKDialog$*
 -keep class com.tencent.open.PKDialog$* {*;}
--keep class com.will.yeye.qqapi.**{*;}
+-keep class com.angelatech.yeyelive.qqapi.**{*;}
 
 
 #webrtc
@@ -154,8 +154,8 @@
 -keep class com.google.gson.examples.android.model.** { *; }
 
 #####自己项目
--keep public class com.will.yeye.model**{*;}
--keep public class com.will.yeye.thirdLogin**{*;}
+-keep public class com.angelatech.yeyelive.model**{*;}
+-keep public class com.angelatech.yeyelive.thirdLogin**{*;}
 
 #db
 -keep class com.j256.**
@@ -165,7 +165,7 @@
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
 
--keep public class com.will.yeye.db.model**{*;}
+-keep public class com.angelatech.yeyelive.db.model**{*;}
 
 
 -keep class com.will.libmedia**{*;}
