@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <com.will.yeye.view.HeaderLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_eaeaea"
+
+        />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_margin="8dp"
+        android:id="@+id/search_input"
+        android:background="@drawable/circle_coner_black_bg"
+        android:hint="@string/select_country_search"
+        android:padding="8dp"
+        android:drawableLeft="@drawable/icon_search_search"
+        android:textColorHighlight="#BCBCBC"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/country_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+
+
+        <com.will.view.indexview.SideBarView
+            android:id="@+id/sidebarview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            />
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/item_tip_bg"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="40sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
+
+    defaultConfig {
+        applicationId "com.will.yeye"
+        minSdkVersion 15
+        targetSdkVersion 16
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86","x86_64","mips"
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("key/Yeye.jks")
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+        }
+    }
+
+    buildTypes {
+        release {
+            zipAlignEnabled true
+            minifyEnabled true
+            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-android.txt'
+//            signingConfig signingConfigs.release
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir(['libs'])
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':LibCommon')
+    compile project(':LibNotification')
+    compile project(':LibSocket')
+    compile project(':LibView')
+    compile project(':LibWeb')
+    compile project(':LibImageLoader')
+    compile project(':LibGooglePay')
+    compile project(':LibQiniu')
+    compile 'com.android.support:multidex:'
+    //定位用到
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.google.android.gms:play-services-maps:7.8.+'
+    compile 'com.google.android.gms:play-services-location:7.8.+'
+    compile 'com.facebook.android:facebook-android-sdk:4.7.+'
+    testCompile 'junit:junit:4.12'
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:background="@color/color_f6f6f6"
+        android:paddingBottom="2dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:text="A"
+        android:textColor="#454545" />
+
+    <LinearLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dip"
+            android:paddingLeft="5dip"
+            android:paddingTop="10dip"
+            android:layout_marginLeft="5dp"
+            android:text="hhhh"
+            android:textColor="#222222"
+            android:textSize="14sp" />
+
+        <!--区号-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/area_num"
+            android:layout_weight="3"
+            android:gravity="center|right"
+            android:layout_marginRight="26dp"
+            android:textColor="#A7A7A7"
+            android:text="afasdfs" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

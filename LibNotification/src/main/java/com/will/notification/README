@@ -1,0 +1,31 @@
+通知栏类型：
+        interfaces   :定义接口
+        notification :定义通知类型
+        model        :
+        pendingintent:定义pendingintent类型
+
+用法：
+    Load load = NotificationManager.with(Context).load();
+    load.title("标题")
+        .message("消息内容")
+        .identifier(id)//int 唯一标识
+        .smallIcon()//小图标(这个图标需要提供多个分辨率的图片)
+        .largeIcon()//大图标(需要提供多个分辨率的图片)
+        .ticker("呵呵哒")//可有可无
+        .bigTextStyle("显示的内容")//4.0以上才支持(可以不设置,如果设置有些系统上会覆盖message,只显示该内容)
+        .autoCancel(true)//是否可以别取消
+        .flags(Notification.DEFAULT_ALL)//可以不用动
+//        .clickBroadCast("com.test",null)//参数一：action为广播action,参数二:传null(可以不设置该方法)
+        .clickActivity(null,Activity.clsss)//参数一：action可以为null,参数二:Class<Activity>类型(可以不设置该方法)
+//        .click(pendingIntent)//自定义PendingIntent传入(可以不设置该方法)
+        .simple()//普通通知可以默认使用
+        .build();//显示通知
+注：
+    1、clickBroadCast,clickActivity,click这三个方法选择其中一种，也可以不设置
+    2、如果需要自定义声音则flags()方法中不要使用Notification.DEFAULT_ALL(因为默认的Notification.DEFAULT_SOUND不能和sound()同时出现)
+       sound(uri):uri格式:
+                        a、Uri.parse("file:///sdcard/xxxx/xxx.xxx")
+                        b、Uri.parse("android.resource://包名/" + 资源id)
+
+
+

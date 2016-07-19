@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.will.yeye.view.HeaderLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_grey_d5"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_nickName"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/tv_nickName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center|start"
+                android:paddingLeft="10dp"
+                android:maxEms="12"
+                android:singleLine="true"
+                android:textColor="@color/color_222222"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/btn_me_delete_n" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_d5"/>
+        <LinearLayout
+            android:id="@+id/layout_sign"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_sign"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@null"
+                android:gravity="top"
+                android:maxLength="100"
+                android:maxLines="5"
+                android:textColor="@color/color_222222"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_d5"/>
+        <TextView
+            android:id="@+id/tv_input_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="6dp"
+            android:text="100"
+            android:visibility="visible"/>
+    </LinearLayout>
+</LinearLayout>

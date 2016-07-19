@@ -1,0 +1,85 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item><!-- 无标题 -->
+        <item name="android:windowBackground">@color/color_white</item>
+
+    </style>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_ed8644</item>
+        <item name="colorPrimaryDark">@color/color_ed8644</item>
+        <item name="colorAccent">@color/color_ed8644</item>
+    </style>
+
+    <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
+    <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
+
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
+    </style>
+
+    <!-- ActionSheet进出动画 -->
+    <style name="ActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/action_sheet_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/action_sheet_dialog_out</item>
+    </style>
+
+    <!--自定义AlertDialog的样式-->
+    <style name="Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+    </style>
+
+    <style name="AudioFileInfoOverlayText">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">#ffff00</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingLeft">6px</item>
+        <item name="android:paddingBottom">4px</item>
+    </style>
+    <style name="AudioFileInfoOverlayText1">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">#f962a4</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingLeft">6px</item>
+        <item name="android:paddingBottom">4px</item>
+    </style>
+
+    <style name="bind_fb" parent="@style/bindfb_button">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="bindfb_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:minHeight">50dp</item>
+    </style>
+    <!--<declare-styleable name="RadioButtonView">-->
+    <!--<attr name="drawableSize" format="integer">18</attr>-->
+    <!--<attr name="drawableTop">@null</attr>-->
+    <!--<attr name="drawableBottom">@null</attr>-->
+    <!--<attr name="drawableRight">@null</attr>-->
+    <!--<attr name="drawableLeft">btn_login_sex</attr>-->
+    <!--</declare-styleable>-->
+
+</resources>

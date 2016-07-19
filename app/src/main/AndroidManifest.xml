@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.will.yeye">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <!-- 往sdcard中写入数据的权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取手机状态权限的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 获取手机网络的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 在sdcard中创建/删除文件的权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 短信权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <!-- 获取GPS经纬度权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 获取相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.intent.action.HEADSET_PLUG" />
+    <!-- google获取GPS权限 -->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!-- 通过网络连接获取地址 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 系统弹窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <application
+        android:name="com.will.yeye.application.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        <activity
+            android:name="com.will.yeye.activity.LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--主界面-->
+        <activity
+            android:name="com.will.yeye.activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--登录选择总界面 -->
+        <!--<activity-->
+            <!--android:name="com.will.live.activity.LoginActivity"-->
+            <!--android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name="com.will.yeye.activity.ChatRoomActivity"
+            android:hardwareAccelerated="false"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name="com.will.yeye.activity.LiveFinishActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <!--手机登录 -->
+        <activity
+            android:name="com.will.yeye.activity.PhoneLoginActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!--设置-->
+        <activity
+            android:name="com.will.yeye.activity.SettingActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.ProfileActivity"
+            android:screenOrientation="portrait"
+           />
+
+        <!--选择国家-->
+        <activity
+            android:name="com.will.yeye.activity.CountrySelectActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name="com.will.yeye.activity.SearchActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.will.yeye.activity.UserInfoActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.FansActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.FocusOnActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.EditActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+          />
+
+        <activity
+            android:name="com.will.yeye.activity.PicViewActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.PhoneBindActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.will.yeye.activity.AboutUsActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.will.yeye.activity.WebActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.FeedbackActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.BlacklistActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.RechargeWayActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.will.yeye.activity.RechargeActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <service
+            android:name="com.will.yeye.service.IService"
+            android:allowBackup="true"
+            android:enabled="true"
+            android:persistent="true">
+            <intent-filter>
+                <action android:name="com.will.yeye.IService" />
+            </intent-filter>
+        </service>
+
+
+        <!-- ActiveAndroid 数据库名称 -->
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="yeye.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="10" />
+        <!-- ActiveAndroid 数据库版本控制 -->
+
+
+        <!-- 接收微信的请求及返回值 -->
+        <activity
+            android:name="com.will.yeye.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <activity
+            android:name="com.will.yeye.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <!-- QQ登录API -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1105057529" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <!--友盟-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="577b81a067e58e26500022d4" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="yeyelive" />
+
+        <!--微博-->
+        <!-- 必须注册在微博授权，分享微博时候用到 -->
+        <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" >
+        </activity>
+
+        <meta-data
+            android:name="WEIBO_APPKEY"
+            android:value="670023890" />
+        <meta-data
+            android:name="WEIBO_CHANNEL"
+            android:value="weibo" />
+        <!--测试-->
+
+        <!-- Facebook 相关配置 -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/facebook_app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationName"
+            android:value="@string/facebook_app_name" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider913707832091856"
+            android:exported="true" />
+        <!-- Facebook 相关配置 end -->
+
+    </application>
+
+</manifest>

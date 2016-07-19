@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--头部-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/face_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                fresco:placeholderImage="@drawable/btn_navigation_bar_me_n"
+                fresco:roundAsCircle="true" />
+
+            <LinearLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="180dp"
+                android:layout_height="31dp"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/hot_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
+                    android:gravity="center"
+                    android:text="@string/live_hot"
+                    android:textColor="#F78A2B"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/follow_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/live_follow"
+                    android:textColor="#F78A2B"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/btn_home_search_n" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_eaeaea" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/btn_home_sign_on_n" />
+
+    <ImageView
+        android:id="@+id/home_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_home_guide"
+        android:visibility="gone" />
+</RelativeLayout>

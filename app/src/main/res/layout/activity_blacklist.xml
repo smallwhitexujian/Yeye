@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/color_white"
+      android:clipToPadding="true"
+      android:fitsSystemWindows="true"
+      android:orientation="vertical">
+
+    <com.will.yeye.view.HeaderLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_eaeaea"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.will.view.library.SwipyRefreshLayout
+            android:id="@+id/pullToRefreshView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/list_blacklist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/color_eaeaea"
+                android:dividerHeight="0.5dp" />
+        </com.will.view.library.SwipyRefreshLayout>
+
+        <include layout="@layout/none_data_layout"/>
+
+    </FrameLayout>
+
+</LinearLayout>

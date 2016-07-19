@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true">
+
+    <com.will.yeye.view.HeaderLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/headerLayout" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_grey_d5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="153dp"
+        android:background="@color/color_f6f6f6"
+        android:gravity="center">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_head_photo"
+            android:layout_width="87dp"
+            android:layout_height="87dp"
+            android:layout_centerVertical="true"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/btn_login_photo_n"
+            fresco:roundAsCircle="true"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+
+        android:orientation="horizontal"
+        android:background="@color/color_ffffff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+
+            android:layout_gravity="center"
+            android:text="@string/user_sex" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="18dp"
+            android:gravity="right">
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radio_user_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/user_male"
+                    android:textColor="@color/color_222222"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/btn_login_sex" />
+
+                <RadioButton
+                    android:id="@+id/radio_user_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/user_female"
+                    android:textColor="@color/color_222222"
+                    android:button="@null"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/btn_login_sex"
+                    android:textSize="14sp" />
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_grey_d5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:gravity="center"
+        android:textColor="@color/color_a6a6a6"
+        android:textSize="12sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+
+        android:background="@color/color_ffffff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:text="@string/user_name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="18dp"
+            android:gravity="right">
+
+            <EditText
+                android:id="@+id/edit_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:hint="@string/user_name_hint"
+                android:gravity="center|end"
+                android:textColorHint="@color/color_a6a6a6"
+                android:textColor="@color/color_222222"
+                android:singleLine="true"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_grey_d5" />
+
+    <TextView
+        android:id="@+id/tv_input_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="right"
+        android:maxLength="24"
+        android:text="1/24"
+        android:textColor="@color/color_a6a6a6"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/button_complete"
+        android:background="@drawable/common_btn_unuse_bg"
+        android:textColor="@color/color_a6a6a6"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+
+        />
+    </LinearLayout>
+</ScrollView>
+
+

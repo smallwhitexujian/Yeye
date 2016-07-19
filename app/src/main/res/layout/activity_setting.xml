@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.will.yeye.view.HeaderLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+
+        <!--直播消息提醒-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:text="@string/setting_live_notify"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/notify_turn"
+                android:layout_width="50dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/btn_me_switch_n" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+
+        <!--绑定手机-->
+        <LinearLayout
+            android:id="@+id/bind_phone_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_bind_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:text="@string/setting_bind_phone"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/bind_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/color_a6a6a6"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                android:src="@drawable/btn_next" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/color_grey_d5"
+            android:visibility="gone"
+        />
+
+        <!--绑定QQ-->
+        <LinearLayout
+            android:id="@+id/bind_qq_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:text="@string/setting_bind_qq"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/bind_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/color_a6a6a6"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                android:src="@drawable/btn_next" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/color_grey_d5"
+            android:visibility="gone" />
+
+
+        <!--绑定微信-->
+        <LinearLayout
+            android:id="@+id/bind_weichat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:text="@string/setting_bind_weixin"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/bind_weichat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/color_a6a6a6"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/btn_next" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/color_grey_d5"
+            android:visibility="visible" />
+
+        <!--绑定facebook-->
+        <RelativeLayout
+            android:id="@+id/bind_facebook_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="26dp"
+                android:visibility="visible">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebook_login"
+                    style="@style/bind_fb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:text="@string/setting_bind_facebook"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_faceBook_next"
+                android:layout_width="7dp"
+                android:layout_height="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/btn_next" />
+
+            <TextView
+                android:id="@+id/bind_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_faceBook_next"
+                android:textColor="@color/color_a6a6a6"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+
+        <!--清除缓存-->
+        <LinearLayout
+            android:id="@+id/clear_cache_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/setting_clear_cache"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                android:gravity="center_vertical"
+                android:src="@drawable/btn_next" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+        <!--黑名单-->
+        <LinearLayout
+            android:id="@+id/blacklist_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="16dp"
+                android:text="@string/setting_blacklist"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                android:src="@drawable/btn_next" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+        <!--意见反馈-->
+        <LinearLayout
+            android:id="@+id/feedback_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:text="@string/setting_feedback"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                android:src="@drawable/btn_next" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/color_grey_d5" />
+
+
+        <!--关于我们-->
+        <LinearLayout
+            android:id="@+id/about_us_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/setting_about_us"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/btn_next" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_d5" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

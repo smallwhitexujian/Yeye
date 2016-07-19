@@ -1,0 +1,212 @@
+# Save the obfuscation mapping to a file, so you can de-obfuscate any stack
+# traces later on.
+#-printmapping bin/classes-processed.map
+# You can print out the seeds that are matching the keep options below.
+#-printseeds bin/classes-processed.seeds
+# Preverification is irrelevant for the dex compiler and the Dalvik VM.
+-dontpreverify
+# Reduce the size of the output some more.
+-repackageclasses ''
+-allowaccessmodification
+# Switch off some optimizations that trip older versions of the Dalvik VM.
+-optimizations !code/simplification/arithmetic
+#下面这行代码是 忽略警告，避免打包时某些警告出现
+-ignorewarnings
+# Keep a fixed source file attribute and all line number tables to get line
+# numbers in the stack traces.
+# You can comment this out if you're not interested in stack traces.
+#-renamesourcefileattribute SourceFile
+#-keepattributes SourceFile,LineNumberTable
+# RemoteViews might need annotations.
+-keepattributes *Annotation*
+# Preserve all fundamental application classes.
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+# Preserve all View implementations, their special context constructors, and
+# their setters.
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+    *** get*();
+}
+# Preserve all classes that have special context constructors, and the
+# constructors themselves.
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+# Preserve all classes that have special context constructors, and the
+# constructors themselves.
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+# Preserve the special fields of all Parcelable implementations.
+-keepclassmembers class * implements android.os.Parcelable {
+    static android.os.Parcelable$Creator CREATOR;
+}
+# Preserve static fields of inner classes of R classes that might be accessed
+# through introspection.
+-keepclassmembers class **.R$* {
+  public static <fields>;
+}
+# Preserve the required interface from the License Verification Library
+# (but don't nag the developer if the library is not used at all).
+-keep public interface com.android.vending.licensing.ILicensingService
+-dontnote com.android.vending.licensing.ILicensingService
+-dontwarn android.support.**
+# Preserve all native method names and the names of their classes.
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+#枚举
+-keepclassmembers class * extends java.lang.Enum {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+########google 支付#####
+#-keep public com.android.vending.billing
+
+# ActiveAndroid
+-keep class com.activeandroid.** { *; }
+-keep class com.activeandroid.**.** { *; }
+-keep class * extends com.activeandroid.Model
+-keep class * extends com.activeandroid.serializer.TypeSerializer
+
+# Facebook
+-dontwarn com.facebook.**
+-keep class com.facebook.** {*;}
+
+# 微信
+-dontwarn com.tencent.mm.**
+-keep class com.tencent.mm.**{*;}
+-keep class com.will.yeye.wxapi.**{*;}
+
+#音视频
+-dontwarn com.will.libmedia.**
+-keep class com.will.libmedia.**{*;}
+
+# VK
+-keep class com.vk.sdk.**{*;}
+
+#友盟
+-keep class com.umeng.**{*;}
+-keep class com.umeng.analytics.** { *; }
+-keep class com.umeng.common.** { *; }
+-keep class com.umeng.newxp.** { *; }
+
+# qq
+-keep class com.tencent.open.TDialog$*
+-keep class com.tencent.open.TDialog$* {*;}
+-keep class com.tencent.open.PKDialog
+-keep class com.tencent.open.PKDialog {*;}
+-keep class com.tencent.open.PKDialog$*
+-keep class com.tencent.open.PKDialog$* {*;}
+-keep class com.will.yeye.qqapi.**{*;}
+
+
+#webrtc
+-keep class de.tavendo.autobahn{*;}
+-keep class org.webrtc.**{*;}
+
+
+
+#google gms
+-dontwarn com.google.android.gms.**
+-keep class com.google.analytics.** { *; }
+-keep public class com.google.android.gms.* { public *; }
+
+-keep class * extends java.util.ListResourceBundle {
+    protected Object[][] getContents();
+}
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+-keepnames @com.google.android.gms.common.annotation.KeepName class *
+-keepclassmembernames class * {
+    @com.google.android.gms.common.annotation.KeepName *;
+}
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+
+#slidelibrary
+-dontwarn com.jeremyfeinstein.slidingmenu.lib.**
+-keep class com.jeremyfeinstein.slidingmenu.lib.** { *; }
+
+#gson
+-keepattributes Signature
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
+
+#####自己项目
+-keep public class com.will.yeye.model**{*;}
+-keep public class com.will.yeye.thirdLogin**{*;}
+
+#db
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+
+-keep public class com.will.yeye.db.model**{*;}
+
+
+-keep class com.will.libmedia**{*;}
+
+###连连支付
+###-keep class com.yintong.secure.activityproxy.PayIntro$LLJavascriptInterface{*;}
+
+# # -------------------------------------------
+# #  ############### utility_lib 混淆  ###############
+# # -------------------------------------------
+-keep class com.android.volley.** {*;}
+-keep class com.android.volley.toolbox.** {*;}
+-keep class com.android.volley.Response$* { *; }
+-keep class com.android.volley.Request$* { *; }
+-keep class com.android.volley.RequestQueue$* { *; }
+-keep class com.android.volley.toolbox.HurlStack$* { *; }
+-keep class com.android.volley.toolbox.ImageLoader$* { *; }
+
+
+##okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *;}
+-dontwarn okio.**
+-keep class okio.** {*;}
+
+
+# ProGuard configurations for NetworkBench Lens
+-keep class com.networkbench.** { *; }
+-dontwarn com.networkbench.**
+-keepattributes Exceptions, Signature, InnerClasses
+# End NetworkBench Lens
+
+-dump class_files.txt
+#未混淆的类和成员
+-printseeds seeds.txt
+#列出从 apk 中删除的代码
+-printusage unused.txt
+#混淆前后的映射
+-printmapping mapping.txt
+
+#音视频
+-dontwarn com.will.libmedia.**
+-keep class com.will.libmedia.**{*;}
+

@@ -1,0 +1,148 @@
+package com.will.yeye.thirdShare;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.facebook.datasource.DataSource;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.will.yeye.util.LoadBitmap;
+import com.will.yeye.wxapi.WXInterface;
+import com.will.yeye.R;
+
+
+public class ThirdShareDialog extends Dialog {
+
+    public ThirdShareDialog(Context context) {
+        super(context);
+    }
+
+    public ThirdShareDialog(Context context, int theme) {
+        super(context, theme);
+    }
+
+    public static class Builder implements View.OnClickListener {
+
+        private Activity context;
+        private FragmentManager fragmentManager;
+        private Handler handler;
+        private ShareListener listener;
+
+        public Builder(Activity context, FragmentManager fragmentManager, Handler handler) {
+            this.context = context;
+            this.fragmentManager = fragmentManager;
+            this.handler = handler;
+        }
+
+        public void RegisterCallback(ShareListener shareListener) {
+            this.listener = shareListener;
+        }
+
+        public Builder(Activity context, Handler handler) {
+            this.context = context;
+            this.handler = handler;
+        }
+
+        private LinearLayout ly_qq, ly_weibo, ly_wechat, ly_webchatmoments, ly_sinaweibo, ly_facebook;
+        private RelativeLayout ly_body;
+        private ThirdShareDialog dialog;
+
+        private String dialogTitle, text, url, imageUrl, linkTitle;
+
+        private Bitmap img = null;
+
+        public Builder setShareContent(String dialogTitle, String text, String url, String imageUrl) {
+            this.dialogTitle = dialogTitle;
+            this.text = text;
+            this.url = url;
+            this.imageUrl = imageUrl;
+
+            Uri uri = Uri.parse(imageUrl);
+            LoadBitmap.loadBitmap(context, uri, new LoadBitmap.LoadBitmapCallback() {
+                @Override
+                public void onLoadSuc(Bitmap bitmap) {
+                    img = bitmap;
+                }
+
+                @Override
+                public void onLoadFaild(DataSource dataSource) {
+                    img = null;
+                }
+            });
+            return this;
+        }
+
+        public ThirdShareDialog create() {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            dialog = new ThirdShareDialog(context, R.style.Dialog);
+            View layout = inflater.inflate(R.layout.dialog_share_item, null);
+            //dialog.addContentView(layout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            ly_body = (RelativeLayout) layout.findViewById(R.id.ly_body);
+            ly_qq = (LinearLayout) layout.findViewById(R.id.ly_qq);
+            ly_weibo = (LinearLayout) layout.findViewById(R.id.ly_weibo);
+            ly_wechat = (LinearLayout) layout.findViewById(R.id.ly_wechat);
+            ly_webchatmoments = (LinearLayout) layout.findViewById(R.id.ly_webchatmoments);
+            ly_sinaweibo = (LinearLayout) layout.findViewById(R.id.ly_sinaweibo);
+            ly_facebook = (LinearLayout) layout.findViewById(R.id.ly_facebook);
+            ly_body.setOnClickListener(this);
+            ly_qq.setOnClickListener(this);
+            ly_weibo.setOnClickListener(this);
+            ly_wechat.setOnClickListener(this);
+            ly_webchatmoments.setOnClickListener(this);
+            ly_sinaweibo.setOnClickListener(this);
+            ly_facebook.setOnClickListener(this);
+            Window win = dialog.getWindow();
+            win.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams lp = win.getAttributes();
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            win.setAttributes(lp);
+            dialog.setContentView(layout);
+            return dialog;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ly_qq:
+                    QqShare qqshare = new QqShare(context, mHandler);
+                    qqshare.shareToFriend(dialogTitle, text, url, imageUrl);
+                    break;
+                case R.id.ly_weibo:
+                    SinaShare sinaShare = new SinaShare(context, dialogTitle, text, url, img);
+                    sinaShare.share(true, true, true, false, false, false);
+                    break;
+                case R.id.ly_wechat:
+                    WXInterface wxInterface = new WXInterface(context);
+                    wxInterface.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneSession);
+                    break;
+                case R.id.ly_webchatmoments:
+                    WXInterface webchatmoment = new WXInterface(context);
+                    webchatmoment.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneTimeline);
+                    break;
+                case R.id.ly_facebook:
+                    FbShare fbshare = new FbShare(context, listener);
+                    fbshare.postStatusUpdate(dialogTitle, text, url, imageUrl);
+                    break;
+            }
+            dialog.dismiss();
+        }
+
+        Handler mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+            }
+        };
+    }
+}

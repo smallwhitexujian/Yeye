@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/user_face"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginLeft="10dp"
+        fresco:fadeDuration="300"
+        fresco:placeholderImage="@drawable/default_face_icon"
+        fresco:roundAsCircle="true" />
+
+    <TextView
+        android:id="@+id/user_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="昵称"
+        android:paddingLeft="10dp"
+        android:textColor="@color/color_222222"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/user_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="4dp"
+        android:src="@drawable/icon_information_girl" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/attention_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:contentDescription="@null" />
+
+</LinearLayout>

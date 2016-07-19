@@ -1,0 +1,114 @@
+package com.will.yeye.activity.function;
+
+import android.content.Context;
+import android.content.Intent;
+
+import com.will.common.string.Encryption;
+import com.will.yeye.activity.ChatRoomActivity;
+import com.will.yeye.application.App;
+import com.will.yeye.db.model.BasicUserInfoDBModel;
+import com.will.yeye.model.RoomModel;
+import com.will.yeye.util.StartActivityHelper;
+import com.will.yeye.web.HttpFunction;
+import com.will.web.handle.HttpBusinessCallback;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Shanli_pc on 2016/3/16.
+ */
+public class ChatRoom extends HttpFunction {
+
+
+    public ChatRoom(Context context) {
+        super(context);
+    }
+
+    private static void preEnterChatRoom(Context context) {
+        //关闭以前房间
+        closeChatRoom();
+    }
+
+    //进ChatRoom房间
+    public static void enterChatRoom(Context context, RoomModel roomModel) {
+
+        preEnterChatRoom(context);
+//        Intent intent = new Intent(context, ChatRoomActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("room", roomModel);
+//        intent.putExtras(bundle);
+        StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+        // context.startActivity(intent);
+    }
+
+    /**
+     * 进入挂机房间
+     * @param context
+     */
+    public static void enterHookChatRoom(Context context) {
+        if (App.chatroomApplication != null) {
+            Intent intent = new Intent(context, App.chatroomApplication.getClass());
+            context.startActivity(intent);
+        }
+    }
+
+    /**
+     * 退出房间
+     */
+    public static void closeChatRoom() {
+        if (App.chatroomApplication != null) {
+            try {
+                App.chatroomApplication.roomFinish();
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 获取礼物列表
+     */
+    public void loadGiftList(String url, String token, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        httpGet(url, params, callback);
+    }
+
+
+    /**
+     * 获取是否关注
+     */
+    public void UserIsFollow(String url,String token,String userid,String tuserid,HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("touserid", tuserid);
+        params.put("userid", userid);
+        httpGet(url, params, callback);
+    }
+
+    /**
+     * 关注/取消关注
+     */
+    public void UserFollow(String url,String token,String userid,String fuserid,int type,HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("fuserid", fuserid);
+        params.put("userid", userid);
+        params.put("type", String.valueOf( type));
+        httpGet(url, params, callback);
+    }
+
+    /**
+     * 开播前拿一些需要的信息
+     */
+    public void LiveVideoBroadcast(String url, BasicUserInfoDBModel userInfo, String introduce, String area, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userInfo.userid);
+        params.put("token", userInfo.token);
+        params.put("introduce", Encryption.utf8ToUnicode(introduce));
+        params.put("area", Encryption.utf8ToUnicode(area));
+        httpGet(url, params, callback);
+    }
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/body"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_end_background"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mAbSlidingTabView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/button_call_disconnect"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="7dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/btn_room_close_n" />
+
+    <ImageView
+        android:id="@+id/face"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/room_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_room_guide"
+        android:visibility="gone" />
+</RelativeLayout>
