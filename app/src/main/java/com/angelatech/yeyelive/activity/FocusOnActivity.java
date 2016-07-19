@@ -239,7 +239,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         }
         map.put("pageindex", String.valueOf(pageIndex));
         map.put("pagesize", String.valueOf(pageSize));
-        focusFans.httpGet(CommonUrlConfig.FriendMylist, map, httpCallback);
+        focusFans.httpGet(CommonUrlConfig.FriendMyList, map, httpCallback);
     }
 
     private void doFocus(FocusModel userModel, final int position) {

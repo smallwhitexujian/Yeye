@@ -56,7 +56,7 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
     private final int MSG_NO_DATA = 3;
     private SwipyRefreshLayout swipyRefreshLayout;
 
-    private String url = CommonUrlConfig.FriendHelist;
+    private String url = CommonUrlConfig.FriendHeList;
     private String fuserid;
 
     private RelativeLayout noDataLayout;

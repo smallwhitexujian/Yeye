@@ -290,7 +290,7 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
         }
         map.put("pageindex", String.valueOf(pageIndex));
         map.put("pagesize", String.valueOf(pageSize));
-        focusFans.httpGet(CommonUrlConfig.FriendMylist, map, httpCallback);
+        focusFans.httpGet(CommonUrlConfig.FriendMyList, map, httpCallback);
     }
 
 

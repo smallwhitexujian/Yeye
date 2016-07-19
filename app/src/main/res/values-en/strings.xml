@@ -304,4 +304,7 @@
   <string name="net_connent_error">Internet not Connected</string>
   <string name="send_pepole2">Send</string>
   <string name="click_open_location">Open Location</string>
+
+  <string name="setting_exit_dialog">Are you sure to logout？</string>
+  <string name="share_title">I am performing in Yeye Live, Come on!</string>
 </resources>

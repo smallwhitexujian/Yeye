@@ -92,8 +92,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private int connectionServiceNumber = 0;
 
     //房间是否初始化
-    private boolean isinit = false;
-    private boolean isSysmsg = false;
+    private boolean isInit = false;
+    private boolean isSysMsg = false;
     private static boolean isCloseLiveDialog = false;
     private LiveFinishFragment liveFinishFragment;
 
@@ -145,7 +145,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     private void findView() {
         connectionServiceNumber = 0;
-        isinit = false;
+        isInit = false;
 
         isCloseLiveDialog = false;
         chatManager = new ChatManager(ChatRoomActivity.this);
@@ -338,7 +338,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
                 connectionServiceNumber = 1;
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
-                if (!isinit && roomModel != null) {
+                if (!isInit && roomModel != null) {
                     callFragment.setRoomInfo(roomModel);
                     //检查关注状态
                     if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
@@ -374,8 +374,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
                         }
 
-                        if (!isSysmsg) {
-                            isSysmsg = true;
+                        if (!isSysMsg) {
+                            isSysMsg = true;
                             ChatLineModel chatlinemodel = new ChatLineModel();
                             ChatLineModel.from from = new ChatLineModel.from();
                             from.name = userModel.nickname;
@@ -422,10 +422,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 break;
             case GlobalDef.WM_SDP:
                 //判断房间信息是否加载成功，如果没有加载，设置房间信息
-                if (!isinit) {
+                if (!isInit) {
                     callFragment.setLikenum(roomModel.getLikenum());
                     serviceManager.getOnlineListUser();
-                    isinit = true;
+                    isInit = true;
                 }
                 break;
             case GlobalDef.WM_CANDIDATE:

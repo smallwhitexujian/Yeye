@@ -13,7 +13,7 @@ public class CommonUrlConfig {
     public static final String OUT_IP = isDebug ? "121.199.29.67" : "dtlogin.iamyeye.com";
     public static final int OUT_PORT = isDebug ? 15302 : 13302;
 
-    public static String shareURL = "http://share.maracuya.live/";
+    public static String shareURL = "http://share.iamyeye.com/";
 
     public static String channel = "api";
 
@@ -53,10 +53,10 @@ public class CommonUrlConfig {
     //修改个人用户信息
     public static String UserInformationEdit = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserInformationEdit";
     //我的关注和粉丝
-    public static String FriendMylist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendMylist";
+    public static String FriendMyList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendMyList";
 
     //  用户的关注和粉丝
-    public static String FriendHelist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHelist";
+    public static String FriendHeList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHeList";
     //用户搜索
     public static String UserSearch = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserSearch";
 

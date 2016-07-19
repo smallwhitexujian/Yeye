@@ -61,7 +61,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private OnCallEvents callEvents;
     private String straddres = "";
     private boolean isLocation = true;
-    private String dialogTitle = "En este momento WEYUser.sharedUser.nickname está transmitiendo ¡Ven y uníte a la habitación!", text, imageUrl;
+    private String dialogTitle = "", text, imageUrl;
     private Bitmap img = null;
     private Animation rotateAnimation;
     private TextView mLocationInfo;
@@ -126,6 +126,7 @@ public class ReadyLiveFragment extends BaseFragment {
             ly_body.setVisibility(View.VISIBLE);
             Message msg = new Message();
             msg.what = 2;
+            dialogTitle = getString(R.string.share_title);
             text = txt_title.getText().toString();
             fragmentHandler.sendMessage(msg);
         }
@@ -147,9 +148,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private void startLive() {
         img_location_bg.clearAnimation();
         rotateAnimation.cancel();
-        String roomtitle = txt_title.getText().toString();
-        String address = straddres;
-        LiveVideoBroadcast(roomtitle, address);
+        LiveVideoBroadcast(txt_title.getText().toString(), straddres);
     }
 
     @Override
@@ -241,12 +240,12 @@ public class ReadyLiveFragment extends BaseFragment {
             try {
                 json = new JSONObject((String) msg.obj);
                 if (json.getInt("code") == 1000) {
-                    JSONObject jsondata = json.getJSONObject("data");
-                    ChatRoomActivity.roomModel.setId(jsondata.getInt("roomid"));
-                    ChatRoomActivity.roomModel.setRtmpip(jsondata.getString("rtmpaddress"));
-                    ChatRoomActivity.roomModel.setRtmpwatchaddress(jsondata.getString("rtmpwatchaddress"));
-                    ChatRoomActivity.roomModel.setIp(jsondata.getString("roomserverip").split(":")[0]);
-                    ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsondata.getString("roomserverip").split(":")[1]));
+                    JSONObject jsonData = json.getJSONObject("data");
+                    ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
+                    ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
+                    ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
+                    ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
+                    ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
                 } else {
                     ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
                 }

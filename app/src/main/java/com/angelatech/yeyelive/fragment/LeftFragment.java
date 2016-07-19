@@ -17,6 +17,7 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
+import com.angelatech.yeyelive.activity.function.CommDialog;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.service.IServiceValues;
@@ -38,7 +39,7 @@ import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.text.MessageFormat;
@@ -155,11 +156,22 @@ public class LeftFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exit_layout:
-                Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY, IServiceValues.CMD_EXIT_LOGIN);
-                BroadCastHelper.sendBroadcast(getActivity(), exitIntent);
-                StartActivityHelper.jumpActivity(getActivity(), Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
+                new CommDialog().CommDialog(getActivity(), getString(R.string.setting_exit_dialog), true, new CommDialog.Callback() {
+                    @Override
+                    public void onCancel() {
 
-//                getActivity().finish();
+                    }
+
+                    @Override
+                    public void onOK() {
+                        Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
+                                IServiceValues.CMD_EXIT_LOGIN);
+                        BroadCastHelper.sendBroadcast(getActivity(), exitIntent);
+                        StartActivityHelper.jumpActivity(getActivity(),
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK,
+                                null, LoginActivity.class, null);
+                    }
+                });
                 break;
             case R.id.attention_layout:
                 StartActivityHelper.jumpActivityDefault(getActivity(), FocusOnActivity.class);

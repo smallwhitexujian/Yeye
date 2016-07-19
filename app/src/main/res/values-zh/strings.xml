@@ -304,4 +304,7 @@
     <string name="net_connent_error">网络连接失败！</string>
     <string name="send_pepole2">赠送</string>
     <string name="click_open_location">打开地理位置</string>
+
+    <string name="setting_exit_dialog">确认退出该账号吗？</string>
+    <string name="share_title">I am performing in Yeye Live, Come on!</string>
 </resources>

@@ -64,7 +64,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     private View view;
     private ListView listView;
     private CommonAdapter<LiveListItemModel> adapter;
-    private List<LiveListItemModel> datas = new ArrayList<>();
+    private List<LiveListItemModel> dataList = new ArrayList<>();
     private long dateSort;
     private int pageIndex = 1;
     private int pageSize = 5;
@@ -75,7 +75,6 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     private MainEnter mainEnter;
     private RelativeLayout noDataLayout;
 
-    //    private LoadingDialog LoadingDialog = new LoadingDialog();
     private final Object lock = new Object();
 
     @SuppressLint("ValidFragment")
@@ -113,7 +112,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         listView = (ListView) view.findViewById(R.id.live_video_hot_list);
         noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
 
-        adapter = new CommonAdapter<LiveListItemModel>(getActivity(), datas, R.layout.item_live_list) {
+        adapter = new CommonAdapter<LiveListItemModel>(getActivity(), dataList, R.layout.item_live_list) {
             @Override
             public void convert(ViewHolder helper, final LiveListItemModel item, int position) {
                 helper.setImageViewByImageLoader(R.id.user_face, item.headurl);
@@ -203,7 +202,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                adapter.setData(datas);
+                adapter.setData(dataList);
                 adapter.notifyDataSetChanged();
                 noDataLayout.setVisibility(View.GONE);
                 break;
@@ -214,8 +213,8 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                datas.clear();
-                adapter.setData(datas);
+                dataList.clear();
+                adapter.setData(dataList);
                 adapter.notifyDataSetChanged();
                 showNodataLayout();
                 break;
@@ -238,12 +237,12 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
 
                 ViewPager viewPager = (ViewPager) banner.findViewById(R.id.viewpager);
                 LinearLayout pointGroup = (LinearLayout) banner.findViewById(R.id.point_group);
-                TextView desciption = (TextView) banner.findViewById(R.id.image_desc);
+                TextView tv_desc = (TextView) banner.findViewById(R.id.image_desc);
 
                 new BannerPoint(getActivity()).AddPoint(pointGroup, size);
                 // 初始化viewpager的默认position.MAX_value的一半
                 BannerOnPageChangeListener bannerOnPageChangeListener =
-                        new BannerOnPageChangeListener(viewPager, descriptions, desciption, pointGroup);
+                        new BannerOnPageChangeListener(viewPager, descriptions, tv_desc, pointGroup);
                 viewPager.addOnPageChangeListener(bannerOnPageChangeListener);
                 int index = (Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % size);
                 viewPager.setCurrentItem(index);
@@ -293,7 +292,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         IS_REFRESH = true;
         dateSort = 0;
         pageIndex = 1;
-        datas.clear();
+        dataList.clear();
         load();
     }
 
@@ -315,9 +314,9 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                                 dateSort = result.time;
                                 pageIndex = result.index + 1;
                                 if (IS_REFRESH) {
-                                    datas.clear();
+                                    dataList.clear();
                                 }
-                                datas.addAll(result.data);
+                                dataList.addAll(result.data);
                                 fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
                             }
                         } else {
@@ -326,7 +325,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                     }
                 }
 
-                if (datas.isEmpty() && IS_REFRESH) {
+                if (dataList.isEmpty() && IS_REFRESH) {
                     fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                 }
                 IS_REFRESH = false;
