@@ -28,8 +28,8 @@ public class SPreferencesTool {
         SharedPreferencesTool.clearPreferences(ctx, profileName);
     }
 
-    public boolean putValue(Context ctx, String key, Object value) {
-        return SharedPreferencesTool.putValue(ctx, profile_name, key, value);
+    public void putValue(Context ctx, String key, Object value) {
+        SharedPreferencesTool.putValue(ctx, profile_name, key, value);
     }
 
     public int getIntValue(Context ctx, String key) {

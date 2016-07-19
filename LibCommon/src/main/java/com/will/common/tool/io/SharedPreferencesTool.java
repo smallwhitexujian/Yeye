@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreferencesTool {
-    public static final String STRING_TYPE = "String";
-    public static final String INT_TYPE = "Integer";
-    public static final String LONG_TYPE = "Long";
-    public static final String BOOLEAN_TYPE = "Boolean";
+    public static final String STRINGTYPE = "String";
+    public static final String INTTYPE = "Integer";
+    public static final String LONGTYPE = "Long";
+    public static final String BOOLEANTYPE = "Boolean";
 
     public static void clearPreferences(Context ctx, String profileName) {
         SharedPreferences properties = ctx.getSharedPreferences(profileName, Context.MODE_PRIVATE);
@@ -16,22 +16,27 @@ public class SharedPreferencesTool {
         editor.apply();
     }
 
-    public static boolean putValue(Context ctx, String prefName, String key, Object value) {
+    public static void putValue(Context ctx, String prefName, String key, Object value) {
         SharedPreferences properties = ctx.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = properties.edit();
+
         String typeName = value.getClass().getSimpleName();
-        if (INT_TYPE.equals(typeName)) {
+        if (INTTYPE.equals(typeName)) {
             editor.putInt(key, (Integer) value);
-        } else if (BOOLEAN_TYPE.equals(typeName)) {
+        }
+        else if (BOOLEANTYPE.equals(typeName)) {
             editor.putBoolean(key, (Boolean) value);
-        } else if (STRING_TYPE.equals(typeName)) {
-            editor.putString(key, (String) value);
-        } else if (LONG_TYPE.equals(typeName)) {
-            editor.putLong(key, (Long) value);
-        } else {
+        }
+        else if (STRINGTYPE.equals(typeName)) {
             editor.putString(key, (String) value);
         }
-        return editor.commit();
+        else if (LONGTYPE.equals(typeName)) {
+            editor.putLong(key, (Long) value);
+        }
+        else {
+            throw new RuntimeException();
+        }
+        editor.apply();
     }
 
     public static int getIntValue(Context ctx, String prefName, String key) {
