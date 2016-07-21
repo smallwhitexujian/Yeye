@@ -9,7 +9,9 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,35 +32,36 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
-import com.angelatech.yeyelive.adapter.CommonAdapter;
-import com.angelatech.yeyelive.model.GiftModel;
-import com.angelatech.yeyelive.model.RoomModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
-import com.will.common.tool.network.NetWorkUtil;
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
-import com.angelatech.yeyelive.adapter.ViewHolder;
+import com.angelatech.yeyelive.adapter.CustomerPageAdapter;
+import com.angelatech.yeyelive.adapter.GridViewAdapter;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
+import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
+import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
-import com.angelatech.yeyelive .R;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
+import com.will.common.string.json.JsonUtil;
+import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -79,12 +82,13 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_SET_FOLLOW = 2;
+    private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow;
     private ImageView btn_share;
     private ImageView img_open_send;
-    private GridView item_gift;
+
     private TextView txt_barName, txt_likeNum, txt_online,
             gift_Diamonds, txt_room_des, gift_Recharge;
     private SimpleDraweeView img_head;
@@ -98,7 +102,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int isFollow;
     private static ListView chatline;
     private OnCallEvents callEvents;
-    private CommonAdapter<GiftModel> adapter;
+
     private List<OnlineListModel> PoplinkData = new ArrayList<>();
 
     protected FragmentManager fragmentManager;
@@ -129,6 +133,19 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private Timer timer;
     private TimeCount timeCount;
 
+    private ViewPager viewPager;
+    private GridViewAdapter gridViewAdapter;
+    private CustomerPageAdapter pagerAdapter;
+    private List<GridView> gridViews = new ArrayList<>();
+    private int pageCount = 0;
+    private int lineNum = 2; //行数
+    private int columnNum = 4; //列数
+
+    private int GridViewIndex = 0;
+    private int GridViewLastIndex = -1;
+    private int GridViewItemIndex = 0;
+    private int GridViewItemLastIndex = -1;
+
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
     }
@@ -153,7 +170,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
-        findView();
         fragmentManager = getFragmentManager();
         instance = this;
         return controlView;
@@ -169,6 +185,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         return 0;
     }
 
+
     private void initView() {
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
@@ -182,7 +199,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         loveView = (PeriscopeLayout) controlView.findViewById(R.id.PeriscopeLayout);
         img_head = (SimpleDraweeView) controlView.findViewById(R.id.img_head);
         giftView = (LinearLayout) controlView.findViewById(R.id.giftView);
-        item_gift = (GridView) controlView.findViewById(R.id.item_gift);
+        viewPager = (ViewPager) controlView.findViewById(R.id.viewPager); //礼物 viewpager
         roomGiftNumSpinner = (Spinner) controlView.findViewById(R.id.roomGiftNumSpinner);
         roomPopSpinner = (Spinner) controlView.findViewById(R.id.roomPopSpinner);
         gift_send = (LinearLayout) controlView.findViewById(R.id.gift_send);
@@ -194,6 +211,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
+
+        userModel = CacheDataManager.getInstance().loadUser();
+        gift_Diamonds.setText(userModel.diamonds);
+
         ly_main.setOnClickListener(this);
         btn_send.setOnClickListener(this);
         img_open_send.setOnClickListener(this);
@@ -214,6 +235,21 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     return true;
                 }
                 return false;
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                GridViewIndex = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
             }
         });
 
@@ -276,32 +312,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
-
-    private void findView() {
-        userModel = CacheDataManager.getInstance().loadUser();
-        gift_Diamonds.setText(userModel.diamonds);
-
-        adapter = new CommonAdapter<GiftModel>(getActivity(), App.giftdatas, R.layout.item_gift) {
-            @Override
-            public void convert(ViewHolder helper, GiftModel item, int position) {
-                helper.setImageViewByImageLoader(R.id.img_propimage, item.getImageURL());
-                helper.setText(R.id.txt_propNum, item.getPrice());
-            }
-        };
-        adapter.setData(App.giftdatas);
-        item_gift.setAdapter(adapter);
-        item_gift.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if ((parent).getTag() != null) {
-                    ((View) (parent).getTag()).setBackgroundResource(R.drawable.griditems_bg);
-                }
-                (parent).setTag(view);
-                view.setBackgroundResource(R.drawable.griditems_bg_s);
-                giftId = adapter.getItem(position).getID();
             }
         });
     }
@@ -668,7 +678,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
-                adapter.notifyDataSetChanged();
+                initGiftViewpager();
                 initGiftNumSpinner();
                 break;
             case MSG_SET_FOLLOW:
@@ -694,6 +704,17 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case ChatRoomActivity.MSG_OPEN_GIFT_LAYOUT:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
+                break;
+            case HANDLER_GIFT_CHANGE_BACKGROUND:
+                //还原上次被选中的礼物背景颜色 设置选中的giftId
+                if (GridViewItemLastIndex != -1) {
+                    gridViews.get(GridViewLastIndex).getChildAt(GridViewItemLastIndex).setBackgroundResource(R.drawable.griditems_bg);
+                }
+                gridViews.get(GridViewIndex).getChildAt(GridViewItemIndex).setBackgroundResource(R.drawable.griditems_bg_s);
+                GiftModel g = (GiftModel) gridViews.get(GridViewIndex).getAdapter().getItem(GridViewItemIndex);
+                giftId = g.getID();
+                GridViewLastIndex = GridViewIndex;
+                GridViewItemLastIndex = GridViewItemIndex;
                 break;
         }
     }
@@ -918,6 +939,50 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             count = 0;
         }
     }
+
+    /**
+     * 初始化礼物
+     */
+    @SuppressWarnings("unchecked")
+    private void initGiftViewpager() {
+        if (App.giftdatas.size() <= columnNum) {
+            viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ScreenUtils.dip2px(getActivity(), 90))); //使设置好的布局参数应用到控件
+        } else {
+            viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ScreenUtils.dip2px(getActivity(), 180))); //使设置好的布局参数应用到控件
+        }
+        final int giftPageSize = lineNum * columnNum;
+        if (App.giftdatas.size() % giftPageSize == 0) {
+            pageCount = App.giftdatas.size() / giftPageSize;
+        } else {
+            pageCount = App.giftdatas.size() / giftPageSize + 1;
+        }
+
+        for (int i = 0; i < pageCount; i++) {
+            final GridView gridView = new GridView(getActivity());
+            gridViewAdapter = new GridViewAdapter(getActivity(), App.giftdatas, i, giftPageSize);
+            gridView.setAdapter(gridViewAdapter);
+            gridView.setGravity(Gravity.CENTER);
+            gridView.setClickable(true);
+            gridView.setFocusable(true);
+            gridView.setNumColumns(columnNum);
+            gridView.setVerticalSpacing(20);
+            gridViews.add(gridView);
+
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                    GridViewItemIndex = position;
+                    fragmentHandler.obtainMessage(HANDLER_GIFT_CHANGE_BACKGROUND).sendToTarget();
+                }
+            });
+        }
+        pagerAdapter = new CustomerPageAdapter(getActivity(), gridViews);
+        viewPager.setAdapter(pagerAdapter);
+        //initPoint(pageCount);
+    }
+
 
     /**
      * 分享监听

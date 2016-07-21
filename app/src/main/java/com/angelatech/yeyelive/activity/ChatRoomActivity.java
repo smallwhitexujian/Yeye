@@ -35,7 +35,7 @@ import com.will.libmedia.OnPlayListener;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.angelatech.yeyelive.CommonUrlConfig;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
 import com.angelatech.yeyelive.application.App;
@@ -68,7 +68,7 @@ import java.util.Map;
  */
 public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents, OnLiveListener, OnPlayListener {
 
-
+    private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment;//准备播放页面
     private ImageView button_call_disconnect, face, room_guide;
@@ -236,7 +236,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     //收起键盘
                     readyLiveFragment.closekeybord();
                 }
-                roomFinish();
+                finish();
             }
         };
         if (!isCloseLiveDialog) {
@@ -249,12 +249,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
-    private void disconnect() {
-        if (serviceManager != null) {
-            serviceManager.quitRoom();
-            serviceManager = null;
-        }
-    }
 
     private void roomStart() {
         LoadingDialog.showSysLoadingDialog(ChatRoomActivity.this, getString(R.string.room_conne));
@@ -321,7 +315,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 //收起键盘
                                 readyLiveFragment.closekeybord();
                             }
-                            roomFinish();
+                            finish();
                         }
 
                         @Override
@@ -456,7 +450,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.WM_ROOM_EXIT_ENTRY: //进出房间通知
-                DebugLogs.e("WM_ROOM_EXIT_ENTRY" + msg.obj.toString());
                 OnlineListModel.OnlineNotice onlineNotice = JsonUtil.fromJson(msg.obj.toString(), OnlineListModel.OnlineNotice.class);
                 if (onlineNotice != null) {
                     if (onlineNotice.kind == 0) {//上线
@@ -547,9 +540,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 try {
                     jsonkicking = new JSONObject((String) msg.obj);
                     if (jsonkicking.getInt("code") == 0 && jsonkicking.getJSONObject("from") != null) {
-
                         ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.you_are_invited_out_of_the_room));
-                        roomFinish();
+                        finish();
 
                     } else if (jsonkicking.getInt("code") == GlobalDef.NO_PERMISSION_OPE_1009) {
                         ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.not_font));
@@ -608,14 +600,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         };
         ChatRoom chatRoom = new ChatRoom(this);
         chatRoom.UserIsFollow(CommonUrlConfig.UserIsFollow, userModel.token, userModel.userid, liveUserModel.userid, callback);
-    }
-
-    /**
-     * 关闭房间
-     */
-    public void roomFinish() {
-        disconnect();
-        finish();
     }
 
     //切换摄像头
@@ -696,13 +680,26 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     @Override
     protected void onDestroy() {
+        if (!boolCloseRoom) {
+            roomFinish();
+        }
+        super.onDestroy();
+    }
+
+    /**
+     * 退房间操作
+     */
+    public void roomFinish() {
+        if (serviceManager != null) {
+            serviceManager.quitRoom();
+            serviceManager = null;
+        }
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             MediaCenter.destoryPlay();
         } else {
             MediaCenter.destoryLive();
         }
-        super.onDestroy();
-        roomFinish();
+        boolCloseRoom = true;
     }
 
     public void openGiftLayout() {
@@ -769,6 +766,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         });
     }
 
+    /**
+     * 直播者回调函数
+     *
+     * @param rtmpUrl url
+     * @param event   event
+     */
     @Override
     public void onLiveCallback(String rtmpUrl, int event) {
         DebugLogs.e("rtmp event" + event);
@@ -796,6 +799,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+    /**
+     * 观看的人 回调
+     *
+     * @param rtmpUrl
+     * @param event
+     */
     @Override
     public void onPlayCallback(String rtmpUrl, int event) {
 

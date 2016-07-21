@@ -59,7 +59,7 @@ public class ChatRoom extends HttpFunction {
     public static void closeChatRoom() {
         if (App.chatroomApplication != null) {
             try {
-                App.chatroomApplication.roomFinish();
+                App.chatroomApplication.finish();
                 Thread.sleep(400);
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -79,16 +79,10 @@
         android:layout_marginBottom="3dp"
         />
 
-    <GridView
-        android:id="@+id/item_gift"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnWidth="40dp"
-        android:gravity="center"
-        android:cacheColorHint="@android:color/transparent"
-        android:numColumns="4"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth" />
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"

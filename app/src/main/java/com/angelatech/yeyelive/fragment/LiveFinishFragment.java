@@ -15,13 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
-import com.angelatech.yeyelive .R;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * 直播结束页面
@@ -106,7 +105,6 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_close:
                 dismiss();
-                App.chatroomApplication.roomFinish();
                 break;
         }
     }

@@ -13,6 +13,8 @@
         <item name="colorPrimary">@color/color_ed8644</item>
         <item name="colorPrimaryDark">@color/color_ed8644</item>
         <item name="colorAccent">@color/color_ed8644</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
