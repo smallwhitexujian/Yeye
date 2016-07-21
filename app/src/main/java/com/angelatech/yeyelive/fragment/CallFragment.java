@@ -107,8 +107,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
 
-    //屏幕高度
-    private int screenHeight = 0;
     //软键盘弹起后所占高度阀值
     private int keyHeight = 100;
     private static ChatLineAdapter<ChatLineModel> mAdapter;
@@ -285,8 +283,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private void findView() {
         userModel = CacheDataManager.getInstance().loadUser();
         gift_Diamonds.setText(userModel.diamonds);
-        //获取屏幕高度
-        screenHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
 
         adapter = new CommonAdapter<GiftModel>(getActivity(), App.giftdatas, R.layout.item_gift) {
             @Override
@@ -446,18 +442,18 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 break;
             case R.id.gift_send:
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
-                OnlineListModel topople;
+                OnlineListModel toPeople;
                 if (roomPopSpinner.getSelectedItem() != null) {
-                    topople = (OnlineListModel) (roomPopSpinner.getSelectedItem());
+                    toPeople = (OnlineListModel) (roomPopSpinner.getSelectedItem());
                 } else {
                     ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_select_gift_pople));
                     return;
                 }
-                if (userModel.userid.equals(String.valueOf(topople.uid))) {
+                if (userModel.userid.equals(String.valueOf(toPeople.uid))) {
                     ToastUtils.showToast(getActivity(), getActivity().getString(R.string.not_send_gift_me));
                     break;
                 }
-                callEvents.onSendGift(topople.uid, giftId, nNum);
+                callEvents.onSendGift(toPeople.uid, giftId, nNum);
                 giftView.setVisibility(View.GONE);
                 ly_toolbar.setVisibility(View.VISIBLE);
                 break;
@@ -466,11 +462,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 break;
             case R.id.btn_share:
                 //facebook分享
-                String dialogTitle = "En este momento WEYUser.sharedUser.nickname está transmitiendo ¡Ven y uníte a la habitación!";
-
                 //分享组件
                 ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
-                builder.setShareContent(dialogTitle, ChatRoomActivity.roomModel.getName(),
+                builder.setShareContent(getString(R.string.share_title), ChatRoomActivity.roomModel.getName(),
                         CommonUrlConfig.shareURL,
                         ChatRoomActivity.roomModel.getUserInfoDBModel().headurl);
                 builder.RegisterCallback(listener);

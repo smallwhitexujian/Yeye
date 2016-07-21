@@ -99,8 +99,8 @@
 -dontwarn com.will.libmedia.**
 -keep class com.will.libmedia.**{*;}
 
-# VK
--keep class com.vk.sdk.**{*;}
+-dontwarn tv.danmaku.ijk.media.player.**
+-keep class tv.danmaku.ijk.media.player.**{*;}
 
 #友盟
 -keep class com.umeng.**{*;}
@@ -116,13 +116,6 @@
 -keep class com.tencent.open.PKDialog$*
 -keep class com.tencent.open.PKDialog$* {*;}
 -keep class com.angelatech.yeyelive.qqapi.**{*;}
-
-
-#webrtc
--keep class de.tavendo.autobahn{*;}
--keep class org.webrtc.**{*;}
-
-
 
 #google gms
 -dontwarn com.google.android.gms.**
@@ -168,8 +161,6 @@
 -keep public class com.angelatech.yeyelive.db.model**{*;}
 
 
--keep class com.will.libmedia**{*;}
-
 ###连连支付
 ###-keep class com.yintong.secure.activityproxy.PayIntro$LLJavascriptInterface{*;}
 
@@ -205,8 +196,4 @@
 -printusage unused.txt
 #混淆前后的映射
 -printmapping mapping.txt
-
-#音视频
--dontwarn com.will.libmedia.**
--keep class com.will.libmedia.**{*;}
 

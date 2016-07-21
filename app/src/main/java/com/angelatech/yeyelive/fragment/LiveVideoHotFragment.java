@@ -17,6 +17,7 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.LiveListItemModel;
 import com.angelatech.yeyelive.model.RoomModel;
@@ -167,7 +168,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                 roomModel.setPort(Integer.parseInt(item.roomserverip.split(":")[1]));
                 roomModel.setRtmpip(item.rtmpserverip);
 
-                roomModel.setRoomType("watch");
+                roomModel.setRoomType(App.LIVE_WATCH);
                 roomModel.setIdx(item.roomidx);
                 BasicUserInfoDBModel user = new BasicUserInfoDBModel();
                 user.userid = item.userid;

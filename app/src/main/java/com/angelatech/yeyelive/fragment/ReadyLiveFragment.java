@@ -16,11 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive.view.CommDialog;
-import com.facebook.datasource.DataSource;
-import com.will.common.log.DebugLogs;
-import com.will.common.tool.network.NetWorkUtil;
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
@@ -33,8 +30,11 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.LocationMap.GpsTracker;
 import com.angelatech.yeyelive.util.Utility;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive .R;
+import com.facebook.datasource.DataSource;
+import com.will.common.log.DebugLogs;
+import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -50,10 +50,11 @@ import java.util.TimerTask;
  */
 public class ReadyLiveFragment extends BaseFragment {
     private final int START_LIVE_CODE = 1;
+    private final int LIVE_USER = 2; //直播者
     private View controlView;
     private LinearLayout ly_body;
     private ImageView btn_sign_on_location, img_location_bg;
-    private ImageView btn_facebook,btn_webchatmoments,btn_wechat,btn_weibo;//facebook
+    private ImageView btn_facebook, btn_webchatmoments, btn_wechat, btn_weibo;//facebook
     private EditText txt_title;
     private GpsTracker gpsTracker;
     private Button btn_start;
@@ -124,11 +125,9 @@ public class ReadyLiveFragment extends BaseFragment {
         chatRoom = new ChatRoom(getActivity());
         if (!ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
-            Message msg = new Message();
-            msg.what = 2;
             dialogTitle = getString(R.string.share_title);
             text = txt_title.getText().toString();
-            fragmentHandler.sendMessage(msg);
+            fragmentHandler.sendEmptyMessage(LIVE_USER);
         }
         imageUrl = ChatRoomActivity.userModel.headurl;
         Uri uri = Uri.parse(imageUrl);
@@ -235,40 +234,45 @@ public class ReadyLiveFragment extends BaseFragment {
 
     @Override
     public void doHandler(Message msg) {
-        if (msg.what == START_LIVE_CODE) {
-            JSONObject json;
-            try {
-                json = new JSONObject((String) msg.obj);
-                if (json.getInt("code") == 1000) {
-                    JSONObject jsonData = json.getJSONObject("data");
-                    ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
-                    ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
-                    ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
-                    ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
-                    ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
-                } else {
-                    ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
+        switch (msg.what) {
+            case START_LIVE_CODE:
+                JSONObject json;
+                try {
+                    json = new JSONObject((String) msg.obj);
+                    if (json.getInt("code") == 1000) {
+                        JSONObject jsonData = json.getJSONObject("data");
+                        ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
+                        ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
+                        ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
+                        ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
+                        ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
+                    } else {
+                        ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
-            LoadingDialog.cancelLoadingDialog();
-            Utility.closeKeybord(txt_title, getActivity());
-            ly_body.setVisibility(View.GONE);
-            //进入直播
-            callEvents.onBeginLive();
-        } else {
-            new Timer().schedule(new TimerTask() {
-                                     public void run() {
-                                         txt_title.setFocusable(true);
-                                         txt_title.setFocusableInTouchMode(true);
-                                         txt_title.requestFocus();
-                                         Utility.openKeybord(txt_title, getActivity());
-                                     }
-                                 },
-                    200);
+                ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
+                LoadingDialog.cancelLoadingDialog();
+                Utility.closeKeybord(txt_title, getActivity());
+                ly_body.setVisibility(View.GONE);
+                //进入直播
+                callEvents.onBeginLive();
+                break;
+            case LIVE_USER:
+                new Timer().schedule(
+                        new TimerTask() {
+                            public void run() {
+                                txt_title.setFocusable(true);
+                                txt_title.setFocusableInTouchMode(true);
+                                txt_title.requestFocus();
+                                Utility.openKeybord(txt_title, getActivity());
+                            }
+                        },
+                        200);
+                break;
         }
+
     }
 
     // 初始化直播数据

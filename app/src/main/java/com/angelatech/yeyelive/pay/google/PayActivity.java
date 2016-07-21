@@ -29,9 +29,9 @@ public class PayActivity extends HeaderBaseActivity implements CommonDoHandler {
 
         @Override
         public String getPublicKey() {
-            String base64EncodedPublicKey = PayManager.RSA_KEY;
-            //new KeyHelper(PayActivity.this).getPublicStrKey();
-            return base64EncodedPublicKey;
+            //String base64EncodedPublicKey = new KeyHelper(PayActivity.this).getPublicStrKey();
+            //return base64EncodedPublicKey;
+            return PayManager.RSA_KEY;
         }
 
         @Override

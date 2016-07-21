@@ -43,7 +43,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".activity.LoginActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
@@ -236,10 +236,10 @@
         <!--友盟-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="577b81a067e58e26500022d4" />
+            android:value="57906dace0f55a13dd00166e" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="yeyelive" />
+            android:value="YeYeLive" />
 
         <!--微博-->
         <!-- 必须注册在微博授权，分享微博时候用到 -->

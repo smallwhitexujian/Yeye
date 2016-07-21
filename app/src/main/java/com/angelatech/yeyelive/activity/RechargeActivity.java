@@ -15,6 +15,7 @@ import com.android.vending.billing.util.IabHelper;
 import com.android.vending.billing.util.Md5;
 import com.android.vending.billing.util.Purchase;
 import com.angelatech.yeyelive.model.RechargeModel;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
@@ -29,7 +30,7 @@ import com.angelatech.yeyelive.pay.PayType;
 import com.angelatech.yeyelive.pay.google.PayActivity;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StringHelper;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -64,7 +65,6 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private RechargeModel mRechargeModel;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private void initView() {
         mRechargeListView = (ListView) findViewById(R.id.recharge_listview);
         mBalanceTextView = (TextView) findViewById(R.id.recharge_balance_coin);
-        mRechargeTextView = (TextView)findViewById(R.id.btn_submit_pay);
+        mRechargeTextView = (TextView) findViewById(R.id.btn_submit_pay);
     }
 
     private void setView() {
@@ -110,12 +110,11 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 //                RechargeModel model = mDatas.get(position);
 //                order(model);
                 mRechargeModel = mDatas.get(position);
-                for(int i = 0;i<mDatas.size();i++){
+                for (int i = 0; i < mDatas.size(); i++) {
                     RechargeModel rechargeModel = mDatas.get(i);
-                    if(i != position){
+                    if (i != position) {
                         rechargeModel.isCheck = 0;
-                    }
-                    else{
+                    } else {
                         rechargeModel.isCheck = 1;
                     }
                 }
@@ -123,10 +122,9 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             }
         });
         //
-        if(user != null && user.diamonds != null){
+        if (user != null && user.diamonds != null) {
             mBalanceTextView.setText(StringHelper.getThousandFormat(user.diamonds));
-        }
-        else{
+        } else {
             mBalanceTextView.setText("0");
         }
 
@@ -143,7 +141,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit_pay:
-                if(mRechargeModel != null && isAvaliable){
+                if (mRechargeModel != null && isAvaliable) {
                     order(mRechargeModel);
                 }
                 break;
@@ -151,7 +149,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     }
 
     private void loadMenu() {
-       HttpBusinessCallback callback = new HttpBusinessCallback(){
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 super.onFailure(errorMap);
@@ -161,22 +159,22 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             public void onSuccess(String response) {
                 CommonListResult<RechargeModel> results = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RechargeModel>>() {
                 }.getType());
-
-                if(mGooglePay.isSuc(results.code)){
-                    if(results.data != null){
-                        uiHandler.obtainMessage(MSG_LOAD_PAY_MENU,results.data).sendToTarget();
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (results.data != null) {
+                            uiHandler.obtainMessage(MSG_LOAD_PAY_MENU, results.data).sendToTarget();
+                        }
+                    } else {
+                        onBusinessFaild(results.code);
                     }
-                }
-                else{
-                    onBusinessFaild(results.code);
                 }
             }
         };
-        mGooglePay.loadMenu(PayType.TYPE_GOOGLE,callback);
+        mGooglePay.loadMenu(PayType.TYPE_GOOGLE, callback);
     }
 
     private void addItem(Purchase purchase) {
-        HttpBusinessCallback callback = new HttpBusinessCallback(){
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 super.onFailure(errorMap);
@@ -184,42 +182,33 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 
             @Override
             public void onSuccess(String response) {
-                DebugLogs.e("====="+response);
+                DebugLogs.e("=====" + response);
                 CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
                 }.getType());
                 if (results != null) {
-                    if(mGooglePay.isSuc(results.code)){
+                    if (HttpFunction.isSuc(results.code)) {
                         //更新金币显示
-                        if(results.data == null){
-                            return;
+                        if (results.data != null) {
+                            DebugLogs.e("===diamonds " + results.data);
+                            CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, results.data, user.userid);
+                            uiHandler.obtainMessage(MSG_ADD_ITEM).sendToTarget();
                         }
-                        DebugLogs.e("===diamonds "+results.data);
-                        CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND,results.data,user.userid);
-                        uiHandler.obtainMessage(MSG_ADD_ITEM).sendToTarget();
-                    }
-                    else{
-
+                    } else {
+                        onBusinessFaild(results.code);
                     }
                 }
-                else{
-
-                }
-
             }
         };
         String userId = user.userid;
         String token = user.token;
-        mGooglePay.addItem(userId,token,purchase,callback);
+        mGooglePay.addItem(userId, token, purchase, callback);
 
     }
 
 
     private void order(final RechargeModel model) {
-        if (!isAvaliable) {
-
-        }
         String key = Md5.md5(UUID.randomUUID().toString());
-        HttpBusinessCallback callback = new HttpBusinessCallback(){
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 super.onFailure(errorMap);
@@ -229,26 +218,20 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             public void onSuccess(String response) {
                 CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
                 }.getType());
-                if (results != null ) {
-                    if(mGooglePay.isSuc(results.code)){
-                        String orderNum = results.data;
-                        if (orderNum == null) {
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (results.data != null) {
+                            pay(model.sku, requestCode, results.data);
+                        } else {
                             uiHandler.obtainMessage(ORDER_FAILD).sendToTarget();
-                            return;
                         }
-                        pay(model.sku, requestCode, orderNum);
-                    }
-                    else{
-
+                    } else {
+                        onBusinessFaild(results.code);
                     }
                 }
-                else{
-
-                }
-
             }
         };
-        mGooglePay.order(user.userid,user.token,key,model.sku,callback);
+        mGooglePay.order(user.userid, user.token, key, model.sku, callback);
     }
 
     @Override
@@ -303,19 +286,18 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             //
             case MSG_LOAD_PAY_MENU:
                 mDatas = (List<RechargeModel>) msg.obj;
-                if(mDatas != null && !mDatas.isEmpty()){
+                if (mDatas != null && !mDatas.isEmpty()) {
                     mCommonAdapter.setData(mDatas);
                     mCommonAdapter.notifyDataSetChanged();
                 }
                 break;
             case MSG_ADD_ITEM:
-                ToastUtils.showToast(RechargeActivity.this,getString(R.string.purchase_succ),Toast.LENGTH_SHORT);
+                ToastUtils.showToast(this, getString(R.string.purchase_succ), Toast.LENGTH_SHORT);
                 refreshCoin();
                 break;
             case ORDER_FAILD:
-                ToastUtils.showToast(RechargeActivity.this, getString(R.string.server_require_faild), Toast.LENGTH_SHORT);
+                ToastUtils.showToast(this, getString(R.string.server_require_faild), Toast.LENGTH_SHORT);
                 break;
-
         }
     }
 
@@ -327,21 +309,18 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
             finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private void refreshCoin(){
+    private void refreshCoin() {
         user = CacheDataManager.getInstance().loadUser();
-        if(user != null && user.diamonds != null){
+        if (user != null && user.diamonds != null) {
             mBalanceTextView.setText(StringHelper.getThousandFormat(user.diamonds));
-        }
-        else{
+        } else {
             mBalanceTextView.setText("0");
         }
-
     }
 }

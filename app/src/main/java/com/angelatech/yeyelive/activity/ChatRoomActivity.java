@@ -809,6 +809,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 //重连成功
                 break;
             case MediaNative.RTMP_PLAY_CONNECT:
+                face.setVisibility(View.GONE);
                 break;
             case MediaNative.RTMP_PLAY_STOP:
                 break;
