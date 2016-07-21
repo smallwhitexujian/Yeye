@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
@@ -105,6 +106,7 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_close:
                 dismiss();
+                App.chatroomApplication.finish();
                 break;
         }
     }
