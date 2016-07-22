@@ -83,7 +83,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private MyFragmentPagerAdapter fragmentPagerAdapter;
     private int beginTime = 0;          //房间直播开始时间，用来计算房间直播时长
     public static final int MSG_OPEN_GIFT_LAYOUT = 0xfff;
-    private SPreferencesTool preferences;
 
     public static BasicUserInfoDBModel userModel;  //登录用户信息
     public static BasicUserInfoDBModel liveUserModel; //直播用户信息
@@ -252,9 +251,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     private void roomStart() {
         LoadingDialog.showSysLoadingDialog(ChatRoomActivity.this, getString(R.string.room_conne));
-        preferences = SPreferencesTool.getInstance();
         //房间引导页展示
-        boolean boolGuide = preferences.getBooleanValue(this, SPreferencesTool.room_guide_key);
+        boolean boolGuide = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.room_guide_key);
         if (boolGuide) {
             room_guide.setVisibility(View.VISIBLE);
         } else {

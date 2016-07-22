@@ -23,6 +23,7 @@ public class ErrorHelper {
     private static final String filename = "messages.json";
     private static final String KEY_CODE = "code";
     private static final String KEY_MESSAGES = "messages";
+    private static final String KEY_MESSAGE_EN = "messagesen";
 
     //设置errormap,从文件中读取
     private static void load(Context context) {
@@ -50,7 +51,7 @@ public class ErrorHelper {
         if (map == null) {
             return "";
         }
-        return getLocaleMessage(context,map);
+        return getLocaleMessage(context, map);
     }
 
     public static String getErrorHint(Context context, int code) {
@@ -60,86 +61,44 @@ public class ErrorHelper {
 
     private static void parseJson(String jsonStr) {
         try {
-            System.out.println("===="+jsonStr);
-            List<Map<String,String>> datas = JsonUtil.fromJson(jsonStr,new TypeToken<List<Map>>(){}.getType());
-            for(Map<String,String> data:datas){
-                    for(Map.Entry<String,String> entry:data.entrySet()){
+            System.out.println("====" + jsonStr);
+            List<Map<String, String>> datas = JsonUtil.fromJson(jsonStr, new TypeToken<List<Map>>() {
+            }.getType());
+            for (Map<String, String> data : datas) {
+                for (Map.Entry<String, String> entry : data.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
-                    if("code".equals(key)){
-                        errorMap.put(value,data);
+                    if ("code".equals(key)) {
+                        errorMap.put(value, data);
                         break;
-                    }
-                    else{
-                        continue;
                     }
                 }
 
             }
-//            JSONArray jsonArray = new JSONArray(jsonStr);
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                String code = jsonObject.getString(KEY_CODE);
-//                if (code == null || "".equals(code)) {
-//                    continue;
-//                }
-//                String messages = jsonObject.getString(KEY_MESSAGES);
-//                Map<String, String> map = new HashMap<>();
-//                map.put(KEY_CODE, code);
-//                map.put(KEY_MESSAGES, messages);
-//                errorMap.put(code, map);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean shouldLogout(String code){
-        if("1003".equals(code)){
+    public static boolean shouldLogout(String code) {
+        if ("1003".equals(code)) {
             return true;
         }
         return false;
     }
 
-//    private static String getLocaleMessage(Context context,Map<String,String> errorMap){
-//        String language = DeviceTool.getCurrentLauguageUseResources(context);
-//        String message = null;
-//
-//        for(Map.Entry<String,String> entry:errorMap.entrySet()){
-//            String key = entry.getKey();
-//            String value = entry.getValue();
-//            if(key != null && language != null && key.indexOf(language) != -1){
-//                message = value;
-//                break;
-//            }
-//            else{
-//                continue;
-//            }
-//        }
-//        //默认的需不需要加需要斟酌
-//        if(message == null && errorMap != null){
-//            message = errorMap.get(KEY_MESSAGES);
-//        }
-//        return message;
-//    }
 
-    private static String getLocaleMessage(Context context,Map<String,String> errorMap){
+    private static String getLocaleMessage(Context context, Map<String, String> errorMap) {
         String language = DeviceTool.getCurrentLauguageUseResources(context);
 
-        if(language != null && errorMap != null){
-            if(language.startsWith("es")){
-                return errorMap.get("messageses-la");
-            }
-            if(language.startsWith("en")){
-
-            }
-
-            if(language.startsWith("zh")){
+        if (language != null && errorMap != null) {
+            if (language.startsWith("zh")) {
                 return errorMap.get(KEY_MESSAGES);
+            } else {
+                return errorMap.get(KEY_MESSAGE_EN);
             }
         }
         return "";
     }
-
 
 }
