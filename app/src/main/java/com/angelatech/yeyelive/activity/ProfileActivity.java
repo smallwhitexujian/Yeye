@@ -69,12 +69,7 @@ public class ProfileActivity extends HeaderBaseActivity {
 
     private void initView() {
         headerLayout.showTitle(getString(R.string.userinfo_title));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
         user_head_photo = (SimpleDraweeView) findViewById(R.id.user_head_photo);
         edit_user_name = (EditText) findViewById(R.id.edit_user_name);
         tv_input_limit = (TextView) findViewById(R.id.tv_input_limit);
@@ -132,7 +127,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     }
 
     private void saveUserInfo() {
-        LoadingDialog.showLoadingDialog(ProfileActivity.this);
+        LoadingDialog.showLoadingDialog(this);
         user_name = edit_user_name.getText().toString();
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);

@@ -13,7 +13,7 @@ import com.angelatech.yeyelive.activity.function.Start;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 
 /**
  * 启动界面
@@ -46,11 +46,11 @@ public class StartActivity extends BaseActivity {
         super.onResume();
         if (App.isLogin) {
             //外部服务器登陆成功，保证外部服务器成功直接进入首页
-            StartActivityHelper.jumpActivityDefault(StartActivity.this, MainActivity.class);
+            StartActivityHelper.jumpActivityDefault(this, MainActivity.class);
             finish();
         } else {
-            if (!NetWorkUtil.isNetworkConnected(StartActivity.this)) {
-                NomalAlertDialog.alwaysShow2(StartActivity.this, getString(R.string.seting_newwork),
+            if (!NetWorkUtil.isNetworkConnected(this)) {
+                NomalAlertDialog.alwaysShow2(this, getString(R.string.seting_newwork),
                         getString(R.string.not_newwork), getString(R.string.ok),
                         new NomalAlertDialog.HandlerDialog() {
                             @Override
@@ -83,7 +83,7 @@ public class StartActivity extends BaseActivity {
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_GOTO_LOGIN:
-                StartActivityHelper.jumpActivityDefault(StartActivity.this, LoginActivity.class);
+                StartActivityHelper.jumpActivityDefault(this, LoginActivity.class);
                 finish();
                 break;
             default:
@@ -92,7 +92,7 @@ public class StartActivity extends BaseActivity {
     }
 
     private void init() {
-        mStart = new Start(StartActivity.this, backgroundHandler);
+        mStart = new Start(this, backgroundHandler);
     }
 
     private void setNetwork() {

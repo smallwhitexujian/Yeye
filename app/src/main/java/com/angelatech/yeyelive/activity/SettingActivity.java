@@ -143,10 +143,10 @@ public class SettingActivity extends HeaderBaseActivity {
                 StartActivityHelper.jumpActivityDefault(this, PhoneBindActivity.class);
                 break;
             case R.id.bind_qq_layout:
-                new QQProxy(SettingActivity.this, uiHandler).bind();
+                new QQProxy(this, uiHandler).bind();
                 break;
             case R.id.bind_weichat_layout:
-                new WxProxy(SettingActivity.this, uiHandler).bind();
+                new WxProxy(this, uiHandler).bind();
                 break;
             case R.id.notify_turn:
                 setLiveNotify();
@@ -289,6 +289,6 @@ public class SettingActivity extends HeaderBaseActivity {
     private void Response(Profile profiles) {
         CacheDataManager cacheDataManager = CacheDataManager.getInstance();
         BasicUserInfoDBModel model = cacheDataManager.loadUser();
-        new Binding(SettingActivity.this, uiHandler).bindFacebook(model.userid, model.token, profiles);
+        new Binding(this, uiHandler).bindFacebook(model.userid, model.token, profiles);
     }
 }

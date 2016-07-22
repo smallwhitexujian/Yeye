@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.google.gson.reflect.TypeToken;
@@ -72,7 +73,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
             public void convert(ViewHolder helper, final BasicUserInfoDBModel item, final int position) {
                 helper.setImageViewByImageLoader(R.id.user_head_photo, item.headurl);
                 helper.setText(R.id.tv_name, item.nickname);
-                if (item.sex.equals("1")) {
+                if (item.sex.equals(Constant.SEX_MALE)) {
                     helper.setImageResource(R.id.iv_user_sex, R.drawable.icon_information_boy);
                 } else {
                     helper.setImageResource(R.id.iv_user_sex, R.drawable.icon_information_girl);

@@ -78,7 +78,7 @@ public class RechargeWayActivity extends HeaderBaseActivity {
     }
 
     private void initView() {
-        LoadingDialog.showLoadingDialog(RechargeWayActivity.this);
+        LoadingDialog.showLoadingDialog(this);
         headerLayout.showTitle(getString(R.string.button_top_up));
         headerLayout.showLeftBackButton();
 
@@ -111,7 +111,7 @@ public class RechargeWayActivity extends HeaderBaseActivity {
         });
         btn_submit_pay.setOnClickListener(this);
         tv_diamond.setText(model.diamonds);
-        adapter = new CommonAdapter<ConfigPayModel>(RechargeWayActivity.this, data, R.layout.item_recharge_config) {
+        adapter = new CommonAdapter<ConfigPayModel>(this, data, R.layout.item_recharge_config) {
             @Override
             public void convert(ViewHolder helper, ConfigPayModel item, int position) {
                 helper.setText(R.id.tv_diamond, item.diamonds);

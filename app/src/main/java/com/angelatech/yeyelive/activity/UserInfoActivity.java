@@ -57,17 +57,12 @@ public class UserInfoActivity extends HeaderBaseActivity {
         setContentView(R.layout.activity_userinfo);
         initView();
         setView();
-        mQiniuUpload = new QiniuUpload(UserInfoActivity.this);
+        mQiniuUpload = new QiniuUpload(this);
     }
 
     private void initView() {
         headerLayout.showTitle(getString(R.string.userinfo_title));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
 
         layout_user_photo = (RelativeLayout) findViewById(R.id.layout_user_photo);
         layout_nickName = (RelativeLayout) findViewById(R.id.layout_nickName);
@@ -120,7 +115,7 @@ public class UserInfoActivity extends HeaderBaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_user_photo:
-                new ActionSheetDialog(UserInfoActivity.this)
+                new ActionSheetDialog(this)
                         .builder()
                         .setCancelable(true)
                         .setCanceledOnTouchOutside(true)
@@ -141,18 +136,18 @@ public class UserInfoActivity extends HeaderBaseActivity {
                 break;
             case R.id.layout_nickName:
                 Intent intent = new Intent();
-                intent.setClass(UserInfoActivity.this, EditActivity.class);
+                intent.setClass(this, EditActivity.class);
                 intent.putExtra("type", "1");
                 startActivity(intent);
                 break;
             case R.id.layout_user_sign:
                 Intent intent_sign = new Intent();
-                intent_sign.setClass(UserInfoActivity.this, EditActivity.class);
+                intent_sign.setClass(this, EditActivity.class);
                 intent_sign.putExtra("type", "2");
                 startActivity(intent_sign);
                 break;
             case R.id.layout_sex:
-                new ActionSheetDialog(UserInfoActivity.this)
+                new ActionSheetDialog(this)
                         .builder()
                         .setCancelable(true)
                         .setCanceledOnTouchOutside(true)
@@ -197,19 +192,19 @@ public class UserInfoActivity extends HeaderBaseActivity {
                 case CommonResultCode.SET_ADD_PHOTO_CAMERA:
                     //拍照
                     distUri = mObtain.obtainUrl();
-                    mObtain.notifyChange(UserInfoActivity.this, mObtain.getUri(UserInfoActivity.this));
+                    mObtain.notifyChange(this, mObtain.getUri(UserInfoActivity.this));
                     mObtain.cropBig(UserInfoActivity.this, mObtain.getUri(UserInfoActivity.this), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 400, 400);
                     break;
                 case CommonResultCode.SET_ADD_PHOTO_ALBUM:
                     //从相册获取
                     if (data != null && data.getData() != null) {
                         distUri = mObtain.obtainUrl();
-                        mObtain.cropBig(UserInfoActivity.this, data.getData(), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 400, 400);
+                        mObtain.cropBig(this, data.getData(), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 400, 400);
                     }
                     break;
                 case CommonResultCode.REQUEST_CROP_PICTURE:
                     //裁剪后的图片
-                    path = mObtain.getRealPathFromURI(UserInfoActivity.this, distUri);
+                    path = mObtain.getRealPathFromURI(this, distUri);
                     if (!new File(path).exists()) {
                         return;
                     }

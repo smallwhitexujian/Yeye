@@ -83,7 +83,7 @@ public class SearchActivity extends WithBroadCastActivity {
         searchCancel = (TextView) findViewById(R.id.search_cancel);
         noDataLayout = (RelativeLayout)findViewById(R.id.no_data_layout);
 
-        adapter = new CommonAdapter<SearchItemModel>(SearchActivity.this, datas, R.layout.item_search) {
+        adapter = new CommonAdapter<SearchItemModel>(this, datas, R.layout.item_search) {
             @Override
             public void convert(ViewHolder helper, SearchItemModel item, final int position) {
                 helper.setText(R.id.user_nick, item.nickname);
@@ -165,7 +165,7 @@ public class SearchActivity extends WithBroadCastActivity {
             }
         });
 
-        Utility.openKeybord(searchEditText, SearchActivity.this);
+        Utility.openKeybord(searchEditText, this);
         noDataLayout.setVisibility(View.GONE);
     }
 

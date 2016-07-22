@@ -115,12 +115,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         list_view_focus.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
         headerLayout.showTitle(getString(R.string.user_focus));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
         list_view_focus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -165,14 +160,14 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
             case MSG_SET_FOLLOW:
                 LoadingDialog.cancelLoadingDialog();
                 adapter.notifyDataSetChanged();
-                ToastUtils.showToast(FocusOnActivity.this, getString(R.string.success));
+                ToastUtils.showToast(this, getString(R.string.success));
                 break;
             case MSG_NO_DATA:
                 showNodataLayout();
                 break;
             case MSG_ERROR:
                 LoadingDialog.cancelLoadingDialog();
-                ToastUtils.showToast(FocusOnActivity.this, ErrorHelper.getErrorHint(FocusOnActivity.this, msg.obj.toString()));
+                ToastUtils.showToast(this, ErrorHelper.getErrorHint(FocusOnActivity.this, msg.obj.toString()));
                 break;
         }
     }
