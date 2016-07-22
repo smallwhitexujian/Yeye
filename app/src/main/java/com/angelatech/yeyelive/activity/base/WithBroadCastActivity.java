@@ -11,15 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * 带广播接收的activity
- *
- *
  */
-public class WithBroadCastActivity extends BaseActivity{
+public class WithBroadCastActivity extends BaseActivity {
 
-    public static final String ACTION_WITH_BROADCAST_ACTIVITY = WithBroadCastActivity.class.getName()+"_ACTION_WITH_BROADCAST_ACTIVITY";
-
+    public static final String ACTION_WITH_BROADCAST_ACTIVITY = WithBroadCastActivity.class.getName() + "_ACTION_WITH_BROADCAST_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,38 +23,32 @@ public class WithBroadCastActivity extends BaseActivity{
         registerBroadcast();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unRegisterBroadcast();
     }
 
-    protected void doReceive(String action,Intent intent){
+    protected void doReceive(String action, Intent intent) {
 
     }
 
-    private void registerBroadcast(){
+    private void registerBroadcast() {
         List<String> actions = new ArrayList<>();
         actions.add(ACTION_WITH_BROADCAST_ACTIVITY);
-        BroadCastHelper.registerBroadCast(WithBroadCastActivity.this,actions,receiver);
+        BroadCastHelper.registerBroadCast(this, actions, receiver);
     }
 
-    private void unRegisterBroadcast(){
-        BroadCastHelper.unregisterBroadCast(WithBroadCastActivity.this,receiver);
+    private void unRegisterBroadcast() {
+        BroadCastHelper.unregisterBroadCast(this, receiver);
     }
-
-
-
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            doReceive(intent.getAction(),intent);
+            doReceive(intent.getAction(), intent);
         }
     };
-
-
 
 }

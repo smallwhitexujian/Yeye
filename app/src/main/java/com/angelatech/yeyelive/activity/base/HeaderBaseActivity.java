@@ -20,6 +20,4 @@ public class HeaderBaseActivity extends BaseActivity {
         headerLayout = (HeaderLayout) topView.findViewById(R.id.headerLayout);
         super.setContentView(topView);
     }
-
-
 }

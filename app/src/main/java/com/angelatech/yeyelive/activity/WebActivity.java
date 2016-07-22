@@ -203,7 +203,7 @@ public class WebActivity extends HeaderBaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             // 返回键退回
-            if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            if (mWebView.canGoBack()) {
                 mWebView.goBack();
                 return true;
             }

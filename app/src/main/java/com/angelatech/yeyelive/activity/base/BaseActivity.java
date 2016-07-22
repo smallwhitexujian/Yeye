@@ -12,7 +12,7 @@ import com.will.common.log.Logger;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.handler.CommonHandler;
 
-public class BaseActivity extends FragmentActivity implements View.OnClickListener,CommonDoHandler {
+public class BaseActivity extends FragmentActivity implements View.OnClickListener, CommonDoHandler {
     protected String TAG = BaseActivity.class.getName();
 
     static {
@@ -21,7 +21,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     protected CommonHandler<BaseActivity> uiHandler;
     protected CommonHandler<BaseActivity> backgroundHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,27 +46,23 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unmark();
     }
 
-
     public void doHandler(Message msg) {
         uiHandler.handleMessage(msg);
     }
 
-
     //私有方法区域
     private void init() {
-        uiHandler = new CommonHandler(BaseActivity.this);
+        uiHandler = new CommonHandler(this);
         HandlerThread handlerThread = new HandlerThread(getClass().getName());
         handlerThread.start();
-        backgroundHandler = new CommonHandler(BaseActivity.this,handlerThread.getLooper());
+        backgroundHandler = new CommonHandler(this, handlerThread.getLooper());
     }
-
 
     public void onErrorCode(String codeStr) {
         try {
@@ -82,11 +77,11 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     public void onErrorCode(int code) {
     }
 
-    private void mark(){
+    private void mark() {
         App.topActivity = getClass().getSimpleName();
     }
 
-    private void unmark(){
+    private void unmark() {
         App.topActivity = "";
     }
 
