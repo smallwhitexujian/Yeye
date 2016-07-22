@@ -113,7 +113,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                         tospanableInfo.setSpan(new Clickable(toUserListener), 0, tospanableInfo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         msgStr = " x" + chatline.giftmodel.number;
                         holder.tv_content.append(fromspanableInfo);
-                        holder.tv_content.append(mContext.getString(R.string.send_pepole));
+                        holder.tv_content.append(mContext.getString(R.string.send_people));
                         holder.tv_content.append(tospanableInfo);
                         String ChatContent = html + msgStr;
                         CharSequence charSequence = Html.fromHtml(ChatContent, meImageGetter, null);

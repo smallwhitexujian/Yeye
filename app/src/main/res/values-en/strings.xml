@@ -189,8 +189,8 @@
   <string name="send">Send</string>
   <string name="recharge"><![CDATA[Top Up>]]></string>
   <string name="giftsend">Send</string>
-  <string name="send_pepole">Send to:</string>
-  <string name="send_pepole1">Send to:</string>
+  <string name="send_people">Send to:</string>
+  <string name="send_people1">Send to:</string>
   <string name="user_name_input">Invalid Nickname</string>
 
   <string name="no_data_no_live">The performer is coming</string>
