@@ -134,12 +134,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private TimeCount timeCount;
 
     private ViewPager viewPager;
-    private GridViewAdapter gridViewAdapter;
-    private CustomerPageAdapter pagerAdapter;
     private List<GridView> gridViews = new ArrayList<>();
-    private int pageCount = 0;
-    private int lineNum = 2; //行数
-    private int columnNum = 4; //列数
 
     private int GridViewIndex = 0;
     private int GridViewLastIndex = -1;
@@ -569,7 +564,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
 
-
         DebugLogs.e("bottom" + bottom + "oldBottom" + oldBottom);
         if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
             //键盘收起了
@@ -811,10 +805,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         giftA = true;
         ly_gift_view.setVisibility(View.VISIBLE);
         ly_gift_view.startAnimation(translateAnimation_in);
-        if (Uri.parse(giftModel.giftmodel.getImageURL()) != null) {
+        if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
             imageView.setImageURI(Uri.parse(giftModel.giftmodel.getImageURL()));
         }
-        if (Uri.parse(giftModel.userheadpoto) != null) {
+        if (giftModel.userheadpoto != null) {
             gif_img_head.setImageURI(Uri.parse(giftModel.userheadpoto));
         }
         txt_from_user.setText(giftModel.from_uname);
@@ -945,6 +939,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
      */
     @SuppressWarnings("unchecked")
     private void initGiftViewpager() {
+        int pageCount;
+        int lineNum = 2; //行数
+        int columnNum = 4; //列数
+        GridViewAdapter gridViewAdapter;
         if (App.giftdatas.size() <= columnNum) {
             viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ScreenUtils.dip2px(getActivity(), 90))); //使设置好的布局参数应用到控件
@@ -978,7 +976,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 }
             });
         }
-        pagerAdapter = new CustomerPageAdapter(getActivity(), gridViews);
+        CustomerPageAdapter pagerAdapter = new CustomerPageAdapter(getActivity(), gridViews);
         viewPager.setAdapter(pagerAdapter);
         //initPoint(pageCount);
     }
