@@ -29,7 +29,7 @@ import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -212,9 +212,8 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                             adapter.setData(data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
-                    }
-                    else{
-                        onBusinessFaild(result.code,response);
+                    } else {
+                        onBusinessFaild(result.code, response);
                     }
                 }
                 if (data.isEmpty()) {
@@ -249,18 +248,18 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
             public void onSuccess(String response) {
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
 
-                if (results != null && HttpFunction.isSuc(results.code)) {
-
-                    if (data.get(position).isfollow.equals("1")) {
-                        data.get(position).isfollow = "0";
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (data.get(position).isfollow.equals("1")) {
+                            data.get(position).isfollow = "0";
+                        } else {
+                            data.get(position).isfollow = "1";
+                        }
+                        uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
                     } else {
-                        data.get(position).isfollow = "1";
+                        uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
                     }
-                    uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-                } else {
-                    uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
                 }
-
             }
         };
 
