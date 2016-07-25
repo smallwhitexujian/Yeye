@@ -82,13 +82,13 @@ public class PeriscopeLayout extends RelativeLayout {
     private void init() {
         //初始化显示的图片
         drawables = new Drawable[7];
-        Drawable love_0 = getResources().getDrawable(R.drawable.love_heart0);
-        Drawable love_1 = getResources().getDrawable(R.drawable.love_heart1);
-        Drawable love_2 = getResources().getDrawable(R.drawable.love_heart2);
-        Drawable love_3 = getResources().getDrawable(R.drawable.love_heart3);
-        Drawable love_4 = getResources().getDrawable(R.drawable.love_heart4);
-        Drawable love_5 = getResources().getDrawable(R.drawable.love_heart5);
-        Drawable love_6 = getResources().getDrawable(R.drawable.love_heart6);
+        Drawable love_0 = getResources().getDrawable(R.drawable.love_heart1);
+        Drawable love_1 = getResources().getDrawable(R.drawable.love_heart2);
+        Drawable love_2 = getResources().getDrawable(R.drawable.love_heart3);
+        Drawable love_3 = getResources().getDrawable(R.drawable.love_heart4);
+        Drawable love_4 = getResources().getDrawable(R.drawable.love_heart5);
+        Drawable love_5 = getResources().getDrawable(R.drawable.love_heart6);
+        Drawable love_6 = getResources().getDrawable(R.drawable.love_heart7);
 
         drawables[0] = love_0;
         drawables[1] = love_1;
