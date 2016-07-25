@@ -41,7 +41,7 @@ import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.view.DisplayTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -175,16 +175,15 @@ public class MainActivity extends BaseActivity {
                 String hotStr = getString(R.string.live_hot);
                 final float textSize = DisplayTool.dip2px(MainActivity.this, 17);
                 if (hotStr.equals(pagerAdapter.getPageTitle(position))) {
-                    //hotTab.setTextColor(0xFFFFFFFF);
                     hotTab.setCompoundDrawables(null, null, null, drawable);
                     hotTab.setTextSize(textSize);
-                    hotTab.setTextColor(0xFFF9A155);
+                    hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
                     // hotTab.setBackgroundResource(R.color.color_white);
                 } else {
                     // followTab.setTextColor(0xFFFFFFFF);
                     followTab.setCompoundDrawables(null, null, null, drawable);
                     followTab.setTextSize(textSize);
-                    followTab.setTextColor(0xFFF9A155);
+                    followTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
                     //followTab.setBackgroundResource(R.color.color_white);
                 }
             }
@@ -198,7 +197,7 @@ public class MainActivity extends BaseActivity {
         clearTabTextSize();
         hotTab.setCompoundDrawables(null, null, null, drawable);
         hotTab.setTextSize(DisplayTool.dip2px(MainActivity.this, 17));
-        hotTab.setTextColor(0xFFF9A155);
+        hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
 
         //预加载礼物列表
         if (App.giftdatas.size() <= 0) {
@@ -274,14 +273,14 @@ public class MainActivity extends BaseActivity {
             case R.id.hot_textview:
                 viewPager.setCurrentItem(0);
                 clearTabColor();
-
                 hotTab.setCompoundDrawables(null, null, null, drawable);
+                hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
                 break;
             case R.id.follow_textview:
                 viewPager.setCurrentItem(1);
                 clearTabColor();
-
                 followTab.setCompoundDrawables(null, null, null, drawable);
+                followTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
                 break;
             case R.id.search_icon:
                 StartActivityHelper.jumpActivityDefault(MainActivity.this, SearchActivity.class);
@@ -306,9 +305,9 @@ public class MainActivity extends BaseActivity {
 
     private void clearTabColor() {
         hotTab.setCompoundDrawables(null, null, null, null);
-        hotTab.setTextColor(0xFFFFCA9C);
+        //hotTab.setTextColor(0xFFFFCA9C);
         followTab.setCompoundDrawables(null, null, null, null);
-        followTab.setTextColor(0xFFFFCA9C);
+        //followTab.setTextColor(0xFFFFCA9C);
     }
 
     private void clearTabTextSize() {

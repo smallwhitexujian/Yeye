@@ -76,7 +76,8 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/btn_sign_on_share_wechat_n" />
+                    android:src="@drawable/btn_sign_on_share_wechat_n"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/btn_webchatmoments"
@@ -84,7 +85,8 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:src="@drawable/btn_sign_on_share_moments_n" />
+                    android:src="@drawable/btn_sign_on_share_moments_n"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/btn_weibo"
@@ -93,7 +95,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:src="@drawable/btn_sign_on_share_weibo_n"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/btn_facebook"

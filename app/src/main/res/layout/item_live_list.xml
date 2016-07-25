@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="6dp"
-                android:src="@anim/live_animation" />
+                android:src="@drawable/live_animation" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:textColor="@color/color_222222"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View

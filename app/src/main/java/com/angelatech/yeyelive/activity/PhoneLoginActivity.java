@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.model.LoginServerModel;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.Logger;
 import com.will.common.string.json.JsonUtil;
@@ -26,7 +27,7 @@ import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -121,11 +122,7 @@ public class PhoneLoginActivity extends HeaderBaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (checkCode(s.toString())) {
-                    uiHandler.obtainMessage(MSG_LEGAL_INPUT_PHONE, s.toString()).sendToTarget();
-                } else {
-                    uiHandler.obtainMessage(MSG_ILLEGAL_INPUT_CODE).sendToTarget();
-                }
+                uiHandler.obtainMessage(MSG_LEGAL_INPUT_PHONE, s.toString()).sendToTarget();
             }
         });
 
@@ -159,9 +156,9 @@ public class PhoneLoginActivity extends HeaderBaseActivity {
             case MSG_LOGIN_ERR:
                 break;
             case MSG_LOGIN_SUCC:
-                String userid = (String) msg.obj;
+                String userId = (String) msg.obj;
                 try {
-                    if (Login.checkUserInfo(userid)) {
+                    if (Login.checkUserInfo(userId)) {
                         ToastUtils.showToast(PhoneLoginActivity.this, getString(R.string.login_suc));
                         StartActivityHelper.jumpActivity(PhoneLoginActivity.this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, MainActivity.class, null);
                     } else {
@@ -214,7 +211,7 @@ public class PhoneLoginActivity extends HeaderBaseActivity {
                             }.getType());
                             if (datas != null) {
                                 String code = datas.code;
-                                if (mPhoneLogin.isSuc(code)) {
+                                if (HttpFunction.isSuc(code)) {
                                     //正确的结果
                                     Logger.e(datas.data.get(0).getClass().getSimpleName());
                                     BasicUserInfoDBModel model = datas.data.isEmpty() ? null : datas.data.get(0);
@@ -255,17 +252,17 @@ public class PhoneLoginActivity extends HeaderBaseActivity {
                             Logger.e(response);
                             LoadingDialog.cancelLoadingDialog();
                             Map result = JsonUtil.fromJson(response, Map.class);
-                            final String code = (String) result.get("code");
-                            if (mPhoneLogin.isSuc(code)) {
-                                //啥都不做
-                            } else {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String str = ErrorHelper.getErrorHint(PhoneLoginActivity.this, code);
-                                        ToastUtils.showToast(PhoneLoginActivity.this, str);
-                                    }
-                                });
+                            if (result != null) {
+                                final String code = (String) result.get("code");
+                                if (!HttpFunction.isSuc(code)) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            String str = ErrorHelper.getErrorHint(PhoneLoginActivity.this, code);
+                                            ToastUtils.showToast(PhoneLoginActivity.this, str);
+                                        }
+                                    });
+                                }
                             }
                         }
                     };
@@ -357,8 +354,8 @@ public class PhoneLoginActivity extends HeaderBaseActivity {
 
     private void setIsWork() {
         mHitText.setText("");
-        String phonenum = mInputPhone.getText().toString();
-        if (phonenum != null && !"".equals(phonenum)) {
+        String phoneNum = mInputPhone.getText().toString();
+        if (!"".equals(phoneNum)) {
             String code = mVerificationCode.getText().toString();
             if (!isRunTimer) {
                 mSendBtn.setEnabled(true);
@@ -367,7 +364,7 @@ public class PhoneLoginActivity extends HeaderBaseActivity {
                 mSendBtn.setEnabled(false);
                 mSendBtn.setTextColor(0xFFA6A6A6);
             }
-            if (code != null && !"".equals(code)) {
+            if (!"".equals(code)) {
                 mLoginBtn.setEnabled(true);
                 mLoginBtn.setBackgroundResource(R.drawable.common_btn_bg);
                 mLoginBtn.setTextColor(0xFF222222);

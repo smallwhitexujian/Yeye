@@ -43,7 +43,7 @@
                     android:drawablePadding="3dp"
                     android:gravity="center"
                     android:text="@string/live_hot"
-                    android:textColor="#F78A2B"
+                    android:textColor="@color/color_d80c18"
                     android:textSize="13sp" />
 
                 <TextView
@@ -56,7 +56,7 @@
                     android:drawablePadding="3dp"
                     android:gravity="center"
                     android:text="@string/live_follow"
-                    android:textColor="#F78A2B"
+                    android:textColor="@color/color_d80c18"
                     android:textSize="17sp" />
             </LinearLayout>
 

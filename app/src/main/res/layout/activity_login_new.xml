@@ -79,7 +79,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/btn_login"
-                android:textColor="@color/color_ff7214"
+                android:textColor="@color/color_d80c18"
                 android:textSize="15sp" />
         </LinearLayout>
 

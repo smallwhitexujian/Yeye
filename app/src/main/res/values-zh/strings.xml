@@ -114,7 +114,7 @@
     <!--我的-->
     <string name="attention">我的关注</string>
     <string name="fans">我的粉丝</string>
-    <string name="diamond">我的钻石</string>
+    <string name="diamond">我的金币</string>
     <string name="setting">设置</string>
     <string name="exit">退出</string>
     <string name="intimacy">亲密度:</string>
@@ -176,7 +176,7 @@
     <string name="user_fans">我的粉丝</string>
     <string name="txt_live_time" formatted="false">直播时间：%s</string>
     <string name="live_num">看过的人</string>
-    <string name="live_coin">收获的钻</string>
+    <string name="live_coin">收获的金币</string>
     <string name="back_home">返回首页</string>
     <string name="live_end">直播已结束</string>
     <string name="live_end_bg">直播结束背景</string>
@@ -202,7 +202,7 @@
     <string name="no_data_no_follow">没有关注</string>
     <string name="no_data_no_blacklist">没有黑名单</string>
     <string name="activity_feedback_title">反馈</string>
-    <string name="feedback_prompt">如果您的建议被采纳，还有钻石奖励哦！</string>
+    <string name="feedback_prompt">如果您的建议被采纳，还有金币奖励哦！</string>
     <string name="feedback_edit_hint">请输入你想说的</string>
     <string name="feedback_phone_mail_prompt">你的手机号或邮箱，方便我们和你联系，只有工作人员知道</string>
     <string name="feedback_phone_mail_edit_hint">手机或邮箱</string>
@@ -264,7 +264,7 @@
     <string name="purchase_success">购买成功</string>
     <string name="cancel_purcase">取消购买</string>
     <string name="select_coin">选择金额充值:</string>
-    <string name="diamond_balance">钻石余额</string>
+    <string name="diamond_balance">金币余额</string>
     <string name="exchange_coin">兑换金币</string>
     <string name="balance">余额</string>
     <string name="recharge_unit">MYR </string>
