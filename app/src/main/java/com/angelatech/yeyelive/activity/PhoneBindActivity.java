@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.util.StringHelper;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.log.Logger;
 import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.CommonUrlConfig;
@@ -22,7 +23,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -60,7 +61,7 @@ public class PhoneBindActivity extends HeaderBaseActivity {
         setContentView(R.layout.activity_phone_login);
         initView();
         setView();
-        mBinding = new Binding(this,uiHandler);
+        mBinding = new Binding(this, uiHandler);
     }
 
     private void initView() {
@@ -120,15 +121,9 @@ public class PhoneBindActivity extends HeaderBaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (checkCode(s.toString())) {
-                    uiHandler.obtainMessage(MSG_LEGAL_INPUT_PHONE, s.toString()).sendToTarget();
-                }
-                else{
-                    uiHandler.obtainMessage(MSG_ILLEGAL_INPUT_CODE).sendToTarget();
-                }
+                uiHandler.obtainMessage(MSG_LEGAL_INPUT_PHONE, s.toString()).sendToTarget();
             }
         });
-
 
         mLoginBtn.setOnClickListener(this);
         mSendBtn.setOnClickListener(this);
@@ -146,15 +141,13 @@ public class PhoneBindActivity extends HeaderBaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
-
     }
 
     @Override
     public void doHandler(Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case MSG_REFRESH_TIME:
-                mSendBtn.setText(getString(R.string.phone_login_retry_send,""+msg.obj));
+                mSendBtn.setText(getString(R.string.phone_login_retry_send, "" + msg.obj));
                 break;
             case MSG_REFRESH_TIME_FIN:
                 mSendBtn.setText(getString(R.string.phone_login_send_code));
@@ -177,11 +170,11 @@ public class PhoneBindActivity extends HeaderBaseActivity {
                 setIsWork();
                 break;
             case Binding.MSG_BIND_FAILD:
-                ToastUtils.showToast(PhoneBindActivity.this,getString(R.string.phone_bind_faild));
+                ToastUtils.showToast(PhoneBindActivity.this, getString(R.string.phone_bind_faild));
                 finish();
                 break;
             case Binding.MSG_BIND_SUCC:
-                ToastUtils.showToast(PhoneBindActivity.this,getString(R.string.phone_bind_suc));
+                ToastUtils.showToast(PhoneBindActivity.this, getString(R.string.phone_bind_suc));
                 finish();
                 break;
             case MSG_BINDING_SUCC:
@@ -198,16 +191,16 @@ public class PhoneBindActivity extends HeaderBaseActivity {
         String areaNum = mAreaText.getText().toString();
         switch (v.getId()) {
             case R.id.login_btn:
-                if (phone != null) {
+                if (!phone.isEmpty()) {
                     BasicUserInfoDBModel infoDBModel = CacheDataManager.getInstance().loadUser();
-                    mBinding.bindPhone(infoDBModel.userid,infoDBModel.token, StringHelper.stringMerge(cutAreaNum(areaNum),phone), code);
+                    mBinding.bindPhone(infoDBModel.userid, infoDBModel.token, StringHelper.stringMerge(cutAreaNum(areaNum), phone), code);
                 } else {
                     mInputPhone.setText("");
                     mVerificationCode.setText("");
                 }
                 break;
             case R.id.send_btn:
-                if (phone != null) {
+                if (!phone.isEmpty()) {
                     LoadingDialog.showLoadingDialog(PhoneBindActivity.this);
                     HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
                         @Override
@@ -220,18 +213,17 @@ public class PhoneBindActivity extends HeaderBaseActivity {
                             Logger.e(response);
                             LoadingDialog.cancelLoadingDialog();
                             Map result = JsonUtil.fromJson(response, Map.class);
-                            String code = (String)result.get("code");
-                            if(mBinding.isSuc(code)){
+                            String code = (String) result.get("code");
+                            if (HttpFunction.isSuc(code)) {
                                 //啥都不做
                                 uiHandler.obtainMessage(MSG_BINDING_SUCC).sendToTarget();
-                            }
-                            else{
+                            } else {
                                 //网络请求失败，提示
                                 onBusinessFaild(code);
                             }
                         }
                     };
-                    mBinding.getCode(CommonUrlConfig.GetPhoneCode, StringHelper.stringMerge(cutAreaNum(areaNum),phone),httpCallback);
+                    mBinding.getCode(CommonUrlConfig.GetPhoneCode, StringHelper.stringMerge(cutAreaNum(areaNum), phone), httpCallback);
                 } else {
                     mInputPhone.setText("");
                 }
@@ -274,13 +266,12 @@ public class PhoneBindActivity extends HeaderBaseActivity {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if(coutTime ++ >= TOTAL_TIME){
+                if (coutTime++ >= TOTAL_TIME) {
                     uiHandler.sendEmptyMessage(MSG_REFRESH_TIME_FIN);
                     isRunTimer = false;
                     stopTimer();
-                }
-                else{
-                    uiHandler.obtainMessage(MSG_REFRESH_TIME,(TOTAL_TIME - coutTime)).sendToTarget();
+                } else {
+                    uiHandler.obtainMessage(MSG_REFRESH_TIME, (TOTAL_TIME - coutTime)).sendToTarget();
                 }
             }
         };
@@ -321,18 +312,17 @@ public class PhoneBindActivity extends HeaderBaseActivity {
     private void setIsWork() {
         mHitText.setText("");
         String phonenum = mInputPhone.getText().toString();
-        if (phonenum != null && !"".equals(phonenum)) {
+        if (!"".equals(phonenum)) {
             String code = mVerificationCode.getText().toString();
-            if(!isRunTimer){
+            if (!isRunTimer) {
                 mSendBtn.setEnabled(true);
                 mSendBtn.setTextColor(0xFF222222);
-            }
-            else{
+            } else {
                 mSendBtn.setEnabled(false);
                 mSendBtn.setTextColor(0xFFA6A6A6);
 //                mSendBtn.setBackgroundResource(R.drawable.common_btn_bg);
             }
-            if (code != null && !"".equals(code)) {
+            if (!"".equals(code)) {
                 mLoginBtn.setEnabled(true);
                 mLoginBtn.setBackgroundResource(R.drawable.common_btn_bg);
                 mLoginBtn.setTextColor(0xFF222222);
@@ -352,19 +342,19 @@ public class PhoneBindActivity extends HeaderBaseActivity {
         }
     }
 
-    private boolean checkPhoneNum(String phoneNum){
+    private boolean checkPhoneNum(String phoneNum) {
         return phoneNum != null && phoneNum.length() == 11;
     }
 
-    private boolean checkCode(String code){
+    private boolean checkCode(String code) {
         return code != null;
     }
 
 
-    private String cutAreaNum(String areaNum){
-        if(areaNum == null ||"".equals(areaNum)){
+    private String cutAreaNum(String areaNum) {
+        if (areaNum == null || "".equals(areaNum)) {
             return getString(R.string.phone_login_default_country_area_num);
         }
-        return areaNum.replace("+","");
+        return areaNum.replace("+", "");
     }
 }

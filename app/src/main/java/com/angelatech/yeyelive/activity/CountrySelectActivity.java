@@ -29,7 +29,6 @@ import java.util.List;
  */
 public class CountrySelectActivity extends HeaderBaseActivity implements SideBarView.LetterSelectListener {
 
-
     private final int MSG_SEARCH = 1;
 
     private ListView listView;
@@ -48,7 +47,6 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
         setView();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -65,12 +63,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
     private void setView() {
         sideBarView.setOnLetterSelectListen(this);
         headerLayout.showTitle(getString(R.string.select_country));
-        headerLayout.showLeftImageButton(R.drawable.back, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,7 +125,6 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 datas.add(data);
             } catch (Exception e) {
                 e.printStackTrace();
-                continue;
             }
         }
 
@@ -152,7 +144,6 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 datas.add(data);
             } catch (Exception e) {
                 e.printStackTrace();
-                continue;
             }
         }
     }
@@ -163,7 +154,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
             case MSG_SEARCH:
                 String firstSpell = ChineseToEnglish.getFirstSpell((String) msg.obj);
                 String substring = firstSpell.substring(0, 1).toUpperCase();
-                setListviewPosition(substring);
+                setListViewPosition(substring);
                 break;
         }
 
@@ -171,14 +162,14 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
 
     @Override
     public void onLetterSelected(String letter) {
-        setListviewPosition(letter);
+        setListViewPosition(letter);
         mTip.setText(letter);
         mTip.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLetterChanged(String letter) {
-        setListviewPosition(letter);
+        setListViewPosition(letter);
         mTip.setText(letter);
     }
 
@@ -187,7 +178,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
         mTip.setVisibility(View.GONE);
     }
 
-    private void setListviewPosition(String letter) {
+    private void setListViewPosition(String letter) {
         int firstLetterPosition = countrySelectAdapter.getFirstLetterPosition(letter);
         if (firstLetterPosition != -1) {
             listView.setSelection(firstLetterPosition);
