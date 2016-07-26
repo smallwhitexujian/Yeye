@@ -23,6 +23,7 @@
   <string name="camera">Camera</string>
   <string name="album">Album</string>
   <string name="upload_photo_error">Photo Upload Failed</string>
+
   <!--Login by Phone-->
   <string name="phone_login_input_phone">Phone Number</string>
   <string name="phone_login_input_code">Verify Code</string>
@@ -54,8 +55,7 @@
   <string name="button_send">Send</string>
   <string name="button_finish">Finish</string>
   <string name="button_new_user">Register</string>
-  <string name="button_login">Login
-</string>
+  <string name="button_login">Login</string>
   <string name="button_private_chat">Private Chat</string>
   <string name="button_top_up">Top Up</string>
   <string name="button_top_up_submit">Confirm Purchase</string>
@@ -140,6 +140,8 @@
   <string name="userinfo_user_nickname">Nickname</string>
   <string name="userinfo_user_sign">Signature</string>
   <string name="userinfo_sign_unkonw">To be filled</string>
+  <string name="user_info_mail">Email</string>
+  <string name="user_info_mail_error">Email format error</string>
 
   <string name="setting_title">Setting</string>
   <string name="setting_live_notify">Notice of On Live</string>

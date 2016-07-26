@@ -2,18 +2,24 @@ package com.angelatech.yeyelive.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
+import android.util.Base64;
 
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.facebook.FacebookSdk;
-import com.angelatech.yeyelive.db.DatabaseHelper;
+import com.will.common.log.DebugLogs;
 
 import java.io.File;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -89,6 +95,18 @@ public class App extends Application {
         // AppEventsLogger.activateApp(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.angelatech.yeyelive", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                DebugLogs.d("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

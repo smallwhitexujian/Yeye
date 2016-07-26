@@ -139,6 +139,8 @@
     <string name="userinfo_user_nickname">昵称</string>
     <string name="userinfo_user_sign">个性签名</string>
     <string name="userinfo_sign_unkonw">未填写</string>
+    <string name="user_info_mail">邮箱</string>
+    <string name="user_info_mail_error">邮箱格式错误</string>
     <!--设置-->
     <string name="setting_title">设置</string>
     <string name="setting_live_notify">直播消息提醒</string>

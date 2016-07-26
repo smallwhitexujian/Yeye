@@ -36,7 +36,6 @@ public class BasicUserInfoDBModel implements Serializable {
     public String fansNum;
     @DatabaseField(columnName="followNum")
     public String followNum;
-
     @DatabaseField(columnName="intimacy")
     public String Intimacy;
 

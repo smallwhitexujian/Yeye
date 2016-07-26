@@ -231,6 +231,8 @@
   <string name="userinfo_dialog_do_report">Report</string>
   <string name="userinfo_dialog_do_kick">Kick Out</string>
   <string name="userinfo_dialog_do_cancel">Cancel</string>
+  <string name="user_info_mail">Email</string>
+  <string name="user_info_mail_error">Email format error</string>
   <string name="not_send_gift_me">Can\'t Send to Yourself</string>
   <string name="quit_room">Sure to LEAVE?</string>
   <string name="finish_room">Sure to END LIVE?</string>
