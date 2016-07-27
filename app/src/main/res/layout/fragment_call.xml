@@ -111,10 +111,11 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_gift"
-                android:layout_width="55dp"
+                android:layout_width="65dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="-30dp"
                 android:layout_toRightOf="@+id/gift_info"
+                android:scaleType="centerInside"
                 fresco:fadeDuration="300"
                 fresco:placeholderImage="@drawable/icon_gift" />
 
