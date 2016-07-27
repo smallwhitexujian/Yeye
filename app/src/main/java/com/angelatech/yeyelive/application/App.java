@@ -69,6 +69,7 @@ public class App extends Application {
     public static final String LIVE_HOST = "LIVE"; //直播者
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
+    //test
 
     @Override
     public void onCreate() {
