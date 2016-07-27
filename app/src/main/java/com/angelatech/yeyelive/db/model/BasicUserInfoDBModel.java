@@ -38,6 +38,10 @@ public class BasicUserInfoDBModel implements Serializable {
     public String followNum;
     @DatabaseField(columnName="intimacy")
     public String Intimacy;
-
+    /**
+     * 加V标识
+     */
+    @DatabaseField(columnName="isv")
+    public String isv;
 
 }

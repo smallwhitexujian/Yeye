@@ -85,7 +85,7 @@ public class App extends Application {
             dirs.add(FILEPATH_CAMERA);
             dirs.add(FILEPATH_VOICE_RECORD);
         }
-        mAppInterface.initThirdPlugin(this);
+        //mAppInterface.initThirdPlugin(this);
         mAppInterface.initDir(dirs);
         mAppInterface.initDB(this, "yeye.db", 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
@@ -96,7 +96,7 @@ public class App extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         try {
-            PackageInfo info = getPackageManager().getPackageInfo("com.angelatech.yeyelive", PackageManager.GET_SIGNATURES);
+            PackageInfo info = getPackageManager().getPackageInfo(AppConfig.PACKAGE_NAME, PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());

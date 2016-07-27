@@ -8,7 +8,7 @@ import com.angelatech.yeyelive.application.App;
  */
 public class CommonUrlConfig {
     private static boolean isDebug = App.isDebug;
-    private static String TEST_HOST_URL =  "http://liveapi.maracuya.live/"; //"http://videotest.vvago.com/";
+    private static String TEST_HOST_URL = "http://liveapi.maracuya.live/"; //"http://videotest.vvago.com/";
     private static String HOST_URL = "http://liveapi.iamyeye.com/";
     public static final String OUT_IP = isDebug ? "121.199.29.67" : "dtlogin.iamyeye.com";
     public static final int OUT_PORT = isDebug ? 15302 : 13302;
@@ -31,6 +31,7 @@ public class CommonUrlConfig {
 
     public static String facebookLogin = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginFb";
 
+    public static String facebookLogin_vsrsion_2 = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginFbV1";
 
     /**
      * 账户绑定
