@@ -10,10 +10,11 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_propimage"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
+        android:scaleType="centerInside"
         fresco:fadeDuration="300"
         fresco:placeholderImage="@drawable/icon_gift" />
 
