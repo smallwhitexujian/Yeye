@@ -2,18 +2,24 @@ package com.angelatech.yeyelive.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
+import android.util.Base64;
 
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.facebook.FacebookSdk;
-import com.angelatech.yeyelive.db.DatabaseHelper;
+import com.will.common.log.DebugLogs;
 
 import java.io.File;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -62,10 +68,7 @@ public class App extends Application {
     public static final String LIVE_HOST = "LIVE"; //直播者
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
-    //facebook 分享
-    public static String shareTitle = "Tempat Nongkrong Favorit Gue";
-    public static String shareContent = "Gue punya Room di nih guys, mampir yuk ke Room gue. Kita bisa nongkrong dan ngobrol di. Download di : goo.gl/ExzX9I";
-    public static String shareURL = "http://sharetest.vvago.com/Share/Download";
+    //test
 
     @Override
     public void onCreate() {
@@ -78,7 +81,7 @@ public class App extends Application {
             dirs.add(FILEPATH_CAMERA);
             dirs.add(FILEPATH_VOICE_RECORD);
         }
-        mAppInterface.initThirdPlugin(this);
+        //mAppInterface.initThirdPlugin(this);
         mAppInterface.initDir(dirs);
         mAppInterface.initDB(this, "yeye.db", 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
@@ -88,6 +91,18 @@ public class App extends Application {
         // AppEventsLogger.activateApp(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(AppConfig.PACKAGE_NAME, PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                DebugLogs.d("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

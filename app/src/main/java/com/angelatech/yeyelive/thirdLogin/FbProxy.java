@@ -104,12 +104,12 @@ public class FbProxy {
      */
     private void getUserInfo() {
         boolean enableButton = AccessToken.getCurrentAccessToken() != null;
-        Profile profile = Profile.getCurrentProfile();//获取登陆成功以后的数据
+        //Profile profile = Profile.getCurrentProfile();//获取登陆成功以后的数据
 
-        if (enableButton && profile != null) {
+        if (AccessToken.getCurrentAccessToken() != null) {
             Message message = handler.obtainMessage();
             message.what = FB_LOGIN_SUCCESS;
-            message.obj = profile;
+            message.obj = AccessToken.getCurrentAccessToken().getToken();
             handler.sendMessage(message);
         }
     }

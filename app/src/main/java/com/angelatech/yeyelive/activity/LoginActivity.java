@@ -1,13 +1,9 @@
 package com.angelatech.yeyelive.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Html;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,28 +14,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.Login;
 import com.angelatech.yeyelive.activity.function.Register;
+import com.angelatech.yeyelive.activity.function.Start;
 import com.angelatech.yeyelive.application.App;
-import com.angelatech.yeyelive.application.AppConfig;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.thirdLogin.LoginManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
-import com.facebook.Profile;
 import com.facebook.login.widget.LoginButton;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
 import com.will.common.tool.network.NetWorkUtil;
-import com.angelatech.yeyelive.activity.function.Start;
-import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive .R;
 import com.will.view.ToastUtils;
-
-import java.security.MessageDigest;
 
 /**
  * 手机登陆
@@ -78,19 +69,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void initView() {
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(AppConfig.PACKAGE_NAME, PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                DebugLogs.e("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         callbackManager = FbProxy.init();
         iv_logo = (ImageView) findViewById(R.id.iv_logo);
         mLinceseLink = (TextView) findViewById(R.id.license_link);
@@ -104,7 +82,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mPhoneLogin.setOnClickListener(this);
         mLinceseLink.setText(Html.fromHtml("<u>" + getString(R.string.lisence_title) + "</u>"));
         mLinceseLink.setOnClickListener(this);
-
     }
 
     private void initData() {
@@ -210,8 +187,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (!isLogin) {
                     CacheDataManager.getInstance().deleteAll();
                     isLogin = true;
-                    Profile profile = (Profile) msg.obj;
-                    new Register(this, uiHandler).fbRegister(profile, DeviceTool.getUniqueID(LoginActivity.this));
+                    new Register(this, uiHandler).fbRegister((String) msg.obj, DeviceTool.getUniqueID(LoginActivity.this));
                 }
                 break;
             case FbProxy.FB_LOGIN_ERROR:

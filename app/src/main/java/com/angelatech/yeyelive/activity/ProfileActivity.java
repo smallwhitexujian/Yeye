@@ -17,6 +17,7 @@ import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.qiniu.QiniuUpload;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -30,7 +31,7 @@ import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -46,11 +47,11 @@ public class ProfileActivity extends HeaderBaseActivity {
 
     private SimpleDraweeView user_head_photo;
     private TextView tv_input_limit;
-    private EditText edit_user_name;
+    private EditText edit_user_name, edit_user_mail;
     private TextView tv_submit;
     private RadioGroup radio_group;
     private int user_gender = 1;
-    private String user_name;
+    private String user_name, user_mail;
     private RadioButton radioButton_male, radioButton_female;
     private boolean upload_photo = false, check_gender = false, input_name = false;
 
@@ -72,6 +73,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         headerLayout.showLeftBackButton();
         user_head_photo = (SimpleDraweeView) findViewById(R.id.user_head_photo);
         edit_user_name = (EditText) findViewById(R.id.edit_user_name);
+        edit_user_mail = (EditText) findViewById(R.id.edit_user_mail);
         tv_input_limit = (TextView) findViewById(R.id.tv_input_limit);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
         radio_group = (RadioGroup) findViewById(R.id.radio_group);
@@ -129,9 +131,17 @@ public class ProfileActivity extends HeaderBaseActivity {
     private void saveUserInfo() {
         LoadingDialog.showLoadingDialog(this);
         user_name = edit_user_name.getText().toString();
+        user_mail = edit_user_mail.getText().toString();
+        if (!user_mail.isEmpty()) {
+            if (!VerificationUtil.isEmail(user_mail)) {
+                ToastUtils.showToast(this, R.string.user_info_mail_error);
+                return;
+            }
+        }
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);
         map.put("userid", model.userid);
+        map.put("email", user_mail);
         map.put("nickname", Encryption.utf8ToUnicode(user_name));
         map.put("sex", String.valueOf(user_gender));
         new HttpFunction(this).httpPost(CommonUrlConfig.UserInformationEdit, map, httpCallback);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
   <string name="app_name">Yeye Live</string>
   <!-- header -->
   <string name="empty_header_str"></string>
@@ -8,7 +9,7 @@
   <string name="login_password_hint">Password</string>
   <string name="login_title">Login</string>
   <string name="login_quick">Quick Login</string>
-  <string name="login_forgot_pwd">Fogot Password?</string>
+  <string name="login_forgot_pwd">Forget Password?</string>
   <string name="title_activity_select_address">Region</string>
   <string name="login_suc">Login Successfully</string>
   <string name="login_faild">Login Failed</string>
@@ -19,7 +20,7 @@
   <string name="user_female">Female</string>
   <string name="user_name">Nickname</string>
   <string name="user_name_hint">Nickname</string>
-  <string name="user_sex_prompt">Gender CAN NOT change after choosed</string>
+  <string name="user_sex_prompt">Gender CAN NOT change after choose</string>
   <string name="camera">Camera</string>
   <string name="album">Album</string>
   <string name="upload_photo_error">Photo Upload Failed</string>
@@ -27,7 +28,7 @@
   <string name="phone_login_input_phone">Phone Number</string>
   <string name="phone_login_input_code">Verify Code</string>
   <string name="phone_login_send_code">Send Verify Code</string>
-  <string name="phone_login_retry_send" formatted="false">Resend(%s)</string>
+  <string name="phone_login_retry_send" formatted="false">Resend</string>
   <string name="phone_login_title">Login By Phone</string>
   <string name="phone_login_country_area">Country</string>
   <string name="phone_login_next_step">Next</string>
@@ -35,7 +36,7 @@
   <string name="phone_login_default_country_area_num">60</string>
   <string name="phone_login_illegal_phone">Invalid Phone Number</string>
   <string name="phone_login_area_prefix">+</string>
-
+  <!--选择国家-->
   <string name="select_country">Select Country</string>
   <string name="select_country_search">Search</string>
   <!-- button-->
@@ -66,7 +67,7 @@
   <string name="button_Reconnection">Reconnect</string>
   <string name="reply">Reply</string>
   <string name="moment_details">Comment</string>
-  <string name="moment">Squre</string>
+  <string name="moment">Square</string>
   <string name="comment">Comment</string>
   <string name="people">He/She</string>
   <string name="just">Just Now</string>
@@ -91,17 +92,17 @@
   <string name="successfully_posted_post">Post ID: %1$s</string>
   <string name="error">Error</string>
   <string name="clear">Clear</string>
-
+  <!---主页-->
   <string name="live_hot">Popular</string>
   <string name="live_follow">Following</string>
   <string name="title_activity_start_live">StartLiveActivity</string>
   <string name="live_hot_default_area">From Yeye Live</string>
-
+  <!--通知栏-->
   <string name="notify_default_title">New Message</string>
   <string name="notify_default_message">New Message</string>
   <string name="notify_default_ticker">new Massage</string>
   <string name="notify_live_content">%s is on Live now!</string>
-
+  <!--搜索-->
   <string name="search_hint">Search User Name or ID</string>
   <string name="search_nick_name">Nickname</string>
   <string name="search_intimacy">Fan Intimacy</string>
@@ -109,21 +110,21 @@
   <string name="search_attention">Follow</string>
   <string name="search_pull_blacklist">Blacklist</string>
   <string name="search_report">Report</string>
-  <string name="formatted_1" formatted="false">Send You：%</string>
+  <string name="formatted_1" formatted="false">Send You：%s</string>
   <string name="formatted_2" formatted="false">I am %s Welcome to my Program.</string>
   <string name="gift_code1012">Your coins is not enough.</string>
-
+  <!--我的-->
   <string name="attention">Following</string>
   <string name="fans">Followed</string>
-  <string name="diamond">My Coins</string>
+  <string name="diamond">My Diamond</string>
   <string name="setting">Setting</string>
   <string name="exit">Exit</string>
   <string name="intimacy">Intimacy</string>
   <string name="ID">ID:</string>
-  <string name="default_sign">There is no sighature from this user.</string>
-
-  <string name="pay_success">Purchace Successfully</string>
-  <string name="pay_fail">Purchace Failed</string>
+  <string name="default_sign">There is no signature from this user.</string>
+  <!--充值-->
+  <string name="pay_success">Purchase Successfully</string>
+  <string name="pay_fail">Purchase Failed</string>
   <string name="pay_cancel">Payment Cancel</string>
   <string name="pay_deny">Payment Rejected</string>
   <string name="pay_unknown">Payment Back</string>
@@ -133,20 +134,22 @@
   <string name="choice_amount">Payment Options</string>
   <string name="choice_way">Mode of Payment</string>
   <string name="text_desc">Notice: Please top up under a good network. Before payment done ,please do not proceed any other behavior.</string>
-
+  <!--个人信息-->
   <string name="userinfo_title">Personal Info</string>
   <string name="userinfo_edit_finish">Done</string>
   <string name="userinfo_user_header">Photo</string>
   <string name="userinfo_user_nickname">Nickname</string>
   <string name="userinfo_user_sign">Signature</string>
   <string name="userinfo_sign_unkonw">To be filled</string>
-
+  <string name="user_info_mail">Email</string>
+  <string name="user_info_mail_error">Email format error</string>
+  <!--设置-->
   <string name="setting_title">Setting</string>
   <string name="setting_live_notify">Notice of On Live</string>
-  <string name="setting_bind_qq">Connect with QQ</string>
-  <string name="setting_bind_weixin">Connect with Wechat</string>
-  <string name="setting_bind_phone">Bind with Phone</string>
-  <string name="setting_bind_facebook">Connect with Facebook</string>
+  <string name="setting_bind_qq">Connect to QQ</string>
+  <string name="setting_bind_weixin">Connect to Wechat</string>
+  <string name="setting_bind_phone">Link with Phone</string>
+  <string name="setting_bind_facebook">Connect to Facebook</string>
   <string name="setting_clear_cache">Clean Cache</string>
   <string name="setting_binded">Connected</string>
   <string name="setting_go_bind">Note Connected</string>
@@ -156,17 +159,18 @@
   <string name="setting_bind_faild">Connect Failed</string>
   <string name="setting_bind_suc">Connect Successfully</string>
   <string name="setting_clear_cache_dialog">Clear Cache</string>
-
+  <!--关于我们-->
   <string name="about_title">About Us</string>
   <string name="copyright">Copyright 2016</string>
   <string name="lisence_hint">Agreement of Broadcasting</string>
-  <string name="comp">Angela Technology Ltd,. Co.</string>
+  <string name="comp">Angela Technology Co., Limited</string>
   <string name="versionCode">Version</string>
   <string name="about_us_qq">Business Cooperation:yeyelivepartner@gmail.com</string>
   <string name="about_us_secret_sign">Title: Yeye Live Cooperation</string>
   <string name="lisence_title">User Agreement</string>
-
-  <string name="phone_bind_title">Connect with Phone</string>
+  <!--绑定-->
+  <!--手机绑定-->
+  <string name="phone_bind_title">Connect to Phone</string>
   <string name="phone_bind">Connect</string>
   <string name="phone_bind_suc">Phone Connected</string>
   <string name="phone_bind_faild">Phone Connected Failed</string>
@@ -176,7 +180,7 @@
   <string name="user_fans">Followed</string>
   <string name="txt_live_time" formatted="false">Live Time：%s</string>
   <string name="live_num">People Viewed</string>
-  <string name="live_coin">Coins Acquired</string>
+  <string name="live_coin">Diamond Acquired</string>
   <string name="back_home">Home Page</string>
   <string name="live_end">Live Show Ended</string>
   <string name="live_end_bg">Background of Live End</string>
@@ -189,10 +193,8 @@
   <string name="send">Send</string>
   <string name="recharge"><![CDATA[Top Up>]]></string>
   <string name="giftsend">Send</string>
-  <string name="send_people">Send to:</string>
-  <string name="send_people1">Send to:</string>
   <string name="user_name_input">Invalid Nickname</string>
-
+  <!--没有数据时候显示-->
   <string name="no_data_no_live">The performer is coming</string>
   <string name="no_data_no_live_hot">The performer is coming</string>
   <string name="no_data_watch_hot">Have a look the Popular Show</string>
@@ -210,10 +212,10 @@
   <string name="no_data_no_info">No info.</string>
   <string name="user_other">Other</string>
   <string name="upload_photo_suc">Screenshot Upload Successfully</string>
-
+  <!--黑名单-->
   <string name="blacklist_title">Blacklist</string>
   <string name="blacklist_delete">Remove from Blacklist</string>
-
+  <!--查看用户信息对话框-->
   <string name="userinfo_dialog_usernick">Nickname</string>
   <string name="userinfo_dialog_user_sign">Signature</string>
   <string name="userinfo_dialog_user_fans">Fans</string>
@@ -242,19 +244,19 @@
   <string name="room_net_toast_error">Your Network is Snapping.</string>
   <string name="not_weibo">You didn\'t install Weibo.</string>
   <string name="me_online">I\'m coming!</string>
-  <string name="not_font">No Priviledge</string>
+  <string name="not_font">No Privilege</string>
   <string name="me">Me</string>
   <string name="login_room_fail">Login Room Failed</string>
   <string name="please_select_gift_pople">Send to</string>
   <string name="please_input_text">Input the words</string>
-  <string name="traffic_alert">Are you sure to using Data Quata for Live Show?</string>
+  <string name="traffic_alert">Are you sure to using Data Quota for Live Show?</string>
   <string name="data_get_fail">Fail to Get Data.</string>
   <string name="fail">Failed</string>
   <!--banner-->
   <string name="banner_title">Promote</string>
   <string name="alipay_testing">Alipay is Under Testing</string>
   <string name="seting_newwork">Network Setting.</string>
-  <string name="not_newwork">You are\'t connect to Internet now.</string>
+  <string name="not_newwork">You aren\'t connected to Internet now.</string>
   <!--google play-->
   <string name="recharge_title">Top Up</string>
   <string name="server_require_faild">Please Try Again to Connect.</string>
@@ -264,7 +266,7 @@
   <string name="purchase_success">Purchase Successfully</string>
   <string name="cancel_purcase">Purchase Canceled</string>
   <string name="select_coin">Payment Option</string>
-  <string name="diamond_balance">Coins Balance</string>
+  <string name="diamond_balance">Diamond Balance</string>
   <string name="exchange_coin">Exchange to Coins</string>
   <string name="balance">Balance</string>
   <string name="recharge_unit">MYR </string>
@@ -276,7 +278,7 @@
   <string name="login_text_desc">Agreement of User</string>
   <string name="btn_login">Login</string>
   <string name="btn_login_facebook">Login by Facebook</string>
-  <string name="room_system_message" formatted="false">Bienvenido %s to enjoy Yeye Live!</string>
+  <string name="room_system_message" formatted="false">Welcome %s，to Yeye Live!</string>
   <string name="share_to">Share to:</string>
   <string name="microom_code_1">User not find</string>
   <string name="microom_code_1001">Package Open Error</string>
@@ -285,9 +287,9 @@
   <string name="microom_code_1004">Room not Found</string>
   <string name="microom_code_1005">No More Microphone</string>
   <string name="microom_code_1006">Room is Full of Audiences</string>
-  <string name="microom_code_1007">Already entered but leave innormal</string>
+  <string name="microom_code_1007">Already entered but leave unusually</string>
   <string name="microom_code_1008">Forbidden to Talk</string>
-  <string name="microom_code_1009">No Priviledge</string>
+  <string name="microom_code_1009">No Privilege</string>
   <string name="microom_code_1010">Insufficient Balance</string>
   <string name="microom_code_1011">Kick Out</string>
   <string name="microom_code_1012">Coins not enough</string>
