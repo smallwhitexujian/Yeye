@@ -70,7 +70,7 @@ public class App extends Application {
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
     //test
-
+ //
     @Override
     public void onCreate() {
         super.onCreate();
