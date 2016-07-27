@@ -69,10 +69,6 @@ public class App extends Application {
     public static final String LIVE_HOST = "LIVE"; //直播者
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
-    //facebook 分享
-    public static String shareTitle = "Tempat Nongkrong Favorit Gue";
-    public static String shareContent = "Gue punya Room di nih guys, mampir yuk ke Room gue. Kita bisa nongkrong dan ngobrol di. Download di : goo.gl/ExzX9I";
-    public static String shareURL = "http://sharetest.vvago.com/Share/Download";
 
     @Override
     public void onCreate() {
