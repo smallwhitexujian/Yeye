@@ -1,6 +1,4 @@
 package com.will.view.indexview;
-
-
 import java.util.Comparator;
 
 public class PinyinComparator implements Comparator<Object> {
