@@ -15,12 +15,12 @@ import java.lang.ref.WeakReference;
 public class CommonHandler<T extends CommonDoHandler> extends Handler{
     private final WeakReference<T> mT;
     public CommonHandler(T t) {
-        mT = new WeakReference(t);
+        mT = new WeakReference<>(t);
     }
 
     public CommonHandler(T t, Looper looper){
         super(looper);
-        mT = new WeakReference(t);
+        mT = new WeakReference<>(t);
     }
 
     @Override
