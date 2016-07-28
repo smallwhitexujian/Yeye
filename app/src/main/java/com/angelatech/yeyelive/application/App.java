@@ -81,7 +81,7 @@ public class App extends Application {
             dirs.add(FILEPATH_CAMERA);
             dirs.add(FILEPATH_VOICE_RECORD);
         }
-        //mAppInterface.initThirdPlugin(this);
+
         mAppInterface.initDir(dirs);
         mAppInterface.initDB(this, "yeye.db", 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
