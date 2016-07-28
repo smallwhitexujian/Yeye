@@ -19,9 +19,12 @@ import com.angelatech.yeyelive.model.CountrySelectItemModel;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive .R;
 import com.will.view.indexview.ChineseToEnglish;
+import com.will.view.indexview.PingYinUtil;
+import com.will.view.indexview.PinyinComparator;
 import com.will.view.indexview.SideBarView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -128,22 +131,25 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
             }
         }
 
-        for (String str : countryArea) {
-            try {
+        Arrays.sort(countryArea,new PinyinComparator());
+        for(String str:countryArea){
+            try{
                 String[] strAry = str.split("\\+");
                 CountrySelectItemModel data = new CountrySelectItemModel();
                 data.country = strAry[0];
-                data.num = strAry[1];
-                String firstSpell = ChineseToEnglish.getFirstSpell(strAry[0]);
+                data.num = "+"+strAry[1];
+                //                String firstSpell = ChineseToEnglish.getFirstSpell(strAry[0]);
+                String firstSpell = PingYinUtil.getPingYin(strAry[0]);
                 String substring = firstSpell.substring(0, 1).toUpperCase();
                 if (substring.matches("[A-Za-z]")) {
                     data.letter = substring;
                 } else {
-                    data.letter = "D";
+                    data.letter = "#";
                 }
                 datas.add(data);
-            } catch (Exception e) {
+            }catch (Exception e){
                 e.printStackTrace();
+
             }
         }
     }
