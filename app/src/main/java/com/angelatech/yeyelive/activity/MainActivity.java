@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive.activity;
 
-import android.content.BroadcastReceiver;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,20 +16,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.SimpleFragmentPagerAdapter;
+import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.LeftFragment;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
-import com.angelatech.yeyelive.receiver.NetworkReceiver;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.SPreferencesTool;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.roomSoundState;
 import com.facebook.datasource.DataSource;
@@ -41,10 +43,6 @@ import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.view.DisplayTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
-import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.function.MainEnter;
-import com.angelatech.yeyelive.adapter.ViewHolder;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +51,7 @@ import java.util.Map;
 public class MainActivity extends BaseActivity {
     public final int MSG_SUCC = 1;
     public final int MSG_ERR = -1;
-    private BroadcastReceiver receiver;
+
     private List<Map> roomListData = new ArrayList<>();
     private BasicUserInfoDBModel userModel;
     private SlidingMenu Slidmenu;
@@ -80,15 +78,6 @@ public class MainActivity extends BaseActivity {
         roomSoundState roomsoundState = roomSoundState.getInstance();
         roomsoundState.init(this);
         initMenu();
-        receiver = new NetworkReceiver(new NetworkReceiver.NetWorkHandler() {
-            @Override
-            public void onActive(int networkType) {
-            }
-
-            @Override
-            public void onInactive() {
-            }
-        });
     }
 
     @Override
@@ -260,8 +249,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
             case R.id.img_live:
                 RoomModel roomModel = new RoomModel();
@@ -316,7 +303,6 @@ public class MainActivity extends BaseActivity {
         followTab.setTextSize(textSize);
     }
 
-
     /**
      * 初始化菜单选项
      */
@@ -351,7 +337,6 @@ public class MainActivity extends BaseActivity {
         });
         leftFragment = new LeftFragment();
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
-
     }
 
     public MainEnter getMainEnter() {

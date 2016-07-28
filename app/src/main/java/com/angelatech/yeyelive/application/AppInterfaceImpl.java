@@ -57,5 +57,4 @@ public class AppInterfaceImpl implements AppInterface {
         App.sDatabaseHelper = DatabaseHelper.open(context);
     }
 
-
 }

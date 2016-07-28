@@ -86,10 +86,10 @@ public class App extends Application {
         mAppInterface.initDir(dirs);
         mAppInterface.initDB(this, DBConfig.DB_NAME, 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
-
+        mAppInterface.initThirdPlugin(this);
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
-        // AppEventsLogger.activateApp(this);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         try {
