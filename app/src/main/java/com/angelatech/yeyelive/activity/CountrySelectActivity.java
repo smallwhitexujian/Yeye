@@ -149,6 +149,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 datas.add(data);
             }catch (Exception e){
                 e.printStackTrace();
+
             }
         }
     }
