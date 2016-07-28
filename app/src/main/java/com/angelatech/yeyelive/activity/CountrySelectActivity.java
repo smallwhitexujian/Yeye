@@ -137,7 +137,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 String[] strAry = str.split("\\+");
                 CountrySelectItemModel data = new CountrySelectItemModel();
                 data.country = strAry[0];
-                data.num = "+"+strAry[1];
+                data.num = strAry[1];
                 //                String firstSpell = ChineseToEnglish.getFirstSpell(strAry[0]);
                 String firstSpell = PingYinUtil.getPingYin(strAry[0]);
                 String substring = firstSpell.substring(0, 1).toUpperCase();
