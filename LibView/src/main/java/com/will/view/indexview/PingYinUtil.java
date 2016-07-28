@@ -11,7 +11,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 public class PingYinUtil {
 
-	public static String getPingYin(String inputString) {
+public static String getPingYin(String inputString) {
 		HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
 		format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
 		format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
