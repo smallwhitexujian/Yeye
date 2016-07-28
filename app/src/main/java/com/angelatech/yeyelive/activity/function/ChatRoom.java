@@ -47,8 +47,8 @@ public class ChatRoom extends HttpFunction {
      * @param context
      */
     public static void enterHookChatRoom(Context context) {
-        if (App.chatroomApplication != null) {
-            Intent intent = new Intent(context, App.chatroomApplication.getClass());
+        if (App.chatRoomApplication != null) {
+            Intent intent = new Intent(context, App.chatRoomApplication.getClass());
             context.startActivity(intent);
         }
     }
@@ -57,9 +57,9 @@ public class ChatRoom extends HttpFunction {
      * 退出房间
      */
     public static void closeChatRoom() {
-        if (App.chatroomApplication != null) {
+        if (App.chatRoomApplication != null) {
             try {
-                App.chatroomApplication.finish();
+                App.chatRoomApplication.finish();
                 Thread.sleep(400);
             } catch (InterruptedException e) {
                 e.printStackTrace();

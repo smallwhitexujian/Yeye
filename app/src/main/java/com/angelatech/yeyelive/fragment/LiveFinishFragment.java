@@ -106,7 +106,7 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_close:
                 dismiss();
-                App.chatroomApplication.finish();
+                App.chatRoomApplication.finish();
                 break;
         }
     }

@@ -117,7 +117,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         setContentView(R.layout.activity_chat_room);
         initView();
         findView();
-        App.chatroomApplication = this;
+        App.chatRoomApplication = this;
     }
 
     private void initView() {

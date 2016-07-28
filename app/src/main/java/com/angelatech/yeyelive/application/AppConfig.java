@@ -1,6 +1,4 @@
-package com.angelatech.yeyelive.application;/**
- * Created by jjfly on 16-6-15.
- */
+package com.angelatech.yeyelive.application;
 
 /**
  * Author: jjfly
@@ -24,6 +22,5 @@ public class AppConfig {
     //AppsFlyerLib
     public static final boolean APPSFLYER_TURE = false;//apps flyer 开关（默认关闭)
     public static final String APPSFLYER_KEY = "70567ec6-da70-48e3-ab54-29a1451b9e91";
-
 
 }

@@ -188,17 +188,6 @@
             </intent-filter>
         </service>
 
-
-        <!-- ActiveAndroid 数据库名称 -->
-        <meta-data
-            android:name="AA_DB_NAME"
-            android:value="yeye.db" />
-        <meta-data
-            android:name="AA_DB_VERSION"
-            android:value="10" />
-        <!-- ActiveAndroid 数据库版本控制 -->
-
-
         <!-- 接收微信的请求及返回值 -->
         <activity
             android:name=".wxapi.WXEntryActivity"

@@ -10,6 +10,7 @@ import android.support.multidex.MultiDex;
 import android.util.Base64;
 
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.db.DBConfig;
 import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
@@ -51,7 +52,7 @@ public class App extends Application {
 
     public static final ExecutorService pool = Executors.newFixedThreadPool(5);
 
-    public static ChatRoomActivity chatroomApplication = null;                      // 保持ChatRoom存在
+    public static ChatRoomActivity chatRoomApplication = null;                      // 保持ChatRoom存在
     public static ArrayList<ChatLineModel> mChatlines = new ArrayList<>();          // 房间数据存储
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
 
@@ -69,7 +70,7 @@ public class App extends Application {
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
     //test
- //
+    //
     @Override
     public void onCreate() {
         super.onCreate();
@@ -83,7 +84,7 @@ public class App extends Application {
         }
 
         mAppInterface.initDir(dirs);
-        mAppInterface.initDB(this, "yeye.db", 1);
+        mAppInterface.initDB(this, DBConfig.DB_NAME, 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
 
         screenWidth = ScreenUtils.getScreenWidth(this);
@@ -108,7 +109,7 @@ public class App extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        mAppInterface.destory();
+        mAppInterface.destroy();
     }
 
     @Override

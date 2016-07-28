@@ -574,14 +574,14 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 //                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //                //lp.setMargins(0, 0, 0, bottom - oldBottom );
 //                lp.setMargins(0, 0, 0, 0);
-//                App.chatroomApplication.viewPanel.setLayoutParams(lp);
+//                App.chatRoomApplication.viewPanel.setLayoutParams(lp);
             }
         } else if (bottom - oldBottom < 0) {
 
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(0, 0, 0, bottom - oldBottom);
-            App.chatroomApplication.viewPanel.setLayoutParams(lp);
+            App.chatRoomApplication.viewPanel.setLayoutParams(lp);
         }
     }
 
