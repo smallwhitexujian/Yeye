@@ -1,0 +1,12 @@
+*.gradle
+*.idea
+build
+script
+*.iml
+*.apk
+.bin
+.lock
+*.properties
+*.sh
+local.properties
+gradlew
