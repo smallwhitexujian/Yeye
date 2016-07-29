@@ -33,7 +33,7 @@ import java.util.List;
 public class CountrySelectActivity extends HeaderBaseActivity implements SideBarView.LetterSelectListener {
 
     private final int MSG_SEARCH = 1;
-
+    private final int MSG_NOTIFY_ADAPTER = 2;
     private ListView listView;
     private CountrySelectAdapter countrySelectAdapter;
     private List<CountrySelectItemModel> datas = new ArrayList<>();
@@ -86,8 +86,10 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
             }
         });
 
+        String[] countryArea = getResources().getStringArray(R.array.country_area);
+        String[] firstCountryArea = getResources().getStringArray(R.array.first_country_area);
+        loadArray(countryArea,firstCountryArea);
 
-        loadArray();
         countrySelectAdapter = new CountrySelectAdapter(CountrySelectActivity.this, datas);
         listView.setAdapter(countrySelectAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,44 +116,47 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
 
 
     //获取二维数组
-    private void loadArray() {
-        String[] countryArea = getResources().getStringArray(R.array.country_area);
-        String[] firstCountryArea = getResources().getStringArray(R.array.first_country_area);
-
-        for (String str : firstCountryArea) {
-            try {
-                String[] strAry = str.split("\\+");
-                CountrySelectItemModel data = new CountrySelectItemModel();
-                data.country = strAry[0];
-                data.num = strAry[1];
-                data.letter = "#";
-                datas.add(data);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        Arrays.sort(countryArea,new PinyinComparator());
-        for(String str:countryArea){
-            try{
-                String[] strAry = str.split("\\+");
-                CountrySelectItemModel data = new CountrySelectItemModel();
-                data.country = strAry[0];
-                data.num = strAry[1];
-                //                String firstSpell = ChineseToEnglish.getFirstSpell(strAry[0]);
-                String firstSpell = PingYinUtil.getPingYin(strAry[0]);
-                String substring = firstSpell.substring(0, 1).toUpperCase();
-                if (substring.matches("[A-Za-z]")) {
-                    data.letter = substring;
-                } else {
-                    data.letter = "#";
+    private void loadArray(final String[] countryArea,final String[] firstCountryArea) {
+        backgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (String str : firstCountryArea) {
+                    try {
+                        String[] strAry = str.split("\\+");
+                        CountrySelectItemModel data = new CountrySelectItemModel();
+                        data.country = strAry[0];
+                        data.num = strAry[1];
+                        data.letter = "#";
+                        datas.add(data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                datas.add(data);
-            }catch (Exception e){
-                e.printStackTrace();
 
+                Arrays.sort(countryArea,new PinyinComparator());
+                for(String str:countryArea){
+                    try{
+                        String[] strAry = str.split("\\+");
+                        CountrySelectItemModel data = new CountrySelectItemModel();
+                        data.country = strAry[0];
+                        data.num = strAry[1];
+                        //                String firstSpell = ChineseToEnglish.getFirstSpell(strAry[0]);
+                        String firstSpell = PingYinUtil.getPingYin(strAry[0]);
+                        String substring = firstSpell.substring(0, 1).toUpperCase();
+                        if (substring.matches("[A-Za-z]")) {
+                            data.letter = substring;
+                        } else {
+                            data.letter = "#";
+                        }
+                        datas.add(data);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                }
+                uiHandler.obtainMessage(MSG_NOTIFY_ADAPTER).sendToTarget();
             }
-        }
+        });
     }
 
     @Override
@@ -161,6 +166,9 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 String firstSpell = ChineseToEnglish.getFirstSpell((String) msg.obj);
                 String substring = firstSpell.substring(0, 1).toUpperCase();
                 setListViewPosition(substring);
+                break;
+            case MSG_NOTIFY_ADAPTER:
+                countrySelectAdapter.notifyDataSetChanged();
                 break;
         }
 
