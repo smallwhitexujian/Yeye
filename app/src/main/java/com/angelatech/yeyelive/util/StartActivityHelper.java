@@ -14,8 +14,6 @@ import java.io.Serializable;
  */
 public class StartActivityHelper {
 
-
-
     public static void jumpActivityDefault(Context context,Class<? extends Activity> activityClass){
         Intent intent = new Intent(context,activityClass);
         context.startActivity(intent);

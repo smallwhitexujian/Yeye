@@ -152,7 +152,7 @@ public class RoomModel implements Serializable {
     private String level;
     private String ip;
     private String rtmpip;
-    private String rtmpwatchaddress;
+    private String rtmpwatchaddress; //观看视频地址
     private int port;
     private String heatDay;
     private int likenum;

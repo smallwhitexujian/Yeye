@@ -55,6 +55,50 @@
             android:layout_marginBottom="10dp"
             android:background="@color/color_grey_d5" />
 
+        <!--修改密码-->
+        <LinearLayout
+            android:id="@+id/layout_change_password"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:text="@string/change_password"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_change_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/color_a6a6a6"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@null"
+                android:src="@drawable/btn_next" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+
         <!--绑定手机-->
         <LinearLayout
             android:id="@+id/bind_phone_layout"

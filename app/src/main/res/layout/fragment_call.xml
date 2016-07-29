@@ -63,6 +63,13 @@
             android:textSize="10sp"
             android:visibility="gone" />
 
+        <!--<com.angelatech.yeyelive.view.Barrage.BarrageView-->
+            <!--android:id="@+id/containerView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="5"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--/>-->
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"

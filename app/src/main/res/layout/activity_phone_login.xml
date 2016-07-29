@@ -173,6 +173,6 @@
         android:gravity="center"
         android:text="@string/phone_login_next_step"
         android:textColor="@color/color_222222"
-        android:textSize="16dp"/>
+        android:textSize="16sp"/>
 
 </LinearLayout>

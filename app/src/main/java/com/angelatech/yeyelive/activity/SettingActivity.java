@@ -31,7 +31,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.widget.LoginButton;
 import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.qqapi.QQModel;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -56,10 +56,10 @@ public class SettingActivity extends HeaderBaseActivity {
     private ProfileTracker profileTracker;
     private LoginButton loginButton;
 
-    private TextView bindQQ, bindPhone, bindWeichat, bind_facebook;
+    private TextView bindQQ, bindPhone, bindWeichat, bind_facebook, tv_change_password;
     private LinearLayout bindQQLayout, bindPhoneLayout,
             bindWeichatLayout, clearCacheLayout,
-            feedbackLayout, aboutLayout, blacklistLayout;
+            feedbackLayout, aboutLayout, blacklistLayout, layout_change_password;
 
     private HttpFunction settingFunction = new HttpFunction(SettingActivity.this);
     private BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
@@ -110,7 +110,7 @@ public class SettingActivity extends HeaderBaseActivity {
         bindWeichat = (TextView) findViewById(R.id.bind_weichat);
         bindWeichatLayout = (LinearLayout) findViewById(R.id.bind_weichat_layout);
 
-        bind_facebook= (TextView) findViewById(R.id.bind_facebook);
+        bind_facebook = (TextView) findViewById(R.id.bind_facebook);
 
         clearCacheLayout = (LinearLayout) findViewById(R.id.clear_cache_layout);
 
@@ -119,6 +119,8 @@ public class SettingActivity extends HeaderBaseActivity {
         aboutLayout = (LinearLayout) findViewById(R.id.about_us_layout);
 
         blacklistLayout = (LinearLayout) findViewById(R.id.blacklist_layout);
+
+        layout_change_password = (LinearLayout) findViewById(R.id.layout_change_password);
 
         loginButton = (LoginButton) findViewById(R.id.facebook_login);
     }
@@ -132,6 +134,7 @@ public class SettingActivity extends HeaderBaseActivity {
         feedbackLayout.setOnClickListener(this);
         aboutLayout.setOnClickListener(this);
         blacklistLayout.setOnClickListener(this);
+        layout_change_password.setOnClickListener(this);
         callbackManager = FbProxy.init();
         new LoginManager(this, loginButton, uiHandler).login(LoginManager.LoginType.FACE_BOOK);
     }
@@ -174,6 +177,9 @@ public class SettingActivity extends HeaderBaseActivity {
                     }
                 };
                 commDialog.CommDialog(this, getString(R.string.setting_clear_cache_dialog), true, callback);
+                break;
+            case R.id.layout_change_password:
+                startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;
         }
     }
@@ -224,7 +230,7 @@ public class SettingActivity extends HeaderBaseActivity {
             @Override
             public void onSuccess(String response) {
                 Map map = JsonUtil.fromJson(response, Map.class);
-                if(map == null){
+                if (map == null) {
                     //服务器异常
                     return;
                 }

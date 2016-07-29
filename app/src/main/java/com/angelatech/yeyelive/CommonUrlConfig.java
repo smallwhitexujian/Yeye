@@ -77,7 +77,7 @@ public class CommonUrlConfig {
      * 首页
      */
     //热门
-    //public static String LiveVideoHot = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoHot";
+    public static String LiveVideoHot = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoHot";
 
     //播放列表
     public static String LiveVideoList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/LiveVideoHotM";
@@ -96,10 +96,13 @@ public class CommonUrlConfig {
      */
     //礼物
     public static String PropList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/PropList";
-    //开播信息
-    public static String LiveVideoBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoBroadcast";
+    //开播 存储web服务器
+    private static String LiveVideoWebBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoBroadcast";
     //开播 存储七牛
-    public static String LiveVideoQNBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveQiVideoBroadcast";
+    private static String LiveVideoQNBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveQiVideoBroadcast";
+
+    public static String LiveVideoBroadcast = App.isQiNiu ? LiveVideoQNBroadcast : LiveVideoWebBroadcast;
+
     //关注
     public static String UserFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserFollow";
     //查询关注状态
@@ -132,4 +135,6 @@ public class CommonUrlConfig {
     public static String RechargeOrder = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Recharge/RechargeOrder";
     //充值接口
     public static String UserBill = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Recharge/TransactionDetails";
+    //修改密码
+    public static String ChangePassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "";
 }

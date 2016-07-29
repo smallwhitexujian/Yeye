@@ -772,7 +772,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             @Override
             public void run() {
                 // roomModel.setRtmpip("rtmp://pili-publish.ps.qiniucdn.com/NIU7PS/0601d-test?key=efdbc36f-8759-44c2-bdd8-873521b6724a");
-                MediaCenter.startLive(roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
+                MediaCenter.startLive(roomModel.getRtmpip(), ChatRoomActivity.this);
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
                     fragmentPagerAdapter.setFragmentsList(callFragment);

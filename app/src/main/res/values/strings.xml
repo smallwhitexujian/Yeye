@@ -30,7 +30,7 @@
     <string name="phone_login_input_phone">Phone Number</string>
     <string name="phone_login_input_code">Verify Code</string>
     <string name="phone_login_send_code">Send Verify Code</string>
-    <string name="phone_login_retry_send" formatted="false">Resend</string>
+    <string name="phone_login_retry_send" formatted="false">Resend(%s)</string>
     <string name="phone_login_title">Login By Phone</string>
     <string name="phone_login_country_area">Country</string>
     <string name="phone_login_next_step">Next</string>
@@ -320,4 +320,9 @@
     <string name="report_prompt">确认举报该视频吗？</string>
     <string name="report_repeat">已经举报过了</string>
     <string name="restart_play">重新播放</string>
+    <string name="change_password">修改密码</string>
+    <string name="old_password">原密码</string>
+    <string name="new_password">新密码</string>
+    <string name="confirm_changes">确认修改</string>
+    <string name="can_not_empty">密码不能为空</string>
 </resources>
