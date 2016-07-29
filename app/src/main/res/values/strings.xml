@@ -311,4 +311,13 @@
 
     <string name="setting_exit_dialog">Are you sure to logout？</string>
     <string name="share_title">I am performing in Yeye Live, Come on!</string>
+
+    <string name="text_line_desc_now">人在看</string>
+    <string name="text_line_desc_already">人看过</string>
+    <string name="play_finish">播放结束</string>
+    <string name="re_play">再看一次</string>
+    <string name="play_stop">停止</string>
+    <string name="report_prompt">确认举报该视频吗？</string>
+    <string name="report_repeat">已经举报过了</string>
+    <string name="restart_play">重新播放</string>
 </resources>

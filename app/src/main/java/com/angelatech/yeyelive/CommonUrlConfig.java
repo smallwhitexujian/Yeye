@@ -31,7 +31,7 @@ public class CommonUrlConfig {
 
     public static String facebookLogin = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginFb";
 
-    public static String facebookLogin_vsrsion_2 = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginFbV1";
+    public static String facebookLogin_version_2 = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginFbV1";
 
     /**
      * 账户绑定
@@ -77,10 +77,19 @@ public class CommonUrlConfig {
      * 首页
      */
     //热门
-    public static String LiveVideoHot = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoHot";
+    //public static String LiveVideoHot = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoHot";
+
+    //播放列表
+    public static String LiveVideoList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/LiveVideoHotM";
     //关注
     public static String LiveVideoFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoFollow";
     //房间详细列表
+
+    //录像点击次数
+    public static String ClickToWatch = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/ClickToWatch";
+
+    //保存视频
+    public static String LiveQiSaveVideo = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveQiSaveVideo";
 
     /**
      * 房间
@@ -89,6 +98,8 @@ public class CommonUrlConfig {
     public static String PropList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/PropList";
     //开播信息
     public static String LiveVideoBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoBroadcast";
+    //开播 存储七牛
+    public static String LiveVideoQNBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveQiVideoBroadcast";
     //关注
     public static String UserFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserFollow";
     //查询关注状态

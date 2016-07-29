@@ -39,7 +39,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             String followTab = context.getString(R.string.live_follow);
             tabTitles.add(hotTab);
             tabTitles.add(followTab);
-            fragments.put(hotTab, new LiveVideoHotFragment(CommonUrlConfig.LiveVideoHot));
+            fragments.put(hotTab, new LiveVideoHotFragment(CommonUrlConfig.LiveVideoList));
             fragments.put(followTab, new LiveVideoHotFragment(CommonUrlConfig.LiveVideoFollow));
         }
     }
@@ -54,7 +54,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             if (fragment != null) {
                 return fragment;
             }
-            return new LiveVideoHotFragment(CommonUrlConfig.LiveVideoHot);
+            return new LiveVideoHotFragment(CommonUrlConfig.LiveVideoList);
         } else {
             if (fragment != null) {
                 return fragment;

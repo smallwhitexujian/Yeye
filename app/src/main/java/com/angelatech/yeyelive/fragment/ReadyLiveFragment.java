@@ -32,8 +32,9 @@ import com.angelatech.yeyelive.util.LocationMap.GpsTracker;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.datasource.DataSource;
-import com.will.common.log.DebugLogs;
+import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -246,6 +247,8 @@ public class ReadyLiveFragment extends BaseFragment {
                         ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
                         ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
                         ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
+                        ChatRoomActivity.roomModel.setLiveid(jsonData.getString("liveid"));
+                        ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
                     } else {
                         ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
                     }
@@ -281,19 +284,19 @@ public class ReadyLiveFragment extends BaseFragment {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
-                DebugLogs.e("=========获得直播数据失败了=====");
             }
 
             @Override
             public void onSuccess(String response) {
-                DebugLogs.e("response--------" + response);
-                Message msg = new Message();
-                msg.what = START_LIVE_CODE;
-                msg.obj = response;
-                fragmentHandler.sendMessage(msg);
+                Map map = JsonUtil.fromJson(response, Map.class);
+                if (HttpFunction.isSuc((String) map.get("code"))) {
+                    fragmentHandler.obtainMessage(START_LIVE_CODE, response).sendToTarget();
+                } else {
+                    onBusinessFaild((String) map.get("code"));
+                }
             }
         };
-        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, CacheDataManager.getInstance().loadUser(), title, area, callback);
+        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoQNBroadcast, CacheDataManager.getInstance().loadUser(), title, area, callback);
     }
 
     @Override

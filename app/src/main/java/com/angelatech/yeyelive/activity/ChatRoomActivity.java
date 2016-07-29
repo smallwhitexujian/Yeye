@@ -231,6 +231,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     serviceManager.downMic();
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
+                    if ((DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
+                        LiveQiSaveVideo();
+                    }
                 } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                     //收起键盘
                     readyLiveFragment.closekeybord();
@@ -246,6 +249,25 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 commDialog.CommDialog(ChatRoomActivity.this, getString(R.string.finish_room), true, callback);
             }
         }
+    }
+
+    /**
+     * 保存直播视频
+     */
+    private void LiveQiSaveVideo() {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                DebugLogs.e("=========response=====保存录像失败");
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                DebugLogs.e("=========response=====保存录像" + response);
+            }
+        };
+        ChatRoom chatRoom = new ChatRoom(ChatRoomActivity.this);
+        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), callback);
     }
 
 

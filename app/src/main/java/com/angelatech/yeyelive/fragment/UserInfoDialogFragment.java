@@ -28,6 +28,7 @@ import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -267,7 +268,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                                     public void onSuccess(String response) {
                                         Map map = JsonUtil.fromJson(response,Map.class);
                                         if (map != null) {
-                                            if(userInfoDialog.isSuc((String) map.get("code"))){
+                                            if(HttpFunction.isSuc((String) map.get("code"))){
                                                 uiHandler.obtainMessage(MSG_PULL_BLACKLIST_SUC).sendToTarget();
                                             }
                                             else{
@@ -294,7 +295,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                                     @Override
                                     public void onSuccess(String response) {
                                         Map map = JsonUtil.fromJson(response,Map.class);
-                                        if (map != null && userInfoDialog.isSuc((String) map.get("code"))) {
+                                        if (map != null && HttpFunction.isSuc((String) map.get("code"))) {
                                             uiHandler.obtainMessage(MSG_REPORT_SUC).sendToTarget();
                                         }
                                     }
@@ -375,7 +376,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 CommonListResult<BasicUserInfoDBModel> results = JsonUtil.fromJson(response, new TypeToken<CommonListResult<BasicUserInfoDBModel>>() {
                 }.getType());
                 if (results != null) {
-                    if(userInfoDialog.isSuc(results.code)){
+                    if(HttpFunction.isSuc(results.code)){
                         if (results.hasData()) {
                             uiHandler.obtainMessage(MSG_LOAD_SUC, results.data.get(0)).sendToTarget();
                         }

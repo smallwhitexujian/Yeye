@@ -25,10 +25,14 @@ public class MainEnter extends HttpFunction {
     /**
      * 获取所有的房间列表
      */
-    public void loadRoomList(String url, String userid, String token, int pageIndex, int pagesize, long time, HttpBusinessCallback callback) {
+    public void loadRoomList(String url, BasicUserInfoDBModel userInfo,int pageIndex, int pagesize, long time, int type, HttpBusinessCallback callback) {
+        if (userInfo == null || callback == null) {
+            return;
+        }
         Map<String, String> params = new HashMap<>();
-        params.put("userid", userid);
-        params.put("token", token);
+        params.put("userid", userInfo.userid);
+        params.put("token", userInfo.token);
+        params.put("type", String.valueOf(type));
         if (time > 0) {
             params.put("datesort", "" + time);
         }
@@ -36,6 +40,7 @@ public class MainEnter extends HttpFunction {
         params.put("pagesize", pagesize + "");
         httpGet(url, params, callback);
     }
+
 
     /**
      * 获取所有的房间列表

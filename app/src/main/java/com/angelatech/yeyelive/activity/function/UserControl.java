@@ -17,9 +17,9 @@ public class UserControl extends HttpFunction {
     public static final int PULL_TO_BLACKLIST  = 2;
     //取消拉黑
     public static final int REMOVE_FROM_BLACKLIST = 3;
+    public static final int SOURCE_REPORT = 1;//默认 举报个人
+    public static final int SOURCE_REPORT_VIDEO = 2;  //举报视频
 
-
-    public static final int SOURCE_REPORT = 0;//默认
 
     public UserControl(Context context){
         super(context);

@@ -8,6 +8,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="color_262626">#262626</color>
     <color name="color_theme">#36bcf1</color>
     <color name="top_title">#000000</color>
     <color name="color_hint_text">#bcbcbc</color>
@@ -109,7 +110,6 @@
     <color name="color_fefefe">#FEFEFE</color>
 
 
-
     <!--选择国家-->
     <color name="normal">#eae8e8</color>
     <color name="press">#bcb2b2</color>
@@ -122,8 +122,10 @@
     <color name="color_90ffffff">#90FFFFFF</color>
     <color name="color_ff7214">#FF7214</color>
     <color name="color_728bcd">#728BCD</color>
-    
+    <color name="color_fd836a">#FD836A</color>
     <color name="color_00c0ff">#00c0ff</color>
-
+    <color name="color_4D000000">#4D000000</color>
     <color name="color_d80c18">#D80C18</color>
+    <color name="color_ff262626">#FF262626</color>
+    <color name="color_ff999999">#FF999999</color>
 </resources>

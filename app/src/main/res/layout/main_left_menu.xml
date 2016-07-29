@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-
     <!--header-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -55,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text=""
             android:textColor="@color/color_000000"
             android:textSize="17sp" />
 
@@ -76,7 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
-        android:text=""
         android:textColor="@color/color_a6a6a6"
         android:textSize="12sp" />
 
@@ -87,7 +84,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
-        android:text=""
         android:textColor="@color/color_a6a6a6"
         android:textSize="12sp" />
 
@@ -102,7 +98,6 @@
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="签名"
         android:textColor="@color/color_222222"
         android:textSize="12sp" />
 

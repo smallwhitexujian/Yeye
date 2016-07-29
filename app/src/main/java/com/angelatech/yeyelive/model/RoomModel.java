@@ -122,14 +122,29 @@ public class RoomModel implements Serializable {
         return idx;
     }
 
-    public String getRtmpip() { return rtmpip; }
+    public String getRtmpip() {
+        return rtmpip;
+    }
 
-    public void setRtmpip(String Rtmpip) {  this.rtmpip = Rtmpip; }
+    public void setRtmpip(String Rtmpip) {
+        this.rtmpip = Rtmpip;
+    }
 
-    public String getRtmpwatchaddress() { return rtmpwatchaddress; }
+    public String getRtmpwatchaddress() {
+        return rtmpwatchaddress;
+    }
 
-    public void setRtmpwatchaddress(String rtmpwatchaddress) {  this.rtmpwatchaddress = rtmpwatchaddress; }
+    public void setRtmpwatchaddress(String rtmpwatchaddress) {
+        this.rtmpwatchaddress = rtmpwatchaddress;
+    }
 
+    public void setLiveid(String liveid) {
+        this.liveid = liveid;
+    }
+
+    public String getLiveid() {
+        return this.liveid;
+    }
 
     private String name;
     private int id;
@@ -146,4 +161,5 @@ public class RoomModel implements Serializable {
     private int livecoin = 0;
     private String livetime = "00:00:01";
     private BasicUserInfoDBModel userInfoDBModel;
+    private String liveid;
 }

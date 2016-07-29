@@ -70,7 +70,7 @@ public class Register extends Login {
         params.put("accesstoken", accessToken);
         params.put("deviceid", deviceid);
         params.put("sources", "2");
-        register(CommonUrlConfig.facebookLogin_vsrsion_2, params);
+        register(CommonUrlConfig.facebookLogin_version_2, params);
     }
 
     private void register(String url, HashMap<String, String> params) {

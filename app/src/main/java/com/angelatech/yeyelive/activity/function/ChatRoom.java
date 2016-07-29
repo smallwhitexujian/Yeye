@@ -111,4 +111,26 @@ public class ChatRoom extends HttpFunction {
         params.put("area", Encryption.utf8ToUnicode(area));
         httpGet(url, params, callback);
     }
+
+    /**
+     * 观看录播计数
+     */
+    public void ClickToWatch(String url, BasicUserInfoDBModel userInfo, String vid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userInfo.userid);
+        params.put("token", userInfo.token);
+        params.put("vid", vid);
+        httpGet(url, params, callback);
+    }
+
+    /**
+     * 保存直播录像
+     */
+    public void LiveQiSaveVideo(String url, BasicUserInfoDBModel userInfo, String liveid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userInfo.userid);
+        params.put("token", userInfo.token);
+        params.put("liveid", liveid);
+        httpGet(url, params, callback);
+    }
 }

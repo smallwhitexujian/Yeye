@@ -14,37 +14,41 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.LoginActivity;
+import com.angelatech.yeyelive.activity.MainActivity;
+import com.angelatech.yeyelive.activity.PlayActivity;
 import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
+import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.BannerModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
-import com.angelatech.yeyelive.model.LiveListItemModel;
+import com.angelatech.yeyelive.model.CommonVideoModel;
+import com.angelatech.yeyelive.model.LiveModel;
+import com.angelatech.yeyelive.model.LiveVideoModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.UserInfoModel;
+import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.banner.Banner;
+import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.Logger;
 import com.will.common.string.json.JsonUtil;
-import com.will.view.ToastUtils;
+import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
-import com.angelatech.yeyelive .R;
-import com.angelatech.yeyelive.activity.MainActivity;
-import com.angelatech.yeyelive.activity.function.MainEnter;
-import com.angelatech.yeyelive.adapter.ViewHolder;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.BannerModel;
-import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
-import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
-import com.angelatech.yeyelive.view.banner.BannerPoint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,29 +62,30 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     private final int DIVIDE = 999;
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_NO_DATA = 2;
-    private final int MSG_HAVE_DATA = 3;
     private final int MSG_SHOW_BANNER = 4;
-    private final int MSG_SET_ADAPTER = 5;
+    private final int MSG_ERROR = 6;
     private final int MSG_NO_MORE = 9;
+
     private View view;
     private ListView listView;
-    private CommonAdapter<LiveListItemModel> adapter;
-    private List<LiveListItemModel> dataList = new ArrayList<>();
-    private long dateSort;
-    private int pageIndex = 1;
-    private int pageSize = 5;
+    private CommonAdapter<LiveVideoModel> adapter;
+    private List<LiveVideoModel> datas = new ArrayList<>();
+    private long datesort;
+    private int pageindex = 1;
+    private int pagesize = 5;
+
     private volatile boolean IS_REFRESH = false;  //是否需要刷新
     private SwipyRefreshLayout swipyRefreshLayout;
-    private String liveUrl = CommonUrlConfig.LiveVideoHot;
-    private BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
+
+    private BasicUserInfoDBModel userInfo;
     private MainEnter mainEnter;
     private RelativeLayout noDataLayout;
-
+    private int result_type = 0;
     private final Object lock = new Object();
 
     @SuppressLint("ValidFragment")
     public LiveVideoHotFragment(String url) {
-        this.liveUrl = url;
+        String liveUrl = url;
     }
 
     public LiveVideoHotFragment() {
@@ -91,11 +96,15 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         view = inflater.inflate(R.layout.frame_live_video_hot, container, false);
         initView();
         setView();
-        freshLoad();
-        if (CommonUrlConfig.LiveVideoHot.equals(liveUrl)) {
-            loadBanner();
-        }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        freshLoad();
+        // adapter.notifyDataSetChanged();
+        listView.setSelection(0);
     }
 
     @Override
@@ -109,45 +118,61 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     }
 
     private void initView() {
+        userInfo = CacheDataManager.getInstance().loadUser();
+        if (userInfo == null) {
+            StartActivityHelper.jumpActivityDefault(getActivity(), LoginActivity.class);
+            return;
+        }
         swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
         listView = (ListView) view.findViewById(R.id.live_video_hot_list);
-        noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
 
-        adapter = new CommonAdapter<LiveListItemModel>(getActivity(), dataList, R.layout.item_live_list) {
+        noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
+        adapter = new CommonAdapter<LiveVideoModel>(getActivity(), datas, R.layout.item_live_list) {
             @Override
-            public void convert(ViewHolder helper, final LiveListItemModel item, int position) {
-                helper.setImageViewByImageLoader(R.id.user_face, item.headurl);
-                helper.setImageViewByImageLoader(R.id.live_cover, item.barcoverurl);
-                helper.setText(R.id.live_hot_num, getLimitNum(item.onlinenum));
-                helper.setText(R.id.user_nick, item.nickname);
-                if (item.area == null || "".equals(item.area)) {
-                    helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+            public void convert(ViewHolder helper, final LiveVideoModel item, int position) {
+                if (item.type == 1) {
+                    LiveModel liveModel = (LiveModel) item;
+                    helper.setImageResource(R.id.iv_line, R.drawable.icon_home_live_ing);
+                    helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl);
+                    helper.setImageViewByImageLoader(R.id.live_cover, liveModel.barcoverurl);
+                    helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
+                    helper.setText(R.id.user_nick, item.nickname);
+                    helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_now));
+                    if (item.area == null || "".equals(item.area)) {
+                        helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                    } else {
+                        helper.setText(R.id.area, item.area);
+                    }
+                    if (liveModel.introduce == null || "".equals(liveModel.introduce)) {
+                        helper.hideView(R.id.live_introduce);
+                    } else {
+                        helper.showView(R.id.live_introduce);
+                        helper.setText(R.id.live_introduce, liveModel.introduce);
+                    }
                 } else {
-                    helper.setText(R.id.area, item.area);
+                    VideoModel videoModel = (VideoModel) item;
+                    helper.setImageResource(R.id.iv_line, R.drawable.icon_home_play_back);
+                    helper.setImageViewByImageLoader(R.id.user_face, videoModel.headurl);
+                    helper.setImageViewByImageLoader(R.id.live_cover, videoModel.barcoverurl);
+                    helper.setText(R.id.live_hot_num, getLimitNum(videoModel.playnum));
+                    helper.setText(R.id.user_nick, item.nickname);
+                    helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_already));
+                    if (item.area == null || "".equals(item.area)) {
+                        helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                    } else {
+                        helper.setText(R.id.area, item.area);
+                    }
+                    if (videoModel.introduce == null || "".equals(videoModel.introduce)) {
+                        helper.hideView(R.id.live_introduce);
+                    } else {
+                        helper.showView(R.id.live_introduce);
+                        helper.setText(R.id.live_introduce, videoModel.introduce);
+                    }
                 }
-                if (item.introduce == null || "".equals(item.introduce)) {
-                    helper.hideView(R.id.live_introduce);
-                } else {
-                    helper.showView(R.id.live_introduce);
-                    helper.setText(R.id.live_introduce, item.introduce);
-                }
-                if (LiveListItemModel.LIVE_NOW.equals(item.livestate)) {
-                    helper.showView(R.id.live_anmi_layout);
-                    helper.startAnimationList(R.id.live_anim);
-                } else {
-                    helper.hideView(R.id.live_anmi_layout);
-                    helper.stopAnimationList(R.id.live_anim);
-                }
-                helper.setOnClick(R.id.user_face, new View.OnClickListener() {
+                helper.setOnClick(R.id.layout_bar, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UserInfoModel userInfoModel = new UserInfoModel();
-                        userInfoModel.userid = item.userid;
-                        userInfoModel.headurl = item.headurl;
-                        userInfoModel.nickname = item.nickname;
-                        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                        userInfoDialogFragment.setUserInfoModel(userInfoModel);
-                        userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+                        jumpUserInfo(item);
                     }
                 });
             }
@@ -155,27 +180,38 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         mainEnter = ((MainActivity) getActivity()).getMainEnter();
     }
 
+    private void jumpUserInfo(LiveVideoModel item) {
+        UserInfoModel userInfoModel = new UserInfoModel();
+        userInfoModel.userid = item.userid;
+        userInfoModel.headurl = item.headurl;
+        userInfoModel.nickname = item.nickname;
+        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+        userInfoDialogFragment.setUserInfoModel(userInfoModel);
+        userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+    }
+
     private void setView() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LiveListItemModel item = (LiveListItemModel) parent.getItemAtPosition(position);
-                RoomModel roomModel = new RoomModel();
-                roomModel.setId(Integer.parseInt(item.roomid));
-                roomModel.setName(item.introduce);
+                final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
 
-                roomModel.setIp(item.roomserverip.split(":")[0]);
-                roomModel.setPort(Integer.parseInt(item.roomserverip.split(":")[1]));
-                roomModel.setRtmpip(item.rtmpserverip);
+                if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
+                    CommDialog commDialog = new CommDialog();
+                    CommDialog.Callback callback = new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
+                        }
 
-                roomModel.setRoomType(App.LIVE_WATCH);
-                roomModel.setIdx(item.roomidx);
-                BasicUserInfoDBModel user = new BasicUserInfoDBModel();
-                user.userid = item.userid;
-                user.headurl = item.headurl;
-                user.nickname = item.nickname;
-                roomModel.setUserInfoDBModel(user);
-                ChatRoom.enterChatRoom(getActivity(), roomModel);
+                        @Override
+                        public void onOK() {
+                            startLive(item);
+                        }
+                    };
+                    commDialog.CommDialog(getActivity(), getString(R.string.traffic_alert), true, callback);
+                } else {
+                    startLive(item);
+                }
 
             }
         });
@@ -192,6 +228,29 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         noDataLayout.findViewById(R.id.no_data_icon).setOnClickListener(this);
     }
 
+    private void startLive(LiveVideoModel item) {
+        if (item.type == 1) {
+            LiveModel liveModel = (LiveModel) item;
+            RoomModel roomModel = new RoomModel();
+            roomModel.setId(Integer.parseInt(liveModel.roomid));
+            roomModel.setName(liveModel.introduce);
+            roomModel.setIp(liveModel.roomserverip.split(":")[0]);
+            roomModel.setPort(Integer.parseInt(liveModel.roomserverip.split(":")[1]));
+            roomModel.setRtmpip(liveModel.rtmpserverip);
+            roomModel.setRoomType(App.LIVE_WATCH);
+            roomModel.setIdx(liveModel.roomidx);
+            BasicUserInfoDBModel user = new BasicUserInfoDBModel();
+            user.userid = liveModel.userid;
+            user.headurl = liveModel.headurl;
+            user.nickname = liveModel.nickname;
+            roomModel.setUserInfoDBModel(user);
+
+            ChatRoom.enterChatRoom(getActivity(), roomModel);
+        } else {
+            //回放视频
+            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, (VideoModel) item);
+        }
+    }
 
     @Override
     public void doHandler(Message msg) {
@@ -203,9 +262,17 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                adapter.setData(dataList);
+                adapter.setData(datas);
                 adapter.notifyDataSetChanged();
                 noDataLayout.setVisibility(View.GONE);
+                break;
+            case MSG_ERROR:
+                swipyRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipyRefreshLayout.setRefreshing(false);
+                    }
+                });
                 break;
             case MSG_NO_DATA:
                 swipyRefreshLayout.post(new Runnable() {
@@ -214,10 +281,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                dataList.clear();
-                adapter.setData(dataList);
-                adapter.notifyDataSetChanged();
-                showNodataLayout();
+                noDataLayout.setVisibility(View.VISIBLE);
                 break;
             case MSG_NO_MORE:
                 swipyRefreshLayout.post(new Runnable() {
@@ -226,9 +290,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                if (!IS_REFRESH) {
-                    ToastUtils.showToast(getActivity(), R.string.no_data_no_info);
-                }
+
                 break;
             case MSG_SHOW_BANNER:
                 List<SimpleDraweeView> simpleDraweeViews = (List<SimpleDraweeView>) msg.obj;
@@ -238,12 +300,22 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
 
                 ViewPager viewPager = (ViewPager) banner.findViewById(R.id.viewpager);
                 LinearLayout pointGroup = (LinearLayout) banner.findViewById(R.id.point_group);
-                TextView tv_desc = (TextView) banner.findViewById(R.id.image_desc);
+                TextView desciption = (TextView) banner.findViewById(R.id.image_desc);
 
-                new BannerPoint(getActivity()).AddPoint(pointGroup, size);
+                for (int i = 0; i < size; i++) {
+                    view = new View(getActivity());
+                    view.setBackgroundResource(R.drawable.point_background);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
+                    params.leftMargin = 5;
+                    view.setEnabled(false);
+                    view.setLayoutParams(params);
+                    pointGroup.addView(view); // 向线性布局中添加“点”
+                    descriptions.add("");
+                }
+
                 // 初始化viewpager的默认position.MAX_value的一半
                 BannerOnPageChangeListener bannerOnPageChangeListener =
-                        new BannerOnPageChangeListener(viewPager, descriptions, tv_desc, pointGroup);
+                        new BannerOnPageChangeListener(viewPager, descriptions, desciption, pointGroup);
                 viewPager.addOnPageChangeListener(bannerOnPageChangeListener);
                 int index = (Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % size);
                 viewPager.setCurrentItem(index);
@@ -256,34 +328,24 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.no_data_icon:
-                if (CommonUrlConfig.LiveVideoHot.equals(liveUrl)) {
-                    ((MainActivity) getActivity()).selectTab(1);
-                } else {
-                    ((MainActivity) getActivity()).selectTab(0);
-                }
-                break;
-        }
-    }
-
-
-    @Override
     public void onRefresh(final SwipyRefreshLayoutDirection direction) {
-        if (direction == SwipyRefreshLayoutDirection.TOP) {
-            freshLoad();
-        } else {
-            moreLoad();
-        }
-        swipyRefreshLayout.setRefreshing(false);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (direction == SwipyRefreshLayoutDirection.TOP) {
+                    freshLoad();
+                } else {
+                    moreLoad();
+                }
+            }
+        });
     }
 
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
-        if (pageIndex <= 1) {
-            pageIndex = 2;
+        if (pageindex <= 1) {
+            pageindex = 2;
         }
         load();
     }
@@ -291,9 +353,9 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     //刷新
     private void freshLoad() {
         IS_REFRESH = true;
-        dateSort = 0;
-        pageIndex = 1;
-        dataList.clear();
+        datesort = 0;
+        pageindex = 1;
+        result_type = 0;
         load();
     }
 
@@ -301,41 +363,48 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
-                LoadingDialog.cancelLoadingDialog();
+                fragmentHandler.obtainMessage(MSG_ERROR).sendToTarget();
             }
 
             @Override
             public void onSuccess(String response) {
                 synchronized (lock) {
-                    CommonParseListModel<LiveListItemModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<LiveListItemModel>>() {
+                    CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
                     }.getType());
                     if (result != null) {
                         if (HttpFunction.isSuc(result.code)) {
-                            if (!result.data.isEmpty() && result.data.size() > 0) {
-                                dateSort = result.time;
-                                pageIndex = result.index + 1;
+
+                            if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
+                                datesort = result.time;
+                                pageindex = result.index + 1;
+                                result_type = result.type;
                                 if (IS_REFRESH) {
-                                    dataList.clear();
+                                    datas.clear();
                                 }
-                                dataList.addAll(result.data);
+                                datas.addAll(result.livedata);
+                                datas.addAll(result.videodata);
                                 fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
+                            }else{
+                                fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
                             }
                         } else {
                             onBusinessFaild(result.code, response);
                         }
                     }
+                    if (datas.isEmpty()) {
+                        fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
+                    }
+                    IS_REFRESH = false;
                 }
-
-                if (dataList.isEmpty() && IS_REFRESH) {
-                    fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
-                }
-                IS_REFRESH = false;
             }
         };
         MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
-        mainEnter.loadRoomList(liveUrl, userInfo, pageIndex, pageSize, dateSort, callback);
+        mainEnter.loadRoomList(CommonUrlConfig.LiveVideoList, userInfo, pageindex, pagesize, datesort, result_type, callback);
     }
 
+    /**
+     * banner 模块 暂时隐藏
+     */
     private void loadBanner() {
         final List<SimpleDraweeView> simpleDraweeViews = new ArrayList<>();
         HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -352,6 +421,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
 
                 if (results != null) {
                     if (HttpFunction.isSuc(results.code)) {
+
                         for (final BannerModel data : results.data) {
                             Logger.e("===" + data.toString());
                             SimpleDraweeView simpleDraweeView = new SimpleDraweeView(getActivity());
@@ -380,9 +450,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                             fragmentHandler.obtainMessage(MSG_SHOW_BANNER, simpleDraweeViews).sendToTarget();
                         }
                     }
-
                 }
-
             }
         };
         BasicUserInfoDBModel user = CacheDataManager.getInstance().loadUser();
@@ -409,28 +477,4 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         }
         return "";
     }
-
-    private void showNodataLayout() {
-        noDataLayout.setVisibility(View.VISIBLE);
-        if (CommonUrlConfig.LiveVideoHot.equals(liveUrl)) {
-            ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(R.string.no_data_no_live_hot);
-            noDataLayout.findViewById(R.id.hint_textview2).setVisibility(View.GONE);
-        } else {
-            ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(R.string.no_data_no_live);
-            ((TextView) noDataLayout.findViewById(R.id.hint_textview2)).setText(R.string.no_data_watch_follow);
-            noDataLayout.findViewById(R.id.hint_textview2).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) getActivity()).selectTab(0);
-                }
-            });
-        }
-    }
-
-    private Runnable loadTask = new Runnable() {
-        @Override
-        public void run() {
-            load();
-        }
-    };
 }
