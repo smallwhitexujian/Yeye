@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
+import com.angelatech.yeyelive.activity.function.CommDialog;
 import com.angelatech.yeyelive.activity.function.UserSet;
-import com.angelatech.yeyelive.db.BaseKey;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.LoginUserModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.string.json.JsonUtil;
@@ -25,12 +28,14 @@ import java.util.Map;
  * User: cbl
  * Date: 2016/7/29
  * Time: 15:10
+ * 修改密码
  */
 public class ChangePasswordActivity extends HeaderBaseActivity {
-
+    public final int MSG_CHANGE_PASSWORD_SUCCESS = 19;
     private EditText ed_old_password, ed_new_password;
     private TextView tv_submit;
     private BasicUserInfoDBModel model;
+    private String newPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,29 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
 
     @Override
     public void doHandler(Message msg) {
-        super.doHandler(msg);
+        switch (msg.what) {
+            case MSG_CHANGE_PASSWORD_SUCCESS:
+                CommDialog commDialog = new CommDialog();
+                commDialog.CommDialog(this, getString(R.string.need_to_login_again), false,
+                        new CommDialog.Callback() {
+                            @Override
+                            public void onCancel() {
+
+                            }
+
+                            @Override
+                            public void onOK() {
+                                LoginUserModel loginUserModel = new LoginUserModel();
+                                loginUserModel.phone = App.loginPhone;
+                                loginUserModel.password = newPassword;
+                                loginUserModel.countryCode = "";
+                                StartActivityHelper.jumpActivity(ChangePasswordActivity.this, LoginPasswordActivity.class, loginUserModel);
+                            }
+                        });
+                //loginPhone 带有国家code
+
+                break;
+        }
     }
 
     @Override
@@ -73,7 +100,8 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
      * web 服务器等待测试
      */
     private void submitChange() {
-        if (ed_old_password.getText().toString().isEmpty() || ed_new_password.getText().toString().isEmpty()) {
+        newPassword = ed_new_password.getText().toString();
+        if (ed_old_password.getText().toString().isEmpty() || newPassword.isEmpty()) {
             ToastUtils.showToast(this, getString(R.string.can_not_empty));
         } else {
             LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
@@ -84,9 +112,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
                     Map map = JsonUtil.fromJson(response, Map.class);
                     if (map != null) {
                         if (HttpFunction.isSuc(map.get("code").toString())) {
-                            model.token = map.get("token").toString();
-                            CacheDataManager.getInstance().update(BaseKey.USER_TOKEN, model.token, model.userid);
-                            finish();
+                            uiHandler.sendEmptyMessage(MSG_CHANGE_PASSWORD_SUCCESS);
                         } else {
                             onBusinessFaild(map.get("code").toString());
                         }
@@ -100,7 +126,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
             };
             new UserSet(this).ChangePassword(model.userid, model.token,
                     Md5.md5(ed_old_password.getText().toString()),
-                    Md5.md5(ed_new_password.getText().toString()), callback);
+                    Md5.md5(newPassword), callback);
         }
     }
 

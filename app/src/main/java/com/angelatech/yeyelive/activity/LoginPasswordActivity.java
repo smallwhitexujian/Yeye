@@ -158,9 +158,10 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 if (datas != null) {
                     if (HttpFunction.isSuc(datas.code)) {
                         BasicUserInfoDBModel userInfoDBModel = datas.data.get(0);
-                        if (CacheDataManager.getInstance().loadUser(userInfoDBModel.userid) == null) {
-                            CacheDataManager.getInstance().save(userInfoDBModel);
+                        if (CacheDataManager.getInstance().loadUser(userInfoDBModel.userid) != null) {
+                            CacheDataManager.getInstance().deleteMessageRecord(userInfoDBModel.userid);
                         }
+                        CacheDataManager.getInstance().save(userInfoDBModel);
                         uiHandler.obtainMessage(MSG_LOGIN_SUCC, userInfoDBModel).sendToTarget();
                     } else {
                         //错误提示

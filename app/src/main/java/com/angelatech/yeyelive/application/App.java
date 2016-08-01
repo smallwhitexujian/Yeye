@@ -70,6 +70,9 @@ public class App extends Application {
     public static final String LIVE_HOST = "LIVE"; //直播者
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
+    public static String loginUserId = null;
+    public static String loginUserToken = null;
+    public static String loginPhone = null;
     //test
     //
     @Override

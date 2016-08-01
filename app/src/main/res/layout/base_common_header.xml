@@ -22,7 +22,7 @@
             android:background="@null"
             android:paddingRight="20dp"
             android:textColor="#fff"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/rightContainer"
@@ -48,7 +48,7 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:textColor="#fff"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:gravity="center"
         android:layout_marginRight="6dp"
         android:visibility="gone"

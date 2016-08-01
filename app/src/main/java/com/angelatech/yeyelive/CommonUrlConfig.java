@@ -95,7 +95,7 @@ public class CommonUrlConfig {
     //播放列表
     public static String LiveVideoList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/LiveVideoHotM";
     //关注
-    public static String LiveVideoFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoFollow";
+    public static String LiveVideoFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoFollowM";
     //房间详细列表
 
     //录像点击次数

@@ -274,6 +274,7 @@ public class SettingActivity extends HeaderBaseActivity {
         }
         if (isBindPhone != null && !"0".equals(isBindPhone)) {
             bindPhone.setText(StringHelper.replaceStr(isBindPhone, 3, 4, '*'));
+            App.loginPhone = isBindPhone;
         } else {
             bindPhone.setText(getString(R.string.setting_go_bind));
         }

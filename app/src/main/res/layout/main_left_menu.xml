@@ -11,35 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:background="@color/white"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/backBtn"
             android:layout_width="15dp"
             android:layout_height="19dp"
-            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="14dp"
-            android:src="@drawable/btn_login_back" />
+            android:src="@drawable/back" />
 
         <ImageView
             android:id="@+id/btn_edit"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="14dp"
             android:src="@drawable/btn_me_modify_n" />
     </RelativeLayout>
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/user_face"
-        android:layout_width="87dp"
-        android:layout_height="87dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        fresco:fadeDuration="300"
-        fresco:placeholderImage="@drawable/default_face_icon"
-        fresco:roundAsCircle="true" />
+    <RelativeLayout
+        android:id="@+id/layout_user_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <!--头像-->
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_face"
+            android:layout_width="87dp"
+            android:layout_height="87dp"
+            android:layout_marginBottom="8dp"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/default_face_icon"
+            fresco:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/iv_vip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/user_face"
+            android:layout_alignRight="@id/user_face"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/icon_vip_mark"
+            android:visibility="visible" />
+    </RelativeLayout>
 
     <!--昵称-->
     <LinearLayout
@@ -271,7 +287,6 @@
             android:layout_height="43dp"
             android:background="@color/white"
             android:gravity="center">
-
 
             <TextView
                 android:id="@+id/setting"

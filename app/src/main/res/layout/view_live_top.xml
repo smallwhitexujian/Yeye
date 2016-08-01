@@ -26,7 +26,7 @@
             android:paddingTop="2dp"
             android:singleLine="true"
             android:textColor="#222222"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/txt_likenum"
@@ -42,7 +42,7 @@
             android:paddingLeft="23dp"
             android:paddingTop="1dp"
             android:textColor="#FEFEFE"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
         <ImageView
             android:layout_width="42dp"
@@ -61,5 +61,15 @@
             fresco:placeholderImage="@drawable/default_face_icon"
             fresco:fadeDuration="300"
             fresco:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/iv_vip"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:layout_marginBottom="2dp"
+            android:layout_alignBottom="@id/img_head"
+            android:layout_alignRight="@id/img_head"
+            android:visibility="gone"
+            android:src="@drawable/icon_vip_mark" />
     </RelativeLayout>
 </LinearLayout>

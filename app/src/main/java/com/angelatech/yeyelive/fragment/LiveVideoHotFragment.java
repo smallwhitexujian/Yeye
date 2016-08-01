@@ -73,7 +73,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     private long datesort;
     private int pageindex = 1;
     private int pagesize = 5;
-
+    private String liveUrl;
     private volatile boolean IS_REFRESH = false;  //是否需要刷新
     private SwipyRefreshLayout swipyRefreshLayout;
 
@@ -85,7 +85,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
 
     @SuppressLint("ValidFragment")
     public LiveVideoHotFragment(String url) {
-        String liveUrl = url;
+        liveUrl = url;
     }
 
     public LiveVideoHotFragment() {
@@ -136,12 +136,12 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                     helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl);
                     helper.setImageViewByImageLoader(R.id.live_cover, liveModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
-                    helper.setText(R.id.user_nick, item.nickname);
+                    helper.setText(R.id.user_nick, liveModel.nickname);
                     helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_now));
-                    if (item.area == null || "".equals(item.area)) {
+                    if (liveModel.area == null || "".equals(liveModel.area)) {
                         helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                     } else {
-                        helper.setText(R.id.area, item.area);
+                        helper.setText(R.id.area, liveModel.area);
                     }
                     if (liveModel.introduce == null || "".equals(liveModel.introduce)) {
                         helper.hideView(R.id.live_introduce);
@@ -169,6 +169,13 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                         helper.setText(R.id.live_introduce, videoModel.introduce);
                     }
                 }
+                //加V标识
+                if (item.isv.equals("1")) {
+                    helper.showView(R.id.iv_vip);
+                } else {
+                    helper.hideView(R.id.iv_vip);
+                }
+
                 helper.setOnClick(R.id.layout_bar, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -384,7 +391,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
                                 datas.addAll(result.livedata);
                                 datas.addAll(result.videodata);
                                 fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
-                            }else{
+                            } else {
                                 fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
                             }
                         } else {
@@ -399,7 +406,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
             }
         };
         MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
-        mainEnter.loadRoomList(CommonUrlConfig.LiveVideoList, userInfo, pageindex, pagesize, datesort, result_type, callback);
+        mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
     }
 
     /**

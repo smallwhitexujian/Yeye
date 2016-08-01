@@ -88,7 +88,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private ImageView btn_Follow;
     private ImageView btn_share;
     private ImageView img_open_send;
-
+    private ImageView iv_vip;
     private TextView txt_barName, txt_likeNum, txt_online,
             gift_Diamonds, txt_room_des, gift_Recharge;
     private SimpleDraweeView img_head;
@@ -203,6 +203,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         txt_online = (TextView) controlView.findViewById(R.id.txt_online);
         btn_Follow = (ImageView) controlView.findViewById(R.id.btn_Follow);
         btn_share = (ImageView) controlView.findViewById(R.id.btn_share);
+        iv_vip = (ImageView) controlView.findViewById(R.id.iv_vip);
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
@@ -334,7 +335,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 //在线列表上过滤主播
                 if (Integer.parseInt(ChatRoomActivity.roomModel.getUserInfoDBModel().userid) != linkData.get(i).uid) {
                     View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
-                    SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatroom_gallery_image);
+                    SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
+                    //ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
+                    //if (linkData.get(i))
                     String str = linkData.get(i).headphoto;
                     img.setBackgroundResource(R.drawable.default_face_icon);
                     img.setImageURI(Uri.parse(str));
@@ -396,6 +399,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     public void setRoomInfo(RoomModel roommodel) {
         if (roommodel.getUserInfoDBModel() != null && roommodel.getUserInfoDBModel().headurl != null && !roommodel.getUserInfoDBModel().headurl.equals("") && Uri.parse(roommodel.getUserInfoDBModel().headurl) != null) {
             img_head.setImageURI(Uri.parse(roommodel.getUserInfoDBModel().headurl));
+            if (roommodel.getUserInfoDBModel().isv.equals("1")) {
+                iv_vip.setVisibility(View.VISIBLE);
+            } else {
+                iv_vip.setVisibility(View.GONE);
+            }
         }
         txt_barName.setText(roommodel.getUserInfoDBModel().nickname);
         if (App.giftdatas.size() <= 0) {

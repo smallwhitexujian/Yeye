@@ -53,7 +53,8 @@ public class LeftFragment extends BaseFragment {
     private View view;
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
-    private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout, layout_diamond;
+    private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
+    layout_diamond,layout_video;
     private ImageView editImageView, sexImageView;
     private SimpleDraweeView userFace;
     private GestureDetector gestureDetector;
@@ -99,6 +100,7 @@ public class LeftFragment extends BaseFragment {
         attentionLayout = (RelativeLayout) view.findViewById(R.id.attention_layout);
         settingLayout = (RelativeLayout) view.findViewById(R.id.setting_layout);
         layout_diamond = (RelativeLayout) view.findViewById(R.id.layout_diamond);
+        layout_video = (RelativeLayout) view.findViewById(R.id.layout_video);
         //
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
@@ -110,14 +112,13 @@ public class LeftFragment extends BaseFragment {
 
         exitLayout.setOnClickListener(this);
         fansLayout.setOnClickListener(this);
-        user_video.setOnClickListener(this);
         attentionLayout.setOnClickListener(this);
         settingLayout.setOnClickListener(this);
 
         editImageView.setOnClickListener(this);
         userFace.setOnClickListener(this);
         layout_diamond.setOnClickListener(this);
-
+        layout_video.setOnClickListener(this);
         view.findViewById(R.id.backBtn).setOnClickListener(this);
     }
 
@@ -170,7 +171,7 @@ public class LeftFragment extends BaseFragment {
             case R.id.backBtn:
                 ((MainActivity) getActivity()).closeMenu();
                 break;
-            case R.id.user_video:
+            case R.id.layout_video:
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
                 break;
         }
