@@ -128,4 +128,7 @@
     <color name="color_d80c18">#D80C18</color>
     <color name="color_ff262626">#FF262626</color>
     <color name="color_ff999999">#FF999999</color>
+    <color name="color_66000000">#66000000</color>
+    <color name="color_ff666666">#FF666666</color>
+    <color name="color_ff555555">#FF555555</color>
 </resources>

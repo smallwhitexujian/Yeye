@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class VerificationUtil {
 
     private final static Pattern emailPat = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+    private final static String lettersNumber = "^[a-zA-Z0-9]{6,22}$";
 
     /**
      * 验证手机号
@@ -58,5 +59,14 @@ public class VerificationUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * 验证码字符串 是否包含数字和字母
+     * @param password 密码
+     * @return bool
+     */
+    public static boolean isContainLetterNumber(String password){
+        return Pattern.compile(lettersNumber).matcher(password).find();
     }
 }

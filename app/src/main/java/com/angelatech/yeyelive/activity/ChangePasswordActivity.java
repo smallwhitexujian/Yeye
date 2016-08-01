@@ -9,8 +9,13 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.UserSet;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.string.json.JsonUtil;
+import com.will.common.string.security.Md5;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -71,19 +76,31 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
         if (ed_old_password.getText().toString().isEmpty() || ed_new_password.getText().toString().isEmpty()) {
             ToastUtils.showToast(this, getString(R.string.can_not_empty));
         } else {
+            LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
             HttpBusinessCallback callback = new HttpBusinessCallback() {
                 @Override
                 public void onSuccess(String response) {
-
+                    LoadingDialog.cancelLoadingDialog();
+                    Map map = JsonUtil.fromJson(response, Map.class);
+                    if (map != null) {
+                        if (HttpFunction.isSuc(map.get("code").toString())) {
+                            model.token = map.get("token").toString();
+                            CacheDataManager.getInstance().update(BaseKey.USER_TOKEN, model.token, model.userid);
+                            finish();
+                        } else {
+                            onBusinessFaild(map.get("code").toString());
+                        }
+                    }
                 }
 
                 @Override
                 public void onFailure(Map<String, ?> errorMap) {
-
+                    LoadingDialog.cancelLoadingDialog();
                 }
             };
-            new UserSet(this).ChangePassword(model.userid, model.token, ed_old_password.getText().toString(),
-                    ed_new_password.getText().toString(), callback);
+            new UserSet(this).ChangePassword(model.userid, model.token,
+                    Md5.md5(ed_old_password.getText().toString()),
+                    Md5.md5(ed_new_password.getText().toString()), callback);
         }
     }
 

@@ -13,33 +13,33 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
-import com.angelatech.yeyelive.Constant;
+import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
+import com.angelatech.yeyelive.activity.LoginActivity;
+import com.angelatech.yeyelive.activity.MainActivity;
+import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
+import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
+import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.function.CommDialog;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.db.BaseKey;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.PicViewModel;
+import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.util.BroadCastHelper;
+import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.string.json.JsonUtil;
-import com.angelatech.yeyelive.activity.FansActivity;
-import com.angelatech.yeyelive.activity.LoginActivity;
-import com.angelatech.yeyelive.activity.MainActivity;
-import com.angelatech.yeyelive.activity.PicViewActivity;
-import com.angelatech.yeyelive.activity.SettingActivity;
-import com.angelatech.yeyelive.activity.function.MainEnter;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.PicViewModel;
-import com.angelatech.yeyelive.service.IServiceHelper;
-import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
-import com.angelatech.yeyelive.R;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.text.MessageFormat;
@@ -52,7 +52,7 @@ public class LeftFragment extends BaseFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, diomend, usernick, usersign;
+    private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout, layout_diamond;
     private ImageView editImageView, sexImageView;
     private SimpleDraweeView userFace;
@@ -67,7 +67,6 @@ public class LeftFragment extends BaseFragment {
         setView();
         return view;
     }
-
 
     @Override
     public void onStart() {
@@ -86,14 +85,14 @@ public class LeftFragment extends BaseFragment {
         gestureDetector = new GestureDetector(getActivity(), simpleOnGestureListener);
         mainEnter = ((MainActivity) getActivity()).getMainEnter();
 
-        usernick = (TextView) view.findViewById(R.id.user_nick);
-        usersign = (TextView) view.findViewById(R.id.user_sign);
-
+        user_nick = (TextView) view.findViewById(R.id.user_nick);
+        user_sign = (TextView) view.findViewById(R.id.user_sign);
+        user_video = (TextView) view.findViewById(R.id.user_video);
         id = (TextView) view.findViewById(R.id.user_id);//用户id
         fans = (TextView) view.findViewById(R.id.user_fans);//粉丝
         attention = (TextView) view.findViewById(R.id.user_attention);//关注
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);//亲密度
-        diomend = (TextView) view.findViewById(R.id.user_diamond);
+        diamond = (TextView) view.findViewById(R.id.user_diamond);
 
         exitLayout = (RelativeLayout) view.findViewById(R.id.exit_layout);
         fansLayout = (RelativeLayout) view.findViewById(R.id.fans_layout);
@@ -103,7 +102,6 @@ public class LeftFragment extends BaseFragment {
         //
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
-
         userFace = (SimpleDraweeView) view.findViewById(R.id.user_face);
     }
 
@@ -112,6 +110,7 @@ public class LeftFragment extends BaseFragment {
 
         exitLayout.setOnClickListener(this);
         fansLayout.setOnClickListener(this);
+        user_video.setOnClickListener(this);
         attentionLayout.setOnClickListener(this);
         settingLayout.setOnClickListener(this);
 
@@ -120,36 +119,6 @@ public class LeftFragment extends BaseFragment {
         layout_diamond.setOnClickListener(this);
 
         view.findViewById(R.id.backBtn).setOnClickListener(this);
-
-        if (userInfo != null) {
-            userFace.setImageURI(UriHelper.obtainUri(userInfo.headurl));
-            if (userInfo.nickname != null) {
-                usernick.setText(userInfo.nickname);
-            }
-            if (userInfo.sex != null) {
-                sexImageView.setVisibility(View.VISIBLE);
-                if (Constant.SEX_MALE.equals(userInfo.sex)) {
-                    sexImageView.setImageResource(R.drawable.icon_information_boy);
-                } else {
-                    sexImageView.setImageResource(R.drawable.icon_information_girl);
-                }
-            }
-            if (userInfo.idx != null) {
-                id.setText(MessageFormat.format("{0}{1}", getString(R.string.ID), userInfo.idx));
-            }
-
-            if (userInfo.Intimacy != null) {
-                intimacy.setText(MessageFormat.format("{0}{1}", getString(R.string.intimacy), userInfo.Intimacy));
-            }
-
-            if (userInfo.sign != null) {
-                usersign.setText(userInfo.sign);
-            }
-
-            if (userInfo.sign == null || "".equals(userInfo.sign)) {
-                usersign.setText(getString(R.string.default_sign));
-            }
-        }
     }
 
     @Override
@@ -201,6 +170,9 @@ public class LeftFragment extends BaseFragment {
             case R.id.backBtn:
                 ((MainActivity) getActivity()).closeMenu();
                 break;
+            case R.id.user_video:
+                StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
+                break;
         }
     }
 
@@ -238,20 +210,20 @@ public class LeftFragment extends BaseFragment {
                     intimacy.setText(MessageFormat.format("{0}{1}", getString(R.string.intimacy), basicUserInfoDBModel.Intimacy));
 
                     if (basicUserInfoDBModel.sign == null || "".equals(basicUserInfoDBModel.sign)) {
-                        usersign.setText(getString(R.string.default_sign));
+                        user_sign.setText(getString(R.string.default_sign));
                     } else {
-                        usersign.setText(basicUserInfoDBModel.sign);
+                        user_sign.setText(basicUserInfoDBModel.sign);
                     }
                 }
                 if (basicUserInfoDBModel.nickname != null && !"".equals(basicUserInfoDBModel.nickname)) {
-                    usernick.setText(basicUserInfoDBModel.nickname);
+                    user_nick.setText(basicUserInfoDBModel.nickname);
                 }
 
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
-                diomend.setText(String.format("%s", basicUserInfoDBModel.diamonds));
+                diamond.setText(String.format("%s", basicUserInfoDBModel.diamonds));
                 userFace.setImageURI(UriHelper.obtainUri(basicUserInfoDBModel.headurl));
-
+                user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
                 if ("1".equals(basicUserInfoDBModel.sex)) {
                     sexImageView.setImageResource(R.drawable.icon_information_boy);
                 } else {

@@ -133,7 +133,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_gift"
-                android:text="X1"
                 android:visibility="visible" />
 
             <TextView
@@ -143,7 +142,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_gift"
-                android:text="X1"
                 android:visibility="visible" />
 
             <ImageView
@@ -267,7 +265,7 @@
                 android:maxLength="140"
                 android:singleLine="true"
                 android:textColor="#22202D"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="1.5dp"
@@ -281,7 +279,7 @@
                 android:background="@null"
                 android:text="@string/send"
                 android:textColor="#222222"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 

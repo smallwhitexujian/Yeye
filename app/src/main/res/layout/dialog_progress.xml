@@ -18,5 +18,5 @@
         android:layout_gravity="center"
         android:text="Loading..."
         android:textColor="#ffffff"
-        android:textSize="15dp" />
+        android:textSize="15sp" />
 </LinearLayout>

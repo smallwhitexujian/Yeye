@@ -22,7 +22,7 @@ public class CommonUrlConfig {
      */
     //获取短信验证码
     public static String GetPhoneCode = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/GetPhoneCode";
-    //注册&登陆（手机）
+    //验证码注册&登陆（手机）
     public static String LoginSm = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginSm";
     //微信注册接口
     public static String weixinRegister = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginWx";
@@ -42,8 +42,14 @@ public class CommonUrlConfig {
     public static String UserBindingCheck = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserBindingCheck";
     //绑定手机号
     public static String UserBindingAccounts = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserBindingAccounts";
-
-
+    //找回密码
+    public static String FindPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserSmRetrievePwd";
+    //手机注册
+    public static String RegisterPhone = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/RegisterSm";
+    //修改密码
+    public static String ChangePassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserPasswordEdit";
+    //账号密码登录
+    public static String LoginPwd = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/LoginPwd";
     /**
      * 用户信息
      */
@@ -55,6 +61,13 @@ public class CommonUrlConfig {
     public static String UserInformationEdit = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserInformationEdit";
     //我的关注和粉丝
     public static String FriendMyList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendMyList";
+    /**
+     * 个人视频
+     */
+    public static String PersonalVideoList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/PersonalRecordList";
+
+    //个人视频删除
+    public static String PersonalRecordDel = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/PersonalRecordDel";
 
     //  用户的关注和粉丝
     public static String FriendHeList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHeList";
@@ -135,6 +148,5 @@ public class CommonUrlConfig {
     public static String RechargeOrder = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Recharge/RechargeOrder";
     //充值接口
     public static String UserBill = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Recharge/TransactionDetails";
-    //修改密码
-    public static String ChangePassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "";
+
 }

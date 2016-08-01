@@ -97,7 +97,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CountrySelectItemModel itemModel = datas.get(position);
 //                ToastUtils.showToast(CountrySelectActivity.this, itemModel.country + "===" + itemModel.num);
-                Intent intent = new Intent(CountrySelectActivity.this, PhoneLoginActivity.class);
+                Intent intent = new Intent(CountrySelectActivity.this, RegisterFindPWDActivity.class);
                 intent.putExtra(TransactionValues.UI_2_UI_KEY_OBJECT, itemModel);
                 setResult(RESULT_OK, intent);
                 finish();

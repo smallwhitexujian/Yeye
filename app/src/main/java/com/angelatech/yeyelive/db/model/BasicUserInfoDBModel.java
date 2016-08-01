@@ -39,6 +39,11 @@ public class BasicUserInfoDBModel implements Serializable {
     @DatabaseField(columnName="intimacy")
     public String Intimacy;
     /**
+     * 我的视频
+     */
+    @DatabaseField(columnName="videoNum")
+    public String videoNum;
+    /**
      * 加V标识
      */
     @DatabaseField(columnName="isv")

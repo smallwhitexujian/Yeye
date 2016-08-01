@@ -14,4 +14,6 @@ public class BaseKey {
     public final static String USER_SIGN = "sign"; //签名
     public final static String USER_HEAD_URL = "headurl";
     public final static String USER_SEX = "sex";
+    public final static String USER_PASSWORD = "password";
+    public final static String USER_TOKEN = "token";
 }

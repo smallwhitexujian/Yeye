@@ -26,8 +26,8 @@ public class UserSet extends HttpFunction {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userId);
         params.put("token", token);
-        params.put("oldPassword", oldPassword);
-        params.put("newPassword", newPassword);
+        params.put("oldpwd", oldPassword);
+        params.put("newpwd", newPassword);
         params.put("sources", HttpFunction.SOURCES_ANDROID + "");//android or ios
         httpGet(CommonUrlConfig.ChangePassword, params, callback);
     }

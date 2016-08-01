@@ -218,6 +218,40 @@
                 android:textSize="14sp" />
 
         </RelativeLayout>
+        <!--分割 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_d5" />
+
+        <RelativeLayout
+            android:id="@+id/layout_video"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/white"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:text="@string/activity_title_video"
+                android:textColor="@color/color_232323"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/user_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="17dp"
+                android:drawablePadding="13dp"
+                android:drawableRight="@drawable/btn_next"
+                android:gravity="center"
+                android:textColor="@color/color_a6a6a6"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"

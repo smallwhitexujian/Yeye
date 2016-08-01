@@ -41,7 +41,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public static final int MSG_GOTO_LOGIN = 2;
     public static final int MSG_ANIMATION = 3;
 
-    private TextView mPhoneLogin;
+    private TextView mPhoneLogin, tv_register;
     private TextView mLinceseLink;
     private LoginManager loginManager;
     private ImageView iv_logo;
@@ -73,6 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         iv_logo = (ImageView) findViewById(R.id.iv_logo);
         mLinceseLink = (TextView) findViewById(R.id.license_link);
         mPhoneLogin = (TextView) findViewById(R.id.phone_login);
+        tv_register = (TextView) findViewById(R.id.tv_register);
         loginButton = (LoginButton) findViewById(R.id.facebook_login);
         layout_login = (LinearLayout) findViewById(R.id.layout_login);
     }
@@ -80,6 +81,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void setView() {
         new LoginManager(this, loginButton, uiHandler).login(LoginManager.LoginType.FACE_BOOK);
         mPhoneLogin.setOnClickListener(this);
+        tv_register.setOnClickListener(this);
         mLinceseLink.setText(Html.fromHtml("<u>" + getString(R.string.lisence_title) + "</u>"));
         mLinceseLink.setOnClickListener(this);
     }
@@ -127,13 +129,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         int id = v.getId();
         switch (id) {
             case R.id.phone_login:
-                StartActivityHelper.jumpActivityDefault(this, PhoneLoginActivity.class);
+                StartActivityHelper.jumpActivityDefault(this, LoginPasswordActivity.class);
                 break;
             case R.id.license_link:
                 WebTransportModel webTransportModel = new WebTransportModel();
                 webTransportModel.url = CommonUrlConfig.Agreement;
                 webTransportModel.title = getString(R.string.lisence_title);
                 StartActivityHelper.jumpActivity(this, WebActivity.class, webTransportModel);
+                break;
+            case R.id.tv_register:
+
+                StartActivityHelper.jumpActivity(this, RegisterFindPWDActivity.class, RegisterFindPWDActivity.FROM_TYPE_REGISTER);
                 break;
         }
     }

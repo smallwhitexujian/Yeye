@@ -34,15 +34,25 @@ public class Register extends Login {
         this.handler = handler;
     }
 
+    public void phoneRegister(String phone, String code, String password, String deviceId) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("code", code);
+        params.put("password", password);
+        params.put("deviceid", deviceId);
+        params.put("sources", SOURCES_ANDROID + "");
+        register(CommonUrlConfig.RegisterPhone, params);
+    }
+
     /**
      * 微信注册
      *
      * @param code 微信授权码
      */
-    public void wxRegister(String code, String deviceid) {
+    public void wxRegister(String code, String deviceId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("code", code);
-        params.put("deviceid", deviceid);
+        params.put("deviceid", deviceId);
         params.put("sources", SOURCES_ANDROID + "");
         register(CommonUrlConfig.weixinRegister, params);
     }
@@ -53,11 +63,11 @@ public class Register extends Login {
      * @param accessToken toekn
      * @param openid      openid
      */
-    public void qqRegister(String accessToken, String openid, String deviceid) {
+    public void qqRegister(String accessToken, String openid, String deviceId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("accessToken", accessToken);
         params.put("openid", openid);
-        params.put("deviceid", deviceid);
+        params.put("deviceid", deviceId);
         params.put("sources", SOURCES_ANDROID + "");
         register(CommonUrlConfig.qqRegister, params);
     }
@@ -65,10 +75,10 @@ public class Register extends Login {
     /**
      * facebook 注册
      */
-    public void fbRegister(String accessToken, String deviceid) {
+    public void fbRegister(String accessToken, String deviceId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("accesstoken", accessToken);
-        params.put("deviceid", deviceid);
+        params.put("deviceid", deviceId);
         params.put("sources", "2");
         register(CommonUrlConfig.facebookLogin_version_2, params);
     }
