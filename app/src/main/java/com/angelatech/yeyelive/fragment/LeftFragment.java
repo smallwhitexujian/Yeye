@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
@@ -54,8 +55,8 @@ public class LeftFragment extends BaseFragment {
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
-    layout_diamond,layout_video;
-    private ImageView editImageView, sexImageView;
+            layout_diamond, layout_video;
+    private ImageView editImageView, sexImageView, iv_vip;
     private SimpleDraweeView userFace;
     private GestureDetector gestureDetector;
 
@@ -105,6 +106,7 @@ public class LeftFragment extends BaseFragment {
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
         userFace = (SimpleDraweeView) view.findViewById(R.id.user_face);
+        iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
     }
 
 
@@ -225,10 +227,15 @@ public class LeftFragment extends BaseFragment {
                 diamond.setText(String.format("%s", basicUserInfoDBModel.diamonds));
                 userFace.setImageURI(UriHelper.obtainUri(basicUserInfoDBModel.headurl));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
-                if ("1".equals(basicUserInfoDBModel.sex)) {
+                if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
                     sexImageView.setImageResource(R.drawable.icon_information_boy);
                 } else {
                     sexImageView.setImageResource(R.drawable.icon_information_girl);
+                }
+                if (basicUserInfoDBModel.isv.equals("1")) {
+                    iv_vip.setVisibility(View.VISIBLE);
+                } else {
+                    iv_vip.setVisibility(View.GONE);
                 }
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);

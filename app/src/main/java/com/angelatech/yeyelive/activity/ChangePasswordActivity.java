@@ -15,6 +15,7 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.LoginUserModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.string.json.JsonUtil;
@@ -104,29 +105,33 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
         if (ed_old_password.getText().toString().isEmpty() || newPassword.isEmpty()) {
             ToastUtils.showToast(this, getString(R.string.can_not_empty));
         } else {
-            LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
-            HttpBusinessCallback callback = new HttpBusinessCallback() {
-                @Override
-                public void onSuccess(String response) {
-                    LoadingDialog.cancelLoadingDialog();
-                    Map map = JsonUtil.fromJson(response, Map.class);
-                    if (map != null) {
-                        if (HttpFunction.isSuc(map.get("code").toString())) {
-                            uiHandler.sendEmptyMessage(MSG_CHANGE_PASSWORD_SUCCESS);
-                        } else {
-                            onBusinessFaild(map.get("code").toString());
+            if (VerificationUtil.isContainLetterNumber(newPassword)) {
+                LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
+                HttpBusinessCallback callback = new HttpBusinessCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        LoadingDialog.cancelLoadingDialog();
+                        Map map = JsonUtil.fromJson(response, Map.class);
+                        if (map != null) {
+                            if (HttpFunction.isSuc(map.get("code").toString())) {
+                                uiHandler.sendEmptyMessage(MSG_CHANGE_PASSWORD_SUCCESS);
+                            } else {
+                                onBusinessFaild(map.get("code").toString());
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Map<String, ?> errorMap) {
-                    LoadingDialog.cancelLoadingDialog();
-                }
-            };
-            new UserSet(this).ChangePassword(model.userid, model.token,
-                    Md5.md5(ed_old_password.getText().toString()),
-                    Md5.md5(newPassword), callback);
+                    @Override
+                    public void onFailure(Map<String, ?> errorMap) {
+                        LoadingDialog.cancelLoadingDialog();
+                    }
+                };
+                new UserSet(this).ChangePassword(model.userid, model.token,
+                        Md5.md5(ed_old_password.getText().toString()),
+                        Md5.md5(newPassword), callback);
+            } else {
+                ToastUtils.showToast(this, getString(R.string.password_error));
+            }
         }
     }
 

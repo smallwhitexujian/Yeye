@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class VerificationUtil {
 
     private final static Pattern emailPat = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
-    private final static String lettersNumber = "^[a-zA-Z0-9]{6,22}$";
+    private final static String lettersNumber = "^(?![^a-zA-Z]+$)(?!\\D+$).{6,22}$";
 
     /**
      * 验证手机号

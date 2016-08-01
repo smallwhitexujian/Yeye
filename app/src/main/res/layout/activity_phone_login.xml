@@ -169,6 +169,15 @@
         android:background="@color/color_grey_d5" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/password_gz"
+        android:textColor="@color/color_a6a6a6"
+        android:textSize="14sp" />
+
+    <TextView
         android:id="@+id/hint_textview"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
