@@ -32,6 +32,7 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
+import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -55,7 +56,7 @@ public class LeftFragment extends BaseFragment {
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
-            layout_diamond, layout_video;
+            layout_diamond, layout_video,layout_Invite_friend;
     private ImageView editImageView, sexImageView, iv_vip;
     private SimpleDraweeView userFace;
     private GestureDetector gestureDetector;
@@ -102,16 +103,15 @@ public class LeftFragment extends BaseFragment {
         settingLayout = (RelativeLayout) view.findViewById(R.id.setting_layout);
         layout_diamond = (RelativeLayout) view.findViewById(R.id.layout_diamond);
         layout_video = (RelativeLayout) view.findViewById(R.id.layout_video);
-        //
+        layout_Invite_friend = (RelativeLayout) view.findViewById(R.id.layout_Invite_friend);
+
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
         userFace = (SimpleDraweeView) view.findViewById(R.id.user_face);
         iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
     }
 
-
     private void setView() {
-
         exitLayout.setOnClickListener(this);
         fansLayout.setOnClickListener(this);
         attentionLayout.setOnClickListener(this);
@@ -121,6 +121,7 @@ public class LeftFragment extends BaseFragment {
         userFace.setOnClickListener(this);
         layout_diamond.setOnClickListener(this);
         layout_video.setOnClickListener(this);
+        layout_Invite_friend.setOnClickListener(this);
         view.findViewById(R.id.backBtn).setOnClickListener(this);
     }
 
@@ -175,6 +176,10 @@ public class LeftFragment extends BaseFragment {
                 break;
             case R.id.layout_video:
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
+                break;
+            case R.id.layout_Invite_friend:
+                FbProxy fbProxy = new FbProxy(getActivity());
+                fbProxy.inviteFriend();
                 break;
         }
     }

@@ -18,6 +18,8 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.will.common.log.DebugLogs;
 
 
@@ -43,6 +45,10 @@ public class FbProxy {
         //this.activity = activity;
         this.loginButton = loginButton;
         this.handler = handler;
+    }
+
+    public FbProxy(Activity activity){
+        this.activity = activity;
     }
 
     /**
@@ -129,6 +135,22 @@ public class FbProxy {
                     }
                 }
         ).executeAsync();
+    }
+
+    /**
+     * 拉好友
+     */
+    public void inviteFriend(){
+        String appLinkUrl, previewImageUrl;
+        appLinkUrl = "https://fb.me/1745967612350627";
+        previewImageUrl = "http://liveapi.iamyeye.com/upload/test.png";
+        if (AppInviteDialog.canShow()) {
+            AppInviteContent content = new AppInviteContent.Builder()
+                    .setApplinkUrl(appLinkUrl)
+                    .setPreviewImageUrl(previewImageUrl)
+                    .build();
+            AppInviteDialog.show(activity, content);
+        }
     }
 
 }

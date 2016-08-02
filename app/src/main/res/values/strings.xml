@@ -339,6 +339,7 @@
     <string name="password_error">密码不符合规则</string>
     <string name="password_gz">密码必须包含字母和数字(6-22位)</string>
     <string name="activity_title_video">我的视频</string>
+    <string name="Invite_facebook_friends">邀请Facebook好友</string>
     <string name="text_delete">删除</string>
     <string name="no_data_no_video">没有视频</string>
     <string name="video_delete_success">删除成功</string>
