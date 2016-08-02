@@ -169,6 +169,57 @@ public class CommonDao<T> {
         return results.get(0);
     }
 
+    /**分页***/
+    public List<T> queryByConditionLimit(String orderByKey,boolean ascending,Map<String,Object> eqs,long startRow,long maxRows) throws SQLException{
+        QueryBuilder builder = mDao.queryBuilder();
+        Where where = builder.orderBy(orderByKey,ascending).where();
+        int size = eqs.size();
+        int index = 0;
+        for(Map.Entry<String,Object> eq:eqs.entrySet()){
+            String key = eq.getKey();
+            Object value = eq.getValue();
+            if(key != null && !"".equals(key) && value != null){
+                if(index ++ != size - 1 ){
+                    where = where.eq(key,value).and();
+                }
+                else{
+                    where = where.eq(key,value);
+                }
+            }
+            else {
+                continue;
+            }
+        }
+        builder.offset(startRow);
+        builder.limit(maxRows);
+        List<T> results = builder.query();
+        if(results == null || results.isEmpty()){
+            return null;
+        }
+        return results;
+    }
+
+    /**
+     * 查询所有分页
+     * @param orderByKey
+     * @param ascending
+     * @param startRow
+     * @param maxRows
+     * @return
+     * @throws SQLException
+     */
+    public List<T> queryAllLimit(String orderByKey,boolean ascending,long startRow,long maxRows) throws SQLException {
+        QueryBuilder builder = mDao.queryBuilder();
+        builder.orderBy(orderByKey,ascending).where();
+        builder.offset(startRow);
+        builder.limit(maxRows);
+        List<T> results = builder.query();
+        if(results == null || results.isEmpty()){
+            return null;
+        }
+        return results;
+    }
+
     public void update(Map<String,Object> eqs,Map<String,Object> updates) throws SQLException{
         UpdateBuilder updateBuilder = mDao.updateBuilder();
         Where where = updateBuilder.where();
