@@ -5,9 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.will.common.log.Logger;
 import com.angelatech.yeyelive.CommonUrlConfig;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.fragment.LiveVideoHotFragment;
 
 import java.util.ArrayList;
@@ -46,7 +45,6 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Logger.e("==================getItem=====");
         String title = tabTitles.get(position);
         Fragment fragment = fragments.get(title);
 
