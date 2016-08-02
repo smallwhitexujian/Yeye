@@ -41,4 +41,5 @@
         android:scaleType="fitXY"
         android:src="@drawable/bg_room_guide"
         android:visibility="gone" />
+
 </RelativeLayout>

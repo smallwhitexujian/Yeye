@@ -141,7 +141,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);
         map.put("userid", model.userid);
-        map.put("email", user_mail);
+        map.put("email", Encryption.utf8ToUnicode(user_mail));
         map.put("nickname", Encryption.utf8ToUnicode(user_name));
         map.put("sex", String.valueOf(user_gender));
         new HttpFunction(this).httpPost(CommonUrlConfig.UserInformationEdit, map, httpCallback);
