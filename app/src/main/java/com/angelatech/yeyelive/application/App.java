@@ -17,6 +17,7 @@ import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.facebook.FacebookSdk;
+import com.squareup.leakcanary.LeakCanary;
 import com.will.common.log.DebugLogs;
 
 import java.io.File;
@@ -93,7 +94,7 @@ public class App extends Application {
         mAppInterface.initThirdPlugin(this);
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
-
+        LeakCanary.install(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         try {

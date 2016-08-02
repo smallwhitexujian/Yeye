@@ -336,8 +336,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 if (Integer.parseInt(ChatRoomActivity.roomModel.getUserInfoDBModel().userid) != linkData.get(i).uid) {
                     View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
                     SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
-                    //ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
-                    //if (linkData.get(i))
+                    ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
+                    if (linkData.get(i).isv.equals("1")) {
+                        iv_vip.setVisibility(View.VISIBLE);
+                    } else {
+                        iv_vip.setVisibility(View.GONE);
+                    }
                     String str = linkData.get(i).headphoto;
                     img.setBackgroundResource(R.drawable.default_face_icon);
                     img.setImageURI(Uri.parse(str));
