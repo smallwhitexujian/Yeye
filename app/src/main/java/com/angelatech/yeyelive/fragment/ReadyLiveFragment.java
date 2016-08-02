@@ -109,7 +109,12 @@ public class ReadyLiveFragment extends BaseFragment {
             if (gpsTracker == null) {
                 gpsTracker = new GpsTracker(getActivity());
             }
-            straddres = gpsTracker.getCity();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    straddres = gpsTracker.getCity();
+                }
+            }).start();
             mLocationInfo.setText(straddres);
         }
     }
@@ -183,7 +188,12 @@ public class ReadyLiveFragment extends BaseFragment {
                     if (gpsTracker == null) {
                         gpsTracker = new GpsTracker(getActivity());
                     }
-                    straddres = gpsTracker.getCity();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            straddres = gpsTracker.getCity();
+                        }
+                    }).start();
                 } else {
                     btn_sign_on_location.setImageResource(R.drawable.btn_sign_on_location_s);
                     img_location_bg.setVisibility(View.GONE);
