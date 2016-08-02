@@ -309,4 +309,36 @@
 
     <string name="setting_exit_dialog">确认退出该账号吗？</string>
     <string name="share_title">I am performing in Yeye Live, Come on!</string>
+    <string name="text_line_desc_now">人在看</string>
+    <string name="text_line_desc_already">人看过</string>
+    <string name="play_finish">播放结束</string>
+    <string name="re_play">再看一次</string>
+    <string name="play_stop">停止</string>
+    <string name="report_prompt">确认举报该视频吗？</string>
+    <string name="report_repeat">已经举报过了</string>
+    <string name="restart_play">重新播放</string>
+    <string name="change_password">修改密码</string>
+    <string name="old_password">原密码</string>
+    <string name="new_password">新密码</string>
+    <string name="confirm_changes">确认修改</string>
+    <string name="can_not_empty">密码不能为空</string>
+    <string name="set_password">设置密码</string>
+    <string name="set_password_complete">完成</string>
+    <string name="set_password_skip">跳过</string>
+    <string name="login_password">输入密码</string>
+    <string name="activity_login_password">登录</string>
+    <string name="login_code">验证码登录</string>
+    <string name="find_password">找回密码</string>
+    <string name="activity_register">注册</string>
+    <string name="login_now">正在自动登录,请稍后...</string>
+    <string name="need_to_login_again">密码修改成功,现在去重新登录</string>
+    <string name="now_submit">正在提交,请稍后</string>
+    <string name="password_error">密码不符合规则</string>
+    <string name="password_gz">密码必须包含字母和数字(6-22位)</string>
+    <string name="activity_title_video">我的视频</string>
+    <string name="Invite_facebook_friends">邀请Facebook好友</string>
+    <string name="text_delete">删除</string>
+    <string name="no_data_no_video">没有视频</string>
+    <string name="video_delete_success">删除成功</string>
+    <string name="video_delete_error">删除失败</string>
 </resources>

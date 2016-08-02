@@ -113,7 +113,7 @@ public class Register extends Login {
                                 handler.obtainMessage(LoginActivity.MSG_LOGIN_ERR).sendToTarget();
                             }
                         } else {
-                            onBusinessFaild(code);
+                            handler.obtainMessage(LoginActivity.MSG_LOGIN_ERR).sendToTarget();
                         }
                     }
                 }

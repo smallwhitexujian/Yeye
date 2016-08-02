@@ -307,6 +307,39 @@
   <string name="send_pepole2">Send</string>
   <string name="click_open_location">Open Location</string>
 
+  <string name="text_line_desc_now">people is watching</string>
+  <string name="text_line_desc_already"> people has watched</string>
+  <string name="play_finish">Play Ended</string>
+  <string name="re_play">Again</string>
+  <string name="play_stop">Stop</string>
+  <string name="report_prompt">Are you sure to report? </string>
+  <string name="report_repeat">Already report</string>
+  <string name="restart_play">Replay</string>
+  <string name="change_password">Change Password </string>
+  <string name="old_password">Old Password</string>
+  <string name="new_password">New Password</string>
+  <string name="confirm_changes">Confirm</string>
+  <string name="can_not_empty">Password can’t be empty</string>
+  <string name="set_password">Set Passwrod</string>
+  <string name="set_password_complete">Done</string>
+  <string name="set_password_skip">Skip</string>
+  <string name="login_password">Input Password</string>
+  <string name="activity_login_password">Login</string>
+  <string name="login_code">Login by Verify Code</string>
+  <string name="find_password">Forget Password</string>
+  <string name="activity_register">Register</string>
+  <string name="login_now">Login Process</string>
+  <string name="need_to_login_again">Password is changed, and please login now.</string>
+  <string name="now_submit">Submitting</string>
+  <string name="password_error">Password is not standardized</string>
+  <string name="password_gz"> Passwords must contain letters and numbers (6-22Digits)</string>
+  <string name="activity_title_video">My Records</string>
+  <string name="Invite_facebook_friends">Invite Facebook Friends</string>
+  <string name="text_delete">Delete</string>
+  <string name="no_data_no_video">No Record</string>
+  <string name="video_delete_success">Delete Succesffully</string>
+  <string name="video_delete_error">Delete Failed</string>
+
   <string name="setting_exit_dialog">Are you sure to logout？</string>
   <string name="share_title">I am performing in Yeye Live, Come on!</string>
 </resources>

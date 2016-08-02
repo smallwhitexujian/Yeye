@@ -135,6 +135,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
      */
     private void login(String userId, String password) {
         if (!userId.isEmpty() && !password.isEmpty()) {
+            LoadingDialog.showSysLoadingDialog(this,getString(R.string.login_now));
             new PhoneLogin(this).loginPwd(userId, Md5.md5(password), httpCallback);
         }
     }
@@ -146,7 +147,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
         @Override
         public void onFailure(Map<String, ?> errorMap) {
-
+            LoadingDialog.cancelLoadingDialog();
         }
 
         @Override

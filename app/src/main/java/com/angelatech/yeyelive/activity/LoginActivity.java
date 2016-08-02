@@ -22,8 +22,11 @@ import com.angelatech.yeyelive.activity.function.Start;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
+import com.angelatech.yeyelive.service.IServiceHelper;
+import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.thirdLogin.LoginManager;
+import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
@@ -187,6 +190,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case MSG_LOGIN_ERR:
                 ToastUtils.showToast(this, getString(R.string.login_faild));
+                Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
+                        IServiceValues.CMD_EXIT_LOGIN);
+                BroadCastHelper.sendBroadcast(this, exitIntent);
                 break;
             case FbProxy.FB_LOGIN_SUCCESS:
                 Log.e("success--->", "success");
