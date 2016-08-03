@@ -17,8 +17,8 @@ public class AppConfig {
     public static final String FILEPATH_VOICE_RECORD_NAME = "record";
 
     //service Action
-    public static final String SERVICE_ACTION = "com.angelatech.yeyelive .IService";
-    public static final String PACKAGE_NAME = "com.angelatech.yeyelive ";
+    public static final String SERVICE_ACTION = "com.angelatech.yeyelive.IService";
+    public static final String PACKAGE_NAME = "com.angelatech.yeyelive";
     //AppsFlyerLib
     public static final boolean APPSFLYER_TURE = false;//apps flyer 开关（默认关闭)
     public static final String APPSFLYER_KEY = "70567ec6-da70-48e3-ab54-29a1451b9e91";
