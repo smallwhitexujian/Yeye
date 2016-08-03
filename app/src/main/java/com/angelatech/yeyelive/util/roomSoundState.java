@@ -5,7 +5,6 @@ import android.media.AudioManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.will.common.log.DebugLogs;
 
 /**
@@ -39,13 +38,13 @@ public class roomSoundState {
     public void getCallPhoneListener(){
         TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(Context.TELEPHONY_SERVICE);
         telephonyManager.listen(new PhoneListener(), PhoneStateListener.LISTEN_CALL_STATE);
-        //audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
-//    //设置系统声音开关 true 表示禁音状态
-//    private void setSound(Boolean state){
-//        audioManager.setStreamMute(AudioManager.STREAM_MUSIC ,state);
-//    }
+    //设置系统声音开关 true 表示禁音状态
+    private void setSound(Boolean state){
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC ,state);
+    }
 
     class PhoneListener extends PhoneStateListener {
         @Override
@@ -54,20 +53,16 @@ public class roomSoundState {
             switch (state) {
                 case TelephonyManager.CALL_STATE_RINGING:// 来电状态
                     DebugLogs.e("来电话了");
-                   // setSound(true);
-
-                    ChatRoom.closeChatRoom();
+                    setSound(true);
                     phoneState = true;
                     break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:// 接听状态
                     DebugLogs.e("在接电话");
-                    //setSound(true);
-                    ChatRoom.closeChatRoom();
+                    setSound(true);
                     phoneState = true;
                     return;
                 case TelephonyManager.CALL_STATE_IDLE:// 挂断后回到空闲状态
-                   // setSound(false);
-                    phoneState = false;
+                    setSound(false);
                     break;
                 default:
                     break;
