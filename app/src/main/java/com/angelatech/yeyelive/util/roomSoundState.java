@@ -14,39 +14,43 @@ import com.will.common.log.DebugLogs;
 public class roomSoundState {
     private AudioManager audioManager;
     private static roomSoundState instance = null;
-    private Context mContext ;
-    public boolean isSoundOpen =  false;                    // 房间声音开关   false 表示当前声音关闭状态
-    public boolean phoneState = false;                      // 是否接听电话状态 false 当前状态空闲
-    private int headsetState = 0;                            // 检测耳机是否有插入状态 0.表示没有插入耳机
+    boolean phoneState = false;                      // 是否接听电话状态 false 当前状态空闲
+    private static int currentVolume;
 
-    public static roomSoundState getInstance(){
-        if (instance == null){
+    public static roomSoundState getInstance() {
+        if (instance == null) {
             instance = new roomSoundState();
         }
         return instance;
     }
 
-    public roomSoundState(){
+    private roomSoundState() {
 
     }
 
-    public void init(Context context){
-        this.mContext =context;
-        getCallPhoneListener();
+    public void init(Context context) {
+        getCallPhoneListener(context);
     }
+
     //获取手机电话状态
-    public void getCallPhoneListener(){
-        TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(Context.TELEPHONY_SERVICE);
+    private void getCallPhoneListener(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         telephonyManager.listen(new PhoneListener(), PhoneStateListener.LISTEN_CALL_STATE);
-        audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
     //设置系统声音开关 true 表示禁音状态
-    private void setSound(Boolean state){
-        audioManager.setStreamMute(AudioManager.STREAM_MUSIC ,state);
+    private void setSound(Boolean state) {
+//        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, state);
+        if (state) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+        } else {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);//tempVolume:音量绝对值
+        }
     }
 
-    class PhoneListener extends PhoneStateListener {
+    private class PhoneListener extends PhoneStateListener {
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
@@ -63,11 +67,12 @@ public class roomSoundState {
                     return;
                 case TelephonyManager.CALL_STATE_IDLE:// 挂断后回到空闲状态
                     setSound(false);
+                    phoneState = false;
                     break;
                 default:
                     break;
             }
         }
     }
-
 }
+

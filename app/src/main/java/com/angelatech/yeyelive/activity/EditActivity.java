@@ -22,7 +22,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -76,6 +76,7 @@ public class EditActivity extends HeaderBaseActivity {
         headerLayout.showRightTextButton(R.color.color_222222, R.string.button_save, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utility.closeKeybord(tv_nickName, EditActivity.this);
                 saveUserInfo();
             }
         });
