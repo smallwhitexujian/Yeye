@@ -49,4 +49,10 @@ public class BasicUserInfoDBModel implements Serializable {
     @DatabaseField(columnName = "isv")
     public String isv = "0";
 
+    /**
+     * 登录方式
+     */
+    @DatabaseField(columnName = "loginType")
+    public String loginType = "0";
+
 }

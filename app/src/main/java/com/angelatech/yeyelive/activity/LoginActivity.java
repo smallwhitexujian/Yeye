@@ -182,6 +182,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (userInfo != null && userInfo.userid != null && userInfo.nickname != null) {
                     if (Login.checkUserInfo(userInfo.userid)) {
                         StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, MainActivity.class, null);
+                        finish();
                     }
                 } else {
                     StartActivityHelper.jumpActivityDefault(this, ProfileActivity.class);

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.Binding;
 import com.angelatech.yeyelive.application.App;
@@ -62,7 +63,7 @@ public class SettingActivity extends HeaderBaseActivity {
             feedbackLayout, aboutLayout, blacklistLayout, layout_change_password;
 
     private HttpFunction settingFunction = new HttpFunction(SettingActivity.this);
-    private BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
+    private BasicUserInfoDBModel userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class SettingActivity extends HeaderBaseActivity {
     }
 
     private void initView() {
+        userInfo = CacheDataManager.getInstance().loadUser();
         headerLayout.showTitle(getString(R.string.setting_title));
         headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
             @Override
@@ -179,7 +181,11 @@ public class SettingActivity extends HeaderBaseActivity {
                 commDialog.CommDialog(this, getString(R.string.setting_clear_cache_dialog), true, callback);
                 break;
             case R.id.layout_change_password:
-                startActivity(new Intent(this, ChangePasswordActivity.class));
+                if (userInfo.loginType.equals(Constant.Login_phone)) {
+                    startActivity(new Intent(this, ChangePasswordActivity.class));
+                } else {
+                    ToastUtils.showToast(this, getString(R.string.change_password_no_permissions));
+                }
                 break;
         }
     }

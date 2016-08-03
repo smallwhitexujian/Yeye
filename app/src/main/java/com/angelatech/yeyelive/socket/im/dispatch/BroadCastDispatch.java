@@ -85,7 +85,7 @@ public class BroadCastDispatch extends Dispatchable {
                                 roomModel.setId(Integer.parseInt(result.roomid));
                                 roomModel.setIp(result.roomip.split(":")[0]);
                                 roomModel.setPort(Integer.parseInt(result.roomip.split(":")[1]));
-                                roomModel.setRoomType("watch");
+                                roomModel.setRoomType(App.LIVE_WATCH);
                                 BasicUserInfoDBModel user = new BasicUserInfoDBModel();
                                 user.userid = result.uid;
                                 user.headurl = result.headurl;

@@ -131,8 +131,6 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
 
     @Override
     protected void onDestroy() {
-        mVideoPlayer.stop();
-        mVideoPlayer.destroy();
         super.onDestroy();
     }
 
@@ -151,7 +149,6 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
 
         video_loading = (ImageView) findViewById(R.id.video_loading);
         animationDrawable = (AnimationDrawable) video_loading.getDrawable();
-
 
         ly_playfinish = (RelativeLayout) findViewById(R.id.ly_playfinish);
         player_total_time = (TextView) findViewById(R.id.player_total_time);
@@ -290,6 +287,9 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                     }
                     break;
                 case R.id.backBtn:
+                    uiHandler.removeCallbacksAndMessages(null);
+                    mVideoPlayer.stop();
+                    mVideoPlayer.destroy();
                     finish();
                     break;
                 default:
@@ -312,7 +312,6 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
             uiHandler.obtainMessage(MSG_REPORT_ERROR, errorMap.get("code")).sendToTarget();
         }
     };
-
 
     //接受回调
     @Override

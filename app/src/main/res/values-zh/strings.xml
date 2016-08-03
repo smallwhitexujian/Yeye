@@ -341,4 +341,5 @@
     <string name="no_data_no_video">没有视频</string>
     <string name="video_delete_success">删除成功</string>
     <string name="video_delete_error">删除失败</string>
+    <string name="change_password_no_permissions">第三方登录不能修改密码</string>
 </resources>

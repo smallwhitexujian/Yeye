@@ -344,5 +344,5 @@
     <string name="no_data_no_video">No Record</string>
     <string name="video_delete_success">Delete Succesffully</string>
     <string name="video_delete_error">Delete Failed</string>
-
+    <string name="change_password_no_permissions">Sign in with your password can not be modified</string>
 </resources>

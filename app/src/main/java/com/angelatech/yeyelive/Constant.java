@@ -42,4 +42,10 @@ public class Constant {
     public static final String SEX_MALE = "1";
     public static final String SEX_FEMALE = "0";
 
+    //登录方式
+    public static final String Login_phone = "0";
+    public static final String Login_facebook = "1";
+    public static final String Login_wx = "2";
+    public static final String Login_qq = "3";
+
 }

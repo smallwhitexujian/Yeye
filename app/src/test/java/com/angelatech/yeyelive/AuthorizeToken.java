@@ -3,10 +3,9 @@ package com.angelatech.yeyelive;
 public class AuthorizeToken {
 
 	/**
-     * access_token : ya29.3gC2jw5vm77YPkylq0H5sPJeJJDHX93Kq8qZHRJaMlknwJ85595eMogL300XKDOEI7zIsdeFEPY6zg
      * token_type : Bearer
      * expires_in : 3600
-     * refresh_token : 1/FbQD448CdDPfDEDpCy4gj_m3WDr_M0U5WupquXL_o
+     * refresh_token :
      */
 
     private String access_token;

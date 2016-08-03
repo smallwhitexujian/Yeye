@@ -16,4 +16,5 @@ public class BaseKey {
     public final static String USER_SEX = "sex";
     public final static String USER_PASSWORD = "password";
     public final static String USER_TOKEN = "token";
+    public final static String USER_LOGIN_TYPE = "loginType";
 }

@@ -750,7 +750,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                             readyLiveFragment.closekeybord();
                         }
-                        finish();
+                        exitRoom();
                     }
                 };
                 if (!isCloseLiveDialog) {
@@ -847,5 +847,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 peerdisConnection(getString(R.string.room_net_toast_error));
                 break;
         }
+    }
+
+    /**
+     * 退出房间
+     */
+    public void exitRoom(){
+        if (!boolCloseRoom) {
+            roomFinish();
+        }
+        finish();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.activity.LoginActivity;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
@@ -27,7 +28,7 @@ public class Register extends Login {
     public final static int REGISTER_SUCCESS = BASE_REGISTER + 1;
     public final static int REGISTER_ERROR = BASE_REGISTER + 2;
     private int maxRequest = 5;
-
+    private String loginType = "0";
 
     public Register(Context context, Handler handler) {
         super(context);
@@ -41,6 +42,7 @@ public class Register extends Login {
         params.put("password", password);
         params.put("deviceid", deviceId);
         params.put("sources", SOURCES_ANDROID + "");
+        loginType = Constant.Login_phone;
         register(CommonUrlConfig.RegisterPhone, params);
     }
 
@@ -54,6 +56,7 @@ public class Register extends Login {
         params.put("code", code);
         params.put("deviceid", deviceId);
         params.put("sources", SOURCES_ANDROID + "");
+        loginType = Constant.Login_wx;
         register(CommonUrlConfig.weixinRegister, params);
     }
 
@@ -69,6 +72,7 @@ public class Register extends Login {
         params.put("openid", openid);
         params.put("deviceid", deviceId);
         params.put("sources", SOURCES_ANDROID + "");
+        loginType = Constant.Login_qq;
         register(CommonUrlConfig.qqRegister, params);
     }
 
@@ -80,6 +84,7 @@ public class Register extends Login {
         params.put("accesstoken", accessToken);
         params.put("deviceid", deviceId);
         params.put("sources", "2");
+        loginType = Constant.Login_facebook;
         register(CommonUrlConfig.facebookLogin_version_2, params);
     }
 
@@ -100,8 +105,9 @@ public class Register extends Login {
                         if (isSuc(code)) {
                             //正确的结果
                             BasicUserInfoDBModel model = datas.data.isEmpty() ? null : datas.data.get(0);
-                            long id = model == null ? -1 : CacheDataManager.getInstance().save(model);
-                            if (id != -1) {
+                            if (model != null) {
+                                model.loginType = loginType;
+                                CacheDataManager.getInstance().save(model);
                                 try {
                                     LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(model.userid), model.token);
                                     attachIM(loginServerModel);
@@ -112,6 +118,7 @@ public class Register extends Login {
                             } else {
                                 handler.obtainMessage(LoginActivity.MSG_LOGIN_ERR).sendToTarget();
                             }
+
                         } else {
                             handler.obtainMessage(LoginActivity.MSG_LOGIN_ERR).sendToTarget();
                         }

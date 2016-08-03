@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.Login;
 import com.angelatech.yeyelive.activity.function.PhoneLogin;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
@@ -162,6 +164,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                         if (CacheDataManager.getInstance().loadUser(userInfoDBModel.userid) != null) {
                             CacheDataManager.getInstance().deleteMessageRecord(userInfoDBModel.userid);
                         }
+                        userInfoDBModel.loginType = Constant.Login_phone;
                         CacheDataManager.getInstance().save(userInfoDBModel);
                         uiHandler.obtainMessage(MSG_LOGIN_SUCC, userInfoDBModel).sendToTarget();
                     } else {
