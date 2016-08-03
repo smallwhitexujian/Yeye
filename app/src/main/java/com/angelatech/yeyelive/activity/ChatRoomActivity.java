@@ -381,7 +381,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, userModel.diamonds, userModel.userid);
                         callFragment.setDiamonds(userModel.diamonds);
                         roomModel.setLikenum(json.getInt("hot"));
-                        callFragment.setLikenum(roomModel.getLikenum());
+                        callFragment.setLikeNum(roomModel.getLikenum());
                         serviceManager.getOnlineListUser();
                         BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                         if (loginMessage != null) {
@@ -437,7 +437,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.WM_SDP:
                 //判断房间信息是否加载成功，如果没有加载，设置房间信息
                 if (!isInit) {
-                    callFragment.setLikenum(roomModel.getLikenum());
+                    callFragment.setLikeNum(roomModel.getLikenum());
                     serviceManager.getOnlineListUser();
                     isInit = true;
                 }
@@ -528,7 +528,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
                         //记录金币数量
-                        roomModel.addLivecoin(callFragment.getGiftCointoId(giftModel.giftid) * giftModel.number);
+                        roomModel.addLivecoin(callFragment.getGiftCoinToId(giftModel.giftid) * giftModel.number);
                     } else if (giftModel.type == 61) {//发送礼物消息。发送者消息结果，
                         //减币
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
@@ -670,7 +670,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             isCloseLiveDialog = false;
             if (!roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                 if (callFragment.getBackState()) {
-                    callFragment.keyback();
+                    callFragment.keyBack();
                     return true;
                 } else {
                     CloseLiveDialog();
