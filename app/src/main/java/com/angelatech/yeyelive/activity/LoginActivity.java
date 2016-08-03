@@ -46,7 +46,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private TextView mPhoneLogin, tv_register;
     private TextView mLinceseLink;
-    private LoginManager loginManager;
     private ImageView iv_logo;
     private LinearLayout layout_login;
 
@@ -60,9 +59,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
-        initData();
         initView();
         setView();
+        initData();
     }
 
     @Override
@@ -141,7 +140,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 StartActivityHelper.jumpActivity(this, WebActivity.class, webTransportModel);
                 break;
             case R.id.tv_register:
-
                 StartActivityHelper.jumpActivity(this, RegisterFindPWDActivity.class, RegisterFindPWDActivity.FROM_TYPE_REGISTER);
                 break;
         }
@@ -158,18 +156,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private boolean limit(String id, String password) {
-        if (id == null || "".equals(id)) {
-            return false;
-        }
-        //其他限制
-        return !(password == null || "".equals(password));
-    }
-
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
-            case MSG_GOTO_LOGIN:
+            case MSG_GOTO_LOGIN: //不是ui 主线程
                 uiHandler.obtainMessage(MSG_ANIMATION).sendToTarget();
                 break;
             case MSG_ANIMATION:
@@ -210,20 +200,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initAnimation() {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-        Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.logo_animation);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
         iv_logo.startAnimation(animation);
-//            }
-//        }).start();
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-        Animation animation2 = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_out_login);
+        Animation animation2 = AnimationUtils.loadAnimation(this, R.anim.fade_out_login);
         layout_login.startAnimation(animation2);
-//            }
-//        }).start();
     }
 }

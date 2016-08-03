@@ -28,7 +28,7 @@
                 android:id="@+id/list_view_user_videos"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@color/color_eaeaea"
+                android:divider="@color/color_grey_d5"
                 android:dividerHeight="0.5dp" />
         </com.will.view.library.SwipyRefreshLayout>
 

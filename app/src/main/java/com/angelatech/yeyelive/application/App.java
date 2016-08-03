@@ -94,9 +94,9 @@ public class App extends Application {
         mAppInterface.initThirdPlugin(this);
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
-        if (isDebug) {
+        //if (isDebug) {
             LeakCanary.install(this);
-        }
+        //}
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         try {
