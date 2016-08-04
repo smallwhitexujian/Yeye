@@ -67,7 +67,6 @@ import java.util.Map;
  * 视频直播主界面
  */
 public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents, OnLiveListener, OnPlayListener {
-
     private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment;//准备播放页面
@@ -145,7 +144,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private void findView() {
         connectionServiceNumber = 0;
         isInit = false;
-
         isCloseLiveDialog = false;
         chatManager = new ChatManager(ChatRoomActivity.this);
         callFragment = new CallFragment();
@@ -665,7 +663,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             isCloseLiveDialog = false;
             if (!roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
@@ -727,7 +724,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void peerdisConnection(final String s) {
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -754,7 +750,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     }
                 };
                 if (!isCloseLiveDialog) {
-
                     if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                         serviceManager.downMic();
                         roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
@@ -766,12 +761,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         });
     }
 
+    /***
+     * 开播
+     */
     @Override
     public void onBeginLive() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // roomModel.setRtmpip("rtmp://pili-publish.ps.qiniucdn.com/NIU7PS/0601d-test?key=efdbc36f-8759-44c2-bdd8-873521b6724a");
                 MediaCenter.startLive(roomModel.getRtmpip(), ChatRoomActivity.this);
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
