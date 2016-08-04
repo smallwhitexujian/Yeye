@@ -283,8 +283,8 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:visibility="gone"
-                    android:src="@drawable/btn_information_attention_s" />
+                    android:src="@drawable/btn_information_attention_s"
+                    android:visibility="gone" />
 
 
                 <ImageView
@@ -293,8 +293,8 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:visibility="gone"
-                    android:src="@drawable/btn_information_notification_s" />
+                    android:src="@drawable/btn_information_notification_s"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/gift_btn"
@@ -302,8 +302,8 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:visibility="gone"
-                    android:src="@drawable/btn_information_gift_n" />
+                    android:src="@drawable/btn_information_gift_n"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/live_btn"

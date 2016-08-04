@@ -99,6 +99,12 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 } else {
                     helper.setImageResource(R.id.iv_user_follow_state, R.drawable.btn_focus_cancel);
                 }
+                if (item.isv.equals("1")){
+                    helper.showView(R.id.iv_vip);
+                }
+                else{
+                    helper.hideView(R.id.iv_vip);
+                }
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

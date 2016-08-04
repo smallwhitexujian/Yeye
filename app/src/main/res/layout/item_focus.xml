@@ -6,13 +6,37 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/user_head_photo"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
+    <!--<com.facebook.drawee.view.SimpleDraweeView-->
+        <!--android:id="@+id/user_head_photo"-->
+        <!--android:layout_width="39dp"-->
+        <!--android:layout_height="39dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--fresco:placeholderImage="@drawable/ic_launcher"-->
+        <!--fresco:roundAsCircle="true" />-->
+    <RelativeLayout
+        android:id="@+id/layout_user_face"
         android:layout_marginLeft="10dp"
-        fresco:placeholderImage="@drawable/ic_launcher"
-        fresco:roundAsCircle="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!--头像-->
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_head_photo"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            fresco:placeholderImage="@drawable/default_photo"
+            fresco:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/iv_vip"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:layout_alignBottom="@id/user_head_photo"
+            android:layout_alignRight="@id/user_head_photo"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/icon_vip_mark"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_name"

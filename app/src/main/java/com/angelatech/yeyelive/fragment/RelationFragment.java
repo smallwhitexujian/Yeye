@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.FocusModel;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
@@ -105,6 +106,12 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                 } else {
                     helper.setImageResource(R.id.iv_user_follow_state, R.drawable.btn_focus_cancel);
                 }
+                if (item.isv.equals("1")){
+                    helper.showView(R.id.iv_vip);
+                }
+                else{
+                    helper.hideView(R.id.iv_vip);
+                }
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -116,7 +123,6 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
         };
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
     }
-
 
     private void setView(){
         list_view_focus.setAdapter(adapter);
@@ -144,14 +150,12 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
         });
         loadData();
         noDataLayout.setVisibility(View.GONE);
-
     }
 
     @Override
     public void onClick(View v) {
 
     }
-
 
     @Override
     public void doHandler(Message msg) {
@@ -236,7 +240,7 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
 
                 if (results != null) {
-                    if(focusFans.isSuc(results.code)){
+                    if(HttpFunction.isSuc(results.code)){
                         if (data.get(position).isfollow.equals("1")) {
                             data.get(position).isfollow = "0";
                         } else {
@@ -290,8 +294,6 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
     public void setType(int type){
         this.type = type;
     }
-
-
 
     private void showNodataLayout(){
         noDataLayout.setVisibility(View.VISIBLE);

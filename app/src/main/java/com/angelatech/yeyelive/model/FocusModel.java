@@ -13,4 +13,5 @@ public class FocusModel {
     public String headurl;
     public String isfollow;
     public String sign;
+    public String isv = "0";
 }
