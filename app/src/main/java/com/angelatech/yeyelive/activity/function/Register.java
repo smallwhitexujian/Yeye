@@ -43,7 +43,7 @@ public class Register extends Login {
         params.put("deviceid", deviceId);
         params.put("sources", SOURCES_ANDROID + "");
         loginType = Constant.Login_phone;
-        register(CommonUrlConfig.RegisterPhone, params);
+        registerToWeb(CommonUrlConfig.RegisterPhone, params);
     }
 
     /**
@@ -129,4 +129,44 @@ public class Register extends Login {
         httpGet(url, params, callback);
     }
 
+    private void registerToWeb(String url, HashMap<String, String> params) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                super.onFailure(errorMap);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                if (response != null) {
+                    CommonParseListModel<BasicUserInfoDBModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<BasicUserInfoDBModel>>() {
+                    }.getType());
+                    if (datas != null) {
+                        String code = datas.code;
+                        if (isSuc(code)) {
+                            //正确的结果
+                            BasicUserInfoDBModel model = datas.data.isEmpty() ? null : datas.data.get(0);
+                            if (model != null) {
+                                model.loginType = loginType;
+                                CacheDataManager.getInstance().save(model);
+                                try {
+                                    LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(model.userid), model.token);
+                                    attachIM(loginServerModel);
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                }
+                                handler.obtainMessage(REGISTER_SUCCESS).sendToTarget();
+                            } else {
+                                handler.obtainMessage(REGISTER_ERROR).sendToTarget();
+                            }
+
+                        } else {
+                            onBusinessFaild(code);
+                        }
+                    }
+                }
+            }
+        };
+        httpGet(url, params, callback);
+    }
 }

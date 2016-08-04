@@ -129,16 +129,6 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_REFRESH_TIME:
@@ -177,6 +167,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_btn:
+                mLoginBtn.setEnabled(false);
                 if (fromType == FROM_TYPE_REGISTER) {
                     Register();
                 } else {
@@ -212,6 +203,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 ToastUtils.showToast(this, getString(R.string.password_error));
             }
         }
+        mLoginBtn.setEnabled(true);
     }
 
     /**
@@ -246,6 +238,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 ToastUtils.showToast(this, getString(R.string.password_error));
             }
         }
+        mLoginBtn.setEnabled(true);
     }
 
     private HttpBusinessCallback sendCode = new HttpBusinessCallback() {
@@ -347,7 +340,6 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             mSendBtn.setEnabled(false);
 //            mSendBtn.setBackgroundResource(R.drawable.common_btn_unuse_bg);
             mSendBtn.setTextColor(0xFFA6A6A6);
-
             mLoginBtn.setEnabled(false);
             mLoginBtn.setBackgroundResource(R.drawable.common_btn_unuse_bg);
             mLoginBtn.setTextColor(0xFFA6A6A6);

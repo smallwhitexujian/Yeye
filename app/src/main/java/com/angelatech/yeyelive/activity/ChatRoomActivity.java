@@ -161,7 +161,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             if (liveUserModel.userid.equals(userModel.userid)) {
                 liveUserModel = userModel;
             }
-            DebugLogs.d("------开播信息"+liveUserModel.toString());
         }
         if (roomModel == null) {
             finish();
