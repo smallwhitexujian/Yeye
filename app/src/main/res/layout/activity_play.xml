@@ -141,15 +141,6 @@
                 android:padding="10dp"
                 android:src="@drawable/btn_room_share_n"
                 android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/button_close"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:contentDescription="@null"
-                android:padding="10dp"
-                android:src="@drawable/btn_room_close_n"
-                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

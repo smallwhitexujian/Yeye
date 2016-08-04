@@ -238,7 +238,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     //收起键盘
                     readyLiveFragment.closekeybord();
                 }
-                finish();
+                exitRoom();
             }
         };
         if (!isCloseLiveDialog) {
@@ -684,7 +684,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     @Override
     public void onPause() {
-        if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
+        if (roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
             MediaCenter.onPause();
         }
         super.onPause();
@@ -692,7 +692,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     @Override
     public void onResume() {
-        if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
+        if (roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
             MediaCenter.onResume();
         }
         super.onResume();
@@ -701,7 +701,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     @Override
     protected void onDestroy() {
         if (!boolCloseRoom) {
-            roomFinish();
+            exitRoom();
         }
         super.onDestroy();
     }
@@ -719,6 +719,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         } else {
             MediaCenter.destoryLive();
         }
+        roomModel = null;
+        userModel = null;
+        liveUserModel = null;
         boolCloseRoom = true;
     }
 
@@ -739,7 +742,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                         }
-                        finish();
+                        exitRoom();
                     }
 
                     @Override
@@ -754,7 +757,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     }
                 };
                 if (!isCloseLiveDialog) {
-
                     if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                         serviceManager.downMic();
                         roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
@@ -852,7 +854,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 退出房间
      */
-    public void exitRoom(){
+    public void exitRoom() {
         if (!boolCloseRoom) {
             roomFinish();
         }

@@ -250,6 +250,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
             user.userid = liveModel.userid;
             user.headurl = liveModel.headurl;
             user.nickname = liveModel.nickname;
+            user.isv = liveModel.isv;
             roomModel.setUserInfoDBModel(user);
 
             ChatRoom.enterChatRoom(getActivity(), roomModel);

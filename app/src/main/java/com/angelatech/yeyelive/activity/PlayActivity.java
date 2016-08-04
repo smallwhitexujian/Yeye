@@ -69,7 +69,7 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
     private RelativeLayout ly_playfinish;
     private SeekBar player_seekBar;
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
-    private ImageView button_close, btn_share, btn_Follow, player_play_btn, backBtn;
+    private ImageView btn_share, btn_Follow, player_play_btn, backBtn;
     private VideoPlayer mVideoPlayer;
 
 
@@ -140,7 +140,7 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
         player_play_btn = (ImageView) findViewById(R.id.player_play_btn);
         player_replay_btn = (Button) findViewById(R.id.player_replay_btn);
-        button_close = (ImageView) findViewById(R.id.button_close);
+
         btn_Follow = (ImageView) findViewById(R.id.btn_Follow);
         btn_share = (ImageView) findViewById(R.id.btn_share);
         btn_back = (Button) findViewById(R.id.btn_back);
@@ -163,7 +163,7 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
         userModel = CacheDataManager.getInstance().loadUser();
         player_play_btn.setOnClickListener(click);
         player_replay_btn.setOnClickListener(click);
-        button_close.setOnClickListener(click);
+
         btn_Follow.setOnClickListener(click);
         btn_share.setOnClickListener(click);
         btn_back.setOnClickListener(click);
@@ -248,11 +248,9 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                     player_play_btn.setImageResource(R.drawable.btn_playback_stop);
                     mVideoPlayer.replay();
                     break;
-                case R.id.button_close:
-                    finish();
-                    break;
                 case R.id.btn_back:
-                    finish();
+                case R.id.backBtn:
+                    ClosePlay();
                     break;
                 case R.id.btn_Follow:
                     UserFollow();
@@ -286,17 +284,21 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                         ToastUtils.showToast(PlayActivity.this, getString(R.string.report_repeat));
                     }
                     break;
-                case R.id.backBtn:
-                    uiHandler.removeCallbacksAndMessages(null);
-                    mVideoPlayer.stop();
-                    mVideoPlayer.destroy();
-                    finish();
-                    break;
                 default:
                     break;
             }
         }
     };
+
+    /**
+     * 退出 关闭 播放
+     */
+    private void ClosePlay() {
+        uiHandler.removeCallbacksAndMessages(null);
+        mVideoPlayer.stop();
+        mVideoPlayer.destroy();
+        finish();
+    }
 
     /**
      * 举报 回调函数

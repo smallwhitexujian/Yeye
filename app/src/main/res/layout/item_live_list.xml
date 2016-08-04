@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/default_face_icon"
+            fresco:placeholderImage="@drawable/default_photo"
             fresco:roundAsCircle="true" />
 
         <ImageView

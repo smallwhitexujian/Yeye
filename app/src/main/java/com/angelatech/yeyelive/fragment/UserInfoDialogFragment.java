@@ -1,7 +1,6 @@
 package com.angelatech.yeyelive.fragment;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
@@ -16,36 +15,36 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.Constant;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.UserControl;
+import com.angelatech.yeyelive.activity.function.UserInfoDialog;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.handler.CommonDoHandler;
 import com.angelatech.yeyelive.handler.CommonHandler;
+import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.BroadCastHelper;
+import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
-import com.angelatech.yeyelive.CommonUrlConfig;
-import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
-import com.angelatech.yeyelive.activity.function.UserInfoDialog;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.CommonListResult;
-import com.angelatech.yeyelive.model.SearchItemModel;
-import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
-import com.angelatech.yeyelive.view.ActionSheetDialog;
-import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -85,8 +84,8 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
         view = inflater.inflate(R.layout.dialog_userinfo, container, false);
+        LoadingDialog.showSysLoadingDialog(getActivity(), "");
         initView();
         setView();
         uiHandler = new CommonHandler<>(this);
@@ -100,8 +99,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
 
     private void initView() {
         userface = (SimpleDraweeView) view.findViewById(R.id.user_face);
-        Uri uri = UriHelper.fromResouse(getActivity(), R.drawable.icon_nodata);
-        userface.setImageURI(uri);
         usernick = (TextView) view.findViewById(R.id.user_nick);
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);
         usersign = (TextView) view.findViewById(R.id.user_sign);
@@ -137,7 +134,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             fragments.add(fansFragment);
             fragments.add(followFragment);
         }
-        lockLayout();
     }
 
     private void setView() {
@@ -316,6 +312,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_LOAD_SUC:
+                LoadingDialog.cancelLoadingDialog();
                 searchUserInfo = (BasicUserInfoDBModel) msg.obj;
                 loadStatus();
                 break;
@@ -428,6 +425,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             rightIcon.setVisibility(View.GONE);
         }
         userface.setVisibility(View.GONE);
+        iv_vip.setVisibility(View.GONE);
         intimacy.setVisibility(View.GONE);
         usersign.setVisibility(View.GONE);
         btnUserControl.setVisibility(View.GONE);
@@ -439,6 +437,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
 
     private void closeDataView() {
         userface.setVisibility(View.VISIBLE);
+        iv_vip.setVisibility(View.VISIBLE);
         intimacy.setVisibility(View.VISIBLE);
         usersign.setVisibility(View.VISIBLE);
         if (isHost()) {
@@ -458,13 +457,14 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
      * a、没有踢人，拉黑举报功能，没有关注开启通知功能
      * ba、如果在房间：可以退出房间
      * bb、如果不在房间：可以开播
-     * <p>
+     * <p/>
      * 2、不是自己：
      * a、如果是房主：有踢人功能，没有举报拉黑，可以关注
      * ab、如果不是房主：举报拉黑，可以关注
      */
     private void setUI(BasicUserInfoDBModel userInfo) {
         if (userInfo == null) {
+            lockLayout();
             return;
         }
         unlockLayout();
@@ -497,9 +497,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             ringBtn.setVisibility(View.VISIBLE);
             liveBtn.setVisibility(View.GONE);
         }
-        if (userInfo.isv.equals("1")){
+        if (userInfo.isv.equals("1")) {
             iv_vip.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             iv_vip.setVisibility(View.GONE);
         }
 
@@ -558,7 +558,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             public void onSuccess(String response) {
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
                 if (results != null) {
-                    if (userInfoDialog.isSuc(results.code)) {
+                    if (HttpFunction.isSuc(results.code)) {
                         isFollowCode = getOppositeFollow(isfollow);
                         uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
 
@@ -593,7 +593,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             public void onSuccess(String response) {
                 Map map = JsonUtil.fromJson(response, Map.class);
                 if (map != null) {
-                    if (userInfoDialog.isSuc((String) map.get("code"))) {
+                    if (HttpFunction.isSuc((String) map.get("code"))) {
                         isNoticeCode = getOppositeNotice(isNoticeCode);
                         uiHandler.obtainMessage(MSG_NOTICE).sendToTarget();
                     } else {

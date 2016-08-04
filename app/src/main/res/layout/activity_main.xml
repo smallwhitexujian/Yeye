@@ -22,7 +22,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
-                fresco:placeholderImage="@drawable/btn_navigation_bar_me_n"
+                fresco:placeholderImage="@drawable/default_photo"
                 fresco:roundAsCircle="true" />
 
             <LinearLayout

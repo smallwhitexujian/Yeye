@@ -3,13 +3,15 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@drawable/circle_coner_bg">
 
     <include
         layout="@layout/none_data_layout"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +27,7 @@
             android:gravity="center"
             android:text="@string/userinfo_dialog_do_kick"
             android:textColor="#A0A0A0"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:visibility="gone" />
 
         <ImageView
@@ -61,18 +63,18 @@
             android:layout_width="87dp"
             android:layout_height="87dp"
             android:layout_marginTop="14dp"
-            fresco:placeholderImage="@drawable/default_face_icon"
+            fresco:placeholderImage="@drawable/default_photo"
             fresco:roundAsCircle="true" />
 
         <ImageView
             android:id="@+id/iv_vip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:layout_alignBottom="@id/user_face"
             android:layout_alignRight="@id/user_face"
-            android:visibility="gone"
-            android:src="@drawable/icon_vip_mark" />
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/icon_vip_mark"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -95,7 +97,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-
                 android:textColor="@color/color_22202d"
                 android:textSize="18sp" />
 
@@ -117,7 +118,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="11dp"
-
             android:textColor="@color/color_a0a0a0"
             android:textSize="12sp" />
 
@@ -198,7 +198,7 @@
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="30dp"
-                android:background="@color/color_eaeaea" />
+                android:background="@color/color_grey_d5" />
 
             <!--关注-->
             <LinearLayout
@@ -283,6 +283,7 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:visibility="gone"
                     android:src="@drawable/btn_information_attention_s" />
 
 
@@ -292,6 +293,7 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:visibility="gone"
                     android:src="@drawable/btn_information_notification_s" />
 
                 <ImageView
@@ -300,6 +302,7 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:visibility="gone"
                     android:src="@drawable/btn_information_gift_n" />
 
                 <TextView
@@ -311,7 +314,8 @@
                     android:gravity="center"
                     android:text="@string/userinfo_dialog_live"
                     android:textColor="@color/color_ffffff"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
 
