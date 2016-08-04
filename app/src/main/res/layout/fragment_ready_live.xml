@@ -146,7 +146,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="门票:" />
+                android:text="@string/tickets" />
 
             <ImageView
                 android:layout_width="wrap_content"
