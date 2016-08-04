@@ -201,7 +201,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             case R.id.btn_close:
                 dismiss();
                 break;
-            case R.id.live_btn:
+            case R.id.live_btn://点击直播按钮
                 if (isInChatRoom()) {
                     ((ChatRoomActivity) getActivity()).CloseLiveDialog();
                 } else {

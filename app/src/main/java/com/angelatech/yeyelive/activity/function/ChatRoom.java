@@ -1,15 +1,14 @@
 package com.angelatech.yeyelive.activity.function;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.angelatech.yeyelive.model.RoomModel;
-import com.will.common.string.Encryption;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.string.Encryption;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.HashMap;
@@ -17,6 +16,7 @@ import java.util.Map;
 
 /**
  * Created by Shanli_pc on 2016/3/16.
+ * 房间入口
  */
 public class ChatRoom extends HttpFunction {
 
@@ -32,25 +32,8 @@ public class ChatRoom extends HttpFunction {
 
     //进ChatRoom房间
     public static void enterChatRoom(Context context, RoomModel roomModel) {
-
         preEnterChatRoom(context);
-//        Intent intent = new Intent(context, ChatRoomActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("room", roomModel);
-//        intent.putExtras(bundle);
         StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
-        // context.startActivity(intent);
-    }
-
-    /**
-     * 进入挂机房间
-     * @param context
-     */
-    public static void enterHookChatRoom(Context context) {
-        if (App.chatRoomApplication != null) {
-            Intent intent = new Intent(context, App.chatRoomApplication.getClass());
-            context.startActivity(intent);
-        }
     }
 
     /**

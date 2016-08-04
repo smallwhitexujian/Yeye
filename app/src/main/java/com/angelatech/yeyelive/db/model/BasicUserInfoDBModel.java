@@ -15,7 +15,6 @@ public class BasicUserInfoDBModel implements Serializable {
 
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;//
-
     @DatabaseField(columnName = "userid", unique = true)
     public String userid;
     @DatabaseField(columnName = "idx")
@@ -55,4 +54,25 @@ public class BasicUserInfoDBModel implements Serializable {
     @DatabaseField(columnName = "loginType")
     public String loginType = "0";
 
+
+    @Override
+    public String toString() {
+        return "BasicUserInfoDBModel{" +
+                "id=" + id +
+                ", userid='" + userid + '\'' +
+                ", idx='" + idx + '\'' +
+                ", token='" + token + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex='" + sex + '\'' +
+                ", headurl='" + headurl + '\'' +
+                ", sign='" + sign + '\'' +
+                ", diamonds='" + diamonds + '\'' +
+                ", fansNum='" + fansNum + '\'' +
+                ", followNum='" + followNum + '\'' +
+                ", Intimacy='" + Intimacy + '\'' +
+                ", videoNum='" + videoNum + '\'' +
+                ", isv='" + isv + '\'' +
+                ", loginType='" + loginType + '\'' +
+                '}';
+    }
 }

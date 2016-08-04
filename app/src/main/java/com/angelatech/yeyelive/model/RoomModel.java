@@ -146,20 +146,43 @@ public class RoomModel implements Serializable {
         return this.liveid;
     }
 
-    private String name;
-    private int id;
-    private String idx;
-    private String level;
-    private String ip;
-    private String rtmpip;
+    private String name;            //直播用户名称
+    private int id;                 //直播用户ID
+    private String idx;             //直播用户IDX
+    private String level;           //直播用户等级
+    private String ip;              //房间IP
+    private int port;               //端口
+    private String rtmpip;          //直播地址
     private String rtmpwatchaddress; //观看视频地址
-    private int port;
-    private String heatDay;
+    private String heatDay;         //热度
     private int likenum;
-    private String roomType; //播放还是观看
+    private String roomType;        //直播状态
     private int livenum = 0;
     private int livecoin = 0;
     private String livetime = "00:00:01";
     private BasicUserInfoDBModel userInfoDBModel;
     private String liveid;
+
+    @Override
+    public String toString() {
+        return "RoomModel{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", idx='" + idx + '\'' +
+                ", level='" + level + '\'' +
+                ", ip='" + ip + '\'' +
+                ", rtmpip='" + rtmpip + '\'' +
+                ", rtmpwatchaddress='" + rtmpwatchaddress + '\'' +
+                ", port=" + port +
+                ", heatDay='" + heatDay + '\'' +
+                ", likenum=" + likenum +
+                ", roomType='" + roomType + '\'' +
+                ", livenum=" + livenum +
+                ", livecoin=" + livecoin +
+                ", livetime='" + livetime + '\'' +
+                ", userInfoDBModel=" + userInfoDBModel +
+                ", liveid='" + liveid + '\'' +
+                '}';
+    }
+//    {name='我是Binglong Cai欢迎大家进我的舞台！', id=10003, idx='10004', level='null', ip='47.88.193.80', rtmpip='rtmp://pili-live-rtmp.iamyeye.com/yeye/5030102', rtmpwatchaddress='null', port=7600, heatDay='null', likenum=0, roomType='WATCH', livenum=0, livecoin=0, livetime='00:00:01', userInfoDBModel=com.angelatech.yeyelive.db.model.BasicUserInfoDBModel@db814a8, liveid='null'}
 }

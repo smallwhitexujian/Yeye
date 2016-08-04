@@ -103,7 +103,4 @@ public class JsonUtil {
         return gson;
     }
 
-
-
-
 }

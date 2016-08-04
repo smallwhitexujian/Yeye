@@ -67,7 +67,6 @@ import java.util.Map;
  * 视频直播主界面
  */
 public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents, OnLiveListener, OnPlayListener {
-
     private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment;//准备播放页面
@@ -100,12 +99,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     protected void onCreate(Bundle savedInstanceState) {
         //保持屏幕常亮
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                         | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                         | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -145,7 +142,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private void findView() {
         connectionServiceNumber = 0;
         isInit = false;
-
         isCloseLiveDialog = false;
         chatManager = new ChatManager(ChatRoomActivity.this);
         callFragment = new CallFragment();
@@ -165,6 +161,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             if (liveUserModel.userid.equals(userModel.userid)) {
                 liveUserModel = userModel;
             }
+            DebugLogs.d("------开播信息"+liveUserModel.toString());
         }
         if (roomModel == null) {
             finish();
@@ -282,7 +279,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         if (serviceManager == null && roomModel.getIp() != null && roomModel.getPort() != 0) {
             SocketConfig socketConfig = new SocketConfig();
-
             socketConfig.setHost(roomModel.getIp());
             socketConfig.setPort(roomModel.getPort());
             serviceManager = new ServiceManager(ChatRoomActivity.this, socketConfig, roomModel.getId(), uiHandler, userModel);
@@ -665,7 +661,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             isCloseLiveDialog = false;
             if (!roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
@@ -730,7 +725,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void peerdisConnection(final String s) {
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -768,12 +762,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         });
     }
 
+    /***
+     * 开播
+     */
     @Override
     public void onBeginLive() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // roomModel.setRtmpip("rtmp://pili-publish.ps.qiniucdn.com/NIU7PS/0601d-test?key=efdbc36f-8759-44c2-bdd8-873521b6724a");
                 MediaCenter.startLive(roomModel.getRtmpip(), ChatRoomActivity.this);
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
@@ -832,11 +828,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
         DebugLogs.e("rtmp event" + event);
         switch (event) {
-            case MediaNative.RTMP_PLAY_RECONNECTING:
+            case MediaNative.RTMP_PLAY_RECONNECTING://流媒体重连
                 //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
                 //重连
                 break;
-            case MediaNative.RTMP_PLAY_RECONNECT:
+            case MediaNative.RTMP_PLAY_RECONNECT://
                 //重连成功
                 break;
             case MediaNative.RTMP_PLAY_CONNECT:
@@ -845,7 +841,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case MediaNative.RTMP_PLAY_STOP:
                 break;
             case MediaNative.RTMP_PLAY_CONNECT_ERROR:
-                DebugLogs.e("===============RTMP_PLAY_CONNECT_ERROR==================");
                 peerdisConnection(getString(R.string.room_net_toast_error));
                 break;
         }

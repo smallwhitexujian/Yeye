@@ -135,15 +135,13 @@ public class MainActivity extends BaseActivity {
                 helper.setText(R.id.tv_address, item.get("roomserverip").toString());
                 helper.setOnClick(R.id.img_body, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v) {//观看进入房间
                         RoomModel roomModel = new RoomModel();
                         roomModel.setId(Integer.parseInt((String) item.get("barid")));
                         roomModel.setName((String) item.get("barname"));
                         String roomserverip = (String) item.get("roomserverip");
                         roomModel.setIp(roomserverip.split(":")[0]);
                         roomModel.setPort(Integer.valueOf(roomserverip.split(":")[1]));
-//                        roomModel.setHeatDay((String)item.get("heatday"));
-//                        roomModel.setLevel((String)item.get("barlevel"));
                         roomModel.setRoomType("watch");
                         ChatRoom.enterChatRoom(MainActivity.this, roomModel);
                     }
@@ -167,13 +165,10 @@ public class MainActivity extends BaseActivity {
                     hotTab.setCompoundDrawables(null, null, null, drawable);
                     hotTab.setTextSize(textSize);
                     hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
-                    // hotTab.setBackgroundResource(R.color.color_white);
                 } else {
-                    // followTab.setTextColor(0xFFFFFFFF);
                     followTab.setCompoundDrawables(null, null, null, drawable);
                     followTab.setTextSize(textSize);
                     followTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
-                    //followTab.setBackgroundResource(R.color.color_white);
                 }
             }
 
@@ -239,7 +234,6 @@ public class MainActivity extends BaseActivity {
         switch (msg.what) {
             case MSG_SUCC:
                 commonAdapter.notifyDataSetChanged();
-                // ToastUtils.showToast(MainActivity.this, "成功");
                 break;
             case MSG_ERR:
                 ToastUtils.showToast(MainActivity.this, R.string.fail);

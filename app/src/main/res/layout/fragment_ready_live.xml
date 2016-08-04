@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,7 +10,8 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:ignore="UselessParent">
 
         <EditText
             android:id="@+id/txt_title"
@@ -36,6 +38,7 @@
                 android:layout_marginLeft="14dp">
 
                 <ImageView
+                    android:contentDescription="@null"
                     android:id="@+id/img_location_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,6 +47,7 @@
                     android:visibility="gone" />
 
                 <ImageView
+                    android:contentDescription="@null"
                     android:id="@+id/btn_sign_on_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +62,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="15dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/color_ffffff"
                 android:textSize="14sp" />
 
@@ -71,6 +75,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:contentDescription="@null"
                     android:id="@+id/btn_wechat"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -80,6 +85,7 @@
                     android:visibility="gone" />
 
                 <ImageView
+                    android:contentDescription="@null"
                     android:id="@+id/btn_webchatmoments"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -89,6 +95,7 @@
                     android:visibility="gone" />
 
                 <ImageView
+                    android:contentDescription="@null"
                     android:id="@+id/btn_weibo"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -98,6 +105,7 @@
                     android:visibility="gone" />
 
                 <ImageView
+                    android:contentDescription="@null"
                     android:id="@+id/btn_facebook"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

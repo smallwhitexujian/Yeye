@@ -92,8 +92,7 @@ public class BroadCastDispatch extends Dispatchable {
                                 user.nickname = result.nickname;
                                 roomModel.setUserInfoDBModel(user);
                                 String content = mContext.getString(R.string.notify_live_content, result.nickname);
-                                mContent = content == null ? mContent : content;
-                                NotificationUtil.launchNoticeWithData(mContext, requestCode, ticker, title, mContent, ChatRoomActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
+                                NotificationUtil.launchNoticeWithData(mContext, requestCode, ticker, title, content, ChatRoomActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
