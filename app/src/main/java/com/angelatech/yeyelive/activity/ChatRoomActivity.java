@@ -99,12 +99,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     protected void onCreate(Bundle savedInstanceState) {
         //保持屏幕常亮
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                         | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                         | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -163,6 +161,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             if (liveUserModel.userid.equals(userModel.userid)) {
                 liveUserModel = userModel;
             }
+            DebugLogs.d("------开播信息"+liveUserModel.toString());
         }
         if (roomModel == null) {
             finish();
@@ -827,11 +826,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
         DebugLogs.e("rtmp event" + event);
         switch (event) {
-            case MediaNative.RTMP_PLAY_RECONNECTING:
+            case MediaNative.RTMP_PLAY_RECONNECTING://流媒体重连
                 //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
                 //重连
                 break;
-            case MediaNative.RTMP_PLAY_RECONNECT:
+            case MediaNative.RTMP_PLAY_RECONNECT://
                 //重连成功
                 break;
             case MediaNative.RTMP_PLAY_CONNECT:
@@ -840,7 +839,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case MediaNative.RTMP_PLAY_STOP:
                 break;
             case MediaNative.RTMP_PLAY_CONNECT_ERROR:
-                DebugLogs.e("===============RTMP_PLAY_CONNECT_ERROR==================");
                 peerdisConnection(getString(R.string.room_net_toast_error));
                 break;
         }

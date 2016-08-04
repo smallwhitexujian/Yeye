@@ -16,8 +16,6 @@ import java.util.Map;
  * Created by jjfly on 16-3-21.
  */
 public class MainEnter extends HttpFunction {
-
-
     public MainEnter(Context context) {
         super(context);
     }
@@ -69,44 +67,6 @@ public class MainEnter extends HttpFunction {
         params.put("token", token);
         httpGet(url, params, callback);
     }
-
-
-    //进ChatRoom房间
-    public void enterChatRoom(Context context, RoomModel roomModel) {
-        preEnterChatRoom(context);
-        StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
-    }
-
-    public void enterChatRoom(Context context, Map map) {
-        preEnterChatRoom(context);
-        RoomModel roomModel = new RoomModel();
-        StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
-    }
-
-
-    private void preEnterChatRoom(Context context) {
-        //关闭以前房间
-        closeChatRoom();
-    }
-
-
-    /**
-     * 进入挂机房间
-     *
-     * @param context
-     */
-    public void enterHookChatRoom(Context context) {
-
-    }
-
-    /**
-     * 退出房间
-     */
-    public void closeChatRoom() {
-
-    }
-
-
 }
 
 

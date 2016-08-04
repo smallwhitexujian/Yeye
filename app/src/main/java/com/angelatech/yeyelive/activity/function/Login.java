@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends HttpFunction {
-
-
     public Login(Context context){
         super(context);
     }
@@ -35,7 +33,6 @@ public class Login extends HttpFunction {
         params.put("sourcesType", 2 + "");//登录方式
         params.put("areaId", "");
         params.put("sources", SOURCES_ANDROID+"");//android or ios
-
         httpGet(url,params,callback);
     }
 
@@ -51,14 +48,10 @@ public class Login extends HttpFunction {
     }
 
     public void attachIM(LoginServerModel param){
-
         Intent i = IServiceHelper.getParcelableIntent(
                 IServiceValues.ACTION_CMD_WAY,
                 IServiceValues.CMD_LOGIN,
                 TransactionValues.UI_2_SERVICE_KEY1,param);
         BroadCastHelper.sendBroadcast(mContext,i);
-
     }
-
-
 }
