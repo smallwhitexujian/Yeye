@@ -279,7 +279,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         if (serviceManager == null && roomModel.getIp() != null && roomModel.getPort() != 0) {
             SocketConfig socketConfig = new SocketConfig();
-
             socketConfig.setHost(roomModel.getIp());
             socketConfig.setPort(roomModel.getPort());
             serviceManager = new ServiceManager(ChatRoomActivity.this, socketConfig, roomModel.getId(), uiHandler, userModel);
