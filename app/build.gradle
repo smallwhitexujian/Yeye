@@ -37,9 +37,7 @@ android {
             zipAlignEnabled true
             minifyEnabled true
             shrinkResources true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-android.txt'
-//            signingConfig signingConfigs.release
         }
     }
     sourceSets {
@@ -56,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':LibCommon')
     compile project(':LibNotification')
     compile project(':LibSocket')
@@ -75,4 +73,5 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
 }

@@ -4,14 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ly_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:ignore="UselessParent">
+
 
         <EditText
             android:id="@+id/txt_title"
@@ -26,10 +29,22 @@
             android:textColorHint="@color/color_fefefe" />
 
 
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/start_live_btn_bg"
+            android:text="@string/btn_begin_live"
+            android:textColor="@color/color_fefefe" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_above="@+id/btn_start"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="22dp"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -38,20 +53,20 @@
                 android:layout_marginLeft="14dp">
 
                 <ImageView
-                    android:contentDescription="@null"
                     android:id="@+id/img_location_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@drawable/circular"
+                    android:contentDescription="@null"
                     android:visibility="gone" />
 
                 <ImageView
-                    android:contentDescription="@null"
                     android:id="@+id/btn_sign_on_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_location_n" />
             </RelativeLayout>
 
@@ -75,56 +90,75 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:contentDescription="@null"
                     android:id="@+id/btn_wechat"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_wechat_n"
                     android:visibility="gone" />
 
                 <ImageView
-                    android:contentDescription="@null"
-                    android:id="@+id/btn_webchatmoments"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/btn_sign_on_share_moments_n"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:contentDescription="@null"
-                    android:id="@+id/btn_weibo"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/btn_sign_on_share_weibo_n"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:contentDescription="@null"
                     android:id="@+id/btn_facebook"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_facebook_n" />
+
+                <ImageView
+                    android:id="@+id/btn_webchatmoments"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:src="@drawable/btn_sign_on_share_moments_n"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/btn_weibo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:src="@drawable/btn_sign_on_share_weibo_n"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_start"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/start_live_btn_bg"
-            android:text="@string/btn_begin_live"
-            android:textColor="@color/color_fefefe" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:background="@color/color_30000000"
+            android:paddingRight="10dp"
+            android:paddingLeft="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="门票:" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:paddingLeft="8dp"
+                android:src="@drawable/icon_tickets_golds_small" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
