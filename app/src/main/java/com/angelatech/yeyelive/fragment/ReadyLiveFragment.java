@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
@@ -42,6 +45,8 @@ import com.will.web.handle.HttpBusinessCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -53,7 +58,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private final int START_LIVE_CODE = 1;
     private final int LIVE_USER = 2; //直播者
     private View controlView;
-    private LinearLayout ly_body;
+    private RelativeLayout ly_body;
     private ImageView btn_sign_on_location, img_location_bg;
     private ImageView btn_facebook, btn_webchatmoments, btn_wechat, btn_weibo;//facebook
     private EditText txt_title;
@@ -67,6 +72,8 @@ public class ReadyLiveFragment extends BaseFragment {
     private Bitmap img = null;
     private Animation rotateAnimation;
     private TextView mLocationInfo;
+    private List<String> spinnnerList = new ArrayList<>();
+
 
     public interface OnCallEvents {
         //开始直播
@@ -83,9 +90,10 @@ public class ReadyLiveFragment extends BaseFragment {
     }
 
     private void initView() {
+        Spinner spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
         btn_start = (Button) controlView.findViewById(R.id.btn_start);
-        ly_body = (LinearLayout) controlView.findViewById(R.id.ly_body);
+        ly_body = (RelativeLayout) controlView.findViewById(R.id.ly_body);
         btn_sign_on_location = (ImageView) controlView.findViewById(R.id.btn_sign_on_location);
         btn_facebook = (ImageView) controlView.findViewById(R.id.btn_facebook);
         img_location_bg = (ImageView) controlView.findViewById(R.id.img_location_bg);
@@ -93,6 +101,40 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments = (ImageView) controlView.findViewById(R.id.btn_webchatmoments);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
+
+
+        spinnnerList.add("50");
+        spinnnerList.add("100");
+        spinnnerList.add("250");
+        spinnnerList.add("350");
+        spinnnerList.add("450");
+        spinnnerList.add("550");
+        spinnnerList.add("650");
+
+
+        ArrayAdapter<String> spinnnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
+                TextView label = (TextView) view.findViewById(R.id.spinner_item_label);
+                label.setText(spinnnerList.get(position));
+                return view;
+            }
+        };
+        spinnner.setAdapter(spinnnerAdapter);
+        spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        spinnnerAdapter.clear();
+        spinnnerAdapter.addAll(spinnnerList);
+        spinnnerAdapter.notifyDataSetChanged();
     }
 
     private void goAnimation() {

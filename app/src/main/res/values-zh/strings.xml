@@ -342,4 +342,5 @@
     <string name="video_delete_success">删除成功</string>
     <string name="video_delete_error">删除失败</string>
     <string name="change_password_no_permissions">第三方登录不能修改密码</string>
+    <string name="tickets">门票:</string>
 </resources>
