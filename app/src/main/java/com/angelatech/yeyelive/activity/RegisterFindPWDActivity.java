@@ -153,12 +153,15 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             case MSG_ILLEGAL_INPUT_CODE:
                 setIsWork();
                 break;
+            case Register.REGISTER_SUCCESS:
             case MSG_FIND_PASSWORD_SUCCESS:
                 LoginUserModel loginUserModel = new LoginUserModel();
                 loginUserModel.phone = phone;
                 loginUserModel.password = password;
                 loginUserModel.countryCode = countryCode;
                 StartActivityHelper.jumpActivity(this, LoginPasswordActivity.class, loginUserModel);
+                break;
+            case Register.REGISTER_ERROR:
                 break;
         }
     }
@@ -184,6 +187,9 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 break;
             case R.id.select_country:
                 StartActivityHelper.jumpActivityForResult(this, CountrySelectActivity.class, 1);
+                break;
+            case Register.REGISTER_SUCCESS:
+
                 break;
         }
 
