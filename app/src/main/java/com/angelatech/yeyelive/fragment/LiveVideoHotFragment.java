@@ -25,7 +25,10 @@ import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.handler.CommonHandler;
+import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
 import com.angelatech.yeyelive.model.BannerModel;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.CommonVideoModel;
 import com.angelatech.yeyelive.model.LiveModel;
@@ -58,7 +61,8 @@ import java.util.Map;
 /**
  * 热门
  */
-public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener {
+public class LiveVideoHotFragment extends BaseFragment implements
+        SwipyRefreshLayout.OnRefreshListener, CommonDoHandler {
     private final int DIVIDE = 999;
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_NO_DATA = 2;
@@ -82,6 +86,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
     private RelativeLayout noDataLayout;
     private int result_type = 0;
     private final Object lock = new Object();
+    private CommonHandler<LiveVideoHotFragment> uiHandler;
 
     @SuppressLint("ValidFragment")
     public LiveVideoHotFragment(String url) {
@@ -96,6 +101,7 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
         view = inflater.inflate(R.layout.frame_live_video_hot, container, false);
         initView();
         setView();
+        uiHandler = new CommonHandler<>(this);
         return view;
     }
 
@@ -246,13 +252,16 @@ public class LiveVideoHotFragment extends BaseFragment implements SwipyRefreshLa
             roomModel.setRtmpip(liveModel.rtmpserverip);
             roomModel.setRoomType(App.LIVE_WATCH);
             roomModel.setIdx(liveModel.roomidx);
-            BasicUserInfoDBModel user = new BasicUserInfoDBModel();
+            BasicUserInfoDBModel user = new BasicUserInfoDBModel(); //直播者信息
             user.userid = liveModel.userid;
             user.headurl = liveModel.headurl;
             user.nickname = liveModel.nickname;
             user.isv = liveModel.isv;
             roomModel.setUserInfoDBModel(user);
-
+            BasicUserInfoModel loginUser = new BasicUserInfoModel();//登录信息
+            loginUser.Userid = userInfo.userid;
+            loginUser.Token = userInfo.token;
+            roomModel.setLoginUser(loginUser);
             ChatRoom.enterChatRoom(getActivity(), roomModel);
         } else {
             //回放视频

@@ -345,4 +345,8 @@
     <string name="video_delete_success">Delete Succesffully</string>
     <string name="video_delete_error">Delete Failed</string>
     <string name="change_password_no_permissions">Sign in with your password can not be modified</string>
+
+    <string name="dialog_tickets">本场直播需要购买门票</string>
+    <string name="dialog_go_play">马上去支付</string>
+    <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
 </resources>

@@ -1,29 +1,13 @@
 package com.angelatech.yeyelive.model;
 
 
+import java.io.Serializable;
+
 /**
  * Created by jjfly on 16-3-3.
  */
 
-public class BasicUserInfoModel{
-
-
-    /***
-     *    {
-     "userid": "10000",
-     "idx": "6000105",
-     "token": "B33BA99BCD73E735D5561953898C909E",
-     "nickname": "bee1458656521",
-     "sex": "0",
-     "headurl": "",
-     "sign": "",
-     "diamonds": "0",
-     "fansNum": "0",
-     "followNum": "0",
-     "Intimacy": "0"
-     }
-     */
-
+public class BasicUserInfoModel implements Serializable {
 
     public String Userid;
     public String Token;

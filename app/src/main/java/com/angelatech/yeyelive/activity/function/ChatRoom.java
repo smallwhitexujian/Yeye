@@ -1,14 +1,18 @@
 package com.angelatech.yeyelive.activity.function;
 
+import android.app.Activity;
 import android.content.Context;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.fragment.TicketsDialogFragment;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.string.Encryption;
+import com.will.common.string.json.JsonUtil;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.HashMap;
@@ -20,9 +24,12 @@ import java.util.Map;
  */
 public class ChatRoom extends HttpFunction {
 
+    static Context context;
+    static Activity activity;
 
     public ChatRoom(Context context) {
         super(context);
+        ChatRoom.activity = (Activity) context;
     }
 
     private static void preEnterChatRoom(Context context) {
@@ -31,9 +38,111 @@ public class ChatRoom extends HttpFunction {
     }
 
     //进ChatRoom房间
-    public static void enterChatRoom(Context context, RoomModel roomModel) {
-        preEnterChatRoom(context);
-        StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+    //增加门票功能
+    public static void enterChatRoom(final Context context, final RoomModel roomModel) {
+        ChatRoom chatRoom = new ChatRoom(context);
+        chatRoom.getRoomTickets(roomModel.getLoginUser().Userid, roomModel.getLoginUser().Token,
+                String.valueOf(roomModel.getId()), new HttpBusinessCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Map map = JsonUtil.fromJson(response, Map.class);
+                        if (map != null) {
+                            if (HttpFunction.isSuc(map.get("code").toString())) {
+                                String ticket = map.get("data").toString();
+                                if (!ticket.equals("0")) {//需要门票
+                                    TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment();
+                                    roomModel.setTicket(ticket);
+                                    ticketsDialogFragment.setRoomModel(roomModel);
+                                    ticketsDialogFragment.show(activity.getFragmentManager(), "");
+                                } else {
+                                    preEnterChatRoom(context);
+                                    StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+                                }
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Map<String, ?> errorMap) {
+
+                    }
+                });
+    }
+
+    /**
+     * 获取房间门票信息
+     *
+     * @param userId   uid
+     * @param token    token
+     * @param roomId   房间id
+     * @param callback 回调
+     */
+    private void getRoomTickets(String userId, String token, String roomId, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userId);
+        params.put("toroomid", roomId);
+        httpGet(CommonUrlConfig.PayTicketsIsPay, params, callback);
+    }
+
+    /**
+     * 门票列表
+     *
+     * @param userId   uid
+     * @param token    token
+     * @param callback 回调
+     */
+    public void getPayTicketsList(String userId, String token, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userId);
+        httpGet(CommonUrlConfig.PayTicketslist, params, callback);
+    }
+
+    /**
+     * 门票更新
+     *
+     * @param userId   uid
+     * @param token    token
+     * @param price    价格
+     * @param callback 回调
+     */
+    public void updatePayTicketsUpt(String userId, String token, String price, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userId);
+        params.put("price", price);
+        httpGet(CommonUrlConfig.PayTicketsUpt, params, callback);
+    }
+
+    /**
+     * 门票支付
+     *
+     * @param userId   uid
+     * @param token    token
+     * @param roomId   房间id
+     * @param callback 回调
+     */
+    public void payTicketsIsIns(String userId, String token, String roomId, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userId);
+        params.put("toroomid", roomId);
+        httpGet(CommonUrlConfig.PayTicketsIsIns, params, callback);
+    }
+
+    /**
+     * 门票结算数据 主播停播请求
+     * @param userId udi
+     * @param token token
+     * @param callback 回调
+     */
+    public void payTicketsSet(String userId, String token, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userId);
+        httpGet(CommonUrlConfig.PayTicketsSet, params, callback);
     }
 
     /**
@@ -63,7 +172,7 @@ public class ChatRoom extends HttpFunction {
     /**
      * 获取是否关注
      */
-    public void UserIsFollow(String url,String token,String userid,String tuserid,HttpBusinessCallback callback) {
+    public void UserIsFollow(String url, String token, String userid, String tuserid, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("touserid", tuserid);
@@ -74,12 +183,12 @@ public class ChatRoom extends HttpFunction {
     /**
      * 关注/取消关注
      */
-    public void UserFollow(String url,String token,String userid,String fuserid,int type,HttpBusinessCallback callback) {
+    public void UserFollow(String url, String token, String userid, String fuserid, int type, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("fuserid", fuserid);
         params.put("userid", userid);
-        params.put("type", String.valueOf( type));
+        params.put("type", String.valueOf(type));
         httpGet(url, params, callback);
     }
 

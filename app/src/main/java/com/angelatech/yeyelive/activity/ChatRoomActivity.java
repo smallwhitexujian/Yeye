@@ -13,15 +13,35 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
-import com.angelatech.yeyelive.TransactionValues;
+import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatManager;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
+import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.BaseKey;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.fragment.CallFragment;
+import com.angelatech.yeyelive.fragment.LiveFinishFragment;
 import com.angelatech.yeyelive.fragment.ReadyLiveFragment;
+import com.angelatech.yeyelive.model.BarInfoModel;
+import com.angelatech.yeyelive.model.ChatLineModel;
+import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
+import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.socket.room.ServiceManager;
+import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.SPreferencesTool;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
+import com.angelatech.yeyelive.view.FrescoBitmapUtils;
+import com.angelatech.yeyelive.view.GaussAmbiguity;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -34,27 +54,6 @@ import com.will.libmedia.OnLiveListener;
 import com.will.libmedia.OnPlayListener;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
-import com.angelatech.yeyelive.CommonUrlConfig;
-import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.base.BaseActivity;
-import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
-import com.angelatech.yeyelive.application.App;
-import com.angelatech.yeyelive.db.BaseKey;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.fragment.CallFragment;
-import com.angelatech.yeyelive.fragment.LiveFinishFragment;
-import com.angelatech.yeyelive.model.BarInfoModel;
-import com.angelatech.yeyelive.model.ChatLineModel;
-import com.angelatech.yeyelive.model.CommonListResult;
-import com.angelatech.yeyelive.model.GiftAnimationModel;
-import com.angelatech.yeyelive.model.OnlineListModel;
-import com.angelatech.yeyelive.socket.room.ServiceManager;
-import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.SPreferencesTool;
-import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.view.FrescoBitmapUtils;
-import com.angelatech.yeyelive.view.GaussAmbiguity;
-import com.angelatech.yeyelive.view.LoadingDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,9 +99,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         //保持屏幕常亮
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                        | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -156,7 +155,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         App.mChatlines.clear();
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+            roomModel = StartActivityHelper.getTransactionSerializable_1(this);
             liveUserModel = roomModel.getUserInfoDBModel();
             if (liveUserModel.userid.equals(userModel.userid)) {
                 liveUserModel = userModel;

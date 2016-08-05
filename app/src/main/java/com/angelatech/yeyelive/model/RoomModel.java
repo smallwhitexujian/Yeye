@@ -147,7 +147,7 @@ public class RoomModel implements Serializable {
     }
 
     private String name;            //直播用户名称
-    private int id;                 //直播用户ID
+    private int id;                 //直播房间ID
     private String idx;             //直播用户IDX
     private String level;           //直播用户等级
     private String ip;              //房间IP
@@ -160,7 +160,26 @@ public class RoomModel implements Serializable {
     private int livenum = 0;
     private int livecoin = 0;
     private String livetime = "00:00:01";
-    private BasicUserInfoDBModel userInfoDBModel;
+    private BasicUserInfoDBModel userInfoDBModel; //直播者信息
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
+
+    private String ticket;//门票价格
+    public BasicUserInfoModel getLoginUser() {
+        return loginUser;
+    }
+
+    public void setLoginUser(BasicUserInfoModel loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    private BasicUserInfoModel loginUser; //当前登录用户信息
     private String liveid;
 
     @Override

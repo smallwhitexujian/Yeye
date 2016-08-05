@@ -149,4 +149,17 @@ public class CommonUrlConfig {
     //充值接口
     public static String UserBill = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Recharge/TransactionDetails";
 
+    /**
+     * 门票 模块
+     */
+    //票据列表
+    public static String PayTicketslist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketslist";
+    //更新门票价格
+    public static String PayTicketsUpt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsUpt";
+    //门票结算数据
+    public static String PayTicketsSet = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsSet";
+    //门票支付
+    public static String PayTicketsIsIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsIns";
+    //直播是否收门票 返回门票数据
+    public static String PayTicketsIsPay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsPay";
 }
