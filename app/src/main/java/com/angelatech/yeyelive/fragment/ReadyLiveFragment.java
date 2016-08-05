@@ -24,6 +24,8 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.Ticket;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.QqShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
@@ -37,6 +39,8 @@ import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.datasource.DataSource;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
@@ -73,7 +77,9 @@ public class ReadyLiveFragment extends BaseFragment {
     private Animation rotateAnimation;
     private TextView mLocationInfo;
     private List<String> spinnnerList = new ArrayList<>();
-
+    private String uid, token;
+    private ArrayAdapter<String> spinnnerAdapter;
+    private Spinner spinnner;
 
     public interface OnCallEvents {
         //开始直播
@@ -83,6 +89,8 @@ public class ReadyLiveFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_ready_live, container, false);
+        uid = ChatRoomActivity.userModel.userid;
+        token = ChatRoomActivity.userModel.token;
         initView();
         findView();
         goAnimation();
@@ -90,7 +98,8 @@ public class ReadyLiveFragment extends BaseFragment {
     }
 
     private void initView() {
-        Spinner spinnner = (Spinner) controlView.findViewById(R.id.spinner);
+        chatRoom = new ChatRoom(getActivity());
+        spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
         btn_start = (Button) controlView.findViewById(R.id.btn_start);
         ly_body = (RelativeLayout) controlView.findViewById(R.id.ly_body);
@@ -101,18 +110,12 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments = (ImageView) controlView.findViewById(R.id.btn_webchatmoments);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
+        initTickets();
+    }
 
-
-        spinnnerList.add("50");
-        spinnnerList.add("100");
-        spinnnerList.add("250");
-        spinnnerList.add("350");
-        spinnnerList.add("450");
-        spinnnerList.add("550");
-        spinnnerList.add("650");
-
-
-        ArrayAdapter<String> spinnnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
+    private void initTickets() {
+        chatRoom.getPayTicketsList(uid, token, callback);
+        spinnnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
@@ -121,20 +124,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 return view;
             }
         };
-        spinnner.setAdapter(spinnnerAdapter);
-        spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.setVisibility(View.VISIBLE);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        spinnnerAdapter.clear();
-        spinnnerAdapter.addAll(spinnnerList);
-        spinnnerAdapter.notifyDataSetChanged();
     }
 
     private void goAnimation() {
@@ -170,7 +160,6 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_weibo.setOnClickListener(this);
         txt_title.setText(String.format(getString(R.string.formatted_2), CacheDataManager.getInstance().loadUser().nickname));
         txt_title.selectAll();
-        chatRoom = new ChatRoom(getActivity());
         if (!ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
             dialogTitle = getString(R.string.share_title);
@@ -195,7 +184,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private void startLive() {
         img_location_bg.clearAnimation();
         rotateAnimation.cancel();
-        LiveVideoBroadcast(txt_title.getText().toString(), straddres);
+        LiveVideoBroadcast(txt_title.getText().toString(), straddres, App.price);
     }
 
     @Override
@@ -331,7 +320,7 @@ public class ReadyLiveFragment extends BaseFragment {
     }
 
     // 初始化直播数据
-    private void LiveVideoBroadcast(String title, String area) {
+    private void LiveVideoBroadcast(String title, String area, String price) {
         LoadingDialog.showSysLoadingDialog(getActivity(), getString(R.string.go_in));
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -348,7 +337,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 }
             }
         };
-        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, CacheDataManager.getInstance().loadUser(), title, area, callback);
+        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, CacheDataManager.getInstance().loadUser(), title, area, price, callback);
     }
 
     @Override
@@ -356,6 +345,63 @@ public class ReadyLiveFragment extends BaseFragment {
         super.onAttach(activity);
         callEvents = (OnCallEvents) activity;
     }
+
+    /**
+     * 支付门票回调
+     */
+    private HttpBusinessCallback callback = new HttpBusinessCallback() {
+        @Override
+        public void onSuccess(String response) {
+            CommonListResult<Ticket> results = JsonUtil.fromJson(response, new TypeToken<CommonListResult<Ticket>>() {
+            }.getType());
+            if (results != null) {
+                for (int i = 0; i < results.data.size(); i++) {
+                    spinnnerList.add(results.data.get(i).price);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        spinnner.setAdapter(spinnnerAdapter);
+                        spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                App.price = String.valueOf(spinnnerList.get(position));
+                                parent.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                        spinnnerAdapter.clear();
+                        spinnnerAdapter.addAll(spinnnerList);
+                        spinnnerAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onFailure(Map<String, ?> errorMap) {
+            super.onFailure(errorMap);
+        }
+    };
+
+    /**
+     * 更新票价
+     */
+    private HttpBusinessCallback callback2 = new HttpBusinessCallback() {
+        @Override
+        public void onSuccess(String response) {
+            DebugLogs.d("更新票价" + response);
+        }
+
+        @Override
+        public void onFailure(Map<String, ?> errorMap) {
+            super.onFailure(errorMap);
+        }
+    };
+
 
     /**
      * 分享 回调

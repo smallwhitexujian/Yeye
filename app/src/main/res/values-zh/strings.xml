@@ -343,4 +343,5 @@
     <string name="video_delete_error">删除失败</string>
     <string name="change_password_no_permissions">第三方登录不能修改密码</string>
     <string name="tickets">门票:</string>
+    <string name="Ticke_sales">门票收入</string>
 </resources>

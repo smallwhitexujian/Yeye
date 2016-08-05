@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,14 +13,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
+import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.angelatech.yeyelive .R;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.string.json.JsonUtil;
+import com.will.web.handle.HttpBusinessCallback;
+
+import java.util.Map;
 
 /**
  * 直播结束页面
@@ -28,9 +38,12 @@ public class LiveFinishActivity extends BaseActivity {
     private Button btn_close;
     public RoomModel roomModel;
     private SimpleDraweeView img_head;
-    private TextView txt_barname, txt_likenum,txt_live_num,txt_coin,txt_live_time;
+    private TextView txt_barname, txt_likenum, txt_live_num, txt_coin, txt_live_time;
     private LinearLayout ly_live;
     private ImageView face;
+    private static TextView ticke_num, ticke_title;
+    private ChatRoom chatRoom;
+    private BasicUserInfoDBModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +60,21 @@ public class LiveFinishActivity extends BaseActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_finish);
-
+        chatRoom = new ChatRoom(LiveFinishActivity.this);
+        model = CacheDataManager.getInstance().loadUser();
         btn_close = (Button) findViewById(R.id.btn_close);
         btn_close.setOnClickListener(this);
         img_head = (SimpleDraweeView) findViewById(R.id.img_head);
         txt_barname = (TextView) findViewById(R.id.txt_barname);
         txt_likenum = (TextView) findViewById(R.id.txt_likenum);
-        face = (ImageView)findViewById(R.id.face);
+        face = (ImageView) findViewById(R.id.face);
         ly_live = (LinearLayout) findViewById(R.id.ly_live);
         txt_live_num = (TextView) findViewById(R.id.txt_live_num);
         txt_coin = (TextView) findViewById(R.id.txt_coin);
         txt_live_time = (TextView) findViewById(R.id.txt_live_time);
-
+        ticke_num = (TextView) findViewById(R.id.ticke_num);
+        ticke_title = (TextView) findViewById(R.id.ticke_title);
+        payTicketsSet();
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
@@ -69,7 +85,7 @@ public class LiveFinishActivity extends BaseActivity {
                 ly_live.setVisibility(View.VISIBLE);
                 txt_coin.setText(String.valueOf(roomModel.getLivecoin()));
                 txt_live_num.setText(String.valueOf(roomModel.getLivenum()));
-                txt_live_time.setText(String.format(getString(R.string.txt_live_time),roomModel.getLivetime()));
+                txt_live_time.setText(String.format(getString(R.string.txt_live_time), roomModel.getLivetime()));
             } else {
                 ly_live.setVisibility(View.INVISIBLE);
                 FrescoBitmapUtils.getImageBitmap(LiveFinishActivity.this, roomModel.getUserInfoDBModel().headurl, new FrescoBitmapUtils.BitCallBack() {
@@ -86,6 +102,42 @@ public class LiveFinishActivity extends BaseActivity {
                     }
                 });
             }
+        }
+    }
+
+    private void payTicketsSet() {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(final String response) {
+                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
+                }.getType());
+                if (results != null) {
+                    final int ticke = Integer.valueOf(results.data);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            uiHandler.obtainMessage(1,ticke).sendToTarget();
+                        }
+                    });
+                }
+            }
+        };
+        chatRoom.payTicketsSet(model.userid, model.token, callback);
+    }
+
+    @Override
+    public void doHandler(Message msg) {
+        super.doHandler(msg);
+        switch (msg.what) {
+            case 1:
+                ticke_num.setVisibility(View.VISIBLE);
+                ticke_title.setVisibility(View.GONE);
+                ticke_num.setText(msg.obj.toString());
+                break;
         }
     }
 

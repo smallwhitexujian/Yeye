@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.angelatech.yeyelive.activity.LiveFinishActivity">
+
     <ImageView
         android:id="@+id/face"
         android:layout_width="match_parent"
@@ -11,30 +12,35 @@
         android:contentDescription="@string/live_end_bg"
         android:scaleType="matrix"
         android:src="@drawable/bg_end_background" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <include
             layout="@layout/view_live_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="70dp"
+            android:maxLines="1"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="@string/live_end"
             android:textColor="@color/white"
-            android:singleLine="true"
-            android:textSize="30dp" />
+            android:textSize="30sp" />
+
         <LinearLayout
             android:id="@+id/ly_live"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/txt_live_time"
                 android:layout_width="wrap_content"
@@ -42,51 +48,57 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="18dp"
                 android:textColor="#DADADA"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="70dp"
                 android:orientation="horizontal">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/txt_live_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="30dp" />
+                        android:textSize="30sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/live_num"
                         android:textColor="#DADADA"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="1dp"
                     android:layout_height="43dp"
                     android:layout_gravity="center_vertical"
                     android:background="@color/white" />
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/txt_coin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="30dp" />
+                        android:textSize="30sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,16 +107,41 @@
                         android:textSize="16dp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/ticke_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/ticke_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/Ticke_sales"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_close"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/start_live_btn_bg"
-            android:text="@string/back_home"
-            android:textColor="#FEFEFE" />
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/start_live_btn_bg"
+        android:text="@string/back_home"
+        android:textColor="#FEFEFE" />
 </RelativeLayout>

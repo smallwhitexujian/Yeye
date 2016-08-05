@@ -107,6 +107,7 @@ public class ChatRoom extends HttpFunction {
      * @param token    token
      * @param price    价格
      * @param callback 回调
+     *                 废弃
      */
     public void updatePayTicketsUpt(String userId, String token, String price, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
@@ -195,10 +196,11 @@ public class ChatRoom extends HttpFunction {
     /**
      * 开播前拿一些需要的信息
      */
-    public void LiveVideoBroadcast(String url, BasicUserInfoDBModel userInfo, String introduce, String area, HttpBusinessCallback callback) {
+    public void LiveVideoBroadcast(String url, BasicUserInfoDBModel userInfo, String introduce, String area,String price, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userInfo.userid);
         params.put("token", userInfo.token);
+        params.put("price", price);
         params.put("introduce", Encryption.utf8ToUnicode(introduce));
         params.put("area", Encryption.utf8ToUnicode(area));
         httpGet(url, params, callback);
