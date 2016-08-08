@@ -351,4 +351,5 @@
     <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
     <string name="tickets">tickets:</string>
     <string name="Ticke_sales">Ticke Sales</string>
+    <string name="save_live_video">保存视频</string>
 </resources>

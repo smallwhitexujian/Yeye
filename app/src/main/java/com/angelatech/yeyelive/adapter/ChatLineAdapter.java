@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.text.SpannableString;
@@ -11,15 +12,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
-import com.angelatech.yeyelive.fragment.CallFragment;
-import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.Clickable;
 import com.angelatech.yeyelive.util.MeImageGetter;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.util.VerificationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,16 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     private Context mContext;
     private List<T> mData = new ArrayList<>();
     private MeImageGetter meImageGetter = null;
+    private ChatRoom chatRoom;
+    private Activity activity;
+    private IShowUser iShowUser;
 
-    public ChatLineAdapter(Context context, List<T> data) {
+    public ChatLineAdapter(Context context, List<T> data, IShowUser iShowUser) {
         this.mContext = context;
         this.mData = data;
+        this.iShowUser = iShowUser;
         meImageGetter = new MeImageGetter(context);
+        chatRoom = new ChatRoom(mContext);
     }
 
     @Override
@@ -73,7 +79,8 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             String sChatContent = chatline.message;
             if (sChatContent.contains("%/%") && chatline.giftmodel != null) {
                 try {
-                    String picPath = CallFragment.instance.getGifPath(chatline.giftmodel.giftid).getImageURL();
+                    String picPath = chatRoom.getGifPath(chatline.giftmodel.giftid).getImageURL();
+                    picPath = VerificationUtil.getImageUrl(picPath);
                     if (!picPath.isEmpty()) {
                         String html = "<img src='" + picPath + "'/>";
                         //处理礼物逻辑
@@ -88,7 +95,10 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                                 if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
                                     userInfoModel.isout = true;
                                 }
-                                showUserInfoDialog(userInfoModel);
+                                //showUserInfoDialog(userInfoModel);
+                                if (iShowUser != null) {
+                                    iShowUser.showUser(userInfoModel);
+                                }
                             }
                         };
 
@@ -102,7 +112,9 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                                 if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
                                     userInfoModel.isout = true;
                                 }
-                                showUserInfoDialog(userInfoModel);
+                                if (iShowUser != null) {
+                                    iShowUser.showUser(userInfoModel);
+                                }
                             }
                         };
 
@@ -139,7 +151,9 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                         if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             userInfoModel.isout = true;
                         }
-                        showUserInfoDialog(userInfoModel);
+                        if (iShowUser != null) {
+                            iShowUser.showUser(userInfoModel);
+                        }
                     }
                 };
                 SpannableString spanableInfo;
@@ -176,9 +190,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         TextView tv_content;
     }
 
-    private void showUserInfoDialog(UserInfoModel userInfo) {
-        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-        userInfoDialogFragment.setUserInfoModel(userInfo);
-        userInfoDialogFragment.show(CallFragment.instance.getActivity().getSupportFragmentManager(), "");
+    public interface IShowUser {
+        void showUser(UserInfoModel userInfoModel);
     }
 }

@@ -134,6 +134,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         user_mail = edit_user_mail.getText().toString();
         if (!user_mail.isEmpty()) {
             if (!VerificationUtil.isEmail(user_mail)) {
+                LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(this, R.string.user_info_mail_error);
                 return;
             }
@@ -299,7 +300,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
         @Override
         public void onFailure(Map<String, ?> errorMap) {
-
+            LoadingDialog.cancelLoadingDialog();
         }
 
         @Override

@@ -38,6 +38,7 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -79,6 +80,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
     private View view;
     private CommonHandler<UserInfoDialogFragment> uiHandler;
+    private ICallBack callBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -218,12 +220,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     //通知直播页面
                     if (ChatRoomActivity.roomModel != null && ChatRoomActivity.roomModel.getUserInfoDBModel() != null
                             && ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(info.userid)) {
-
-                        if (isFollowCode.equals("0")) {
-                            CallFragment.instance.followHandle.sendEmptyMessage(1);
-                        } else {
-                            CallFragment.instance.followHandle.sendEmptyMessage(0);
-                        }
+                        callBack.follow(isFollowCode);
                     }
 
                     doFocus(info.userid, isFollowCode);
@@ -301,7 +298,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 break;
             case R.id.gift_btn:
                 if (isInChatRoom()) {
-                    ((ChatRoomActivity) getActivity()).openGiftLayout();
+                    if (callBack != null) {
+                        callBack.sendGift(userInfo);
+                    }
                 }
                 dismiss();
                 break;
@@ -472,7 +471,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         if (userInfo.nickname != null) {
             usernick.setText(userInfo.nickname);
         }
-        userface.setImageURI(UriHelper.obtainUri(userInfo.headurl));
+        userface.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userInfo.headurl)));
         if (userInfo.Intimacy != null) {
             intimacy.setText(String.format("%s%s", getActivity().getString(R.string.intimacy), userInfo.Intimacy));
         }
@@ -664,5 +663,18 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
 
     public void setUserInfoModel(UserInfoModel userInfoModel) {
         this.info = userInfoModel;
+    }
+
+    public void setCallBack(ICallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    /**
+     * 回调接口
+     */
+    public interface ICallBack {
+        void sendGift(BasicUserInfoDBModel userInfoDBModel);
+
+        void follow(String val);//关注操作
     }
 }

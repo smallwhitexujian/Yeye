@@ -2,7 +2,6 @@ package com.angelatech.yeyelive.fragment;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +15,6 @@ import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.CommDialog;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.handler.CommonDoHandler;
-import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -33,11 +30,10 @@ import java.util.Map;
  * Time: 18:11
  * 门票 dialog
  */
-public class TicketsDialogFragment extends DialogFragment implements View.OnClickListener, CommonDoHandler {
+public class TicketsDialogFragment extends DialogFragment implements View.OnClickListener{
 
     private View view;
     private TextView tv_cancel, tv_go_pay, tv_pay_coin;
-    private CommonHandler<TicketsDialogFragment> uiHandler;
     private RoomModel roomModel;
     private ChatRoom chatRoom;
     private BasicUserInfoDBModel loginUserInfo;
@@ -53,12 +49,13 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
         view = inflater.inflate(R.layout.dialog_tickets_pay, container, false);
         initView();
         setView();
-        uiHandler = new CommonHandler<>(this);
         return view;
     }
 
+
     @Override
     public void onResume() {
+        super.onResume();
         loginUserInfo = CacheDataManager.getInstance().loadUser();
     }
 
@@ -70,6 +67,7 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
     }
 
     private void setView() {
+        tv_pay_coin.setText(roomModel.getTicket());
         tv_cancel.setOnClickListener(this);
         tv_go_pay.setOnClickListener(this);
     }
@@ -124,11 +122,6 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
             super.onFailure(errorMap);
         }
     };
-
-    @Override
-    public void doHandler(Message msg) {
-
-    }
 
     public void setRoomModel(RoomModel roomModel) {
         this.roomModel = roomModel;

@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/live_coin"
                         android:textColor="#DADADA"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
