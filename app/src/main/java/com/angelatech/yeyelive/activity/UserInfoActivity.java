@@ -9,15 +9,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
-import com.angelatech.yeyelive.model.CommonModel;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.CommonResultCode;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.Constant;
+import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.qiniu.QiniuUpload;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.PictureObtain;
@@ -25,9 +24,9 @@ import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.angelatech.yeyelive .R;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.will.common.string.json.JsonUtil;
 import com.will.view.ToastUtils;
-import com.will.web.callback.HttpCallback;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.io.File;
@@ -185,9 +184,7 @@ public class UserInfoActivity extends HeaderBaseActivity {
      * 接收用户返回头像参数
      */
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-
         if (resultCode != RESULT_CANCELED && resultCode == RESULT_OK) {
-
             switch (requestCode) {
                 case CommonResultCode.SET_ADD_PHOTO_CAMERA:
                     //拍照
@@ -239,9 +236,6 @@ public class UserInfoActivity extends HeaderBaseActivity {
                         }
                     });
                     mQiniuUpload.doUpload(model.userid, model.token, path);
-
-//                    new IService().UpPicture(path, model.userid, model.token, CommonUrlConfig.PicUpload, "1",
-//                            model.userid, uploadPic);
                     break;
                 default:
                     break;
@@ -273,26 +267,11 @@ public class UserInfoActivity extends HeaderBaseActivity {
                 if (common != null) {
                     if (common.code.equals(CommonResultCode.INTERFACE_RETURN_CODE) && mUserId != null) {
                         CacheDataManager.getInstance().update(BaseKey.USER_SEX, mGender, mUserId);
-                    } else {
-                        //错误提示
                     }
                 }
             }
         }
     }
-
-
-    HttpCallback uploadPic = new HttpCallback() {
-        @Override
-        public void onFailure(Map<String, ?> errorMap) {
-            ToastUtils.showToast(UserInfoActivity.this, getString(R.string.upload_photo_error));
-        }
-
-        @Override
-        public void onSuccess(String response) {
-            CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, model.headurl, model.userid);
-        }
-    };
 
     @Override
     protected void onDestroy() {

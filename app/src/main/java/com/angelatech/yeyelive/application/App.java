@@ -68,6 +68,7 @@ public class App extends Application {
     public static String loginUserId = null;
     public static String loginPhone = null;
     public static String price = "";
+
     //test
     //
     @Override
@@ -88,9 +89,7 @@ public class App extends Application {
         mAppInterface.initThirdPlugin(this);
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
-        if (isDebug) {
-            LeakCanary.install(this);
-        }
+        LeakCanary.install(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
 //        try {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/circle_coner_bg">
@@ -34,6 +35,7 @@
             android:layout_width="52dp"
             android:layout_height="24dp"
             android:layout_margin="10dp"
+            android:contentDescription="@null"
             android:gravity="center"
             android:src="@drawable/btn_information_police_n"
             android:textColor="#A0A0A0"
@@ -46,8 +48,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@null"
             android:scaleType="centerInside"
-
             android:src="@drawable/btn_information_close_n" />
     </RelativeLayout>
 
@@ -62,6 +64,7 @@
             android:layout_width="87dp"
             android:layout_height="87dp"
             android:layout_marginTop="14dp"
+            android:background="@color/white"
             fresco:placeholderImage="@drawable/default_photo"
             fresco:roundAsCircle="true" />
 
@@ -72,6 +75,7 @@
             android:layout_alignBottom="@id/user_face"
             android:layout_alignRight="@id/user_face"
             android:layout_marginBottom="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/icon_vip_mark"
             android:visibility="gone" />
     </RelativeLayout>
@@ -106,6 +110,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/user_nick"
+                android:contentDescription="@null"
                 android:src="@drawable/icon_information_girl" />
 
         </RelativeLayout>
@@ -153,7 +158,8 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
 
             <!--粉丝-->
             <LinearLayout
@@ -190,7 +196,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/icon_information_present"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
@@ -233,11 +240,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/icon_information_present"
                     android:visibility="gone" />
-
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 
@@ -274,7 +280,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
                 <ImageView
                     android:id="@+id/attentions_btn"
@@ -283,6 +290,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:src="@drawable/btn_information_attention_s"
+                    android:contentDescription="@null"
                     android:visibility="gone" />
 
 
@@ -290,6 +298,7 @@
                     android:id="@+id/ring_btn"
                     android:layout_width="43dp"
                     android:layout_height="43dp"
+                    android:contentDescription="@null"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:src="@drawable/btn_information_notification_s"
@@ -299,6 +308,7 @@
                     android:id="@+id/gift_btn"
                     android:layout_width="43dp"
                     android:layout_height="43dp"
+                    android:contentDescription="@null"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:src="@drawable/btn_information_gift_n"
@@ -317,7 +327,5 @@
                     android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

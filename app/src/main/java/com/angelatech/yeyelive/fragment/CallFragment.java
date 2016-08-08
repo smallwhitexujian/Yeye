@@ -812,7 +812,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             gif_img_head.setImageURI(Uri.parse(giftModel.userheadpoto));
         }
         txt_from_user.setText(giftModel.from_uname);
-        // txt_gift_name.setText(giftaModel.giftmodel.getName());
         imageView.startAnimation(translate_in);
 
     }
@@ -916,7 +915,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
     }
 
-    class TimeCount extends CountDownTimer {
+    private class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }

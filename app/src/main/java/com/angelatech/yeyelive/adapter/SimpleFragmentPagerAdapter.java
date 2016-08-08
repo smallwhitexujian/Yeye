@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.fragment.LiveVideoHotFragment;
 
@@ -19,7 +18,6 @@ import java.util.Map;
  */
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
-
     private List<String> tabTitles = new ArrayList<>();
     private Map<String, Fragment> fragments = new HashMap<>();
     private Context context;
@@ -38,8 +36,8 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             String followTab = context.getString(R.string.live_follow);
             tabTitles.add(hotTab);
             tabTitles.add(followTab);
-            fragments.put(hotTab, new LiveVideoHotFragment(CommonUrlConfig.LiveVideoList));
-            fragments.put(followTab, new LiveVideoHotFragment(CommonUrlConfig.LiveVideoFollow));
+            fragments.put(hotTab, LiveVideoHotFragment.newInstantce(1));
+            fragments.put(followTab, LiveVideoHotFragment.newInstantce(2));
         }
     }
 
@@ -52,12 +50,12 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             if (fragment != null) {
                 return fragment;
             }
-            return new LiveVideoHotFragment(CommonUrlConfig.LiveVideoList);
+            return LiveVideoHotFragment.newInstantce(1);
         } else {
             if (fragment != null) {
                 return fragment;
             }
-            return new LiveVideoHotFragment(CommonUrlConfig.LiveVideoFollow);
+            return LiveVideoHotFragment.newInstantce(2);
         }
     }
 
@@ -68,19 +66,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        //第一次的代码
-        //return tabTitles[position];
-        //第二次的代码
-        /**
-         Drawable image = context.getResources().getDrawable(imageResId[position]);
-         image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-         SpannableString sb = new SpannableString(" " + tabTitles[position]);
-         ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-         sb.setSpan(imageSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-         return sb;*/
-
         return tabTitles.get(position);
-//        return null;
     }
 
 }

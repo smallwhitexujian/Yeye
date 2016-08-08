@@ -2,10 +2,7 @@ package com.angelatech.yeyelive.activity.function;
 
 import android.content.Context;
 
-import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.RoomModel;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -14,6 +11,7 @@ import java.util.Map;
 
 /**
  * Created by jjfly on 16-3-21.
+ * 房间接口
  */
 public class MainEnter extends HttpFunction {
     public MainEnter(Context context) {

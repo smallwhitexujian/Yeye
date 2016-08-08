@@ -91,7 +91,6 @@ public class CommonUrlConfig {
      */
     //热门
     public static String LiveVideoHot = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoHot";
-
     //播放列表
     public static String LiveVideoList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/LiveVideoHotM";
     //关注

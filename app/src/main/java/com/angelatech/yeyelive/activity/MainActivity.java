@@ -286,9 +286,7 @@ public class MainActivity extends BaseActivity {
 
     private void clearTabColor() {
         hotTab.setCompoundDrawables(null, null, null, null);
-        //hotTab.setTextColor(0xFFFFCA9C);
         followTab.setCompoundDrawables(null, null, null, null);
-        //followTab.setTextColor(0xFFFFCA9C);
     }
 
     private void clearTabTextSize() {
@@ -316,19 +314,6 @@ public class MainActivity extends BaseActivity {
         //为侧滑菜单设置布局
         Slidmenu.setMenu(R.layout.frame_left_menu);
         Slidmenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-        Slidmenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
-            @Override
-            public void onOpen() {
-
-            }
-        });
-
-        Slidmenu.setOnCloseListener(new SlidingMenu.OnCloseListener() {
-            @Override
-            public void onClose() {
-
-            }
-        });
         leftFragment = new LeftFragment();
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
     }
@@ -338,9 +323,6 @@ public class MainActivity extends BaseActivity {
         return mainEnter;
     }
 
-    public void openMenu() {
-        Slidmenu.showMenu();
-    }
 
     public void closeMenu() {
         Slidmenu.toggle();
@@ -350,11 +332,4 @@ public class MainActivity extends BaseActivity {
         this.gestureDetector = gestureDetector;
     }
 
-    public void unRegisterFragmentTouch() {
-        this.gestureDetector = null;
-    }
-
-    public void selectTab(int tab) {
-        viewPager.setCurrentItem(tab);
-    }
 }

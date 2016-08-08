@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -46,7 +45,6 @@ import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.Logger;
 import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.library.SwipyRefreshLayout;
@@ -76,7 +74,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private List<LiveVideoModel> datas = new ArrayList<>();
     private long datesort;
     private int pageindex = 1;
-    private int pagesize = 5;
+    private int pagesize = 10;
     private String liveUrl;
     private volatile boolean IS_REFRESH = false;  //是否需要刷新
     private SwipyRefreshLayout swipyRefreshLayout;
@@ -87,30 +85,33 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private int result_type = 0;
     private final Object lock = new Object();
     private CommonHandler<LiveVideoHotFragment> uiHandler;
+    private String ImageSet = "?imageView2/2/w/80/h/80";
+    private static final String ARG_POSITION = "position";
+    private int fromType = 0;
 
-    @SuppressLint("ValidFragment")
-    public LiveVideoHotFragment(String url) {
-        liveUrl = url;
-    }
-
-    public LiveVideoHotFragment() {
+    public static LiveVideoHotFragment newInstantce(int position) {
+        LiveVideoHotFragment f = new LiveVideoHotFragment();
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        f.setArguments(b);
+        return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frame_live_video_hot, container, false);
+        fromType = getArguments().getInt(ARG_POSITION, 0);
         initView();
         setView();
         uiHandler = new CommonHandler<>(this);
+        load(fromType);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        freshLoad();
-        // adapter.notifyDataSetChanged();
-        listView.setSelection(0);
+
     }
 
     @Override
@@ -139,7 +140,11 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 if (item.type == 1) {
                     LiveModel liveModel = (LiveModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_live_ing);
-                    helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl);
+                    if (liveModel.headurl.indexOf("//file") > 0) {
+                        helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl + ImageSet);
+                    } else {
+                        helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl);
+                    }
                     helper.setImageViewByImageLoader(R.id.live_cover, liveModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
                     helper.setText(R.id.user_nick, liveModel.nickname);
@@ -158,7 +163,11 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     VideoModel videoModel = (VideoModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_play_back);
-                    helper.setImageViewByImageLoader(R.id.user_face, videoModel.headurl);
+                    if (videoModel.headurl.indexOf("//file") > 0) {
+                        helper.setImageViewByImageLoader(R.id.user_face, videoModel.headurl + ImageSet);
+                    } else {
+                        helper.setImageViewByImageLoader(R.id.user_face, videoModel.headurl);
+                    }
                     helper.setImageViewByImageLoader(R.id.live_cover, videoModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(videoModel.playnum));
                     helper.setText(R.id.user_nick, item.nickname);
@@ -181,7 +190,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     helper.hideView(R.id.iv_vip);
                 }
-
                 helper.setOnClick(R.id.layout_bar, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -237,7 +245,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 swipyRefreshLayout.setRefreshing(true);
             }
         });
-
         noDataLayout.findViewById(R.id.no_data_icon).setOnClickListener(this);
     }
 
@@ -307,7 +314,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-
                 break;
             case MSG_SHOW_BANNER:
                 List<SimpleDraweeView> simpleDraweeViews = (List<SimpleDraweeView>) msg.obj;
@@ -364,7 +370,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
         if (pageindex <= 1) {
             pageindex = 2;
         }
-        load();
+        load(fromType);
     }
 
     //刷新
@@ -373,10 +379,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
         datesort = 0;
         pageindex = 1;
         result_type = 0;
-        load();
+        load(fromType);
     }
 
-    private void load() {
+    private void load(int type) {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -390,7 +396,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     }.getType());
                     if (result != null) {
                         if (HttpFunction.isSuc(result.code)) {
-
                             if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
                                 datesort = result.time;
                                 pageindex = result.index + 1;
@@ -416,6 +421,11 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
         };
         MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
+        if (type == 1) {
+            liveUrl = CommonUrlConfig.LiveVideoList;
+        } else if (type == 2) {
+            liveUrl = CommonUrlConfig.LiveVideoFollow;
+        }
         mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
     }
 
@@ -435,12 +445,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 super.onSuccess(response);
                 CommonParseListModel<BannerModel<String>> results = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<BannerModel<String>>>() {
                 }.getType());
-
                 if (results != null) {
                     if (HttpFunction.isSuc(results.code)) {
-
                         for (final BannerModel data : results.data) {
-                            Logger.e("===" + data.toString());
                             SimpleDraweeView simpleDraweeView = new SimpleDraweeView(getActivity());
                             simpleDraweeView.getHierarchy().setPlaceholderImage(R.drawable.banner_android);
                             simpleDraweeView.setImageURI(UriHelper.obtainUri(data.imageurl));
