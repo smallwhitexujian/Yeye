@@ -46,6 +46,7 @@ import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.log.Logger;
 import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
@@ -108,6 +109,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        DebugLogs.e("---LiveVideoHotFragment-->onResume");
         freshLoad();
         // adapter.notifyDataSetChanged();
         listView.setSelection(0);
@@ -237,7 +239,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 swipyRefreshLayout.setRefreshing(true);
             }
         });
-
         noDataLayout.findViewById(R.id.no_data_icon).setOnClickListener(this);
     }
 
@@ -385,7 +386,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
             @Override
             public void onSuccess(String response) {
-                synchronized (lock) {
+                //synchronized (lock) {
                     CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
                     }.getType());
                     if (result != null) {
@@ -413,7 +414,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     }
                     IS_REFRESH = false;
                 }
-            }
+            //}
         };
         MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
         mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);

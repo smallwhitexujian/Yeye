@@ -79,7 +79,7 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
         img_head.setImageURI(Uri.parse(roomModel.getUserInfoDBModel().headurl));
         txt_barname.setText(roomModel.getUserInfoDBModel().nickname);
         txt_likenum.setText(String.valueOf(roomModel.getLikenum()));
-        if (roomModel.getRoomType().equals("live")) {
+        if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
             ly_live.setVisibility(View.VISIBLE);
             txt_coin.setText(String.valueOf(roomModel.getLivecoin()));
             txt_live_num.setText(String.valueOf(roomModel.getLivenum()));
@@ -106,7 +106,7 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_close:
                 dismiss();
-                App.chatRoomApplication.finish();
+                App.chatRoomApplication.exitRoom();
                 break;
         }
     }

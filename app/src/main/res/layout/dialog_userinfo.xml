@@ -62,6 +62,7 @@
             android:layout_width="87dp"
             android:layout_height="87dp"
             android:layout_marginTop="14dp"
+            android:background="@color/color_white"
             fresco:placeholderImage="@drawable/default_photo"
             fresco:roundAsCircle="true" />
 

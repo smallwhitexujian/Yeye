@@ -13,6 +13,8 @@ public class VerificationUtil {
 
     private final static Pattern emailPat = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
     private final static String lettersNumber = "^(?![^a-zA-Z]+$)(?!\\D+$).{6,22}$";
+    private final static String smallImage = "?imageView2/2/w/80";
+    private final static String filePath = "file.iamyeye.com";
 
     /**
      * 验证手机号
@@ -63,10 +65,24 @@ public class VerificationUtil {
 
     /**
      * 验证码字符串 是否包含数字和字母
+     *
      * @param password 密码
      * @return bool
      */
-    public static boolean isContainLetterNumber(String password){
+    public static boolean isContainLetterNumber(String password) {
         return Pattern.compile(lettersNumber).matcher(password).find();
+    }
+
+    /**
+     * 七牛图片处理
+     *
+     * @param url 图片地址
+     * @return return
+     */
+    public static String getImageUrl(String url) {
+        if (url.indexOf(filePath) > 0) {
+            return url + smallImage;
+        }
+        return url;
     }
 }

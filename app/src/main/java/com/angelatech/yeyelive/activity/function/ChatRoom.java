@@ -8,6 +8,7 @@ import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.TicketsDialogFragment;
+import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -30,6 +31,16 @@ public class ChatRoom extends HttpFunction {
     public ChatRoom(Context context) {
         super(context);
         ChatRoom.activity = (Activity) context;
+    }
+
+    //根据礼物ID获取礼物链接
+    public GiftModel getGifPath(int giftIndex) {
+        for (int i = 0; i < App.giftdatas.size(); i++) {
+            if (App.giftdatas.get(i).getID() == giftIndex) {
+                return App.giftdatas.get(i);
+            }
+        }
+        return null;
     }
 
     private static void preEnterChatRoom(Context context) {

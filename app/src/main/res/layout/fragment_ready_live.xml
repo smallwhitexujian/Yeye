@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:ignore="UselessParent">
 
 
@@ -146,7 +146,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tickets" />
+                android:text="@string/tickets"
+                android:textColor="@color/color_white"/>
 
             <ImageView
                 android:layout_width="wrap_content"

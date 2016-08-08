@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
@@ -13,7 +14,6 @@ import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.facebook.FacebookSdk;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
  * 2、有盟统计
  */
 public class App extends Application {
-
+    public static List<Activity> activityList = new ArrayList<>();
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
@@ -89,9 +89,7 @@ public class App extends Application {
         mAppInterface.initThirdPlugin(this);
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
-        if (isDebug) {
-            LeakCanary.install(this);
-        }
+
         FacebookSdk.sdkInitialize(getApplicationContext());
 
 //        try {
@@ -107,6 +105,23 @@ public class App extends Application {
 //            e.printStackTrace();
 //        }
     }
+
+    public synchronized static void register(Activity activity) {
+        activityList.add(activity);
+    }
+
+    /**
+     * Activity被销毁时，从Activities中移除
+     */
+    public synchronized static void unregister(Activity activity) {
+        if (activityList != null && activityList.size() != 0) {
+            activityList.remove(activity);
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
+        }
+    }
+
 
     @Override
     public void onTerminate() {

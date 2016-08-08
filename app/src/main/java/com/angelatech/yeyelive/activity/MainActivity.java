@@ -92,6 +92,7 @@ public class MainActivity extends BaseActivity {
         userModel = CacheDataManager.getInstance().loadUser();
         if (userModel != null) {
             mFaceIcon.setImageURI(UriHelper.obtainUri(userModel.headurl));
+
         }
     }
 

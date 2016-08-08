@@ -38,6 +38,7 @@ import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.CommChooseDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
@@ -80,7 +81,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private static List<OnlineListModel> onlineListDatas = null;         // 房间在线人数列表
     private MyFragmentPagerAdapter fragmentPagerAdapter;
     private int beginTime = 0;          //房间直播开始时间，用来计算房间直播时长
-    public static final int MSG_OPEN_GIFT_LAYOUT = 0xfff;
 
     public static BasicUserInfoDBModel userModel;  //登录用户信息
     public static BasicUserInfoDBModel liveUserModel; //直播用户信息
@@ -212,21 +212,22 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      */
     public void CloseLiveDialog() {
 
-        CommDialog commDialog = new CommDialog();
-        CommDialog.Callback callback = new CommDialog.Callback() {
+        CommChooseDialog dialog = new CommChooseDialog();
+        CommChooseDialog.Callback callback = new CommChooseDialog.Callback() {
             @Override
             public void onCancel() {
                 isCloseLiveDialog = false;
             }
 
             @Override
-            public void onOK() {
+            public void onOK(boolean choose) {
                 //如果是直播，发送下麦通知
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
-                    if ((DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
+
+                    if (choose && (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
                         LiveQiSaveVideo();
                     }
                 } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
@@ -239,9 +240,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (!isCloseLiveDialog) {
             isCloseLiveDialog = true;
             if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-                commDialog.CommDialog(ChatRoomActivity.this, getString(R.string.quit_room), true, callback);
+                dialog.dialog(ChatRoomActivity.this, getString(R.string.quit_room), true, callback);
             } else {
-                commDialog.CommDialog(ChatRoomActivity.this, getString(R.string.finish_room), true, callback);
+                dialog.dialog(ChatRoomActivity.this, getString(R.string.finish_room), true, callback);
             }
         }
     }
@@ -249,6 +250,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 保存直播视频
      */
+
     private void LiveQiSaveVideo() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -301,14 +303,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     public void doHandler(Message msg) {
         switch (msg.what) {
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
-                finish();
+                exitRoom();
                 break;
             case GlobalDef.SERVICE_STATUS_FAILD://连接失败
                 DebugLogs.e("network test---------faild");
                 //如果首次连接失败，给出提示并退出房间
                 if (connectionServiceNumber < 1) {
                     ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.the_server_connect_fail));
-                    finish();
+                    exitRoom();
                 }
 
                 break;
@@ -329,7 +331,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 //收起键盘
                                 readyLiveFragment.closekeybord();
                             }
-                            finish();
+                            exitRoom();
                         }
 
                         @Override
@@ -421,7 +423,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         }
                     } else {
                         ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.room_login_failed));
-                        finish();
+                        exitRoom();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -481,6 +483,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.initChatMessage(ChatRoomActivity.this);
+
 
                     } else {
                         for (int i = 0; i < ChatRoomActivity.onlineListDatas.size(); i++) {
@@ -563,9 +566,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                break;
-            case MSG_OPEN_GIFT_LAYOUT:
-                callFragment.getFragmentHandler().obtainMessage(MSG_OPEN_GIFT_LAYOUT).sendToTarget();
                 break;
         }
     }
@@ -712,14 +712,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         } else {
             MediaCenter.destoryLive();
         }
+        App.mChatlines.clear();
         roomModel = null;
         userModel = null;
         liveUserModel = null;
         boolCloseRoom = true;
-    }
-
-    public void openGiftLayout() {
-        uiHandler.obtainMessage(MSG_OPEN_GIFT_LAYOUT).sendToTarget();
+        App.chatRoomApplication = null;
     }
 
     private void peerdisConnection(final String s) {

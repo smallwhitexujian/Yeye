@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -56,10 +55,10 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
@@ -79,7 +78,10 @@ import java.util.TimerTask;
  */
 public class CallFragment extends BaseFragment implements View.OnLayoutChangeListener, View.OnClickListener {
     private View controlView;
-
+    public final static int MSG_SPINNER_ADD_USER = 200;
+    private final int MSG_DO_FOLLOW = 15;
+    private final int MSG_CANCEL_FOLLOW = 16;
+    private final int MSG_OPEN_GIFT_LAYOUT = 17;
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_SET_FOLLOW = 2;
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
@@ -103,10 +105,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private static ListView chatline;
     private OnCallEvents callEvents;
 
-    private List<OnlineListModel> PopLinkData = new ArrayList<>();
+    public List<OnlineListModel> PopLinkData = new ArrayList<>();
 
     protected FragmentManager fragmentManager;
-    public static CallFragment instance = null;
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
 
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
@@ -138,6 +139,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int GridViewLastIndex = -1;
     private int GridViewItemIndex = 0;
     private int GridViewItemLastIndex = -1;
+    private ArrayAdapter<OnlineListModel> PopAdapter;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -164,7 +166,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
         fragmentManager = getFragmentManager();
-        instance = this;
         return controlView;
     }
 
@@ -317,31 +318,21 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             LayoutInflater mInflater = LayoutInflater.from(getActivity());
             LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
             mGallery.removeAllViews();
-            PopLinkData.clear();
             for (int i = 0; i < linkData.size(); i++) {
-                if (linkData.get(i).uid != Integer.parseInt(userModel.userid)) {
-                    //礼物发送者列表中排除自己，避免自己给自己发送礼物
-                    if (linkData.get(i).uid == Integer.parseInt(ChatRoomActivity.roomModel.getUserInfoDBModel().userid)) {
-                        //房主默认选中
-                        PopLinkData.add(0, linkData.get(i));
-                    } else {
-                        PopLinkData.add(linkData.get(i));
-                    }
-                }
 
                 //在线列表上过滤主播
                 if (Integer.parseInt(ChatRoomActivity.roomModel.getUserInfoDBModel().userid) != linkData.get(i).uid) {
                     View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
                     SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
+
                     ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
                     if (linkData.get(i).isv.equals("1")) {
                         iv_vip.setVisibility(View.VISIBLE);
                     } else {
                         iv_vip.setVisibility(View.GONE);
                     }
-                    String str = linkData.get(i).headphoto;
                     img.setBackgroundResource(R.drawable.default_face_icon);
-                    img.setImageURI(Uri.parse(str));
+                    img.setImageURI(Uri.parse(VerificationUtil.getImageUrl(linkData.get(i).headphoto)));
                     final int finalI = i;
                     img.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -355,6 +346,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                             }
                             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                             userInfoDialogFragment.setUserInfoModel(searchItemModel);
+                            userInfoDialogFragment.setCallBack(iCallBack);
                             userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
                         }
                     });
@@ -365,41 +357,53 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             //在线人数要排除主播,所以在总数的基础上减1
             txt_online.setText(String.valueOf(linkData.size() - 1));
 
-            ArrayAdapter<OnlineListModel> PopAdapter = new ArrayAdapter<OnlineListModel>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
-                @Override
-                public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                    View view = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
-                    TextView label = (TextView) view.findViewById(R.id.spinner_item_label);
-                    label.setText(PopLinkData.get(position).name);
-                    return view;
-                }
-            };
-
-            // 设置下拉列表的风格
-            PopAdapter.setDropDownViewResource(R.layout.spinner_item_layout);
-            roomPopSpinner.setAdapter(PopAdapter);
-            roomPopSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    parent.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-            PopAdapter.clear();
-            PopAdapter.addAll(PopLinkData);
-            PopAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 设置房间 下拉框 加载用户
+     */
+    private void setRoomPopSpinner() {
+        // 设置下拉列表的风格
+        PopAdapter = new ArrayAdapter<OnlineListModel>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
+                TextView label = (TextView) view.findViewById(R.id.spinner_item_label);
+                label.setText(PopLinkData.get(position).name);
+                return view;
+            }
+        };
+        PopAdapter.setDropDownViewResource(R.layout.spinner_item_layout);
+
+        roomPopSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        OnlineListModel onlineListModel = new OnlineListModel();
+        onlineListModel.isv = ChatRoomActivity.liveUserModel.isv;
+        onlineListModel.uid = Integer.parseInt(ChatRoomActivity.liveUserModel.userid);
+        onlineListModel.name = ChatRoomActivity.liveUserModel.nickname;
+        //onlineListModel.sex = Integer.parseInt(ChatRoomActivity.liveUserModel.sex);
+        onlineListModel.headphoto = ChatRoomActivity.liveUserModel.headurl;
+        PopLinkData.add(onlineListModel);
+        roomPopSpinner.setAdapter(PopAdapter);
+        PopAdapter.add(onlineListModel);
+        PopAdapter.notifyDataSetChanged();
+    }
+
     //设置房间信息
     public void setRoomInfo(RoomModel roommodel) {
         if (roommodel.getUserInfoDBModel() != null && roommodel.getUserInfoDBModel().headurl != null && !roommodel.getUserInfoDBModel().headurl.equals("") && Uri.parse(roommodel.getUserInfoDBModel().headurl) != null) {
-            img_head.setImageURI(Uri.parse(roommodel.getUserInfoDBModel().headurl));
+            img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl(roommodel.getUserInfoDBModel().headurl)));
             if (roommodel.getUserInfoDBModel().isv.equals("1")) {
                 iv_vip.setVisibility(View.VISIBLE);
             } else {
@@ -411,6 +415,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             loadGiftList();
         }
         fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
+        setRoomPopSpinner();
     }
 
     public void setLikeNum(int likeNum) {
@@ -530,7 +535,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         super.onDestroyView();
         clearTask();
         clearAnimation();
-        instance = null;
     }
 
     /**
@@ -571,19 +575,19 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
 
-        DebugLogs.e("bottom" + bottom + "oldBottom" + oldBottom);
-        if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
-            //键盘收起了
-            if (ly_send.getVisibility() == View.VISIBLE) {
-                ly_send.setVisibility(View.GONE);
-                ly_toolbar.setVisibility(View.VISIBLE);
-            }
-        } else if (bottom - oldBottom < 0) {
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 0, 0, bottom - oldBottom);
-            App.chatRoomApplication.viewPanel.setLayoutParams(lp);
-        }
+//        DebugLogs.e("bottom" + bottom + "oldBottom" + oldBottom);
+//        if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+//            //键盘收起了
+//            if (ly_send.getVisibility() == View.VISIBLE) {
+//                ly_send.setVisibility(View.GONE);
+//                ly_toolbar.setVisibility(View.VISIBLE);
+//            }
+//        } else if (bottom - oldBottom < 0) {
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+//            lp.setMargins(0, 0, 0, bottom - oldBottom);
+//            App.chatRoomApplication.viewPanel.setLayoutParams(lp);
+//        }
     }
 
     public void setCameraSwitchButton(String liveType) {
@@ -601,7 +605,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
      */
     public void initChatMessage(Context context) {
         if (mAdapter == null) {
-            mAdapter = new ChatLineAdapter<>(context, App.mChatlines);
+            mAdapter = new ChatLineAdapter<>(context, App.mChatlines, iShowUser);
         }
         if (chatline == null) {
             chatline = (ListView) controlView.findViewById(R.id.chatline);
@@ -696,9 +700,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case 3:
                 txt_room_des.setVisibility(View.GONE);
                 break;
-            case ChatRoomActivity.MSG_OPEN_GIFT_LAYOUT:
+            case MSG_OPEN_GIFT_LAYOUT:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
+                if (PopAdapter != null) {
+                    PopAdapter.notifyDataSetChanged();
+                }
                 break;
             case HANDLER_GIFT_CHANGE_BACKGROUND:
                 //还原上次被选中的礼物背景颜色 设置选中的giftId
@@ -711,30 +718,23 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 GridViewLastIndex = GridViewIndex;
                 GridViewItemLastIndex = GridViewItemIndex;
                 break;
+            case MSG_CANCEL_FOLLOW:
+                isFollow = 0;
+                btn_Follow.setVisibility(View.VISIBLE);
+                btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
+                Animation rotateAnimation2 = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_up);
+                btn_Follow.startAnimation(rotateAnimation2);
+                break;
+            case MSG_DO_FOLLOW:
+                isFollow = 1;
+                btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
+                Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
+                btn_Follow.startAnimation(rotateAnimation);
+                btn_Follow.setVisibility(View.GONE);
+                break;
         }
     }
 
-    public Handler followHandle = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    isFollow = 0;
-                    btn_Follow.setVisibility(View.VISIBLE);
-                    btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
-                    Animation rotateAnimation2 = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_up);
-                    btn_Follow.startAnimation(rotateAnimation2);
-                    break;
-                case 1:
-                    isFollow = 1;
-                    btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
-                    Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
-                    btn_Follow.startAnimation(rotateAnimation);
-                    btn_Follow.setVisibility(View.GONE);
-                    break;
-            }
-        }
-
-    };
 
     /**
      * 初始化礼物数量选择框
@@ -806,10 +806,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         ly_gift_view.setVisibility(View.VISIBLE);
         ly_gift_view.startAnimation(translateAnimation_in);
         if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
-            imageView.setImageURI(Uri.parse(giftModel.giftmodel.getImageURL()));
+            imageView.setImageURI(Uri.parse(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL())));
         }
         if (giftModel.userheadpoto != null) {
-            gif_img_head.setImageURI(Uri.parse(giftModel.userheadpoto));
+            gif_img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl(giftModel.userheadpoto)));
         }
         txt_from_user.setText(giftModel.from_uname);
         // txt_gift_name.setText(giftaModel.giftmodel.getName());
@@ -981,6 +981,48 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         //initPoint(pageCount);
     }
 
+    public UserInfoDialogFragment.ICallBack iCallBack = new UserInfoDialogFragment.ICallBack() {
+        @Override
+        public void sendGift(BasicUserInfoDBModel user) {
+            boolean isLoadUser = false;
+            for (int m = 0; m < PopLinkData.size(); m++) {
+                if (user.userid.equals(String.valueOf(PopLinkData.get(m).uid))) {
+                    isLoadUser = true;
+                    break;
+                }
+            }
+            if (!isLoadUser) {
+                OnlineListModel onlineListModel = new OnlineListModel();
+                onlineListModel.isv = user.isv;
+                onlineListModel.uid = Integer.parseInt(user.userid);
+                onlineListModel.name = user.nickname;
+                onlineListModel.sex = Integer.parseInt(user.sex);
+                onlineListModel.headphoto = user.headurl;
+                PopLinkData.add(onlineListModel);
+                PopAdapter.add(onlineListModel);
+            }
+            fragmentHandler.sendEmptyMessage(MSG_OPEN_GIFT_LAYOUT);
+        }
+
+        @Override
+        public void follow(String val) {
+            if (val.equals("0")) {
+                fragmentHandler.sendEmptyMessage(MSG_DO_FOLLOW);
+            } else {
+                fragmentHandler.sendEmptyMessage(MSG_CANCEL_FOLLOW);
+            }
+        }
+    };
+
+    public ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
+        @Override
+        public void showUser(UserInfoModel userInfoModel) {
+            UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+            userInfoDialogFragment.setUserInfoModel(userInfoModel);
+            userInfoDialogFragment.setCallBack(iCallBack);
+            userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+        }
+    };
 
     /**
      * 分享监听

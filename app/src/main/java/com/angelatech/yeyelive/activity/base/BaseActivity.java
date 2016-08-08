@@ -1,16 +1,18 @@
 package com.angelatech.yeyelive.activity.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+import com.angelatech.yeyelive.activity.LoginActivity;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.handler.CommonDoHandler;
+import com.angelatech.yeyelive.handler.CommonHandler;
 import com.umeng.analytics.MobclickAgent;
 import com.will.common.log.Logger;
-import com.angelatech.yeyelive.application.App;
-import com.angelatech.yeyelive.handler.CommonHandler;
 
 public class BaseActivity extends FragmentActivity implements View.OnClickListener, CommonDoHandler {
     protected String TAG = BaseActivity.class.getName();
@@ -25,6 +27,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.register(this);// 将房间Activity加入activityList
         mark();
         init();
     }
@@ -47,8 +50,17 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //sharedUtil.getInstance(mContext).putBoolean(sharedUtil.PREFERENCES_RESTART, true);
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        App.unregister(this);
         unmark();
     }
 
