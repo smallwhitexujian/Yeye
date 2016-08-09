@@ -882,36 +882,39 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     public void runAddLove(final int count) {
-        try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < count; i++) {
-                        if (i > 30 && isRun) {
-                            isRun = false;
-                            return;
-                        }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                isRun = true;
-                                if (loveView != null) {
-                                    loveView.addHeart();
-                                    ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
-                                    txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
-                                }
-                            }
-                        });
+        if(isTimeCount){
+            try {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
                         try {
-                            Thread.sleep(200);
+                            for (int i = 0; i < count; i++) {
+                                if (i > 50 && isRun) {
+                                    isRun = false;
+                                    return;
+                                }
+                                Thread.sleep(200);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        isRun = true;
+                                        if (loveView != null) {
+                                            loveView.addHeart();
+                                            ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
+                                            txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
+                                        }
+                                    }
+                                });
+
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                }
-            }).start();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+                }).start();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         }
     }
 
