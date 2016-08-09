@@ -37,8 +37,6 @@ import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.PausableThreadPoolExecutor;
-import com.angelatech.yeyelive.util.PriorityRunnable;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
@@ -66,8 +64,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 视频直播主界面
@@ -100,8 +96,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isSysMsg = false;
     private static boolean isCloseLiveDialog = false;
     private LiveFinishFragment liveFinishFragment;
-    public PausableThreadPoolExecutor pausableThreadPoolExecutor;
-    private int priority = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +114,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
-        pausableThreadPoolExecutor = new PausableThreadPoolExecutor(20, 20, 0L, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>());
         initView();
         findView();
         App.chatRoomApplication = this;
@@ -154,7 +147,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         connectionServiceNumber = 0;
         isInit = false;
         isCloseLiveDialog = false;
-        chatManager = new ChatManager(this);
+        chatManager = new ChatManager(ChatRoomActivity.this);
         callFragment = new CallFragment();
         readyLiveFragment = new ReadyLiveFragment();
         onlineListDatas = new ArrayList<>();
@@ -446,20 +439,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.WM_CANDIDATE:
                 break;
             case GlobalDef.WM_ROOM_MESSAGE://接受服务器消息
-                priority++;
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
-                    pausableThreadPoolExecutor.execute(new PriorityRunnable(priority) {
-                        @Override
-                        public void doSth() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    chatManager.receivedChatMessage(msg.obj);
-                                }
-                            });
-                        }
-                    });
+                    chatManager.receivedChatMessage(msg.obj);
                     callFragment.initChatMessage(ChatRoomActivity.this);
                 }
                 break;

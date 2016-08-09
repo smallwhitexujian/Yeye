@@ -85,7 +85,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private int result_type = 0;
     private final Object lock = new Object();
     private CommonHandler<LiveVideoHotFragment> uiHandler;
-    private String ImageSet = "?imageView2/2/w/80/h/80";
     private static final String ARG_POSITION = "position";
     private int fromType = 0;
 

@@ -78,7 +78,6 @@ import java.util.TimerTask;
  */
 public class CallFragment extends BaseFragment implements View.OnLayoutChangeListener, View.OnClickListener {
     private View controlView;
-    public final static int MSG_SPINNER_ADD_USER = 200;
     private final int MSG_DO_FOLLOW = 15;
     private final int MSG_CANCEL_FOLLOW = 16;
     private final int MSG_OPEN_GIFT_LAYOUT = 17;
@@ -87,36 +86,25 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
     private ImageView cameraSwitchButton;
 
-    private ImageView btn_Follow;
-    private ImageView btn_share;
-    private ImageView img_open_send;
-    private ImageView iv_vip;
-    private TextView txt_barName, txt_likeNum, txt_online,
-            gift_Diamonds, txt_room_des, gift_Recharge;
+    private ImageView btn_Follow, btn_share, iv_vip;
+    private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des;
     private SimpleDraweeView img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
-    private Button btn_send;
-    private LinearLayout gift_send;
     private LinearLayout ly_send, ly_toolbar, ly_main, giftView;                                    // 礼物界面
     private Spinner roomPopSpinner, roomGiftNumSpinner;                                             // 礼物个数列表
     private int giftId;                                                                             // 礼物的ID
     private int isFollow;
-    private static ListView chatline;
+    private ListView chatline;
     private OnCallEvents callEvents;
-
-    public List<OnlineListModel> PopLinkData = new ArrayList<>();
-
-    protected FragmentManager fragmentManager;
+    private List<OnlineListModel> PopLinkData = new ArrayList<>();
+    private FragmentManager fragmentManager;
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
-
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
-
+    private ChatLineAdapter<ChatLineModel> mAdapter;
+    private BasicUserInfoDBModel userModel;
     //软键盘弹起后所占高度阀值
     int keyHeight = 100;
-    private static ChatLineAdapter<ChatLineModel> mAdapter;
-    private BasicUserInfoDBModel userModel;
-
     private RelativeLayout ly_gift_view;                                                            //礼物特效view
     private TextView numText, numText1;                                                             //礼物数量  阴影
     private TextView txt_from_user;                                                  //发送礼物的人，礼物名称
@@ -127,6 +115,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     private boolean isRun = false;
     private boolean isTimeCount = true;                                 // 是否打开倒计时
+    private boolean isTimeCount2 = true;                                 // 是否打开倒计时
     private long lastClick;                                             // 点赞点击事件
     private int count = 0;                                              // 统计点赞次数
 
@@ -140,6 +129,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int GridViewItemIndex = 0;
     private int GridViewItemLastIndex = -1;
     private ArrayAdapter<OnlineListModel> PopAdapter;
+    private TimeCount2 timeCount2;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -182,9 +172,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private void initView() {
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
-        btn_send = (Button) controlView.findViewById(R.id.btn_send);
+        Button btn_send = (Button) controlView.findViewById(R.id.btn_send);
         chatline = (ListView) controlView.findViewById(R.id.chatline);
-        img_open_send = (ImageView) controlView.findViewById(R.id.img_open_send);
+        ImageView img_open_send = (ImageView) controlView.findViewById(R.id.img_open_send);
         ImageView giftBtn = (ImageView) controlView.findViewById(R.id.giftbtn);
         ly_toolbar = (LinearLayout) controlView.findViewById(R.id.ly_toolbar);
         ly_send = (LinearLayout) controlView.findViewById(R.id.ly_send);
@@ -195,7 +185,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         viewPager = (ViewPager) controlView.findViewById(R.id.viewPager); //礼物 viewpager
         roomGiftNumSpinner = (Spinner) controlView.findViewById(R.id.roomGiftNumSpinner);
         roomPopSpinner = (Spinner) controlView.findViewById(R.id.roomPopSpinner);
-        gift_send = (LinearLayout) controlView.findViewById(R.id.gift_send);
+        LinearLayout gift_send = (LinearLayout) controlView.findViewById(R.id.gift_send);
         txt_barName = (TextView) controlView.findViewById(R.id.txt_barname);
         txt_likeNum = (TextView) controlView.findViewById(R.id.txt_likenum);
         txt_online = (TextView) controlView.findViewById(R.id.txt_online);
@@ -204,7 +194,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         iv_vip = (ImageView) controlView.findViewById(R.id.iv_vip);
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
-        gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
+        TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
 
         userModel = CacheDataManager.getInstance().loadUser();
         gift_Diamonds.setText(userModel.diamonds);
@@ -266,8 +256,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         translateAnimation_in.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                numText.setText("X1");
-                numText1.setText("X1");
+                String str = "x1";
+                numText.setText(str);
+                numText1.setText(str);
             }
 
             @Override
@@ -404,8 +395,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     //设置房间信息
     public void setRoomInfo(BasicUserInfoDBModel userModel) {
-        if (userModel != null){
-            if (userModel.headurl != null){
+        if (userModel != null) {
+            if (userModel.headurl != null) {
                 img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl100(userModel.headurl)));
             }
             if (userModel.isv.equals("1")) {
@@ -579,20 +570,18 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
-
-//        DebugLogs.e("bottom" + bottom + "oldBottom" + oldBottom);
-//        if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
-//            //键盘收起了
-//            if (ly_send.getVisibility() == View.VISIBLE) {
-//                ly_send.setVisibility(View.GONE);
-//                ly_toolbar.setVisibility(View.VISIBLE);
-//            }
-//        } else if (bottom - oldBottom < 0) {
-//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-//            lp.setMargins(0, 0, 0, bottom - oldBottom);
-//            App.chatRoomApplication.viewPanel.setLayoutParams(lp);
-//        }
+        if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+            //键盘收起了
+            if (ly_send.getVisibility() == View.VISIBLE) {
+                ly_send.setVisibility(View.GONE);
+                ly_toolbar.setVisibility(View.VISIBLE);
+            }
+        } else if (bottom - oldBottom < 0) {
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(0, 0, 0, bottom - oldBottom);
+            App.chatRoomApplication.viewPanel.setLayoutParams(lp);
+        }
     }
 
     public void setCameraSwitchButton(String liveType) {
@@ -608,7 +597,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     /**
      * 聊天记录初始化，
      */
-    public void initChatMessage(Context context) {
+    public void initChatMessage(final Context context) {
         if (mAdapter == null) {
             mAdapter = new ChatLineAdapter<>(context, App.mChatlines, iShowUser);
         }
@@ -748,7 +737,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
      * @param spinner spinner
      * @param value   value
      */
-    public void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
+    private void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
         SpinnerAdapter apsAdapter = spinner.getAdapter(); //得到SpinnerAdapter对象
         int k = apsAdapter.getCount();
         for (int i = 0; i < k; i++) {
@@ -905,39 +894,44 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     public void runAddLove(final int count) {
-        if(isTimeCount){
-            try {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            for (int i = 0; i < count; i++) {
-                                if (i > 50 && isRun) {
-                                    isRun = false;
-                                    return;
-                                }
-                                Thread.sleep(200);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        isRun = true;
-                                        if (loveView != null) {
-                                            loveView.addHeart();
-                                            ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
-                                            txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
-                                        }
-                                    }
-                                });
-
+        if (!isTimeCount2) {
+            return;
+        }
+        if (timeCount2 == null) {
+            timeCount2 = new TimeCount2(10000, 1000);
+            timeCount2.start();
+        }
+        try {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int i = 0; i < count; i++) {
+                            if (i > 80 && isRun) {
+                                isRun = false;
+                                return;
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            Thread.sleep(200);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isRun = true;
+                                    if (loveView != null) {
+                                        loveView.addHeart();
+                                        ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
+                                        txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
+                                    }
+                                }
+                            });
+
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                }).start();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
+                }
+            }).start();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
     }
 
@@ -956,6 +950,25 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             callEvents.sendLove(count);
             isTimeCount = true;
             count = 0;
+        }
+    }
+
+    private class TimeCount2 extends CountDownTimer {
+        public TimeCount2(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            isTimeCount2 = false;
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            isTimeCount2 = false;
+        }
+
+        @Override
+        public void onFinish() {
+            isTimeCount2 = true;
+            timeCount2.cancel();
+            timeCount2 = null;
         }
     }
 
@@ -1006,7 +1019,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         //initPoint(pageCount);
     }
 
-    public UserInfoDialogFragment.ICallBack iCallBack = new UserInfoDialogFragment.ICallBack() {
+    private UserInfoDialogFragment.ICallBack iCallBack = new UserInfoDialogFragment.ICallBack() {
         @Override
         public void sendGift(BasicUserInfoModel user) {
             boolean isLoadUser = false;
@@ -1039,7 +1052,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
     };
 
-    public ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
+    private ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
         @Override
         public void showUser(BasicUserInfoModel userInfoModel) {
             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
@@ -1068,4 +1081,15 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             ToastUtils.showToast(getActivity(), R.string.cancel);
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (timeCount2 != null) {
+            timeCount2.cancel();
+        }
+        if (timeCount != null) {
+            timeCount.cancel();
+        }
+    }
 }
