@@ -29,11 +29,11 @@ import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.handler.CommonDoHandler;
 import com.angelatech.yeyelive.handler.CommonHandler;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -68,7 +68,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             rightIcon, giftBtn, btnUserControl, iv_vip;
     private LinearLayout fansLayout, fouceLayout, fansAndFouceLayout, userinfoLayout;
     private RelativeLayout noDataLayout, bottomLayout;
-    private UserInfoModel info;
+    private BasicUserInfoModel baseInfo;
     private UserInfoDialog userInfoDialog;
     private boolean isOpen = false;
     private ArrayList<Fragment> fragments = new ArrayList<>();
@@ -77,7 +77,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private BasicUserInfoDBModel searchUserInfo;//通过userid从接口搜索到的用户信息
     private String isFollowCode;
     private String isNoticeCode;
-    private BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
+    private BasicUserInfoDBModel loginUserInfo = CacheDataManager.getInstance().loadUser();
     private View view;
     private CommonHandler<UserInfoDialogFragment> uiHandler;
     private ICallBack callBack;
@@ -126,12 +126,12 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         fansAndFouceLayout = (LinearLayout) view.findViewById(R.id.fans_and_follows_layout);
         userinfoLayout = (LinearLayout) view.findViewById(R.id.base_user_info_layout);
 
-        if (info != null) {
+        if (baseInfo != null) {
             Fragment followFragment = new RelationFragment();
-            ((RelationFragment) followFragment).setFuserid(info.userid);
+            ((RelationFragment) followFragment).setFuserid(baseInfo.Userid);
             ((RelationFragment) followFragment).setType(FocusFans.TYPE_FOCUS);
             Fragment fansFragment = new RelationFragment();
-            ((RelationFragment) fansFragment).setFuserid(info.userid);
+            ((RelationFragment) fansFragment).setFuserid(baseInfo.Userid);
             ((RelationFragment) fansFragment).setType(FocusFans.TYPE_FANS);
             fragments.add(fansFragment);
             fragments.add(followFragment);
@@ -177,8 +177,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             }
         });
         mviewPager.setCurrentItem(0);
-        if (info != null) {
+        if (baseInfo != null) {
             load();
+            loadStatus();
         }
     }
 
@@ -204,40 +205,40 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.live_btn://点击直播按钮
-                if (isInChatRoom()) {
+                if (App.chatRoomApplication != null) {
                     ((ChatRoomActivity) getActivity()).CloseLiveDialog();
                 } else {
                     RoomModel roomModel = new RoomModel();
                     roomModel.setId(0);
                     roomModel.setRoomType(App.LIVE_PREVIEW);
-                    roomModel.setUserInfoDBModel(CacheDataManager.getInstance().loadUser());
+                    roomModel.setUserInfoDBModel(loginUserInfo);
                     StartActivityHelper.jumpActivity(getActivity(), ChatRoomActivity.class, roomModel);
                 }
                 dismiss();
                 break;
             case R.id.attentions_btn:
-                if (info != null) {
+                if (baseInfo != null) {
                     //通知直播页面
                     if (ChatRoomActivity.roomModel != null && ChatRoomActivity.roomModel.getUserInfoDBModel() != null
-                            && ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(info.userid)) {
+                            && ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(baseInfo.Userid)) {
                         callBack.follow(isFollowCode);
                     }
 
-                    doFocus(info.userid, isFollowCode);
+                    doFocus(baseInfo.Userid, isFollowCode);
                 }
                 break;
             case R.id.ring_btn:
-                if (info != null) {
-                    userNoticeEdit(info.userid);
+                if (baseInfo != null) {
+                    userNoticeEdit(baseInfo.Userid);
                 }
                 break;
             case R.id.no_data_icon:
-                if (info != null) {
+                if (baseInfo != null) {
                     load();
                 }
                 break;
             case R.id.btn_outUser:
-                ChatRoomActivity.serviceManager.kickedOut(info.userid);
+                ChatRoomActivity.serviceManager.kickedOut(baseInfo.Userid);
                 dismiss();
                 break;
             case R.id.btn_user_control:
@@ -269,7 +270,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                                         LoadingDialog.cancelLoadingDialog();
                                     }
                                 };
-                                userInfoDialog.ctlBlacklist(userInfo.userid, userInfo.token, info.userid, UserControl.PULL_TO_BLACKLIST, callback);
+                                userInfoDialog.ctlBlacklist(loginUserInfo.userid, loginUserInfo.token, baseInfo.Userid, UserControl.PULL_TO_BLACKLIST, callback);
 
                             }
                         }).addSheetItem(getString(R.string.userinfo_dialog_do_report), ActionSheetDialog.SheetItemColor.BLACK_222222,
@@ -291,16 +292,14 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                                         }
                                     }
                                 };
-                                userInfoDialog.report(userInfo.userid, userInfo.token, UserControl.SOURCE_REPORT + "", info.userid, "", callback);
+                                userInfoDialog.report(loginUserInfo.userid, loginUserInfo.token, UserControl.SOURCE_REPORT + "", baseInfo.Userid, "", callback);
                             }
                         });
                 dialog.show();
                 break;
             case R.id.gift_btn:
-                if (isInChatRoom()) {
-                    if (callBack != null) {
-                        callBack.sendGift(userInfo);
-                    }
+                if (App.chatRoomApplication != null && callBack != null) {
+                    callBack.sendGift(baseInfo);
                 }
                 dismiss();
                 break;
@@ -313,8 +312,13 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             case MSG_LOAD_SUC:
                 LoadingDialog.cancelLoadingDialog();
                 searchUserInfo = (BasicUserInfoDBModel) msg.obj;
-                loadStatus();
+                if (isAdded()) {
+                    setUI(searchUserInfo);
+                }
                 break;
+            //case MSG_LOAD_STATUS:
+//
+//              break;
             case MSG_SET_FOLLOW:
                 if (userInfoDialog.isFollow(isFollowCode)) {
                     attentionsBtn.setImageResource(R.drawable.btn_information_attention_s);
@@ -325,11 +329,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     ringBtn.setVisibility(View.GONE);
                 }
                 break;
-            case MSG_LOAD_STATUS:
-                if (isAdded()) {
-                    setUI(searchUserInfo);
-                }
-                break;
+
             case MSG_NOTICE:
                 if (userInfoDialog.isNotice(isNoticeCode)) {
                     ringBtn.setImageResource(R.drawable.btn_information_notification_n);
@@ -349,15 +349,18 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         }
     }
 
+    /**
+     * 查询 用户信息
+     */
     private void load() {
         if (userInfoDialog == null) {
             userInfoDialog = new UserInfoDialog(getActivity());
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("userid", userInfo.userid);
-        params.put("token", userInfo.token);
-        params.put("touserid", info.userid);
+        params.put("userid", loginUserInfo.userid);
+        params.put("token", loginUserInfo.token);
+        params.put("touserid", baseInfo.Userid);
 
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -375,7 +378,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                             uiHandler.obtainMessage(MSG_LOAD_SUC, results.data.get(0)).sendToTarget();
                         }
                     } else {
-                        onBusinessFaild(results.code, response);
+                        onBusinessFaild(results.code);
                     }
                 }
             }
@@ -404,14 +407,14 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         Map data = (Map) map.get("data");
                         isFollowCode = (String) data.get("isfollow");
                         isNoticeCode = (String) data.get("isnotice");
-                        uiHandler.obtainMessage(MSG_LOAD_STATUS).sendToTarget();
+                        uiHandler.sendEmptyMessage(MSG_LOAD_STATUS);
                     } else {
                         onBusinessFaild((String) map.get("code"));
                     }
                 }
             }
         };
-        userInfoDialog.UserIsFollow(CommonUrlConfig.UserIsFollow, userInfo.token, userInfo.userid, searchUserInfo.userid, httpCallback);
+        userInfoDialog.UserIsFollow(CommonUrlConfig.UserIsFollow, loginUserInfo.token, loginUserInfo.userid, baseInfo.Userid, httpCallback);
     }
 
     private void openDataView(int item) {
@@ -461,33 +464,32 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
      * a、如果是房主：有踢人功能，没有举报拉黑，可以关注
      * ab、如果不是房主：举报拉黑，可以关注
      */
-    private void setUI(BasicUserInfoDBModel userInfo) {
-        if (userInfo == null) {
+    private void setUI(BasicUserInfoDBModel user) {
+        if (user == null) {
             lockLayout();
             return;
         }
         unlockLayout();
-        BasicUserInfoDBModel userInfoDBModel = CacheDataManager.getInstance().loadUser();
-        if (userInfo.nickname != null) {
-            usernick.setText(userInfo.nickname);
+        if (user.nickname != null) {
+            usernick.setText(user.nickname);
         }
-        userface.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userInfo.headurl)));
-        if (userInfo.Intimacy != null) {
-            intimacy.setText(String.format("%s%s", getActivity().getString(R.string.intimacy), userInfo.Intimacy));
+        userface.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(user.headurl)));
+        if (user.Intimacy != null) {
+            intimacy.setText(String.format("%s%s", getActivity().getString(R.string.intimacy), user.Intimacy));
         }
-        if (userInfo.sign == null || "".equals(userInfo.sign)) {
+        if (user.sign == null || "".equals(user.sign)) {
             usersign.setText(getString(R.string.default_sign));
         } else {
-            usersign.setText(userInfo.sign);
+            usersign.setText(user.sign);
         }
-        if (Constant.SEX_MALE.equals(userInfo.sex)) {
+        if (Constant.SEX_MALE.equals(user.sex)) {
             userSex.setImageResource(R.drawable.icon_information_boy);
         } else {
             userSex.setImageResource(R.drawable.icon_information_girl);
         }
-        fansNum.setText(userInfo.fansNum);
-        fouceNum.setText(userInfo.followNum);
-        if (userInfoDBModel.userid.equals(info.userid)) {
+        fansNum.setText(user.fansNum);
+        fouceNum.setText(user.followNum);
+        if (loginUserInfo.userid.equals(user.userid)) {
             attentionsBtn.setVisibility(View.GONE);
             ringBtn.setVisibility(View.GONE);
             liveBtn.setVisibility(View.VISIBLE);
@@ -496,7 +498,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             ringBtn.setVisibility(View.VISIBLE);
             liveBtn.setVisibility(View.GONE);
         }
-        if (userInfo.isv.equals("1")) {
+        if (user.isv.equals("1")) {
             iv_vip.setVisibility(View.VISIBLE);
         } else {
             iv_vip.setVisibility(View.GONE);
@@ -515,8 +517,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             ringBtn.setVisibility(View.GONE);
         }
 
-
-        if (isSelf()) {
+        if (loginUserInfo.userid.equals(user.userid)) {
             btn_outUser.setVisibility(View.GONE);
             btnUserControl.setVisibility(View.GONE);
             giftBtn.setVisibility(View.GONE);
@@ -524,7 +525,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             ringBtn.setVisibility(View.GONE);
 
             liveBtn.setVisibility(View.VISIBLE);
-            if (isInChatRoom()) {
+            if (App.chatRoomApplication != null) {
                 liveBtn.setText(getString(R.string.userinfo_dialog_close_live));
             } else {
                 liveBtn.setText(getString(R.string.userinfo_dialog_live));
@@ -533,7 +534,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             giftBtn.setVisibility(View.VISIBLE);
             btn_outUser.setVisibility(View.VISIBLE);
             btnUserControl.setVisibility(View.GONE);
-        } else if (isInChatRoom()) {
+        } else if (App.chatRoomApplication != null) {
             giftBtn.setVisibility(View.VISIBLE);
             btn_outUser.setVisibility(View.GONE);
             btnUserControl.setVisibility(View.VISIBLE);
@@ -543,7 +544,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             btnUserControl.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void doFocus(final String fuserid, final String isfollow) {
 
@@ -575,7 +575,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         };
         try {
             int isfollwValue = Integer.parseInt(isfollow);
-            userInfoDialog.UserFollow(CommonUrlConfig.UserFollow, userInfo.token, userInfo.userid, fuserid, isfollwValue, callback);
+            userInfoDialog.UserFollow(CommonUrlConfig.UserFollow, loginUserInfo.token, loginUserInfo.userid, fuserid, isfollwValue, callback);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -601,7 +601,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 }
             }
         };
-        userInfoDialog.userNoticeEdit(CommonUrlConfig.UserNoticeEdit, userInfo.token, userInfo.userid, touserid, callback);
+        userInfoDialog.userNoticeEdit(CommonUrlConfig.UserNoticeEdit, loginUserInfo.token, loginUserInfo.userid, touserid, callback);
 
     }
 
@@ -647,22 +647,11 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
 
 
     private boolean isHost() {
-        return info.isout && !info.userid.equals(ChatRoomActivity.userModel.userid);
+        return baseInfo.isout && !baseInfo.Userid.equals(ChatRoomActivity.userModel.userid);
     }
 
-    //是否是自己
-    private boolean isSelf() {
-        return info.userid.equals(userInfo.userid);
-    }
-
-    //是否在房间
-    private boolean isInChatRoom() {
-        String simpleClassName = getActivity().getClass().getSimpleName();
-        return simpleClassName.equals(ChatRoomActivity.class.getSimpleName());
-    }
-
-    public void setUserInfoModel(UserInfoModel userInfoModel) {
-        this.info = userInfoModel;
+    public void setUserInfoModel(BasicUserInfoModel userInfoModel) {
+        this.baseInfo = userInfoModel;
     }
 
     public void setCallBack(ICallBack callBack) {
@@ -673,7 +662,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
      * 回调接口
      */
     public interface ICallBack {
-        void sendGift(BasicUserInfoDBModel userInfoDBModel);
+        void sendGift(BasicUserInfoModel userInfoDBModel);
 
         void follow(String val);//关注操作
     }

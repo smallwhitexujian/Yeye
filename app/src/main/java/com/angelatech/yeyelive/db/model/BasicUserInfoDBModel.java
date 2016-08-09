@@ -53,6 +53,11 @@ public class BasicUserInfoDBModel implements Serializable {
      */
     @DatabaseField(columnName = "loginType")
     public String loginType = "0";
+    /**
+     * 直播收门票权限
+     */
+    @DatabaseField(columnName = "istickets")
+    public String istickets = "0";
 
 
     @Override

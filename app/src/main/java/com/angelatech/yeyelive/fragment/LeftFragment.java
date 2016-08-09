@@ -37,6 +37,7 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -230,7 +231,7 @@ public class LeftFragment extends BaseFragment {
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
                 diamond.setText(String.format("%s", basicUserInfoDBModel.diamonds));
-                userFace.setImageURI(UriHelper.obtainUri(basicUserInfoDBModel.headurl));
+                userFace.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(basicUserInfoDBModel.headurl)));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
                 if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
                     sexImageView.setImageResource(R.drawable.icon_information_boy);

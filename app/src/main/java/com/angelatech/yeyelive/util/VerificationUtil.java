@@ -14,6 +14,7 @@ public class VerificationUtil {
     private final static Pattern emailPat = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
     private final static String lettersNumber = "^(?![^a-zA-Z]+$)(?!\\D+$).{6,22}$";
     private final static String smallImage = "?imageView2/2/w/80";
+    private final static String smallImage100 = "?imageView2/2/w/100";
     private final static String filePath = "file.iamyeye.com";
 
     /**
@@ -77,11 +78,24 @@ public class VerificationUtil {
      * 七牛图片处理
      *
      * @param url 图片地址
-     * @return return
+     * @return return 80
      */
     public static String getImageUrl(String url) {
         if (url.indexOf(filePath) > 0) {
             return url + smallImage;
+        }
+        return url;
+    }
+
+    /**
+     * 七牛图片处理
+     *
+     * @param url 图片地址
+     * @return return 100
+     */
+    public static String getImageUrl100(String url) {
+        if (url.indexOf(filePath) > 0) {
+            return url + smallImage100;
         }
         return url;
     }

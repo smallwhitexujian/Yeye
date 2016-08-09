@@ -11,27 +11,27 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.Constant;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.WithBroadCastHeaderActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
+import com.angelatech.yeyelive.adapter.ViewHolder;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.FocusModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
-import com.angelatech.yeyelive.adapter.ViewHolder;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.util.ErrorHelper;
-import com.angelatech.yeyelive .R;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -130,12 +130,13 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FocusModel focusModel = data.get(position);
-                UserInfoModel userInfoModel = new UserInfoModel();
-                userInfoModel.userid = focusModel.userid;
+                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                userInfoModel.Userid = focusModel.userid;
                 userInfoModel.isfollow = focusModel.isfollow;
                 userInfoModel.headurl = focusModel.headurl;
                 userInfoModel.nickname = focusModel.nickname;
-
+                userInfoModel.isv = focusModel.isv;
+                userInfoModel.sex = focusModel.sex;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(userInfoModel);
                 userInfoDialogFragment.show(getSupportFragmentManager(), "");

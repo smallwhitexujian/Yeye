@@ -143,7 +143,7 @@ public class MainActivity extends BaseActivity {
                         String roomserverip = (String) item.get("roomserverip");
                         roomModel.setIp(roomserverip.split(":")[0]);
                         roomModel.setPort(Integer.valueOf(roomserverip.split(":")[1]));
-                        roomModel.setRoomType("watch");
+                        roomModel.setRoomType(App.LIVE_WATCH);
                         ChatRoom.enterChatRoom(MainActivity.this, roomModel);
                     }
                 });

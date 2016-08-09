@@ -16,8 +16,8 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.util.Clickable;
 import com.angelatech.yeyelive.util.MeImageGetter;
 import com.angelatech.yeyelive.util.VerificationUtil;
@@ -80,7 +80,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             if (sChatContent.contains("%/%") && chatline.giftmodel != null) {
                 try {
                     String picPath = chatRoom.getGifPath(chatline.giftmodel.giftid).getImageURL();
-                    picPath = VerificationUtil.getImageUrl(picPath);
+                    picPath = VerificationUtil.getImageUrl100(picPath);
                     if (!picPath.isEmpty()) {
                         String html = "<img src='" + picPath + "'/>";
                         //处理礼物逻辑
@@ -88,8 +88,8 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                         View.OnClickListener fromUserListener = new View.OnClickListener() {
                             //给发送者定义动作
                             public void onClick(View v) {
-                                UserInfoModel userInfoModel = new UserInfoModel();
-                                userInfoModel.userid = String.valueOf(App.mChatlines.get(position).giftmodel.from.uid);
+                                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                                userInfoModel.Userid = String.valueOf(App.mChatlines.get(position).giftmodel.from.uid);
                                 userInfoModel.nickname = App.mChatlines.get(position).giftmodel.from.name + " ";
                                 userInfoModel.headurl = App.mChatlines.get(position).giftmodel.from.headphoto;
                                 if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
@@ -105,8 +105,8 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                         View.OnClickListener toUserListener = new View.OnClickListener() {
                             //给接受者定义动作
                             public void onClick(View v) {
-                                UserInfoModel userInfoModel = new UserInfoModel();
-                                userInfoModel.userid = String.valueOf(App.mChatlines.get(position).giftmodel.to.uid);
+                                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                                userInfoModel.Userid = String.valueOf(App.mChatlines.get(position).giftmodel.to.uid);
                                 userInfoModel.nickname = " " + App.mChatlines.get(position).giftmodel.to.name;
                                 userInfoModel.headurl = App.mChatlines.get(position).giftmodel.to.headphoto;
                                 if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
@@ -140,8 +140,8 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                 View.OnClickListener fromUserListener = new View.OnClickListener() {
                     //如下定义自己的动作
                     public void onClick(View v) {
-                        UserInfoModel userInfoModel = new UserInfoModel();
-                        userInfoModel.userid = App.mChatlines.get(position).from.uid;
+                        BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                        userInfoModel.Userid = App.mChatlines.get(position).from.uid;
                         if (chatline.isFirst) {
                             userInfoModel.nickname = App.mChatlines.get(position).from.name + " ";
                         } else {
@@ -191,6 +191,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     }
 
     public interface IShowUser {
-        void showUser(UserInfoModel userInfoModel);
+        void showUser(BasicUserInfoModel userInfoModel);
     }
 }

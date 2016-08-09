@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.fragment;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.CommDialog;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
+import com.angelatech.yeyelive.mediaplayer.handler.CommonHandler;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -30,14 +33,15 @@ import java.util.Map;
  * Time: 18:11
  * 门票 dialog
  */
-public class TicketsDialogFragment extends DialogFragment implements View.OnClickListener{
+public class TicketsDialogFragment extends DialogFragment implements View.OnClickListener, CommonDoHandler {
 
     private View view;
     private TextView tv_cancel, tv_go_pay, tv_pay_coin;
     private RoomModel roomModel;
     private ChatRoom chatRoom;
     private BasicUserInfoDBModel loginUserInfo;
-
+    private CommonHandler<TicketsDialogFragment> uiHandler;
+    private final int MSG_ENTER_ROOM = 22;
     public TicketsDialogFragment() {
     }
 
@@ -49,9 +53,19 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
         view = inflater.inflate(R.layout.dialog_tickets_pay, container, false);
         initView();
         setView();
+        uiHandler = new CommonHandler<>(this);
         return view;
     }
 
+    @Override
+    public void doHandler(Message msg) {
+        switch (msg.what){
+            case MSG_ENTER_ROOM:
+                ChatRoom.closeChatRoom();
+                StartActivityHelper.jumpActivity(getActivity(), ChatRoomActivity.class, roomModel);
+                break;
+        }
+    }
 
     @Override
     public void onResume() {
@@ -96,6 +110,7 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
                         }
                     });
                 }
+                dismiss();
                 break;
         }
     }
@@ -109,8 +124,7 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
             Map map = JsonUtil.fromJson(response, Map.class);
             if (map != null) {
                 if (HttpFunction.isSuc(map.get("code").toString())) {
-                    ChatRoom.closeChatRoom();
-                    StartActivityHelper.jumpActivity(getActivity(), ChatRoomActivity.class, roomModel);
+                    uiHandler.sendEmptyMessage(MSG_ENTER_ROOM);
                 } else {
                     onBusinessFaild(map.get("code").toString());
                 }

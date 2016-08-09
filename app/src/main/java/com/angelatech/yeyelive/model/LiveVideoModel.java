@@ -21,4 +21,5 @@ public class LiveVideoModel implements Serializable {
     public String isv = "0";  //加V 标识
     public String barcoverurl; //封面
     public int type = TYPE_LIVE; //1 是直播 2 是录像
+    public String sex = "0";
 }

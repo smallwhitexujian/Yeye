@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
@@ -42,13 +43,12 @@ import com.angelatech.yeyelive.adapter.CustomerPageAdapter;
 import com.angelatech.yeyelive.adapter.GridViewAdapter;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
-import com.angelatech.yeyelive.model.RoomModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.util.CacheDataManager;
@@ -337,15 +337,17 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     img.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            UserInfoModel searchItemModel = new UserInfoModel();
-                            searchItemModel.userid = String.valueOf(linkData.get(finalI).uid);
-                            searchItemModel.nickname = linkData.get(finalI).name;
-                            searchItemModel.headurl = linkData.get(finalI).headphoto;
+                            BasicUserInfoModel userInfo = new BasicUserInfoModel();
+                            userInfo.Userid = String.valueOf(linkData.get(finalI).uid);
+                            userInfo.nickname = linkData.get(finalI).name;
+                            userInfo.headurl = linkData.get(finalI).headphoto;
+                            userInfo.isv = linkData.get(finalI).isv;
+                            userInfo.sex = String.valueOf(linkData.get(finalI).sex);
                             if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                                searchItemModel.isout = true;
+                                userInfo.isout = true;
                             }
                             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                            userInfoDialogFragment.setUserInfoModel(searchItemModel);
+                            userInfoDialogFragment.setUserInfoModel(userInfo);
                             userInfoDialogFragment.setCallBack(iCallBack);
                             userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
                         }
@@ -401,20 +403,22 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     //设置房间信息
-    public void setRoomInfo(RoomModel roommodel) {
-        if (roommodel.getUserInfoDBModel() != null && roommodel.getUserInfoDBModel().headurl != null && !roommodel.getUserInfoDBModel().headurl.equals("") && Uri.parse(roommodel.getUserInfoDBModel().headurl) != null) {
-            img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl(roommodel.getUserInfoDBModel().headurl)));
-            if (roommodel.getUserInfoDBModel().isv.equals("1")) {
+    public void setRoomInfo(BasicUserInfoDBModel userModel) {
+        if (userModel != null){
+            if (userModel.headurl != null){
+                img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl100(userModel.headurl)));
+            }
+            if (userModel.isv.equals("1")) {
                 iv_vip.setVisibility(View.VISIBLE);
             } else {
                 iv_vip.setVisibility(View.GONE);
             }
+            txt_barName.setText(userModel.nickname);
         }
-        txt_barName.setText(roommodel.getUserInfoDBModel().nickname);
         if (App.giftdatas.size() <= 0) {
             loadGiftList();
         }
-        fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
+        fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY);
         setRoomPopSpinner();
     }
 
@@ -488,12 +492,13 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 builder.create().show();
                 break;
             case R.id.img_head:
-                UserInfoModel searchItemModel = new UserInfoModel();
-                searchItemModel.userid = ChatRoomActivity.roomModel.getUserInfoDBModel().userid;
-                searchItemModel.nickname = ChatRoomActivity.roomModel.getUserInfoDBModel().nickname;
-                searchItemModel.headurl = ChatRoomActivity.roomModel.getUserInfoDBModel().headurl;
+                BasicUserInfoModel searchItemModel = new BasicUserInfoModel();
+                searchItemModel.Userid = ChatRoomActivity.liveUserModel.userid;
+                searchItemModel.nickname = ChatRoomActivity.liveUserModel.nickname;
+                searchItemModel.headurl = ChatRoomActivity.liveUserModel.headurl;
                 searchItemModel.isfollow = String.valueOf(isFollow);
-
+                searchItemModel.isv = ChatRoomActivity.liveUserModel.isv;
+                searchItemModel.sex = ChatRoomActivity.liveUserModel.sex;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(searchItemModel);
                 userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
@@ -706,6 +711,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 if (PopAdapter != null) {
                     PopAdapter.notifyDataSetChanged();
                 }
+                BasicUserInfoModel userInfoModel = (BasicUserInfoModel) msg.obj;
+                setSpinnerItemSelectedByValue(roomPopSpinner, userInfoModel.nickname);
                 break;
             case HANDLER_GIFT_CHANGE_BACKGROUND:
                 //还原上次被选中的礼物背景颜色 设置选中的giftId
@@ -735,6 +742,22 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
     }
 
+    /**
+     * 设置 选中 用户
+     *
+     * @param spinner spinner
+     * @param value   value
+     */
+    public void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
+        SpinnerAdapter apsAdapter = spinner.getAdapter(); //得到SpinnerAdapter对象
+        int k = apsAdapter.getCount();
+        for (int i = 0; i < k; i++) {
+            if (value.equals(apsAdapter.getItem(i).toString())) {
+                spinner.setSelection(i);// 默认选中项
+                break;
+            }
+        }
+    }
 
     /**
      * 初始化礼物数量选择框
@@ -982,10 +1005,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     public UserInfoDialogFragment.ICallBack iCallBack = new UserInfoDialogFragment.ICallBack() {
         @Override
-        public void sendGift(BasicUserInfoDBModel user) {
+        public void sendGift(BasicUserInfoModel user) {
             boolean isLoadUser = false;
             for (int m = 0; m < PopLinkData.size(); m++) {
-                if (user.userid.equals(String.valueOf(PopLinkData.get(m).uid))) {
+                if (user.Userid.equals(String.valueOf(PopLinkData.get(m).uid))) {
                     isLoadUser = true;
                     break;
                 }
@@ -993,14 +1016,14 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             if (!isLoadUser) {
                 OnlineListModel onlineListModel = new OnlineListModel();
                 onlineListModel.isv = user.isv;
-                onlineListModel.uid = Integer.parseInt(user.userid);
+                onlineListModel.uid = Integer.parseInt(user.Userid);
                 onlineListModel.name = user.nickname;
                 onlineListModel.sex = Integer.parseInt(user.sex);
                 onlineListModel.headphoto = user.headurl;
                 PopLinkData.add(onlineListModel);
                 PopAdapter.add(onlineListModel);
             }
-            fragmentHandler.sendEmptyMessage(MSG_OPEN_GIFT_LAYOUT);
+            fragmentHandler.obtainMessage(MSG_OPEN_GIFT_LAYOUT, user).sendToTarget();
         }
 
         @Override
@@ -1015,7 +1038,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     public ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
         @Override
-        public void showUser(UserInfoModel userInfoModel) {
+        public void showUser(BasicUserInfoModel userInfoModel) {
             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
             userInfoDialogFragment.setUserInfoModel(userInfoModel);
             userInfoDialogFragment.setCallBack(iCallBack);

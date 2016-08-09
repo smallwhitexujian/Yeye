@@ -33,12 +33,12 @@ import com.angelatech.yeyelive.model.CommonVideoModel;
 import com.angelatech.yeyelive.model.LiveModel;
 import com.angelatech.yeyelive.model.LiveVideoModel;
 import com.angelatech.yeyelive.model.RoomModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
 import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.banner.Banner;
 import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
@@ -89,7 +89,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private static final String ARG_POSITION = "position";
     private int fromType = 0;
 
-    public static LiveVideoHotFragment newInstantce(int position) {
+    public static LiveVideoHotFragment newInstance(int position) {
         LiveVideoHotFragment f = new LiveVideoHotFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
@@ -140,11 +140,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 if (item.type == 1) {
                     LiveModel liveModel = (LiveModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_live_ing);
-                    if (liveModel.headurl.indexOf("//file") > 0) {
-                        helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl + ImageSet);
-                    } else {
-                        helper.setImageViewByImageLoader(R.id.user_face, liveModel.headurl);
-                    }
+                    helper.setImageViewByImageLoader(R.id.user_face, VerificationUtil.getImageUrl(liveModel.headurl));
                     helper.setImageViewByImageLoader(R.id.live_cover, liveModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
                     helper.setText(R.id.user_nick, liveModel.nickname);
@@ -163,11 +159,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     VideoModel videoModel = (VideoModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_play_back);
-                    if (videoModel.headurl.indexOf("//file") > 0) {
-                        helper.setImageViewByImageLoader(R.id.user_face, videoModel.headurl + ImageSet);
-                    } else {
-                        helper.setImageViewByImageLoader(R.id.user_face, videoModel.headurl);
-                    }
+                    helper.setImageViewByImageLoader(R.id.user_face, VerificationUtil.getImageUrl(videoModel.headurl));
                     helper.setImageViewByImageLoader(R.id.live_cover, videoModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(videoModel.playnum));
                     helper.setText(R.id.user_nick, item.nickname);
@@ -202,10 +194,12 @@ public class LiveVideoHotFragment extends BaseFragment implements
     }
 
     private void jumpUserInfo(LiveVideoModel item) {
-        UserInfoModel userInfoModel = new UserInfoModel();
-        userInfoModel.userid = item.userid;
+        BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+        userInfoModel.Userid = item.userid;
         userInfoModel.headurl = item.headurl;
         userInfoModel.nickname = item.nickname;
+        userInfoModel.isv = item.isv;
+        userInfoModel.sex = item.sex;
         UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
         userInfoDialogFragment.setUserInfoModel(userInfoModel);
         userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
