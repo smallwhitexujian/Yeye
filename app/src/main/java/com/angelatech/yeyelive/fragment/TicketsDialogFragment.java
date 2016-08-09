@@ -1,6 +1,8 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -42,6 +44,8 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
     private BasicUserInfoDBModel loginUserInfo;
     private CommonHandler<TicketsDialogFragment> uiHandler;
     private final int MSG_ENTER_ROOM = 22;
+    private Context context;
+
     public TicketsDialogFragment() {
     }
 
@@ -59,12 +63,18 @@ public class TicketsDialogFragment extends DialogFragment implements View.OnClic
 
     @Override
     public void doHandler(Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case MSG_ENTER_ROOM:
                 ChatRoom.closeChatRoom();
-                StartActivityHelper.jumpActivity(getActivity(), ChatRoomActivity.class, roomModel);
+                StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
                 break;
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
     }
 
     @Override

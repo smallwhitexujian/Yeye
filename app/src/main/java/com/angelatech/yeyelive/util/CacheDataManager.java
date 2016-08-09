@@ -17,6 +17,7 @@ public class CacheDataManager {
 
     private static CacheDataManager instance;
     private CommonDao<BasicUserInfoDBModel> mDao;
+    public static BasicUserInfoDBModel loginUser = null;
 
     private CacheDataManager() {
         mDao = new CommonDao<>(App.sDatabaseHelper, BasicUserInfoDBModel.class);
@@ -40,13 +41,14 @@ public class CacheDataManager {
 
     //
     public BasicUserInfoDBModel loadUser() {
-        BasicUserInfoDBModel model = null;
-        try {
-            model = mDao.queryForFirst();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (loginUser == null) {
+            try {
+                loginUser = mDao.queryForFirst();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return model;
+        return loginUser;
     }
 
     public BasicUserInfoDBModel loadUser(String userId) {

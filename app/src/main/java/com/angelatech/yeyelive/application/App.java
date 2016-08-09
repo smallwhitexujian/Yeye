@@ -68,6 +68,7 @@ public class App extends Application {
     public static String loginUserId = null;
     public static String loginPhone = null;
     public static String price = "";
+    private static App instance;
 
     //test
     //
@@ -82,7 +83,7 @@ public class App extends Application {
             dirs.add(FILEPATH_CAMERA);
             dirs.add(FILEPATH_VOICE_RECORD);
         }
-
+        instance = this;
         mAppInterface.initDir(dirs);
         mAppInterface.initDB(this, DBConfig.DB_NAME, 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
@@ -122,6 +123,10 @@ public class App extends Application {
         }
     }
 
+    public static App getInstance(){
+        // 这里不用判断instance是否为空
+        return instance;
+    }
 
     @Override
     public void onTerminate() {
