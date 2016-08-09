@@ -23,7 +23,9 @@ public class BasicUserInfoModel implements Serializable {
     public String coin;
     public String diamonds;
     public String viplevel;
-
+    public String isfollow;
+    public boolean isout = false;
+    public String isv = "0";
     @Override
     public String toString() {
         return "BasicUserInfoModel{" +

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,6 +81,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private String uid, token;
     private ArrayAdapter<String> spinnnerAdapter;
     private Spinner spinnner;
+    private LinearLayout layout_ticket;
 
     public interface OnCallEvents {
         //开始直播
@@ -110,7 +112,13 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments = (ImageView) controlView.findViewById(R.id.btn_webchatmoments);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
-        initTickets();
+        layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
+        if (ChatRoomActivity.liveUserModel.istickets.equals("1")) {
+            layout_ticket.setVisibility(View.VISIBLE);
+            initTickets();
+        }else{
+            layout_ticket.setVisibility(View.GONE);
+        }
     }
 
     private void initTickets() {

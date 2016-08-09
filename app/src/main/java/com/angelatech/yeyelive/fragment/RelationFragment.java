@@ -11,22 +11,22 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive.model.CommonModel;
-import com.angelatech.yeyelive.model.FocusModel;
-import com.angelatech.yeyelive.web.HttpFunction;
-import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
+import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
-import com.angelatech.yeyelive.model.UserInfoModel;
+import com.angelatech.yeyelive.model.FocusModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.web.HttpFunction;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
+import com.will.common.string.json.JsonUtil;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -132,12 +132,13 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 FocusModel focusModel = data.get(position);
-                UserInfoModel userInfoModel = new UserInfoModel();
-                userInfoModel.userid = focusModel.userid;
+                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                userInfoModel.Userid = focusModel.userid;
                 userInfoModel.isfollow = focusModel.isfollow;
                 userInfoModel.headurl = focusModel.headurl;
                 userInfoModel.nickname = focusModel.nickname;
-
+                userInfoModel.isv = focusModel.isv;
+                userInfoModel.sex = focusModel.sex;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(userInfoModel);
                 userInfoDialogFragment.show(getActivity().getSupportFragmentManager(),"");
@@ -187,7 +188,7 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                 CommonParseListModel<FocusModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<FocusModel>>() {
                 }.getType());
                 if (result != null) {
-                    if (focusFans.isSuc(result.code)) {
+                    if (HttpFunction.isSuc(result.code)) {
                         if (result.data != null && !result.data.isEmpty()) {
                             dateSort = result.time;
                             int index = result.index;

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
@@ -29,6 +30,7 @@ public class CommChooseDialog {
 
         void onOK(boolean choose);
     }
+
     private Callback mCallback;
 
     /**
@@ -38,7 +40,7 @@ public class CommChooseDialog {
      * @param content 内容
      * @param NotOk   是否需要取消按钮 false 不需要 true 需要
      */
-    public void dialog(final Context context, String content, Boolean NotOk, Callback callback) {
+    public void dialog(final Context context, String content, Boolean NotOk, boolean isLiveUser, Callback callback) {
         dialog = new AlertDialog.Builder(context).create();
         mCallback = callback;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -49,11 +51,16 @@ public class CommChooseDialog {
         window.setGravity(Gravity.CENTER);
         window.setContentView(R.layout.dialog_end_live);
         TextView tv_content = (TextView) window.findViewById(R.id.content);
+        LinearLayout layout_save = (LinearLayout) window.findViewById(R.id.layout_save);
         Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
         Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
         final TextView tv_choose = (TextView) window.findViewById(R.id.tv_choose);
         final ImageView iv_choose = (ImageView) window.findViewById(R.id.iv_choose_save);
-
+        if (!isLiveUser){
+            layout_save.setVisibility(View.GONE);
+        }else {
+            layout_save.setVisibility(View.VISIBLE);
+        }
         iv_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

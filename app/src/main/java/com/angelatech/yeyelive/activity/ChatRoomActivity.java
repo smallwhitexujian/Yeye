@@ -39,6 +39,7 @@ import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.CommChooseDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
@@ -167,7 +168,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             finish();
             return;
         }
-        FrescoBitmapUtils.getImageBitmap(ChatRoomActivity.this, liveUserModel.headurl, new FrescoBitmapUtils.BitCallBack() {
+        FrescoBitmapUtils.getImageBitmap(ChatRoomActivity.this, VerificationUtil.getImageUrl100(liveUserModel.headurl), new FrescoBitmapUtils.BitCallBack() {
             @Override
             public void onNewResultImpl(Bitmap bitmap) {
                 final Drawable drawable = GaussAmbiguity.BlurImages(bitmap, ChatRoomActivity.this);
@@ -241,10 +242,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         };
         if (!isCloseLiveDialog) {
             isCloseLiveDialog = true;
-            if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-                dialog.dialog(ChatRoomActivity.this, getString(R.string.quit_room), true, callback);
+            if (!liveUserModel.userid.equals(userModel.userid)) {
+                dialog.dialog(ChatRoomActivity.this, getString(R.string.quit_room), true, false, callback);
             } else {
-                dialog.dialog(ChatRoomActivity.this, getString(R.string.finish_room), true, callback);
+                dialog.dialog(ChatRoomActivity.this, getString(R.string.finish_room), true, true, callback);
             }
         }
     }
@@ -351,7 +352,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 connectionServiceNumber = 1;
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
                 if (!isInit && roomModel != null) {
-                    callFragment.setRoomInfo(roomModel);
+                    callFragment.setRoomInfo(liveUserModel);
                     //检查关注状态
                     if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                         callFragment.setIsFollow(-1);
@@ -460,7 +461,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         if (liveFinishFragment != null) {
                             //恢复播放
                             liveFinishFragment.dismiss();
-                            MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
+                            if (roomModel != null) {
+                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
+                            }
                         }
                     }
                 } catch (JSONException e) {
