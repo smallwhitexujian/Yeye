@@ -60,7 +60,7 @@ public class LiveFinishActivity extends BaseActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_finish);
-        chatRoom = new ChatRoom(LiveFinishActivity.this);
+        chatRoom = new ChatRoom(this);
         model = CacheDataManager.getInstance().loadUser();
         btn_close = (Button) findViewById(R.id.btn_close);
         btn_close.setOnClickListener(this);
@@ -150,6 +150,7 @@ public class LiveFinishActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_close:
+                ChatRoom.closeChatRoom();
                 finish();
                 break;
         }

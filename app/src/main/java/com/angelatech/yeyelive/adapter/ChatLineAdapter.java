@@ -34,15 +34,15 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     private List<T> mData = new ArrayList<>();
     private MeImageGetter meImageGetter = null;
     private ChatRoom chatRoom;
-    private Activity activity;
     private IShowUser iShowUser;
-
+    private Activity activity;
     public ChatLineAdapter(Context context, List<T> data, IShowUser iShowUser) {
         this.mContext = context;
         this.mData = data;
         this.iShowUser = iShowUser;
         meImageGetter = new MeImageGetter(context);
         chatRoom = new ChatRoom(mContext);
+        activity = (Activity) context;
     }
 
     @Override
@@ -193,4 +193,11 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     public interface IShowUser {
         void showUser(BasicUserInfoModel userInfoModel);
     }
+
+//    private void showUser(BasicUserInfoModel userInfoModel){
+//        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+//        userInfoDialogFragment.setUserInfoModel(userInfoModel);
+//        //userInfoDialogFragment.setCallBack(iCallBack);
+//        userInfoDialogFragment.show(, "");
+//    }
 }

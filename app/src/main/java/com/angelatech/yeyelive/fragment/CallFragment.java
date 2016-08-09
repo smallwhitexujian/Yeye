@@ -140,6 +140,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int GridViewItemIndex = 0;
     private int GridViewItemLastIndex = -1;
     private ArrayAdapter<OnlineListModel> PopAdapter;
+    private Activity activity;
+    private Context context;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -404,8 +406,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     //设置房间信息
     public void setRoomInfo(BasicUserInfoDBModel userModel) {
-        if (userModel != null){
-            if (userModel.headurl != null){
+        if (userModel != null) {
+            if (userModel.headurl != null) {
                 img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl100(userModel.headurl)));
             }
             if (userModel.isv.equals("1")) {
@@ -621,9 +623,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        callEvents = (OnCallEvents) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        callEvents = (OnCallEvents) context;
+        this.context = context;
+        this.activity = (Activity) context;
     }
 
     //按下返回键
@@ -1036,6 +1040,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
     };
 
+
     public ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
         @Override
         public void showUser(BasicUserInfoModel userInfoModel) {
@@ -1043,6 +1048,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             userInfoDialogFragment.setUserInfoModel(userInfoModel);
             userInfoDialogFragment.setCallBack(iCallBack);
             userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+            //userInfoDialogFragment.show(activity.getFragmentManager(), "");
         }
     };
 
