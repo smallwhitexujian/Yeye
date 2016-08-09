@@ -113,7 +113,7 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
-        if (ChatRoomActivity.liveUserModel.istickets.equals("1")) {
+        if (ChatRoomActivity.userModel.isticket.equals("1")) {
             layout_ticket.setVisibility(View.VISIBLE);
             initTickets();
         }else{

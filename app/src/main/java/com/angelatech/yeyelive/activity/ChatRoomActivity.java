@@ -143,7 +143,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         connectionServiceNumber = 0;
         isInit = false;
         isCloseLiveDialog = false;
-        chatManager = new ChatManager(ChatRoomActivity.this);
+        chatManager = new ChatManager(this);
         callFragment = new CallFragment();
         readyLiveFragment = new ReadyLiveFragment();
         onlineListDatas = new ArrayList<>();

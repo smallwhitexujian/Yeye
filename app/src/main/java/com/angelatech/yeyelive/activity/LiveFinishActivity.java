@@ -19,13 +19,12 @@ import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.reflect.TypeToken;
 import com.will.common.string.json.JsonUtil;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -44,6 +43,7 @@ public class LiveFinishActivity extends BaseActivity {
     private static TextView ticke_num, ticke_title;
     private ChatRoom chatRoom;
     private BasicUserInfoDBModel model;
+    private final int MSG_TICKET_SUCCESS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +74,19 @@ public class LiveFinishActivity extends BaseActivity {
         txt_live_time = (TextView) findViewById(R.id.txt_live_time);
         ticke_num = (TextView) findViewById(R.id.ticke_num);
         ticke_title = (TextView) findViewById(R.id.ticke_title);
-        payTicketsSet();
+
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+            if (roomModel.getUserInfoDBModel().isticket.equals("1")) {
+                runOnUiThread(new Thread() {
+                    @Override
+                    public void run() {
+                        payTicketsSet();
+                    }
+                });
+
+            }
             img_head.setImageURI(Uri.parse(roomModel.getUserInfoDBModel().headurl));
             txt_barname.setText(roomModel.getUserInfoDBModel().nickname);
             txt_likenum.setText(String.valueOf(roomModel.getLikenum()));
@@ -113,16 +122,13 @@ public class LiveFinishActivity extends BaseActivity {
 
             @Override
             public void onSuccess(final String response) {
-                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
-                }.getType());
-                if (results != null) {
-                    final int ticke = Integer.valueOf(results.data);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            uiHandler.obtainMessage(1,ticke).sendToTarget();
-                        }
-                    });
+                Map map = JsonUtil.fromJson(response, Map.class);
+                if (map != null) {
+                    if (HttpFunction.isSuc(map.get("code").toString())) {
+                        uiHandler.obtainMessage(MSG_TICKET_SUCCESS, map.get("data")).sendToTarget();
+                    } else {
+                        onBusinessFaild(map.get("code").toString());
+                    }
                 }
             }
         };
@@ -131,9 +137,8 @@ public class LiveFinishActivity extends BaseActivity {
 
     @Override
     public void doHandler(Message msg) {
-        super.doHandler(msg);
         switch (msg.what) {
-            case 1:
+            case MSG_TICKET_SUCCESS:
                 ticke_num.setVisibility(View.VISIBLE);
                 ticke_title.setVisibility(View.GONE);
                 ticke_num.setText(msg.obj.toString());
