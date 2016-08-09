@@ -37,6 +37,8 @@ import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.PausableThreadPoolExecutor;
+import com.angelatech.yeyelive.util.PriorityRunnable;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
@@ -64,6 +66,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 视频直播主界面
@@ -95,6 +99,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isSysMsg = false;
     private static boolean isCloseLiveDialog = false;
     private LiveFinishFragment liveFinishFragment;
+    public PausableThreadPoolExecutor pausableThreadPoolExecutor;
+    private int priority = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +119,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        pausableThreadPoolExecutor = new PausableThreadPoolExecutor(20, 20, 0L, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>());
         initView();
         findView();
         App.chatRoomApplication = this;
@@ -303,7 +310,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     @Override
-    public void doHandler(Message msg) {
+    public void doHandler(final Message msg) {
         switch (msg.what) {
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
                 exitRoom();
@@ -405,19 +412,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             //如果状态是直播，发送直播上麦
-                            //roomModel.setRtmpip("rtmp://pili-publish.ps.qiniucdn.com/NIU7PS/0601d-test?key=efdbc36f-8759-44c2-bdd8-873521b6724a");
                             serviceManager.sendRTMP_WM_SDP(roomModel.getRtmpip(), "");
                         } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                             //如果是观看流程，首先检查是否正在直播
-
                             //上麦
                             if (loginMessage != null && loginMessage.live == 1) {
                                 roomModel.setRtmpwatchaddress(loginMessage.live_uri);
-                                DebugLogs.e("rtmp startPlay");
-
-                                DebugLogs.e("rtmp App.screenWidth" + App.screenWidth + "App.screenHeight" +
-                                        App.screenHeight + "roomModel.getRtmpwatchaddress()" + roomModel.getRtmpwatchaddress());
-
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
                             } else {
                                 //房间未直播
@@ -444,9 +444,20 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.WM_CANDIDATE:
                 break;
             case GlobalDef.WM_ROOM_MESSAGE://接受服务器消息
+                priority++;
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
-                    chatManager.receivedChatMessage(msg.obj);
+                    pausableThreadPoolExecutor.execute(new PriorityRunnable(priority) {
+                        @Override
+                        public void doSth() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    chatManager.receivedChatMessage(msg.obj);
+                                }
+                            });
+                        }
+                    });
                     callFragment.initChatMessage(ChatRoomActivity.this);
                 }
                 break;
@@ -495,7 +506,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             }
                         }
                     }
-
                     //更新界面
                     callFragment.initPeopleView(onlineListDatas);
                 }
@@ -511,7 +521,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 break;
             case GlobalDef.WM_ROOM_RECEIVE_PEOPLE: //收到在线列表
                 OnlineData(msg);
