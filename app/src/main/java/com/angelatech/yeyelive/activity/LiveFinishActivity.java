@@ -16,10 +16,16 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.will.common.string.json.JsonUtil;
+import com.will.web.handle.HttpBusinessCallback;
+
+import java.util.Map;
 
 /**
  * 直播结束页面
@@ -27,6 +33,10 @@ import com.facebook.drawee.view.SimpleDraweeView;
 public class LiveFinishActivity extends BaseActivity {
     public RoomModel roomModel;
     private ImageView face;
+    private static TextView ticke_num, ticke_title;
+    private ChatRoom chatRoom;
+    private BasicUserInfoDBModel model;
+    private final int MSG_TICKET_SUCCESS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

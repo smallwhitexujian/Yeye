@@ -56,8 +56,8 @@ public class BasicUserInfoDBModel implements Serializable {
     /**
      * 直播收门票权限
      */
-    @DatabaseField(columnName = "istickets")
-    public String istickets = "0";
+    @DatabaseField(columnName = "isticket")
+    public String isticket = "0";
 
 
     @Override
