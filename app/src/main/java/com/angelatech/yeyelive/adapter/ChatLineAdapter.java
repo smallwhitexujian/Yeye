@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
@@ -92,9 +91,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                                 userInfoModel.Userid = String.valueOf(App.mChatlines.get(position).giftmodel.from.uid);
                                 userInfoModel.nickname = App.mChatlines.get(position).giftmodel.from.name + " ";
                                 userInfoModel.headurl = App.mChatlines.get(position).giftmodel.from.headphoto;
-                                if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                                    userInfoModel.isout = true;
-                                }
                                 //showUserInfoDialog(userInfoModel);
                                 if (iShowUser != null) {
                                     iShowUser.showUser(userInfoModel);
@@ -109,9 +105,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                                 userInfoModel.Userid = String.valueOf(App.mChatlines.get(position).giftmodel.to.uid);
                                 userInfoModel.nickname = " " + App.mChatlines.get(position).giftmodel.to.name;
                                 userInfoModel.headurl = App.mChatlines.get(position).giftmodel.to.headphoto;
-                                if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                                    userInfoModel.isout = true;
-                                }
                                 if (iShowUser != null) {
                                     iShowUser.showUser(userInfoModel);
                                 }
@@ -147,9 +140,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                             userInfoModel.nickname = App.mChatlines.get(position).from.name;
                         }
                         userInfoModel.headurl = App.mChatlines.get(position).from.headphoto;
-                        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                            userInfoModel.isout = true;
-                        }
                         if (iShowUser != null) {
                             iShowUser.showUser(userInfoModel);
                         }

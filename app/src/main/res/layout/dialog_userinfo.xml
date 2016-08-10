@@ -39,6 +39,7 @@
             android:gravity="center"
             android:src="@drawable/btn_information_police_n"
             android:textColor="#A0A0A0"
+            android:visibility="gone"
             android:textSize="12sp" />
 
         <ImageView
@@ -110,8 +111,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/user_nick"
-                android:contentDescription="@null"
-                android:src="@drawable/icon_information_girl" />
+                android:contentDescription="@null" />
 
         </RelativeLayout>
 
@@ -137,7 +137,6 @@
             android:lines="3"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="@string/userinfo_dialog_user_sign"
             android:textColor="@color/color_a0a0a0"
             android:textSize="12sp" />
 

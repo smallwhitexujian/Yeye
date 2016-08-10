@@ -63,6 +63,7 @@ public class ChatRoom extends HttpFunction {
                                 if (!ticket.equals("0")) {//需要门票
                                     TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment();
                                     roomModel.setTicket(ticket);
+                                    App.roomModel.setTicket(ticket);
                                     ticketsDialogFragment.setRoomModel(roomModel);
                                     ticketsDialogFragment.show(activity.getFragmentManager(), "");
                                 } else {

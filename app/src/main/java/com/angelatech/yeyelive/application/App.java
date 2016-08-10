@@ -11,6 +11,7 @@ import com.angelatech.yeyelive.db.DBConfig;
 import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
+import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.facebook.FacebookSdk;
@@ -70,6 +71,7 @@ public class App extends Application {
     public static String price = "";
     public static int ticke = 0;
 
+    public static RoomModel roomModel = new RoomModel();
     //test
     //
     @Override

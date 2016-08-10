@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -102,7 +101,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
     private ChatLineAdapter<ChatLineModel> mAdapter;
-    private BasicUserInfoDBModel userModel;
+
     //软键盘弹起后所占高度阀值
     int keyHeight = 100;
     private RelativeLayout ly_gift_view;                                                            //礼物特效view
@@ -130,8 +129,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int GridViewItemLastIndex = -1;
     private ArrayAdapter<OnlineListModel> PopAdapter;
     private TimeCount2 timeCount2;
-    private Activity activity;
-    private Context context;
+    private ChatRoomActivity chatRoomInstance = null;
+    private BasicUserInfoDBModel userModel;  //登录用户信息
+    private BasicUserInfoDBModel liveUserModel; //直播用户信息
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -149,6 +149,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         //点赞
         void sendLove(int num);
+
+        //踢人
+        void kickedOut(String userId);
+        //结束直播
+        void closeLive();
     }
 
     @Override
@@ -156,6 +161,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
+        chatRoomInstance = new ChatRoomActivity();
         initView();
         fragmentManager = getFragmentManager();
         return controlView;
@@ -172,6 +178,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     private void initView() {
+        if (App.roomModel.getUserInfoDBModel() != null) {
+            liveUserModel = App.roomModel.getUserInfoDBModel();
+        }
+        userModel = CacheDataManager.getInstance().loadUser();
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
         Button btn_send = (Button) controlView.findViewById(R.id.btn_send);
@@ -198,7 +208,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
 
-        userModel = CacheDataManager.getInstance().loadUser();
+
         gift_Diamonds.setText(userModel.diamonds);
 
         ly_main.setOnClickListener(this);
@@ -314,7 +324,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             for (int i = 0; i < linkData.size(); i++) {
 
                 //在线列表上过滤主播
-                if (Integer.parseInt(ChatRoomActivity.roomModel.getUserInfoDBModel().userid) != linkData.get(i).uid) {
+                if (Integer.parseInt(liveUserModel.userid) != linkData.get(i).uid) {
                     View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
                     SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
 
@@ -336,7 +346,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                             userInfo.headurl = linkData.get(finalI).headphoto;
                             userInfo.isv = linkData.get(finalI).isv;
                             userInfo.sex = String.valueOf(linkData.get(finalI).sex);
-                            if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+                            if (App.roomModel.getRoomType().equals(App.LIVE_HOST)) {
                                 userInfo.isout = true;
                             }
                             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
@@ -384,11 +394,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             }
         });
         OnlineListModel onlineListModel = new OnlineListModel();
-        onlineListModel.isv = ChatRoomActivity.liveUserModel.isv;
-        onlineListModel.uid = Integer.parseInt(ChatRoomActivity.liveUserModel.userid);
-        onlineListModel.name = ChatRoomActivity.liveUserModel.nickname;
-        //onlineListModel.sex = Integer.parseInt(ChatRoomActivity.liveUserModel.sex);
-        onlineListModel.headphoto = ChatRoomActivity.liveUserModel.headurl;
+        onlineListModel.isv = liveUserModel.isv;
+        onlineListModel.uid = Integer.parseInt(liveUserModel.userid);
+        onlineListModel.name = liveUserModel.nickname;
+        //onlineListModel.sex = Integer.parseInt(chatRoomInstance.liveUserModel.sex);
+        onlineListModel.headphoto = liveUserModel.headurl;
         PopLinkData.add(onlineListModel);
         roomPopSpinner.setAdapter(PopAdapter);
         PopAdapter.add(onlineListModel);
@@ -411,8 +421,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         if (App.giftdatas.size() <= 0) {
             loadGiftList();
         }
-        fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY);
-        setRoomPopSpinner();
     }
 
     public void setLikeNum(int likeNum) {
@@ -430,7 +438,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     ly_toolbar.setVisibility(View.VISIBLE);
                     giftView.setVisibility(View.GONE);
                 }
-                if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+                if (App.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                     if (NetWorkUtil.isNetworkConnected(getActivity())) {
                         doHeart();
                     }
@@ -453,6 +461,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case R.id.giftbtn:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
+                initGiftViewpager();
+                initGiftNumSpinner();
+                setRoomPopSpinner();
                 break;
             case R.id.gift_send:
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
@@ -478,20 +489,20 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 //facebook分享
                 //分享组件
                 ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
-                builder.setShareContent(getString(R.string.share_title), ChatRoomActivity.roomModel.getName(),
+                builder.setShareContent(getString(R.string.share_title), App.roomModel.getName(),
                         CommonUrlConfig.shareURL,
-                        ChatRoomActivity.roomModel.getUserInfoDBModel().headurl);
+                        liveUserModel.headurl);
                 builder.RegisterCallback(null);
                 builder.create().show();
                 break;
             case R.id.img_head:
                 BasicUserInfoModel searchItemModel = new BasicUserInfoModel();
-                searchItemModel.Userid = ChatRoomActivity.liveUserModel.userid;
-                searchItemModel.nickname = ChatRoomActivity.liveUserModel.nickname;
-                searchItemModel.headurl = ChatRoomActivity.liveUserModel.headurl;
+                searchItemModel.Userid = liveUserModel.userid;
+                searchItemModel.nickname = liveUserModel.nickname;
+                searchItemModel.headurl = liveUserModel.headurl;
                 searchItemModel.isfollow = String.valueOf(isFollow);
-                searchItemModel.isv = ChatRoomActivity.liveUserModel.isv;
-                searchItemModel.sex = ChatRoomActivity.liveUserModel.sex;
+                searchItemModel.isv = liveUserModel.isv;
+                searchItemModel.sex = liveUserModel.sex;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(searchItemModel);
                 userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
@@ -615,8 +626,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     public void onAttach(Context context) {
         super.onAttach(context);
         callEvents = (OnCallEvents) context;
-        this.context = context;
-        this.activity = (Activity) context;
     }
 
     //按下返回键
@@ -668,16 +677,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         };
         ChatRoom chatRoom = new ChatRoom(getActivity());
         chatRoom.UserFollow(CommonUrlConfig.UserFollow, userModel.token, userModel.userid,
-                ChatRoomActivity.roomModel.getUserInfoDBModel().userid, isFollow, callback);
+                liveUserModel.userid, isFollow, callback);
     }
 
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
-            case MSG_ADAPTER_NOTIFY:
-                initGiftViewpager();
-                initGiftNumSpinner();
-                break;
             case MSG_SET_FOLLOW:
                 switch (isFollow) {
                     case -1:
@@ -887,8 +892,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 timeCount.start();
             }
             count++;
-            ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
-            txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
+            App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
+            txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
             if (loveView != null) {
                 loveView.addHeart();
             }
@@ -922,8 +927,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                                     isRun = true;
                                     if (loveView != null) {
                                         loveView.addHeart();
-                                        ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
-                                        txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
+                                        App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
+                                        txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
                                     }
                                 }
                             });
@@ -1038,7 +1043,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 onlineListModel.isv = user.isv;
                 onlineListModel.uid = Integer.parseInt(user.Userid);
                 onlineListModel.name = user.nickname;
-                onlineListModel.sex = Integer.parseInt(user.sex);
                 onlineListModel.headphoto = user.headurl;
                 PopLinkData.add(onlineListModel);
                 PopAdapter.add(onlineListModel);
@@ -1048,10 +1052,26 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         @Override
         public void follow(String val) {
-            if (val.equals("0")) {
+            if (val != null && val.equals("0")) {
                 fragmentHandler.sendEmptyMessage(MSG_DO_FOLLOW);
             } else {
                 fragmentHandler.sendEmptyMessage(MSG_CANCEL_FOLLOW);
+            }
+        }
+
+        /**
+         * 踢人
+         * @param userId
+         */
+        @Override
+        public void kickedOut(String userId) {
+            callEvents.kickedOut(userId);
+        }
+
+        @Override
+        public void closeLive() {
+            if (callEvents != null) {
+                callEvents.closeLive();
             }
         }
     };
@@ -1059,6 +1079,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
         @Override
         public void showUser(BasicUserInfoModel userInfoModel) {
+            if (App.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+                userInfoModel.isout = true;
+            } else {
+                userInfoModel.isout = false;
+            }
             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
             userInfoDialogFragment.setUserInfoModel(userInfoModel);
             userInfoDialogFragment.setCallBack(iCallBack);

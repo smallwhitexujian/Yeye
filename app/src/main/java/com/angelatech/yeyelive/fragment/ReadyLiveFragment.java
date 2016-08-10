@@ -1,6 +1,6 @@
 package com.angelatech.yeyelive.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,10 +22,11 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.Ticket;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.QqShare;
@@ -41,7 +42,6 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.datasource.DataSource;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
@@ -78,11 +78,11 @@ public class ReadyLiveFragment extends BaseFragment {
     private Animation rotateAnimation;
     private TextView mLocationInfo;
     private List<String> spinnnerList = new ArrayList<>();
-    private String uid, token;
     private ArrayAdapter<String> spinnnerAdapter;
     private Spinner spinnner;
     private LinearLayout layout_ticket;
-
+    private BasicUserInfoDBModel liveUserModel,loginUserModel;
+    private RoomModel roomModel;
     public interface OnCallEvents {
         //开始直播
         void onBeginLive();
@@ -91,8 +91,6 @@ public class ReadyLiveFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_ready_live, container, false);
-        uid = ChatRoomActivity.userModel.userid;
-        token = ChatRoomActivity.userModel.token;
         initView();
         findView();
         goAnimation();
@@ -113,7 +111,15 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
-        if (ChatRoomActivity.userModel.isticket.equals("1")) {
+        loginUserModel = CacheDataManager.getInstance().loadUser();
+        if (App.roomModel.getUserInfoDBModel() != null){
+            roomModel = App.roomModel;
+            liveUserModel = roomModel.getUserInfoDBModel();
+        }else{
+            liveUserModel = loginUserModel;
+        }
+
+        if (liveUserModel.isticket.equals("1")) {
             layout_ticket.setVisibility(View.VISIBLE);
             initTickets();
         }else{
@@ -122,7 +128,7 @@ public class ReadyLiveFragment extends BaseFragment {
     }
 
     private void initTickets() {
-        chatRoom.getPayTicketsList(uid, token, callback);
+        chatRoom.getPayTicketsList(loginUserModel.userid, loginUserModel.token, callback);
         spinnnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -145,7 +151,7 @@ public class ReadyLiveFragment extends BaseFragment {
             }
         });
 
-        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+        if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             if (gpsTracker == null) {
                 gpsTracker = new GpsTracker(getActivity());
             }
@@ -166,15 +172,15 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments.setOnClickListener(this);
         btn_wechat.setOnClickListener(this);
         btn_weibo.setOnClickListener(this);
-        txt_title.setText(String.format(getString(R.string.formatted_2), CacheDataManager.getInstance().loadUser().nickname));
+        txt_title.setText(String.format(getString(R.string.formatted_2), loginUserModel.nickname));
         txt_title.selectAll();
-        if (!ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+        if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
             dialogTitle = getString(R.string.share_title);
             text = txt_title.getText().toString();
             fragmentHandler.sendEmptyMessage(LIVE_USER);
         }
-        imageUrl = ChatRoomActivity.userModel.headurl;
+        imageUrl = liveUserModel.headurl;
         Uri uri = Uri.parse(imageUrl);
         LoadBitmap.loadBitmap(getActivity(), uri, new LoadBitmap.LoadBitmapCallback() {
             @Override
@@ -253,18 +259,18 @@ public class ReadyLiveFragment extends BaseFragment {
             case R.id.btn_webchatmoments:
                 closekeybord();
                 WxShare webchatmoment = new WxShare(getActivity(), shareListener);
-                webchatmoment.SceneWebPage(dialogTitle, text, CommonUrlConfig.shareURL + "?uid=" + ChatRoomActivity.userModel.idx,
+                webchatmoment.SceneWebPage(dialogTitle, text, CommonUrlConfig.shareURL + "?uid=" + liveUserModel.idx,
                         img, 1);
                 break;
             case R.id.btn_wechat:
                 closekeybord();
                 WxShare wxShare = new WxShare(getActivity(), shareListener);
-                wxShare.SceneWebPage(dialogTitle, text, CommonUrlConfig.shareURL + "?uid=" + ChatRoomActivity.userModel.idx, img, 0);
+                wxShare.SceneWebPage(dialogTitle, text, CommonUrlConfig.shareURL + "?uid=" + liveUserModel.idx, img, 0);
                 break;
             case R.id.btn_weibo:
                 closekeybord();
                 SinaShare sinaShare = new SinaShare(getActivity(), dialogTitle, text,
-                        CommonUrlConfig.shareURL + "?uid=" + ChatRoomActivity.userModel.idx, img);
+                        CommonUrlConfig.shareURL + "?uid=" + liveUserModel.idx, img);
                 sinaShare.registerCallback(shareListener);
                 sinaShare.share(true, true, true, false, false, false);
                 break;
@@ -292,13 +298,13 @@ public class ReadyLiveFragment extends BaseFragment {
                     if (json.getInt("code") == 1000) {
                         JSONObject jsonData = json.getJSONObject("data");
                         if (jsonData != null){
-                            ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
-                            ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
-                            ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
-                            ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
-                            ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
-                            ChatRoomActivity.roomModel.setLiveid(jsonData.getString("liveid"));
-                            ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
+                            App.roomModel.setId(jsonData.getInt("roomid"));
+                            App.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
+                            App.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
+                            App.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
+                            App.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
+                            App.roomModel.setLiveid(jsonData.getString("liveid"));
+                            App.roomModel.setName(txt_title.getText().toString());
                         }
                     } else {
                         ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
@@ -306,7 +312,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
+                App.roomModel.setName(txt_title.getText().toString());
                 LoadingDialog.cancelLoadingDialog();
                 Utility.closeKeybord(txt_title, getActivity());
                 ly_body.setVisibility(View.GONE);
@@ -351,9 +357,9 @@ public class ReadyLiveFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        callEvents = (OnCallEvents) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        callEvents = (OnCallEvents) context;
     }
 
     /**
