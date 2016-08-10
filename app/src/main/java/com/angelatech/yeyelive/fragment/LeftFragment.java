@@ -179,8 +179,8 @@ public class LeftFragment extends BaseFragment {
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
                 break;
             case R.id.layout_Invite_friend:
-                FbProxy fbProxy = new FbProxy(getActivity());
-                fbProxy.inviteFriend();
+                FbProxy fbProxy = new FbProxy();
+                fbProxy.inviteFriend(getActivity());
                 break;
         }
     }

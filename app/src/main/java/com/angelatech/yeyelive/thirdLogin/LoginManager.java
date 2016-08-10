@@ -70,7 +70,7 @@ public class LoginManager {
 //                new SinaLogin().login();
                 break;
             case FACE_BOOK:
-                new FbProxy(loginButton, handler).login();
+                new FbProxy(handler).login(loginButton);
                 break;
             case VK:
 //                new VkLogin(activity, handler).login();

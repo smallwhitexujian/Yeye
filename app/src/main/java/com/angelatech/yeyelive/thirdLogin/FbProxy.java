@@ -32,8 +32,6 @@ import com.will.common.log.DebugLogs;
 public class FbProxy {
     private static CallbackManager callbackManager;
     private ProfileTracker profileTracker;
-    private Activity activity;
-    private LoginButton loginButton;
     private Handler handler;
     public static final int FB_BASE = 0X09;
     public static final int FB_LOGIN_SUCCESS = FB_BASE + 1; //成功
@@ -41,14 +39,13 @@ public class FbProxy {
     public static final int FB_LOGIN_ERROR = FB_BASE + 3;   //失败
 
 
-    public FbProxy(LoginButton loginButton, Handler handler) {
+    public FbProxy(Handler handler) {
         //this.activity = activity;
-        this.loginButton = loginButton;
         this.handler = handler;
     }
 
-    public FbProxy(Activity activity){
-        this.activity = activity;
+    public FbProxy(){
+
     }
 
     /**
@@ -61,7 +58,7 @@ public class FbProxy {
         return callbackManager;
     }
 
-    public void login() {
+    public void login(LoginButton loginButton) {
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -140,7 +137,7 @@ public class FbProxy {
     /**
      * 拉好友
      */
-    public void inviteFriend(){
+    public void inviteFriend(Activity activity){
         String appLinkUrl, previewImageUrl;
         appLinkUrl = "https://fb.me/1745967612350627";
         previewImageUrl = "http://liveapi.iamyeye.com/upload/test.png";
