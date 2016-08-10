@@ -1,0 +1,7 @@
+/build
+/obj
+/jni/cocos2d
+/jni/libs
+
+/jni/*.sh
+/jni/*.mk*
