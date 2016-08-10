@@ -130,6 +130,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int GridViewItemLastIndex = -1;
     private ArrayAdapter<OnlineListModel> PopAdapter;
     private TimeCount2 timeCount2;
+    private Activity activity;
+    private Context context;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -479,7 +481,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 builder.setShareContent(getString(R.string.share_title), ChatRoomActivity.roomModel.getName(),
                         CommonUrlConfig.shareURL,
                         ChatRoomActivity.roomModel.getUserInfoDBModel().headurl);
-                builder.RegisterCallback(listener);
+                builder.RegisterCallback(null);
                 builder.create().show();
                 break;
             case R.id.img_head:
@@ -610,9 +612,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        callEvents = (OnCallEvents) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        callEvents = (OnCallEvents) context;
+        this.context = context;
+        this.activity = (Activity) context;
     }
 
     //按下返回键
@@ -1059,6 +1063,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             userInfoDialogFragment.setUserInfoModel(userInfoModel);
             userInfoDialogFragment.setCallBack(iCallBack);
             userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+            //userInfoDialogFragment.show(activity.getFragmentManager(), "");
         }
     };
 

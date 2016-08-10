@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.text.SpannableString;
@@ -34,6 +35,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     private MeImageGetter meImageGetter = null;
     private ChatRoom chatRoom;
     private IShowUser iShowUser;
+    private Activity activity;
 
     public ChatLineAdapter(Context context, List<T> data, IShowUser iShowUser) {
         this.mContext = context;
@@ -41,6 +43,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         this.iShowUser = iShowUser;
         meImageGetter = new MeImageGetter(context);
         chatRoom = new ChatRoom(mContext);
+        activity = (Activity) context;
     }
 
     @Override
