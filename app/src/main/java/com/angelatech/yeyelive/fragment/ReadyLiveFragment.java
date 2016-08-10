@@ -113,7 +113,7 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
-        if (ChatRoomActivity.liveUserModel.istickets.equals("1")) {
+        if (ChatRoomActivity.userModel.isticket.equals("1")) {
             layout_ticket.setVisibility(View.VISIBLE);
             initTickets();
         }else{
@@ -291,13 +291,15 @@ public class ReadyLiveFragment extends BaseFragment {
                     json = new JSONObject((String) msg.obj);
                     if (json.getInt("code") == 1000) {
                         JSONObject jsonData = json.getJSONObject("data");
-                        ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
-                        ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
-                        ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
-                        ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
-                        ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
-                        ChatRoomActivity.roomModel.setLiveid(jsonData.getString("liveid"));
-                        ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
+                        if (jsonData != null){
+                            ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
+                            ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
+                            ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
+                            ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
+                            ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
+                            ChatRoomActivity.roomModel.setLiveid(jsonData.getString("liveid"));
+                            ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
+                        }
                     } else {
                         ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
                     }
@@ -387,21 +389,6 @@ public class ReadyLiveFragment extends BaseFragment {
                     }
                 });
             }
-        }
-
-        @Override
-        public void onFailure(Map<String, ?> errorMap) {
-            super.onFailure(errorMap);
-        }
-    };
-
-    /**
-     * 更新票价
-     */
-    private HttpBusinessCallback callback2 = new HttpBusinessCallback() {
-        @Override
-        public void onSuccess(String response) {
-            DebugLogs.d("更新票价" + response);
         }
 
         @Override

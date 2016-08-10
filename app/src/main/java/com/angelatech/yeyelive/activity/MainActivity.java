@@ -34,6 +34,7 @@ import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.util.roomSoundState;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -91,8 +92,7 @@ public class MainActivity extends BaseActivity {
         //重新加载
         userModel = CacheDataManager.getInstance().loadUser();
         if (userModel != null) {
-            mFaceIcon.setImageURI(UriHelper.obtainUri(userModel.headurl));
-
+            mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
         }
     }
 
@@ -125,10 +125,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setView() {
-        drawable = ContextCompat.getDrawable(MainActivity.this, R.drawable.btn_navigation_bar_hot_n);
+        drawable = ContextCompat.getDrawable(this, R.drawable.btn_navigation_bar_hot_n);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         mainEnter = new MainEnter(MainActivity.this);
-        commonAdapter = new CommonAdapter<Map>(MainActivity.this, roomListData, R.layout.item_room) {
+        commonAdapter = new CommonAdapter<Map>(this, roomListData, R.layout.item_room) {
             @Override
             public void convert(ViewHolder helper, final Map item, final int position) {
                 helper.setText(R.id.tv_describe, item.get("barname").toString());
@@ -181,8 +181,8 @@ public class MainActivity extends BaseActivity {
         clearTabColor();
         clearTabTextSize();
         hotTab.setCompoundDrawables(null, null, null, drawable);
-        hotTab.setTextSize(DisplayTool.dip2px(MainActivity.this, 17));
-        hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
+        hotTab.setTextSize(DisplayTool.dip2px(this, 17));
+        hotTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
 
         //预加载礼物列表
         if (App.giftdatas.size() <= 0) {
@@ -199,34 +199,36 @@ public class MainActivity extends BaseActivity {
 
     // 初始化礼物列表
     private void loadGiftList() {
-        HttpBusinessCallback callback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-            }
+        if (userModel != null) {
+            HttpBusinessCallback callback = new HttpBusinessCallback() {
+                @Override
+                public void onFailure(Map<String, ?> errorMap) {
+                }
 
-            @Override
-            public void onSuccess(String response) {
-                CommonParseListModel<GiftModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<GiftModel>>() {
-                }.getType());
-                App.giftdatas.clear();
-                if (result != null) {
-                    App.giftdatas.addAll(result.data);
-                    for (int i = 0; i < App.giftdatas.size(); i++) {
-                        LoadBitmap.loadBitmap(MainActivity.this, Uri.parse(App.giftdatas.get(i).getImageURL()), new LoadBitmap.LoadBitmapCallback() {
-                            @Override
-                            public void onLoadSuc(@Nullable Bitmap bitmap) {
-                            }
+                @Override
+                public void onSuccess(String response) {
+                    CommonParseListModel<GiftModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<GiftModel>>() {
+                    }.getType());
+                    App.giftdatas.clear();
+                    if (result != null) {
+                        App.giftdatas.addAll(result.data);
+                        for (int i = 0; i < App.giftdatas.size(); i++) {
+                            LoadBitmap.loadBitmap(MainActivity.this, Uri.parse(App.giftdatas.get(i).getImageURL()), new LoadBitmap.LoadBitmapCallback() {
+                                @Override
+                                public void onLoadSuc(@Nullable Bitmap bitmap) {
+                                }
 
-                            @Override
-                            public void onLoadFaild(DataSource dataSource) {
-                            }
-                        });
+                                @Override
+                                public void onLoadFaild(DataSource dataSource) {
+                                }
+                            });
+                        }
                     }
                 }
-            }
-        };
-        ChatRoom chatRoom = new ChatRoom(MainActivity.this);
-        chatRoom.loadGiftList(CommonUrlConfig.PropList, CacheDataManager.getInstance().loadUser().token, callback);
+            };
+            ChatRoom chatRoom = new ChatRoom(MainActivity.this);
+            chatRoom.loadGiftList(CommonUrlConfig.PropList, userModel.token, callback);
+        }
     }
 
 
@@ -237,7 +239,7 @@ public class MainActivity extends BaseActivity {
                 commonAdapter.notifyDataSetChanged();
                 break;
             case MSG_ERR:
-                ToastUtils.showToast(MainActivity.this, R.string.fail);
+                ToastUtils.showToast(this, R.string.fail);
                 break;
         }
     }
@@ -250,22 +252,22 @@ public class MainActivity extends BaseActivity {
                 roomModel.setId(0);
                 roomModel.setRoomType(App.LIVE_PREVIEW);
                 roomModel.setUserInfoDBModel(userModel);
-                StartActivityHelper.jumpActivity(MainActivity.this, ChatRoomActivity.class, roomModel);
+                StartActivityHelper.jumpActivity(this, ChatRoomActivity.class, roomModel);
                 break;
             case R.id.hot_textview:
                 viewPager.setCurrentItem(0);
                 clearTabColor();
                 hotTab.setCompoundDrawables(null, null, null, drawable);
-                hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
+                hotTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 break;
             case R.id.follow_textview:
                 viewPager.setCurrentItem(1);
                 clearTabColor();
                 followTab.setCompoundDrawables(null, null, null, drawable);
-                followTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
+                followTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 break;
             case R.id.search_icon:
-                StartActivityHelper.jumpActivityDefault(MainActivity.this, SearchActivity.class);
+                StartActivityHelper.jumpActivityDefault(this, SearchActivity.class);
                 break;
             case R.id.face_icon:
                 Slidmenu.showMenu();

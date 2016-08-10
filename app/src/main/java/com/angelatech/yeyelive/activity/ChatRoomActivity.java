@@ -30,6 +30,7 @@ import com.angelatech.yeyelive.model.BarInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
@@ -43,7 +44,7 @@ import com.angelatech.yeyelive.view.CommChooseDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
-import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.view.LoadingDialogNew;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -88,7 +89,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     //重连的次数
     private int connectionServiceNumber = 0;
-
+    private ChatRoom chatRoom;
+    private LoadingDialogNew LoadingDialog;
     //房间是否初始化
     private boolean isInit = false;
     private boolean isSysMsg = false;
@@ -118,6 +120,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void initView() {
+        chatRoom = new ChatRoom(this);
+        LoadingDialog = new LoadingDialogNew();
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
@@ -212,7 +216,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 关闭房间
      */
     public void CloseLiveDialog() {
-
+        payTicketsSet();
         CommChooseDialog dialog = new CommChooseDialog();
         CommChooseDialog.Callback callback = new CommChooseDialog.Callback() {
             @Override
@@ -248,10 +252,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+
     /**
      * 保存直播视频
      */
-
     private void LiveQiSaveVideo() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -270,7 +274,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
 
     private void roomStart() {
-        LoadingDialog.showSysLoadingDialog(ChatRoomActivity.this, getString(R.string.room_conne));
+        LoadingDialog.showSysLoadingDialog(this, getString(R.string.room_conne));
         //房间引导页展示
         boolean boolGuide = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.room_guide_key);
         if (boolGuide) {
@@ -282,9 +286,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             SocketConfig socketConfig = new SocketConfig();
             socketConfig.setHost(roomModel.getIp());
             socketConfig.setPort(roomModel.getPort());
-            serviceManager = new ServiceManager(ChatRoomActivity.this, socketConfig, roomModel.getId(), uiHandler, userModel);
+            serviceManager = new ServiceManager(this, socketConfig, roomModel.getId(), uiHandler, userModel);
         } else {
-            ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.login_room_fail));
+            ToastUtils.showToast(this, getString(R.string.login_room_fail));
         }
     }
 
@@ -301,7 +305,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     @Override
-    public void doHandler(Message msg) {
+    public void doHandler(final Message msg) {
         switch (msg.what) {
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
                 exitRoom();
@@ -310,7 +314,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 DebugLogs.e("network test---------faild");
                 //如果首次连接失败，给出提示并退出房间
                 if (connectionServiceNumber < 1) {
-                    ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.the_server_connect_fail));
+                    ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
                     exitRoom();
                 }
 
@@ -318,7 +322,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.SERVICE_STATUS_CONNETN:
                 DebugLogs.e("network test---------SERVICE_STATUS_CONNETN");
                 //失去了连接，重连5次
-                if (NetWorkUtil.getActiveNetWorkType(ChatRoomActivity.this) == NetWorkUtil.TYPE_MOBILE) {
+                if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
                     CommDialog commDialog = new CommDialog();
                     CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
@@ -403,19 +407,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             //如果状态是直播，发送直播上麦
-                            //roomModel.setRtmpip("rtmp://pili-publish.ps.qiniucdn.com/NIU7PS/0601d-test?key=efdbc36f-8759-44c2-bdd8-873521b6724a");
                             serviceManager.sendRTMP_WM_SDP(roomModel.getRtmpip(), "");
                         } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                             //如果是观看流程，首先检查是否正在直播
-
                             //上麦
                             if (loginMessage != null && loginMessage.live == 1) {
                                 roomModel.setRtmpwatchaddress(loginMessage.live_uri);
-                                DebugLogs.e("rtmp startPlay");
-
-                                DebugLogs.e("rtmp App.screenWidth" + App.screenWidth + "App.screenHeight" +
-                                        App.screenHeight + "roomModel.getRtmpwatchaddress()" + roomModel.getRtmpwatchaddress());
-
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
                             } else {
                                 //房间未直播
@@ -423,7 +420,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             }
                         }
                     } else {
-                        ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.room_login_failed));
+                        ToastUtils.showToast(this, getString(R.string.room_login_failed));
                         exitRoom();
                     }
                 } catch (JSONException e) {
@@ -486,8 +483,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.initChatMessage(ChatRoomActivity.this);
-
-
                     } else {
                         for (int i = 0; i < ChatRoomActivity.onlineListDatas.size(); i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
@@ -495,7 +490,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             }
                         }
                     }
-
                     //更新界面
                     callFragment.initPeopleView(onlineListDatas);
                 }
@@ -505,12 +499,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 try {
                     jsonlikenum = new JSONObject((String) msg.obj);
                     if (jsonlikenum.getInt("data") > roomModel.getLikenum()) {
-                        callFragment.runAddLove(jsonlikenum.getInt("data") - roomModel.getLikenum());
+                        int count =jsonlikenum.getInt("data") - roomModel.getLikenum();
+                        callFragment.runAddLove(count);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 break;
             case GlobalDef.WM_ROOM_RECEIVE_PEOPLE: //收到在线列表
                 OnlineData(msg);
@@ -615,8 +609,25 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
             }
         };
-        ChatRoom chatRoom = new ChatRoom(this);
         chatRoom.UserIsFollow(CommonUrlConfig.UserIsFollow, userModel.token, userModel.userid, liveUserModel.userid, callback);
+    }
+
+    private void payTicketsSet() {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(final String response) {
+                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
+                }.getType());
+                if (results != null) {
+                    App.ticke = Integer.valueOf(results.data);
+                }
+            }
+        };
+        chatRoom.payTicketsSet(userModel.userid, userModel.token, callback);
     }
 
     //切换摄像头
@@ -628,7 +639,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     //发送私人消息
     @Override
     public void onSendMessage(String msg) {
-
         if (serviceManager != null) {
             serviceManager.sendRoomMessage(msg);
             ChatLineModel chatLineModel = new ChatLineModel();
@@ -700,12 +710,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             exitRoom();
         }
         super.onDestroy();
+        System.gc();
     }
 
     /**
      * 退房间操作
      */
     public void roomFinish() {
+        uiHandler.removeCallbacksAndMessages(null);
         if (serviceManager != null) {
             serviceManager.quitRoom();
             serviceManager = null;

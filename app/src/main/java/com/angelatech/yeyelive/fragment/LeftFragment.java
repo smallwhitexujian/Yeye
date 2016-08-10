@@ -57,7 +57,7 @@ public class LeftFragment extends BaseFragment {
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
-            layout_diamond, layout_video,layout_Invite_friend;
+            layout_diamond, layout_video, layout_Invite_friend;
     private ImageView editImageView, sexImageView, iv_vip;
     private SimpleDraweeView userFace;
     private GestureDetector gestureDetector;
@@ -245,6 +245,7 @@ public class LeftFragment extends BaseFragment {
                 }
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
         }
     }
 

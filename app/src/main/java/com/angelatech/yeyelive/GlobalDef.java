@@ -49,7 +49,7 @@ public class GlobalDef {
     public static final int WM_ROOM_Kicking = 10008;                    //踢人
     public static final int WM_ROOM_SENDGIFT = 10009;                   //送礼物
     public static final int WM_ROOM_RECEIVED = 10010;                   //发送红包
-    public static final int WM_ROOM_LIKENUM = 10011;                    //点赞列表
+    public static final int WM_ROOM_LIKENUM = 10011;                    //点赞
     public static final int WM_ROOM_SOFA = 10015;                       //沙发
     public static final int WM_ROOM_SHOWMIC = 10016;                    //上麦
     public static final int WM_ROOM_DOWMMIC = 10017;                    //下麦

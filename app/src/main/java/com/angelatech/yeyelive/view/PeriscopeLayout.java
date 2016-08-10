@@ -26,6 +26,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -54,41 +55,40 @@ public class PeriscopeLayout extends RelativeLayout {
     private LayoutParams lp;
     private Drawable[] drawables;
     private Random random = new Random();
-
     private int dHeight;
     private int dWidth;
 
     public PeriscopeLayout(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public PeriscopeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public PeriscopeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public PeriscopeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context mContext) {
         //初始化显示的图片
         drawables = new Drawable[7];
-        Drawable love_0 = getResources().getDrawable(R.drawable.love_heart1);
-        Drawable love_1 = getResources().getDrawable(R.drawable.love_heart2);
-        Drawable love_2 = getResources().getDrawable(R.drawable.love_heart3);
-        Drawable love_3 = getResources().getDrawable(R.drawable.love_heart4);
-        Drawable love_4 = getResources().getDrawable(R.drawable.love_heart5);
-        Drawable love_5 = getResources().getDrawable(R.drawable.love_heart6);
-        Drawable love_6 = getResources().getDrawable(R.drawable.love_heart7);
+        Drawable love_0 = ContextCompat.getDrawable(mContext,R.drawable.love_heart1);
+        Drawable love_1 = ContextCompat.getDrawable(mContext,R.drawable.love_heart2);
+        Drawable love_2 = ContextCompat.getDrawable(mContext,R.drawable.love_heart3);
+        Drawable love_3 = ContextCompat.getDrawable(mContext,R.drawable.love_heart4);
+        Drawable love_4 = ContextCompat.getDrawable(mContext,R.drawable.love_heart5);
+        Drawable love_5 = ContextCompat.getDrawable(mContext,R.drawable.love_heart6);
+        Drawable love_6 = ContextCompat.getDrawable(mContext,R.drawable.love_heart7);
 
         drawables[0] = love_0;
         drawables[1] = love_1;
@@ -171,7 +171,6 @@ public class PeriscopeLayout extends RelativeLayout {
     /**
      * 获取中间的两个 点
      *
-     * @param scale
      */
     private PointF getPointF(int scale) {
         try {

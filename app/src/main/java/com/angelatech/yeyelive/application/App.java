@@ -68,6 +68,7 @@ public class App extends Application {
     public static String loginUserId = null;
     public static String loginPhone = null;
     public static String price = "";
+    public static int ticke = 0;
 
     //test
     //
