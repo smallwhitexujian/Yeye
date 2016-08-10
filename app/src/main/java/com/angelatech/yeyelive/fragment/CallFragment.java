@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
@@ -80,7 +79,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private final int MSG_DO_FOLLOW = 15;
     private final int MSG_CANCEL_FOLLOW = 16;
     private final int MSG_OPEN_GIFT_LAYOUT = 17;
-    private final int MSG_ADAPTER_NOTIFY = 1;
+    private final int MSG_ADAPTER_NOTIFY_GIFT = 172;
     private final int MSG_SET_FOLLOW = 2;
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
     private ImageView cameraSwitchButton;
@@ -112,11 +111,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     private boolean giftA = false;                                                                  //礼物特效播放状态
 
-    private boolean isRun = false;
     private boolean isTimeCount = true;                                 // 是否打开倒计时
     private boolean isTimeCount2 = true;                                 // 是否打开倒计时
     private long lastClick;                                             // 点赞点击事件
-    private int count = 0;                                              // 统计点赞次数
+    private int loveNumber = 0;                                              // 统计点赞次数
 
     private TimeCount timeCount;
 
@@ -129,9 +127,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private int GridViewItemLastIndex = -1;
     private ArrayAdapter<OnlineListModel> PopAdapter;
     private TimeCount2 timeCount2;
-    private ChatRoomActivity chatRoomInstance = null;
     private BasicUserInfoDBModel userModel;  //登录用户信息
     private BasicUserInfoDBModel liveUserModel; //直播用户信息
+    public static final Object lock = new Object();
+    private ChatRoom chatRoom;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -152,6 +151,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         //踢人
         void kickedOut(String userId);
+
         //结束直播
         void closeLive();
     }
@@ -161,7 +161,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
-        chatRoomInstance = new ChatRoomActivity();
         initView();
         fragmentManager = getFragmentManager();
         return controlView;
@@ -182,6 +181,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             liveUserModel = App.roomModel.getUserInfoDBModel();
         }
         userModel = CacheDataManager.getInstance().loadUser();
+        chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
         Button btn_send = (Button) controlView.findViewById(R.id.btn_send);
@@ -207,7 +207,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
-
 
         gift_Diamonds.setText(userModel.diamonds);
 
@@ -321,6 +320,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             LayoutInflater mInflater = LayoutInflater.from(getActivity());
             LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
             mGallery.removeAllViews();
+
             for (int i = 0; i < linkData.size(); i++) {
 
                 //在线列表上过滤主播
@@ -346,13 +346,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                             userInfo.headurl = linkData.get(finalI).headphoto;
                             userInfo.isv = linkData.get(finalI).isv;
                             userInfo.sex = String.valueOf(linkData.get(finalI).sex);
-                            if (App.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                                userInfo.isout = true;
-                            }
-                            UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                            userInfoDialogFragment.setUserInfoModel(userInfo);
-                            userInfoDialogFragment.setCallBack(iCallBack);
-                            userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+                            onShowUser(userInfo);
                         }
                     });
                     mGallery.addView(view);
@@ -365,6 +359,21 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 展示 用户 详细信息
+     *
+     * @param userInfoModel user
+     */
+    private void onShowUser(BasicUserInfoModel userInfoModel) {
+        if (App.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+            userInfoModel.isout = true;
+        }
+        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+        userInfoDialogFragment.setUserInfoModel(userInfoModel);
+        userInfoDialogFragment.setCallBack(iCallBack);
+        userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
     }
 
     /**
@@ -406,21 +415,27 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     //设置房间信息
-    public void setRoomInfo(BasicUserInfoDBModel userModel) {
-        if (userModel != null) {
-            if (userModel.headurl != null) {
-                img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl100(userModel.headurl)));
+    public void setRoomInfo() {
+        if (liveUserModel != null) {
+            if (liveUserModel.headurl != null) {
+                img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl100(liveUserModel.headurl)));
             }
-            if (userModel.isv.equals("1")) {
+            if (liveUserModel.isv.equals("1")) {
                 iv_vip.setVisibility(View.VISIBLE);
             } else {
                 iv_vip.setVisibility(View.GONE);
             }
-            txt_barName.setText(userModel.nickname);
+            txt_barName.setText(liveUserModel.nickname);
         }
         if (App.giftdatas.size() <= 0) {
             loadGiftList();
         }
+        if (!userModel.userid.equals(liveUserModel.userid)) {
+            UserIsFollow();
+        } else {
+            btn_Follow.setVisibility(View.GONE);
+        }
+        fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
     }
 
     public void setLikeNum(int likeNum) {
@@ -459,11 +474,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 Utility.openKeybord(txt_msg, getActivity());
                 break;
             case R.id.giftbtn:
+                if (gridViews.size() == 0) {
+                    fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
+                }
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
-                initGiftViewpager();
-                initGiftNumSpinner();
-                setRoomPopSpinner();
                 break;
             case R.id.gift_send:
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
@@ -503,10 +518,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 searchItemModel.isfollow = String.valueOf(isFollow);
                 searchItemModel.isv = liveUserModel.isv;
                 searchItemModel.sex = liveUserModel.sex;
-                UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                userInfoDialogFragment.setUserInfoModel(searchItemModel);
-                userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
-
+                onShowUser(searchItemModel);
                 break;
             case R.id.txt_barname:
                 txt_room_des.setVisibility(View.VISIBLE);
@@ -646,8 +658,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     //设置关注状态
     public void setIsFollow(int value) {
-        isFollow = value;
-        fragmentHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
+
     }
 
     //关注/取消关注
@@ -675,7 +686,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 }
             }
         };
-        ChatRoom chatRoom = new ChatRoom(getActivity());
         chatRoom.UserFollow(CommonUrlConfig.UserFollow, userModel.token, userModel.userid,
                 liveUserModel.userid, isFollow, callback);
     }
@@ -685,9 +695,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         switch (msg.what) {
             case MSG_SET_FOLLOW:
                 switch (isFollow) {
-                    case -1:
-                        btn_Follow.setVisibility(View.GONE);
-                        break;
                     case 0:
                         btn_Follow.setVisibility(View.VISIBLE);
                         btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
@@ -736,6 +743,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                 btn_Follow.startAnimation(rotateAnimation);
                 btn_Follow.setVisibility(View.GONE);
+                break;
+            case MSG_ADAPTER_NOTIFY_GIFT:
+                initGiftViewpager();
+                initGiftNumSpinner();
+                setRoomPopSpinner();
+
                 break;
         }
     }
@@ -891,9 +904,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 timeCount = new TimeCount(10000, 1000);//倒计时
                 timeCount.start();
             }
-            count++;
-            App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
-            txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+            synchronized (lock) {
+                App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
+                txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+            }
             if (loveView != null) {
                 loveView.addHeart();
             }
@@ -906,6 +920,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         if (!isTimeCount2) {
             return;
         }
+        loveNumber = count;
         if (timeCount2 == null) {
             timeCount2 = new TimeCount2(10000, 1000);
             timeCount2.start();
@@ -915,20 +930,14 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 @Override
                 public void run() {
                     try {
-                        for (int i = 0; i < count; i++) {
-                            if (i > 80 && isRun) {
-                                isRun = false;
-                                return;
-                            }
+                        for (int i = 0; i < loveNumber; i++) {
                             Thread.sleep(200);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    isRun = true;
                                     if (loveView != null) {
                                         loveView.addHeart();
-                                        App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
-                                        txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+                                        txt_likeNum.setText(String.valueOf(Integer.parseInt(txt_likeNum.getText().toString()) + 1));
                                     }
                                 }
                             });
@@ -956,9 +965,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         @Override
         public void onFinish() {
-            callEvents.sendLove(count);
+            //callEvents.sendLove(count);
             isTimeCount = true;
-            count = 0;
+            loveNumber = 0;
         }
     }
 
@@ -1028,6 +1037,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         //initPoint(pageCount);
     }
 
+    /**
+     * 实现 用户信息对话框 的接口函数
+     */
     private UserInfoDialogFragment.ICallBack iCallBack = new UserInfoDialogFragment.ICallBack() {
         @Override
         public void sendGift(BasicUserInfoModel user) {
@@ -1079,18 +1091,31 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
         @Override
         public void showUser(BasicUserInfoModel userInfoModel) {
-            if (App.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                userInfoModel.isout = true;
-            } else {
-                userInfoModel.isout = false;
-            }
-            UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-            userInfoDialogFragment.setUserInfoModel(userInfoModel);
-            userInfoDialogFragment.setCallBack(iCallBack);
-            userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
-            //userInfoDialogFragment.show(activity.getFragmentManager(), "");
+            onShowUser(userInfoModel);
         }
     };
+
+    //检查是否关注
+    private void UserIsFollow() {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    //是否关注
+                    isFollow = json.getJSONObject("data").getInt("isfollow");
+                    fragmentHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        chatRoom.UserIsFollow(CommonUrlConfig.UserIsFollow, userModel.token, userModel.userid, liveUserModel.userid, callback);
+    }
 
     /**
      * 分享监听

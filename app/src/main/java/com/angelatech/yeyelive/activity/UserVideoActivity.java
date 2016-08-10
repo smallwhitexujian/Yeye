@@ -58,7 +58,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     private List<LiveVideoModel> list = new ArrayList<>();
     private FrameLayout layout_delete;
     private TextView tv_delete, tv_cancel;
-    private int position = 0;
+    private int itemPosition = 0;
     private RelativeLayout noDataLayout;
     private volatile boolean IS_REFRESH = true;  //是否需要刷新
 
@@ -99,9 +99,9 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
         list_view_user_videos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 layout_delete.setVisibility(View.VISIBLE);
-                position = i;
+                itemPosition = position;
                 return true;
             }
         });
@@ -171,7 +171,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 break;
             case MSG_DELETE_VIDEO_SUCCESS:
                 layout_delete.setVisibility(View.GONE);
-                list.remove(position);
+                list.remove(itemPosition);
                 adapter.notifyDataSetChanged();
                 ToastUtils.showToast(this, getString(R.string.video_delete_success));
                 break;
@@ -188,11 +188,13 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         //super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_delete:
-                if (list.get(position).type == 2) {
-                    VideoModel model = (VideoModel) list.get(position);
-                    videoId = Integer.parseInt(model.videoid);
+                if (itemPosition < list.size()) {
+                    if (list.get(itemPosition).type == LiveModel.TYPE_RECORD) {
+                        VideoModel model = (VideoModel) list.get(itemPosition);
+                        videoId = Integer.parseInt(model.videoid);
+                    }
+                    playRecord.deleteRecord(loginUser.userid, loginUser.token, videoId, deleteVideo);
                 }
-                playRecord.deleteRecord(loginUser.userid, loginUser.token, videoId, deleteVideo);
                 break;
             case R.id.tv_cancel:
                 layout_delete.setVisibility(View.GONE);

@@ -16,7 +16,7 @@ public class BarInfoModel extends CommonModel {
     public String notice = "";               // 公告
     public String yesterdaywage = "";         // 工资
     public int labelid = 0;                  // 标签
-    public String hot = "";                 // 热度
+    public String hot = "0";                 // 热度
     public String barType = "1";
     public int silence = -1;                // 是否禁言状态
     public long coin = 0;                  // 金币

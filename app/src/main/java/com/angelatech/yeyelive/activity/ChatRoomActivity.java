@@ -249,6 +249,37 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+    /**
+     * 结束直播 对话框
+     *
+     * @param resId 字符串
+     */
+    private void endLive(String resId) {
+        CommDialog commDialog = new CommDialog();
+        CommDialog.Callback callback = new CommDialog.Callback() {
+            @Override
+            public void onCancel() {
+                //结束直播
+                if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
+                    serviceManager.downMic();
+                    roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
+                    StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
+                } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+                    //收起键盘
+                    if (readyLiveFragment != null) {
+                        readyLiveFragment.closekeybord();
+                    }
+                }
+                exitRoom();
+            }
+
+            @Override
+            public void onOK() {
+                restartConnection();
+            }
+        };
+        commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback);
+    }
 
     /**
      * 保存直播视频
@@ -320,46 +351,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 DebugLogs.e("network test---------SERVICE_STATUS_CONNETN");
                 //失去了连接，重连5次
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
-                    CommDialog commDialog = new CommDialog();
-                    CommDialog.Callback callback = new CommDialog.Callback() {
-                        @Override
-                        public void onCancel() {
-                            //结束直播
-                            if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
-                                serviceManager.downMic();
-                                roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
-                                StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
-                            } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
-                                //收起键盘
-                                if (readyLiveFragment != null) {
-                                    readyLiveFragment.closekeybord();
-                                }
-                            }
-                            exitRoom();
-                        }
-
-                        @Override
-                        public void onOK() {
-                            restartConnection();
-                        }
-                    };
-                    commDialog.CommDialog(ChatRoomActivity.this, getString(R.string.traffic_alert), true, callback);
-                } else {
-                    restartConnection();
+                    endLive(getString(R.string.traffic_alert));
                 }
-
                 break;
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
                 connectionServiceNumber = 1;
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
                 if (!isInit && roomModel != null) {
-                    callFragment.setRoomInfo(liveUserModel);
+                    callFragment.setRoomInfo();
                     //检查关注状态
-                    if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                        callFragment.setIsFollow(-1);
-                    } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-                        UserIsFollow();
-                    }
                 }
                 break;
             case GlobalDef.WM_ROOM_LOGIN://房间登录成功，身份验证通过
@@ -368,26 +368,18 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     mAbSlidingTabView.setCurrentItem(1);
                 }
                 callFragment.setCameraSwitchButton(roomModel.getRoomType());
-                JSONObject json;
                 try {
-                    json = new JSONObject(msg.obj.toString());
-                    int code = json.getInt("code");
-
-                    if (code == 0) {
+                    BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
+                    if (loginMessage != null && loginMessage.code.equals("0")) {
                         LoadingDialog.cancelLoadingDialog();
-                        int coin = json.getInt("coin");
+                        long coin = loginMessage.coin;
                         //更新金币
                         userModel.diamonds = String.valueOf(coin);
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, userModel.diamonds, userModel.userid);
                         callFragment.setDiamonds(userModel.diamonds);
-                        App.roomModel.setLikenum(json.getInt("hot"));
+                        App.roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
                         callFragment.setLikeNum(App.roomModel.getLikenum());
                         serviceManager.getOnlineListUser();
-                        BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
-                        if (loginMessage != null) {
-                            App.roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
-                        }
-
                         if (!isSysMsg) {
                             isSysMsg = true;
                             ChatLineModel chatlinemodel = new ChatLineModel();
@@ -410,7 +402,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                             //如果是观看流程，首先检查是否正在直播
                             //上麦
-                            if (loginMessage != null && loginMessage.live == 1) {
+                            if (loginMessage.live == 1) {
                                 App.roomModel.setRtmpwatchaddress(loginMessage.live_uri);
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
                             } else {
@@ -422,7 +414,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         ToastUtils.showToast(this, getString(R.string.room_login_failed));
                         exitRoom();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -483,7 +475,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.initChatMessage(ChatRoomActivity.this);
                     } else {
-                        for (int i = 0; i < ChatRoomActivity.onlineListDatas.size(); i++) {
+                        for (int i = 0; i < onlineListDatas.size(); i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
                                 onlineListDatas.remove(i);
                             }
@@ -494,11 +486,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.WM_ROOM_LIKENUM: //有人点赞
-                JSONObject jsonlikenum;
                 try {
-                    jsonlikenum = new JSONObject((String) msg.obj);
-                    if (jsonlikenum.getInt("data") > App.roomModel.getLikenum()) {
-                        int count = jsonlikenum.getInt("data") - App.roomModel.getLikenum();
+                    JSONObject jsonLoveNum = new JSONObject((String) msg.obj);
+                    int Sum = jsonLoveNum.getInt("data");
+                    if (Sum > App.roomModel.getLikenum()) {
+                        int count = Sum - App.roomModel.getLikenum();
+                        App.roomModel.setLikenum(Sum);
+                        if (count >= 10) {
+                            count = 10;
+                        }
                         callFragment.runAddLove(count);
                     }
                 } catch (JSONException e) {
@@ -590,27 +586,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     //检查是否关注
-    private void UserIsFollow() {
-        HttpBusinessCallback callback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                try {
-                    JSONObject json = new JSONObject(response);
-                    //是否关注
-                    int isfollow = json.getJSONObject("data").getInt("isfollow");
-                    callFragment.setIsFollow(isfollow);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        chatRoom.UserIsFollow(CommonUrlConfig.UserIsFollow, userModel.token, userModel.userid, liveUserModel.userid, callback);
-    }
-
 //    private void payTicketsSet() {
 //        HttpBusinessCallback callback = new HttpBusinessCallback() {
 //            @Override
@@ -755,7 +730,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     @Override
                     public void onCancel() {
                         isCloseLiveDialog = false;
-                        if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
+                        if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                         }
                         exitRoom();
@@ -764,7 +739,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     @Override
                     public void onOK() {
                         //如果是直播，发送下麦通知
-                        if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
+                        if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                         } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                             if (readyLiveFragment != null) {
