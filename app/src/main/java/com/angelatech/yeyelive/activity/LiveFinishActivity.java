@@ -32,6 +32,7 @@ import java.util.Map;
 
 /**
  * 直播结束页面
+ * 直播者 自己 结束界面
  */
 public class LiveFinishActivity extends BaseActivity {
     private Button btn_close;

@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.text.SpannableString;
@@ -35,6 +36,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     private ChatRoom chatRoom;
     private IShowUser iShowUser;
     private Activity activity;
+
     public ChatLineAdapter(Context context, List<T> data, IShowUser iShowUser) {
         this.mContext = context;
         this.mData = data;
@@ -190,11 +192,4 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     public interface IShowUser {
         void showUser(BasicUserInfoModel userInfoModel);
     }
-
-//    private void showUser(BasicUserInfoModel userInfoModel){
-//        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-//        userInfoDialogFragment.setUserInfoModel(userInfoModel);
-//        //userInfoDialogFragment.setCallBack(iCallBack);
-//        userInfoDialogFragment.show(, "");
-//    }
 }

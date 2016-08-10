@@ -481,7 +481,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 builder.setShareContent(getString(R.string.share_title), ChatRoomActivity.roomModel.getName(),
                         CommonUrlConfig.shareURL,
                         ChatRoomActivity.roomModel.getUserInfoDBModel().headurl);
-                builder.RegisterCallback(listener);
+                builder.RegisterCallback(null);
                 builder.create().show();
                 break;
             case R.id.img_head:
@@ -1057,8 +1057,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     };
 
     private ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
-
-    public ChatLineAdapter.IShowUser iShowUser = new ChatLineAdapter.IShowUser() {
         @Override
         public void showUser(BasicUserInfoModel userInfoModel) {
             UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();

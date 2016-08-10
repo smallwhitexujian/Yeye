@@ -30,7 +30,6 @@ import com.angelatech.yeyelive.model.BarInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
-import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
@@ -216,7 +215,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 关闭房间
      */
     public void CloseLiveDialog() {
-        payTicketsSet();
+        //payTicketsSet();
         CommChooseDialog dialog = new CommChooseDialog();
         CommChooseDialog.Callback callback = new CommChooseDialog.Callback() {
             @Override
@@ -612,23 +611,23 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         chatRoom.UserIsFollow(CommonUrlConfig.UserIsFollow, userModel.token, userModel.userid, liveUserModel.userid, callback);
     }
 
-    private void payTicketsSet() {
-        HttpBusinessCallback callback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-            }
-
-            @Override
-            public void onSuccess(final String response) {
-                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
-                }.getType());
-                if (results != null) {
-                    App.ticke = Integer.valueOf(results.data);
-                }
-            }
-        };
-        chatRoom.payTicketsSet(userModel.userid, userModel.token, callback);
-    }
+//    private void payTicketsSet() {
+//        HttpBusinessCallback callback = new HttpBusinessCallback() {
+//            @Override
+//            public void onFailure(Map<String, ?> errorMap) {
+//            }
+//
+//            @Override
+//            public void onSuccess(final String response) {
+//                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
+//                }.getType());
+//                if (results != null) {
+//                    App.ticke = Integer.valueOf(results.data);
+//                }
+//            }
+//        };
+//        chatRoom.payTicketsSet(userModel.userid, userModel.token, callback);
+//    }
 
     //切换摄像头
     @Override
