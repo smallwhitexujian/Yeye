@@ -30,6 +30,7 @@ import com.angelatech.yeyelive.model.BarInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
@@ -88,6 +89,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     //重连的次数
     private int connectionServiceNumber = 0;
+    private ChatRoom chatRoom;
     private LoadingDialogNew LoadingDialog;
     //房间是否初始化
     private boolean isInit = false;
@@ -118,6 +120,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void initView() {
+        chatRoom = new ChatRoom(this);
         LoadingDialog = new LoadingDialogNew();
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
@@ -144,7 +147,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         connectionServiceNumber = 0;
         isInit = false;
         isCloseLiveDialog = false;
-        chatManager = new ChatManager(this);
+        chatManager = new ChatManager(ChatRoomActivity.this);
         callFragment = new CallFragment();
         readyLiveFragment = new ReadyLiveFragment();
         onlineListDatas = new ArrayList<>();
@@ -213,7 +216,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 关闭房间
      */
     public void CloseLiveDialog() {
-
+        payTicketsSet();
         CommChooseDialog dialog = new CommChooseDialog();
         CommChooseDialog.Callback callback = new CommChooseDialog.Callback() {
             @Override
@@ -249,10 +252,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+
     /**
      * 保存直播视频
      */
-
     private void LiveQiSaveVideo() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -266,7 +269,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             }
         };
         ChatRoom chatRoom = new ChatRoom(ChatRoomActivity.this);
-        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, userModel, roomModel.getLiveid(), callback);
+        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), callback);
     }
 
 
@@ -302,7 +305,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     @Override
-    public void doHandler(Message msg) {
+    public void doHandler(final Message msg) {
         switch (msg.what) {
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
                 exitRoom();
@@ -404,19 +407,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             //如果状态是直播，发送直播上麦
-                            //roomModel.setRtmpip("rtmp://pili-publish.ps.qiniucdn.com/NIU7PS/0601d-test?key=efdbc36f-8759-44c2-bdd8-873521b6724a");
                             serviceManager.sendRTMP_WM_SDP(roomModel.getRtmpip(), "");
                         } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                             //如果是观看流程，首先检查是否正在直播
-
                             //上麦
                             if (loginMessage != null && loginMessage.live == 1) {
                                 roomModel.setRtmpwatchaddress(loginMessage.live_uri);
-                                DebugLogs.e("rtmp startPlay");
-
-                                DebugLogs.e("rtmp App.screenWidth" + App.screenWidth + "App.screenHeight" +
-                                        App.screenHeight + "roomModel.getRtmpwatchaddress()" + roomModel.getRtmpwatchaddress());
-
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
                             } else {
                                 //房间未直播
@@ -494,7 +490,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             }
                         }
                     }
-
                     //更新界面
                     callFragment.initPeopleView(onlineListDatas);
                 }
@@ -504,12 +499,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 try {
                     jsonlikenum = new JSONObject((String) msg.obj);
                     if (jsonlikenum.getInt("data") > roomModel.getLikenum()) {
-                        callFragment.runAddLove(jsonlikenum.getInt("data") - roomModel.getLikenum());
+                        int count =jsonlikenum.getInt("data") - roomModel.getLikenum();
+                        callFragment.runAddLove(count);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 break;
             case GlobalDef.WM_ROOM_RECEIVE_PEOPLE: //收到在线列表
                 OnlineData(msg);
@@ -614,8 +609,25 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
             }
         };
-        ChatRoom chatRoom = new ChatRoom(this);
         chatRoom.UserIsFollow(CommonUrlConfig.UserIsFollow, userModel.token, userModel.userid, liveUserModel.userid, callback);
+    }
+
+    private void payTicketsSet() {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(final String response) {
+                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
+                }.getType());
+                if (results != null) {
+                    App.ticke = Integer.valueOf(results.data);
+                }
+            }
+        };
+        chatRoom.payTicketsSet(userModel.userid, userModel.token, callback);
     }
 
     //切换摄像头
@@ -627,7 +639,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     //发送私人消息
     @Override
     public void onSendMessage(String msg) {
-
         if (serviceManager != null) {
             serviceManager.sendRoomMessage(msg);
             ChatLineModel chatLineModel = new ChatLineModel();
@@ -699,6 +710,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             exitRoom();
         }
         super.onDestroy();
+        System.gc();
     }
 
     /**

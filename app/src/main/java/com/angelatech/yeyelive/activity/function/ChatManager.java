@@ -2,19 +2,17 @@ package com.angelatech.yeyelive.activity.function;
 
 import android.content.Context;
 
-import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.model.ChatLineModel;
+import com.will.common.string.json.JsonUtil;
 
 /**
  * Created by Shanli_pc on 2016/3/22.
  */
 
 public class ChatManager {
-    private Context context;
 
     public ChatManager(Context context) {
-        this.context = context;
     }
 
     /**
@@ -23,15 +21,6 @@ public class ChatManager {
      * @param object obj
      */
     public void receivedChatMessage(Object object) {
-        AddChatMessage(object);
-    }
-
-    /**
-     * 收到红包信息
-     *
-     * @param object
-     */
-    public void receiverRedEnvelope(Object object) {
         AddChatMessage(object);
     }
 
@@ -61,9 +50,11 @@ public class ChatManager {
      * @param object obj
      */
     public void AddChatMessage(Object object) {
-        ChatLineModel chatLineModel = JsonUtil.fromJson(object.toString(), ChatLineModel.class);
-        if (chatLineModel != null) {
-            AddChatMessage(chatLineModel);
+        if (object != null){
+            ChatLineModel chatLineModel = JsonUtil.fromJson(object.toString(), ChatLineModel.class);
+            if (chatLineModel != null) {
+                AddChatMessage(chatLineModel);
+            }
         }
     }
 
