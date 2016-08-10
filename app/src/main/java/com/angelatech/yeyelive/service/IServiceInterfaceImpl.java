@@ -25,7 +25,7 @@ import com.framework.socket.model.TcpSocketConnectorConfig;
 import com.framework.socket.protocol.Protocol;
 import com.will.common.log.Logger;
 import com.angelatech.yeyelive.socket.WillProtocol;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.HttpManager;
 import com.will.web.okhttp3.OkHttpManager;
@@ -109,11 +109,15 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                         mImSocketModuleManager.stopSocket();
                     }
                     BasicUserInfoDBModel userInfoDBModel = CacheDataManager.getInstance().loadUser();
-                    if(userInfoDBModel != null && userInfoDBModel.userid != null){
+                    if (userInfoDBModel != null && userInfoDBModel.userid != null) {
                         CacheDataManager.getInstance().deleteMessageRecord(userInfoDBModel.userid);
                     }
-                    App.isLogin = false;
+                    CacheDataManager.loginUser = null;
                     AccessToken.setCurrentAccessToken(null);
+                    if (App.chatRoomApplication != null) {
+                        App.chatRoomApplication.exitRoom();
+                    }
+                    StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
                     Logger.e("退出=========================");
                     break;
                 case IServiceValues.CMD_KICK_OUT:
@@ -132,7 +136,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                                     App.isLogin = false;
                                     //AccessToken.setCurrentAccessToken(null);
                                     NotificationUtil.clearAllNotify(mContext);//清理所有的通知
-                                    StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
+                                    StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
 
                                 }
                             }

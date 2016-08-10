@@ -6,13 +6,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
-import com.angelatech.yeyelive.activity.LoginActivity;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.util.BroadCastHelper;
-import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.ErrorHelper;
 import com.will.view.ToastUtils;
 
@@ -48,12 +44,6 @@ public class JsonBusinessErrorHandle implements JsonHandleable {
         if(ErrorHelper.shouldLogout(code)){
             Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,IServiceValues.CMD_EXIT_LOGIN);
             BroadCastHelper.sendBroadcast(mContext, exitIntent);
-            //
-            BasicUserInfoDBModel userInfoDBModel = CacheDataManager.getInstance().loadUser();
-            if(userInfoDBModel != null){
-                CacheDataManager.getInstance().deleteMessageRecord(userInfoDBModel.userid);
-                StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
-            }
         }
         else{
             mHandler.obtainMessage(0,code).sendToTarget();

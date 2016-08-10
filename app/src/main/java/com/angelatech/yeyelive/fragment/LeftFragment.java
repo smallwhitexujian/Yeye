@@ -17,7 +17,6 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
-import com.angelatech.yeyelive.activity.LoginActivity;
 import com.angelatech.yeyelive.activity.MainActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
@@ -141,9 +140,6 @@ public class LeftFragment extends BaseFragment {
                         Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
                                 IServiceValues.CMD_EXIT_LOGIN);
                         BroadCastHelper.sendBroadcast(getActivity(), exitIntent);
-                        StartActivityHelper.jumpActivity(getActivity(),
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK,
-                                null, LoginActivity.class, null);
                     }
                 });
                 break;
