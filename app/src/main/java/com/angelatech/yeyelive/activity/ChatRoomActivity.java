@@ -70,21 +70,21 @@ import java.util.Map;
 public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents, OnLiveListener, OnPlayListener {
     private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
-    private ReadyLiveFragment readyLiveFragment;//准备播放页面
+    private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
     private ImageView button_call_disconnect, face, room_guide;
     public RelativeLayout viewPanel;
     private ViewPager mAbSlidingTabView;
-    public static ServiceManager serviceManager;
-    public static RoomModel roomModel;                                  //房间信息，其中包括房主信息
+    public ServiceManager serviceManager;
+    private RoomModel roomModel;                                  //房间信息，其中包括房主信息
 
     private ChatManager chatManager;
     private ArrayList<Fragment> fragmentList;
-    private static List<OnlineListModel> onlineListDatas = null;         // 房间在线人数列表
+    private static List<OnlineListModel> onlineListDatas = new ArrayList<>();         // 房间在线人数列表
     private MyFragmentPagerAdapter fragmentPagerAdapter;
     private int beginTime = 0;          //房间直播开始时间，用来计算房间直播时长
 
-    public static BasicUserInfoDBModel userModel;  //登录用户信息
-    public static BasicUserInfoDBModel liveUserModel; //直播用户信息
+    public BasicUserInfoDBModel userModel;  //登录用户信息
+    public BasicUserInfoDBModel liveUserModel; //直播用户信息
 
     //重连的次数
     private int connectionServiceNumber = 0;
@@ -120,6 +120,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     private void initView() {
         chatRoom = new ChatRoom(this);
+
         LoadingDialog = new LoadingDialogNew();
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
@@ -143,32 +144,28 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void findView() {
+        if (App.roomModel.getUserInfoDBModel() != null) {
+            roomModel = App.roomModel;
+            liveUserModel = roomModel.getUserInfoDBModel();
+        } else {
+            finish();
+            return;
+        }
         connectionServiceNumber = 0;
         isInit = false;
         isCloseLiveDialog = false;
-        chatManager = new ChatManager(ChatRoomActivity.this);
-        callFragment = new CallFragment();
-        readyLiveFragment = new ReadyLiveFragment();
-        onlineListDatas = new ArrayList<>();
+        chatManager = new ChatManager(this);
         fragmentList = new ArrayList<>();
-        fragmentList.add(readyLiveFragment);
+        callFragment = new CallFragment();
+        if (userModel.userid.equals(liveUserModel.userid)) {
+            readyLiveFragment = new ReadyLiveFragment();
+            fragmentList.add(readyLiveFragment);
+        }
         fragmentPagerAdapter = new MyFragmentPagerAdapter(this.getSupportFragmentManager(), fragmentList);
         mAbSlidingTabView.setAdapter(fragmentPagerAdapter);
         mAbSlidingTabView.setCurrentItem(0);
         //清空聊天记录
         App.mChatlines.clear();
-        Bundle bundle = this.getIntent().getExtras();
-        if (bundle != null) {
-            roomModel = StartActivityHelper.getTransactionSerializable_1(this);
-            liveUserModel = roomModel.getUserInfoDBModel();
-            if (liveUserModel.userid.equals(userModel.userid)) {
-                liveUserModel = userModel;
-            }
-        }
-        if (roomModel == null) {
-            finish();
-            return;
-        }
         FrescoBitmapUtils.getImageBitmap(ChatRoomActivity.this, VerificationUtil.getImageUrl100(liveUserModel.headurl), new FrescoBitmapUtils.BitCallBack() {
             @Override
             public void onNewResultImpl(Bitmap bitmap) {
@@ -182,8 +179,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 });
             }
         });
-        callFragment.setArguments(bundle);
-        readyLiveFragment.setArguments(bundle);
+
         //如果是观众，直接启动房间
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             fragmentList.add(callFragment);
@@ -228,7 +224,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 //如果是直播，发送下麦通知
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
-                    roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
+                    App.roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
 
                     if (choose && (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
@@ -236,7 +232,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     }
                 } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                     //收起键盘
-                    readyLiveFragment.closekeybord();
+                    if (readyLiveFragment != null) {
+                        readyLiveFragment.closekeybord();
+                    }
                 }
                 exitRoom();
             }
@@ -244,9 +242,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (!isCloseLiveDialog) {
             isCloseLiveDialog = true;
             if (!liveUserModel.userid.equals(userModel.userid)) {
-                dialog.dialog(ChatRoomActivity.this, getString(R.string.quit_room), true, false, callback);
+                dialog.dialog(this, getString(R.string.quit_room), true, false, callback);
             } else {
-                dialog.dialog(ChatRoomActivity.this, getString(R.string.finish_room), true, true, callback);
+                dialog.dialog(this, getString(R.string.finish_room), true, true, callback);
             }
         }
     }
@@ -333,7 +331,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                             } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                                 //收起键盘
-                                readyLiveFragment.closekeybord();
+                                if (readyLiveFragment != null) {
+                                    readyLiveFragment.closekeybord();
+                                }
                             }
                             exitRoom();
                         }
@@ -380,12 +380,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         userModel.diamonds = String.valueOf(coin);
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, userModel.diamonds, userModel.userid);
                         callFragment.setDiamonds(userModel.diamonds);
-                        roomModel.setLikenum(json.getInt("hot"));
-                        callFragment.setLikeNum(roomModel.getLikenum());
+                        App.roomModel.setLikenum(json.getInt("hot"));
+                        callFragment.setLikeNum(App.roomModel.getLikenum());
                         serviceManager.getOnlineListUser();
                         BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                         if (loginMessage != null) {
-                            roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
+                            App.roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
                         }
 
                         if (!isSysMsg) {
@@ -411,7 +411,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             //如果是观看流程，首先检查是否正在直播
                             //上麦
                             if (loginMessage != null && loginMessage.live == 1) {
-                                roomModel.setRtmpwatchaddress(loginMessage.live_uri);
+                                App.roomModel.setRtmpwatchaddress(loginMessage.live_uri);
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
                             } else {
                                 //房间未直播
@@ -430,7 +430,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.WM_SDP:
                 //判断房间信息是否加载成功，如果没有加载，设置房间信息
                 if (!isInit) {
-                    callFragment.setLikeNum(roomModel.getLikenum());
+                    callFragment.setLikeNum(App.roomModel.getLikenum());
                     serviceManager.getOnlineListUser();
                     isInit = true;
                 }
@@ -497,8 +497,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 JSONObject jsonlikenum;
                 try {
                     jsonlikenum = new JSONObject((String) msg.obj);
-                    if (jsonlikenum.getInt("data") > roomModel.getLikenum()) {
-                        int count =jsonlikenum.getInt("data") - roomModel.getLikenum();
+                    if (jsonlikenum.getInt("data") > App.roomModel.getLikenum()) {
+                        int count = jsonlikenum.getInt("data") - App.roomModel.getLikenum();
                         callFragment.runAddLove(count);
                     }
                 } catch (JSONException e) {
@@ -666,6 +666,18 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+    @Override
+    public void kickedOut(String userId) {
+        if (serviceManager != null) {
+            serviceManager.kickedOut(userId);
+        }
+    }
+
+    @Override
+    public void closeLive() {
+        CloseLiveDialog();
+    }
+
     /**
      * 点击物理返回按钮**
      */
@@ -721,13 +733,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             serviceManager.quitRoom();
             serviceManager = null;
         }
-        if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+        if (App.roomModel != null && App.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             MediaCenter.destoryPlay();
         } else {
             MediaCenter.destoryLive();
         }
         App.mChatlines.clear();
-        roomModel = null;
+        App.roomModel = new RoomModel();
         userModel = null;
         liveUserModel = null;
         boolCloseRoom = true;
@@ -755,7 +767,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                         } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
-                            readyLiveFragment.closekeybord();
+                            if (readyLiveFragment != null) {
+                                readyLiveFragment.closekeybord();
+                            }
                         }
                         exitRoom();
                     }
@@ -783,12 +797,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 MediaCenter.startLive(roomModel.getRtmpip(), ChatRoomActivity.this);
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
-                    fragmentPagerAdapter.setFragmentsList(callFragment);
+                    fragmentList.add(callFragment);
+                    fragmentPagerAdapter.notifyDataSetChanged();
+                    //fragmentPagerAdapter.setFragmentsList(callFragment);
                     if (fragmentList.size() > 1) {
                         mAbSlidingTabView.setCurrentItem(1);
                     }
                 }
-                ChatRoomActivity.roomModel.setRoomType(App.LIVE_HOST);
+                roomModel.setRoomType(App.LIVE_HOST);
                 roomStart();
             }
         });
@@ -855,6 +871,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 break;
         }
     }
+
 
     /**
      * 退出房间

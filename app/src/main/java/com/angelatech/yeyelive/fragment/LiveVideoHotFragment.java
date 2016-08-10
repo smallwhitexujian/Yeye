@@ -32,7 +32,6 @@ import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.CommonVideoModel;
 import com.angelatech.yeyelive.model.LiveModel;
 import com.angelatech.yeyelive.model.LiveVideoModel;
-import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
@@ -244,25 +243,25 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private void startLive(LiveVideoModel item) {
         if (item.type == 1) {
             LiveModel liveModel = (LiveModel) item;
-            RoomModel roomModel = new RoomModel();
-            roomModel.setId(Integer.parseInt(liveModel.roomid));
-            roomModel.setName(liveModel.introduce);
-            roomModel.setIp(liveModel.roomserverip.split(":")[0]);
-            roomModel.setPort(Integer.parseInt(liveModel.roomserverip.split(":")[1]));
-            roomModel.setRtmpip(liveModel.rtmpserverip);
-            roomModel.setRoomType(App.LIVE_WATCH);
-            roomModel.setIdx(liveModel.roomidx);
+
+            App.roomModel.setId(Integer.parseInt(liveModel.roomid));
+            App.roomModel.setName(liveModel.introduce);
+            App.roomModel.setIp(liveModel.roomserverip.split(":")[0]);
+            App.roomModel.setPort(Integer.parseInt(liveModel.roomserverip.split(":")[1]));
+            App.roomModel.setRtmpip(liveModel.rtmpserverip);
+            App.roomModel.setRoomType(App.LIVE_WATCH);
+            App.roomModel.setIdx(liveModel.roomidx);
             BasicUserInfoDBModel user = new BasicUserInfoDBModel(); //直播者信息
             user.userid = liveModel.userid;
             user.headurl = liveModel.headurl;
             user.nickname = liveModel.nickname;
             user.isv = liveModel.isv;
-            roomModel.setUserInfoDBModel(user);
+            App.roomModel.setUserInfoDBModel(user);
             BasicUserInfoModel loginUser = new BasicUserInfoModel();//登录信息
             loginUser.Userid = userInfo.userid;
             loginUser.Token = userInfo.token;
-            roomModel.setLoginUser(loginUser);
-            ChatRoom.enterChatRoom(getActivity(), roomModel);
+            App.roomModel.setLoginUser(loginUser);
+            ChatRoom.enterChatRoom(getActivity(), App.roomModel);
         } else {
             //回放视频
             StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, (VideoModel) item);

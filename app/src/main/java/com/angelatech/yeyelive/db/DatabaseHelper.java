@@ -63,7 +63,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             if (mClasses != null) {
                 for (Class clazz : mClasses) {
                     TableUtils.dropTable(connectionSource,clazz, true);
-                }
+            }
             }
             onCreate(database, connectionSource);
         } catch (SQLException e) {
