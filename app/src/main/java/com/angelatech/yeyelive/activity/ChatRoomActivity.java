@@ -58,6 +58,7 @@ import com.will.libmedia.OnPlayListener;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
+import org.cocos2dx.lib.util.Cocos2dxGift;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -422,8 +423,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
                     chatManager.receivedChatMessage(msg.obj, callFragment);
                     callFragment.notifyData();
-                    if (timeCount == null){
-                        timeCount  = new TimeCount(1000,100);
+                    if (timeCount == null) {
+                        timeCount = new TimeCount(1000, 100);
                         timeCount.start();
                         BigData = 0;
                         isbigData = false;
@@ -486,7 +487,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     jsonlikenum = new JSONObject((String) msg.obj);
                     if (jsonlikenum.getInt("data") > roomModel.getLikenum()) {
                         int count = jsonlikenum.getInt("data") - roomModel.getLikenum();
-                        if (!isbigData){
+                        if (!isbigData) {
                             callFragment.runAddLove(count);
                         }
                     }
@@ -515,6 +516,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         //减币
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
+                    }
+
+                    if (giftModel.giftid == 2) {
+                        Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
+                        cocos2dxGift.play2("firework_01_4", "firework_01_40.png", "firework_01_40.plist","firework_01_4.ExportJson", 1, 0, 0);
                     }
 
                     GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);
@@ -812,7 +818,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     /**
      * 观看的人 回调
-     *
      */
     @Override
     public void onPlayCallback(String rtmpUrl, int event) {
