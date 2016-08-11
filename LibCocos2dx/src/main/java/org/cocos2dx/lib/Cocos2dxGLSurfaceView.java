@@ -406,5 +406,5 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 		mScaleInfo.WidthRatio = WidthRatio;
 		mScaleInfo.mBase = mBase;
 	}
-	
+
 }
