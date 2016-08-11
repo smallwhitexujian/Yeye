@@ -10,7 +10,6 @@ import com.will.common.tool.network.NetWorkUtil;
 
 /***
  * 网络广播
- *
  */
 public class NetworkReceiver extends BroadcastReceiver {
 
@@ -18,48 +17,41 @@ public class NetworkReceiver extends BroadcastReceiver {
 
     private NetWorkHandler mNetWorkHandler;
 
-    public NetworkReceiver(NetWorkHandler netWorkHandler){
+    public NetworkReceiver(NetWorkHandler netWorkHandler) {
         this.mNetWorkHandler = netWorkHandler;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent != null){
+        if (intent != null) {
             String action = intent.getAction();
-            if(NetWorkUtil.ACTION_NETWORK.equals(action)) {
+            if (NetWorkUtil.ACTION_NETWORK.equals(action)) {
                 NetworkInfo info = NetWorkUtil.getNetworkInfo(context);
-                if(info != null) {
-                    if(HISTORY_TYPE == info.getType()){
+                if (info != null) {
+                    if (HISTORY_TYPE == info.getType()) {
                         return;
                     }
                     HISTORY_TYPE = info.getType();
                     String name = info.getTypeName();
-                    if(mNetWorkHandler != null){
+                    if (mNetWorkHandler != null) {
                         mNetWorkHandler.onActive(HISTORY_TYPE);
                     }
                     DebugLogs.e("当前网络名称：" + name);
                     //doSomething()
-                }
-                else {
+                } else {
                     HISTORY_TYPE = NetWorkUtil.TYPE_NOT_CONNECTED;
                     DebugLogs.e("没有可用网络");
-                    if(mNetWorkHandler != null){
+                    if (mNetWorkHandler != null) {
                         mNetWorkHandler.onInactive();
                     }
                 }
             }
-
-
-
         }
-
-
     }
 
-    public interface NetWorkHandler{
+    public interface NetWorkHandler {
         void onActive(int networkType);//网络可用
+
         void onInactive();//网络不可用
     }
-
-
 }

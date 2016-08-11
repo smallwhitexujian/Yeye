@@ -36,27 +36,27 @@ public class RoomBusinessHandle extends SocketBusinessHandle {
         byte[] datas = mProtocol.getData(bytes);
         String response = new String(mProtocol.getData(bytes));
         DebugLogs.e("===onReceiveParcel==type:" + type + "data:" + new String(datas));
-            Message msg = new Message();
-            msg.what = type;
-            switch (type) {
-                case GlobalDef.WM_ROOM_LOGIN:
-                    DebugLogs.e("======房间心跳=======");
-                    byte[] heartbeatParcel = WillProtocol.getParcel(WillProtocol.BEATHEART_TYPE_VALYE,"");
-                    RoomHeartbeat roomheartbeat = new RoomHeartbeat(mSocketModuleManager,heartbeatParcel);
-                    roomheartbeat.doHeartbeat();
-                    mSocketModuleManager.takeCareHeartbeat(roomheartbeat);
-                    msg.obj = response;
-                    mRoomHandler.sendMessage(msg);
-                    break;
-                case GlobalDef.WM_ROOM_MESSAGE: //房间消息
-                    msg.obj = response;
-                    mRoomHandler.sendMessage(msg);
-                    break;
-                default:
-                    msg.obj = response;
-                    mRoomHandler.sendMessage(msg);
-                    break;
-            }
+        Message msg = new Message();
+        msg.what = type;
+        switch (type) {
+            case GlobalDef.WM_ROOM_LOGIN:
+                DebugLogs.e("======房间心跳=======");
+                byte[] heartbeatParcel = WillProtocol.getParcel(WillProtocol.BEATHEART_TYPE_VALYE, "");
+                RoomHeartbeat roomheartbeat = new RoomHeartbeat(mSocketModuleManager, heartbeatParcel);
+                roomheartbeat.doHeartbeat();
+                mSocketModuleManager.takeCareHeartbeat(roomheartbeat);
+                msg.obj = response;
+                mRoomHandler.sendMessage(msg);
+                break;
+            case GlobalDef.WM_ROOM_MESSAGE: //房间消息
+                msg.obj = response;
+                mRoomHandler.sendMessage(msg);
+                break;
+            default:
+                msg.obj = response;
+                mRoomHandler.sendMessage(msg);
+                break;
+        }
     }
 
     @Override

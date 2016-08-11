@@ -119,7 +119,7 @@ public class ReadyLiveFragment extends BaseFragment {
             liveUserModel = loginUserModel;
         }
 
-        if (liveUserModel.isticket.equals("1")) {
+        if (liveUserModel.isticket.equals("1")) {//主播是否有设置门票权限
             layout_ticket.setVisibility(View.VISIBLE);
             initTickets();
         }else{

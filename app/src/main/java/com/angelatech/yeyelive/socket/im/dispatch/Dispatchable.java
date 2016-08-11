@@ -13,8 +13,8 @@ public abstract class Dispatchable {
     protected String getDataStr(byte[] datas) {
         return new String(datas).trim();
     }
-    public abstract void dispatch(int type,byte[] datas);
+
+    public abstract void dispatch(int type, byte[] datas);
+
     public abstract boolean validateParcel(byte[] parcel);
-
-
 }

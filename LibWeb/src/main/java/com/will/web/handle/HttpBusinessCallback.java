@@ -27,9 +27,8 @@ public class HttpBusinessCallback implements HttpCallback{
     public void onSuccess(String response) {
         if(response == null){
             if(mWebHandler != null){
-                mWebHandler.handleServerReturnError(response);
+                mWebHandler.handleServerReturnError(null);
             }
-            return;
         }
     }
 

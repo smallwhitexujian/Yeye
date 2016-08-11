@@ -23,6 +23,7 @@ import com.framework.socket.factory.SocketModuleManagerImpl;
 import com.framework.socket.model.SocketConfig;
 import com.framework.socket.model.TcpSocketConnectorConfig;
 import com.framework.socket.protocol.Protocol;
+import com.will.common.log.DebugLogs;
 import com.will.common.log.Logger;
 import com.angelatech.yeyelive.socket.WillProtocol;
 import com.angelatech.yeyelive.R;
@@ -41,9 +42,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
     private final int DELAY = 100;
     private final int RETRYTIME = 5;
     private final int PERIOD = 10000;
-
     private Context mContext;
-    private boolean run = false;
     private SocketModuleManager mImSocketModuleManager = null;//im socket 管理
     private HttpManager httpManager = new OkHttpManager();
 
@@ -71,6 +70,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     final LoginServerModel loginServerModel = intent.getParcelableExtra(TransactionValues.UI_2_SERVICE_KEY1);
                     if (loginServerModel != null) {
                         //连接
+                        DebugLogs.e("im----login--start");
                         Protocol protocol = new WillProtocol();
                         TcpSocketConnectorConfig connectorConfig = new TcpSocketConnectorConfig();
                         connectorConfig.setLaucherDelay(DELAY);
@@ -99,7 +99,6 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                             Map<String, String> params = new HashMap<>();
                             params.put("device", accountTModel.device);
                             params.put("userid", accountTModel.userid);
-
                             httpManager.getRequest(CommonUrlConfig.PlatformIntoLogIns, params);
                         }
                     }).start();
@@ -117,7 +116,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     if (App.chatRoomApplication != null) {
                         App.chatRoomApplication.exitRoom();
                     }
-                    StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
+                    StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
                     Logger.e("退出=========================");
                     break;
                 case IServiceValues.CMD_KICK_OUT:
@@ -147,13 +146,10 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     d.show();
                     break;
             }
-
-
         }
         if (IServiceValues.ACTION_CMD_TEST.equals(action)) {
 
         }
-
     }
 
     @Override

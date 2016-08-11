@@ -32,33 +32,32 @@ public class RoomConnectManager {
 
 
     //登录房间
-    public final void performConnect(SocketConfig socketConfig,byte[] parcel) {
+    public final void performConnect(SocketConfig socketConfig, byte[] parcel) {
         //
         Protocol protocol = new WillProtocol();
         TcpSocketConnectorConfig connectorConfig = new TcpSocketConnectorConfig();
         connectorConfig.setLaucherDelay(DELAY);
         connectorConfig.setPeriod(PERIOD);
         connectorConfig.setMaxRetrayTime(RETRYTIME);
-        mSocketModuleManager = new SocketModuleManagerImpl(connectorConfig,protocol);
+        mSocketModuleManager = new SocketModuleManagerImpl(connectorConfig, protocol);
 
         SingleSocketConfigSelector selector = new SingleSocketConfigSelector(socketConfig);
-        SocketConnectHandle connectHandle = new RoomConnectHandle(mContext,parcel,mRoomHandler);
-        SocketBusinessHandle socketBusinessHandle = new RoomBusinessHandle(mSocketModuleManager,mRoomHandler);
-        mSocketModuleManager.startSocket(connectHandle,socketBusinessHandle,selector);
+        SocketConnectHandle connectHandle = new RoomConnectHandle(mContext, parcel, mRoomHandler);
+        SocketBusinessHandle socketBusinessHandle = new RoomBusinessHandle(mSocketModuleManager, mRoomHandler);
+        mSocketModuleManager.startSocket(connectHandle, socketBusinessHandle, selector);
     }
 
 
-    public final  void sendMessage(byte[] parcel) {
+    public final void sendMessage(byte[] parcel) {
         mSocketModuleManager.send(parcel);
     }
 
-    public void Send(int type ,String jsonStr){
-        byte[] parcel = WillProtocol.sendMessage(type,jsonStr);
+    public void Send(int type, String jsonStr) {
+        byte[] parcel = WillProtocol.sendMessage(type, jsonStr);
         mSocketModuleManager.send(parcel);
     }
 
-    public final  void stop()
-    {
+    public final void stop() {
         if (mSocketModuleManager != null) {
             mSocketModuleManager.stopSocket();
         }
