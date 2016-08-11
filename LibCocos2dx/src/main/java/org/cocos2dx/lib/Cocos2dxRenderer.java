@@ -76,7 +76,9 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 		
 //		pGL10.glDisable(GL10.GL_DITHER);
 //		pGL10.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-		pGL10.glClearColor(0, 0, 0, 0.5f);
+		//pGL10.glClearColor(0, 0, 0,0.5f);//半透明
+		//pGL10.glClearColor(0, 0, 0, 1);//不透明
+		pGL10.glClearColor(0, 0, 0, 0);
 //		pGL10.glEnable(GL10.GL_CULL_FACE);
 //		pGL10.glShadeModel(GL10.GL_SMOOTH);
 	}

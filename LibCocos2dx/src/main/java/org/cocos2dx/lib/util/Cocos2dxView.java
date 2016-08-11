@@ -9,6 +9,7 @@ import org.cocos2dx.lib.Cocos2dxRenderer;
 import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ public class Cocos2dxView {
 		mCocos2dxGLSurfaceView.setZOrderOnTop(true);
 		mCocos2dxGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		mCocos2dxGLSurfaceView.setEGLConfigChooser(8,8,8,8,16,alphaSize);
+
 	}
 
 	public  void onCreate(Activity a,int alphaSize){
