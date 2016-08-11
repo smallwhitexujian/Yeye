@@ -2,13 +2,11 @@ package com.angelatech.yeyelive.fragment;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.view.Gravity;
@@ -523,7 +521,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     ToastUtils.showToast(getActivity(), getActivity().getString(R.string.not_send_gift_me));
                     break;
                 }
-//                callEvents.onSendGift(toPeople.uid, giftId, nNum);
+                callEvents.onSendGift(toPeople.uid, giftId, nNum);
                 giftView.setVisibility(View.GONE);
                 ly_toolbar.setVisibility(View.VISIBLE);
                 break;

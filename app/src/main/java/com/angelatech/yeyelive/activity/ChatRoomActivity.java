@@ -59,7 +59,6 @@ import com.will.libmedia.OnPlayListener;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
-import org.cocos2dx.lib.util.Cocos2dxGift;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -234,10 +233,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         };
         if (!isCloseLiveDialog) {
             isCloseLiveDialog = true;
-            if (!liveUserModel.userid.equals(userModel.userid)) {
-                dialog.dialog(this, getString(R.string.quit_room), true, false, callback);
+            if (liveUserModel.userid.equals(userModel.userid)) {
+                boolean isShowSave = true;
+                if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)){
+                    isShowSave = false;
+                }
+                dialog.dialog(this, getString(R.string.finish_room), true, isShowSave, callback);
             } else {
-                dialog.dialog(this, getString(R.string.finish_room), true, true, callback);
+                dialog.dialog(this, getString(R.string.quit_room), true, false, callback);
             }
         }
     }
@@ -525,8 +528,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         cocos2dxGiftModel.plistPath = "firework_01_40.plist";
                         cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
                         int x = getResources().getDisplayMetrics().widthPixels / 2;
-                        int y = getResources().getDisplayMetrics().heightPixels /2 ;
-                        callFragment.play(cocos2dxGiftModel,x,y);
+                        int y = getResources().getDisplayMetrics().heightPixels / 2;
+                        callFragment.play(cocos2dxGiftModel, x, y);
                     }
 
                     GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);

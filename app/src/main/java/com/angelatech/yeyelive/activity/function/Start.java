@@ -81,7 +81,6 @@ public class Start implements Runnable{
             String token = user.token;
 //            发送登录广播
             LoginServerModel param = new LoginServerModel(Long.valueOf(userId),token);
-
             Intent i = IServiceHelper.getParcelableIntent(
                     IServiceValues.ACTION_CMD_WAY,
                     IServiceValues.CMD_LOGIN,
