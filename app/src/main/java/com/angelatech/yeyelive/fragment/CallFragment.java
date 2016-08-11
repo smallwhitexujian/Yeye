@@ -429,8 +429,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             loadGiftList();
         }
         if (!userModel.userid.equals(liveUserModel.userid)) {
+            cameraSwitchButton.setVisibility(View.GONE);
+            btn_share.setVisibility(View.VISIBLE);
             UserIsFollow();
         } else {
+            cameraSwitchButton.setVisibility(View.VISIBLE);
+            btn_share.setVisibility(View.GONE);
             btn_Follow.setVisibility(View.GONE);
         }
         fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
@@ -608,16 +612,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
     }
 
-    public void setCameraSwitchButton(String liveType) {
-        if (liveType.equals(App.LIVE_HOST)) {
-            cameraSwitchButton.setVisibility(View.VISIBLE);
-            btn_share.setVisibility(View.GONE);
-        } else {
-            cameraSwitchButton.setVisibility(View.GONE);
-            btn_share.setVisibility(View.VISIBLE);
-        }
-    }
-
     /**
      * 聊天记录初始化，
      */
@@ -662,11 +656,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     //获取是否需要隐藏的面板
     public boolean getBackState() {
         return ly_send != null && (ly_send.getVisibility() == View.VISIBLE || giftView.getVisibility() == View.VISIBLE);
-    }
-
-    //设置关注状态
-    public void setIsFollow(int value) {
-
     }
 
     //关注/取消关注

@@ -3,7 +3,7 @@ package com.angelatech.yeyelive.service;
 import android.content.Intent;
 
 /**
- *  Iserver
+ * Iserver
  */
 public interface IServiceInterface {
 
@@ -12,12 +12,8 @@ public interface IServiceInterface {
 //    public void handleActionString(String action);
 
     void handleNetworkInactive();
+
     void handleNetworkActivie(int networkType);
 
-
     //im部分接口
-
-
-
-
 }

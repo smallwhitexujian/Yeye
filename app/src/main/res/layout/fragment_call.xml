@@ -58,7 +58,7 @@
             android:background="@drawable/white_btn_bg"
             android:gravity="center_vertical"
             android:padding="4dp"
-            android:text="主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！"
+            android:text="@string/mic_desc"
             android:textColor="@color/font_black"
             android:textSize="10sp"
             android:visibility="gone" />

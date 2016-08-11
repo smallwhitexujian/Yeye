@@ -14,31 +14,30 @@ import com.angelatech.yeyelive.socket.im.ImHeartbeat;
 
 /**
  * 登陆外部服务器
- *
  */
 public class LoginDispatch extends Dispatchable {
 
     private Context mContext;
     private SocketModuleManager mSocketModuleManager;
 
-    public LoginDispatch(SocketModuleManager socketModuleManager){
+    public LoginDispatch(SocketModuleManager socketModuleManager) {
         this.mSocketModuleManager = socketModuleManager;
     }
 
-
     @Override
-    public void dispatch(int type,byte[] datas) {
+    public void dispatch(int type, byte[] datas) {
         String dataStr = new String(datas).trim();
-        CommonParseModel<String> model = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<String>>() {}.getType());
-        if(WillProtocol.CODE_SUCC_STR.equals(model.code)){
+        CommonParseModel<String> model = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<String>>() {
+        }.getType());
+        if (WillProtocol.CODE_SUCC_STR.equals(model.code)) {
             DebugLogs.e("jjfly login sucess ");
             App.isLogin = true;//登陆成功
 
-            byte[] heartbeatParcel = WillProtocol.getParcel(WillProtocol.BEATHEART_TYPE_VALYE,"");
-            ImHeartbeat imHeartbeat = new ImHeartbeat(mSocketModuleManager,heartbeatParcel);
+            byte[] heartbeatParcel = WillProtocol.getParcel(WillProtocol.BEATHEART_TYPE_VALYE, "");
+            ImHeartbeat imHeartbeat = new ImHeartbeat(mSocketModuleManager, heartbeatParcel);
             imHeartbeat.doHeartbeat();
             mSocketModuleManager.takeCareHeartbeat(imHeartbeat);
-        }else{//登陆失败
+        } else {//登陆失败
             App.isLogin = false;
         }
     }

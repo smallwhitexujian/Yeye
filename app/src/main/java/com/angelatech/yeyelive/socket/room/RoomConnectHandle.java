@@ -11,13 +11,13 @@ import com.will.socket.SocketConnectHandle;
 /**
  * socket 连接器处理类
  */
-public class RoomConnectHandle extends SocketConnectHandle{
+public class RoomConnectHandle extends SocketConnectHandle {
 
     public byte[] mParcel;
     private Context mContext;
     private Handler mRoomHandler;
 
-    public RoomConnectHandle(Context context, byte[] parcel){
+    public RoomConnectHandle(Context context, byte[] parcel) {
         this.mContext = context;
         this.mParcel = parcel;
     }
@@ -46,9 +46,7 @@ public class RoomConnectHandle extends SocketConnectHandle{
     @Override
     public void connectSuc(SocketModuleManager socketModuleManager, int i) {
         mRoomHandler.sendEmptyMessage(GlobalDef.SERVICE_STATUS_SUCCESS);
-
-        if(mParcel != null){
-
+        if (mParcel != null) {
             socketModuleManager.send(mParcel);
         }
     }

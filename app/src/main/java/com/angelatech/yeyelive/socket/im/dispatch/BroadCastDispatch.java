@@ -33,6 +33,8 @@ public class BroadCastDispatch extends Dispatchable {
     private final int CODE_SYSTEM_MSG = 3;
     private final int CODE_SYSTEM_UPDATE = 4;
 
+    public static final int CODE_LOGIN_OUT = 5;
+
     private Context mContext;
     private String mContent;//内容
     private int mTypeCode;

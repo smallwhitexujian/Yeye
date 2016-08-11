@@ -15,13 +15,11 @@ public class IServiceValues {
     public static final String ACTION_CMD_WAY = CMD_PREFIX + "WAY";
     public static final String ACTION_CMD_TEST = CMD_PREFIX + "TEST";
 
-
     //命令码
     public static final int CMD_LOGIN = CMD_VALUE_PREFIX + 1;//im登录
     public static final int CMD_EXIT_LOGIN = CMD_VALUE_PREFIX + 2;//im推出
     public static final int CMD_ACCOUNT = CMD_VALUE_PREFIX + 3;//统计
     public static final int CMD_KICK_OUT = CMD_VALUE_PREFIX + 4;//踢出
-
 
     /*************************
      * key 部分

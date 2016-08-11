@@ -28,7 +28,7 @@ public class ImLogin {
     private SocketModuleManager mSocketModuleManager;
 
 
-    public ImLogin(Context context, SocketConfig loginSocketInfo, SocketModuleManager socketModuleManager){
+    public ImLogin(Context context, SocketConfig loginSocketInfo, SocketModuleManager socketModuleManager) {
         this.mContext = context;
         this.mLoginSocketInfo = loginSocketInfo;
         this.mSocketModuleManager = socketModuleManager;
@@ -39,22 +39,23 @@ public class ImLogin {
         SocketRequest sockRequest = new SocketRequest();
         byte[] requestParcel = WillProtocol.getParcel(WillProtocol.LOGIN_TYPE_VALUE, JsonUtil.toJson(param));
         byte[] result = sockRequest.requestRead(willoutProtocol, mLoginSocketInfo, requestParcel);
-        if(result == null ){
-            return  null;
+        if (result == null) {
+            return null;
         }
         int type = willoutProtocol.getType(result);
         byte[] datas = willoutProtocol.getData(result);
         String dataStr = new String(datas).trim();
-        if(type != WillProtocol.LOGIN_TYPE_VALUE ||datas == null||"".equals(dataStr)){
-
-            return  null;
-        }
-        CommonParseModel<SockRecvLoginServerModel> parseModel = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<SockRecvLoginServerModel>>() {}.getType());
-        if(WillProtocol.CODE_SIGN_ERROR_STR.equals(parseModel.code)){
+        if (type != WillProtocol.LOGIN_TYPE_VALUE || datas == null || "".equals(dataStr)) {
 
             return null;
         }
-        if(WillProtocol.CODE_NO_MORE_SERVER_STR.equals(parseModel.code)){
+        CommonParseModel<SockRecvLoginServerModel> parseModel = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<SockRecvLoginServerModel>>() {
+        }.getType());
+        if (WillProtocol.CODE_SIGN_ERROR_STR.equals(parseModel.code)) {
+
+            return null;
+        }
+        if (WillProtocol.CODE_NO_MORE_SERVER_STR.equals(parseModel.code)) {
 
             return null;
         }
@@ -63,7 +64,7 @@ public class ImLogin {
     }
 
     private void goImServer(SocketConnectHandle socketConnectHandle, SocketBusinessHandle socketBusinessHandle, Selector selector) {
-        mSocketModuleManager.startSocket(socketConnectHandle,socketBusinessHandle,selector);
+        mSocketModuleManager.startSocket(socketConnectHandle, socketBusinessHandle, selector);
     }
 
     public final void performLogin(LoginServerModel param) {
@@ -76,14 +77,14 @@ public class ImLogin {
             isWorking = false;
             return;
         }
-        String[] ip0Port = loginInfo.ip == null ? null:loginInfo.ip.split(":");
-        if(ip0Port == null){
-           //错误提示
+        String[] ip0Port = loginInfo.ip == null ? null : loginInfo.ip.split(":");
+        if (ip0Port == null) {
+            //错误提示
             isWorking = false;
             return;
         }
         param.setSign(loginInfo.sign);
-        byte[] loginParcel =  WillProtocol.getParcel(WillProtocol.LOGIN_TYPE_VALUE,JsonUtil.toJson(param));
+        byte[] loginParcel = WillProtocol.getParcel(WillProtocol.LOGIN_TYPE_VALUE, JsonUtil.toJson(param));
 
         SocketConfig socketConfig = new SocketConfig();
         socketConfig.setHost(ip0Port[0]);
@@ -91,11 +92,9 @@ public class ImLogin {
         socketConfig.setTimeout(60000);
 
         SingleSocketConfigSelector selector = new SingleSocketConfigSelector(socketConfig);
-        SocketConnectHandle connectHandle = new ImConnectHandle(mContext,loginParcel);
-        SocketBusinessHandle socketBusinessHandle = new ImBusinessHandle(mContext,mSocketModuleManager);
-        goImServer(connectHandle,socketBusinessHandle,selector);
+        SocketConnectHandle connectHandle = new ImConnectHandle(mContext, loginParcel);
+        SocketBusinessHandle socketBusinessHandle = new ImBusinessHandle(mContext, mSocketModuleManager);
+        goImServer(connectHandle, socketBusinessHandle, selector);
         isWorking = false;
     }
-
-
 }

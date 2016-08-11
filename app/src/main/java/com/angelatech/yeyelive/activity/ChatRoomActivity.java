@@ -358,7 +358,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 if (fragmentList.size() > 1) {
                     mAbSlidingTabView.setCurrentItem(1);
                 }
-                callFragment.setCameraSwitchButton(roomModel.getRoomType());
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                     if (loginMessage != null && loginMessage.code.equals("0")) {
