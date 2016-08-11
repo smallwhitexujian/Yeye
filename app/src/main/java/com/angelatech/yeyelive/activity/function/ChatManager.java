@@ -1,18 +1,31 @@
 package com.angelatech.yeyelive.activity.function;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.fragment.CallFragment;
 import com.angelatech.yeyelive.model.ChatLineModel;
+import com.angelatech.yeyelive.util.PausableThreadPoolExecutor;
+import com.angelatech.yeyelive.util.PriorityRun;
 import com.will.common.string.json.JsonUtil;
+
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Shanli_pc on 2016/3/22.
+ * 消息管理处理
  */
-
 public class ChatManager {
+    private PausableThreadPoolExecutor fixedThreadPool;
+    private Activity mContext;
 
-    public ChatManager(Context context) {
+    public ChatManager(Activity activity) {
+        int threadnum = Runtime.getRuntime().availableProcessors();
+        int corePoolSize = threadnum + 1;
+        int maximumPoolSize = threadnum * 2 + 1;
+        fixedThreadPool = new PausableThreadPoolExecutor(corePoolSize, maximumPoolSize, 0L, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>());
+        this.mContext = activity;
     }
 
     /**
@@ -20,8 +33,28 @@ public class ChatManager {
      *
      * @param object obj
      */
-    public void receivedChatMessage(Object object) {
+    public void receivedChatMessage(final Object object) {
         AddChatMessage(object);
+    }
+
+    public void receivedChatMessage(final Object object, final CallFragment f) {
+        messageQueue(object, f);
+    }
+
+    //消息处理
+    private void messageQueue(final Object object, final CallFragment f) {
+        fixedThreadPool.execute(new PriorityRun(0) {
+            @Override
+            public void doSth() {
+                mContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AddChatMessage(object);
+                        f.notifyData();
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -50,7 +83,7 @@ public class ChatManager {
      * @param object obj
      */
     public void AddChatMessage(Object object) {
-        if (object != null){
+        if (object != null) {
             ChatLineModel chatLineModel = JsonUtil.fromJson(object.toString(), ChatLineModel.class);
             if (chatLineModel != null) {
                 AddChatMessage(chatLineModel);
@@ -61,15 +94,15 @@ public class ChatManager {
     /**
      * 聊天记录初始化，
      */
-    public void AddChatMessage(ChatLineModel chatLineModel) {
+    public void AddChatMessage(final ChatLineModel chatLineModel) {
         App.mChatlines.add(chatLineModel);
-        int maxSize = 80;
-        if (App.mChatlines.size() >= maxSize) {
-            for (int i = 0; i < App.mChatlines.size(); i++) {
-                if (i < (maxSize / 2)) {
-                    App.mChatlines.remove(i);
-                }
-            }
-        }
+//        int maxSize = 500;
+//        if (App.mChatlines.size() >= maxSize) {
+//            for (int i = 0; i < App.mChatlines.size(); i++) {
+//                if (i < (maxSize / 2)) {
+//                    App.mChatlines.remove(i);
+//                }
+//            }
+//        }
     }
 }

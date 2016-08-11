@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -95,6 +96,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isSysMsg = false;
     private static boolean isCloseLiveDialog = false;
     private LiveFinishFragment liveFinishFragment;
+    private TimeCount timeCount;
+    private long BigData = 0;
+    private boolean isbigData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +124,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     private void initView() {
         chatRoom = new ChatRoom(this);
-
         LoadingDialog = new LoadingDialogNew();
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
@@ -195,14 +198,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             //美颜开启此属性
             MediaNative.VIDEO_FILTER = false;
             MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
-
-//            //美颜
-//            int filter = MediaCenter.getVideoFilterType();
-//            if (filter == MediaNative.VIDEO_FILTER_BEAUTIFUL) {
-//                MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
-//            } else {
-//                MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_BEAUTIFUL);
-//            }
         }
         button_call_disconnect.setOnClickListener(this);
     }
@@ -226,7 +221,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     serviceManager.downMic();
                     App.roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
-
                     if (choose && (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
                         LiveQiSaveVideo();
                     }
@@ -345,7 +339,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
                     exitRoom();
                 }
-
                 break;
             case GlobalDef.SERVICE_STATUS_CONNETN:
                 DebugLogs.e("network test---------SERVICE_STATUS_CONNETN");
@@ -393,7 +386,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             chatlinemodel.isFirst = true;
                             chatlinemodel.message = String.format(getString(R.string.room_system_message), userModel.nickname);
                             chatManager.AddChatMessage(chatlinemodel);
-                            callFragment.initChatMessage(ChatRoomActivity.this);
+                            callFragment.notifyData();
                         }
 
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
@@ -427,13 +420,18 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     isInit = true;
                 }
                 break;
-            case GlobalDef.WM_CANDIDATE:
-                break;
             case GlobalDef.WM_ROOM_MESSAGE://接受服务器消息
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
-                    chatManager.receivedChatMessage(msg.obj);
-                    callFragment.initChatMessage(ChatRoomActivity.this);
+                    chatManager.receivedChatMessage(msg.obj, callFragment);
+                    callFragment.notifyData();
+                    if (timeCount == null){
+                        timeCount  = new TimeCount(1000,100);
+                        timeCount.start();
+                        BigData = 0;
+                        isbigData = false;
+                    }
+                    BigData++;
                 }
                 break;
             case GlobalDef.WM_LIVE_SHOWMIC: //主播上麦了，重新观看
@@ -473,7 +471,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatlinemodel.isFirst = true;
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
-                        callFragment.initChatMessage(ChatRoomActivity.this);
+                        callFragment.notifyData();
                     } else {
                         for (int i = 0; i < onlineListDatas.size(); i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
@@ -486,16 +484,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.WM_ROOM_LIKENUM: //有人点赞
+                JSONObject jsonlikenum;
                 try {
-                    JSONObject jsonLoveNum = new JSONObject((String) msg.obj);
-                    int Sum = jsonLoveNum.getInt("data");
-                    if (Sum > App.roomModel.getLikenum()) {
-                        int count = Sum - App.roomModel.getLikenum();
-                        App.roomModel.setLikenum(Sum);
-                        if (count >= 10) {
-                            count = 10;
+                    jsonlikenum = new JSONObject((String) msg.obj);
+                    if (jsonlikenum.getInt("data") > roomModel.getLikenum()) {
+                        int count = jsonlikenum.getInt("data") - roomModel.getLikenum();
+                        if (!isbigData){
+                            callFragment.runAddLove(count);
                         }
-                        callFragment.runAddLove(count);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -539,7 +535,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     chatLineModel.type = 0;
                     chatLineModel.message = msgstr;
                     chatManager.AddChatMessage(chatLineModel);
-                    callFragment.initChatMessage(ChatRoomActivity.this);
+                    callFragment.notifyData();
                 } else if (giftModel.code.equals(String.valueOf(GlobalDef.NOT_SUFFICIENT_COIN_1012))) {
                     ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.gift_code1012));
                 }
@@ -623,7 +619,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             chatLineModel.type = 0;
             chatLineModel.message = msg;
             chatManager.AddChatMessage(chatLineModel);
-            callFragment.initChatMessage(ChatRoomActivity.this);
+            callFragment.notifyData();
         }
     }
 
@@ -759,6 +755,28 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
             }
         });
+    }
+
+    private class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            if (BigData > 100){
+                isbigData = true;
+            }else{
+                isbigData = false;
+            }
+        }
+
+        @Override
+        public void onFinish() {
+            BigData = 0;
+            timeCount.cancel();
+            timeCount = null;
+        }
     }
 
     /***

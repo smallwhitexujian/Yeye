@@ -101,8 +101,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
     private ChatLineAdapter<ChatLineModel> mAdapter;
 
-    //软键盘弹起后所占高度阀值
-    int keyHeight = 100;
     private RelativeLayout ly_gift_view;                                                            //礼物特效view
     private TextView numText, numText1;                                                             //礼物数量  阴影
     private TextView txt_from_user;                                                  //发送礼物的人，礼物名称
@@ -111,10 +109,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     private boolean giftA = false;                                                                  //礼物特效播放状态
 
+    private boolean isRun = false;
     private boolean isTimeCount = true;                                 // 是否打开倒计时
     private boolean isTimeCount2 = true;                                 // 是否打开倒计时
     private long lastClick;                                             // 点赞点击事件
-    private int loveNumber = 0;                                              // 统计点赞次数
+    private int count = 0;                                              // 统计点赞次数
 
     private TimeCount timeCount;
 
@@ -186,6 +185,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
         Button btn_send = (Button) controlView.findViewById(R.id.btn_send);
         chatline = (ListView) controlView.findViewById(R.id.chatline);
+        initChatMessage(getActivity());
         ImageView img_open_send = (ImageView) controlView.findViewById(R.id.img_open_send);
         ImageView giftBtn = (ImageView) controlView.findViewById(R.id.giftbtn);
         ly_toolbar = (LinearLayout) controlView.findViewById(R.id.ly_toolbar);
@@ -320,9 +320,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             LayoutInflater mInflater = LayoutInflater.from(getActivity());
             LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
             mGallery.removeAllViews();
-
             for (int i = 0; i < linkData.size(); i++) {
-
                 //在线列表上过滤主播
                 if (Integer.parseInt(liveUserModel.userid) != linkData.get(i).uid) {
                     View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
@@ -595,6 +593,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
+        int keyHeight = 100;
         if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
             //键盘收起了
             if (ly_send.getVisibility() == View.VISIBLE) {
@@ -622,7 +621,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     /**
      * 聊天记录初始化，
      */
-    public void initChatMessage(final Context context) {
+    private void initChatMessage(final Context context) {
         if (mAdapter == null) {
             mAdapter = new ChatLineAdapter<>(context, App.mChatlines, iShowUser);
         }
@@ -632,6 +631,15 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         mAdapter.notifyDataSetChanged();
         chatline.setAdapter(mAdapter);
         chatline.setSelection(mAdapter.getCount());
+    }
+
+    public void notifyData() {
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+            if (chatline != null) {
+                chatline.setSelection(mAdapter.getCount());
+            }
+        }
     }
 
     @Override
@@ -748,7 +756,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 initGiftViewpager();
                 initGiftNumSpinner();
                 setRoomPopSpinner();
-
                 break;
         }
     }
@@ -904,10 +911,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 timeCount = new TimeCount(10000, 1000);//倒计时
                 timeCount.start();
             }
-            synchronized (lock) {
-                App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
-                txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
-            }
+            count++;
+            App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
+            txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
             if (loveView != null) {
                 loveView.addHeart();
             }
@@ -920,9 +926,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         if (!isTimeCount2) {
             return;
         }
-        loveNumber = count;
         if (timeCount2 == null) {
-            timeCount2 = new TimeCount2(10000, 1000);
+            timeCount2 = new TimeCount2(2000, 200);
             timeCount2.start();
         }
         try {
@@ -930,14 +935,22 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 @Override
                 public void run() {
                     try {
-                        for (int i = 0; i < loveNumber; i++) {
+                        for (int i = 0; i < count; i++) {
+                            if (i > 20 && isRun) {
+                                isRun = false;
+                                return;
+                            }
                             Thread.sleep(200);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    isRun = true;
                                     if (loveView != null) {
                                         loveView.addHeart();
-                                        txt_likeNum.setText(String.valueOf(Integer.parseInt(txt_likeNum.getText().toString()) + 1));
+                                        if (App.roomModel != null){
+                                            App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
+                                            txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+                                        }
                                     }
                                 }
                             });
@@ -965,9 +978,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         @Override
         public void onFinish() {
-            //callEvents.sendLove(count);
+            callEvents.sendLove(count);
             isTimeCount = true;
-            loveNumber = 0;
+            count = 0;
         }
     }
 

@@ -45,6 +45,11 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         activity = (Activity) context;
     }
 
+    public void setmData(List<T> data){
+        this.mData = data;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mData.size();

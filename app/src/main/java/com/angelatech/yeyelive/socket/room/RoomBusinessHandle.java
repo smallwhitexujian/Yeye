@@ -4,14 +4,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.angelatech.yeyelive.GlobalDef;
+import com.angelatech.yeyelive.socket.WillProtocol;
 import com.framework.socket.factory.SocketModuleManager;
 import com.framework.socket.protocol.Protocol;
 import com.will.common.log.DebugLogs;
-import com.angelatech.yeyelive.socket.WillProtocol;
 import com.will.socket.SocketBusinessHandle;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class RoomBusinessHandle extends SocketBusinessHandle {
@@ -39,13 +36,8 @@ public class RoomBusinessHandle extends SocketBusinessHandle {
         byte[] datas = mProtocol.getData(bytes);
         String response = new String(mProtocol.getData(bytes));
         DebugLogs.e("===onReceiveParcel==type:" + type + "data:" + new String(datas));
-        try {
-            JSONObject json = null;
-            json = new JSONObject(response);
-            int code;
             Message msg = new Message();
             msg.what = type;
-
             switch (type) {
                 case GlobalDef.WM_ROOM_LOGIN:
                     DebugLogs.e("======房间心跳=======");
@@ -60,23 +52,11 @@ public class RoomBusinessHandle extends SocketBusinessHandle {
                     msg.obj = response;
                     mRoomHandler.sendMessage(msg);
                     break;
-//                case GlobalDef.WM_CANDIDATE: //视频房间连接失败
-//                    IceCandidate candidate = new IceCandidate(
-//                            json.getString("sdpMid"),
-//                            json.getInt("sdpMLineIndex"),
-//                            json.getString("candidate"));
-//                    msg.obj = candidate;
-//                    mRoomHandler.sendMessage(msg);
-//                    break;
                 default:
                     msg.obj = response;
                     mRoomHandler.sendMessage(msg);
                     break;
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
