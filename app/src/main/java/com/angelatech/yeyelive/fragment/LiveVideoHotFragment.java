@@ -124,7 +124,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
     private void initView() {
         userInfo = CacheDataManager.getInstance().loadUser();
-        if (userInfo == null) {
+        if (userInfo == null|| !App.isLogin) {
             StartActivityHelper.jumpActivityDefault(getActivity(), LoginActivity.class);
             return;
         }
@@ -204,46 +204,47 @@ public class LiveVideoHotFragment extends BaseFragment implements
     }
 
     private void setView() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
+        if (listView != null) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
 
-                if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
-                    CommDialog commDialog = new CommDialog();
-                    CommDialog.Callback callback = new CommDialog.Callback() {
-                        @Override
-                        public void onCancel() {
-                        }
+                    if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
+                        CommDialog commDialog = new CommDialog();
+                        CommDialog.Callback callback = new CommDialog.Callback() {
+                            @Override
+                            public void onCancel() {
+                            }
 
-                        @Override
-                        public void onOK() {
-                            startLive(item);
-                        }
-                    };
-                    commDialog.CommDialog(getActivity(), getString(R.string.traffic_alert), true, callback);
-                } else {
-                    startLive(item);
+                            @Override
+                            public void onOK() {
+                                startLive(item);
+                            }
+                        };
+                        commDialog.CommDialog(getActivity(), getString(R.string.traffic_alert), true, callback);
+                    } else {
+                        startLive(item);
+                    }
+
                 }
-
-            }
-        });
-        listView.setAdapter(adapter);
-        swipyRefreshLayout.setOnRefreshListener(this);
-        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
-        swipyRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipyRefreshLayout.setRefreshing(true);
-            }
-        });
-        noDataLayout.findViewById(R.id.no_data_icon).setOnClickListener(this);
+            });
+            listView.setAdapter(adapter);
+            swipyRefreshLayout.setOnRefreshListener(this);
+            swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
+            swipyRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipyRefreshLayout.setRefreshing(true);
+                }
+            });
+            noDataLayout.findViewById(R.id.no_data_icon).setOnClickListener(this);
+        }
     }
 
     private void startLive(LiveVideoModel item) {
         if (item.type == 1) {
             LiveModel liveModel = (LiveModel) item;
-
             App.roomModel.setId(Integer.parseInt(liveModel.roomid));
             App.roomModel.setName(liveModel.introduce);
             App.roomModel.setIp(liveModel.roomserverip.split(":")[0]);
