@@ -31,7 +31,6 @@ import java.util.List;
  * 国家地区选择
  */
 public class CountrySelectActivity extends HeaderBaseActivity implements SideBarView.LetterSelectListener {
-
     private final int MSG_SEARCH = 1;
     private final int MSG_NOTIFY_ADAPTER = 2;
     private ListView listView;
@@ -40,7 +39,6 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
     private SideBarView sideBarView;
     private TextView mTip;
     private EditText searchInput;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

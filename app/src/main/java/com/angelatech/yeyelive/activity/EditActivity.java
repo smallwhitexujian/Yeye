@@ -139,7 +139,7 @@ public class EditActivity extends HeaderBaseActivity {
         new HttpFunction(this).httpPost(CommonUrlConfig.UserInformationEdit, map, httpCallback);
     }
 
-    HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
+    private HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
         @Override
         public void onFailure(Map<String, ?> errorMap) {
 

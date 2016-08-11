@@ -32,7 +32,7 @@ import java.util.Map;
  * 修改密码
  */
 public class ChangePasswordActivity extends HeaderBaseActivity {
-    public final int MSG_CHANGE_PASSWORD_SUCCESS = 19;
+    private final int MSG_CHANGE_PASSWORD_SUCCESS = 19;
     private EditText ed_old_password, ed_new_password;
     private TextView tv_submit;
     private BasicUserInfoDBModel model;

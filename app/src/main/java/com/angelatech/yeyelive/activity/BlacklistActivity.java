@@ -9,23 +9,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.Constant;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
-import com.angelatech.yeyelive.view.CommDialog;
-import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.activity.function.UserControl;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.web.HttpFunction;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.string.json.JsonUtil;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
-import com.angelatech.yeyelive.web.HttpFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,12 +109,13 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
 
                             @Override
                             public void onSuccess(String response) {
-                                DebugLogs.e("=====" + response);
                                 Map map = JsonUtil.fromJson(response, Map.class);
-                                if (HttpFunction.isSuc((String) map.get("code"))) {
-                                    uiHandler.obtainMessage(MSG_DELETE_BLACKLIST, item.userid).sendToTarget();
-                                } else {
-                                    onBusinessFaild((String) map.get("code"));
+                                if (map != null) {
+                                    if (HttpFunction.isSuc((String) map.get("code"))) {
+                                        uiHandler.obtainMessage(MSG_DELETE_BLACKLIST, item.userid).sendToTarget();
+                                    } else {
+                                        onBusinessFaild((String) map.get("code"));
+                                    }
                                 }
                                 LoadingDialog.cancelLoadingDialog();
                             }

@@ -25,8 +25,6 @@ import com.angelatech.yeyelive .R;
  * 关于我们
  */
 public class AboutUsActivity extends HeaderBaseActivity implements View.OnClickListener{
-    private LinearLayout btn_agreement;
-    private TextView versionCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +37,9 @@ public class AboutUsActivity extends HeaderBaseActivity implements View.OnClickL
                 finish();
             }
         });
-        versionCode = (TextView)findViewById(R.id.versionCode);
+        TextView versionCode = (TextView) findViewById(R.id.versionCode);
         versionCode.setText(String.format("%s%s ", getString(R.string.versionCode), Utility.getVersionName(AboutUsActivity.this)));
-        btn_agreement = (LinearLayout)findViewById(R.id.btn_agreement);
+        LinearLayout btn_agreement = (LinearLayout) findViewById(R.id.btn_agreement);
         btn_agreement.setOnClickListener(this);
     }
 

@@ -99,10 +99,9 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                 } else {
                     helper.setImageResource(R.id.iv_user_follow_state, R.drawable.btn_focus_cancel);
                 }
-                if (item.isv.equals("1")){
+                if (item.isv.equals("1")) {
                     helper.showView(R.id.iv_vip);
-                }
-                else{
+                } else {
                     helper.hideView(R.id.iv_vip);
                 }
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
@@ -166,19 +165,18 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
             @Override
             public void onSuccess(String response) {
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-
-                if (results != null && HttpFunction.isSuc(results.code)) {
-
-                    if (data.get(position).isfollow.equals("1")) {
-                        data.get(position).isfollow = "0";
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (data.get(position).isfollow.equals("1")) {
+                            data.get(position).isfollow = "0";
+                        } else {
+                            data.get(position).isfollow = "1";
+                        }
+                        uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
                     } else {
-                        data.get(position).isfollow = "1";
+                        uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
                     }
-                    uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-                } else {
-                    uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
                 }
-
             }
         };
 
@@ -274,9 +272,8 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                             data.addAll(result.data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
-                    }
-                    else{
-                        onBusinessFaild(result.code,response);
+                    } else {
+                        onBusinessFaild(result.code, response);
                     }
 
                 }

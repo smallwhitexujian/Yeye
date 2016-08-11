@@ -75,7 +75,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ImageView button_call_disconnect, face, room_guide;
     public RelativeLayout viewPanel;
     private ViewPager mAbSlidingTabView;
-    public ServiceManager serviceManager;
+    private ServiceManager serviceManager;
     private RoomModel roomModel;                                  //房间信息，其中包括房主信息
 
     private ChatManager chatManager;
@@ -84,12 +84,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private MyFragmentPagerAdapter fragmentPagerAdapter;
     private int beginTime = 0;          //房间直播开始时间，用来计算房间直播时长
 
-    public BasicUserInfoDBModel userModel;  //登录用户信息
-    public BasicUserInfoDBModel liveUserModel; //直播用户信息
+    private BasicUserInfoDBModel userModel;  //登录用户信息
+    private BasicUserInfoDBModel liveUserModel; //直播用户信息
 
     //重连的次数
     private int connectionServiceNumber = 0;
-    private ChatRoom chatRoom;
     private LoadingDialogNew LoadingDialog;
     //房间是否初始化
     private boolean isInit = false;
@@ -123,7 +122,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void initView() {
-        chatRoom = new ChatRoom(this);
         LoadingDialog = new LoadingDialogNew();
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
@@ -205,8 +203,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 关闭房间
      */
-    public void CloseLiveDialog() {
-        //payTicketsSet();
+    private void CloseLiveDialog() {
         CommChooseDialog dialog = new CommChooseDialog();
         CommChooseDialog.Callback callback = new CommChooseDialog.Callback() {
             @Override
@@ -581,25 +578,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         liveFinishFragment.show(getSupportFragmentManager(), "");
     }
 
-    //检查是否关注
-//    private void payTicketsSet() {
-//        HttpBusinessCallback callback = new HttpBusinessCallback() {
-//            @Override
-//            public void onFailure(Map<String, ?> errorMap) {
-//            }
-//
-//            @Override
-//            public void onSuccess(final String response) {
-//                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
-//                }.getType());
-//                if (results != null) {
-//                    App.ticke = Integer.valueOf(results.data);
-//                }
-//            }
-//        };
-//        chatRoom.payTicketsSet(userModel.userid, userModel.token, callback);
-//    }
-
     //切换摄像头
     @Override
     public void onCameraSwitch() {
@@ -698,7 +676,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 退房间操作
      */
-    public void roomFinish() {
+    private void roomFinish() {
         uiHandler.removeCallbacksAndMessages(null);
         if (serviceManager != null) {
             serviceManager.quitRoom();
@@ -764,11 +742,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
         @Override
         public void onTick(long millisUntilFinished) {
-            if (BigData > 100){
-                isbigData = true;
-            }else{
-                isbigData = false;
-            }
+            isbigData = BigData > 100;
         }
 
         @Override
@@ -839,8 +813,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 观看的人 回调
      *
-     * @param rtmpUrl
-     * @param event
      */
     @Override
     public void onPlayCallback(String rtmpUrl, int event) {
