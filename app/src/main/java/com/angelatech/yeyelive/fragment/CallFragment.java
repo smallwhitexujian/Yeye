@@ -2,11 +2,13 @@ package com.angelatech.yeyelive.fragment;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.view.Gravity;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +46,7 @@ import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
+import com.angelatech.yeyelive.model.Cocos2dxGiftModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
@@ -62,6 +66,8 @@ import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
+import org.cocos2dx.lib.util.Cocos2dxGift;
+import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -130,6 +136,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private BasicUserInfoDBModel liveUserModel; //直播用户信息
     public static final Object lock = new Object();
     private ChatRoom chatRoom;
+    //cocos2d
+    private FrameLayout giftLayout ;
+    private Cocos2dxView cocos2dxView = new Cocos2dxView();
+    private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -161,6 +171,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
+        initCocos2dx();
         fragmentManager = getFragmentManager();
         return controlView;
     }
@@ -310,6 +321,15 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             public void onAnimationRepeat(Animation animation) {
             }
         });
+    }
+
+    //初始化cocos
+    private void initCocos2dx(){
+        //coco2动画SurfaceView
+        cocos2dxView.onCreate(getActivity(), 0);
+        cocos2dxView.setScaleInfo(true, 0, 0, 0);
+        giftLayout = cocos2dxView.getFrameLayout();
+        ((FrameLayout)controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
     }
 
     /**
@@ -491,7 +511,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     ToastUtils.showToast(getActivity(), getActivity().getString(R.string.not_send_gift_me));
                     break;
                 }
-                callEvents.onSendGift(toPeople.uid, giftId, nNum);
+//                callEvents.onSendGift(toPeople.uid, giftId, nNum);
                 giftView.setVisibility(View.GONE);
                 ly_toolbar.setVisibility(View.VISIBLE);
                 break;
@@ -547,6 +567,13 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         super.onResume();
         //添加layout大小发生改变监听器,用来监听键盘
         ly_main.addOnLayoutChangeListener(this);
+        cocos2dxView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cocos2dxView.onPause();
     }
 
     @Override
@@ -554,6 +581,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         super.onDestroyView();
         clearTask();
         clearAnimation();
+        cocos2dxGift.destroy();
     }
 
     /**
@@ -1159,5 +1187,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         if (timeCount != null) {
             timeCount.cancel();
         }
+    }
+
+    public void play(Cocos2dxGiftModel giftModel,int x,int y){
+//        int x = getActivity().getResources().getDisplayMetrics().widthPixels /2;
+//        int y = getActivity().getResources().getDisplayMetrics().heightPixels /2 ;
+        cocos2dxGift.play(cocos2dxView,giftModel.aniName,giftModel.imagePath,giftModel.plistPath,giftModel.exportJsonPath, 1, x,y);
     }
 }
