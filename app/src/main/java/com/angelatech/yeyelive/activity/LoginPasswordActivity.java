@@ -13,15 +13,16 @@ import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.Login;
 import com.angelatech.yeyelive.activity.function.PhoneLogin;
-import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
+import com.angelatech.yeyelive.model.LoginServerModel;
 import com.angelatech.yeyelive.model.LoginUserModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.view.LoadingDialogNew;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.string.json.JsonUtil;
@@ -43,7 +44,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     private TextView mSelectCountry, mAreaText, tv_find_password, login_btn;
     private CountrySelectItemModel selectItemModel;
     private EditText ed_pass_word, ed_phoneNumber;
-
+    private LoadingDialogNew loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     }
 
     private void initView() {
+        loading = new LoadingDialogNew();
         mAreaText = (TextView) findViewById(R.id.area_text);
         mSelectCountry = (TextView) findViewById(R.id.select_country);
         tv_find_password = (TextView) findViewById(R.id.tv_find_password);
@@ -80,8 +82,10 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
-            case MSG_LOGIN_SUCC:
+            case MSG_LOGIN_SUCC: //密码登录成功流程
                 BasicUserInfoDBModel model = (BasicUserInfoDBModel) msg.obj;
+                LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(model.userid), model.token);
+                new Login(this).attachIM(loginServerModel);
                 try {
                     if (Login.checkUserInfo(model.userid)) {
                         ToastUtils.showToast(this, getString(R.string.login_suc));
@@ -96,7 +100,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 }
                 break;
             case MSG_LOGIN_NOW:
-                LoadingDialog.showSysLoadingDialog(LoginPasswordActivity.this, getString(R.string.login_now));
+                loading.showSysLoadingDialog(LoginPasswordActivity.this, getString(R.string.login_now));
                 LoginUserModel loginUserModel = (LoginUserModel) msg.obj;
                 login(loginUserModel.countryCode + loginUserModel.phone, loginUserModel.password);
                 break;
@@ -137,7 +141,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
      */
     private void login(String userId, String password) {
         if (!userId.isEmpty() && !password.isEmpty()) {
-            LoadingDialog.showSysLoadingDialog(this,getString(R.string.login_now));
+            loading.showSysLoadingDialog(this,getString(R.string.login_now));
             new PhoneLogin(this).loginPwd(userId, Md5.md5(password), httpCallback);
         }
     }
@@ -154,7 +158,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
 
         @Override
         public void onSuccess(String response) {
-            LoadingDialog.cancelLoadingDialog();
+            loading.cancelLoadingDialog();
             if (response != null) {
                 CommonParseListModel<BasicUserInfoDBModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<BasicUserInfoDBModel>>() {
                 }.getType());

@@ -21,7 +21,6 @@ import com.angelatech.yeyelive.activity.function.Register;
 import com.angelatech.yeyelive.activity.function.Start;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.LoginServerModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
@@ -167,11 +166,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 layout_login.setVisibility(View.VISIBLE);
                 initAnimation();
                 break;
-            case MSG_LOGIN_SUCC:
+            case MSG_LOGIN_SUCC: //注册成功流程
                 ToastUtils.showToast(LoginActivity.this, getString(R.string.login_suc));
                 BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
-                LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(userInfo.userid), userInfo.token);
-                new Login(this).attachIM(loginServerModel);
                 if (userInfo.userid != null && userInfo.nickname != null) {
                     if (Login.checkUserInfo(userInfo.userid)) {
                         StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, MainActivity.class, null);
