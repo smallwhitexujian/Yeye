@@ -23,6 +23,7 @@ import com.framework.socket.factory.SocketModuleManagerImpl;
 import com.framework.socket.model.SocketConfig;
 import com.framework.socket.model.TcpSocketConnectorConfig;
 import com.framework.socket.protocol.Protocol;
+import com.will.common.log.DebugLogs;
 import com.will.common.log.Logger;
 import com.angelatech.yeyelive.socket.WillProtocol;
 import com.angelatech.yeyelive.R;
@@ -69,6 +70,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     final LoginServerModel loginServerModel = intent.getParcelableExtra(TransactionValues.UI_2_SERVICE_KEY1);
                     if (loginServerModel != null) {
                         //连接
+                        DebugLogs.e("im----login--start");
                         Protocol protocol = new WillProtocol();
                         TcpSocketConnectorConfig connectorConfig = new TcpSocketConnectorConfig();
                         connectorConfig.setLaucherDelay(DELAY);

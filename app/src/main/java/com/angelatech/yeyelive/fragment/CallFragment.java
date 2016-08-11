@@ -382,10 +382,18 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         PopAdapter = new ArrayAdapter<OnlineListModel>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
-                TextView label = (TextView) view.findViewById(R.id.spinner_item_label);
-                label.setText(PopLinkData.get(position).name);
-                return view;
+                TextView lbl;
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
+                    lbl = (TextView) convertView.findViewById(R.id.spinner_item_label);
+                    convertView.setTag(lbl);
+                }
+                else{
+                    lbl =(TextView) convertView.getTag();
+                }
+                lbl.setTextSize(18);
+                lbl.setText(PopLinkData.get(position).name);
+                return convertView;
             }
         };
         PopAdapter.setDropDownViewResource(R.layout.spinner_item_layout);
@@ -710,9 +718,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case MSG_OPEN_GIFT_LAYOUT:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
-                if (PopAdapter != null) {
-                    PopAdapter.notifyDataSetChanged();
-                }
+//                if (PopAdapter != null) {
+//                    PopAdapter.notifyDataSetChanged();
+//                }
                 BasicUserInfoModel userInfoModel = (BasicUserInfoModel) msg.obj;
                 setSpinnerItemSelectedByValue(roomPopSpinner, userInfoModel.nickname);
                 break;
@@ -790,8 +798,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         // 添加Spinner事件监听
         roomGiftNumSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                arg0.setVisibility(View.VISIBLE);
+            public void onItemSelected(AdapterView<?> parent, View view, int arg2, long arg3) {
+                parent.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -936,7 +944,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                                     isRun = true;
                                     if (loveView != null) {
                                         loveView.addHeart();
-                                        if (App.roomModel != null){
+                                        if (App.roomModel != null) {
                                             App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
                                             txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
                                         }
