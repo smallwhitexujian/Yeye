@@ -1,8 +1,10 @@
 package com.angelatech.yeyelive.activity;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -35,17 +37,14 @@ import java.util.Map;
  * 直播者 自己 结束界面
  */
 public class LiveFinishActivity extends BaseActivity {
-    private Button btn_close;
     public RoomModel roomModel;
-    private SimpleDraweeView img_head;
-    private TextView txt_barname, txt_likenum, txt_live_num, txt_coin, txt_live_time;
-    private LinearLayout ly_live;
     private ImageView face;
-    private static TextView ticke_num, ticke_title;
+    private TextView ticke_num;
     private ChatRoom chatRoom;
     private BasicUserInfoDBModel model;
     private final int MSG_TICKET_SUCCESS = 1;
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -63,18 +62,17 @@ public class LiveFinishActivity extends BaseActivity {
         setContentView(R.layout.activity_live_finish);
         chatRoom = new ChatRoom(this);
         model = CacheDataManager.getInstance().loadUser();
-        btn_close = (Button) findViewById(R.id.btn_close);
+        Button btn_close = (Button) findViewById(R.id.btn_close);
         btn_close.setOnClickListener(this);
-        img_head = (SimpleDraweeView) findViewById(R.id.img_head);
-        txt_barname = (TextView) findViewById(R.id.txt_barname);
-        txt_likenum = (TextView) findViewById(R.id.txt_likenum);
+        SimpleDraweeView img_head = (SimpleDraweeView) findViewById(R.id.img_head);
+        TextView txt_barname = (TextView) findViewById(R.id.txt_barname);
+        TextView txt_likenum = (TextView) findViewById(R.id.txt_likenum);
         face = (ImageView) findViewById(R.id.face);
-        ly_live = (LinearLayout) findViewById(R.id.ly_live);
-        txt_live_num = (TextView) findViewById(R.id.txt_live_num);
-        txt_coin = (TextView) findViewById(R.id.txt_coin);
-        txt_live_time = (TextView) findViewById(R.id.txt_live_time);
+        LinearLayout ly_live = (LinearLayout) findViewById(R.id.ly_live);
+        TextView txt_live_num = (TextView) findViewById(R.id.txt_live_num);
+        TextView txt_coin = (TextView) findViewById(R.id.txt_coin);
+        TextView txt_live_time = (TextView) findViewById(R.id.txt_live_time);
         ticke_num = (TextView) findViewById(R.id.ticke_num);
-        ticke_title = (TextView) findViewById(R.id.ticke_title);
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
@@ -140,8 +138,6 @@ public class LiveFinishActivity extends BaseActivity {
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_TICKET_SUCCESS:
-                ticke_num.setVisibility(View.VISIBLE);
-                ticke_title.setVisibility(View.GONE);
                 ticke_num.setText(msg.obj.toString());
                 break;
         }
