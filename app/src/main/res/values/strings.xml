@@ -352,5 +352,6 @@
     <string name="tickets">tickets:</string>
     <string name="Ticke_sales">Ticket Sales</string>
     <string name="save_live_video">保存视频</string>
+    <string name="other_place_login_kick_out">其它地方登录</string>
     <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
 </resources>

@@ -43,8 +43,7 @@ public class ImBusinessHandle extends SocketBusinessHandle {
                 new LoginDispatch(mSocketModuleManager).dispatch(type, datas);
                 break;
             case WillProtocol.KICK_OUT_TYPE_VALUE:
-                Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
-                        IServiceValues.CMD_EXIT_LOGIN);
+                Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY, IServiceValues.CMD_KICK_OUT);
                 BroadCastHelper.sendBroadcast(mContext, exitIntent);
                 break;
         }

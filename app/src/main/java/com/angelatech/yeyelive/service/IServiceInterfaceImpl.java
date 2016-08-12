@@ -121,7 +121,6 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     break;
                 case IServiceValues.CMD_KICK_OUT:
                     AlertDialog.Builder b = new AlertDialog.Builder(mContext);
-//                    b.setMessage(R.string.other_place_login_kick_out);
                     b.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
 
@@ -130,16 +129,17 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                                     }
                                     BasicUserInfoDBModel userInfoDBModel = CacheDataManager.getInstance().loadUser();
                                     if (userInfoDBModel != null && userInfoDBModel.userid != null) {
-                                        CacheDataManager.getInstance().deleteMessageRecord(userInfoDBModel.userid);
+                                        CacheDataManager.getInstance().deleteAll();
+                                        StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
                                     }
                                     App.isLogin = false;
-                                    //AccessToken.setCurrentAccessToken(null);
+                                    AccessToken.setCurrentAccessToken(null);
                                     NotificationUtil.clearAllNotify(mContext);//清理所有的通知
-                                    StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
-
+                                    CacheDataManager.loginUser = null;
                                 }
                             }
                     );
+                    b.setMessage(R.string.other_place_login_kick_out);
                     b.setCancelable(false);
                     AlertDialog d = b.create();
                     d.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
