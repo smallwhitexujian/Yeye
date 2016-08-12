@@ -29,7 +29,6 @@ import com.angelatech.yeyelive.fragment.LiveFinishFragment;
 import com.angelatech.yeyelive.fragment.ReadyLiveFragment;
 import com.angelatech.yeyelive.model.BarInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
-import com.angelatech.yeyelive.model.Cocos2dxGiftModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
@@ -60,6 +59,7 @@ import com.will.libmedia.OnPlayListener;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
+import org.cocos2dx.lib.util.Cocos2dxGift;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -523,25 +523,33 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     }
 
                     if (giftModel.giftid == 2) {
-                        Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
+                        Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                         cocos2dxGiftModel.aniName = "firework_01_4";
                         cocos2dxGiftModel.imagePath = "firework_01_40.png";
                         cocos2dxGiftModel.plistPath = "firework_01_40.plist";
                         cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
+
+                        Cocos2dxGift.Cocos2dxGiftControlModel control = new Cocos2dxGift.Cocos2dxGiftControlModel();
                         int x = ScreenUtils.getScreenWidth(this) / 2;
                         int y = ScreenUtils.getScreenHeight(this) / 2;
-                        callFragment.play(cocos2dxGiftModel, x, y);
+                        control.x = x;
+                        control.y = y;
+                        callFragment.play(cocos2dxGiftModel,control);
                     }
 
                     if (giftModel.giftid == 36) {
-                        Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
+                        Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                         cocos2dxGiftModel.aniName = "FeiJi";
                         cocos2dxGiftModel.imagePath = "FeiJi0.png";
                         cocos2dxGiftModel.plistPath = "FeiJi0.plist";
                         cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
+
+                        Cocos2dxGift.Cocos2dxGiftControlModel control = new Cocos2dxGift.Cocos2dxGiftControlModel();
                         int x = ScreenUtils.getScreenWidth(this) / 2;
                         int y = ScreenUtils.getScreenHeight(this) / 2;
-                        callFragment.play(cocos2dxGiftModel, x, y);
+                        control.x = x;
+                        control.y = y;
+                        callFragment.play(cocos2dxGiftModel,control);
                     }
 
                     GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);

@@ -44,9 +44,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 }
 
 
-int AppDelegate::play(const char * aniName,const char * imagePath,const char * plistPath,const char * exportJsonPath,float scale,int x,int y)
+int AppDelegate::play(const GiftModel gift,GiftControlModel control)
 {
-	layer->play(aniName,imagePath,plistPath,exportJsonPath,scale,x,y);
+	layer->play(gift,control);
 	return 1;
 }
 

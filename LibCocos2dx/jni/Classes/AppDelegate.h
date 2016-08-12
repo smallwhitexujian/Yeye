@@ -3,6 +3,9 @@
 
 #include "cocos2d.h"
 #include "cocostudio/CocoStudio.h"
+#include "GiftModel.h"
+#include "GiftControlModel.h"
+
 using std::string;
 
 /**
@@ -37,7 +40,7 @@ public:
 
 
     //qiang
-    virtual int play(const char * aniName,const char * imagePath,const char * plistPath,const char * exportJsonPath,float scale,int x,int y);
+    virtual int play(const GiftModel gift,const GiftControlModel control);
     virtual void stop();
     virtual int getPlayStatus();
     virtual void clear();//清除所有动画
