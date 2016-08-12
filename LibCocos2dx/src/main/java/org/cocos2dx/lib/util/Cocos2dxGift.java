@@ -36,4 +36,9 @@ public class Cocos2dxGift {
         public int y;
     }
 
+    public interface OnGiftPlayFinish{
+        public void onGiftPlayFinish();
+
+    }
+
 }
