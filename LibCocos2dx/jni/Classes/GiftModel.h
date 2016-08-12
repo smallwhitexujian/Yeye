@@ -1,13 +1,14 @@
 #ifndef __GIFTMODE_H__
 #define __GIFTMODE_H__
 
-
-class Gift
+class GiftModel
 {
 public:
 	int imageCode;
-	string imagePath;
-	string plistPath;
-	string ExportJsonPath;
-}
+	char * aniName;
+	char * imagePath;
+	char * plistPath;
+	char * exportJsonPath;
+	GiftModel(char * aniName,char * imagePath,char * plistPath,char * exportJsonPath);
+};
 #endif

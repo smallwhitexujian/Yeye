@@ -21,26 +21,25 @@ bool GiftScene::init() {
 	return true;
 }
 
-void GiftScene::play(string aniName,string imagePath,string plistPath,string exportJsonPath,float scale,int x,int y)
+void GiftScene::play(const GiftModel gift,const GiftControlModel control)
 {
 	Size vsize = Director::getInstance()->getVisibleSize();
-	loadAnimation(aniName,imagePath,plistPath,exportJsonPath,scale,Vec2(x,y));
-
+	loadAnimation(gift,control);
 }
 
-void GiftScene::loadAnimation(string aniName,string imagePath,string plistPath,string exportJsonPath,float scale,Vec2 position )
+void GiftScene::loadAnimation(const GiftModel gift,const GiftControlModel control)
 {
-	cocostudio::ArmatureDataManager::getInstance()->addArmatureFileInfo(imagePath,plistPath,exportJsonPath);
-	auto armature = cocostudio::Armature::create(aniName);
-	armature->setScale(scale);
-	armature->setPosition(position);
+	cocostudio::ArmatureDataManager::getInstance()->addArmatureFileInfo(gift.imagePath,gift.plistPath,gift.exportJsonPath);
+	auto armature = cocostudio::Armature::create(gift.aniName);
+	armature->setScale(control.scale);
+	armature->setPosition(Vec2(control.x,control.y));
+	armature->getAnimation()->setSpeedScale(control.speedScale);
 	armature->getAnimation()->setMovementEventCallFunc(this,movementEvent_selector(GiftScene::movementCallback));
 	this->addChild(armature);
 	armature->getAnimation()->playWithIndex(0);
 }
 
 void GiftScene::pause() {
-//	LOGD("qiang HelloWorld pause %d",HelloWorld::playtag);
 	GiftScene::playtag = 0;
 	this->removeAllChildren();
 }
