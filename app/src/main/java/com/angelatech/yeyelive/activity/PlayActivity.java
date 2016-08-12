@@ -6,7 +6,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -37,6 +36,7 @@ import com.angelatech.yeyelive.thirdShare.SinaShare;
 import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.will.common.log.DebugLogs;
@@ -523,8 +523,7 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
         if (videoSizeAry == null || videoSizeAry[0] == 0 || videoSizeAry[1] == 0) {
             return;
         }
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int[] calVideoSizeAry = PlayerUtil.scaleVideoSize(orientation, videoSizeAry[0], videoSizeAry[1], displayMetrics.widthPixels, displayMetrics.heightPixels);
+        int[] calVideoSizeAry = PlayerUtil.scaleVideoSize(orientation, videoSizeAry[0], videoSizeAry[1], ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this));
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) player_surfaceView.getLayoutParams();
         if (lp == null) {
             lp = new RelativeLayout.LayoutParams(calVideoSizeAry[0], calVideoSizeAry[1]);

@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.LoginActivity;
 import com.angelatech.yeyelive.activity.MainActivity;
 import com.angelatech.yeyelive.activity.PlayActivity;
 import com.angelatech.yeyelive.activity.WebActivity;
@@ -124,10 +123,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
     private void initView() {
         userInfo = CacheDataManager.getInstance().loadUser();
-        if (userInfo == null) {
-            StartActivityHelper.jumpActivityDefault(getActivity(), LoginActivity.class);
-            return;
-        }
         swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
         listView = (ListView) view.findViewById(R.id.live_video_hot_list);
 

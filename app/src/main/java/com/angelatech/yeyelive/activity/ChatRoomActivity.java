@@ -39,6 +39,7 @@ import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.SPreferencesTool;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.CommChooseDialog;
@@ -69,7 +70,7 @@ import java.util.Map;
 /**
  * 视频直播主界面
  */
-public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents, OnLiveListener, OnPlayListener {
+public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents {
     private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
@@ -168,10 +169,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         mAbSlidingTabView.setCurrentItem(0);
         //清空聊天记录
         App.mChatlines.clear();
-        FrescoBitmapUtils.getImageBitmap(ChatRoomActivity.this, VerificationUtil.getImageUrl100(liveUserModel.headurl), new FrescoBitmapUtils.BitCallBack() {
+        FrescoBitmapUtils.getImageBitmap(App.getInstance(), VerificationUtil.getImageUrl100(liveUserModel.headurl), new FrescoBitmapUtils.BitCallBack() {
             @Override
             public void onNewResultImpl(Bitmap bitmap) {
-                final Drawable drawable = GaussAmbiguity.BlurImages(bitmap, ChatRoomActivity.this);
+                final Drawable drawable = GaussAmbiguity.BlurImages(bitmap, App.getInstance());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -235,7 +236,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             isCloseLiveDialog = true;
             if (liveUserModel.userid.equals(userModel.userid)) {
                 boolean isShowSave = true;
-                if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)){
+                if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                     isShowSave = false;
                 }
                 dialog.dialog(this, getString(R.string.finish_room), true, isShowSave, callback);
@@ -398,7 +399,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             //上麦
                             if (loginMessage.live == 1) {
                                 App.roomModel.setRtmpwatchaddress(loginMessage.live_uri);
-                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
+                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
                             } else {
                                 //房间未直播
                                 liveFinish();
@@ -447,7 +448,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             //恢复播放
                             liveFinishFragment.dismiss();
                             if (roomModel != null) {
-                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), ChatRoomActivity.this);
+                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
                             }
                         }
                     }
@@ -527,8 +528,19 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         cocos2dxGiftModel.imagePath = "firework_01_40.png";
                         cocos2dxGiftModel.plistPath = "firework_01_40.plist";
                         cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
-                        int x = getResources().getDisplayMetrics().widthPixels / 2;
-                        int y = getResources().getDisplayMetrics().heightPixels / 2;
+                        int x = ScreenUtils.getScreenWidth(this) / 2;
+                        int y = ScreenUtils.getScreenHeight(this) / 2;
+                        callFragment.play(cocos2dxGiftModel, x, y);
+                    }
+
+                    if (giftModel.giftid == 36) {
+                        Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
+                        cocos2dxGiftModel.aniName = "FeiJi";
+                        cocos2dxGiftModel.imagePath = "FeiJi0.png";
+                        cocos2dxGiftModel.plistPath = "FeiJi0.plist";
+                        cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
+                        int x = ScreenUtils.getScreenWidth(this) / 2;
+                        int y = ScreenUtils.getScreenHeight(this) / 2;
                         callFragment.play(cocos2dxGiftModel, x, y);
                     }
 
@@ -776,7 +788,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MediaCenter.startLive(roomModel.getRtmpip(), ChatRoomActivity.this);
+                MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
                     fragmentList.add(callFragment);
@@ -798,59 +810,61 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * @param rtmpUrl url
      * @param event   event
      */
-    @Override
-    public void onLiveCallback(String rtmpUrl, int event) {
-        DebugLogs.e("rtmp event" + event);
-        switch (event) {
-            case MediaNative.RTMP_LIVE_RECONNECTING:
-                //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
-                //断线重连中
-                break;
-            case MediaNative.RTMP_LIVE_RECONNECT:
-                face.setVisibility(View.GONE);
-                DebugLogs.e("-------RTMP_LIVE_RECONNECT---------");
-                //重连成功
-                break;
-            case MediaNative.RTMP_LIVE_CONNECT_ERROR:
-                // ToastUtils.showToast(ChatRoomActivity.this,"主播正在化妆");
-                //直播错误
-                peerdisConnection(getString(R.string.room_net_toast_error));
-                break;
-            case MediaNative.RTMP_LIVE_CONNECT:
-                break;
-            case MediaNative.RTMP_LIVE_STOP:
-                // ToastUtils.showToast(ChatRoomActivity.this,"网络去哪了？");
-                // roomFinish();
-                break;
+    public OnLiveListener onLiveListener = new OnLiveListener() {
+        @Override
+        public void onLiveCallback(String s, int event) {
+            DebugLogs.e("rtmp event" + event);
+            switch (event) {
+                case MediaNative.RTMP_LIVE_RECONNECTING:
+                    //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
+                    //断线重连中
+                    break;
+                case MediaNative.RTMP_LIVE_RECONNECT:
+                    face.setVisibility(View.GONE);
+                    DebugLogs.e("-------RTMP_LIVE_RECONNECT---------");
+                    //重连成功
+                    break;
+                case MediaNative.RTMP_LIVE_CONNECT_ERROR:
+                    // ToastUtils.showToast(ChatRoomActivity.this,"主播正在化妆");
+                    //直播错误
+                    peerdisConnection(getString(R.string.room_net_toast_error));
+                    break;
+                case MediaNative.RTMP_LIVE_CONNECT:
+                    break;
+                case MediaNative.RTMP_LIVE_STOP:
+                    // ToastUtils.showToast(ChatRoomActivity.this,"网络去哪了？");
+                    // roomFinish();
+                    break;
+            }
         }
-    }
+    };
+
 
     /**
      * 观看的人 回调
      */
-    @Override
-    public void onPlayCallback(String rtmpUrl, int event) {
-
-        DebugLogs.e("rtmp event" + event);
-        switch (event) {
-            case MediaNative.RTMP_PLAY_RECONNECTING://流媒体重连
-                //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
-                //重连
-                break;
-            case MediaNative.RTMP_PLAY_RECONNECT://
-                //重连成功
-                break;
-            case MediaNative.RTMP_PLAY_CONNECT:
-                face.setVisibility(View.GONE);
-                break;
-            case MediaNative.RTMP_PLAY_STOP:
-                break;
-            case MediaNative.RTMP_PLAY_CONNECT_ERROR:
-                peerdisConnection(getString(R.string.room_net_toast_error));
-                break;
+    public OnPlayListener onPlayListener = new OnPlayListener() {
+        @Override
+        public void onPlayCallback(String rtmpUrl, int event) {
+            switch (event) {
+                case MediaNative.RTMP_PLAY_RECONNECTING://流媒体重连
+                    //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
+                    //重连
+                    break;
+                case MediaNative.RTMP_PLAY_RECONNECT://
+                    //重连成功
+                    break;
+                case MediaNative.RTMP_PLAY_CONNECT:
+                    face.setVisibility(View.GONE);
+                    break;
+                case MediaNative.RTMP_PLAY_STOP:
+                    break;
+                case MediaNative.RTMP_PLAY_CONNECT_ERROR:
+                    peerdisConnection(getString(R.string.room_net_toast_error));
+                    break;
+            }
         }
-    }
-
+    };
 
     /**
      * 退出房间

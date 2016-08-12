@@ -61,6 +61,7 @@ public class App extends Application {
     public static int screenHeight = 0;
     public static DatabaseHelper sDatabaseHelper;
 
+    private static App instance = null;
 
     public static final String LIVE_WATCH = "WATCH"; //观看者
     public static final String LIVE_HOST = "LIVE"; //直播者
@@ -83,7 +84,7 @@ public class App extends Application {
             dirs.add(FILEPATH_CAMERA);
             dirs.add(FILEPATH_VOICE_RECORD);
         }
-
+        instance = this;
         mAppInterface.initDir(dirs);
         mAppInterface.initDB(this, DBConfig.DB_NAME, 1);
         mAppInterface.initService(this, IService.class, SERVICE_ACTION);
@@ -123,6 +124,10 @@ public class App extends Application {
         }
     }
 
+    // 单例模式获取唯一的MyApplication实例
+    public static App getInstance() {
+        return instance;
+    }
 
     @Override
     public void onTerminate() {
