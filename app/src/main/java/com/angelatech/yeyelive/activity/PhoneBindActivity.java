@@ -170,11 +170,11 @@ public class PhoneBindActivity extends HeaderBaseActivity {
                 setIsWork();
                 break;
             case Binding.MSG_BIND_FAILD:
-                ToastUtils.showToast(PhoneBindActivity.this, getString(R.string.phone_bind_faild));
+                ToastUtils.showToast(this, getString(R.string.phone_bind_faild));
                 finish();
                 break;
             case Binding.MSG_BIND_SUCC:
-                ToastUtils.showToast(PhoneBindActivity.this, getString(R.string.phone_bind_suc));
+                ToastUtils.showToast(this, getString(R.string.phone_bind_suc));
                 finish();
                 break;
             case MSG_BINDING_SUCC:
@@ -201,7 +201,7 @@ public class PhoneBindActivity extends HeaderBaseActivity {
                 break;
             case R.id.send_btn:
                 if (!phone.isEmpty()) {
-                    LoadingDialog.showLoadingDialog(PhoneBindActivity.this);
+                    LoadingDialog.showLoadingDialog(this);
                     HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
                         @Override
                         public void onFailure(Map<String, ?> errorMap) {
@@ -229,7 +229,7 @@ public class PhoneBindActivity extends HeaderBaseActivity {
                 }
                 break;
             case R.id.select_country:
-                StartActivityHelper.jumpActivityForResult(PhoneBindActivity.this, CountrySelectActivity.class, 1);
+                StartActivityHelper.jumpActivityForResult(this, CountrySelectActivity.class, 1);
                 break;
 
         }

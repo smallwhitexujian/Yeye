@@ -100,7 +100,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 }
                 break;
             case MSG_LOGIN_NOW:
-                loading.showSysLoadingDialog(LoginPasswordActivity.this, getString(R.string.login_now));
+                loading.showSysLoadingDialog(this, getString(R.string.login_now));
                 LoginUserModel loginUserModel = (LoginUserModel) msg.obj;
                 login(loginUserModel.countryCode + loginUserModel.phone, loginUserModel.password);
                 break;

@@ -74,7 +74,7 @@ public class SearchActivity extends WithBroadCastActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Utility.closeKeybord(searchEditText, SearchActivity.this);
+        Utility.closeKeybord(searchEditText, this);
     }
 
     private void initView() {

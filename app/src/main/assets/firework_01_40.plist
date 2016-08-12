@@ -7,13 +7,13 @@
 			<key>firework_01_00006.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
@@ -26,15 +26,15 @@
 			<key>firework_01_00008.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -45,15 +45,15 @@
 			<key>firework_01_00012.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>572</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -64,15 +64,15 @@
 			<key>firework_01_00016.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>858</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -83,15 +83,15 @@
 			<key>firework_01_00020.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>1144</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -102,15 +102,15 @@
 			<key>firework_01_00024.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>1430</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -121,15 +121,15 @@
 			<key>firework_01_00028.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>1716</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -140,15 +140,15 @@
 			<key>firework_01_00030.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>2002</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -159,17 +159,17 @@
 			<key>firework_01_00032.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>2288</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -178,17 +178,17 @@
 			<key>firework_01_00034.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>2574</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -197,17 +197,17 @@
 			<key>firework_01_00036.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>2860</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -216,17 +216,17 @@
 			<key>firework_01_00038.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>3146</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -235,17 +235,17 @@
 			<key>firework_01_00040.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>3432</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -254,17 +254,17 @@
 			<key>firework_01_00042.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>3718</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>0</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -273,17 +273,17 @@
 			<key>firework_01_00044.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>0</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -292,17 +292,17 @@
 			<key>firework_01_00046.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>286</integer>
 				<key>y</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -311,17 +311,17 @@
 			<key>firework_01_00048.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>572</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -330,17 +330,17 @@
 			<key>firework_01_00050.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>858</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -349,17 +349,17 @@
 			<key>firework_01_00052.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>1144</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -368,17 +368,17 @@
 			<key>firework_01_00054.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>1430</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -387,17 +387,17 @@
 			<key>firework_01_00056.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>1716</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -406,17 +406,17 @@
 			<key>firework_01_00058.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>2002</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -425,17 +425,17 @@
 			<key>firework_01_00060.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>2288</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -444,17 +444,17 @@
 			<key>firework_03_00006.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>2574</integer>
 				<key>y</key>
-				<integer>958</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -463,17 +463,17 @@
 			<key>firework_03_00010.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>2860</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -482,17 +482,17 @@
 			<key>firework_03_00014.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>3146</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -501,17 +501,17 @@
 			<key>firework_03_00018.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>3432</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -520,17 +520,17 @@
 			<key>firework_03_00022.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>3718</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>287</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -539,17 +539,17 @@
 			<key>firework_03_00026.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>0</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -558,17 +558,17 @@
 			<key>firework_03_00030.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>286</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -577,17 +577,17 @@
 			<key>firework_03_00032.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>572</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -596,17 +596,17 @@
 			<key>firework_03_00034.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>858</integer>
 				<key>y</key>
-				<integer>1437</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -615,17 +615,17 @@
 			<key>firework_03_00036.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>1144</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -634,17 +634,17 @@
 			<key>firework_03_00038.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>1430</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -653,17 +653,17 @@
 			<key>firework_03_00040.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>1716</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -672,17 +672,17 @@
 			<key>firework_03_00042.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>2002</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -691,17 +691,17 @@
 			<key>firework_03_00044.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>2288</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -710,17 +710,17 @@
 			<key>firework_03_00046.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>2574</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -729,17 +729,17 @@
 			<key>firework_03_00048.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>2860</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -748,17 +748,17 @@
 			<key>firework_03_00050.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>3146</integer>
 				<key>y</key>
-				<integer>1916</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -767,17 +767,17 @@
 			<key>firework_03_00052.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>3432</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -786,17 +786,17 @@
 			<key>firework_03_00054.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>3718</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>574</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -805,17 +805,17 @@
 			<key>firework_03_00056.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>0</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -824,17 +824,17 @@
 			<key>firework_03_00058.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>286</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -843,17 +843,17 @@
 			<key>firework_03_00060.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>572</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -862,17 +862,17 @@
 			<key>firework_03_00062.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>858</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -881,17 +881,17 @@
 			<key>firework_03_00064.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>1144</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -900,17 +900,17 @@
 			<key>firework_03_00066.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>1430</integer>
 				<key>y</key>
-				<integer>2395</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -919,17 +919,17 @@
 			<key>firework_03_00068.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>1716</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -938,17 +938,17 @@
 			<key>firework_03_00070.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>2002</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -957,17 +957,17 @@
 			<key>firework_02_00006.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>2288</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -976,17 +976,17 @@
 			<key>firework_02_00010.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>2574</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -995,17 +995,17 @@
 			<key>firework_02_00014.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>2860</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1014,17 +1014,17 @@
 			<key>firework_02_00018.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>3146</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1033,17 +1033,17 @@
 			<key>firework_02_00022.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>3432</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1052,17 +1052,17 @@
 			<key>firework_02_00026.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>3718</integer>
 				<key>y</key>
-				<integer>2874</integer>
+				<integer>861</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1071,17 +1071,17 @@
 			<key>firework_02_00030.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1090,17 +1090,17 @@
 			<key>firework_02_00032.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1109,17 +1109,17 @@
 			<key>firework_02_00034.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>954</integer>
+				<integer>572</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1128,17 +1128,17 @@
 			<key>firework_02_00036.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1431</integer>
+				<integer>858</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1147,17 +1147,17 @@
 			<key>firework_02_00038.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>1908</integer>
+				<integer>1144</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1166,17 +1166,17 @@
 			<key>firework_02_00040.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2385</integer>
+				<integer>1430</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1185,17 +1185,17 @@
 			<key>firework_02_00042.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>2862</integer>
+				<integer>1716</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>
@@ -1204,17 +1204,245 @@
 			<key>firework_02_00044.png</key>
 			<dict>
 				<key>width</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>height</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>originalWidth</key>
-				<integer>477</integer>
+				<integer>286</integer>
 				<key>originalHeight</key>
-				<integer>479</integer>
+				<integer>287</integer>
 				<key>x</key>
-				<integer>3339</integer>
+				<integer>2002</integer>
 				<key>y</key>
-				<integer>3353</integer>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00046.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>2288</integer>
+				<key>y</key>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00048.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>2574</integer>
+				<key>y</key>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00050.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>2860</integer>
+				<key>y</key>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00052.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>3146</integer>
+				<key>y</key>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00054.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>3432</integer>
+				<key>y</key>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00056.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>3718</integer>
+				<key>y</key>
+				<integer>1148</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00058.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>0</integer>
+				<key>y</key>
+				<integer>1435</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00060.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>286</integer>
+				<key>y</key>
+				<integer>1435</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00062.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>572</integer>
+				<key>y</key>
+				<integer>1435</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00064.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>858</integer>
+				<key>y</key>
+				<integer>1435</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00066.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>1144</integer>
+				<key>y</key>
+				<integer>1435</integer>
+				<key>offsetX</key>
+				<real>0</real>
+				<key>offsetY</key>
+				<real>0</real>
+			</dict>
+			<key>firework_02_00068.png</key>
+			<dict>
+				<key>width</key>
+				<integer>286</integer>
+				<key>height</key>
+				<integer>287</integer>
+				<key>originalWidth</key>
+				<integer>286</integer>
+				<key>originalHeight</key>
+				<integer>287</integer>
+				<key>x</key>
+				<integer>1430</integer>
+				<key>y</key>
+				<integer>1435</integer>
 				<key>offsetX</key>
 				<real>0</real>
 				<key>offsetY</key>

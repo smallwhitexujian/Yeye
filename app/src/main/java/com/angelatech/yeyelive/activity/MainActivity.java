@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity {
     private void setView() {
         drawable = ContextCompat.getDrawable(this, R.drawable.btn_navigation_bar_hot_n);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        mainEnter = new MainEnter(MainActivity.this);
+        mainEnter = new MainEnter(this);
         commonAdapter = new CommonAdapter<Map>(this, roomListData, R.layout.item_room) {
             @Override
             public void convert(ViewHolder helper, final Map item, final int position) {
@@ -226,7 +226,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             };
-            ChatRoom chatRoom = new ChatRoom(MainActivity.this);
+            ChatRoom chatRoom = new ChatRoom(this);
             chatRoom.loadGiftList(CommonUrlConfig.PropList, userModel.token, callback);
         }
     }
@@ -292,7 +292,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void clearTabTextSize() {
-        final float textSize = DisplayTool.dip2px(MainActivity.this, 14);
+        final float textSize = DisplayTool.dip2px(this, 14);
         hotTab.setTextSize(textSize);
         followTab.setTextSize(textSize);
     }

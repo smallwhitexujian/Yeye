@@ -431,7 +431,6 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                 player_play_btn.setImageResource(R.drawable.btn_playback_stop);
                 break;
             case VideoPlayer.MSG_PLAYER_STOP:
-
                 player_play_btn.setImageResource(R.drawable.btn_playback_play);
                 break;
             case VideoPlayer.MSG_PLAYER_PAUSE:
@@ -495,10 +494,10 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                 break;
             case MSG_REPORT_SUCCESS:
                 boolReport = true;
-                ToastUtils.showToast(PlayActivity.this, getString(R.string.userinfo_dialog_report_suc));
+                ToastUtils.showToast(this, getString(R.string.userinfo_dialog_report_suc));
                 break;
             case MSG_REPORT_ERROR:
-                ToastUtils.showToast(PlayActivity.this, getString(R.string.userinfo_dialog_report_faild));
+                ToastUtils.showToast(this, getString(R.string.userinfo_dialog_report_faild));
                 break;
             case VideoPlayer.MSG_PLAYER_BUFFER_START:
                 //ToastUtils.showToast(PlayActivity.this,"开始缓存");
