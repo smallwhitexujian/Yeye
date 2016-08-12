@@ -81,8 +81,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         radioButton_female = (RadioButton) findViewById(R.id.radio_user_female);
 
         mObtain = new PictureObtain();
-        CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-        model = cacheDataManager.loadUser();
+        model = CacheDataManager.getInstance().loadUser();
         tv_submit.setOnClickListener(this);
         user_head_photo.setOnClickListener(this);
 

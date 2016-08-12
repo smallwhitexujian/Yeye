@@ -1,5 +1,5 @@
 {
-  "content_scale": 0.5,
+  "content_scale": 0.3,
   "armature_data": [
     {
       "strVersion": "1.6.0.0",
@@ -13872,11 +13872,9 @@
     }
   ],
   "config_file_path": [
-    "firework_01_40.plist",
-    "firework_01_41.plist"
+    "firework_01_40.plist"
   ],
   "config_png_path": [
-    "firework_01_40.png",
-    "firework_01_41.png"
+    "firework_01_40.png"
   ]
 }

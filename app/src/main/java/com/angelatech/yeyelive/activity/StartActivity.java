@@ -37,8 +37,6 @@ public class StartActivity extends BaseActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_start);
         init();
-
-
     }
 
     @Override

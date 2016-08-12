@@ -189,8 +189,8 @@ public class UserInfoActivity extends HeaderBaseActivity {
                 case CommonResultCode.SET_ADD_PHOTO_CAMERA:
                     //拍照
                     distUri = mObtain.obtainUrl();
-                    mObtain.notifyChange(this, mObtain.getUri(UserInfoActivity.this));
-                    mObtain.cropBig(UserInfoActivity.this, mObtain.getUri(UserInfoActivity.this), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 400, 400);
+                    mObtain.notifyChange(this, mObtain.getUri(this));
+                    mObtain.cropBig(this, mObtain.getUri(this), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 400, 400);
                     break;
                 case CommonResultCode.SET_ADD_PHOTO_ALBUM:
                     //从相册获取

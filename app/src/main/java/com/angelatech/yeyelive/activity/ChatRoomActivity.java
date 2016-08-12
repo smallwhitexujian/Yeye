@@ -522,38 +522,43 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
                     }
 
-                    if (giftModel.giftid == 2) {
-                        Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
-                        cocos2dxGiftModel.aniName = "firework_01_4";
-                        cocos2dxGiftModel.imagePath = "firework_01_40.png";
-                        cocos2dxGiftModel.plistPath = "firework_01_40.plist";
-                        cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
-                        int x = ScreenUtils.getScreenWidth(this) / 2;
-                        int y = ScreenUtils.getScreenHeight(this) / 2;
-                        callFragment.play(cocos2dxGiftModel, x, y);
+                    switch (giftModel.giftid) {
+                        case 2: //烟花效果
+                            for (int m = 0; m < gift_Num; m++) {
+                                Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "firework_01_4";
+                                cocos2dxGiftModel.imagePath = "firework_01_40.png";
+                                cocos2dxGiftModel.plistPath = "firework_01_40.plist";
+                                cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
+                                int x = ScreenUtils.getScreenWidth(App.getInstance()) / 2;
+                                int y = ScreenUtils.getScreenHeight(App.getInstance()) / 2;
+                                callFragment.play(cocos2dxGiftModel, x, y);
+                            }
+                            break;
+                        case 36: //飞机效果
+                            Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
+                            cocos2dxGiftModel.aniName = "FeiJi";
+                            cocos2dxGiftModel.imagePath = "FeiJi0.png";
+                            cocos2dxGiftModel.plistPath = "FeiJi0.plist";
+                            cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
+                            int x = ScreenUtils.getScreenWidth(App.getInstance()) / 2;
+                            int y = ScreenUtils.getScreenHeight(App.getInstance()) / 2;
+                            callFragment.play(cocos2dxGiftModel, x, y);
+                            break;
+                        default:
+                            //礼物特效
+                            GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);
+                            GiftAnimationModel giftaModel = new GiftAnimationModel();
+                            if (giftModel.from != null) {
+                                giftaModel.userheadpoto = giftModel.from.headphoto;
+                                giftaModel.from_uname = giftModel.from.name;
+                            }
+                            giftaModel.giftmodel = giftmodelInfo;
+                            giftaModel.giftnum = gift_Num;
+                            callFragment.addGifAnimation(giftaModel);
+                            break;
                     }
 
-                    if (giftModel.giftid == 36) {
-                        Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
-                        cocos2dxGiftModel.aniName = "FeiJi";
-                        cocos2dxGiftModel.imagePath = "FeiJi0.png";
-                        cocos2dxGiftModel.plistPath = "FeiJi0.plist";
-                        cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
-                        int x = ScreenUtils.getScreenWidth(this) / 2;
-                        int y = ScreenUtils.getScreenHeight(this) / 2;
-                        callFragment.play(cocos2dxGiftModel, x, y);
-                    }
-
-                    GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);
-                    //礼物特效
-                    GiftAnimationModel giftaModel = new GiftAnimationModel();
-                    if (giftModel.from != null) {
-                        giftaModel.userheadpoto = giftModel.from.headphoto;
-                        giftaModel.from_uname = giftModel.from.name;
-                    }
-                    giftaModel.giftmodel = giftmodelInfo;
-                    giftaModel.giftnum = gift_Num;
-                    callFragment.addGifAnimation(giftaModel);
                     ChatLineModel chatLineModel = new ChatLineModel();
                     chatLineModel.giftmodel = giftModel;
                     chatLineModel.type = 0;
@@ -570,8 +575,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     jsonkicking = new JSONObject((String) msg.obj);
                     if (jsonkicking.getInt("code") == 0 && jsonkicking.getJSONObject("from") != null) {
                         ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.you_are_invited_out_of_the_room));
-                        finish();
-
+                        exitRoom();
                     } else if (jsonkicking.getInt("code") == GlobalDef.NO_PERMISSION_OPE_1009) {
                         ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.not_font));
                     }
@@ -709,15 +713,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             serviceManager.quitRoom();
             serviceManager = null;
         }
-        if (App.roomModel != null && App.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+        if (!liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.destoryPlay();
         } else {
             MediaCenter.destoryLive();
         }
         App.mChatlines.clear();
         App.roomModel = new RoomModel();
-        userModel = null;
-        liveUserModel = null;
         boolCloseRoom = true;
         App.chatRoomApplication = null;
     }

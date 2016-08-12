@@ -426,12 +426,14 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         OnlineListModel onlineListModel = new OnlineListModel();
         onlineListModel.isv = liveUserModel.isv;
         onlineListModel.uid = Integer.parseInt(liveUserModel.userid);
         onlineListModel.name = liveUserModel.nickname;
         //onlineListModel.sex = Integer.parseInt(chatRoomInstance.liveUserModel.sex);
         onlineListModel.headphoto = liveUserModel.headurl;
+        PopLinkData.clear();
         PopLinkData.add(onlineListModel);
         roomPopSpinner.setAdapter(PopAdapter);
         PopAdapter.add(onlineListModel);
@@ -744,9 +746,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case MSG_OPEN_GIFT_LAYOUT:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
-//                if (PopAdapter != null) {
-//                    PopAdapter.notifyDataSetChanged();
-//                }
                 BasicUserInfoModel userInfoModel = (BasicUserInfoModel) msg.obj;
                 setSpinnerItemSelectedByValue(roomPopSpinner, userInfoModel.nickname);
                 break;

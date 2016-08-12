@@ -62,7 +62,7 @@ public class SettingActivity extends HeaderBaseActivity {
             bindWeichatLayout, clearCacheLayout,
             feedbackLayout, aboutLayout, blacklistLayout, layout_change_password;
 
-    private HttpFunction settingFunction = new HttpFunction(SettingActivity.this);
+    private HttpFunction settingFunction = null;
     private BasicUserInfoDBModel userInfo;
 
     @Override
@@ -93,16 +93,11 @@ public class SettingActivity extends HeaderBaseActivity {
 
     private void initView() {
         userInfo = CacheDataManager.getInstance().loadUser();
+        settingFunction = new HttpFunction(this);
         headerLayout.showTitle(getString(R.string.setting_title));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
 
         notifyTurn = (ImageView) findViewById(R.id.notify_turn);
-
         bindQQ = (TextView) findViewById(R.id.bind_qq);
         bindQQLayout = (LinearLayout) findViewById(R.id.bind_qq_layout);
 
@@ -145,7 +140,9 @@ public class SettingActivity extends HeaderBaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bind_phone_layout:
-                StartActivityHelper.jumpActivityDefault(this, PhoneBindActivity.class);
+                if (App.loginPhone == null) {
+                    StartActivityHelper.jumpActivityDefault(this, PhoneBindActivity.class);
+                }
                 break;
             case R.id.bind_qq_layout:
                 new QQProxy(this, uiHandler).bind();
@@ -224,7 +221,6 @@ public class SettingActivity extends HeaderBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
     private void load() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
