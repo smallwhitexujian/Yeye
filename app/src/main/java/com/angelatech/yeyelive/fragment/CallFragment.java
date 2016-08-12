@@ -134,7 +134,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     public static final Object lock = new Object();
     private ChatRoom chatRoom;
     //cocos2d
-    private FrameLayout giftLayout ;
+    private FrameLayout giftLayout;
     private Cocos2dxView cocos2dxView = new Cocos2dxView();
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
 
@@ -321,12 +321,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     }
 
     //初始化cocos
-    private void initCocos2dx(){
+    private void initCocos2dx() {
         //coco2动画SurfaceView
         cocos2dxView.onCreate(getActivity(), 0);
         cocos2dxView.setScaleInfo(true, 0, 0, 0);
         giftLayout = cocos2dxView.getFrameLayout();
-        ((FrameLayout)controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
+        ((FrameLayout) controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
     }
 
     /**
@@ -404,9 +404,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     convertView = LayoutInflater.from(getActivity()).inflate(R.layout.spinner_item_layout, parent, false);
                     lbl = (TextView) convertView.findViewById(R.id.spinner_item_label);
                     convertView.setTag(lbl);
-                }
-                else{
-                    lbl =(TextView) convertView.getTag();
+                } else {
+                    lbl = (TextView) convertView.getTag();
                 }
                 lbl.setTextSize(18);
                 lbl.setText(PopLinkData.get(position).name);
@@ -510,21 +509,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 ly_toolbar.setVisibility(View.GONE);
                 break;
             case R.id.gift_send:
-                Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                cocos2dxGiftModel.aniName = "FeiJi";
-                cocos2dxGiftModel.imagePath = "FeiJi0.png";
-                cocos2dxGiftModel.plistPath = "FeiJi0.plist";
-                cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
-                Cocos2dxGift.Cocos2dxGiftControlModel control = new Cocos2dxGift.Cocos2dxGiftControlModel();
-                int x = getResources().getDisplayMetrics().widthPixels / 2;
-                int y = getResources().getDisplayMetrics().heightPixels / 2;
-                control.x = x;
-                control.y = y;
-                control.speedScale = 0.1f;
-                control.scale = 0.5f;
-                play(cocos2dxGiftModel,control);
-
-
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
                 OnlineListModel toPeople;
                 if (roomPopSpinner.getSelectedItem() != null) {
@@ -537,20 +521,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     ToastUtils.showToast(getActivity(), getActivity().getString(R.string.not_send_gift_me));
                     break;
                 }
-//                Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGiftModel();
-//                cocos2dxGiftModel.aniName = "firework_01_4";
-//                cocos2dxGiftModel.imagePath = "firework_01_40.png";
-//                cocos2dxGiftModel.plistPath = "firework_01_40.plist";
-//                cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
-//                int x = getResources().getDisplayMetrics().widthPixels / 2;
-//                int y = getResources().getDisplayMetrics().heightPixels / 2;
-//                play(cocos2dxGiftModel, x, y);
-
-
-
-
-
-//                callEvents.onSendGift(toPeople.uid, giftId, nNum);
+                callEvents.onSendGift(toPeople.uid, giftId, nNum);
                 giftView.setVisibility(View.GONE);
                 ly_toolbar.setVisibility(View.VISIBLE);
                 break;
@@ -1210,9 +1181,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
     }
 
-    public void play(Cocos2dxGift.Cocos2dxGiftModel giftModel, Cocos2dxGift.Cocos2dxGiftControlModel control){
-//        int x = getActivity().getResources().getDisplayMetrics().widthPixels /2;
-//        int y = getActivity().getResources().getDisplayMetrics().heightPixels /2 ;
-        cocos2dxGift.play(cocos2dxView,giftModel,control);
+    public void play(Cocos2dxGift.Cocos2dxGiftModel giftModel) {
+        cocos2dxGift.play(cocos2dxView, giftModel);
     }
 }

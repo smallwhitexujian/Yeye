@@ -100,6 +100,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private TimeCount timeCount;
     private long BigData = 0;
     private boolean isbigData = false;
+    private boolean isStart = false;
+    private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -529,12 +531,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         cocos2dxGiftModel.plistPath = "firework_01_40.plist";
                         cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
 
-                        Cocos2dxGift.Cocos2dxGiftControlModel control = new Cocos2dxGift.Cocos2dxGiftControlModel();
-                        int x = ScreenUtils.getScreenWidth(this) / 2;
-                        int y = ScreenUtils.getScreenHeight(this) / 2;
-                        control.x = x;
-                        control.y = y;
-                        callFragment.play(cocos2dxGiftModel,control);
+                        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                        bigGift.add(cocos2dxGiftModel);
+                        callFragment.play(cocos2dxGiftModel);
+                        startPlayCocosGift();
                     }
 
                     if (giftModel.giftid == 36) {
@@ -543,13 +544,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         cocos2dxGiftModel.imagePath = "FeiJi0.png";
                         cocos2dxGiftModel.plistPath = "FeiJi0.plist";
                         cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
-
-                        Cocos2dxGift.Cocos2dxGiftControlModel control = new Cocos2dxGift.Cocos2dxGiftControlModel();
-                        int x = ScreenUtils.getScreenWidth(this) / 2;
-                        int y = ScreenUtils.getScreenHeight(this) / 2;
-                        control.x = x;
-                        control.y = y;
-                        callFragment.play(cocos2dxGiftModel,control);
+                        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                        bigGift.add(cocos2dxGiftModel);
+                        callFragment.play(cocos2dxGiftModel);
+                        startPlayCocosGift();
                     }
 
                     GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);
@@ -587,6 +586,33 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
         }
+    }
+
+    /**
+     * 播放大礼物特效
+     */
+    private void startPlayCocosGift() {
+//        for (int i = 0; i < bigGift.size(); i++) {
+//            callFragment.play(bigGift.get(i));
+//            bigGift.remove(i);
+//        }
+//        if (!isStart) {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    isStart = true;
+//                    for (int i = 0; i < bigGift.size(); i++) {
+//                        callFragment.play(bigGift.get(i));
+//                        bigGift.remove(i);
+//                    }
+//                    try {
+//                        Thread.sleep(2000);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        }
     }
 
     /**
