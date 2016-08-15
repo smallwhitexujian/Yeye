@@ -48,8 +48,8 @@ import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
+import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
-import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -531,12 +531,17 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case R.id.btn_share:
                 //facebook分享
                 //分享组件
-                ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
-                builder.setShareContent(getString(R.string.share_title), App.roomModel.getName(),
+//                ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
+//                builder.setShareContent(getString(R.string.share_title), App.roomModel.getName(),
+//                        CommonUrlConfig.shareURL,
+//                        liveUserModel.headurl);
+//                builder.RegisterCallback(null);
+//                builder.create().show();
+
+                FbShare fbShare = new FbShare(getActivity(), listener);
+                fbShare.postStatusUpdate(getString(R.string.share_title), App.roomModel.getName(),
                         CommonUrlConfig.shareURL,
                         liveUserModel.headurl);
-                builder.RegisterCallback(null);
-                builder.create().show();
                 break;
             case R.id.img_head:
                 BasicUserInfoModel searchItemModel = new BasicUserInfoModel();

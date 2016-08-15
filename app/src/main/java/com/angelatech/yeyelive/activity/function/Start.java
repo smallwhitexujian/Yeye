@@ -15,8 +15,8 @@ import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.will.common.tool.DeviceTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.will.common.tool.DeviceTool;
 
 
 /**

@@ -33,7 +33,6 @@ import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.thirdShare.SinaShare;
-import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ScreenUtils;
@@ -257,11 +256,14 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                     break;
                 case R.id.btn_share:
                     //分享组件
-                    ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(PlayActivity.this, getSupportFragmentManager(), null);
-                    builder.setShareContent("【" + getString(R.string.app_name) + "】", String.format(getString(R.string.shareDescription), videoModel.nickname),
-                            CommonUrlConfig.shareURL + "?uid=" + videoModel.userid + "&videoid=" + videoModel.videoid,
-                            videoModel.headurl);
-                    builder.create().show();
+//                    ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(PlayActivity.this, getSupportFragmentManager(), null);
+//                    builder.setShareContent("【" + getString(R.string.app_name) + "】", String.format(getString(R.string.shareDescription), videoModel.nickname),
+//                            CommonUrlConfig.shareURL + "?uid=" + videoModel.userid + "&videoid=" + videoModel.videoid,
+//                            videoModel.headurl);
+//                    builder.create().show();
+                    FbShare fbshare = new FbShare(PlayActivity.this, listener);
+                    fbshare.postStatusUpdate("【" + getString(R.string.app_name) + "】", String.format(getString(R.string.shareDescription),videoModel.nickname)
+                            , CommonUrlConfig.shareURL + "?uid=" + videoModel.userid + "&videoid=" + videoModel.videoid, videoModel.headurl);
                     break;
                 case R.id.tv_report:
                     if (!boolReport) {

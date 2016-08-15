@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="@color/color_f78a2b"
+                    android:textColor="@color/main_red"
                     android:textSize="18sp" />
 
                 <TextView
@@ -219,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="@color/color_f78a2b"
+                    android:textColor="@color/main_red"
                     android:textSize="18sp" />
 
                 <TextView
@@ -321,7 +321,7 @@
                     android:background="@drawable/circle_coner_ctl_live_bg"
                     android:gravity="center"
                     android:text="@string/userinfo_dialog_live"
-                    android:textColor="@color/color_ffffff"
+                    android:textColor="@color/main_red"
                     android:textSize="16sp"
                     android:visibility="gone" />
             </LinearLayout>

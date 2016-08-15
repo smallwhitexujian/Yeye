@@ -1,7 +1,7 @@
 package com.angelatech.yeyelive.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -34,7 +34,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     private MeImageGetter meImageGetter = null;
     private ChatRoom chatRoom;
     private IShowUser iShowUser;
-    private Activity activity;
 
     public ChatLineAdapter(Context context, List<T> data, IShowUser iShowUser) {
         this.mContext = context;
@@ -42,7 +41,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         this.iShowUser = iShowUser;
         meImageGetter = new MeImageGetter(context);
         chatRoom = new ChatRoom(mContext);
-        activity = (Activity) context;
     }
 
     public void setmData(List<T> data){
@@ -174,7 +172,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             }
         } else if (chatline.type == 9) {
             //进入房间系统提示
-            holder.tv_content.append(Html.fromHtml("<font color='#00c0ff'>" + chatline.message + "</font>"));
+            holder.tv_content.append(Html.fromHtml("<font color='"+ ContextCompat.getColor(mContext,R.color.color_e0b66c)+"'>" + chatline.message + "</font>"));
 
         }
         return convertView;

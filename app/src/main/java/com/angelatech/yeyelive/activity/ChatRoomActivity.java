@@ -66,6 +66,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 视频直播主界面
@@ -100,8 +102,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private TimeCount timeCount;
     private long BigData = 0;
     private boolean isbigData = false;
+
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
+    private Timer timer = new Timer(); //特效礼物
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,14 +240,25 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         };
         if (!isCloseLiveDialog) {
             isCloseLiveDialog = true;
+            String title;
+            boolean isShowSave;
             if (liveUserModel.userid.equals(userModel.userid)) {
-                boolean isShowSave = true;
-                if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+                if (beginTime == 0){//直播预览结束直播
                     isShowSave = false;
+                    title = getString(R.string.finish_room);
+                }else {
+                    if ((DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
+                        isShowSave = true;
+                        title = getString(R.string.finish_room);
+                    } else {
+                        isShowSave = false;//直播时间不足一分钟
+                        title = getString(R.string.live_time_short);
+                    }
                 }
-                dialog.dialog(this, getString(R.string.finish_room), true, isShowSave, callback);
+                dialog.dialog(this, title, true, isShowSave, callback);
             } else {
-                dialog.dialog(this, getString(R.string.quit_room), true, false, callback);
+                isShowSave = false;
+                dialog.dialog(this, getString(R.string.quit_room), true, isShowSave, callback);
             }
         }
     }
@@ -524,31 +539,74 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
                     }
 
-                    if (giftModel.giftid == 2) {
-                        Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                        cocos2dxGiftModel.aniName = "firework_01_4";
-                        cocos2dxGiftModel.imagePath = "firework_01_40.png";
-                        cocos2dxGiftModel.plistPath = "firework_01_40.plist";
-                        cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
-
-                        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-                        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-                        bigGift.add(cocos2dxGiftModel);
-                        callFragment.play(cocos2dxGiftModel);
-                        startPlayCocosGift();
-                    }
-
-                    if (giftModel.giftid == 36) {
-                        Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                        cocos2dxGiftModel.aniName = "FeiJi";
-                        cocos2dxGiftModel.imagePath = "FeiJi0.png";
-                        cocos2dxGiftModel.plistPath = "FeiJi0.plist";
-                        cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
-                        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-                        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-                        bigGift.add(cocos2dxGiftModel);
-                        callFragment.play(cocos2dxGiftModel);
-                        startPlayCocosGift();
+                    switch (giftModel.giftid) {
+                        case 37:
+                            Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "firework_01_4";
+                                cocos2dxGiftModel.imagePath = "firework_01_40.png";
+                                cocos2dxGiftModel.plistPath = "firework_01_40.plist";
+                                cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    if (giftTask == null) {
+                                        giftTask = new TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                startPlayBigGift();
+                                            }
+                                        };
+                                        timer.schedule(giftTask, 0, 8000);
+                                    } else {
+                                        timer.schedule(giftTask, 0, 8000);
+                                    }
+                                }
+                            }
+                            break;
+                        case 2:
+                            Cocos2dxGift.Cocos2dxGiftModel cocosGiftModel;
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocosGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocosGiftModel.aniName = "firework_01_4";
+                                cocosGiftModel.imagePath = "firework_01_40.png";
+                                cocosGiftModel.plistPath = "firework_01_40.plist";
+                                cocosGiftModel.exportJsonPath = "firework_01_4.ExportJson";
+                                cocosGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocosGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocosGiftModel.scale = 2f;
+                                bigGift.add(cocosGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    if (giftTask == null) {
+                                        giftTask = new TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                startPlayBigGift();
+                                            }
+                                        };
+                                        timer.schedule(giftTask, 0, 8000);
+                                    } else {
+                                        timer.schedule(giftTask, 0, 8000);
+                                    }
+                                }
+                            }
+                            break;
+                        case 200000: //飞机
+                            Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                            cocosPlaneModel.aniName = "FeiJi";
+                            cocosPlaneModel.imagePath = "FeiJi0.png";
+                            cocosPlaneModel.plistPath = "FeiJi0.plist";
+                            cocosPlaneModel.exportJsonPath = "FeiJi.ExportJson";
+                            cocosPlaneModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                            cocosPlaneModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                            cocosPlaneModel.scale = 0.8f;
+                            cocosPlaneModel.speedScale = 0.5f;
+                            break;
                     }
 
                     GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);
@@ -589,30 +647,24 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     /**
-     * 播放大礼物特效
+     * 大礼物特效 定时器
      */
-    private void startPlayCocosGift() {
-//        for (int i = 0; i < bigGift.size(); i++) {
-//            callFragment.play(bigGift.get(i));
-//            bigGift.remove(i);
-//        }
-//        if (!isStart) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    isStart = true;
-//                    for (int i = 0; i < bigGift.size(); i++) {
-//                        callFragment.play(bigGift.get(i));
-//                        bigGift.remove(i);
-//                    }
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }).start();
-//        }
+    private TimerTask giftTask = new TimerTask() {
+        @Override
+        public void run() {
+            startPlayBigGift();
+        }
+    };
+
+    private void startPlayBigGift() {
+        if (bigGift.size() > 0) {
+            callFragment.play(bigGift.get(0));
+            bigGift.remove(0);
+        } else {
+            isStart = false;
+            giftTask.cancel();
+            giftTask = null;
+        }
     }
 
     /**
@@ -742,12 +794,17 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             serviceManager.quitRoom();
             serviceManager = null;
         }
-        if (!liveUserModel.userid.equals(userModel.userid)) {
+        if (liveUserModel != null && userModel != null &&
+                !liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.destoryPlay();
         } else {
             MediaCenter.destoryLive();
         }
         App.mChatlines.clear();
+        if (giftTask != null) {
+            giftTask.cancel();
+            giftTask = null;
+        }
         App.roomModel = new RoomModel();
         boolCloseRoom = true;
         App.chatRoomApplication = null;

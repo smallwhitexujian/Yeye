@@ -44,6 +44,7 @@ public class ProfileActivity extends HeaderBaseActivity {
 
     private final int LEN_LIMIT = 24;
     private final int MSG_INPUT_LIMIT = 1;
+    private final int MSG_EMAIL_INPUT = 2;
 
     private SimpleDraweeView user_head_photo;
     private TextView tv_input_limit;
@@ -53,7 +54,8 @@ public class ProfileActivity extends HeaderBaseActivity {
     private int user_gender = 1;
     private String user_name, user_mail;
     private RadioButton radioButton_male, radioButton_female;
-    private boolean upload_photo = false, check_gender = false, input_name = false;
+    private boolean upload_photo = false,
+            check_gender = false, input_name = false, input_email = false;
 
     private PictureObtain mObtain;
     private Uri distUri;
@@ -93,7 +95,7 @@ public class ProfileActivity extends HeaderBaseActivity {
             }
         });
         edit_user_name.addTextChangedListener(textWatcher);
-
+        edit_user_mail.addTextChangedListener(emailWatcher);
         qiNiuUpload = new QiniuUpload(this);
     }
 
@@ -131,13 +133,6 @@ public class ProfileActivity extends HeaderBaseActivity {
         LoadingDialog.showLoadingDialog(this);
         user_name = edit_user_name.getText().toString();
         user_mail = edit_user_mail.getText().toString();
-        if (!user_mail.isEmpty()) {
-            if (!VerificationUtil.isEmail(user_mail)) {
-                LoadingDialog.cancelLoadingDialog();
-                ToastUtils.showToast(this, R.string.user_info_mail_error);
-                return;
-            }
-        }
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);
         map.put("userid", model.userid);
@@ -175,8 +170,28 @@ public class ProfileActivity extends HeaderBaseActivity {
         }
     };
 
+    /*监听输入事件*/
+    private TextWatcher emailWatcher = new TextWatcher() {
+        private CharSequence temp;
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            temp = charSequence;
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            uiHandler.obtainMessage(MSG_EMAIL_INPUT, edit_user_mail.getText().toString()).sendToTarget();
+        }
+    };
+
+
     private void setBackground() {
-        if (input_name && check_gender) {
+        if (input_name && check_gender && input_email) {
             tv_submit.setBackgroundResource(R.drawable.common_btn_bg);
             tv_submit.setEnabled(true);
             tv_submit.setTextColor(0xFF222222);
@@ -334,6 +349,10 @@ public class ProfileActivity extends HeaderBaseActivity {
                 } else {
                     input_name = false;
                 }
+                setBackground();
+                break;
+            case MSG_EMAIL_INPUT:
+                input_email = VerificationUtil.isEmail(msg.obj.toString());
                 setBackground();
                 break;
         }

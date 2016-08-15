@@ -159,7 +159,7 @@
     <string name="setting_clear_cache_dialog">清除缓存</string>
     <!--关于我们-->
     <string name="about_title">关于我们</string>
-    <string name="copyright">Copyright 2016</string>
+    <string name="copyright">\@2016 Angela Technology Co., Limited</string>
     <string name="lisence_hint">直播用户许可服务协议</string>
     <string name="comp">Angela Technology Co., Ltd.</string>
     <string name="versionCode">版本号</string>
@@ -243,7 +243,7 @@
     <string name="room_net_toast">网络状况不佳！</string>
     <string name="room_net_toast_error">你的网络睡着了</string>
     <string name="not_weibo">您未安装微博</string>
-    <string name="me_online">我来了!</string>
+    <string name="me_online">进入房间</string>
     <string name="not_font">没有权限</string>
     <string name="me">我</string>
     <string name="login_room_fail">登陆房间失败</string>
@@ -278,7 +278,7 @@
     <string name="login_text_desc">用户条款</string>
     <string name="btn_login">登录</string>
     <string name="btn_login_facebook">Facebook 登录</string>
-    <string name="room_system_message" formatted="false">欢迎 %s，一起在这里享受直播吧!</string>
+    <string name="room_system_message" formatted="false">欢迎 %s，来到 Yeye 直播!</string>
     <string name="share_to">分享到: </string>
     <string name="microom_code_1">用户未找到</string>
     <string name="microom_code_1001">解包错误</string>
@@ -344,4 +344,11 @@
     <string name="change_password_no_permissions">第三方登录不能修改密码</string>
     <string name="tickets">门票:</string>
     <string name="Ticke_sales">门票收入</string>
+
+    <string name="dialog_tickets">本场直播需要购买门票</string>
+    <string name="dialog_go_play">马上去支付</string>
+    <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
+    <string name="save_live_video">保存视频</string>
+    <string name="other_place_login_kick_out">其它地方登录</string>
+    <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
 </resources>

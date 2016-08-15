@@ -121,7 +121,7 @@
     <string name="diamond">My Diamond</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
-    <string name="intimacy">Intimacy</string>
+    <string name="intimacy">Intimacy:</string>
     <string name="ID">ID:</string>
     <string name="default_sign">There is no signature from this user.</string>
     <!--充值-->
@@ -163,13 +163,13 @@
     <string name="setting_clear_cache_dialog">Clear Cache</string>
     <!--关于我们-->
     <string name="about_title">About Us</string>
-    <string name="copyright">Copyright 2016</string>
     <string name="lisence_hint">Agreement of Broadcasting</string>
     <string name="comp">Angela Technology Co., Limited</string>
     <string name="versionCode">Version</string>
     <string name="about_us_qq">Business Cooperation:yeyelivepartner@gmail.com</string>
     <string name="about_us_secret_sign">Title: Yeye Live Cooperation</string>
     <string name="lisence_title">User Agreement</string>
+    <string name="copyright">\@2016 Angela Technology Co., Limited</string>
     <!--绑定-->
     <!--手机绑定-->
     <string name="phone_bind_title">Connect to Phone</string>
@@ -245,7 +245,7 @@
     <string name="room_net_toast">Network is Unstable</string>
     <string name="room_net_toast_error">Your Network is Snapping.</string>
     <string name="not_weibo">You didn\'t install Weibo.</string>
-    <string name="me_online">I\'m coming!</string>
+    <string name="me_online">Has joined</string>
     <string name="not_font">No Privilege</string>
     <string name="me">Me</string>
     <string name="login_room_fail">Login Room Failed</string>
@@ -354,4 +354,5 @@
     <string name="save_live_video">保存视频</string>
     <string name="other_place_login_kick_out">其它地方登录</string>
     <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
+    <string name="live_time_short">直播时间小于一分钟无法保存，确定结束吗?</string>
 </resources>

@@ -96,13 +96,5 @@ public class ChatManager {
      */
     public void AddChatMessage(final ChatLineModel chatLineModel) {
         App.mChatlines.add(chatLineModel);
-//        int maxSize = 500;
-//        if (App.mChatlines.size() >= maxSize) {
-//            for (int i = 0; i < App.mChatlines.size(); i++) {
-//                if (i < (maxSize / 2)) {
-//                    App.mChatlines.remove(i);
-//                }
-//            }
-//        }
     }
 }
