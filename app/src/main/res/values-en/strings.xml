@@ -321,7 +321,7 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_changes">Confirm</string>
-    <string name="can_not_empty">Password can’t be empty</string>
+    <string name="can_not_empty">Password can\'t be empty</string>
     <string name="set_password">Set Passwrod</string>
     <string name="set_password_complete">Done</string>
     <string name="set_password_skip">Skip</string>
@@ -350,4 +350,5 @@
     <string name="save_live_video">Save the live show.</string>
     <string name="other_place_login_kick_out">Loged in another phone</string>
     <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>
+    <string name="live_time_short">Live show less than 1 min can\'t be saved ,are you sure to end?</string>
 </resources>

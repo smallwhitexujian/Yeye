@@ -37,7 +37,8 @@
             android:id="@+id/ly_live"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/txt_live_time"
@@ -130,15 +131,21 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/view_null"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true" />
+
     <Button
         android:id="@+id/btn_close"
         android:layout_width="match_parent"
         android:layout_height="41dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_above="@id/view_null"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/start_live_btn_bg"
         android:text="@string/back_home"
         android:textColor="#FEFEFE" />
+
 </RelativeLayout>

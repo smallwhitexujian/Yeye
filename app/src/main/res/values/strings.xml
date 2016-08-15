@@ -324,7 +324,7 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_changes">Confirm</string>
-    <string name="can_not_empty">Password can’t be empty</string>
+    <string name="can_not_empty">Password can\'t be empty</string>
     <string name="set_password">Set Passwrod</string>
     <string name="set_password_complete">Done</string>
     <string name="set_password_skip">Skip</string>
@@ -346,13 +346,13 @@
     <string name="video_delete_error">Delete Failed</string>
     <string name="change_password_no_permissions">Sign in with your password can not be modified</string>
 
-    <string name="dialog_tickets">本场直播需要购买门票</string>
-    <string name="dialog_go_play">马上去支付</string>
-    <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
+    <string name="dialog_tickets">This live show charge the coins for ticket.</string>
+    <string name="dialog_go_play">Pay Now</string>
+    <string name="dialog_coin_lack_of_balance">Your coins is not enough, top up now</string>
     <string name="tickets">tickets:</string>
     <string name="Ticke_sales">Ticket Sales</string>
-    <string name="save_live_video">保存视频</string>
-    <string name="other_place_login_kick_out">其它地方登录</string>
-    <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
-    <string name="live_time_short">直播时间小于一分钟无法保存，确定结束吗?</string>
+    <string name="save_live_video">Save the live show.</string>
+    <string name="other_place_login_kick_out">Loged in another phone</string>
+    <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>
+    <string name="live_time_short">Live show less than 1 min can\'t be saved ,are you sure to end?</string>
 </resources>
