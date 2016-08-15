@@ -568,34 +568,34 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 }
                             }
                             break;
-                        case 2:
-                            Cocos2dxGift.Cocos2dxGiftModel cocosGiftModel;
-                            for (int m = 0; m < gift_Num; m++) {
-                                cocosGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                                cocosGiftModel.aniName = "firework_01_4";
-                                cocosGiftModel.imagePath = "firework_01_40.png";
-                                cocosGiftModel.plistPath = "firework_01_40.plist";
-                                cocosGiftModel.exportJsonPath = "firework_01_4.ExportJson";
-                                cocosGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-                                cocosGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-                                cocosGiftModel.scale = 2f;
-                                bigGift.add(cocosGiftModel);
-                                if (!isStart) {
-                                    isStart = true;
-                                    if (giftTask == null) {
-                                        giftTask = new TimerTask() {
-                                            @Override
-                                            public void run() {
-                                                startPlayBigGift();
-                                            }
-                                        };
-                                        timer.schedule(giftTask, 0, 8000);
-                                    } else {
-                                        timer.schedule(giftTask, 0, 8000);
-                                    }
-                                }
-                            }
-                            break;
+//                        case 2:
+//                            Cocos2dxGift.Cocos2dxGiftModel cocosGiftModel;
+//                            for (int m = 0; m < gift_Num; m++) {
+//                                cocosGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+//                                cocosGiftModel.aniName = "firework_01_4";
+//                                cocosGiftModel.imagePath = "firework_01_40.png";
+//                                cocosGiftModel.plistPath = "firework_01_40.plist";
+//                                cocosGiftModel.exportJsonPath = "firework_01_4.ExportJson";
+//                                cocosGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+//                                cocosGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+//                                cocosGiftModel.scale = 2f;
+//                                bigGift.add(cocosGiftModel);
+//                                if (!isStart) {
+//                                    isStart = true;
+//                                    if (giftTask == null) {
+//                                        giftTask = new TimerTask() {
+//                                            @Override
+//                                            public void run() {
+//                                                startPlayBigGift();
+//                                            }
+//                                        };
+//                                        timer.schedule(giftTask, 0, 8000);
+//                                    } else {
+//                                        timer.schedule(giftTask, 0, 8000);
+//                                    }
+//                                }
+//                            }
+//                            break;
                         case 200000: //飞机
                             Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
                             cocosPlaneModel.aniName = "FeiJi";

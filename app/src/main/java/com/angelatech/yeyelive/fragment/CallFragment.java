@@ -1102,10 +1102,12 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         @Override
         public void follow(String val) {
-            if (val != null && val.equals("0")) {
-                fragmentHandler.sendEmptyMessage(MSG_DO_FOLLOW);
-            } else {
-                fragmentHandler.sendEmptyMessage(MSG_CANCEL_FOLLOW);
+            if (!liveUserModel.userid.equals(userModel.userid)) {
+                if (val != null && val.equals("0")) {
+                    fragmentHandler.sendEmptyMessage(MSG_DO_FOLLOW);
+                } else {
+                    fragmentHandler.sendEmptyMessage(MSG_CANCEL_FOLLOW);
+                }
             }
         }
 
