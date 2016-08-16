@@ -514,16 +514,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 ly_toolbar.setVisibility(View.GONE);
                 break;
             case R.id.gift_send:
-                Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                cocos2dxGiftModel.aniName = "FeiJi";
-                cocos2dxGiftModel.imagePath = "FeiJi0.png";
-                cocos2dxGiftModel.plistPath = "FeiJi0.plist";
-                cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
-                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(getActivity()) / 2;
-                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(getActivity()) / 2;
-                play(cocos2dxGiftModel);
-
-
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
                 OnlineListModel toPeople;
                 if (roomPopSpinner.getSelectedItem() != null) {
