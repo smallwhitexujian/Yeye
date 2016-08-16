@@ -93,7 +93,6 @@
     <!---主页-->
     <string name="live_hot">热门</string>
     <string name="live_follow">关注</string>
-    <string name="title_activity_start_live">StartLiveActivity</string>
     <string name="live_hot_default_area">Yeye My</string>
     <!--通知栏-->
     <string name="notify_default_title">收到新消息</string>
@@ -140,6 +139,7 @@
     <string name="userinfo_user_sign">个性签名</string>
     <string name="userinfo_sign_unkonw">未填写</string>
     <string name="user_info_mail">邮箱</string>
+    <string name="user_info_hint_email">请输入邮箱地址</string>
     <string name="user_info_mail_error">邮箱格式错误</string>
     <!--设置-->
     <string name="setting_title">设置</string>
@@ -163,7 +163,7 @@
     <string name="lisence_hint">直播用户许可服务协议</string>
     <string name="comp">Angela Technology Co., Ltd.</string>
     <string name="versionCode">版本号</string>
-    <string name="about_us_qq">商务合作邮箱：yeyelivepartner@gmail.com</string>
+    <string name="about_us_qq">商务合作邮箱：bd@iamyeye.com</string>
     <string name="about_us_secret_sign">邮件名称：YEYE商务合作</string>
     <string name="lisence_title">用户许可及服务协议</string>
     <!--绑定-->
@@ -208,7 +208,7 @@
     <string name="feedback_edit_hint">请输入你想说的</string>
     <string name="feedback_phone_mail_prompt">你的手机号或邮箱，方便我们和你联系，只有工作人员知道</string>
     <string name="feedback_phone_mail_edit_hint">手机或邮箱</string>
-    <string name="feedback_communication">好的建议请发送给yeyelivesupport@gmail.com</string>
+    <string name="feedback_communication">好的建议请发送给support@iamyeye.com</string>
     <string name="no_data_no_info">没有数据</string>
     <string name="user_other">Otro</string>
     <string name="upload_photo_suc">图像上传成功</string>
