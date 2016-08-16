@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Yeye Live</string>
-    <string name="facebook_app_id">1735313646749357</string>
-    <string name="facebook_app_name">Yeye Live</string>
     <!-- header -->
     <string name="empty_header_str"></string>
     <!--Login-->
