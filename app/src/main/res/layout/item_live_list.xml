@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="1"
-                android:textColor="@color/color_fd836a"
+                android:textColor="@color/main_red"
                 android:textSize="18sp" />
 
             <TextView

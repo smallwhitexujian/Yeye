@@ -316,17 +316,18 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 break;
             case MSG_LOAD_STATUS:
                 if (loginUser != null && !loginUser.userid.equals(baseInfo.Userid)) {
-                    if (userInfoDialog.isNotice(isNoticeCode)) {
-                        ringBtn.setImageResource(R.drawable.btn_information_notification_n);
-                    } else {
-                        ringBtn.setImageResource(R.drawable.btn_information_notification_s);
-                    }
                     if (userInfoDialog.isFollow(isFollowCode)) {
+                        if (userInfoDialog.isNotice(isNoticeCode)) {
+                            ringBtn.setImageResource(R.drawable.btn_information_notification_n);
+                        } else {
+                            ringBtn.setImageResource(R.drawable.btn_information_notification_s);
+                        }
+                        ringBtn.setVisibility(View.VISIBLE);
                         attentionsBtn.setImageResource(R.drawable.btn_information_attention_s);
                     } else {
+                        ringBtn.setVisibility(View.GONE);
                         attentionsBtn.setImageResource(R.drawable.btn_information_attention_n);
                     }
-                    ringBtn.setVisibility(View.VISIBLE);
                     attentionsBtn.setVisibility(View.VISIBLE);
                 }
                 break;

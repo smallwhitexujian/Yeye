@@ -15,7 +15,6 @@
         android:visibility="gone"
         tools:ignore="UselessParent">
 
-
         <EditText
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
@@ -27,7 +26,6 @@
             android:maxLength="60"
             android:textColor="#FEFEFE"
             android:textColorHint="@color/color_fefefe" />
-
 
         <Button
             android:id="@+id/btn_start"
@@ -99,11 +97,17 @@
                     android:src="@drawable/btn_sign_on_share_wechat_n"
                     android:visibility="gone" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:text="share to"/>
+
                 <ImageView
                     android:id="@+id/btn_facebook"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_facebook_n" />

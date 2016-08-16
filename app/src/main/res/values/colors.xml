@@ -53,7 +53,7 @@
     <color name="color_10000000">#10000000</color>
     <color name="color_10ffffff">#10ffffff</color>
     <color name="color_20ffffff">#20ffffff</color>
-    <color name="color_F06B00">#F06B00</color>
+
     <color name="color_666666">#666666</color>
     <color name="color_cccccc">#cccccc</color>
 
@@ -131,6 +131,6 @@
     <color name="color_66000000">#66000000</color>
     <color name="color_ff666666">#FF666666</color>
     <color name="color_ff555555">#FF555555</color>
-
+    <color name="color_e0b66c">#e0b66c</color>
     <color name="color_eecc1b">#EECC1B</color>
 </resources>

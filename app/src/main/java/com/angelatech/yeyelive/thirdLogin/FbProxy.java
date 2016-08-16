@@ -139,8 +139,8 @@ public class FbProxy {
      */
     public void inviteFriend(Activity activity){
         String appLinkUrl, previewImageUrl;
-        appLinkUrl = "https://fb.me/1745967612350627";
-        previewImageUrl = "http://liveapi.iamyeye.com/upload/test.png";
+        appLinkUrl = "https://fb.me/1752029648411090";
+        previewImageUrl = "http://file.iamyeye.com/image/1.png";
         if (AppInviteDialog.canShow()) {
             AppInviteContent content = new AppInviteContent.Builder()
                     .setApplinkUrl(appLinkUrl)

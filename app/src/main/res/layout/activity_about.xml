@@ -29,8 +29,8 @@
         android:id="@+id/versionCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="40dp"
-        android:paddingBottom="27dp"/>
+        android:paddingBottom="27dp"
+        android:paddingTop="40dp" />
 
     <LinearLayout
         android:id="@+id/btn_agreement"
@@ -58,21 +58,29 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/about_us_qq"
         android:gravity="center"
         android:paddingBottom="10dp"
+        android:text="@string/about_us_qq"
         android:textColor="@color/color_9F9F9F" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/about_us_secret_sign"
         android:gravity="center"
-        android:paddingBottom="31dp"
+        android:paddingBottom="10dp"
+        android:text="@string/about_us_secret_sign"
         android:textColor="@color/color_9F9F9F" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="@string/copyright"
+        android:textColor="@color/color_9F9F9F"/>
 </LinearLayout>

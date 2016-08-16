@@ -97,7 +97,6 @@
     <!---主页-->
     <string name="live_hot">Popular</string>
     <string name="live_follow">Following</string>
-    <string name="title_activity_start_live">StartLiveActivity</string>
     <string name="live_hot_default_area">From Yeye Live</string>
     <!--通知栏-->
     <string name="notify_default_title">New Message</string>
@@ -121,7 +120,7 @@
     <string name="diamond">My Diamond</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
-    <string name="intimacy">Intimacy</string>
+    <string name="intimacy">Intimacy:</string>
     <string name="ID">ID:</string>
     <string name="default_sign">There is no signature from this user.</string>
     <!--充值-->
@@ -163,13 +162,13 @@
     <string name="setting_clear_cache_dialog">Clear Cache</string>
     <!--关于我们-->
     <string name="about_title">About Us</string>
-    <string name="copyright">Copyright 2016</string>
     <string name="lisence_hint">Agreement of Broadcasting</string>
     <string name="comp">Angela Technology Co., Limited</string>
     <string name="versionCode">Version</string>
-    <string name="about_us_qq">Business Cooperation:yeyelivepartner@gmail.com</string>
+    <string name="about_us_qq">Business Cooperation:bd@iamyeye.com</string>
     <string name="about_us_secret_sign">Title: Yeye Live Cooperation</string>
     <string name="lisence_title">User Agreement</string>
+    <string name="copyright">\@2016 Angela Technology Co., Limited</string>
     <!--绑定-->
     <!--手机绑定-->
     <string name="phone_bind_title">Connect to Phone</string>
@@ -210,7 +209,7 @@
     <string name="feedback_edit_hint">Input your suggestion</string>
     <string name="feedback_phone_mail_prompt">Please leave your contact here,we just keep it carefully.</string>
     <string name="feedback_phone_mail_edit_hint">Phone or Email.</string>
-    <string name="feedback_communication">If you have excellent suggestion ,send to yeyelivesupport@gmail.com</string>
+    <string name="feedback_communication">If you have excellent suggestion ,send to support@iamyeye.com</string>
     <string name="no_data_no_info">No info.</string>
     <string name="user_other">Other</string>
     <string name="upload_photo_suc">Screenshot Upload Successfully</string>
@@ -245,7 +244,7 @@
     <string name="room_net_toast">Network is Unstable</string>
     <string name="room_net_toast_error">Your Network is Snapping.</string>
     <string name="not_weibo">You didn\'t install Weibo.</string>
-    <string name="me_online">I\'m coming!</string>
+    <string name="me_online">Has joined</string>
     <string name="not_font">No Privilege</string>
     <string name="me">Me</string>
     <string name="login_room_fail">Login Room Failed</string>
@@ -324,7 +323,7 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_changes">Confirm</string>
-    <string name="can_not_empty">Password can’t be empty</string>
+    <string name="can_not_empty">Password can\'t be empty</string>
     <string name="set_password">Set Passwrod</string>
     <string name="set_password_complete">Done</string>
     <string name="set_password_skip">Skip</string>
@@ -346,12 +345,13 @@
     <string name="video_delete_error">Delete Failed</string>
     <string name="change_password_no_permissions">Sign in with your password can not be modified</string>
 
-    <string name="dialog_tickets">本场直播需要购买门票</string>
-    <string name="dialog_go_play">马上去支付</string>
-    <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
+    <string name="dialog_tickets">This live show charge the coins for ticket.</string>
+    <string name="dialog_go_play">Pay Now</string>
+    <string name="dialog_coin_lack_of_balance">Your coins is not enough, top up now</string>
     <string name="tickets">tickets:</string>
     <string name="Ticke_sales">Ticket Sales</string>
-    <string name="save_live_video">保存视频</string>
-    <string name="other_place_login_kick_out">其它地方登录</string>
-    <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
+    <string name="save_live_video">Save the live show.</string>
+    <string name="other_place_login_kick_out">Loged in another phone</string>
+    <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>
+    <string name="live_time_short">Live show less than 1 min can\'t be saved ,are you sure to end?</string>
 </resources>

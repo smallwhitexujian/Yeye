@@ -39,7 +39,7 @@ public class OnlineListModel extends CommonModel {
     //上下线通知
     public static class OnlineNotice{
         public int kind;
-        public int online ;
+        public int online;
         public OnlineListModel user;
     }
 

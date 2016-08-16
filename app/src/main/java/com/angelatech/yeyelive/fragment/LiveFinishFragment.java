@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -51,9 +51,8 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onStart() {
         super.onStart();
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        getDialog().getWindow().setLayout(dm.widthPixels, getDialog().getWindow().getAttributes().height);
+        getDialog().getWindow().setLayout(ScreenUtils.getScreenWidth(getActivity()),
+                getDialog().getWindow().getAttributes().height);
     }
 
     @Override
