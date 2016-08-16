@@ -290,7 +290,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	protected void onSizeChanged(final int pNewSurfaceWidth, final int pNewSurfaceHeight, final int pOldSurfaceWidth, final int pOldSurfaceHeight) {
 		if(!this.isInEditMode()) {
 			if(mScaleInfo.nomal){
-				this.mCocos2dxRenderer.setScreenWidthAndHeight(pNewSurfaceWidth, pNewSurfaceHeight);
+				this.mCocos2dxRenderer.setScreenWidthAndHeight(mScaleInfo.width, mScaleInfo.height);
 			}
 			else{
 				if(mScaleInfo.mBase == 0){
@@ -394,17 +394,16 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	
 	
 	public static class ScaleInfo{
-		 boolean nomal = false;//默认不开启大小控制
-		 int HeightRatio;
-		 int WidthRatio ;
-		 int mBase;//0:width为基准,1::height:为基准
+		 public boolean nomal = false;//默认不开启大小控制
+		 public int HeightRatio;
+		 public int WidthRatio ;
+		 public int mBase;//0:width为基准,1::height:为基准
+		 public int width;
+		 public int height;
 	}
 	
-	public void setScaleInfo(boolean nomal,int HeightRatio,int WidthRatio,int mBase){
-		mScaleInfo.nomal = nomal;
-		mScaleInfo.HeightRatio = HeightRatio;
-		mScaleInfo.WidthRatio = WidthRatio;
-		mScaleInfo.mBase = mBase;
+	public void setScaleInfo(ScaleInfo scaleInfo){
+		this.mScaleInfo = scaleInfo;
 	}
 
 }

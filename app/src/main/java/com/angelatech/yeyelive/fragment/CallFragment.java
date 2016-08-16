@@ -63,6 +63,7 @@ import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
+import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 import org.cocos2dx.lib.util.Cocos2dxGift;
 import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
@@ -324,7 +325,11 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private void initCocos2dx() {
         //coco2动画SurfaceView
         cocos2dxView.onCreate(getActivity(), 0);
-        cocos2dxView.setScaleInfo(true, 0, 0, 0);
+        Cocos2dxGLSurfaceView.ScaleInfo scaleInfo = new Cocos2dxGLSurfaceView.ScaleInfo();
+        scaleInfo.nomal = true;
+        scaleInfo.width = ScreenUtils.getScreenWidth(getActivity());
+        scaleInfo.height = ScreenUtils.getScreenHeight(getActivity());
+        cocos2dxView.setScaleInfo(scaleInfo);
         giftLayout = cocos2dxView.getFrameLayout();
         ((FrameLayout) controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
     }
@@ -509,6 +514,16 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 ly_toolbar.setVisibility(View.GONE);
                 break;
             case R.id.gift_send:
+                Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                cocos2dxGiftModel.aniName = "FeiJi";
+                cocos2dxGiftModel.imagePath = "FeiJi0.png";
+                cocos2dxGiftModel.plistPath = "FeiJi0.plist";
+                cocos2dxGiftModel.exportJsonPath = "FeiJi.ExportJson";
+                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(getActivity()) / 2;
+                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(getActivity()) / 2;
+                play(cocos2dxGiftModel);
+
+
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
                 OnlineListModel toPeople;
                 if (roomPopSpinner.getSelectedItem() != null) {
