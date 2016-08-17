@@ -81,8 +81,8 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
 
-        focusFans = new FocusFans(FocusOnActivity.this);
-        chatRoom = new ChatRoom(FocusOnActivity.this);
+        focusFans = new FocusFans(this);
+        chatRoom = new ChatRoom(this);
         adapter = new CommonAdapter<FocusModel>(FocusOnActivity.this, data, R.layout.item_focus) {
             @Override
             public void convert(ViewHolder helper, final FocusModel item, final int position) {
@@ -206,7 +206,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                                 data.clear();
                             }
                             data.addAll(result.data);
-                            //adapter.setData(data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
                         else{
@@ -221,7 +220,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 if (data.isEmpty()) {
                     uiHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                 }
-                IS_REFRESH = false;
             }
         };
 
@@ -256,7 +254,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                         } else {
                             data.get(position).isfollow = "1";
                         }
-                        uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
+                        uiHandler.sendEmptyMessage(MSG_SET_FOLLOW);
                     } else {
                         onBusinessFaild(results.code);
                     }
