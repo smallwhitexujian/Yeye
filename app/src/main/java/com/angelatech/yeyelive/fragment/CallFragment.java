@@ -754,8 +754,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             case MSG_OPEN_GIFT_LAYOUT:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
-                BasicUserInfoModel userInfoModel = (BasicUserInfoModel) msg.obj;
-                setSpinnerItemSelectedByValue(roomPopSpinner, userInfoModel.nickname);
+                setSpinnerItemSelectedByValue(roomPopSpinner, ((BasicUserInfoModel) msg.obj).nickname);
                 break;
             case HANDLER_GIFT_CHANGE_BACKGROUND:
                 //还原上次被选中的礼物背景颜色 设置选中的giftId
@@ -852,8 +851,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             public void onSuccess(String response) {
                 CommonParseListModel<GiftModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<GiftModel>>() {
                 }.getType());
-                App.giftdatas.clear();
                 if (result != null) {
+                    App.giftdatas.clear();
                     App.giftdatas.addAll(result.data);
                 }
             }
@@ -915,16 +914,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 }
             }
         }).start();
-    }
-
-    //根据礼物ID获取礼物链接
-    public GiftModel getGifPath(int giftIndex) {
-        for (int i = 0; i < App.giftdatas.size(); i++) {
-            if (App.giftdatas.get(i).getID() == giftIndex) {
-                return App.giftdatas.get(i);
-            }
-        }
-        return null;
     }
 
     /**
@@ -1150,11 +1139,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             @Override
             public void onSuccess(String response) {
                 try {
-                    JSONObject json = new JSONObject(response);
                     //是否关注
-                    isFollow = json.getJSONObject("data").getInt("isfollow");
+                    isFollow = new JSONObject(response).getJSONObject("data").getInt("isfollow");
                     fragmentHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

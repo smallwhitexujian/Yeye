@@ -154,6 +154,7 @@ public class SearchActivity extends WithBroadCastActivity {
                 userInfoModel.isfollow = searchItemModel.isfollow;
                 userInfoModel.Userid = searchItemModel.userid;
                 userInfoModel.sex = searchItemModel.sex;
+                userInfoModel.headurl = searchItemModel.headurl;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(userInfoModel);
                 userInfoDialogFragment.show(getSupportFragmentManager(),"");

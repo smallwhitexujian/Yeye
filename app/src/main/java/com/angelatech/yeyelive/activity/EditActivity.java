@@ -91,6 +91,7 @@ public class EditActivity extends HeaderBaseActivity {
             }
         });
         iv_delete.setOnClickListener(this);
+        iv_delete_email.setOnClickListener(this);
         et_sign.addTextChangedListener(textWatcher);
         tv_nickName.addTextChangedListener(textWatcher);
         tv_email.addTextChangedListener(textWatcher);
@@ -125,6 +126,9 @@ public class EditActivity extends HeaderBaseActivity {
         switch (v.getId()) {
             case R.id.iv_delete:
                 tv_nickName.setText("");
+                break;
+            case R.id.iv_delete_email:
+                tv_email.setText("");
                 break;
         }
     }

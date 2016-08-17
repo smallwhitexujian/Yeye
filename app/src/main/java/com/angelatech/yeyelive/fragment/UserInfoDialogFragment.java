@@ -20,6 +20,7 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.UserControl;
@@ -32,6 +33,7 @@ import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
@@ -141,6 +143,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
 
     private void setView() {
         closeImageView.setOnClickListener(this);
+        userface.setOnClickListener(this);
         fansLayout.setOnClickListener(this);
         fouceLayout.setOnClickListener(this);
         attentionsBtn.setOnClickListener(this);
@@ -299,6 +302,14 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     callBack.sendGift(baseInfo);
                 }
                 dismiss();
+                break;
+            case R.id.user_face:
+                if (baseInfo != null) {
+                    PicViewModel picViewModel = new PicViewModel();
+                    picViewModel.url = baseInfo.headurl;
+                    picViewModel.defaultPic = R.drawable.default_face_icon;
+                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
+                }
                 break;
         }
     }

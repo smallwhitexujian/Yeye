@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.Feedback;
+import com.angelatech.yeyelive.util.Utility;
 import com.will.common.string.Encryption;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
@@ -44,11 +45,18 @@ public class FeedbackActivity extends HeaderBaseActivity {
     }
 
     private void initView() {
+        model = CacheDataManager.getInstance().loadUser();
         et_feedback = (EditText) findViewById(R.id.et_feedback);
         et_phone_mail = (EditText) findViewById(R.id.et_phone_mail);
         tv_input_limit = (TextView) findViewById(R.id.tv_input_limit);
-
         headerLayout.showTitle(getString(R.string.activity_feedback_title));
+        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.closeKeybord(et_feedback, FeedbackActivity.this);
+                finish();
+            }
+        });
         headerLayout.showRightTextButton(R.color.color_black,
                 R.string.button_submit, new View.OnClickListener() {
                     @Override
@@ -56,11 +64,7 @@ public class FeedbackActivity extends HeaderBaseActivity {
                         goFeedback();
                     }
                 });
-        headerLayout.showLeftBackButton();
         et_feedback.addTextChangedListener(textWatcher);
-
-        CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-        model = cacheDataManager.loadUser();
     }
 
     /*监听输入事件*/

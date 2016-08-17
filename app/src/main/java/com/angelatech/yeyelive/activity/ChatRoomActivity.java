@@ -106,6 +106,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private Timer timer = new Timer(); //特效礼物
+    private ChatRoom chatRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     private void initView() {
         LoadingDialog = new LoadingDialogNew();
+        chatRoom = new ChatRoom(this);
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
@@ -243,10 +245,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             String title;
             boolean isShowSave;
             if (liveUserModel.userid.equals(userModel.userid)) {
-                if (beginTime == 0){//直播预览结束直播
+                if (beginTime == 0) {//直播预览结束直播
                     isShowSave = false;
                     title = getString(R.string.finish_room);
-                }else {
+                } else {
                     if ((DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
                         isShowSave = true;
                         title = getString(R.string.finish_room);
@@ -310,7 +312,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 DebugLogs.e("=========response=====保存录像" + response);
             }
         };
-        ChatRoom chatRoom = new ChatRoom(ChatRoomActivity.this);
+
         chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), callback);
     }
 
@@ -457,16 +459,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 JSONObject jsobj;
                 try {
                     jsobj = new JSONObject(msg.obj.toString());
-                    if (jsobj.getInt("live") == 0 && roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+                    int liveState = jsobj.optInt("live");
+                    if (liveState == 0 && !liveUserModel.userid.equals(userModel.userid)) {
                         //主播停止直播了
                         liveFinish();
-                    } else if (jsobj.getInt("live") == 1 && roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-                        if (liveFinishFragment != null) {
+                    } else if (liveState == 1 && !liveUserModel.userid.equals(userModel.userid)) {
+                        if (liveFinishFragment != null && roomModel != null) {
                             //恢复播放
                             liveFinishFragment.dismiss();
-                            if (roomModel != null) {
-                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
-                            }
+                            MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
                         }
                     }
                 } catch (JSONException e) {
@@ -495,6 +496,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         for (int i = 0; i < onlineListDatas.size(); i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
                                 onlineListDatas.remove(i);
+                                break;
                             }
                         }
                     }
@@ -568,34 +570,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 }
                             }
                             break;
-//                        case 2:
-//                            Cocos2dxGift.Cocos2dxGiftModel cocosGiftModel;
-//                            for (int m = 0; m < gift_Num; m++) {
-//                                cocosGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-//                                cocosGiftModel.aniName = "firework_01_4";
-//                                cocosGiftModel.imagePath = "firework_01_40.png";
-//                                cocosGiftModel.plistPath = "firework_01_40.plist";
-//                                cocosGiftModel.exportJsonPath = "firework_01_4.ExportJson";
-//                                cocosGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-//                                cocosGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-//                                cocosGiftModel.scale = 2f;
-//                                bigGift.add(cocosGiftModel);
-//                                if (!isStart) {
-//                                    isStart = true;
-//                                    if (giftTask == null) {
-//                                        giftTask = new TimerTask() {
-//                                            @Override
-//                                            public void run() {
-//                                                startPlayBigGift();
-//                                            }
-//                                        };
-//                                        timer.schedule(giftTask, 0, 8000);
-//                                    } else {
-//                                        timer.schedule(giftTask, 0, 8000);
-//                                    }
-//                                }
-//                            }
-//                            break;
                         case 200000: //飞机
                             Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
                             cocosPlaneModel.aniName = "FeiJi";
@@ -609,7 +583,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             break;
                     }
 
-                    GiftModel giftmodelInfo = callFragment.getGifPath(giftModel.giftid);
+                    GiftModel giftmodelInfo = chatRoom.getGifPath(giftModel.giftid);
                     //礼物特效
                     GiftAnimationModel giftaModel = new GiftAnimationModel();
                     if (giftModel.from != null) {
@@ -626,7 +600,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     chatManager.AddChatMessage(chatLineModel);
                     callFragment.notifyData();
                 } else if (giftModel.code.equals(String.valueOf(GlobalDef.NOT_SUFFICIENT_COIN_1012))) {
-                    ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.gift_code1012));
+                    ToastUtils.showToast(this, getString(R.string.gift_code1012));
                 }
                 break;
             case GlobalDef.WM_ROOM_Kicking:
@@ -634,10 +608,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 try {
                     jsonkicking = new JSONObject((String) msg.obj);
                     if (jsonkicking.getInt("code") == 0 && jsonkicking.getJSONObject("from") != null) {
-                        ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.you_are_invited_out_of_the_room));
+                        ToastUtils.showToast(this, getString(R.string.you_are_invited_out_of_the_room));
                         exitRoom();
                     } else if (jsonkicking.getInt("code") == GlobalDef.NO_PERMISSION_OPE_1009) {
-                        ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.not_font));
+                        ToastUtils.showToast(this, getString(R.string.not_font));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -762,7 +736,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     @Override
     public void onPause() {
-        if (roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
+        if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.onPause();
         }
         super.onPause();
@@ -770,7 +744,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     @Override
     public void onResume() {
-        if (roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
+        if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.onResume();
         }
         super.onResume();

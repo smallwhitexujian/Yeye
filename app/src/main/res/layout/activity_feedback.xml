@@ -10,20 +10,18 @@
     <com.angelatech.yeyelive.view.HeaderLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_weight="1" />
+        android:layout_height="45dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/color_grey_d5"
-        android:layout_weight="1" />
+        android:background="@color/color_grey_d5" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -47,10 +45,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="20dp"
-        android:background="@color/color_grey_d5"
-        android:layout_weight="1" />
+        android:background="@color/color_grey_d5" />
 
     <EditText
         android:id="@+id/et_feedback"
@@ -64,8 +61,7 @@
         android:hint="@string/feedback_edit_hint"
         android:maxLength="1000"
         android:maxLines="5"
-        android:textSize="12sp"
-        android:layout_weight="1" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_input_limit"
@@ -73,53 +69,39 @@
         android:layout_height="20dp"
         android:layout_marginRight="15dp"
         android:gravity="end"
-        android:text="200"
-        android:layout_weight="1" />
+        android:text="200" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/color_eaeaea"
-        android:layout_weight="1" />
+        android:background="@color/color_grey_d5" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="16dp"
         android:text="@string/feedback_phone_mail_prompt"
         android:textColor="@color/color_black"
-        android:textSize="12sp"
-        android:layout_weight="1" />
+        android:textSize="12sp" />
 
     <EditText
         android:id="@+id/et_phone_mail"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:background="@null"
         android:gravity="start|center"
         android:hint="@string/feedback_phone_mail_edit_hint"
         android:inputType="text"
-        android:textSize="12sp"
-        android:layout_weight="1" />
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/color_eaeaea"
-        android:layout_weight="1" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="15dp"
-        android:textSize="12sp"
-        android:textColor="@color/color_666666"
-        android:layout_weight="1" />
+        android:background="@color/color_grey_d5" />
 
 </LinearLayout>
