@@ -82,12 +82,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 
     private void setView() {
         headerLayout.showTitle(getString(R.string.recharge_title));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
         mRechargeTextView.setOnClickListener(this);
         mDatas = new ArrayList<>();
         loadMenu();

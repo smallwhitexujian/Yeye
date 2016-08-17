@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_f9f9f9"
-    >
+    android:orientation="vertical">
 
     <com.angelatech.yeyelive.view.HeaderLayout
         android:id="@+id/headerLayout"
@@ -19,27 +18,25 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_sand_gold"
-                />
+                android:src="@drawable/icon_sand_gold" />
 
             <TextView
+                android:id="@+id/recharge_balance_coin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/recharge_balance_coin"
-                android:textSize="15dp"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/color_a1d4ff"
                 android:text="@string/balance"
-                />
+                android:textColor="@color/color_a1d4ff"
+                android:textSize="15dp" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -53,14 +50,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/color_999999"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="@string/select_coin"
-            />
+            android:textColor="@color/color_999999" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -74,35 +71,34 @@
         android:scrollbars="none" />
 
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginBottom="63dp"
-       android:orientation="vertical"
-       >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="63dp"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/btn_submit_pay"
             android:layout_width="match_parent"
-            android:layout_marginTop="21dp"
             android:layout_height="40dp"
-            android:gravity="center"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:text="@string/button_top_up_submit"
+            android:layout_marginTop="21dp"
             android:background="@drawable/text_view_border"
-            />
+            android:gravity="center"
+            android:text="@string/button_top_up_submit" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="12dp"
             android:paddingLeft="13dp"
             android:paddingRight="13dp"
+            android:text="@string/text_desc"
             android:textColor="@color/color_999999"
             android:textSize="13dp"
-            android:text="@string/text_desc"
 
             />
-   </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

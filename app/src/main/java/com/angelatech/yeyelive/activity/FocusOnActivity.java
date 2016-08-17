@@ -26,7 +26,6 @@ import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.FocusModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -63,7 +62,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_SET_FOLLOW = 2;
     private final int MSG_NO_DATA = 3;
-    private final int MSG_ERROR = 4;
 
     private SwipyRefreshLayout swipyRefreshLayout;
 
@@ -75,6 +73,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         setContentView(R.layout.activity_focus);
         initView();
         setView();
+        loadData();
     }
 
     private void initView() {
@@ -108,7 +107,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        LoadingDialog.showLoadingDialog(FocusOnActivity.this);
                         doFocus(data.get(position), position);
                     }
                 });
@@ -139,13 +137,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
 
             }
         });
-        loadData();
         noDataLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
     }
 
     /**
@@ -153,8 +145,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
      */
     private void getLoginUser() {
         if (model == null || model.userid == null || model.token == null) {
-            CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-            model = cacheDataManager.loadUser();
+            model = CacheDataManager.getInstance().loadUser();
         }
     }
 
@@ -162,20 +153,17 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
+                LoadingDialog.cancelLoadingDialog();
                 noDataLayout.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 break;
             case MSG_SET_FOLLOW:
-                LoadingDialog.cancelLoadingDialog();
                 adapter.notifyDataSetChanged();
                 ToastUtils.showToast(this, getString(R.string.success));
                 break;
             case MSG_NO_DATA:
-                showNodataLayout();
-                break;
-            case MSG_ERROR:
                 LoadingDialog.cancelLoadingDialog();
-                ToastUtils.showToast(this, ErrorHelper.getErrorHint(FocusOnActivity.this, msg.obj.toString()));
+                showNodataLayout();
                 break;
         }
     }
@@ -187,6 +175,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
             for (FocusModel d : data) {
                 if (d.userid.equals(searchItemModel.userid)) {
                     d.isfollow = searchItemModel.isfollow;
+                    break;
                 }
             }
             adapter.notifyDataSetChanged();
@@ -195,7 +184,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
 
     private void loadData() {
         getLoginUser();
-        LoadingDialog.showLoadingDialog(FocusOnActivity.this);
+        LoadingDialog.showLoadingDialog(this);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -221,14 +210,13 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
                     } else {
-                        onBusinessFaild(result.code, response);
+                        onBusinessFaild(result.code);
                     }
                 }
                 if (data.isEmpty()) {
                     uiHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                 }
                 IS_REFRESH = false;
-                LoadingDialog.cancelLoadingDialog();
             }
         };
 
@@ -265,7 +253,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                         }
                         uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
                     } else {
-                        uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
+                        onBusinessFaild(results.code);
                     }
                 }
             }
