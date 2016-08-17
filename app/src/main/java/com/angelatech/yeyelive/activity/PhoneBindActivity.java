@@ -66,12 +66,7 @@ public class PhoneBindActivity extends HeaderBaseActivity {
 
     private void initView() {
         headerLayout.showTitle(getString(R.string.phone_bind_title));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showLeftBackButton();
         mInputPhone = (EditText) findViewById(R.id.input_phone);
         mVerificationCode = (EditText) findViewById(R.id.input_verification_code);
         mLoginBtn = (TextView) findViewById(R.id.login_btn);

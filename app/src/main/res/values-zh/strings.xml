@@ -210,6 +210,7 @@
     <string name="feedback_phone_mail_edit_hint">手机或邮箱</string>
     <string name="feedback_communication">好的建议请发送给support@iamyeye.com</string>
     <string name="no_data_no_info">没有数据</string>
+    <string name="no_data_more">没有更多数据</string>
     <string name="user_other">Otro</string>
     <string name="upload_photo_suc">图像上传成功</string>
     <!--黑名单-->

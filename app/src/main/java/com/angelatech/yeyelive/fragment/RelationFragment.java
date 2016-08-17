@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
@@ -42,7 +43,7 @@ import java.util.Map;
  */
 public class RelationFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener {
 
-    private View view ;
+    private View view;
     private ListView list_view_focus;
     private CommonAdapter<FocusModel> adapter;
     private List<FocusModel> data = new ArrayList<>();
@@ -59,21 +60,16 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
 
     private String url = CommonUrlConfig.FriendHeList;
     private String fuserid;
-
+    private BasicUserInfoDBModel model;
     private RelativeLayout noDataLayout;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_relation, container, false);
-
         initView();
         setView();
-
         return view;
     }
-
 
     @Override
     public void onStart() {
@@ -85,18 +81,17 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
         super.onStop();
     }
 
-    private void initView(){
-
+    private void initView() {
         list_view_focus = (ListView) view.findViewById(R.id.list_view_focus);
-        swipyRefreshLayout = (SwipyRefreshLayout)  view.findViewById(R.id.pullToRefreshView);
-        noDataLayout = (RelativeLayout)view.findViewById(R.id.no_data_layout);
+        swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
+        noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
         focusFans = new FocusFans(getActivity());
         adapter = new CommonAdapter<FocusModel>(getContext(), data, R.layout.item_focus) {
             @Override
             public void convert(ViewHolder helper, final FocusModel item, final int position) {
                 helper.setImageViewByImageLoader(R.id.user_head_photo, item.headurl);
                 helper.setText(R.id.tv_name, item.nickname);
-                if (item.sex.equals("1")) {
+                if (item.sex.equals(Constant.SEX_MALE)) {
                     helper.setImageResource(R.id.iv_user_sex, R.drawable.icon_information_boy);
                 } else {
                     helper.setImageResource(R.id.iv_user_sex, R.drawable.icon_information_girl);
@@ -106,10 +101,9 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                 } else {
                     helper.setImageResource(R.id.iv_user_follow_state, R.drawable.btn_focus_cancel);
                 }
-                if (item.isv.equals("1")){
+                if (item.isv.equals("1")) {
                     helper.showView(R.id.iv_vip);
-                }
-                else{
+                } else {
                     helper.hideView(R.id.iv_vip);
                 }
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
@@ -119,14 +113,15 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                     }
                 });
             }
-
         };
-        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
+
     }
 
-    private void setView(){
+    private void setView() {
+        model = CacheDataManager.getInstance().loadUser();
         list_view_focus.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
+        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
         list_view_focus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -141,7 +136,7 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                 userInfoModel.sex = focusModel.sex;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(userInfoModel);
-                userInfoDialogFragment.show(getActivity().getSupportFragmentManager(),"");
+                userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.remove(getParentFragment());
@@ -160,9 +155,8 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
 
     @Override
     public void doHandler(Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
-                noDataLayout.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 break;
             case MSG_SET_FOLLOW:
@@ -198,15 +192,13 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                             }
                             pageIndex = index + 1;
                             data.addAll(result.data);
-                            adapter.setData(data);
                             fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
-                    }
-                    else{
-                        onBusinessFaild(result.code,response);
+                    } else {
+                        onBusinessFaild(result.code);
                     }
                 }
-                if(data.isEmpty()){
+                if (data.isEmpty()) {
                     fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                 }
                 IS_REFRESH = false;
@@ -214,12 +206,11 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
             }
         };
 
-        BasicUserInfoDBModel model = CacheDataManager.getInstance().loadUser();
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);
         map.put("userid", model.userid);
         map.put("type", String.valueOf(type));
-        map.put("fuserid",fuserid);
+        map.put("fuserid", fuserid);
         if (dateSort > 0) {
             map.put("datesort", String.valueOf(dateSort));
         }
@@ -241,22 +232,20 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
 
                 if (results != null) {
-                    if(HttpFunction.isSuc(results.code)){
+                    if (HttpFunction.isSuc(results.code)) {
                         if (data.get(position).isfollow.equals("1")) {
                             data.get(position).isfollow = "0";
                         } else {
                             data.get(position).isfollow = "1";
                         }
                         fragmentHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-                    }
-                    else{
-                        onBusinessFaild(results.code,response);
+                    } else {
+                        onBusinessFaild(results.code);
                     }
                 }
 
             }
         };
-        BasicUserInfoDBModel model = CacheDataManager.getInstance().loadUser();
         focusFans.UserFollow(CommonUrlConfig.UserFollow, model.token, model.userid, userModel.userid, Integer.valueOf(userModel.isfollow), callback);
     }
 
@@ -284,26 +273,25 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
         loadData();
     }
 
-    public void setUrl(String url){
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    public void setFuserid(String fuserid){
+    public void setFuserid(String fuserid) {
         this.fuserid = fuserid;
     }
 
-    public void setType(int type){
+    public void setType(int type) {
         this.type = type;
     }
 
-    private void showNodataLayout(){
+    private void showNodataLayout() {
         noDataLayout.setVisibility(View.VISIBLE);
         noDataLayout.findViewById(R.id.hint_textview1).setVisibility(View.VISIBLE);
-        if(type == FocusFans.TYPE_FOCUS){
-          ((TextView)noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_follow));
-        }
-        else{
-            ((TextView)noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_fans));
+        if (type == FocusFans.TYPE_FOCUS) {
+            ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_follow));
+        } else {
+            ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_fans));
         }
         noDataLayout.findViewById(R.id.hint_textview2).setVisibility(View.GONE);
     }

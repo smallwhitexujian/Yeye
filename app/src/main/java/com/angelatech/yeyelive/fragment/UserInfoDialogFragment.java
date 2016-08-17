@@ -431,6 +431,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             leftIcon.setVisibility(View.VISIBLE);
             rightIcon.setVisibility(View.GONE);
         }
+        bottomLayout.setVisibility(View.GONE);
         intimacy.setVisibility(View.GONE);
         usersign.setVisibility(View.GONE);
         btnUserControl.setVisibility(View.GONE);
@@ -440,6 +441,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     }
 
     private void closeDataView() {
+        bottomLayout.setVisibility(View.VISIBLE);
         intimacy.setVisibility(View.VISIBLE);
         usersign.setVisibility(View.VISIBLE);
         btnUserControl.setVisibility(View.GONE);

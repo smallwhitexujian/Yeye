@@ -120,7 +120,7 @@
     <string name="diamond">My Diamond</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
-    <string name="intimacy">Intimacy:</string>
+    <string name="intimacy">Popularity:</string>
     <string name="ID">ID:</string>
     <string name="default_sign">There is no signature from this user.</string>
     <!--充值-->
@@ -202,6 +202,7 @@
     <string name="no_data_watch_follow">Have a look the Latest Hot Show</string>
     <string name="no_data_not_match_people">Sorry, we can\'t search the people you want to check.</string>
     <string name="no_data_no_fans">No Fans</string>
+    <string name="no_data_more">NO More Data</string>
     <string name="no_data_no_follow">Not Following Anyone</string>
     <string name="no_data_no_blacklist">No Blacklist</string>
     <string name="activity_feedback_title">Feedback</string>

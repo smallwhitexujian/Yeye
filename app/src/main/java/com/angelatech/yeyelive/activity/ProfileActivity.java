@@ -54,8 +54,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     private int user_gender = 1;
     private String user_name, user_mail;
     private RadioButton radioButton_male, radioButton_female;
-    private boolean upload_photo = false,
-            check_gender = false, input_name = false, input_email = false;
+    private boolean check_gender = false, input_name = false, input_email = false;
 
     private PictureObtain mObtain;
     private Uri distUri;
@@ -280,7 +279,6 @@ public class ProfileActivity extends HeaderBaseActivity {
                         public void onUpQiniuError() {
                             LoadingDialog.cancelLoadingDialog();
                             ToastUtils.showToast(ProfileActivity.this, getString(R.string.upload_photo_error));
-                            upload_photo = false;
                         }
 
                         @Override
@@ -294,7 +292,6 @@ public class ProfileActivity extends HeaderBaseActivity {
                             if (key == null) {
                                 return;
                             }
-                            upload_photo = true;
                             CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, key, model.userid);
                         }
 

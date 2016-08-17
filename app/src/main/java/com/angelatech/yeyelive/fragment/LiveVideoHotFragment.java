@@ -45,6 +45,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
+import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
@@ -272,7 +273,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                adapter.setData(datas);
                 adapter.notifyDataSetChanged();
                 noDataLayout.setVisibility(View.GONE);
                 break;
@@ -300,6 +300,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
+                ToastUtils.showToast(getActivity(), getString(R.string.no_data_more));
                 break;
             case MSG_SHOW_BANNER:
                 List<SimpleDraweeView> simpleDraweeViews = (List<SimpleDraweeView>) msg.obj;
@@ -393,7 +394,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                                 datas.addAll(result.videodata);
                                 fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
                             } else {
-                                fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
+                                if (!IS_REFRESH) {
+                                    fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
+                                }
                             }
                         } else {
                             onBusinessFaild(result.code, response);

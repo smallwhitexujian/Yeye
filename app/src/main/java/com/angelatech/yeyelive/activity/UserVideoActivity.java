@@ -148,7 +148,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                     }
                 });
                 noDataLayout.setVisibility(View.GONE);
-                adapter.setData(list);
                 adapter.notifyDataSetChanged();
                 break;
             case MSG_VIDEO_LIST_NODATA:
@@ -168,6 +167,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
+                ToastUtils.showToast(this, getString(R.string.no_data_more));
                 break;
             case MSG_DELETE_VIDEO_SUCCESS:
                 layout_delete.setVisibility(View.GONE);
@@ -242,7 +242,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                                 list.clear();
                             }
                             list.addAll(result.videodata);
-                            uiHandler.obtainMessage(MSG_VIDEO_LIST_SUCCESS, result.videodata).sendToTarget();
+                            uiHandler.obtainMessage(MSG_VIDEO_LIST_SUCCESS).sendToTarget();
                         } else {
                             if (!IS_REFRESH) {
                                 uiHandler.obtainMessage(MSG_NO_MORE).sendToTarget();

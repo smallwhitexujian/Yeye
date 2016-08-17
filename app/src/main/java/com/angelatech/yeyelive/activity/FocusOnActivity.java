@@ -62,7 +62,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_SET_FOLLOW = 2;
     private final int MSG_NO_DATA = 3;
-
+    private final int MSG_NO_DATA_MORE = 4;
     private SwipyRefreshLayout swipyRefreshLayout;
 
     private RelativeLayout noDataLayout;
@@ -98,10 +98,9 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 } else {
                     helper.setImageResource(R.id.iv_user_follow_state, R.drawable.btn_focus_cancel);
                 }
-                if (item.isv.equals("1")){
+                if (item.isv.equals("1")) {
                     helper.showView(R.id.iv_vip);
-                }
-                else{
+                } else {
                     helper.hideView(R.id.iv_vip);
                 }
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
@@ -118,6 +117,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private void setView() {
         list_view_focus.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
+        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
         headerLayout.showTitle(getString(R.string.user_focus));
         headerLayout.showLeftBackButton();
         list_view_focus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,7 +137,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
 
             }
         });
-        noDataLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -164,6 +163,10 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
             case MSG_NO_DATA:
                 LoadingDialog.cancelLoadingDialog();
                 showNodataLayout();
+                break;
+            case MSG_NO_DATA_MORE:
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(this, getString(R.string.no_data_more));
                 break;
         }
     }
@@ -199,15 +202,17 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                     if (HttpFunction.isSuc(result.code)) {
                         if (!result.data.isEmpty()) {
                             dateSort = result.time;
-                            int index = result.index;
                             if (IS_REFRESH) {
                                 data.clear();
-                                index = 0;
                             }
-                            pageIndex = index + 1;
                             data.addAll(result.data);
-                            adapter.setData(data);
+                            //adapter.setData(data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
+                        }
+                        else{
+                            if (!IS_REFRESH){
+                                uiHandler.obtainMessage(MSG_NO_DATA_MORE).sendToTarget();
+                            }
                         }
                     } else {
                         onBusinessFaild(result.code);
@@ -282,12 +287,14 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
+        pageIndex ++;
         loadData();
     }
 
     //刷新
     private void freshLoad() {
         IS_REFRESH = true;
+        pageIndex = 1;
         loadData();
     }
 
