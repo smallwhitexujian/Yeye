@@ -124,7 +124,6 @@
             android:layout_height="0.5dp"
             android:background="@color/color_grey_d5" />
 
-
         <!--性别-->
         <RelativeLayout
             android:id="@+id/layout_sex"
@@ -154,11 +153,56 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:text="@string/user_female"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    android:text="@string/user_female"
 
-                />
+                    />
+
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="9dp"
+                    android:src="@drawable/btn_next" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_d5" />
+
+        <RelativeLayout
+            android:id="@+id/layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/color_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                android:text="@string/user_info_mail" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="7dp"
@@ -197,10 +241,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="right"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:singleLine="true"
-                android:gravity="right"
                 android:textColor="@color/color_a6a6a6"
                 android:textSize="14sp" />
 

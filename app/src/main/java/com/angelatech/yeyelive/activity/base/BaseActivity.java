@@ -1,13 +1,11 @@
 package com.angelatech.yeyelive.activity.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.angelatech.yeyelive.activity.LoginActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.handler.CommonDoHandler;
 import com.angelatech.yeyelive.handler.CommonHandler;
@@ -53,7 +51,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //sharedUtil.getInstance(mContext).putBoolean(sharedUtil.PREFERENCES_RESTART, true);
-        startActivity(new Intent(this, LoginActivity.class));
     }
 
 

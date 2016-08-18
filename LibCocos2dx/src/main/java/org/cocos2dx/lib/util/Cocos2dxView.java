@@ -80,8 +80,8 @@ public class Cocos2dxView {
 	}
 
 
-	public  void setScaleInfo(boolean nomal,int HeightRatio,int WidthRatio,int mBase){
-		mCocos2dxGLSurfaceView.setScaleInfo(nomal, HeightRatio, WidthRatio, mBase);
+	public  void setScaleInfo(Cocos2dxGLSurfaceView.ScaleInfo scaleInfo){
+		mCocos2dxGLSurfaceView.setScaleInfo(scaleInfo);
 	}
 
 

@@ -38,13 +38,13 @@ import java.util.Map;
  */
 public class UserInfoActivity extends HeaderBaseActivity {
     private RelativeLayout layout_user_photo;
-    private RelativeLayout layout_nickName;
+    private RelativeLayout layout_nickName, layout_email;
     private RelativeLayout layout_sex;//性别
     private LinearLayout layout_user_sign;
     private PictureObtain mObtain;
     private BasicUserInfoDBModel model;
     private SimpleDraweeView user_head_photo;
-    private TextView tv_nickName, tv_sign, tv_sex;
+    private TextView tv_nickName, tv_sign, tv_sex, tv_email;
     private CacheDataManager cacheDataManager;
     private String path = null;
     private QiniuUpload mQiniuUpload;
@@ -65,12 +65,14 @@ public class UserInfoActivity extends HeaderBaseActivity {
 
         layout_user_photo = (RelativeLayout) findViewById(R.id.layout_user_photo);
         layout_nickName = (RelativeLayout) findViewById(R.id.layout_nickName);
+        layout_email = (RelativeLayout) findViewById(R.id.layout_email);
         layout_sex = (RelativeLayout) findViewById(R.id.layout_sex);
         layout_user_sign = (LinearLayout) findViewById(R.id.layout_user_sign);
         user_head_photo = (SimpleDraweeView) findViewById(R.id.user_head_photo);
         tv_nickName = (TextView) findViewById(R.id.tv_nickName);
         tv_sign = (TextView) findViewById(R.id.tv_sign);
         tv_sex = (TextView) findViewById(R.id.tv_sex);
+        tv_email = (TextView) findViewById(R.id.tv_email);
         mObtain = new PictureObtain();
     }
 
@@ -79,11 +81,13 @@ public class UserInfoActivity extends HeaderBaseActivity {
         layout_nickName.setOnClickListener(this);
         layout_user_sign.setOnClickListener(this);
         layout_sex.setOnClickListener(this);
+        layout_email.setOnClickListener(this);
     }
 
     private void initData() {
         tv_nickName.setText(model.nickname);
         tv_sign.setText(model.sign);
+        tv_email.setText(model.email);
         if (model.sex == null || model.sex.equals(Constant.SEX_FEMALE)) {
             tv_sex.setText(getString(R.string.user_female));
         } else {
@@ -144,6 +148,12 @@ public class UserInfoActivity extends HeaderBaseActivity {
                 intent_sign.setClass(this, EditActivity.class);
                 intent_sign.putExtra("type", "2");
                 startActivity(intent_sign);
+                break;
+            case R.id.layout_email:
+                Intent intent_email = new Intent();
+                intent_email.setClass(this, EditActivity.class);
+                intent_email.putExtra("type", "3");
+                startActivity(intent_email);
                 break;
             case R.id.layout_sex:
                 new ActionSheetDialog(this)

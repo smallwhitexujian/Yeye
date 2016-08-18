@@ -109,8 +109,9 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     }
                     BasicUserInfoDBModel userInfoDBModel = CacheDataManager.getInstance().loadUser();
                     if (userInfoDBModel != null && userInfoDBModel.userid != null) {
-                        CacheDataManager.getInstance().deleteMessageRecord(userInfoDBModel.userid);
+                        CacheDataManager.getInstance().deleteAll();
                     }
+                    App.isLogin = false;
                     CacheDataManager.loginUser = null;
                     AccessToken.setCurrentAccessToken(null);
                     if (App.chatRoomApplication != null) {

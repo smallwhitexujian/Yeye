@@ -58,7 +58,11 @@ public class BasicUserInfoDBModel implements Serializable {
      */
     @DatabaseField(columnName = "isticket")
     public String isticket = "0";
-
+    /**
+     * 邮箱
+     */
+    @DatabaseField(columnName = "email")
+    public String email = "";
 
     @Override
     public String toString() {

@@ -22,6 +22,7 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.string.json.JsonUtil;
+import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
@@ -38,7 +39,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_NO_DATA = 2;
     private final int MSG_DELETE_BLACKLIST = 3;
-
+    private final int MSG_NO_DATA_MORE = 5;
     private boolean IS_REFRESH = false;  //是否需要刷新
     private ListView list_blacklist;
     private CommonAdapter<BasicUserInfoDBModel> adapter;
@@ -65,8 +66,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
         list_blacklist = (ListView) findViewById(R.id.list_blacklist);
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
-        CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-        model = cacheDataManager.loadUser();
+        model = CacheDataManager.getInstance().loadUser();
         adapter = new CommonAdapter<BasicUserInfoDBModel>(BlacklistActivity.this, data, R.layout.item_blacklist) {
             @Override
             public void convert(ViewHolder helper, final BasicUserInfoDBModel item, final int position) {
@@ -85,6 +85,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
     private void setView() {
         list_blacklist.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
+        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
         headerLayout.showTitle(getString(R.string.blacklist_title));
         headerLayout.showLeftBackButton();
         list_blacklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -127,9 +128,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
                 commDialog.CommDialog(BlacklistActivity.this, getString(R.string.blacklist_delete), true, callback);
             }
         });
-
         loadData();
-        noDataLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -141,14 +140,19 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
-                noDataLayout.setVisibility(View.GONE);
+                LoadingDialog.cancelLoadingDialog();
                 adapter.notifyDataSetChanged();
                 break;
             case MSG_NO_DATA:
+                LoadingDialog.cancelLoadingDialog();
                 showNoDataLayout();
                 break;
             case MSG_DELETE_BLACKLIST:
                 flashList((String) msg.obj);
+                break;
+            case MSG_NO_DATA_MORE:
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(this, getString(R.string.no_data_more));
                 break;
         }
     }
@@ -166,12 +170,14 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
+        pageIndex++;
         loadData();
     }
 
     //刷新
     private void freshLoad() {
         IS_REFRESH = true;
+        pageIndex = 1;
         loadData();
     }
 
@@ -180,7 +186,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
-
+                LoadingDialog.cancelLoadingDialog();
             }
 
             @Override
@@ -198,18 +204,20 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
                             }
                             pageIndex = index + 1;
                             data.addAll(result.data);
-                            adapter.setData(data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
+                        }else{
+                            if (!IS_REFRESH) {
+                                uiHandler.sendEmptyMessage(MSG_NO_DATA_MORE);
+                            }
                         }
                     } else {
-                        onBusinessFaild(result.code, response);
+                        onBusinessFaild(result.code);
                     }
                 }
                 if (data.isEmpty()) {
                     uiHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                 }
                 IS_REFRESH = false;
-                LoadingDialog.cancelLoadingDialog();
             }
         };
         mUserControl.loadBlacklist(model.userid, model.token, dateSort, pageIndex, pageSize, httpCallback);
@@ -237,7 +245,6 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
             }
         }
         if (isRemove) {
-            adapter.setData(data);
             adapter.notifyDataSetChanged();
         }
     }

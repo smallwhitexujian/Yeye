@@ -35,7 +35,8 @@
                 android:dividerHeight="0.5dp" />
         </com.will.view.library.SwipyRefreshLayout>
 
-        <include layout="@layout/none_data_layout"/>
+        <include layout="@layout/none_data_layout"
+            android:visibility="gone"/>
 
     </FrameLayout>
 

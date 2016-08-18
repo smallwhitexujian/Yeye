@@ -55,8 +55,8 @@ public class SearchActivity extends WithBroadCastActivity {
 
     private TextView searchCancel;
 
-    private SearchUser searchUser = new SearchUser(SearchActivity.this);
-    private BasicUserInfoDBModel model = CacheDataManager.getInstance().loadUser();
+    private SearchUser searchUser;
+    private BasicUserInfoDBModel model;
 
     private volatile String searchKey;
 
@@ -78,6 +78,8 @@ public class SearchActivity extends WithBroadCastActivity {
     }
 
     private void initView() {
+        model = CacheDataManager.getInstance().loadUser();
+        searchUser = new SearchUser(this);
         searchEditText = (EditText) findViewById(R.id.search_input);
         searchListView = (ListView) findViewById(R.id.search_list);
         searchCancel = (TextView) findViewById(R.id.search_cancel);
@@ -152,6 +154,7 @@ public class SearchActivity extends WithBroadCastActivity {
                 userInfoModel.isfollow = searchItemModel.isfollow;
                 userInfoModel.Userid = searchItemModel.userid;
                 userInfoModel.sex = searchItemModel.sex;
+                userInfoModel.headurl = searchItemModel.headurl;
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(userInfoModel);
                 userInfoDialogFragment.show(getSupportFragmentManager(),"");
@@ -242,6 +245,7 @@ public class SearchActivity extends WithBroadCastActivity {
                 for(SearchItemModel data:datas){
                     if(data.userid.equals(searchItemModel.userid)){
                         data.isfollow = searchItemModel.isfollow;
+                        break;
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -268,7 +272,7 @@ public class SearchActivity extends WithBroadCastActivity {
                         uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
                     }
                     else{
-                        onBusinessFaild(results.code,response);
+                        onBusinessFaild(results.code);
                     }
                 }
 

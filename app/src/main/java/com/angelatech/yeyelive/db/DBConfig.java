@@ -16,7 +16,7 @@ public class DBConfig {
     //db_name
     public static final String DB_NAME = "yeye.db";
     //db_version
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 15;
 
     //table_name
     public static final String TABLE_BASIC_USER_INFO = "CacheUser";

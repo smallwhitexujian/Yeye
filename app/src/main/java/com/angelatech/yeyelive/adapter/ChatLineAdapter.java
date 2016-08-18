@@ -43,11 +43,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         chatRoom = new ChatRoom(mContext);
     }
 
-    public void setmData(List<T> data) {
-        this.mData = data;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         return mData.size();

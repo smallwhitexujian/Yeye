@@ -62,6 +62,7 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
     private final int MSG_SET_FOLLOW = 2;
     private final int MSG_NO_DATA = 3;
     private final int MSG_ERROR = 4;
+    private final int MSG_NO_DATA_MORE = 5;
     private SwipyRefreshLayout swipyRefreshLayout;
     private FocusFans focusFans;
     private ChatRoom chatRoom;
@@ -116,8 +117,10 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
     }
 
     private void setView() {
+        focusFans = new FocusFans(this);
         list_view_focus.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
+        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
         headerLayout.showTitle(getString(R.string.user_fans));
         headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
             @Override
@@ -139,13 +142,9 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                 UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
                 userInfoDialogFragment.setUserInfoModel(userInfoModel);
                 userInfoDialogFragment.show(getSupportFragmentManager(), "");
-
-
             }
         });
-        focusFans = new FocusFans(FansActivity.this);
         loadData();
-        noDataLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -188,8 +187,6 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
-                adapter.setData(data);
-                noDataLayout.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 break;
             case MSG_NO_DATA:
@@ -197,12 +194,16 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                 break;
             case MSG_ERROR:
                 LoadingDialog.cancelLoadingDialog();
-                ToastUtils.showToast(this, ErrorHelper.getErrorHint(FansActivity.this, msg.obj.toString()));
+                ToastUtils.showToast(this, ErrorHelper.getErrorHint(this, msg.obj.toString()));
                 break;
             case MSG_SET_FOLLOW:
                 LoadingDialog.cancelLoadingDialog();
                 adapter.notifyDataSetChanged();
                 ToastUtils.showToast(this, getString(R.string.success));
+            case MSG_NO_DATA_MORE:
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(this, getString(R.string.no_data_more));
+                break;
         }
     }
 
@@ -238,17 +239,19 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
+        pageIndex++;
         loadData();
     }
 
     //刷新
     private void freshLoad() {
         IS_REFRESH = true;
+        pageIndex = 1;
         loadData();
     }
 
     private void loadData() {
-        LoadingDialog.showLoadingDialog(FansActivity.this);
+        LoadingDialog.showLoadingDialog(this);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -271,9 +274,13 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                             pageIndex = index + 1;
                             data.addAll(result.data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
+                        } else {
+                            if (!IS_REFRESH) {
+                                uiHandler.sendEmptyMessage(MSG_NO_DATA_MORE);
+                            }
                         }
                     } else {
-                        onBusinessFaild(result.code, response);
+                        onBusinessFaild(result.code);
                     }
 
                 }

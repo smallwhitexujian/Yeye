@@ -26,7 +26,6 @@ import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.FocusModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -63,8 +62,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_SET_FOLLOW = 2;
     private final int MSG_NO_DATA = 3;
-    private final int MSG_ERROR = 4;
-
+    private final int MSG_NO_DATA_MORE = 4;
     private SwipyRefreshLayout swipyRefreshLayout;
 
     private RelativeLayout noDataLayout;
@@ -75,6 +73,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         setContentView(R.layout.activity_focus);
         initView();
         setView();
+        loadData();
     }
 
     private void initView() {
@@ -82,8 +81,8 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
 
-        focusFans = new FocusFans(FocusOnActivity.this);
-        chatRoom = new ChatRoom(FocusOnActivity.this);
+        focusFans = new FocusFans(this);
+        chatRoom = new ChatRoom(this);
         adapter = new CommonAdapter<FocusModel>(FocusOnActivity.this, data, R.layout.item_focus) {
             @Override
             public void convert(ViewHolder helper, final FocusModel item, final int position) {
@@ -99,16 +98,14 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 } else {
                     helper.setImageResource(R.id.iv_user_follow_state, R.drawable.btn_focus_cancel);
                 }
-                if (item.isv.equals("1")){
+                if (item.isv.equals("1")) {
                     helper.showView(R.id.iv_vip);
-                }
-                else{
+                } else {
                     helper.hideView(R.id.iv_vip);
                 }
                 helper.setOnClick(R.id.iv_user_follow_state, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        LoadingDialog.showLoadingDialog(FocusOnActivity.this);
                         doFocus(data.get(position), position);
                     }
                 });
@@ -120,6 +117,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private void setView() {
         list_view_focus.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
+        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
         headerLayout.showTitle(getString(R.string.user_focus));
         headerLayout.showLeftBackButton();
         list_view_focus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -139,13 +137,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
 
             }
         });
-        loadData();
-        noDataLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
     }
 
     /**
@@ -153,8 +144,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
      */
     private void getLoginUser() {
         if (model == null || model.userid == null || model.token == null) {
-            CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-            model = cacheDataManager.loadUser();
+            model = CacheDataManager.getInstance().loadUser();
         }
     }
 
@@ -162,20 +152,21 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
+                LoadingDialog.cancelLoadingDialog();
                 noDataLayout.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 break;
             case MSG_SET_FOLLOW:
-                LoadingDialog.cancelLoadingDialog();
                 adapter.notifyDataSetChanged();
                 ToastUtils.showToast(this, getString(R.string.success));
                 break;
             case MSG_NO_DATA:
+                LoadingDialog.cancelLoadingDialog();
                 showNodataLayout();
                 break;
-            case MSG_ERROR:
+            case MSG_NO_DATA_MORE:
                 LoadingDialog.cancelLoadingDialog();
-                ToastUtils.showToast(this, ErrorHelper.getErrorHint(FocusOnActivity.this, msg.obj.toString()));
+                ToastUtils.showToast(this, getString(R.string.no_data_more));
                 break;
         }
     }
@@ -187,6 +178,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
             for (FocusModel d : data) {
                 if (d.userid.equals(searchItemModel.userid)) {
                     d.isfollow = searchItemModel.isfollow;
+                    break;
                 }
             }
             adapter.notifyDataSetChanged();
@@ -195,7 +187,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
 
     private void loadData() {
         getLoginUser();
-        LoadingDialog.showLoadingDialog(FocusOnActivity.this);
+        LoadingDialog.showLoadingDialog(this);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -210,25 +202,24 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                     if (HttpFunction.isSuc(result.code)) {
                         if (!result.data.isEmpty()) {
                             dateSort = result.time;
-                            int index = result.index;
                             if (IS_REFRESH) {
                                 data.clear();
-                                index = 0;
                             }
-                            pageIndex = index + 1;
                             data.addAll(result.data);
-                            adapter.setData(data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
+                        else{
+                            if (!IS_REFRESH){
+                                uiHandler.obtainMessage(MSG_NO_DATA_MORE).sendToTarget();
+                            }
+                        }
                     } else {
-                        onBusinessFaild(result.code, response);
+                        onBusinessFaild(result.code);
                     }
                 }
                 if (data.isEmpty()) {
                     uiHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                 }
-                IS_REFRESH = false;
-                LoadingDialog.cancelLoadingDialog();
             }
         };
 
@@ -263,9 +254,9 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                         } else {
                             data.get(position).isfollow = "1";
                         }
-                        uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
+                        uiHandler.sendEmptyMessage(MSG_SET_FOLLOW);
                     } else {
-                        uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
+                        onBusinessFaild(results.code);
                     }
                 }
             }
@@ -294,12 +285,14 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
+        pageIndex ++;
         loadData();
     }
 
     //刷新
     private void freshLoad() {
         IS_REFRESH = true;
+        pageIndex = 1;
         loadData();
     }
 

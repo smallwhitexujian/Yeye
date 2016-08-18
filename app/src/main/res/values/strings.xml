@@ -97,7 +97,6 @@
     <!---主页-->
     <string name="live_hot">Popular</string>
     <string name="live_follow">Following</string>
-    <string name="title_activity_start_live">StartLiveActivity</string>
     <string name="live_hot_default_area">From Yeye Live</string>
     <!--通知栏-->
     <string name="notify_default_title">New Message</string>
@@ -121,7 +120,7 @@
     <string name="diamond">My Diamond</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
-    <string name="intimacy">Intimacy:</string>
+    <string name="intimacy">Popularity:</string>
     <string name="ID">ID:</string>
     <string name="default_sign">There is no signature from this user.</string>
     <!--充值-->
@@ -166,7 +165,7 @@
     <string name="lisence_hint">Agreement of Broadcasting</string>
     <string name="comp">Angela Technology Co., Limited</string>
     <string name="versionCode">Version</string>
-    <string name="about_us_qq">Business Cooperation:yeyelivepartner@gmail.com</string>
+    <string name="about_us_qq">Business Cooperation:bd@iamyeye.com</string>
     <string name="about_us_secret_sign">Title: Yeye Live Cooperation</string>
     <string name="lisence_title">User Agreement</string>
     <string name="copyright">\@2016 Angela Technology Co., Limited</string>
@@ -203,6 +202,7 @@
     <string name="no_data_watch_follow">Have a look the Latest Hot Show</string>
     <string name="no_data_not_match_people">Sorry, we can\'t search the people you want to check.</string>
     <string name="no_data_no_fans">No Fans</string>
+    <string name="no_data_more">NO More Data</string>
     <string name="no_data_no_follow">Not Following Anyone</string>
     <string name="no_data_no_blacklist">No Blacklist</string>
     <string name="activity_feedback_title">Feedback</string>
@@ -210,7 +210,7 @@
     <string name="feedback_edit_hint">Input your suggestion</string>
     <string name="feedback_phone_mail_prompt">Please leave your contact here,we just keep it carefully.</string>
     <string name="feedback_phone_mail_edit_hint">Phone or Email.</string>
-    <string name="feedback_communication">If you have excellent suggestion ,send to yeyelivesupport@gmail.com</string>
+    <string name="feedback_communication">If you have excellent suggestion ,send to support@iamyeye.com</string>
     <string name="no_data_no_info">No info.</string>
     <string name="user_other">Other</string>
     <string name="upload_photo_suc">Screenshot Upload Successfully</string>

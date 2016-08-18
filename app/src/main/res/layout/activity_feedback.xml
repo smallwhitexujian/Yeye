@@ -11,6 +11,7 @@
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -44,7 +45,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="20dp"
         android:background="@color/color_grey_d5" />
 
@@ -72,9 +73,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/color_eaeaea" />
+        android:background="@color/color_grey_d5" />
 
     <TextView
         android:layout_width="match_parent"
@@ -90,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:background="@null"
         android:gravity="start|center"
         android:hint="@string/feedback_phone_mail_edit_hint"
@@ -99,17 +100,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/color_eaeaea" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="15dp"
-        android:textSize="12sp"
-        android:textColor="@color/color_666666"
-        />
+        android:background="@color/color_grey_d5" />
 
 </LinearLayout>

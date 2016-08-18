@@ -180,9 +180,9 @@
 
         <activity
             android:name=".activity.FeedbackActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:configChanges="keyboardHidden|orientation"/>
 
         <activity
             android:name=".activity.BlacklistActivity"
@@ -200,7 +200,7 @@
             android:name=".activity.RechargeActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <service
             android:name=".service.IService"
