@@ -578,16 +578,31 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 }
                             }
                             break;
-                        case 200000: //飞机
+                        case 2: //飞机
                             Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                            cocosPlaneModel.aniName = "FeiJi";
-                            cocosPlaneModel.imagePath = "FeiJi0.png";
-                            cocosPlaneModel.plistPath = "FeiJi0.plist";
-                            cocosPlaneModel.exportJsonPath = "FeiJi.ExportJson";
+                            cocosPlaneModel.aniName = "fjxxxg";
+                            cocosPlaneModel.imagePath = "fjxxxg0.png";
+                            cocosPlaneModel.plistPath = "fjxxxg0.plist";
+                            cocosPlaneModel.exportJsonPath = "fjxxxg.ExportJson";
                             cocosPlaneModel.x = ScreenUtils.getScreenWidth(this) / 2;
                             cocosPlaneModel.y = ScreenUtils.getScreenHeight(this) / 2;
                             cocosPlaneModel.scale = 0.8f;
                             cocosPlaneModel.speedScale = 0.5f;
+                            bigGift.add(cocosPlaneModel);
+                            if (!isStart) {
+                                isStart = true;
+                                if (giftTask == null) {
+                                    giftTask = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            startPlayBigGift();
+                                        }
+                                    };
+                                    timer.schedule(giftTask, 0, 8000);
+                                } else {
+                                    timer.schedule(giftTask, 0, 8000);
+                                }
+                            }
                             break;
                     }
 
