@@ -397,6 +397,7 @@ public class VideoPlayer {
             mMediaPlayer = null;
             isPlaying = false;
             status = STATUS_STOP;
+            mMediaPlayer = null;
             mHandler.obtainMessage(MSG_PLAYER_STOP).sendToTarget();
         }
     }
