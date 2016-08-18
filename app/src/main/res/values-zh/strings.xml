@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Yeye Live</string>
     <!-- header -->
-    <string name="empty_header_str"></string>
+    <string name="empty_header_str"/>
     <!--登录-->
     <string name="login_id_hint">账号/手机</string>
     <string name="login_password_hint">密码</string>
@@ -254,7 +254,7 @@
     <string name="fail">失败！</string>
     <!--banner-->
     <string name="banner_title">推广</string>
-    <string name="alipay_testing">支付宝充值调试中...</string>
+    <string name="alipay_testing">支付宝充值调试中…</string>
     <string name="seting_newwork">设置网络</string>
     <string name="not_newwork">无可用网络连接，请检查手机网络设置或尝试重启手机！</string>
     <!--google play-->
@@ -330,11 +330,11 @@
     <string name="login_code">验证码登录</string>
     <string name="find_password">找回密码</string>
     <string name="activity_register">注册</string>
-    <string name="login_now">正在自动登录,请稍后...</string>
+    <string name="login_now">正在自动登录,请稍后…</string>
     <string name="need_to_login_again">密码修改成功,现在去重新登录</string>
     <string name="now_submit">正在提交,请稍后</string>
     <string name="password_error">密码不符合规则</string>
-    <string name="password_gz">密码必须包含字母和数字(6-22位)</string>
+    <string name="password_gz">密码必须包含字母和数字(6–22位)</string>
     <string name="activity_title_video">我的视频</string>
     <string name="Invite_facebook_friends">邀请Facebook好友</string>
     <string name="text_delete">删除</string>
