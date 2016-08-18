@@ -131,15 +131,16 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void initView() {
+        userModel = CacheDataManager.getInstance().loadUser();
         LoadingDialog = new LoadingDialogNew();
         chatRoom = new ChatRoom(this);
         viewPanel = (RelativeLayout) findViewById(R.id.view);
         button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
         room_guide = (ImageView) findViewById(R.id.room_guide);
-        room_guide.setOnClickListener(this);
         mAbSlidingTabView = (ViewPager) findViewById(R.id.mAbSlidingTabView);
-        userModel = CacheDataManager.getInstance().loadUser();
+        room_guide.setOnClickListener(this);
+        button_call_disconnect.setOnClickListener(this);
     }
 
     public void onClick(View v) {
@@ -193,6 +194,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
         //如果是观众，直接启动房间
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+            face.setVisibility(View.GONE);
             fragmentList.add(callFragment);
             fragmentPagerAdapter.notifyDataSetChanged();
             MediaCenter.initPlay(this);
@@ -201,13 +203,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         //如果是预览，进入预览流程
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
-            MediaCenter.initLive(ChatRoomActivity.this);
+            MediaCenter.initLive(this);
 
             //美颜开启此属性
             MediaNative.VIDEO_FILTER = false;
             MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
         }
-        button_call_disconnect.setOnClickListener(this);
+
     }
 
     /**
@@ -318,7 +320,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
 
     private void roomStart() {
-        LoadingDialog.showSysLoadingDialog(this, getString(R.string.room_conne));
+        //LoadingDialog.showSysLoadingDialog(this, getString(R.string.room_conne));
         //房间引导页展示
         boolean boolGuide = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.room_guide_key);
         if (boolGuide) {
@@ -344,7 +346,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             }
         } else {
             //五次还是连不上就退出房间
-            peerdisConnection(getString(R.string.room_net_toast_error));
+            peerDisConnection(getString(R.string.room_net_toast_error));
         }
     }
 
@@ -493,7 +495,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
                     } else {
-                        for (int i = 0; i < onlineListDatas.size(); i++) {
+                        int k = onlineListDatas.size();
+                        for (int i = 0; i < k; i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
                                 onlineListDatas.remove(i);
                                 break;
@@ -519,7 +522,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.WM_ROOM_RECEIVE_PEOPLE: //收到在线列表
-                OnlineData(msg);
+                CommonListResult<OnlineListModel> results = JsonUtil.fromJson(msg.obj.toString(), new TypeToken<CommonListResult<OnlineListModel>>() {
+                }.getType());
+                if (results != null && results.code.equals("0")) {
+                    onlineListDatas = results.users;//在线列表
+                    callFragment.initPeopleView(onlineListDatas);
+                }
                 break;
             case GlobalDef.WM_ROOM_SENDGIFT:
                 GiftModel.AcceptGift giftModel = JsonUtil.fromJson(msg.obj.toString(), GiftModel.AcceptGift.class);
@@ -604,13 +612,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.WM_ROOM_Kicking:
-                JSONObject jsonkicking;
+                JSONObject jsonKicking;
                 try {
-                    jsonkicking = new JSONObject((String) msg.obj);
-                    if (jsonkicking.getInt("code") == 0 && jsonkicking.getJSONObject("from") != null) {
+                    jsonKicking = new JSONObject((String) msg.obj);
+                    int code = jsonKicking.optInt("code");
+                    if (code == 0 && jsonKicking.getJSONObject("from") != null) {
                         ToastUtils.showToast(this, getString(R.string.you_are_invited_out_of_the_room));
                         exitRoom();
-                    } else if (jsonkicking.getInt("code") == GlobalDef.NO_PERMISSION_OPE_1009) {
+                    } else if (code == GlobalDef.NO_PERMISSION_OPE_1009) {
                         ToastUtils.showToast(this, getString(R.string.not_font));
                     }
                 } catch (JSONException e) {
@@ -638,21 +647,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             isStart = false;
             giftTask.cancel();
             giftTask = null;
-        }
-    }
-
-    /**
-     * 在线列表数据处理
-     */
-    private void OnlineData(Message msg) {
-        CommonListResult<OnlineListModel> results = JsonUtil.fromJson(msg.obj.toString(), new TypeToken<CommonListResult<OnlineListModel>>() {
-        }.getType());
-        if (results == null) {
-            return;
-        }
-        if (results.code.equals("0")) {
-            onlineListDatas = results.users;//在线列表
-            callFragment.initPeopleView(onlineListDatas);
         }
     }
 
@@ -688,9 +682,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     @Override
-    public void onSendGift(int toid, int giftId, int nNum) {
+    public void onSendGift(int toId, int giftId, int nNum) {
         if (serviceManager != null) {
-            serviceManager.sendGift(toid, giftId, nNum);
+            serviceManager.sendGift(toId, giftId, nNum);
         }
     }
 
@@ -784,7 +778,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         App.chatRoomApplication = null;
     }
 
-    private void peerdisConnection(final String s) {
+    private void peerDisConnection(final String s) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -889,7 +883,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 case MediaNative.RTMP_LIVE_CONNECT_ERROR:
                     // ToastUtils.showToast(ChatRoomActivity.this,"主播正在化妆");
                     //直播错误
-                    peerdisConnection(getString(R.string.room_net_toast_error));
+                    peerDisConnection(getString(R.string.room_net_toast_error));
                     break;
                 case MediaNative.RTMP_LIVE_CONNECT:
                     break;
@@ -922,7 +916,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 case MediaNative.RTMP_PLAY_STOP:
                     break;
                 case MediaNative.RTMP_PLAY_CONNECT_ERROR:
-                    peerdisConnection(getString(R.string.room_net_toast_error));
+                    peerDisConnection(getString(R.string.room_net_toast_error));
                     break;
             }
         }
