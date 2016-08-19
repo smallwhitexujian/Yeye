@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -29,80 +28,62 @@
             android:layout_alignBottom="@id/user_face"
             android:layout_alignRight="@id/user_face"
             android:layout_marginBottom="2dp"
+            android:contentDescription="@null"
             android:src="@drawable/icon_vip_mark"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_line_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingRight="12dp"
+            android:text="@string/text_line_desc_now"
+            android:textColor="@color/color_ff999999"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/live_hot_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/user_face"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/user_nick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColor="@color/color_ff262626"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@null"
-                    android:src="@drawable/icon_home_location" />
-
-                <TextView
-                    android:id="@+id/area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:minLines="1"
-                    android:textColor="@color/color_999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/tv_line_desc"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingRight="12dp"
-            tools:ignore="RelativeOverlap">
+            android:maxLines="1"
+            android:textColor="@color/main_red"
+            android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/live_hot_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textColor="@color/main_red"
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_vip"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/live_hot_num"
+            android:layout_toRightOf="@+id/user_face"
+            android:drawableLeft="@drawable/icon_home_location"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginTop="2dp"
+            android:paddingLeft="4dp"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tv_line_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:text="@string/text_line_desc_now"
-                android:textColor="@color/color_ff999999"
-                android:textSize="14sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/user_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/area"
+            android:layout_toLeftOf="@+id/live_hot_num"
+            android:layout_toRightOf="@+id/user_face"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="4dp"
+            android:textColor="@color/color_ff262626"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
