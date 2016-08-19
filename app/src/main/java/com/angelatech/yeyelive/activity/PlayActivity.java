@@ -248,6 +248,8 @@ public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Respon
                     mVideoPlayer.replay();
                     break;
                 case R.id.btn_back:
+                    finish();
+                    break;
                 case R.id.backBtn:
                     ClosePlay();
                     break;

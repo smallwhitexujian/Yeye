@@ -176,7 +176,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     //根据礼物ID获取礼物单价
     public int getGiftCoinToId(int giftId) {
-        for (int i = 0; i < App.giftdatas.size(); i++) {
+        int k = App.giftdatas.size();
+        for (int i = 0; i < k; i++) {
             if (App.giftdatas.get(i).getID() == giftId) {
                 return Integer.parseInt(App.giftdatas.get(i).getPrice());
             }
@@ -216,8 +217,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
-
-        gift_Diamonds.setText(userModel.diamonds);
 
         ly_main.setOnClickListener(this);
         btn_send.setOnClickListener(this);
@@ -342,30 +341,30 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             LayoutInflater mInflater = LayoutInflater.from(getActivity());
             LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
             mGallery.removeAllViews();
-            for (int i = 0; i < linkData.size(); i++) {
+            int k = linkData.size();
+            for (int i = 0; i < k; i++) {
                 //在线列表上过滤主播
-                if (Integer.parseInt(liveUserModel.userid) != linkData.get(i).uid) {
+                final OnlineListModel onlineModel = linkData.get(i);
+                if (Integer.parseInt(liveUserModel.userid) != onlineModel.uid) {
                     View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
                     SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
-
                     ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
-                    if (linkData.get(i).isv.equals("1")) {
+                    if (onlineModel.isv.equals("1")) {
                         iv_vip.setVisibility(View.VISIBLE);
                     } else {
                         iv_vip.setVisibility(View.GONE);
                     }
                     img.setBackgroundResource(R.drawable.default_face_icon);
-                    img.setImageURI(Uri.parse(VerificationUtil.getImageUrl(linkData.get(i).headphoto)));
-                    final int finalI = i;
+                    img.setImageURI(Uri.parse(VerificationUtil.getImageUrl(onlineModel.headphoto)));
                     img.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             BasicUserInfoModel userInfo = new BasicUserInfoModel();
-                            userInfo.Userid = String.valueOf(linkData.get(finalI).uid);
-                            userInfo.nickname = linkData.get(finalI).name;
-                            userInfo.headurl = linkData.get(finalI).headphoto;
-                            userInfo.isv = linkData.get(finalI).isv;
-                            userInfo.sex = String.valueOf(linkData.get(finalI).sex);
+                            userInfo.Userid = String.valueOf(onlineModel.uid);
+                            userInfo.nickname = onlineModel.name;
+                            userInfo.headurl = onlineModel.headphoto;
+                            userInfo.isv = onlineModel.isv;
+                            userInfo.sex = String.valueOf(onlineModel.sex);
                             onShowUser(userInfo);
                         }
                     });
@@ -374,7 +373,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             }
 
             //在线人数要排除主播,所以在总数的基础上减1
-            txt_online.setText(String.valueOf(linkData.size() - 1));
+            txt_online.setText(String.valueOf(k - 1));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -486,7 +485,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                     ly_toolbar.setVisibility(View.VISIBLE);
                     giftView.setVisibility(View.GONE);
                 }
-                if (App.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+                if (!liveUserModel.userid.equals(userModel.userid)) {
                     if (NetWorkUtil.isNetworkConnected(getActivity())) {
                         doHeart();
                     }
@@ -891,7 +890,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 1; i <= giftModel.giftnum; i++) {
+                int k = giftModel.giftnum;
+                for (int i = 1; i <= k; i++) {
                     if (isAdded()) {
                         final int finalI = i;
                         getActivity().runOnUiThread(new Runnable() {
@@ -1076,8 +1076,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         @Override
         public void sendGift(BasicUserInfoModel user) {
             boolean isLoadUser = false;
-            for (int m = 0; m < PopLinkData.size(); m++) {
-                if (user.Userid.equals(String.valueOf(PopLinkData.get(m).uid))) {
+            for (OnlineListModel item : PopLinkData) {
+                if (user.Userid.equals(String.valueOf(item.uid))) {
                     isLoadUser = true;
                     break;
                 }

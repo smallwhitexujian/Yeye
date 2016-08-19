@@ -13,25 +13,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.CommonResultCode;
+import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.db.BaseKey;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.qiniu.QiniuUpload;
+import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.PictureObtain;
+import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
+import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.will.common.string.Encryption;
 import com.will.common.string.json.JsonUtil;
-import com.angelatech.yeyelive.CommonResultCode;
-import com.angelatech.yeyelive.CommonUrlConfig;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.PictureObtain;
-import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
-import com.angelatech.yeyelive.view.ActionSheetDialog;
-import com.angelatech.yeyelive.R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -45,7 +45,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     private final int LEN_LIMIT = 24;
     private final int MSG_INPUT_LIMIT = 1;
     private final int MSG_EMAIL_INPUT = 2;
-
+    private final int MSG_CHANGE_SUCCESS = 3;
     private SimpleDraweeView user_head_photo;
     private TextView tv_input_limit;
     private EditText edit_user_name, edit_user_mail;
@@ -82,6 +82,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         radioButton_female = (RadioButton) findViewById(R.id.radio_user_female);
 
         mObtain = new PictureObtain();
+        qiNiuUpload = new QiniuUpload(this);
         model = CacheDataManager.getInstance().loadUser();
         tv_submit.setOnClickListener(this);
         user_head_photo.setOnClickListener(this);
@@ -95,7 +96,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         });
         edit_user_name.addTextChangedListener(textWatcher);
         edit_user_mail.addTextChangedListener(emailWatcher);
-        qiNiuUpload = new QiniuUpload(this);
+
     }
 
     @Override
@@ -321,10 +322,7 @@ public class ProfileActivity extends HeaderBaseActivity {
                 CommonModel common = JsonUtil.fromJson(response, CommonModel.class);
                 if (common != null) {
                     if (HttpFunction.isSuc(common.code)) {
-                        CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, model.headurl, model.userid);
-                        CacheDataManager.getInstance().update(BaseKey.USER_SEX, String.valueOf(user_gender), model.userid);
-                        CacheDataManager.getInstance().update(BaseKey.USER_NICKNAME, user_name, model.userid);
-                        StartActivityHelper.jumpActivity(ProfileActivity.this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, MainActivity.class, null);
+                        uiHandler.sendEmptyMessage(MSG_CHANGE_SUCCESS);
                     } else {
                         //错误提示
                         onBusinessFaild(common.code);
@@ -351,6 +349,12 @@ public class ProfileActivity extends HeaderBaseActivity {
             case MSG_EMAIL_INPUT:
                 input_email = VerificationUtil.isEmail(msg.obj.toString());
                 setBackground();
+                break;
+            case MSG_CHANGE_SUCCESS:
+                CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, model.headurl, model.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_SEX, String.valueOf(user_gender), model.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_NICKNAME, user_name, model.userid);
+                StartActivityHelper.jumpActivity(ProfileActivity.this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, MainActivity.class, null);
                 break;
         }
     }
