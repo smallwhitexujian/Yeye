@@ -76,7 +76,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
-    private ImageView button_call_disconnect, face, room_guide;
+    private ImageView face;
+    private ImageView room_guide;
     public RelativeLayout viewPanel;
     private ViewPager mAbSlidingTabView;
     private ServiceManager serviceManager;
@@ -135,7 +136,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         LoadingDialog = new LoadingDialogNew();
         chatRoom = new ChatRoom(this);
         viewPanel = (RelativeLayout) findViewById(R.id.view);
-        button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
+        ImageView button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
         room_guide = (ImageView) findViewById(R.id.room_guide);
         mAbSlidingTabView = (ViewPager) findViewById(R.id.mAbSlidingTabView);
@@ -369,7 +370,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 //失去了连接，重连5次
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
                     endLive(getString(R.string.traffic_alert));
-                }else {
+                }else{
                     restartConnection();
                 }
                 break;
