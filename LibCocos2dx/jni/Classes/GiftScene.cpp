@@ -31,7 +31,7 @@ void GiftScene::play(const GiftModel gift,const GiftControlModel control)
 
 void GiftScene::loadAnimation(const GiftModel gift,const GiftControlModel control)
 {
-	cocostudio::ArmatureDataManager::getInstance()->addArmatureFileInfo(gift.imagePath,gift.plistPath,gift.exportJsonPath);
+	cocostudio::ArmatureDataManager::getInstance()->addArmatureFileInfo(gift.exportJsonPath);
 	auto armature = cocostudio::Armature::create(gift.aniName);
 	armature->setScale(control.scale);
 	armature->setPosition(Vec2(control.x,control.y));
