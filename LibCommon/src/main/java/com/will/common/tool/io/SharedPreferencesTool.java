@@ -51,7 +51,7 @@ public class SharedPreferencesTool {
 
     public static boolean getBooleanValue(Context ctx, String prefName, String key) {
         SharedPreferences properties = ctx.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-        return properties.getBoolean(key, false);
+        return properties.getBoolean(key, true);
     }
 
     public static long getLongValue(Context ctx, String prefName, String key) {
