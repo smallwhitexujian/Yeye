@@ -31,7 +31,7 @@ void GiftScene::play(const GiftModel gift,const GiftControlModel control)
 
 void GiftScene::loadAnimation(const GiftModel gift,const GiftControlModel control)
 {
-	cocostudio::ArmatureDataManager::getInstance()->addArmatureFileInfo(gift.imagePath,gift.plistPath,gift.exportJsonPath);
+	cocostudio::ArmatureDataManager::getInstance()->addArmatureFileInfo(gift.exportJsonPath);
 	auto armature = cocostudio::Armature::create(gift.aniName);
 	armature->setScale(control.scale);
 	armature->setPosition(Vec2(control.x,control.y));
@@ -118,6 +118,7 @@ void GiftScene::movementCallback(cocostudio::Armature * armature,cocostudio::Mov
 //		auto director = Director::getInstance();
 //		director->pause();
 		GiftScene::playtag = 0;
+		this->removeChild(armature);
 //		this->removeAllChildren();
         callbackJava();
 	}
