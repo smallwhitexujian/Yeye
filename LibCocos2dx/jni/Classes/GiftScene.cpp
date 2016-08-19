@@ -118,6 +118,7 @@ void GiftScene::movementCallback(cocostudio::Armature * armature,cocostudio::Mov
 //		auto director = Director::getInstance();
 //		director->pause();
 		GiftScene::playtag = 0;
+		this->removeChild(armature);
 //		this->removeAllChildren();
         callbackJava();
 	}
