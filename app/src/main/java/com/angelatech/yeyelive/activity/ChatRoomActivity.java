@@ -363,6 +363,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 if (connectionServiceNumber < 1) {
                     ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
                     exitRoom();
+                }else{
+                    restartConnection();
                 }
                 break;
             case GlobalDef.SERVICE_STATUS_CONNETN:
@@ -558,8 +560,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "firework_01_4";
-                                cocos2dxGiftModel.imagePath = "firework_01_40.png";
-                                cocos2dxGiftModel.plistPath = "firework_01_40.plist";
                                 cocos2dxGiftModel.exportJsonPath = "firework_01_4.ExportJson";
                                 cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
@@ -584,8 +584,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         case 2: //飞机
                             Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
                             cocosPlaneModel.aniName = "fjxxxg";
-                            cocosPlaneModel.imagePath = "fjxxxg0.png";
-                            cocosPlaneModel.plistPath = "fjxxxg0.plist";
                             cocosPlaneModel.exportJsonPath = "fjxxxg.ExportJson";
                             cocosPlaneModel.x = ScreenUtils.getScreenWidth(this) / 2;
                             cocosPlaneModel.y = ScreenUtils.getScreenHeight(this) / 2;
