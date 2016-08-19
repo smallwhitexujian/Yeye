@@ -960,20 +960,21 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                                 return;
                             }
                             Thread.sleep(200);
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isRun = true;
-                                    if (loveView != null) {
-                                        loveView.addHeart();
-                                        if (App.roomModel != null) {
-                                            App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
-                                            txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+                            if (isAdded()) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        isRun = true;
+                                        if (loveView != null) {
+                                            loveView.addHeart();
+                                            if (App.roomModel != null) {
+                                                App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
+                                                txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+                                            }
                                         }
                                     }
-                                }
-                            });
-
+                                });
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

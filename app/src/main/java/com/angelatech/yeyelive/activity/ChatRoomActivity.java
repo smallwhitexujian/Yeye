@@ -60,14 +60,13 @@ import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
 import org.cocos2dx.lib.util.Cocos2dxGift;
+import org.cocos2dx.lib.util.Cocos2dxGiftCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 视频直播主界面
@@ -106,7 +105,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
-    private Timer timer = new Timer(); //特效礼物
     private ChatRoom chatRoom;
 
     @Override
@@ -132,6 +130,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void initView() {
+        Cocos2dxGiftCallback.onCreate(uiHandler);
         userModel = CacheDataManager.getInstance().loadUser();
         LoadingDialog = new LoadingDialogNew();
         chatRoom = new ChatRoom(this);
@@ -363,7 +362,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 if (connectionServiceNumber < 1) {
                     ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
                     exitRoom();
-                }else{
+                } else {
                     restartConnection();
                 }
                 break;
@@ -372,7 +371,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 //失去了连接，重连5次
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
                     endLive(getString(R.string.traffic_alert));
-                }else{
+                } else {
                     restartConnection();
                 }
                 break;
@@ -567,41 +566,24 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 bigGift.add(cocos2dxGiftModel);
                                 if (!isStart) {
                                     isStart = true;
-                                    if (giftTask == null) {
-                                        giftTask = new TimerTask() {
-                                            @Override
-                                            public void run() {
-                                                startPlayBigGift();
-                                            }
-                                        };
-                                        timer.schedule(giftTask, 0, 8000);
-                                    } else {
-                                        timer.schedule(giftTask, 0, 8000);
-                                    }
+                                    startPlayBigGift();
                                 }
                             }
                             break;
                         case 2: //飞机
-                            Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                            cocosPlaneModel.aniName = "fjxxxg";
-                            cocosPlaneModel.exportJsonPath = "fjxxxg.ExportJson";
-                            cocosPlaneModel.x = ScreenUtils.getScreenWidth(this) / 2;
-                            cocosPlaneModel.y = ScreenUtils.getScreenHeight(this) / 2;
-                            cocosPlaneModel.scale = 0.8f;
-                            cocosPlaneModel.speedScale = 0.5f;
-                            bigGift.add(cocosPlaneModel);
-                            if (!isStart) {
-                                isStart = true;
-                                if (giftTask == null) {
-                                    giftTask = new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            startPlayBigGift();
-                                        }
-                                    };
-                                    timer.schedule(giftTask, 0, 8000);
-                                } else {
-                                    timer.schedule(giftTask, 0, 8000);
+                            Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel;
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocosPlaneModel.aniName = "fjxxxg";
+                                cocosPlaneModel.exportJsonPath = "fjxxxg.ExportJson";
+                                cocosPlaneModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocosPlaneModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocosPlaneModel.scale = 1.6f;
+                                cocosPlaneModel.speedScale = 0.5f;
+                                bigGift.add(cocosPlaneModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
                                 }
                             }
                             break;
@@ -642,27 +624,21 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     e.printStackTrace();
                 }
                 break;
+            case Cocos2dxGiftCallback.MSG_FINISH://一个特效播放结束通知
+                bigGift.remove(0);
+                startPlayBigGift();
+                break;
         }
     }
 
     /**
-     * 大礼物特效 定时器
+     * 开始播放大礼物特效
      */
-    private TimerTask giftTask = new TimerTask() {
-        @Override
-        public void run() {
-            startPlayBigGift();
-        }
-    };
-
     private void startPlayBigGift() {
         if (bigGift.size() > 0) {
             callFragment.play(bigGift.get(0));
-            bigGift.remove(0);
         } else {
             isStart = false;
-            giftTask.cancel();
-            giftTask = null;
         }
     }
 
@@ -785,13 +761,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             MediaCenter.destoryLive();
         }
         App.mChatlines.clear();
-        if (giftTask != null) {
-            giftTask.cancel();
-            giftTask = null;
-        }
         App.roomModel = new RoomModel();
         boolCloseRoom = true;
         App.chatRoomApplication = null;
+        Cocos2dxGiftCallback.onDestroy();
     }
 
     private void peerDisConnection(final String s) {
