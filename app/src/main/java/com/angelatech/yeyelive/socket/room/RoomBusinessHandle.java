@@ -62,7 +62,7 @@ public class RoomBusinessHandle extends SocketBusinessHandle {
     @Override
     public void onLostConnect() {
         DebugLogs.e("===onLostConnect==");
-        mRoomHandler.sendEmptyMessage(GlobalDef.SERVICE_STATUS_CONNETN);
+        mRoomHandler.obtainMessage(GlobalDef.SERVICE_STATUS_CONNETN).sendToTarget();
     }
 
     @Override
