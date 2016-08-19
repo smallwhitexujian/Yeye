@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.view.WindowManager;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.LoginActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.AccountTModel;
 import com.angelatech.yeyelive.model.LoginServerModel;
+import com.angelatech.yeyelive.socket.WillProtocol;
 import com.angelatech.yeyelive.socket.im.ImLogin;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.NotificationUtil;
@@ -25,9 +27,6 @@ import com.framework.socket.model.TcpSocketConnectorConfig;
 import com.framework.socket.protocol.Protocol;
 import com.will.common.log.DebugLogs;
 import com.will.common.log.Logger;
-import com.angelatech.yeyelive.socket.WillProtocol;
-import com.angelatech.yeyelive.R;
-import com.will.view.ToastUtils;
 import com.will.web.HttpManager;
 import com.will.web.okhttp3.OkHttpManager;
 
@@ -155,7 +154,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
 
     @Override
     public void handleNetworkInactive() {
-        ToastUtils.showToast(mContext, "没有网络");
+        //ToastUtils.showToast(mContext, "没有网络");
     }
 
     @Override

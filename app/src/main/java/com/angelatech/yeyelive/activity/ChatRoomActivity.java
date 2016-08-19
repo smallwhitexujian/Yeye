@@ -369,6 +369,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 //失去了连接，重连5次
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
                     endLive(getString(R.string.traffic_alert));
+                }else {
+                    restartConnection();
                 }
                 break;
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
