@@ -150,6 +150,11 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         helper.showView(R.id.live_introduce);
                         helper.setText(R.id.live_introduce, liveModel.introduce);
                     }
+                    if (liveModel.isticket.equals("1")){
+                        helper.showView(R.id.layout_ticket);
+                    }else{
+                        helper.hideView(R.id.layout_ticket);
+                    }
                 } else {
                     VideoModel videoModel = (VideoModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_play_back);
@@ -169,6 +174,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         helper.showView(R.id.live_introduce);
                         helper.setText(R.id.live_introduce, videoModel.introduce);
                     }
+                    helper.hideView(R.id.layout_ticket);
                 }
                 //加V标识
                 if (item.isv.equals("1")) {

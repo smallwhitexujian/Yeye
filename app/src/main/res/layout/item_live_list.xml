@@ -26,11 +26,11 @@
             android:id="@+id/iv_vip"
             android:layout_width="11dp"
             android:layout_height="11dp"
-            android:layout_marginBottom="2dp"
             android:layout_alignBottom="@id/user_face"
             android:layout_alignRight="@id/user_face"
-            android:visibility="gone"
-            android:src="@drawable/icon_vip_mark" />
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/icon_vip_mark"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -151,6 +151,22 @@
             android:paddingTop="10dp"
             android:textColor="@color/color_666666"
             android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_ticket"
+            android:layout_width="50dp"
+            android:layout_height="34dp"
+            android:background="@color/color_80000000"
+            android:gravity="center"
+            android:layout_alignBottom="@id/live_cover"
+            android:layout_marginBottom="50dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/icon_tickets_golds_big" />
+        </LinearLayout>
     </RelativeLayout>
 
     <View
