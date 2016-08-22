@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:ignore="UselessParent">
 
         <EditText
@@ -102,13 +102,12 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textColor="@color/color_ffffff"
-                    android:text="share to"/>
+                    android:text="@string/share_to"/>
 
                 <ImageView
                     android:id="@+id/btn_facebook"
-                    android:layout_width="25dp"
+                    android:layout_width="60dp"
                     android:layout_height="25dp"
-                    android:layout_weight="1"
                     android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_facebook_n" />
 

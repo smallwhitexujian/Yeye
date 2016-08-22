@@ -65,7 +65,7 @@ public class CacheDataManager {
     public void update(String key, Object value, String userId) {
         Map<String, Object> eqs = new HashMap<>();
         eqs.put(BaseKey.USER_USERID, userId);
-
+        loginUser = null;
         Map<String, Object> updates = new HashMap<>();
         updates.put(key, value);
         try {

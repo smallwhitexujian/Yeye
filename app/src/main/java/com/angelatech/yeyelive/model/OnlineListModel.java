@@ -13,6 +13,7 @@ public class OnlineListModel extends CommonModel {
     public int level;    //等级
     public int sex;
     public String isv = "0";
+    public int isrobot = 0;
     @Override
     public String toString() {
         return name;

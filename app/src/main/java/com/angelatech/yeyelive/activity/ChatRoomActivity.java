@@ -106,6 +106,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
+    private int connTotalNum = 0; //总连接次数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -359,7 +360,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.SERVICE_STATUS_FAILD://连接失败
                 DebugLogs.e("network test---------faild");
                 //如果首次连接失败，给出提示并退出房间
-                if (connectionServiceNumber < 1) {
+                connTotalNum++;
+                if (connectionServiceNumber < 1 || connTotalNum >= 10) {
                     ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
                     exitRoom();
                 } else {
@@ -367,11 +369,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.SERVICE_STATUS_CONNETN:
+                connTotalNum++;
                 DebugLogs.e("network test---------SERVICE_STATUS_CONNETN");
-                //失去了连接，重连5次
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
                     endLive(getString(R.string.traffic_alert));
+                } else if (connTotalNum >= 10) {
+                    endLive(getString(R.string.the_server_connect_fail));
                 } else {
+                    //失去了连接，重连5次
                     restartConnection();
                 }
                 break;
@@ -484,7 +489,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 OnlineListModel.OnlineNotice onlineNotice = JsonUtil.fromJson(msg.obj.toString(), OnlineListModel.OnlineNotice.class);
                 if (onlineNotice != null) {
                     if (onlineNotice.kind == 0) {//上线
-                        onlineListDatas.add(onlineNotice.user);
+                       // onlineListDatas.add(onlineNotice.user);
                         roomModel.addlivenum();
                         ChatLineModel chatlinemodel = new ChatLineModel();
                         ChatLineModel.from from = new ChatLineModel.from();
@@ -498,7 +503,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
-                    } else {
+                    }
+                    else {
                         int k = onlineListDatas.size();
                         for (int i = 0; i < k; i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
@@ -508,7 +514,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         }
                     }
                     //更新界面
-                    callFragment.initPeopleView(onlineListDatas);
+                    //callFragment.initPeopleView(onlineListDatas);
+                    callFragment.updateOnline(onlineNotice);
                 }
                 break;
             case GlobalDef.WM_ROOM_LIKENUM: //有人点赞
@@ -530,7 +537,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }.getType());
                 if (results != null && results.code.equals("0")) {
                     onlineListDatas = results.users;//在线列表
-                    callFragment.initPeopleView(onlineListDatas);
+                    //callFragment.initPeopleView(onlineListDatas);
+                    callFragment.initPeopleHorizontaiView(onlineListDatas);
                 }
                 break;
             case GlobalDef.WM_ROOM_SENDGIFT:
@@ -570,7 +578,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 }
                             }
                             break;
-                        case 2: //飞机
+                        case 7: //飞机
                             Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel;
                             for (int m = 0; m < gift_Num; m++) {
                                 cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();

@@ -39,19 +39,43 @@
                 android:textColor="@color/white"
                 android:textSize="10sp" />
 
+            <!--<HorizontalScrollView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginRight="38dp"-->
+                <!--android:scrollbars="none">-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/id_gallery"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:orientation="horizontal" />-->
+            <!--</HorizontalScrollView>-->
+
             <HorizontalScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:scrollbars="none"
                 android:layout_marginRight="38dp"
-                android:scrollbars="none">
+                android:layout_gravity="center_vertical">
 
                 <LinearLayout
-                    android:id="@+id/id_gallery"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical">
+
+                    <GridView
+                        android:id="@+id/grid_online"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:numColumns="auto_fit"
+                        android:stretchMode="spacingWidthUniform" >
+                    </GridView>
+                </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
 

@@ -150,9 +150,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         helper.showView(R.id.live_introduce);
                         helper.setText(R.id.live_introduce, liveModel.introduce);
                     }
-                    if (liveModel.isticket.equals("1")){
+                    if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
                         helper.showView(R.id.layout_ticket);
-                    }else{
+                    } else {
                         helper.hideView(R.id.layout_ticket);
                     }
                 } else {

@@ -14,6 +14,7 @@ public class LiveModel extends LiveVideoModel {
     public String roomserverip;//开播地址
     public String livestate;
     public String isticket = "0";//是否有门票
+    public String ticketprice = "0";
     public String rtmpserverip;
     public String os;
 

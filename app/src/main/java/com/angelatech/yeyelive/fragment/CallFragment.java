@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
 import com.angelatech.yeyelive.adapter.CustomerPageAdapter;
 import com.angelatech.yeyelive.adapter.GridViewAdapter;
+import com.angelatech.yeyelive.adapter.HorizontalListViewAdapter;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
@@ -50,6 +52,7 @@ import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
+import com.angelatech.yeyelive.util.BinarySearch;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -139,6 +142,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private Cocos2dxView cocos2dxView = new Cocos2dxView();
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
 
+    private GridView grid_online;
+    private HorizontalListViewAdapter horizontalListViewAdapter;
+    private List<OnlineListModel> showList = new ArrayList<>();
+
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
     }
@@ -217,6 +224,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
+        grid_online = (GridView) controlView.findViewById(R.id.grid_online);
 
         ly_main.setOnClickListener(this);
         btn_send.setOnClickListener(this);
@@ -229,6 +237,20 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         img_head.setOnClickListener(this);
         txt_barName.setOnClickListener(this);
         gift_Recharge.setOnClickListener(this);
+
+        grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                OnlineListModel onlineModel = showList.get(i);
+                BasicUserInfoModel userInfo = new BasicUserInfoModel();
+                userInfo.Userid = String.valueOf(onlineModel.uid);
+                userInfo.nickname = onlineModel.name;
+                userInfo.headurl = onlineModel.headphoto;
+                userInfo.isv = onlineModel.isv;
+                userInfo.sex = String.valueOf(onlineModel.sex);
+                onShowUser(userInfo);
+            }
+        });
 
         txt_msg.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -318,6 +340,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             public void onAnimationRepeat(Animation animation) {
             }
         });
+
     }
 
     //初始化cocos
@@ -336,48 +359,121 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     /**
      * 中间在线人数列表
      */
-    public void initPeopleView(final List<OnlineListModel> linkData) {
-        try {
-            LayoutInflater mInflater = LayoutInflater.from(getActivity());
-            LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
-            mGallery.removeAllViews();
-            int k = linkData.size();
-            for (int i = 0; i < k; i++) {
-                //在线列表上过滤主播
-                final OnlineListModel onlineModel = linkData.get(i);
-                if (Integer.parseInt(liveUserModel.userid) != onlineModel.uid) {
-                    View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
-                    SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
-                    ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
-                    if (onlineModel.isv.equals("1")) {
-                        iv_vip.setVisibility(View.VISIBLE);
-                    } else {
-                        iv_vip.setVisibility(View.GONE);
-                    }
-                    img.setBackgroundResource(R.drawable.default_face_icon);
-                    img.setImageURI(Uri.parse(VerificationUtil.getImageUrl(onlineModel.headphoto)));
-                    img.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            BasicUserInfoModel userInfo = new BasicUserInfoModel();
-                            userInfo.Userid = String.valueOf(onlineModel.uid);
-                            userInfo.nickname = onlineModel.name;
-                            userInfo.headurl = onlineModel.headphoto;
-                            userInfo.isv = onlineModel.isv;
-                            userInfo.sex = String.valueOf(onlineModel.sex);
-                            onShowUser(userInfo);
-                        }
-                    });
-                    mGallery.addView(view);
-                }
+//    public void initPeopleView(final List<OnlineListModel> linkData) {
+//        try {
+//            LayoutInflater mInflater = LayoutInflater.from(getActivity());
+//            LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
+//            mGallery.removeAllViews();
+//            int k = linkData.size();
+//            for (int i = 0; i < k; i++) {
+//                //在线列表上过滤主播
+//                final OnlineListModel onlineModel = linkData.get(i);
+//                if (Integer.parseInt(liveUserModel.userid) != onlineModel.uid) {
+//                    View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
+//                    SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
+//                    ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
+//                    if (onlineModel.isv.equals("1")) {
+//                        iv_vip.setVisibility(View.VISIBLE);
+//                    } else {
+//                        iv_vip.setVisibility(View.GONE);
+//                    }
+//                    img.setBackgroundResource(R.drawable.default_face_icon);
+//                    img.setImageURI(Uri.parse(VerificationUtil.getImageUrl(onlineModel.headphoto)));
+//                    img.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            BasicUserInfoModel userInfo = new BasicUserInfoModel();
+//                            userInfo.Userid = String.valueOf(onlineModel.uid);
+//                            userInfo.nickname = onlineModel.name;
+//                            userInfo.headurl = onlineModel.headphoto;
+//                            userInfo.isv = onlineModel.isv;
+//                            userInfo.sex = String.valueOf(onlineModel.sex);
+//                            onShowUser(userInfo);
+//                        }
+//                    });
+//                    mGallery.addView(view);
+//                }
+//            }
+//
+//            //在线人数要排除主播,所以在总数的基础上减1
+//            txt_online.setText(String.valueOf(k - 1));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    /**
+     * 初始化列表
+     *
+     * @param lineData
+     */
+    public void initPeopleHorizontaiView(List<OnlineListModel> lineData) {
+
+        for (OnlineListModel item : lineData) {
+            synchronized (lock) {
+                showList.add(BinarySearch.binSearch(showList, 0, showList.size() - 1, item), item);
             }
-
-            //在线人数要排除主播,所以在总数的基础上减1
-            txt_online.setText(String.valueOf(k - 1));
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        int onlineCount = showList.size();
+        int length = 30;
+        DisplayMetrics density = ScreenUtils.getScreen(getActivity());
+        int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
+        int itemWidth = (int) (length * density.density);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        grid_online.setLayoutParams(params); // 重点
+        grid_online.setColumnWidth(itemWidth); // 重点
+        grid_online.setStretchMode(GridView.NO_STRETCH);
+        grid_online.setNumColumns(onlineCount); // 重点
+        txt_online.setText(String.valueOf(showList.size() - 1));
+        horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
+        grid_online.setAdapter(horizontalListViewAdapter);
+    }
+
+    /**
+     * 更新在线列表
+     *
+     * @param onlineNotice 进出房间用户
+     */
+    public void updateOnline(OnlineListModel.OnlineNotice onlineNotice) {
+        int onlineCount = showList.size();
+        if (onlineNotice.kind == 0) { //进房间
+            showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
+        } else {
+            int index = getIndexOfUserList(onlineNotice.user.uid, showList);
+            if (index >= 0) {
+                synchronized (lock) {
+                    showList.remove(index);
+                }
+                onlineCount--;
+            }
+        }
+        grid_online.setNumColumns(onlineCount); // 重点
+        txt_online.setText(String.valueOf(onlineCount - 1));
+        if (horizontalListViewAdapter != null) {
+            horizontalListViewAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param userId
+     * @param list
+     * @return
+     */
+    private synchronized int getIndexOfUserList(int userId, List<OnlineListModel> list) {
+
+        synchronized (lock) { // 防止查询列表时列表更新或排序
+            int k = list.size();
+            for (int index = 0; index < k; index++) {
+                OnlineListModel user = list.get(index);
+                if (user != null && userId == user.uid)
+                    return index;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -1021,6 +1117,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             timeCount2.cancel();
             timeCount2 = null;
         }
+
     }
 
     /**
