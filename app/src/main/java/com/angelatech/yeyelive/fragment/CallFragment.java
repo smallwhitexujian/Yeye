@@ -422,10 +422,10 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         int itemWidth = (int) (length * density.density);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        grid_online.setLayoutParams(params); // 重点
-        grid_online.setColumnWidth(itemWidth); // 重点
+        grid_online.setLayoutParams(params);
+        grid_online.setColumnWidth(itemWidth);
         grid_online.setStretchMode(GridView.NO_STRETCH);
-        grid_online.setNumColumns(onlineCount); // 重点
+        grid_online.setNumColumns(onlineCount);
         txt_online.setText(String.valueOf(showList.size() - 1));
         horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
         grid_online.setAdapter(horizontalListViewAdapter);
@@ -449,7 +449,15 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 onlineCount--;
             }
         }
-        grid_online.setNumColumns(onlineCount); // 重点
+        int length = 30;
+        DisplayMetrics density = ScreenUtils.getScreen(getActivity());
+        int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
+        int itemWidth = (int) (length * density.density);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        grid_online.setLayoutParams(params);
+        grid_online.setColumnWidth(itemWidth);
+        grid_online.setNumColumns(onlineCount);
         txt_online.setText(String.valueOf(onlineCount - 1));
         if (horizontalListViewAdapter != null) {
             horizontalListViewAdapter.notifyDataSetChanged();
