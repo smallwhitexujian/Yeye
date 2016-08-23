@@ -15,6 +15,7 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.LoginUserModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -54,7 +55,13 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
 
     private void setView() {
         headerLayout.showTitle(getString(R.string.change_password));
-        headerLayout.showLeftBackButton();
+        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.closeKeybord(ed_new_password, ChangePasswordActivity.this);
+                finish();
+            }
+        });
         model = CacheDataManager.getInstance().loadUser();
         tv_submit.setOnClickListener(this);
     }

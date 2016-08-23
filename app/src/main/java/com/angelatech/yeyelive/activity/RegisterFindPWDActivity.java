@@ -1,7 +1,13 @@
 package com.angelatech.yeyelive.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -61,10 +67,15 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private PhoneLogin mPhoneLogin;
     private boolean isRunTimer = false;
 
+    SmsContent contentObserver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_login);
+        //注册短信变化监听
+        contentObserver = new SmsContent(new Handler());
+        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, contentObserver);
         initView();
         setView();
         mPhoneLogin = new PhoneLogin(this);
@@ -72,7 +83,6 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
 
     private void initView() {
         fromType = StartActivityHelper.getInt(this);
-
         headerLayout.showLeftBackButton();
         mInputPhone = (EditText) findViewById(R.id.input_phone);
         mVerificationCode = (EditText) findViewById(R.id.input_verification_code);
@@ -205,8 +215,8 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private void Register() {
         String code = mVerificationCode.getText().toString();
         password = ed_pass_word.getText().toString();
-        if (phone.startsWith("0")){
-            phone = phone.replaceFirst("0","");
+        if (phone.startsWith("0")) {
+            phone = phone.replaceFirst("0", "");
         }
         if (!code.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
@@ -226,8 +236,8 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         String code = mVerificationCode.getText().toString();
         countryCode = mAreaText.getText().toString().replace("+", "");
         password = ed_pass_word.getText().toString();
-        if (phone.startsWith("0")){
-            phone = phone.replaceFirst("0","");
+        if (phone.startsWith("0")) {
+            phone = phone.replaceFirst("0", "");
         }
         if (!code.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
@@ -285,6 +295,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopTimer();
+        getContentResolver().unregisterContentObserver(contentObserver);
     }
 
     /***
@@ -361,5 +372,36 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             mLoginBtn.setTextColor(0xFFA6A6A6);
         }
     }
+
+    class SmsContent extends ContentObserver {
+        private Cursor cursor = null;
+
+        public SmsContent(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            //读取收件箱中指定号码的短信
+            Uri outMMS = Uri.parse("content://sms/inbox");
+            cursor = getContentResolver().query(outMMS, null, null, null, "date DESC");//按id排序，如果按date排序的话，修改手机时间后，读取的短信就不准了
+            if (cursor != null && cursor.getCount() > 0) {
+                ContentValues values = new ContentValues();
+                values.put("read", "1"); //修改短信为已读模式
+                cursor.moveToNext();
+                int bodyColumn = cursor.getColumnIndex("body");
+                String smsBody = cursor.getString(bodyColumn);
+                mVerificationCode.setText(VerificationUtil.getDynamicPassword(smsBody));
+            }
+
+            //在用managedQuery的时候，不能主动调用close()方法，
+            // 否则在Android 4.0+的系统上， 会发生崩溃
+            if (Build.VERSION.SDK_INT < 14 && cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
 
 }

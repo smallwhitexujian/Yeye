@@ -73,6 +73,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
         login_btn.setOnClickListener(this);
         LoginUserModel loginUserModel = StartActivityHelper.getTransactionSerializable_1(this);
         if (loginUserModel != null) {
+            CacheDataManager.loginUser = null;
             ed_phoneNumber.setText(loginUserModel.phone);
             ed_pass_word.setText(loginUserModel.password);
             uiHandler.obtainMessage(MSG_LOGIN_NOW, loginUserModel).sendToTarget();

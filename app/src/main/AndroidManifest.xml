@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 短信权限 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <!-- 获取GPS经纬度权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 获取相机权限 -->
@@ -180,9 +181,9 @@
 
         <activity
             android:name=".activity.FeedbackActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation"/>
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.BlacklistActivity"

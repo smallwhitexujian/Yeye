@@ -99,4 +99,23 @@ public class VerificationUtil {
         }
         return url;
     }
+
+    /**
+     * 从字符串中截取连续6位数字
+     * 用于从短信中获取动态密码
+     *
+     * @param str 短信内容
+     * @return 截取得到的6位验证码
+     */
+    public static String getDynamicPassword(String str) {
+        Pattern continuousNumberPattern = Pattern.compile("[0-9\\.]+");
+        Matcher m = continuousNumberPattern.matcher(str);
+        String dynamicPassword = "";
+        while (m.find()) {
+            if (m.group().length() == 6) {
+                dynamicPassword = m.group();
+            }
+        }
+        return dynamicPassword;
+    }
 }
