@@ -81,7 +81,7 @@ import java.util.TimerTask;
 /**
  * Fragment 视频操作类
  */
-public class CallFragment extends BaseFragment implements  View.OnClickListener {
+public class CallFragment extends BaseFragment implements View.OnClickListener {
     private View controlView;
     private final int MSG_DO_FOLLOW = 15;
     private final int MSG_CANCEL_FOLLOW = 16;
@@ -363,7 +363,7 @@ public class CallFragment extends BaseFragment implements  View.OnClickListener 
      * @param lineData
      */
     public void InitializeOnline(List<OnlineListModel> lineData) {
-        String uid ;
+        String uid;
         for (OnlineListModel item : lineData) {
             synchronized (lock) {
                 uid = String.valueOf(item.uid);
@@ -410,9 +410,10 @@ public class CallFragment extends BaseFragment implements  View.OnClickListener 
         int index = getIndexOfUserList(onlineNotice.user.uid, showList);
         if (onlineNotice.kind == 0) { //进房间
             if (index >= 0 || String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) { //存在用户 直接返回
-                return;
+                showList.add(index, onlineNotice.user);
+            } else {
+                showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
             }
-            showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
         } else {
             if (index >= 0) {
                 synchronized (lock) {
@@ -831,10 +832,10 @@ public class CallFragment extends BaseFragment implements  View.OnClickListener 
                 setRoomPopSpinner();
                 break;
             case SHOW_SOFT_KEYB://键盘弹出事件
-                DebugLogs.d("------heightDiff-------。键盘弹出"+ly_main);
-                if (ly_main!=null){
+                DebugLogs.d("------heightDiff-------。键盘弹出" + ly_main);
+                if (ly_main != null) {
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
-                    params.height = App.screenDpx.heightPixels - (int)msg.obj;
+                    params.height = App.screenDpx.heightPixels - (int) msg.obj;
                     params.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params);
                     ly_main.invalidate();
@@ -846,7 +847,7 @@ public class CallFragment extends BaseFragment implements  View.OnClickListener 
                 break;
             case ONSHOW_SOFT_KEYB:
                 //键盘收起了
-                if (ly_main != null){
+                if (ly_main != null) {
                     ViewGroup.LayoutParams params2 = ly_main.getLayoutParams();
                     params2.height = App.screenDpx.heightPixels;
                     params2.width = App.screenDpx.widthPixels;
