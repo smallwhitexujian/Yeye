@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 短信权限 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <!-- 获取GPS经纬度权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -33,10 +34,12 @@
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- 系统弹窗权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".application.App"
@@ -62,14 +65,15 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--登录选择总界面 -->
-        <!--<activity-->
-        <!--android:name="com.will.live.activity.LoginActivity"-->
-        <!--android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"-->
-        <!--android:launchMode="singleTask"-->
-        <!--android:screenOrientation="portrait" />-->
+
         <activity
             android:name=".activity.ChatRoomActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.LiveRoomActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"

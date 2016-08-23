@@ -1,4 +1,4 @@
-package com.will.common.string.json;
+package com.angelatech.yeyelive.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

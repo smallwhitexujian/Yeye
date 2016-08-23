@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.Logger;
-import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.DeviceTool;
 
 import java.io.ByteArrayOutputStream;

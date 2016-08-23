@@ -1,9 +1,9 @@
 package com.angelatech.yeyelive.socket;
 
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.framework.socket.model.ProtocolWrap;
 import com.framework.socket.protocol.Protocol;
 import com.framework.socket.util.ByteUtil;
-import com.will.common.string.json.JsonUtil;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

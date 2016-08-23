@@ -22,9 +22,9 @@ import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
 import com.angelatech.yeyelive.mediaplayer.handler.CommonHandler;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.will.common.string.json.JsonUtil;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.Map;

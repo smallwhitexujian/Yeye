@@ -3,9 +3,9 @@ package com.angelatech.yeyelive.qqapi;
 import android.os.Handler;
 import android.os.Message;
 
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.tencent.tauth.UiError;
 import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 
 import org.json.JSONObject;
 

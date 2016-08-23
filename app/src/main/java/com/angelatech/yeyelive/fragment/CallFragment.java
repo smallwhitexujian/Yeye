@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -54,6 +53,7 @@ import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.util.BinarySearch;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
@@ -61,7 +61,7 @@ import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.string.json.JsonUtil;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -81,7 +81,7 @@ import java.util.TimerTask;
 /**
  * Fragment 视频操作类
  */
-public class CallFragment extends BaseFragment implements View.OnLayoutChangeListener, View.OnClickListener {
+public class CallFragment extends BaseFragment implements  View.OnClickListener {
     private View controlView;
     private final int MSG_DO_FOLLOW = 15;
     private final int MSG_CANCEL_FOLLOW = 16;
@@ -89,6 +89,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     private final int MSG_ADAPTER_NOTIFY_GIFT = 172;
     private final int MSG_SET_FOLLOW = 2;
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
+    private final int SHOW_SOFT_KEYB = 14;
+    private final int ONSHOW_SOFT_KEYB = 12;
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow, btn_share, iv_vip;
@@ -172,8 +174,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
         initCocos2dx();
@@ -356,52 +356,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         ((FrameLayout) controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
     }
 
-    /**
-     * 中间在线人数列表
-     */
-//    public void initPeopleView(final List<OnlineListModel> linkData) {
-//        try {
-//            LayoutInflater mInflater = LayoutInflater.from(getActivity());
-//            LinearLayout mGallery = (LinearLayout) controlView.findViewById(R.id.id_gallery);
-//            mGallery.removeAllViews();
-//            int k = linkData.size();
-//            for (int i = 0; i < k; i++) {
-//                //在线列表上过滤主播
-//                final OnlineListModel onlineModel = linkData.get(i);
-//                if (Integer.parseInt(liveUserModel.userid) != onlineModel.uid) {
-//                    View view = mInflater.inflate(R.layout.item_chatroom_gallery, mGallery, false);
-//                    SimpleDraweeView img = (SimpleDraweeView) view.findViewById(R.id.item_chatRoom_gallery_image);
-//                    ImageView iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
-//                    if (onlineModel.isv.equals("1")) {
-//                        iv_vip.setVisibility(View.VISIBLE);
-//                    } else {
-//                        iv_vip.setVisibility(View.GONE);
-//                    }
-//                    img.setBackgroundResource(R.drawable.default_face_icon);
-//                    img.setImageURI(Uri.parse(VerificationUtil.getImageUrl(onlineModel.headphoto)));
-//                    img.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            BasicUserInfoModel userInfo = new BasicUserInfoModel();
-//                            userInfo.Userid = String.valueOf(onlineModel.uid);
-//                            userInfo.nickname = onlineModel.name;
-//                            userInfo.headurl = onlineModel.headphoto;
-//                            userInfo.isv = onlineModel.isv;
-//                            userInfo.sex = String.valueOf(onlineModel.sex);
-//                            onShowUser(userInfo);
-//                        }
-//                    });
-//                    mGallery.addView(view);
-//                }
-//            }
-//
-//            //在线人数要排除主播,所以在总数的基础上减1
-//            txt_online.setText(String.valueOf(k - 1));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * 初始化列表
@@ -553,7 +507,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         onlineListModel.isv = liveUserModel.isv;
         onlineListModel.uid = Integer.parseInt(liveUserModel.userid);
         onlineListModel.name = liveUserModel.nickname;
-        //onlineListModel.sex = Integer.parseInt(chatRoomInstance.liveUserModel.sex);
         onlineListModel.headphoto = liveUserModel.headurl;
         PopLinkData.clear();
         PopLinkData.add(onlineListModel);
@@ -654,14 +607,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 break;
             case R.id.btn_share:
                 //facebook分享
-                //分享组件
-//                ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
-//                builder.setShareContent(getString(R.string.share_title), App.roomModel.getName(),
-//                        CommonUrlConfig.shareURL,
-//                        liveUserModel.headurl);
-//                builder.RegisterCallback(null);
-//                builder.create().show();
-
                 FbShare fbShare = new FbShare(getActivity(), listener);
                 fbShare.postStatusUpdate(getString(R.string.share_title), App.roomModel.getName(),
                         CommonUrlConfig.shareURL,
@@ -704,8 +649,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
     @Override
     public void onResume() {
         super.onResume();
-        //添加layout大小发生改变监听器,用来监听键盘
-        ly_main.addOnLayoutChangeListener(this);
         cocos2dxView.onResume();
     }
 
@@ -754,25 +697,6 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
             translate_in = null;
         }
 
-    }
-
-    //监听键盘弹起
-    @Override
-    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        //现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
-        int keyHeight = 100;
-        if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
-            //键盘收起了
-            if (ly_send.getVisibility() == View.VISIBLE) {
-                ly_send.setVisibility(View.GONE);
-                ly_toolbar.setVisibility(View.VISIBLE);
-            }
-        } else if (bottom - oldBottom < 0) {
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 0, 0, bottom - oldBottom);
-            App.chatRoomApplication.viewPanel.setLayoutParams(lp);
-        }
     }
 
     /**
@@ -850,6 +774,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 liveUserModel.userid, isFollow, callback);
     }
 
+
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
@@ -904,6 +829,33 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 initGiftViewpager();
                 initGiftNumSpinner();
                 setRoomPopSpinner();
+                break;
+            case SHOW_SOFT_KEYB://键盘弹出事件
+                DebugLogs.d("------heightDiff-------。键盘弹出"+ly_main);
+                if (ly_main!=null){
+                    ViewGroup.LayoutParams params = ly_main.getLayoutParams();
+                    params.height = App.screenDpx.heightPixels - (int)msg.obj;
+                    params.width = App.screenDpx.widthPixels;
+                    ly_main.setLayoutParams(params);
+                    ly_main.invalidate();
+                    if (ly_send.getVisibility() == View.GONE) {
+                        ly_send.setVisibility(View.VISIBLE);
+                        ly_toolbar.setVisibility(View.GONE);
+                    }
+                }
+                break;
+            case ONSHOW_SOFT_KEYB:
+                //键盘收起了
+                if (ly_main != null){
+                    ViewGroup.LayoutParams params2 = ly_main.getLayoutParams();
+                    params2.height = App.screenDpx.heightPixels;
+                    params2.width = App.screenDpx.widthPixels;
+                    ly_main.setLayoutParams(params2);
+                    if (ly_send.getVisibility() == View.VISIBLE) {
+                        ly_send.setVisibility(View.GONE);
+                        ly_toolbar.setVisibility(View.VISIBLE);
+                    }
+                }
                 break;
         }
     }

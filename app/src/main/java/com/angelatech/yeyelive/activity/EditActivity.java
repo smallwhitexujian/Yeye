@@ -11,19 +11,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
-import com.angelatech.yeyelive.model.CommonModel;
-import com.angelatech.yeyelive.util.VerificationUtil;
-import com.will.common.string.Encryption;
-import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ErrorHelper;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.Utility;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.angelatech.yeyelive.R;
+import com.will.common.string.Encryption;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 

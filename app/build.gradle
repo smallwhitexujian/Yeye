@@ -26,16 +26,16 @@ android {
     signingConfigs {
         release {
             storeFile file("key/Yeye.jks")
-            storePassword ""
+            storePassword "4&12FUI9?:>45\$^%\$12765!"
             keyAlias ""
-            keyPassword ""
+            keyPassword "4&12FUI9?:>45\$^%\$12765!"
         }
     }
 
     buildTypes {
         release {
             zipAlignEnabled true
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles 'proguard-android.txt'
         }
@@ -72,4 +72,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
     compile project(':LibCocos2dx')
+    compile project(':QupaiLiveSDK')
+    compile files('libs/gson-2.6.2.jar')
 }
