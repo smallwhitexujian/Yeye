@@ -124,6 +124,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     private LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
+    private boolean isqupai = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,7 +267,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 });
             }
         });
-
+        camera_surface.setVisibility(View.GONE);
         //如果是观众，直接启动房间
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             face.setVisibility(View.GONE);
@@ -274,18 +275,19 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             fragmentPagerAdapter.notifyDataSetChanged();
             MediaCenter.initPlay(this);
             roomStart();
-            camera_surface.setVisibility(View.GONE);
         }
         //如果是预览，进入预览流程
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
-            camera_surface.setVisibility(View.VISIBLE);
-//            MediaCenter.initLive(this);
-//            //美颜开启此属性
-//            MediaNative.VIDEO_FILTER = false;
-//            MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
+            if (!isqupai){
+                MediaCenter.initLive(this);
+                //美颜开启此属性
+                MediaNative.VIDEO_FILTER = false;
+                MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
+            }else{
+                camera_surface.setVisibility(View.VISIBLE);
+            }
         }
-
     }
 
     /**
@@ -923,13 +925,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                livePush.StartLive(roomModel.getRtmpip());
-//                MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
+                if (!isqupai){
+                    MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
+                }else{
+                    livePush.StartLive(roomModel.getRtmpip());
+                }
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
                     fragmentList.add(callFragment);
                     fragmentPagerAdapter.notifyDataSetChanged();
-                    //fragmentPagerAdapter.setFragmentsList(callFragment);
                     if (fragmentList.size() > 1) {
                         mAbSlidingTabView.setCurrentItem(1);
                     }
