@@ -222,7 +222,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 if (baseInfo != null) {
                     //通知直播页面
                     if (callBack != null) {
-                        callBack.follow(isFollowCode);
+                        callBack.follow(isFollowCode, baseInfo.Userid);
                     }
                     doFocus(baseInfo.Userid, isFollowCode);
                 }
@@ -650,7 +650,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     public interface ICallBack {
         void sendGift(BasicUserInfoModel userInfoDBModel);
 
-        void follow(String val);//关注操作
+        void follow(String val, String userId);//关注操作
 
         void kickedOut(String userId);
 

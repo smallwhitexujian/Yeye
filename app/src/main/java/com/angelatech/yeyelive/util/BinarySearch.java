@@ -20,24 +20,16 @@ public class BinarySearch {
      * @return 返回值.
      */
     public static int binSearch(List<OnlineListModel> list, int start, int end, OnlineListModel item) {
-        if (list.size() == 0) {
+        if (list.size() == 0)
             return 0;
-        }
+        if (item.isrobot.equals("1")) //机器人
+            return end;
         if (start <= end) {
             int mid = (start + end) / 2;
-            if (item.isrobot == 1) { //机器人
-                if (list.get(mid).isrobot == 1) {
-                    return mid;
-                } else {
-                    return binSearch(list, mid + 1, end, item);
-                }
-            } else {
-                if (list.get(mid).isrobot == 1) {
-                    return binSearch(list, start, mid - 1, item);
-                } else {
-                    return mid;
-                }
-            }
+            if (list.get(mid).isrobot.equals("1"))
+                return binSearch(list, start, mid - 1, item);
+            else
+                return mid;
         } else
             return start;
     }

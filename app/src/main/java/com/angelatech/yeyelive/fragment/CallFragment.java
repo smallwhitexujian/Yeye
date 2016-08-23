@@ -412,8 +412,9 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
 
         for (OnlineListModel item : lineData) {
             synchronized (lock) {
-                if (!String.valueOf(item.uid).equals(liveUserModel.userid)){
-                    showList.add(BinarySearch.binSearch(showList, 0, showList.size() - 1, item), item);
+                if (!String.valueOf(item.uid).equals(liveUserModel.userid)) {
+                    int pos = BinarySearch.binSearch(showList, 0, showList.size(), item);
+                    showList.add(pos, item);
                 }
             }
         }
@@ -1204,8 +1205,8 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         }
 
         @Override
-        public void follow(String val) {
-            if (!liveUserModel.userid.equals(userModel.userid)) {
+        public void follow(String val, String userId) {
+            if (!liveUserModel.userid.equals(userModel.userid) && userId.equals(liveUserModel.userid)) {
                 if (val != null && val.equals("0")) {
                     fragmentHandler.sendEmptyMessage(MSG_DO_FOLLOW);
                 } else {
