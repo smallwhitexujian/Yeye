@@ -124,7 +124,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     private LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    private boolean isqupai = true;
+    private boolean isqupai = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +141,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         initView();
         findView();
-        livePush = new LivePush();
-        livePush.init(ChatRoomActivity.this, camera_surface);
+        if (isqupai) {
+            livePush = new LivePush();
+            livePush.init(ChatRoomActivity.this, camera_surface);
+        }
         App.chatRoomApplication = this;
         int statusBarHeight = ScreenUtils.getStatusHeight(ChatRoomActivity.this);
         ViewGroup.LayoutParams params2 = body.getLayoutParams();
@@ -151,6 +153,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         body.setLayoutParams(params2);
         body.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
+
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -161,7 +164,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             int heightDifference = screenHeight - (rect.bottom - rect.top);
             boolean visible = heightDifference > screenHeight / 3;
             if (visible) {//键盘弹起
-                callFragment.getFragmentHandler().obtainMessage(14,heightDifference).sendToTarget();
+                callFragment.getFragmentHandler().obtainMessage(14, heightDifference).sendToTarget();
             } else {
                 callFragment.getFragmentHandler().obtainMessage(12).sendToTarget();
             }
@@ -279,12 +282,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         //如果是预览，进入预览流程
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
-            if (!isqupai){
+            if (!isqupai) {
                 MediaCenter.initLive(this);
                 //美颜开启此属性
                 MediaNative.VIDEO_FILTER = false;
                 MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
-            }else{
+            } else {
                 camera_surface.setVisibility(View.VISIBLE);
             }
         }
@@ -731,13 +734,19 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         liveFinishFragment = new LiveFinishFragment();
         liveFinishFragment.setRoomModel(roomModel);
         liveFinishFragment.show(getSupportFragmentManager(), "");
-        livePush.onDestroy();
+        if (isqupai) {
+            livePush.onDestroy();
+        }
     }
 
     //切换摄像头
     @Override
     public void onCameraSwitch() {
-        livePush.mCamera();
+        if (isqupai) {
+            livePush.mCamera();
+        }else{
+            MediaCenter.switchCamera();
+        }
     }
 
     //发送私人消息
@@ -809,7 +818,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.onPause();
         }
-        livePush.onPause();
+        if (isqupai) {
+            livePush.onPause();
+        }
         super.onPause();
     }
 
@@ -818,7 +829,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.onResume();
         }
-        livePush.onResume();
+        if (isqupai) {
+            livePush.onResume();
+        }
         super.onResume();
     }
 
@@ -828,7 +841,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             exitRoom();
         }
         super.onDestroy();
-        livePush.onDestroy();
+        if (isqupai) {
+            livePush.onDestroy();
+        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             body.getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
         } else {
@@ -925,9 +940,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!isqupai){
+                if (!isqupai) {
                     MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
-                }else{
+                } else {
                     livePush.StartLive(roomModel.getRtmpip());
                 }
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);

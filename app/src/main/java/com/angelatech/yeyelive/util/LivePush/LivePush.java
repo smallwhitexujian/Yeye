@@ -326,10 +326,14 @@ public class LivePush {
 
         @Override
         public void onSessionAttach() {
-            if (isRecording && !TextUtils.isEmpty(liveUrl)) {
-                mMediaRecorder.startRecord(liveUrl);
+            try {
+                if (isRecording && !TextUtils.isEmpty(liveUrl)) {
+                    mMediaRecorder.startRecord(liveUrl);
+                }
+                mMediaRecorder.focusing(0.5f, 0.5f);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            mMediaRecorder.focusing(0.5f, 0.5f);
         }
 
         @Override
