@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/Ticke_sales"
+                android:text="@string/Ticket_sales"
                 android:textColor="@color/color_999999"
                 android:textSize="14sp" />
         </LinearLayout>

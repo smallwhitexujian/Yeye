@@ -408,11 +408,13 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
      *
      * @param lineData
      */
-    public void initPeopleHorizontaiView(List<OnlineListModel> lineData) {
+    public void InitializeOnline(List<OnlineListModel> lineData) {
 
         for (OnlineListModel item : lineData) {
             synchronized (lock) {
-                showList.add(BinarySearch.binSearch(showList, 0, showList.size() - 1, item), item);
+                if (!String.valueOf(item.uid).equals(liveUserModel.userid)){
+                    showList.add(BinarySearch.binSearch(showList, 0, showList.size() - 1, item), item);
+                }
             }
         }
         int onlineCount = showList.size();
@@ -426,7 +428,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
         grid_online.setColumnWidth(itemWidth);
         grid_online.setStretchMode(GridView.NO_STRETCH);
         grid_online.setNumColumns(onlineCount);
-        txt_online.setText(String.valueOf(showList.size() - 1));
+        txt_online.setText(String.valueOf(onlineCount));
         horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
         grid_online.setAdapter(horizontalListViewAdapter);
     }
@@ -438,27 +440,28 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
      */
     public void updateOnline(OnlineListModel.OnlineNotice onlineNotice) {
         int onlineCount = showList.size();
+        int index = getIndexOfUserList(onlineNotice.user.uid, showList);
         if (onlineNotice.kind == 0) { //进房间
+            if (index >= 0 || String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) { //存在用户 直接返回
+                return;
+            }
             showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
         } else {
-            int index = getIndexOfUserList(onlineNotice.user.uid, showList);
             if (index >= 0) {
                 synchronized (lock) {
                     showList.remove(index);
+                    onlineCount--;
                 }
-                onlineCount--;
             }
         }
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
         int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
-        int itemWidth = (int) (length * density.density);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
         grid_online.setLayoutParams(params);
-        grid_online.setColumnWidth(itemWidth);
         grid_online.setNumColumns(onlineCount);
-        txt_online.setText(String.valueOf(onlineCount - 1));
+        txt_online.setText(String.valueOf(onlineCount));
         if (horizontalListViewAdapter != null) {
             horizontalListViewAdapter.notifyDataSetChanged();
         }
@@ -622,7 +625,7 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
                 if (roomPopSpinner.getSelectedItem() != null) {
                     toPeople = (OnlineListModel) (roomPopSpinner.getSelectedItem());
                 } else {
-                    ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_select_gift_pople));
+                    ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_select_gift_people));
                     return;
                 }
                 if (userModel.userid.equals(String.valueOf(toPeople.uid))) {

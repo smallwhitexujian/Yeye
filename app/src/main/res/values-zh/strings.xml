@@ -185,12 +185,12 @@
     <string name="chatline">聊天</string>
     <string name="share">分享</string>
     <string name="follow">关注</string>
-    <string name="switchcamera">切换摄像头</string>
+    <string name="switch_camera">切换摄像头</string>
     <string name="gift">礼物</string>
-    <string name="plese_input">请输入聊天内容</string>
+    <string name="please_input">请输入聊天内容</string>
     <string name="send">发送</string>
     <string name="recharge"><![CDATA[充值>]]></string>
-    <string name="giftsend">赠送</string>
+    <string name="gift_send">赠送</string>
     <string name="send_people">送给:</string>
     <string name="send_people1">送给:</string>
     <string name="user_name_input">昵称输入不符合规则</string>
@@ -248,7 +248,7 @@
     <string name="not_font">没有权限</string>
     <string name="me">我</string>
     <string name="login_room_fail">登陆房间失败</string>
-    <string name="please_select_gift_pople">请选择礼物接收人</string>
+    <string name="please_select_gift_people">请选择礼物接收人</string>
     <string name="please_input_text">请输入聊天内容</string>
     <string name="traffic_alert">当前使用手机数据流量，是否继续开播？</string>
     <string name="data_get_fail">直播数据获取失败！</string>
@@ -256,8 +256,8 @@
     <!--banner-->
     <string name="banner_title">推广</string>
     <string name="alipay_testing">支付宝充值调试中…</string>
-    <string name="seting_newwork">设置网络</string>
-    <string name="not_newwork">无可用网络连接，请检查手机网络设置或尝试重启手机！</string>
+    <string name="setting_network">设置网络</string>
+    <string name="not_network">无可用网络连接，请检查手机网络设置或尝试重启手机！</string>
     <!--google play-->
     <string name="recharge_title">充值</string>
     <string name="server_require_faild">服务器连接失败，请重试</string>
@@ -324,6 +324,7 @@
     <string name="confirm_changes">确认修改</string>
     <string name="can_not_empty">密码不能为空</string>
     <string name="set_password">设置密码</string>
+    <string name="reset_password">重置密码</string>
     <string name="set_password_complete">完成</string>
     <string name="set_password_skip">跳过</string>
     <string name="login_password">输入密码</string>
@@ -344,7 +345,7 @@
     <string name="video_delete_error">删除失败</string>
     <string name="change_password_no_permissions">第三方登录不能修改密码</string>
     <string name="tickets">门票:</string>
-    <string name="Ticke_sales">门票收入</string>
+    <string name="Ticket_sales">门票收入</string>
 
     <string name="dialog_tickets">本场直播需要购买门票</string>
     <string name="dialog_go_play">马上去支付</string>

@@ -72,11 +72,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
 
     private void initView() {
         fromType = StartActivityHelper.getInt(this);
-        if (fromType == FROM_TYPE_REGISTER) {
-            headerLayout.showTitle(getString(R.string.activity_register));
-        } else {
-            headerLayout.showTitle(getString(R.string.find_password));
-        }
+
         headerLayout.showLeftBackButton();
         mInputPhone = (EditText) findViewById(R.id.input_phone);
         mVerificationCode = (EditText) findViewById(R.id.input_verification_code);
@@ -86,6 +82,14 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         mAreaText = (TextView) findViewById(R.id.area_text);
         mHitText = (TextView) findViewById(R.id.hint_textview);
         ed_pass_word = (EditText) findViewById(R.id.ed_pass_word);
+
+        if (fromType == FROM_TYPE_REGISTER) {
+            headerLayout.showTitle(getString(R.string.activity_register));
+            ed_pass_word.setHint(getString(R.string.set_password));
+        } else {
+            headerLayout.showTitle(getString(R.string.find_password));
+            ed_pass_word.setHint(getString(R.string.reset_password));
+        }
     }
 
     private void setView() {
@@ -201,6 +205,9 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private void Register() {
         String code = mVerificationCode.getText().toString();
         password = ed_pass_word.getText().toString();
+        if (phone.startsWith("0")){
+            phone = phone.replaceFirst("0","");
+        }
         if (!code.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
                 new Register(this, uiHandler).phoneRegister(StringHelper.stringMerge(countryCode, phone), code,
@@ -219,6 +226,9 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         String code = mVerificationCode.getText().toString();
         countryCode = mAreaText.getText().toString().replace("+", "");
         password = ed_pass_word.getText().toString();
+        if (phone.startsWith("0")){
+            phone = phone.replaceFirst("0","");
+        }
         if (!code.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
                 mPhoneLogin.findPassword(StringHelper.stringMerge(countryCode, phone), code, Md5.md5(password), new HttpBusinessCallback() {

@@ -185,12 +185,12 @@
     <string name="chatline">Chat</string>
     <string name="share">Share</string>
     <string name="follow">Follow</string>
-    <string name="switchcamera">Switch Camera</string>
+    <string name="switch_camera">Switch Camera</string>
     <string name="gift">Gift</string>
-    <string name="plese_input">Please input words</string>
+    <string name="please_input">Please input words</string>
     <string name="send">Send</string>
     <string name="recharge"><![CDATA[Top Up>]]></string>
-    <string name="giftsend">Send</string>
+    <string name="gift_send">Send</string>
     <string name="user_name_input">Invalid Nickname</string>
     <!--没有数据时候显示-->
     <string name="no_data_no_live">The performer is coming</string>
@@ -246,7 +246,7 @@
     <string name="not_font">No Privilege</string>
     <string name="me">Me</string>
     <string name="login_room_fail">Login Room Failed</string>
-    <string name="please_select_gift_pople">Send to</string>
+    <string name="please_select_gift_people">Send to</string>
     <string name="please_input_text">Input the words</string>
     <string name="traffic_alert">Are you sure to using Data Quota for Live Show?</string>
     <string name="data_get_fail">Fail to Get Data.</string>
@@ -254,8 +254,8 @@
     <!--banner-->
     <string name="banner_title">Promote</string>
     <string name="alipay_testing">Alipay is Under Testing</string>
-    <string name="seting_newwork">Network Setting.</string>
-    <string name="not_newwork">You aren\'t connected to Internet now.</string>
+    <string name="setting_network">Network Setting.</string>
+    <string name="not_network">You aren\'t connected to Internet now.</string>
     <!--google play-->
     <string name="recharge_title">Top Up</string>
     <string name="server_require_faild">Please Try Again to Connect.</string>
@@ -320,7 +320,8 @@
     <string name="new_password">New Password</string>
     <string name="confirm_changes">Confirm</string>
     <string name="can_not_empty">Password can\'t be empty</string>
-    <string name="set_password">Set Passwrod</string>
+    <string name="set_password">Set Password</string>
+    <string name="reset_password">Reset Password</string>
     <string name="set_password_complete">Done</string>
     <string name="set_password_skip">Skip</string>
     <string name="login_password">Input Password</string>
@@ -344,7 +345,7 @@
     <string name="dialog_go_play">Pay Now</string>
     <string name="dialog_coin_lack_of_balance">Your coins is not enough, top up now</string>
     <string name="tickets">tickets:</string>
-    <string name="Ticke_sales">Tickets Income</string>
+    <string name="Ticket_sales">Tickets Income</string>
     <string name="save_live_video">Save the live show.</string>
     <string name="other_place_login_kick_out">Loged in another phone</string>
     <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>

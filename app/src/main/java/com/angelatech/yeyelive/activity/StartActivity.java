@@ -48,8 +48,8 @@ public class StartActivity extends BaseActivity {
             finish();
         } else {
             if (!NetWorkUtil.isNetworkConnected(this)) {
-                NomalAlertDialog.alwaysShow2(this, getString(R.string.seting_newwork),
-                        getString(R.string.not_newwork), getString(R.string.ok),
+                NomalAlertDialog.alwaysShow2(this, getString(R.string.setting_network),
+                        getString(R.string.not_network), getString(R.string.ok),
                         new NomalAlertDialog.HandlerDialog() {
                             @Override
                             public void handleOk() {

@@ -138,7 +138,7 @@
                 android:layout_width="54dp"
                 android:layout_height="29dp"
                 android:background="@drawable/give_gift_btn_bg"
-                android:text="@string/giftsend"
+                android:text="@string/gift_send"
                 android:gravity="center"
                 android:textColor="@color/color_f78a2b"
                 android:textSize="14sp" />

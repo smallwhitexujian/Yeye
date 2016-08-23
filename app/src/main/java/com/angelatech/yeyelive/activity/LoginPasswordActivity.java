@@ -120,6 +120,9 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
             case R.id.login_btn:
                 String phone = ed_phoneNumber.getText().toString();
                 String password = ed_pass_word.getText().toString();
+                if (phone.startsWith("0")){
+                    phone = phone.replaceFirst("0","");
+                }
                 login(StringHelper.stringMerge(mAreaText.getText().toString().replace("+", ""), phone), password);
                 break;
         }

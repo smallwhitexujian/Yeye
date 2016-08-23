@@ -538,7 +538,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 if (results != null && results.code.equals("0")) {
                     onlineListDatas = results.users;//在线列表
                     //callFragment.initPeopleView(onlineListDatas);
-                    callFragment.initPeopleHorizontaiView(onlineListDatas);
+                    callFragment.InitializeOnline(onlineListDatas);
                 }
                 break;
             case GlobalDef.WM_ROOM_SENDGIFT:
