@@ -376,14 +376,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         /**
          * 添加当前登录用户
          */
-        OnlineListModel model = new OnlineListModel();
-        model.uid = Integer.parseInt(userModel.userid);
-        model.role = userModel.role;
-        model.headphoto = userModel.headurl;
-        model.isv = userModel.isv;
-        model.name = userModel.nickname;
-        model.sex = Integer.parseInt(userModel.sex);
-        showList.add(0, model);
+        if (!liveUserModel.userid.equals(userModel.userid)) {
+            OnlineListModel model = new OnlineListModel();
+            model.uid = Integer.parseInt(userModel.userid);
+            model.role = userModel.role;
+            model.headphoto = userModel.headurl;
+            model.isv = userModel.isv;
+            model.name = userModel.nickname;
+            model.sex = Integer.parseInt(userModel.sex);
+            showList.add(0, model);
+        }
         int onlineCount = showList.size();
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
@@ -411,8 +413,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (onlineNotice.kind == 0) { //进房间
             if (index >= 0 || String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) { //存在用户 直接返回
                 showList.add(index, onlineNotice.user);
+                onlineCount ++;
             } else {
                 showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
+                onlineCount ++;
             }
         } else {
             if (index >= 0) {
