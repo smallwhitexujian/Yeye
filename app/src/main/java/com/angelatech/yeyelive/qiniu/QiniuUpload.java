@@ -4,6 +4,12 @@ import android.content.Context;
 import android.os.Message;
 import android.util.Log;
 
+import com.angelatech.yeyelive.handler.CommonDoHandler;
+import com.angelatech.yeyelive.handler.CommonHandler;
+import com.angelatech.yeyelive.model.CommonParseModel;
+import com.angelatech.yeyelive.model.QiniuTokenModel;
+import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StringHelper;
 import com.google.gson.reflect.TypeToken;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.out.QiniuSimpleManager;
@@ -12,13 +18,7 @@ import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadOptions;
 import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 import com.will.common.string.security.Md5;
-import com.angelatech.yeyelive.handler.CommonDoHandler;
-import com.angelatech.yeyelive.handler.CommonHandler;
-import com.angelatech.yeyelive.model.CommonParseModel;
-import com.angelatech.yeyelive.model.QiniuTokenModel;
-import com.angelatech.yeyelive.util.StringHelper;
 import com.will.web.handle.HttpBusinessCallback;
 
 import org.json.JSONException;

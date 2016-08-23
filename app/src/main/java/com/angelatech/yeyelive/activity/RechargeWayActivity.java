@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.WxPay;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
@@ -26,14 +27,13 @@ import com.angelatech.yeyelive.model.ConfigPayModel;
 import com.angelatech.yeyelive.model.WxOrder;
 import com.angelatech.yeyelive.pay.PayType;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.pay.SecurityUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.angelatech.yeyelive.wxapi.WXInterface;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.string.json.JsonUtil;
 import com.will.common.string.security.Md5;
-import com.angelatech.yeyelive .R;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 

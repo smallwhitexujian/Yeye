@@ -354,4 +354,6 @@
     <string name="other_place_login_kick_out">其它地方登录</string>
     <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
     <string name="live_time_short">直播时间小于一分钟无法保存，确定结束吗?</string>
+    <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
+    <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
 </resources>

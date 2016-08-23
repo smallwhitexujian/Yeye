@@ -5,7 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
+import android.util.DisplayMetrics;
 
+import com.angelatech.yeyelive.Contants;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.db.DBConfig;
 import com.angelatech.yeyelive.db.DatabaseHelper;
@@ -14,7 +16,11 @@ import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
+import com.duanqu.qupai.auth.AuthService;
+import com.duanqu.qupai.auth.QupaiAuthListener;
+import com.duanqu.qupai.jni.ApplicationGlue;
 import com.facebook.FacebookSdk;
+import com.will.common.log.DebugLogs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,7 +75,7 @@ public class App extends Application {
 
     public static String loginPhone = null;
     public static String price = "";
-
+    public static DisplayMetrics screenDpx;
     public static RoomModel roomModel = new RoomModel();
     //test
     //
@@ -91,7 +97,7 @@ public class App extends Application {
         mAppInterface.initThirdPlugin(this);
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
-        //LeakCanary.install(this);
+        screenDpx = getResources().getDisplayMetrics(); // 取屏幕分辨率
         FacebookSdk.sdkInitialize(getApplicationContext());
 
 //        try {
@@ -106,6 +112,36 @@ public class App extends Application {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        //趣拍
+        System.loadLibrary("gnustl_shared");
+        System.loadLibrary("qupai-media-thirdparty");
+        System.loadLibrary("qupai-media-jni");
+        ApplicationGlue.initialize(this);
+        initAuth(getApplicationContext(), Contants.appkey, Contants.appsecret, Contants.space);
+    }
+
+    /**
+     * 鉴权 建议只调用一次,在Application调用。在demo里面为了测试调用了多次 得到accessToken
+     * @param context
+     * @param appKey    appkey
+     * @param appsecret appsecret
+     * @param space     space
+     */
+    private void initAuth(Context context , String appKey, String appsecret, String space){
+        AuthService service = AuthService.getInstance();
+        service.setQupaiAuthListener(new QupaiAuthListener() {
+            @Override
+            public void onAuthError(int errorCode, String message) {
+                DebugLogs.d("onAuthComplte" + errorCode + "message" + message);
+            }
+
+            @Override
+            public void onAuthComplte(int responseCode, String responseMessage) {
+                DebugLogs.d("onAuthComplte" + responseCode + "message" + responseMessage);
+                Contants.accessToken = responseMessage;
+            }
+        });
+        service.startAuth(context,appKey, appsecret, space);
     }
 
     public synchronized static void register(Activity activity) {

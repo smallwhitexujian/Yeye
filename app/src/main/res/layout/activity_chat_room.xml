@@ -4,12 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_end_background"
-    android:fitsSystemWindows="true">
+    android:keepScreenOn="true">
 
     <RelativeLayout
         android:id="@+id/view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+
+    <SurfaceView
+        android:id="@+id/camera_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="false"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/mAbSlidingTabView"
@@ -27,13 +33,6 @@
         android:src="@drawable/btn_room_close_n" />
 
     <ImageView
-        android:id="@+id/face"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:visibility="visible" />
-
-    <ImageView
         android:id="@+id/room_guide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,5 +40,14 @@
         android:scaleType="fitXY"
         android:src="@drawable/bg_room_guide"
         android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/face"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@null"
+        android:visibility="visible" />
 
 </RelativeLayout>

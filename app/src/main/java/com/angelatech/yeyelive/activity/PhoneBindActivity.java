@@ -9,21 +9,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
-import com.angelatech.yeyelive.util.StringHelper;
-import com.angelatech.yeyelive.web.HttpFunction;
-import com.will.common.log.Logger;
-import com.will.common.string.json.JsonUtil;
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.activity.function.Binding;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.log.Logger;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 

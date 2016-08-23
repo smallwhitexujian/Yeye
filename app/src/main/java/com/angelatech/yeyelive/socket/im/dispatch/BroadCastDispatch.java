@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.socket.im.dispatch;
 import android.content.Context;
 import android.util.Log;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.application.App;
@@ -13,12 +14,11 @@ import com.angelatech.yeyelive.model.ReceiveBroadcastModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.SystemBroadModel;
 import com.angelatech.yeyelive.model.SystemMessageType;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.NotificationUtil;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.time.DateTimeTool;
-import com.angelatech.yeyelive .R;
 
 import org.json.JSONObject;
 

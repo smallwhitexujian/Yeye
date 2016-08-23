@@ -2,14 +2,14 @@ package com.angelatech.yeyelive.socket.im.dispatch;
 
 import android.content.Context;
 
-import com.framework.socket.factory.SocketModuleManager;
-import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.socket.WillProtocol;
 import com.angelatech.yeyelive.socket.im.ImHeartbeat;
+import com.angelatech.yeyelive.util.JsonUtil;
+import com.framework.socket.factory.SocketModuleManager;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 
 
 /**

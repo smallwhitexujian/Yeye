@@ -34,6 +34,7 @@ import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.thirdShare.SinaShare;
 import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.LocationMap.GpsTracker;
 import com.angelatech.yeyelive.util.Utility;
@@ -42,7 +43,6 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.datasource.DataSource;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -335,7 +335,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
     }
 
-    // 初始化直播数据
+    // 获取开播地址
     private void LiveVideoBroadcast(String title, String area, String price) {
         LoadingDialog.showSysLoadingDialog(getActivity(), getString(R.string.go_in));
         HttpBusinessCallback callback = new HttpBusinessCallback() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,22 +39,8 @@
                 android:background="@drawable/red_shape"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="10sp" />
-
-            <!--<HorizontalScrollView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginRight="38dp"-->
-                <!--android:scrollbars="none">-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/id_gallery"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:orientation="horizontal" />-->
-            <!--</HorizontalScrollView>-->
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -91,15 +79,9 @@
             android:text="@string/mic_desc"
             android:textColor="@color/font_black"
             android:textSize="10sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="SmallSp" />
 
-        <!--<com.angelatech.yeyelive.view.Barrage.BarrageView-->
-        <!--android:id="@+id/containerView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="5"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--/>-->
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -129,9 +111,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"
                     android:layout_marginTop="0dp"
-                    android:singleLine="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/txt_gift_name"
@@ -139,10 +121,10 @@
                     android:layout_height="18dp"
                     android:layout_gravity="right"
                     android:gravity="right"
-                    android:singleLine="true"
                     android:text="@string/send_pepole2"
                     android:textColor="#FFFF00"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:maxLines="1" />
 
             </LinearLayout>
 
@@ -219,7 +201,7 @@
         <LinearLayout
             android:id="@+id/ly_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingTop="5dp">
@@ -281,7 +263,8 @@
             android:background="#90FFFFFF"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <EditText
                 android:id="@+id/txt_msg"
@@ -293,9 +276,9 @@
                 android:hint="@string/please_input"
                 android:imeOptions="actionSend"
                 android:maxLength="140"
-                android:singleLine="true"
                 android:textColor="#22202D"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:maxLines="1" />
 
             <View
                 android:layout_width="1.5dp"

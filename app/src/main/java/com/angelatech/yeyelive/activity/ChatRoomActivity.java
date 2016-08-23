@@ -1,18 +1,27 @@
 package com.angelatech.yeyelive.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
@@ -37,6 +46,8 @@ import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.LivePush.LivePush;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -49,7 +60,6 @@ import com.angelatech.yeyelive.view.LoadingDialogNew;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
-import com.will.common.string.json.JsonUtil;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.common.tool.time.DateTimeTool;
 import com.will.libmedia.MediaCenter;
@@ -72,12 +82,18 @@ import java.util.Map;
  * 视频直播主界面
  */
 public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents {
+    //权限检测
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final String[] permissionManifest = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
+    };
     private Boolean boolCloseRoom = false;
     private CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
     private ImageView face;
     private ImageView room_guide;
-    public RelativeLayout viewPanel;
+    public RelativeLayout viewPanel, body;
     private ViewPager mAbSlidingTabView;
     private ServiceManager serviceManager;
     private RoomModel roomModel;                                  //房间信息，其中包括房主信息
@@ -102,32 +118,88 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private TimeCount timeCount;
     private long BigData = 0;
     private boolean isbigData = false;
-
+    private SurfaceView camera_surface;
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
+    private LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //保持屏幕常亮
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
+        //保持屏幕常亮
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionCheck();
+        }
+        if (Build.BRAND.equals("Meizu")) {
+            body.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
         initView();
         findView();
+        livePush = new LivePush();
+        livePush.init(ChatRoomActivity.this, camera_surface);
         App.chatRoomApplication = this;
+        int statusBarHeight = ScreenUtils.getStatusHeight(ChatRoomActivity.this);
+        ViewGroup.LayoutParams params2 = body.getLayoutParams();
+        params2.height = App.screenDpx.heightPixels - statusBarHeight;
+        params2.width = App.screenDpx.widthPixels;
+        body.setLayoutParams(params2);
+        body.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+    }
+    //键盘状态监听
+    private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            final Rect rect = new Rect();
+            body.getWindowVisibleDisplayFrame(rect);
+            int screenHeight = body.getRootView().getHeight();
+            int heightDifference = screenHeight - (rect.bottom - rect.top);
+            boolean visible = heightDifference > screenHeight / 3;
+            if (visible) {//键盘弹起
+                callFragment.getFragmentHandler().obtainMessage(14,heightDifference).sendToTarget();
+            } else {
+                callFragment.getFragmentHandler().obtainMessage(12).sendToTarget();
+            }
+        }
+    };
+
+    private void permissionCheck() {
+        int permissionCheck = PackageManager.PERMISSION_GRANTED;
+        for (String permission : permissionManifest) {
+            if (PermissionChecker.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                permissionCheck = PackageManager.PERMISSION_DENIED;
+            }
+        }
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissionManifest, PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        int toastTip = 0;
+                        if (Manifest.permission.CAMERA.equals(permissions[i])) {
+                            toastTip = R.string.no_camera_permission;
+                        } else if (Manifest.permission.RECORD_AUDIO.equals(permissions[i])) {
+                            toastTip = R.string.no_record_audio_permission;
+                        }
+                        if (toastTip != 0) {
+                            Toast.makeText(this, toastTip, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                break;
+        }
     }
 
     private void initView() {
@@ -135,7 +207,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         userModel = CacheDataManager.getInstance().loadUser();
         LoadingDialog = new LoadingDialogNew();
         chatRoom = new ChatRoom(this);
+        camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
         viewPanel = (RelativeLayout) findViewById(R.id.view);
+        body = (RelativeLayout) findViewById(R.id.body);
         ImageView button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
         room_guide = (ImageView) findViewById(R.id.room_guide);
@@ -200,15 +274,16 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             fragmentPagerAdapter.notifyDataSetChanged();
             MediaCenter.initPlay(this);
             roomStart();
+            camera_surface.setVisibility(View.GONE);
         }
         //如果是预览，进入预览流程
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
-            MediaCenter.initLive(this);
-
-            //美颜开启此属性
-            MediaNative.VIDEO_FILTER = false;
-            MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
+            camera_surface.setVisibility(View.VISIBLE);
+//            MediaCenter.initLive(this);
+//            //美颜开启此属性
+//            MediaNative.VIDEO_FILTER = false;
+//            MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
         }
 
     }
@@ -321,7 +396,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
 
     private void roomStart() {
-        //LoadingDialog.showSysLoadingDialog(this, getString(R.string.room_conne));
         //房间引导页展示
         boolean boolGuide = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.room_guide_key);
         if (boolGuide) {
@@ -489,7 +563,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 OnlineListModel.OnlineNotice onlineNotice = JsonUtil.fromJson(msg.obj.toString(), OnlineListModel.OnlineNotice.class);
                 if (onlineNotice != null) {
                     if (onlineNotice.kind == 0) {//上线
-                       // onlineListDatas.add(onlineNotice.user);
+                        // onlineListDatas.add(onlineNotice.user);
                         roomModel.addlivenum();
                         ChatLineModel chatlinemodel = new ChatLineModel();
                         ChatLineModel.from from = new ChatLineModel.from();
@@ -503,8 +577,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
-                    }
-                    else {
+                    } else {
                         int k = onlineListDatas.size();
                         for (int i = 0; i < k; i++) {
                             if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
@@ -562,7 +635,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     }
 
                     switch (giftModel.giftid) {
-                        case 37:
+                        case 37://烟花
                             Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
@@ -656,12 +729,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         liveFinishFragment = new LiveFinishFragment();
         liveFinishFragment.setRoomModel(roomModel);
         liveFinishFragment.show(getSupportFragmentManager(), "");
+        livePush.onDestroy();
     }
 
     //切换摄像头
     @Override
     public void onCameraSwitch() {
-        MediaCenter.switchCamera();
+        livePush.mCamera();
     }
 
     //发送私人消息
@@ -733,6 +807,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.onPause();
         }
+        livePush.onPause();
         super.onPause();
     }
 
@@ -741,6 +816,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.onResume();
         }
+        livePush.onResume();
         super.onResume();
     }
 
@@ -750,6 +826,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             exitRoom();
         }
         super.onDestroy();
+        livePush.onDestroy();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            body.getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
+        } else {
+            body.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
+        }
         System.gc();
     }
 
@@ -841,7 +923,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
+                livePush.StartLive(roomModel.getRtmpip());
+//                MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
                     fragmentList.add(callFragment);

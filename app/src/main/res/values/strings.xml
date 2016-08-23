@@ -356,4 +356,6 @@
     <string name="other_place_login_kick_out">Loged in another phone</string>
     <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>
     <string name="live_time_short">Live show less than 1 min can\'t be saved ,are you sure to end?</string>
+    <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
+    <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
 </resources>

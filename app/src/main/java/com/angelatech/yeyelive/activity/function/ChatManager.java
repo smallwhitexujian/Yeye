@@ -5,9 +5,9 @@ import android.app.Activity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.fragment.CallFragment;
 import com.angelatech.yeyelive.model.ChatLineModel;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.PausableThreadPoolExecutor;
 import com.angelatech.yeyelive.util.PriorityRun;
-import com.will.common.string.json.JsonUtil;
 
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;

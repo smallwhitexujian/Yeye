@@ -22,6 +22,7 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.qiniu.QiniuUpload;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
@@ -31,7 +32,6 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.will.common.string.Encryption;
-import com.will.common.string.json.JsonUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
