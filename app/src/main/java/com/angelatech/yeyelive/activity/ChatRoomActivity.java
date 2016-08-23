@@ -150,6 +150,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         body.setLayoutParams(params2);
         body.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
+
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -160,7 +161,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             int heightDifference = screenHeight - (rect.bottom - rect.top);
             boolean visible = heightDifference > screenHeight / 3;
             if (visible) {//键盘弹起
-                callFragment.getFragmentHandler().obtainMessage(14,heightDifference).sendToTarget();
+                callFragment.getFragmentHandler().obtainMessage(14, heightDifference).sendToTarget();
             } else {
                 callFragment.getFragmentHandler().obtainMessage(12).sendToTarget();
             }
@@ -577,25 +578,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
-                    } else {
-                        int k = onlineListDatas.size();
-                        for (int i = 0; i < k; i++) {
-                            if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
-                                onlineListDatas.remove(i);
-                                break;
-                            }
-                        }
                     }
-                    }
-//                    else {
-//                        int k = onlineListDatas.size();
-//                        for (int i = 0; i < k; i++) {
-//                            if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
-//                                onlineListDatas.remove(i);
-//                                break;
-//                            }
-//                        }
-//                    }
                     //更新界面
                     //callFragment.initPeopleView(onlineListDatas);
                     callFragment.updateOnline(onlineNotice);
