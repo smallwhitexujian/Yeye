@@ -26,6 +26,7 @@ public class BasicUserInfoModel implements Serializable {
     public String isfollow;
     public boolean isout = false;
     public String isv = "0";
+    public int role = 0; //1 是巡管
     @Override
     public String toString() {
         return "BasicUserInfoModel{" +

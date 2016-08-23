@@ -63,7 +63,8 @@ public class BasicUserInfoDBModel implements Serializable {
      */
     @DatabaseField(columnName = "email")
     public String email = "";
-
+    @DatabaseField(columnName = "role")
+    public int role = 0; //1 是巡管
     @Override
     public String toString() {
         return "BasicUserInfoDBModel{" +

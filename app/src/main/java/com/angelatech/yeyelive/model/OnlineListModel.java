@@ -14,6 +14,8 @@ public class OnlineListModel extends CommonModel {
     public int sex;
     public String isv = "0";
     public String isrobot = "0";
+    public int role = 0;
+
     @Override
     public String toString() {
         return name;
@@ -38,14 +40,14 @@ public class OnlineListModel extends CommonModel {
     }
 
     //上下线通知
-    public static class OnlineNotice{
+    public static class OnlineNotice {
         public int kind;
         public int online;
         public OnlineListModel user;
     }
 
     //成员管理 成员申请表
-    public static class Member{
+    public static class Member {
         public String userid;       // 用户的id
         public String positionid;   // 等级
         public String nickname;     // 名字
@@ -53,7 +55,8 @@ public class OnlineListModel extends CommonModel {
         public String userlevel;    // 用户等级
         public String consumption;  // 消耗
     }
-    public static class MemberApplication{
+
+    public static class MemberApplication {
         public String uid;
         public String name;
         public String headphoto;

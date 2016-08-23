@@ -489,7 +489,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 OnlineListModel.OnlineNotice onlineNotice = JsonUtil.fromJson(msg.obj.toString(), OnlineListModel.OnlineNotice.class);
                 if (onlineNotice != null) {
                     if (onlineNotice.kind == 0) {//上线
-                       // onlineListDatas.add(onlineNotice.user);
+                        // onlineListDatas.add(onlineNotice.user);
                         roomModel.addlivenum();
                         ChatLineModel chatlinemodel = new ChatLineModel();
                         ChatLineModel.from from = new ChatLineModel.from();
@@ -504,15 +504,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
                     }
-                    else {
-                        int k = onlineListDatas.size();
-                        for (int i = 0; i < k; i++) {
-                            if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
-                                onlineListDatas.remove(i);
-                                break;
-                            }
-                        }
-                    }
+//                    else {
+//                        int k = onlineListDatas.size();
+//                        for (int i = 0; i < k; i++) {
+//                            if (onlineListDatas.get(i).uid == onlineNotice.user.uid) {
+//                                onlineListDatas.remove(i);
+//                                break;
+//                            }
+//                        }
+//                    }
                     //更新界面
                     //callFragment.initPeopleView(onlineListDatas);
                     callFragment.updateOnline(onlineNotice);

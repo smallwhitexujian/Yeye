@@ -409,15 +409,27 @@ public class CallFragment extends BaseFragment implements View.OnLayoutChangeLis
      * @param lineData
      */
     public void InitializeOnline(List<OnlineListModel> lineData) {
-
+        String uid ;
         for (OnlineListModel item : lineData) {
             synchronized (lock) {
-                if (!String.valueOf(item.uid).equals(liveUserModel.userid)) {
+                uid = String.valueOf(item.uid);
+                if (!uid.equals(liveUserModel.userid) && !uid.equals(userModel.userid)) {
                     int pos = BinarySearch.binSearch(showList, 0, showList.size(), item);
                     showList.add(pos, item);
                 }
             }
         }
+        /**
+         * 添加当前登录用户
+         */
+        OnlineListModel model = new OnlineListModel();
+        model.uid = Integer.parseInt(userModel.userid);
+        model.role = userModel.role;
+        model.headphoto = userModel.headurl;
+        model.isv = userModel.isv;
+        model.name = userModel.nickname;
+        model.sex = Integer.parseInt(userModel.sex);
+        showList.add(0, model);
         int onlineCount = showList.size();
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
