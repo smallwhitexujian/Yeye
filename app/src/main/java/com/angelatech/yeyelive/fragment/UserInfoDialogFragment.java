@@ -50,6 +50,7 @@ import com.will.common.string.json.JsonUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private final int MSG_REPORT_SUC = 10;
 
     private SimpleDraweeView userface;
-    private TextView usernick, intimacy, usersign, fansNum, fouceNum, btn_outUser, liveBtn;
+    private TextView usernick, intimacy, usersign, fansNum, fouceNum, btn_outUser, liveBtn, user_id;
     private ImageView closeImageView, userSex, attentionsBtn, ringBtn, leftIcon,
             rightIcon, giftBtn, btnUserControl, iv_vip;
     private LinearLayout fansLayout, fouceLayout, fansAndFouceLayout, userinfoLayout;
@@ -109,6 +110,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         usersign = (TextView) view.findViewById(R.id.user_sign);
         fansNum = (TextView) view.findViewById(R.id.user_fans_num);
         fouceNum = (TextView) view.findViewById(R.id.user_fouse_num);
+        user_id = (TextView) view.findViewById(R.id.user_id);
         btn_outUser = (TextView) view.findViewById(R.id.btn_outUser);
         btnUserControl = (ImageView) view.findViewById(R.id.btn_user_control);
         closeImageView = (ImageView) view.findViewById(R.id.btn_close);
@@ -496,6 +498,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         } else {
             userSex.setImageResource(R.drawable.icon_information_girl);
         }
+        user_id.setText(MessageFormat.format("{0}{1}", getString(R.string.ID), user.idx));
         fansNum.setText(user.fansNum);
         fouceNum.setText(user.followNum);
 

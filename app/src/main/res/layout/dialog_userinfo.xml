@@ -39,8 +39,8 @@
             android:gravity="center"
             android:src="@drawable/btn_information_police_n"
             android:textColor="#A0A0A0"
-            android:visibility="gone"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/btn_close"
@@ -114,6 +114,15 @@
                 android:contentDescription="@null" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="11dp"
+            android:textColor="@color/color_a0a0a0"
+            android:textSize="12sp" />
 
         <!--亲密度-->
         <TextView
@@ -288,8 +297,8 @@
                     android:layout_height="43dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:src="@drawable/btn_information_attention_s"
                     android:contentDescription="@null"
+                    android:src="@drawable/btn_information_attention_s"
                     android:visibility="gone" />
 
 
@@ -297,9 +306,9 @@
                     android:id="@+id/ring_btn"
                     android:layout_width="43dp"
                     android:layout_height="43dp"
-                    android:contentDescription="@null"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_information_notification_s"
                     android:visibility="gone" />
 
@@ -307,9 +316,9 @@
                     android:id="@+id/gift_btn"
                     android:layout_width="43dp"
                     android:layout_height="43dp"
-                    android:contentDescription="@null"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_information_gift_n"
                     android:visibility="gone" />
 
