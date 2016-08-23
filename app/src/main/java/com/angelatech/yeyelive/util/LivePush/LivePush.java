@@ -76,6 +76,7 @@ public class LivePush {
     private int mPreviewWidth = 0;
     private int mPreviewHeight = 0;
     private boolean FLAG_BEAUTY_ON = true;//是否开启美颜
+    private boolean FLAG_FLASH_MODE_ON = false;//是否开启闪光灯
 
     public LivePush(){
         initConfig();
@@ -107,7 +108,7 @@ public class LivePush {
         mConfigure.put(DQLiveMediaFormat.KEY_DISPLAY_ROTATION, screenOrientation ? DQLiveMediaFormat.DISPLAY_ROTATION_90 : DQLiveMediaFormat.DISPLAY_ROTATION_0);
         mConfigure.put(DQLiveMediaFormat.KEY_EXPOSURE_COMPENSATION, -1);//曝光度
     }
-
+    //开始推流
     public void StartLive(String starturl){
         if (!starturl.isEmpty()){
             liveUrl = starturl;
@@ -140,14 +141,24 @@ public class LivePush {
         mConfigure.put(DQLiveMediaFormat.KEY_CAMERA_FACING, currFacing);
     }
 
+    //闪光灯切换
+    public void openlamp(){
+        if (!FLAG_FLASH_MODE_ON){
+            FLAG_FLASH_MODE_ON = true;
+            mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_FLASH_MODE_ON);
+        }else{
+            FLAG_FLASH_MODE_ON = false;
+            mMediaRecorder.removeFlag(DQLiveMediaFormat.FLAG_FLASH_MODE_ON);
+        }
+    }
     /**
-     * 直播开始之前的配置 竖屏 后摄像头 分辨率  水印图片,位置,方位
+     * 直播开始之前的配置 竖屏 后摄像头 分辨率
      * 参数设定完成之后获取直播地址
      */
     private void initConfig() {
         screenOrientation = false;
         cameraFrontFacing = 1;
-        videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_360P;
+        videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_480P;
         createLive();//开播地址可以不适用趣拍
     }
 
