@@ -99,6 +99,7 @@
             android:background="@color/color_grey_d5" />
 
         <LinearLayout
+            android:id="@+id/layout_email"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="10dp"
@@ -120,7 +121,7 @@
 
                 <EditText
                     android:id="@+id/edit_user_mail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@null"

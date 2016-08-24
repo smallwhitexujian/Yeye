@@ -53,7 +53,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private final int MSG_ILLEGAL_INPUT_CODE = 7;
     private final int MSG_LEGAL_INPUT_CODE = 8;
     private CountrySelectItemModel selectItemModel;
-    private String phone, password, countryCode;
+    private String loginUserId, password, countryCode;
     private final int TOTAL_TIME = 60;
     private int coutTime = 0;
 
@@ -170,9 +170,10 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             case Register.REGISTER_SUCCESS:
             case MSG_FIND_PASSWORD_SUCCESS:
                 LoginUserModel loginUserModel = new LoginUserModel();
-                loginUserModel.phone = phone;
+                loginUserModel.phone = loginUserId;
                 loginUserModel.password = password;
                 loginUserModel.countryCode = countryCode;
+                loginUserModel.country = mSelectCountry.getText().toString();
                 StartActivityHelper.jumpActivity(this, LoginPasswordActivity.class, loginUserModel);
                 break;
             case Register.REGISTER_ERROR:
@@ -193,9 +194,9 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 break;
             case R.id.send_btn:
                 countryCode = mAreaText.getText().toString().replace("+", "");
-                phone = mInputPhone.getText().toString();
+                loginUserId = mInputPhone.getText().toString();
                 LoadingDialog.showLoadingDialog(this);
-                mPhoneLogin.getCode(CommonUrlConfig.GetPhoneCode, StringHelper.stringMerge(countryCode, phone), sendCode);
+                mPhoneLogin.getCode(CommonUrlConfig.GetPhoneCode, StringHelper.stringMerge(countryCode, loginUserId), sendCode);
                 stopTimer();
                 startTimer();
                 break;
@@ -215,12 +216,12 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private void Register() {
         String code = mVerificationCode.getText().toString();
         password = ed_pass_word.getText().toString();
-        if (phone.startsWith("0")) {
-            phone = phone.replaceFirst("0", "");
+        if (loginUserId.startsWith("0")) {
+            loginUserId = loginUserId.replaceFirst("0", "");
         }
         if (!code.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
-                new Register(this, uiHandler).phoneRegister(StringHelper.stringMerge(countryCode, phone), code,
+                new Register(this, uiHandler).phoneRegister(StringHelper.stringMerge(countryCode, loginUserId), code,
                         Md5.md5(password), DeviceTool.getUniqueID(RegisterFindPWDActivity.this));
             } else {
                 ToastUtils.showToast(this, getString(R.string.password_error));
@@ -236,12 +237,12 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         String code = mVerificationCode.getText().toString();
         countryCode = mAreaText.getText().toString().replace("+", "");
         password = ed_pass_word.getText().toString();
-        if (phone.startsWith("0")) {
-            phone = phone.replaceFirst("0", "");
+        if (loginUserId.startsWith("0")) {
+            loginUserId = loginUserId.replaceFirst("0", "");
         }
         if (!code.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
-                mPhoneLogin.findPassword(StringHelper.stringMerge(countryCode, phone), code, Md5.md5(password), new HttpBusinessCallback() {
+                mPhoneLogin.findPassword(StringHelper.stringMerge(countryCode, loginUserId), code, Md5.md5(password), new HttpBusinessCallback() {
                     @Override
                     public void onFailure(Map<String, ?> errorMap) {
                         LoadingDialog.cancelLoadingDialog();
@@ -349,8 +350,8 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
 
     private void setIsWork() {
         mHitText.setText("");
-        phone = mInputPhone.getText().toString();
-        if (!"".equals(phone)) {
+        loginUserId = mInputPhone.getText().toString();
+        if (!"".equals(loginUserId)) {
             String code = mVerificationCode.getText().toString();
             if (!isRunTimer) {
                 mSendBtn.setEnabled(true);

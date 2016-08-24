@@ -13,4 +13,5 @@ public class LoginUserModel implements Serializable {
     public String password;
     public String countryCode;
     public String phoneCode;
+    public String country;
 }

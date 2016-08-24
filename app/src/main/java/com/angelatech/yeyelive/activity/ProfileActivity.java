@@ -55,7 +55,6 @@ public class ProfileActivity extends HeaderBaseActivity {
     private String user_name, user_mail;
     private RadioButton radioButton_male, radioButton_female;
     private boolean check_gender = false, input_name = false, input_email = false;
-
     private PictureObtain mObtain;
     private Uri distUri;
     private BasicUserInfoDBModel model;
@@ -96,7 +95,6 @@ public class ProfileActivity extends HeaderBaseActivity {
         });
         edit_user_name.addTextChangedListener(textWatcher);
         edit_user_mail.addTextChangedListener(emailWatcher);
-
     }
 
     @Override
@@ -266,7 +264,7 @@ public class ProfileActivity extends HeaderBaseActivity {
                     }
                     user_head_photo.setImageURI(UriHelper.fromFile(path));
                     model.headurl = path;
-                    LoadingDialog.showLoadingDialog(this);
+                    //LoadingDialog.showLoadingDialog(this);
 //                    new IService().UpPicture(path, model.userid, model.token, CommonUrlConfig.PicUpload, "1",
 //                            model.userid, uploadPicBack);
 
@@ -289,7 +287,7 @@ public class ProfileActivity extends HeaderBaseActivity {
 
                         @Override
                         public void onUpQiniuSuc(String key) {
-                            LoadingDialog.cancelLoadingDialog();
+
                             if (key == null) {
                                 return;
                             }

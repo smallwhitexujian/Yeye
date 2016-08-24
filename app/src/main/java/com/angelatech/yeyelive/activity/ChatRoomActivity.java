@@ -552,6 +552,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     int liveState = jsobj.optInt("live");
                     if (liveState == 0 && !liveUserModel.userid.equals(userModel.userid)) {
                         //主播停止直播了
+
                         liveFinish();
                     } else if (liveState == 1 && !liveUserModel.userid.equals(userModel.userid)) {
                         if (liveFinishFragment != null && roomModel != null) {
