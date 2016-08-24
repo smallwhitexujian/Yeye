@@ -484,7 +484,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         if (user.nickname != null) {
             usernick.setText(user.nickname);
         }
-        userface.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl100(user.headurl)));
+        userface.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl150(user.headurl)));
         if (user.Intimacy != null) {
             intimacy.setText(String.format("%s%s", getActivity().getString(R.string.intimacy), user.Intimacy));
         }

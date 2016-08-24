@@ -15,6 +15,7 @@ public class VerificationUtil {
     private final static String lettersNumber = "^(?![^a-zA-Z]+$)(?!\\D+$).{6,22}$";
     private final static String smallImage = "?imageView2/2/w/80";
     private final static String smallImage100 = "?imageView2/2/w/100";
+    private final static String smallImage150 = "?imageView2/2/w/150";
     private final static String filePath = "file.iamyeye.com";
 
     /**
@@ -96,6 +97,19 @@ public class VerificationUtil {
     public static String getImageUrl100(String url) {
         if (url.indexOf(filePath) > 0) {
             return url + smallImage100;
+        }
+        return url;
+    }
+
+    /**
+     * 七牛图片处理
+     *
+     * @param url 图片地址
+     * @return return 100
+     */
+    public static String getImageUrl150(String url) {
+        if (url.indexOf(filePath) > 0) {
+            return url + smallImage150;
         }
         return url;
     }
