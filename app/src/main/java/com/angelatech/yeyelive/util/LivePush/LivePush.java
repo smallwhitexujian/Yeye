@@ -23,7 +23,6 @@ import com.duanqu.qupai.sdk.qupailiverecord.event.DQLiveEventSubscriber;
 import com.duanqu.qupai.sdk.qupailiverecord.live.DQLiveMediaFormat;
 import com.duanqu.qupai.sdk.qupailiverecord.live.DQLiveMediaRecorder;
 import com.duanqu.qupai.sdk.qupailiverecord.live.DQLiveMediaRecorderFactory;
-import com.duanqu.qupai.sdk.qupailiverecord.live.DQLiveRecordReporter;
 import com.duanqu.qupai.sdk.qupailiverecord.live.DQLiveStatusCode;
 import com.duanqu.qupai.sdk.qupailiverecord.live.OnLiveRecordErrorListener;
 import com.duanqu.qupai.sdk.qupailiverecord.live.OnNetworkStatusListener;
@@ -67,7 +66,7 @@ public class LivePush {
     private int videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_360P;//分辨率
 
     private DQLiveMediaRecorder mMediaRecorder;
-    private DQLiveRecordReporter mRecordReporter;       //预览
+//    private DQLiveRecordReporter mRecordReporter;
     private Surface mPreviewSurface;
     private String liveUrl;                             //播放地址
     //控件
@@ -75,8 +74,8 @@ public class LivePush {
     private boolean isRecording = false;
     private int mPreviewWidth = 0;
     private int mPreviewHeight = 0;
-    private boolean FLAG_BEAUTY_ON = true;//是否开启美颜
-    private boolean FLAG_FLASH_MODE_ON = false;//是否开启闪光灯
+    public boolean FLAG_BEAUTY_ON = true;              //是否开启美颜  默认关闭
+    public boolean FLAG_FLASH_MODE_ON = false;          //是否开启闪光灯 默认关闭
 
     public LivePush(){
         initConfig();
@@ -89,7 +88,7 @@ public class LivePush {
         mMediaRecorder = DQLiveMediaRecorderFactory.createMediaRecorder();
         mMediaRecorder.init(mContext);
         //创建预览界面
-        mRecordReporter = mMediaRecorder.getRecordReporter();
+//        mRecordReporter = mMediaRecorder.getRecordReporter();//日志
         camera_surface.getHolder().addCallback(_CameraSurfaceCallback);
         camera_surface.setOnTouchListener(mOnTouchListener);
 
@@ -123,7 +122,7 @@ public class LivePush {
 
     //开启美颜效果
     public void OpenFace(){
-        if (!FLAG_BEAUTY_ON) {
+        if (!FLAG_BEAUTY_ON) {//开启美颜
             FLAG_BEAUTY_ON = true;
             mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_BEAUTY_ON);
         } else {
@@ -142,7 +141,7 @@ public class LivePush {
     }
 
     //闪光灯切换
-    public void openlamp(){
+    public void Openlamp(){
         if (!FLAG_FLASH_MODE_ON){
             FLAG_FLASH_MODE_ON = true;
             mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_FLASH_MODE_ON);

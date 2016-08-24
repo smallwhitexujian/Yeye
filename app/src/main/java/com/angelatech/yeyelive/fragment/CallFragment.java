@@ -93,7 +93,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int ONSHOW_SOFT_KEYB = 12;
     private ImageView cameraSwitchButton;
 
-    private ImageView btn_Follow, btn_share, iv_vip;
+    private ImageView btn_Follow, btn_share, iv_vip,btn_beautiful,btn_lamp;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des;
     private SimpleDraweeView img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
@@ -220,6 +220,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         txt_online = (TextView) controlView.findViewById(R.id.txt_online);
         btn_Follow = (ImageView) controlView.findViewById(R.id.btn_Follow);
         btn_share = (ImageView) controlView.findViewById(R.id.btn_share);
+        btn_beautiful = (ImageView) controlView.findViewById(R.id.button_beautiful);
+        btn_lamp = (ImageView) controlView.findViewById(R.id.button_lamp);
         iv_vip = (ImageView) controlView.findViewById(R.id.iv_vip);
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
@@ -236,6 +238,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         btn_share.setOnClickListener(this);
         img_head.setOnClickListener(this);
         txt_barName.setOnClickListener(this);
+        btn_lamp.setOnClickListener(this);
+        btn_beautiful.setOnClickListener(this);
         gift_Recharge.setOnClickListener(this);
 
         grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -444,7 +448,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @return
      */
     private synchronized int getIndexOfUserList(int userId, List<OnlineListModel> list) {
-
         synchronized (lock) { // 防止查询列表时列表更新或排序
             int k = list.size();
             for (int index = 0; index < k; index++) {
@@ -552,6 +555,22 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.button_beautiful://美颜
+                App.chatRoomApplication.livePush.OpenFace();
+                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON){//开启美颜
+                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+                }else{
+                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+                }
+                break;
+            case R.id.button_lamp://闪光灯
+                App.chatRoomApplication.livePush.Openlamp();
+                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON){//开启闪光灯
+                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
+                }else{
+                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
+                }
+                break;
             case R.id.ly_main:
                 if (ly_send.getVisibility() == View.VISIBLE) {
                     Utility.closeKeybord(txt_msg, getActivity());
@@ -651,6 +670,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        if (App.roomModel.getRoomType().equals(App.LIVE_PREVIEW) && App.chatRoomApplication.isqupai){
+            btn_lamp.setVisibility(View.VISIBLE);
+            btn_beautiful.setVisibility(View.VISIBLE);
+        }
         cocos2dxView.onResume();
     }
 
