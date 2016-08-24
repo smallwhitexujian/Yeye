@@ -124,7 +124,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = true;
+    public boolean isqupai = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +143,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         findView();
         if (isqupai) {
             livePush = new LivePush();
-            livePush.init(ChatRoomActivity.this, camera_surface);
+            livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;
-        int statusBarHeight = ScreenUtils.getStatusHeight(ChatRoomActivity.this);
+        int statusBarHeight = ScreenUtils.getStatusHeight(this);
         ViewGroup.LayoutParams params2 = body.getLayoutParams();
         params2.height = App.screenDpx.heightPixels - statusBarHeight;
         params2.width = App.screenDpx.widthPixels;

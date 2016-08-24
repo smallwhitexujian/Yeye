@@ -353,7 +353,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 }
             }
         };
-        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, CacheDataManager.getInstance().loadUser(), title, area, price, callback);
+        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, callback);
     }
 
     @Override
