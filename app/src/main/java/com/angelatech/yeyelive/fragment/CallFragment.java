@@ -408,21 +408,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param onlineNotice 进出房间用户
      */
     public void updateOnline(OnlineListModel.OnlineNotice onlineNotice) {
-        int onlineCount = showList.size();
+        int onlineCount = onlineNotice.online;
         int index = getIndexOfUserList(onlineNotice.user.uid, showList);
         if (onlineNotice.kind == 0) { //进房间
             if (index >= 0 || String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) { //存在用户 直接返回
                 showList.add(index, onlineNotice.user);
-                onlineCount ++;
             } else {
-                showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
-                onlineCount ++;
+                showList.add(BinarySearch.binSearch(showList, 0, showList.size(), onlineNotice.user), onlineNotice.user);
             }
         } else {
             if (index >= 0) {
                 synchronized (lock) {
                     showList.remove(index);
-                    onlineCount--;
                 }
             }
         }
@@ -433,7 +430,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
         grid_online.setLayoutParams(params);
         grid_online.setNumColumns(onlineCount);
-        txt_online.setText(String.valueOf(onlineCount));
+        txt_online.setText(String.valueOf(onlineCount - 1));
         if (horizontalListViewAdapter != null) {
             horizontalListViewAdapter.notifyDataSetChanged();
         }

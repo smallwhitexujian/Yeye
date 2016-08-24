@@ -606,9 +606,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 CommonListResult<OnlineListModel> results = JsonUtil.fromJson(msg.obj.toString(), new TypeToken<CommonListResult<OnlineListModel>>() {
                 }.getType());
                 if (results != null && results.code.equals("0")) {
-                    onlineListDatas = results.users;//在线列表
+                    //onlineListDatas = results.users;//在线列表
                     //callFragment.initPeopleView(onlineListDatas);
-                    callFragment.InitializeOnline(onlineListDatas);
+                    callFragment.InitializeOnline(results.users);
                 }
                 break;
             case GlobalDef.WM_ROOM_SENDGIFT:
