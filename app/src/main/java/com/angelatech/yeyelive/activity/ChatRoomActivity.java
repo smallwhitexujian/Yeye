@@ -698,6 +698,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     } else if (code == GlobalDef.NO_PERMISSION_OPE_1009) {
                         ToastUtils.showToast(this, getString(R.string.not_font));
                     }
+                    else if(code ==GlobalDef.USER_NOTFOUND_1003){
+                        ToastUtils.showToast(this, getString(R.string.microom_code_1));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -904,6 +907,11 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //No call for super(). Bug on API Level > 11.
     }
 
     private class TimeCount extends CountDownTimer {

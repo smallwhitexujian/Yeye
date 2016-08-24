@@ -90,8 +90,7 @@ public class RechargeWayActivity extends HeaderBaseActivity {
         btn_submit_pay = (TextView) findViewById(R.id.btn_submit_pay);
         tv_diamond = (TextView) findViewById(R.id.tv_diamond);
 
-        CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-        model = cacheDataManager.loadUser();
+        model = CacheDataManager.getInstance().loadUser();
     }
 
     private void setView() {

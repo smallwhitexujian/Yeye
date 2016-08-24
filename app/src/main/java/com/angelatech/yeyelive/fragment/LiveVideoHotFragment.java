@@ -223,7 +223,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             startLive(item);
                         }
                     };
-                    commDialog.CommDialog(getActivity(), getString(R.string.traffic_alert), true, callback);
+                    commDialog.CommDialog(getActivity(), getString(R.string.continue_to_watch), true, callback);
                 } else {
                     startLive(item);
                 }
