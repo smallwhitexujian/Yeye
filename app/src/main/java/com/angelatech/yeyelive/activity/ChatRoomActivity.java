@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -44,6 +45,7 @@ import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
@@ -57,6 +59,7 @@ import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
 import com.angelatech.yeyelive.view.LoadingDialogNew;
+import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -125,6 +128,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
     public boolean isqupai = false;
+    private boolean boolConnRoom = true; //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -418,27 +422,59 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+    /**
+     * 重连房间
+     */
     private void restartConnection() {
         connectionServiceNumber++;
         if (connectionServiceNumber < 5) {
-            if (serviceManager != null) {
+            if (NetWorkUtil.isNetworkConnected(this) && serviceManager != null) {
                 serviceManager.connectionService();
+            } else {
+                noNetWork();
             }
         } else {
             //五次还是连不上就退出房间
             peerDisConnection(getString(R.string.room_net_toast_error));
         }
+
+    }
+
+    /**
+     * 无网络
+     */
+    private void noNetWork() {
+        NomalAlertDialog.alwaysShow(this, getString(R.string.setting_network),
+                getString(R.string.not_network), getString(R.string.ok), getString(R.string.cancel),
+                new NomalAlertDialog.HandlerDialog() {
+                    @Override
+                    public void handleOk() {
+                        startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+                    }
+
+                    @Override
+                    public void handleCancel() {
+                        exitRoom();
+                    }
+                }
+        );
     }
 
     @Override
     public void doHandler(final Message msg) {
         switch (msg.what) {
+            case IServiceValues.NETWORK_SUCCESS:
+                if (!boolConnRoom) {
+                    restartConnection();
+                }
+                break;
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
                 exitRoom();
                 break;
             case GlobalDef.SERVICE_STATUS_FAILD://连接失败
                 DebugLogs.e("network test---------faild");
                 //如果首次连接失败，给出提示并退出房间
+                boolConnRoom = false;
                 connTotalNum++;
                 if (connectionServiceNumber < 1 || connTotalNum >= 10) {
                     ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
@@ -448,6 +484,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 break;
             case GlobalDef.SERVICE_STATUS_CONNETN:
+                boolConnRoom = false;
                 connTotalNum++;
                 DebugLogs.e("network test---------SERVICE_STATUS_CONNETN");
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
@@ -461,6 +498,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 break;
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
                 connectionServiceNumber = 1;
+                boolConnRoom = true;
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
                 if (!isInit && roomModel != null) {
                     callFragment.setRoomInfo();
@@ -698,8 +736,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         exitRoom();
                     } else if (code == GlobalDef.NO_PERMISSION_OPE_1009) {
                         ToastUtils.showToast(this, getString(R.string.not_font));
-                    }
-                    else if(code ==GlobalDef.USER_NOTFOUND_1003){
+                    } else if (code == GlobalDef.USER_NOTFOUND_1003) {
                         ToastUtils.showToast(this, getString(R.string.microom_code_1));
                     }
                 } catch (JSONException e) {
@@ -716,6 +753,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 开始播放大礼物特效
      */
+
     private void startPlayBigGift() {
         if (bigGift.size() > 0) {
             callFragment.play(bigGift.get(0));
@@ -740,7 +778,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     public void onCameraSwitch() {
         if (isqupai) {
             livePush.mCamera();
-        }else{
+        } else {
             MediaCenter.switchCamera();
         }
     }

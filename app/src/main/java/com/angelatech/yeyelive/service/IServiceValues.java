@@ -21,6 +21,9 @@ public class IServiceValues {
     public static final int CMD_ACCOUNT = CMD_VALUE_PREFIX + 3;//统计
     public static final int CMD_KICK_OUT = CMD_VALUE_PREFIX + 4;//踢出
 
+    //连接网络
+    public static final int NETWORK_SUCCESS = CMD_VALUE_PREFIX + 5;
+
     /*************************
      * key 部分
      *********************/

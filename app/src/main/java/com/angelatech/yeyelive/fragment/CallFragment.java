@@ -367,6 +367,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param lineData
      */
     public void InitializeOnline(List<OnlineListModel> lineData) {
+        showList.clear();
         String uid;
         for (OnlineListModel item : lineData) {
             synchronized (lock) {
@@ -413,6 +414,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      */
     public void updateOnline(OnlineListModel.OnlineNotice onlineNotice) {
         int onlineCount = onlineNotice.online;
+        if (String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) {
+            return;
+        }
         int index = getIndexOfUserList(onlineNotice.user.uid, showList);
         if (onlineNotice.kind == 0) { //进房间
             if (!liveUserModel.userid.equals(String.valueOf(onlineNotice.user.uid))) {
