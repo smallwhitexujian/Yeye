@@ -122,9 +122,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
-    private LivePush livePush = null;
+    public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    private boolean isqupai = false;
+    public boolean isqupai = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
