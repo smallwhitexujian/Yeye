@@ -105,14 +105,14 @@ public class VerificationUtil {
      * 用于从短信中获取动态密码
      *
      * @param str 短信内容
-     * @return 截取得到的6位验证码
+     * @return 截取得到的4位验证码
      */
     public static String getDynamicPassword(String str) {
         Pattern continuousNumberPattern = Pattern.compile("[0-9\\.]+");
         Matcher m = continuousNumberPattern.matcher(str);
         String dynamicPassword = "";
         while (m.find()) {
-            if (m.group().length() == 6) {
+            if (m.group().length() == 4) {
                 dynamicPassword = m.group();
             }
         }

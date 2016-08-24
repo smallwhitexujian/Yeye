@@ -192,8 +192,8 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                     if (list.get(itemPosition).type == LiveModel.TYPE_RECORD) {
                         VideoModel model = (VideoModel) list.get(itemPosition);
                         videoId = Integer.parseInt(model.videoid);
+                        playRecord.deleteRecord(loginUser.userid, loginUser.token, videoId, deleteVideo);
                     }
-                    playRecord.deleteRecord(loginUser.userid, loginUser.token, videoId, deleteVideo);
                 }
                 break;
             case R.id.tv_cancel:

@@ -271,6 +271,11 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         @Override
         public void onSuccess(String response) {
             LoadingDialog.cancelLoadingDialog();
+            Map item = JsonUtil.fromJson(response, Map.class);
+            if (item != null && !item.get("code").equals("1000")) {
+                onBusinessFaild(item.get("code").toString());
+            }
+
         }
 
         @Override

@@ -252,6 +252,7 @@
     <string name="please_select_gift_people">Send to</string>
     <string name="please_input_text">Input the words</string>
     <string name="traffic_alert">Are you sure to using Data Quota for Live Show?</string>
+    <string name="continue_to_watch">Are you sure to using Data Quota to watch?</string>
     <string name="data_get_fail">Fail to Get Data.</string>
     <string name="fail">Failed</string>
     <!--banner-->
