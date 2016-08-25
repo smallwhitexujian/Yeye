@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.fragment;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -61,7 +63,6 @@ import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -148,10 +149,14 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private GridView grid_online;
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
+    private RelativeLayout rootView;
+    //软件盘弹起后所占高度阀值
+    private int keyHeight = 0;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
     }
+
 
     public interface OnCallEvents {
         //切换摄像头
@@ -197,6 +202,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (App.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = App.roomModel.getUserInfoDBModel();
         }
+
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
@@ -228,7 +234,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
-
+        rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         ly_main.setOnClickListener(this);
         btn_send.setOnClickListener(this);
         img_open_send.setOnClickListener(this);
@@ -345,8 +351,27 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
+
+    //键盘状态监听
+    private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            final Rect rect = new Rect();
+            rootView.getWindowVisibleDisplayFrame(rect);
+            int screenHeight = rootView.getRootView().getHeight();
+            keyHeight = screenHeight / 3;
+            //阀值设置为屏幕高度的1/3
+            int heightDifference = screenHeight - (rect.bottom - rect.top);
+            boolean visible = heightDifference > screenHeight / 3;
+            if (visible) {
+                getFragmentHandler().obtainMessage(SHOW_SOFT_KEYB, heightDifference).sendToTarget();
+            }else{
+                getFragmentHandler().obtainMessage(ONSHOW_SOFT_KEYB).sendToTarget();
+            }
+        }
+    };
 
     //初始化cocos
     private void initCocos2dx() {
@@ -364,8 +389,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     /**
      * 初始化列表
-     *
-     * @param lineData
      */
     public void InitializeOnline(List<OnlineListModel> lineData) {
         showList.clear();
@@ -773,6 +796,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         return ly_send != null && (ly_send.getVisibility() == View.VISIBLE || giftView.getVisibility() == View.VISIBLE);
     }
 
+    public void closeView() {
+        getFragmentHandler().obtainMessage(ONSHOW_SOFT_KEYB).sendToTarget();
+    }
+
     //关注/取消关注
     public void UserFollow() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -859,30 +886,27 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 setRoomPopSpinner();
                 break;
             case SHOW_SOFT_KEYB://键盘弹出事件
-                DebugLogs.d("------heightDiff-------。键盘弹出" + ly_main);
+//                DebugLogs.d("====键盘弹起-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
                     params.height = App.screenDpx.heightPixels - (int) msg.obj;
                     params.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params);
-                    ly_main.invalidate();
                     if (ly_send.getVisibility() == View.GONE) {
                         ly_send.setVisibility(View.VISIBLE);
+                        ly_send.findFocus();
                         ly_toolbar.setVisibility(View.GONE);
                     }
                 }
                 break;
             case ONSHOW_SOFT_KEYB:
                 //键盘收起了
+//                DebugLogs.d("====键盘收齐-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params2 = ly_main.getLayoutParams();
                     params2.height = App.screenDpx.heightPixels;
                     params2.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params2);
-                    if (ly_send.getVisibility() == View.VISIBLE) {
-                        ly_send.setVisibility(View.GONE);
-                        ly_toolbar.setVisibility(View.VISIBLE);
-                    }
                 }
                 break;
             case MSG_ADAPTER_CHANGE:
