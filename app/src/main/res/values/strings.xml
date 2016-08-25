@@ -242,6 +242,7 @@
     <string name="room_peerconnection_error">Media Server Connect Failed.</string>
     <string name="room_conne">Connecting Room</string>
     <string name="room_peerconn">Connecting Media Stream</string>
+    <string name="room_peerconn_success">Reconnect successful</string>
     <string name="room_net_toast">Network is Unstable</string>
     <string name="room_net_toast_error">Your Network is Snapping.</string>
     <string name="not_weibo">You didn\'t install Weibo.</string>

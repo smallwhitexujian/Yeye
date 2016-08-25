@@ -10,10 +10,8 @@ import android.content.DialogInterface;
  *
  */
 public class NomalAlertDialog {
-
-    private static Dialog dialog;
-
-    public static void cancelableShow(final Context context,String title,String msg,String strBtnOk,String strBtnCancel,final HandlerDialog handlerDialog){
+    private Dialog dialog;
+    public void cancelableShow(final Context context,String title,String msg,String strBtnOk,String strBtnCancel,final HandlerDialog handlerDialog){
         dialog = new AlertDialog.Builder(context).setTitle(title)// 设置标题
                 .setMessage(msg)// 设置内容
                 .setPositiveButton(strBtnOk,// 设置确定按钮
@@ -37,7 +35,7 @@ public class NomalAlertDialog {
         dialog.show();
     }
 
-    public static void alwaysShow(final Context context,String title,String msg,String strBtnOk,String strBtnCancel,final HandlerDialog handlerDialog){
+    public void alwaysShow(final Context context,String title,String msg,String strBtnOk,String strBtnCancel,final HandlerDialog handlerDialog){
         dialog = new AlertDialog.Builder(context).setTitle(title)// 设置标题
                 .setMessage(msg)// 设置内容
                 .setPositiveButton(strBtnOk,// 设置确定按钮
@@ -63,7 +61,7 @@ public class NomalAlertDialog {
         dialog.show();
     }
 
-    public static void alwaysShow2(final Context context,String title,String msg,String strBtnOk,final HandlerDialog handlerDialog){
+    public void alwaysShow2(final Context context,String title,String msg,String strBtnOk,final HandlerDialog handlerDialog){
         dialog = new AlertDialog.Builder(context).setTitle(title)// 设置标题
                 .setMessage(msg)// 设置内容
                 .setPositiveButton(strBtnOk,// 设置确定按钮
@@ -81,20 +79,16 @@ public class NomalAlertDialog {
         dialog.show();
     }
 
-
-
-    public static void dismiss(){
+    public void dismiss(){
         if(dialog != null){
             dialog.dismiss();
             dialog = null;
         }
     }
 
-
     public interface HandlerDialog{
         void handleOk();
         void handleCancel();
-
     }
 
 }

@@ -242,6 +242,7 @@ public class LeftFragment extends BaseFragment {
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
         }
     }
 

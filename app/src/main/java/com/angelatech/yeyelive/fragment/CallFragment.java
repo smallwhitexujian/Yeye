@@ -91,6 +91,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
     private final int SHOW_SOFT_KEYB = 14;
     private final int ONSHOW_SOFT_KEYB = 12;
+    private final int MSG_ADAPTER_CHANGE = 25;
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
@@ -664,8 +665,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void sendMsg() {
-        if (txt_msg.getText().length() > 0) {
-            callEvents.onSendMessage(txt_msg.getText().toString());
+        String txtMsg = txt_msg.getText().toString();
+        txtMsg = txtMsg.replace("<", "").replace(">", "");
+        if (txtMsg.length() > 0) {
+            callEvents.onSendMessage(txtMsg);
             txt_msg.setText("");
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
@@ -745,12 +748,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void notifyData() {
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-            if (chatline != null) {
-                chatline.setSelection(mAdapter.getCount());
-            }
-        }
+        fragmentHandler.sendEmptyMessage(MSG_ADAPTER_CHANGE);
     }
 
     @Override
@@ -884,6 +882,14 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     if (ly_send.getVisibility() == View.VISIBLE) {
                         ly_send.setVisibility(View.GONE);
                         ly_toolbar.setVisibility(View.VISIBLE);
+                    }
+                }
+                break;
+            case MSG_ADAPTER_CHANGE:
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                    if (chatline != null) {
+                        chatline.setSelection(mAdapter.getCount());
                     }
                 }
                 break;

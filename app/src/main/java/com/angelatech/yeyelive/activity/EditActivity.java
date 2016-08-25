@@ -45,7 +45,7 @@ public class EditActivity extends HeaderBaseActivity {
     private String nickName;
     private String userSign, userEmail;
     private TextView tv_input_limit;
-
+    private Boolean boolCanSave = false;
     private final int USER_SIGN_LEN_LIMIT = 70;
     private final int USER_NAME_LEN_LIMIT = 24;
     private final int USER_EMAIL_LEN_LIMIT = 50;
@@ -147,6 +147,9 @@ public class EditActivity extends HeaderBaseActivity {
             userEmail = model.email;
             userSign = et_sign.getText().toString();
         } else {
+            if (!boolCanSave) {
+                return;
+            }
             nickName = model.nickname;
             userSign = model.sign;
             userEmail = tv_email.getText().toString();
@@ -175,11 +178,10 @@ public class EditActivity extends HeaderBaseActivity {
                     if (HttpFunction.isSuc(common.code)) {
                         if (type.equals("1")) {
                             CacheDataManager.getInstance().update(BaseKey.USER_NICKNAME, nickName, model.userid);
-                        } else if (type.equals("2")){
+                        } else if (type.equals("2")) {
                             CacheDataManager.getInstance().update(BaseKey.USER_SIGN, userSign, model.userid);
-                        }
-                        else{
-                            CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, tv_email, model.userid);
+                        } else {
+                            CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, userEmail, model.userid);
                         }
                         finish();
                     } else {
@@ -226,7 +228,7 @@ public class EditActivity extends HeaderBaseActivity {
             } else {
                 editStart = tv_email.getSelectionStart();
                 editEnd = tv_email.getSelectionEnd();
-                if (temp.length() > USER_EMAIL_LEN_LIMIT) {
+                if (temp.length() > USER_EMAIL_LEN_LIMIT && editStart > 0) {
                     editable.delete(editStart - 1, editEnd);
                 }
                 uiHandler.obtainMessage(MSG_INPUT_USER_EMAIL, 0, 0, editable.toString()).sendToTarget();
@@ -260,8 +262,10 @@ public class EditActivity extends HeaderBaseActivity {
                 tv_input_limit.setText(str3);
                 if (((String) msg.obj).length() > 0 && VerificationUtil.isEmail(msg.obj.toString())) {
                     headerLayout.setRightTextButton(ContextCompat.getColor(this, R.color.color_222222));
+                    boolCanSave = true;
                 } else {
                     headerLayout.setRightTextButton(ContextCompat.getColor(this, R.color.color_cccccc));
+                    boolCanSave = false;
                 }
                 break;
         }

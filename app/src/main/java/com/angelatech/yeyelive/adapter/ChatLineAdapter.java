@@ -169,7 +169,10 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         } else if (chatline.type == 9) {
             //进入房间系统提示
             holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + chatline.message + "</font>"));
-
+        }
+        else if (chatline.type == 10) {
+            //系统消息类型
+            holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_d80c18) + "'>" + chatline.message + "</font>"));
         }
         return convertView;
     }
