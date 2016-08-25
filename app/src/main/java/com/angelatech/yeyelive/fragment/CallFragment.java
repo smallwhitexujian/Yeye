@@ -63,7 +63,6 @@ import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -889,7 +888,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 setRoomPopSpinner();
                 break;
             case SHOW_SOFT_KEYB://键盘弹出事件
-                DebugLogs.d("====键盘弹起-------");
+//                DebugLogs.d("====键盘弹起-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
                     params.height = App.screenDpx.heightPixels - (int) msg.obj;
@@ -904,7 +903,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case ONSHOW_SOFT_KEYB:
                 //键盘收起了
-                DebugLogs.d("====键盘收齐-------");
+//                DebugLogs.d("====键盘收齐-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params2 = ly_main.getLayoutParams();
                     params2.height = App.screenDpx.heightPixels;
