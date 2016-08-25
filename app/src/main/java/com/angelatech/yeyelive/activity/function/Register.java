@@ -161,7 +161,7 @@ public class Register extends Login {
                             }
 
                         } else {
-                            onBusinessFaild(code);
+                            handler.obtainMessage(REGISTER_ERROR, code).sendToTarget();
                         }
                     }
                 }

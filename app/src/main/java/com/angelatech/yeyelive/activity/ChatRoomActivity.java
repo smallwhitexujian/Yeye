@@ -127,7 +127,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = false;
+    public boolean isqupai = true;
     private boolean boolConnRoom = true; //
 
     @Override
@@ -444,20 +444,22 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 无网络
      */
     private void noNetWork() {
-        NomalAlertDialog.alwaysShow(this, getString(R.string.setting_network),
-                getString(R.string.not_network), getString(R.string.ok), getString(R.string.cancel),
-                new NomalAlertDialog.HandlerDialog() {
-                    @Override
-                    public void handleOk() {
-                        startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-                    }
+        if (!ChatRoomActivity.this.isFinishing()) {
+            NomalAlertDialog.alwaysShow(this, getString(R.string.setting_network),
+                    getString(R.string.not_network), getString(R.string.ok), getString(R.string.cancel),
+                    new NomalAlertDialog.HandlerDialog() {
+                        @Override
+                        public void handleOk() {
+                            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+                        }
 
-                    @Override
-                    public void handleCancel() {
-                        exitRoom();
+                        @Override
+                        public void handleCancel() {
+                            exitRoom();
+                        }
                     }
-                }
-        );
+            );
+        }
     }
 
     @Override
