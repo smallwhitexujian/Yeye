@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.angelatech.yeyelive"
-        minSdkVersion 15
-        targetSdkVersion 16
-        versionCode 16
-        versionName "1.8.805"
+        minSdkVersion 18
+        targetSdkVersion 22
+        versionCode 20
+        versionName "1.8.809"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "x86_64", "mips"
@@ -35,7 +35,7 @@ android {
     buildTypes {
         release {
             zipAlignEnabled true
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             proguardFiles 'proguard-android.txt'
         }

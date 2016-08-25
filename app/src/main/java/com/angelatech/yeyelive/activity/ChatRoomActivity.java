@@ -127,7 +127,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = true;
+    public boolean isqupai = false;
     private boolean boolConnRoom = true; //
 
     @Override
@@ -140,7 +140,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (Build.VERSION.SDK_INT >= 23) {
             permissionCheck();
         }
-
+        if (Build.BRAND.equals("Meizu")) {
+            body.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
         initView();
         findView();
         if (Build.BRAND.equals("Meizu")) {
