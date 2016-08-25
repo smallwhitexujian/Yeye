@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -155,25 +153,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         params2.height = App.screenDpx.heightPixels - statusBarHeight;
         params2.width = App.screenDpx.widthPixels;
         body.setLayoutParams(params2);
-        body.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
-    //键盘状态监听
-    private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            final Rect rect = new Rect();
-            body.getWindowVisibleDisplayFrame(rect);
-            int screenHeight = body.getRootView().getHeight();
-            int heightDifference = screenHeight - (rect.bottom - rect.top);
-            boolean visible = heightDifference > screenHeight / 3;
-            if (visible) {//键盘弹起
-                callFragment.getFragmentHandler().obtainMessage(14, heightDifference).sendToTarget();
-            } else {
-                callFragment.getFragmentHandler().obtainMessage(12).sendToTarget();
-            }
-        }
-    };
+
 
     private void permissionCheck() {
         int permissionCheck = PackageManager.PERMISSION_GRANTED;
@@ -444,7 +426,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 无网络
      */
     private void noNetWork() {
-        NomalAlertDialog.alwaysShow(this, getString(R.string.setting_network),
+        NomalAlertDialog.alwaysShow(this.getParent(), getString(R.string.setting_network),
                 getString(R.string.not_network), getString(R.string.ok), getString(R.string.cancel),
                 new NomalAlertDialog.HandlerDialog() {
                     @Override
@@ -843,6 +825,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             } else {
                 CloseLiveDialog();
             }
+
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -878,11 +861,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (isqupai) {
             livePush.onDestroy();
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            body.getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
-        } else {
-            body.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
-        }
+
         System.gc();
     }
 
