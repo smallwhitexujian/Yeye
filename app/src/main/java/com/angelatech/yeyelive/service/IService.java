@@ -30,7 +30,6 @@ import java.util.List;
  * 这样作为了更好的混淆代码，以及以后独立成进程
  */
 public class IService extends Service {
-
     private NetworkReceiver mNetworkReceiver;
     private IServiceReceiver mIServiceReceiver;
     private IServiceInterface mIServiceInterface;//service业务逻辑接口
@@ -53,6 +52,9 @@ public class IService extends Service {
                 @Override
                 public void onActive(int networkType) {
                     mIServiceInterface.handleNetworkActivie(networkType);
+                    if (mRoomHandler != null) {
+                        mRoomHandler.obtainMessage(IServiceValues.NETWORK_SUCCESS, networkType).sendToTarget();
+                    }
                 }
 
                 @Override

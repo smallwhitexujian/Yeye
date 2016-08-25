@@ -25,6 +25,16 @@
                 fresco:placeholderImage="@drawable/default_photo"
                 fresco:roundAsCircle="true" />
 
+            <ImageView
+                android:id="@+id/iv_vip"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignBottom="@id/face_icon"
+                android:layout_alignRight="@id/face_icon"
+                android:layout_marginBottom="1dp"
+                android:src="@drawable/icon_vip_mark"
+                android:visibility="visible" />
+
             <LinearLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="180dp"

@@ -67,10 +67,10 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     //私有方法区域
     private void init() {
-        uiHandler = new CommonHandler(this);
+        uiHandler = new CommonHandler<>(this);
         HandlerThread handlerThread = new HandlerThread(getClass().getName());
         handlerThread.start();
-        backgroundHandler = new CommonHandler(this, handlerThread.getLooper());
+        backgroundHandler = new CommonHandler<>(this, handlerThread.getLooper());
     }
 
     public void onErrorCode(String codeStr) {

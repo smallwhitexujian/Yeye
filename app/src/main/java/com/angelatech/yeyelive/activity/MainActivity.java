@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
     private SlidingMenu Slidmenu;
     private CommonAdapter<Map> commonAdapter;
     private SimpleDraweeView mFaceIcon;//头像
-    private ImageView searchIcon, img_live;
+    private ImageView searchIcon, img_live, iv_vip;
     private TextView hotTab, followTab;
     private FragmentManager fragmentManager = null;
     private MainEnter mainEnter;
@@ -87,18 +87,14 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        //重新加载
-        userModel = CacheDataManager.getInstance().loadUser();
-        if (userModel != null) {
-            mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
-        }
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        setPhoto();
     }
 
     @Override
@@ -107,13 +103,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
+
         hotTab = (TextView) findViewById(R.id.hot_textview);
         followTab = (TextView) findViewById(R.id.follow_textview);
         searchIcon = (ImageView) findViewById(R.id.search_icon);
         img_live = (ImageView) findViewById(R.id.img_live);
         mFaceIcon = (SimpleDraweeView) findViewById(R.id.face_icon);
         home_guide = (ImageView) findViewById(R.id.home_guide);
-
+        iv_vip = (ImageView) findViewById(R.id.iv_vip);
         home_guide.setOnClickListener(this);
         hotTab.setOnClickListener(this);
         followTab.setOnClickListener(this);
@@ -122,6 +119,18 @@ public class MainActivity extends BaseActivity {
         img_live.setOnClickListener(this);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fragmentManager = getSupportFragmentManager();
+    }
+
+    private void setPhoto(){
+        userModel = CacheDataManager.getInstance().loadUser();
+        if (userModel != null) {
+            mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
+            if (userModel.isv.equals("1")) {
+                iv_vip.setVisibility(View.VISIBLE);
+            } else {
+                iv_vip.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void setView() {

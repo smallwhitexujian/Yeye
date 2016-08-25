@@ -84,6 +84,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
                                 loginUserModel.phone = App.loginPhone;
                                 loginUserModel.password = newPassword;
                                 loginUserModel.countryCode = "";
+                                loginUserModel.country = "";
                                 StartActivityHelper.jumpActivity(ChangePasswordActivity.this, LoginPasswordActivity.class, loginUserModel);
                             }
                         });

@@ -93,7 +93,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int ONSHOW_SOFT_KEYB = 12;
     private ImageView cameraSwitchButton;
 
-    private ImageView btn_Follow, btn_share, iv_vip,btn_beautiful,btn_lamp;
+    private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des;
     private SimpleDraweeView img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
@@ -367,6 +367,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param lineData
      */
     public void InitializeOnline(List<OnlineListModel> lineData) {
+        showList.clear();
         String uid;
         for (OnlineListModel item : lineData) {
             synchronized (lock) {
@@ -412,21 +413,22 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param onlineNotice 进出房间用户
      */
     public void updateOnline(OnlineListModel.OnlineNotice onlineNotice) {
-        int onlineCount = showList.size();
+        int onlineCount = onlineNotice.online;
+        if (String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) {
+            return;
+        }
         int index = getIndexOfUserList(onlineNotice.user.uid, showList);
         if (onlineNotice.kind == 0) { //进房间
-            if (index >= 0 || String.valueOf(onlineNotice.user.uid).equals(liveUserModel.userid)) { //存在用户 直接返回
-                showList.add(index, onlineNotice.user);
-                onlineCount ++;
-            } else {
-                showList.add(BinarySearch.binSearch(showList, 0, onlineCount, onlineNotice.user), onlineNotice.user);
-                onlineCount ++;
+            if (!liveUserModel.userid.equals(String.valueOf(onlineNotice.user.uid))) {
+                if (index >= 0) { //存在用户 替换
+                    showList.remove(index);
+                }
+                showList.add(BinarySearch.binSearch(showList, 0, showList.size(), onlineNotice.user), onlineNotice.user);
             }
         } else {
             if (index >= 0) {
                 synchronized (lock) {
                     showList.remove(index);
-                    onlineCount--;
                 }
             }
         }
@@ -437,7 +439,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
         grid_online.setLayoutParams(params);
         grid_online.setNumColumns(onlineCount);
-        txt_online.setText(String.valueOf(onlineCount));
+        txt_online.setText(String.valueOf(onlineCount - 1));
         if (horizontalListViewAdapter != null) {
             horizontalListViewAdapter.notifyDataSetChanged();
         }
@@ -560,17 +562,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
                 App.chatRoomApplication.livePush.OpenFace();
-                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON){//开启美颜
+                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
                     btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
-                }else{
+                } else {
                     btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
                 }
                 break;
             case R.id.button_lamp://闪光灯
                 App.chatRoomApplication.livePush.Openlamp();
-                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON){//开启闪光灯
+                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
                     btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
-                }else{
+                } else {
                     btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
                 }
                 break;
@@ -673,7 +675,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (App.roomModel.getRoomType().equals(App.LIVE_PREVIEW) && App.chatRoomApplication.isqupai){
+        if (App.roomModel.getRoomType().equals(App.LIVE_PREVIEW) && App.chatRoomApplication.isqupai) {
             btn_lamp.setVisibility(View.VISIBLE);
             btn_beautiful.setVisibility(View.VISIBLE);
         }

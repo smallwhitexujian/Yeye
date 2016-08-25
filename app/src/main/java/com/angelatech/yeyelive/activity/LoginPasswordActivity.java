@@ -45,6 +45,9 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     private CountrySelectItemModel selectItemModel;
     private EditText ed_pass_word, ed_phoneNumber;
     private LoadingDialogNew loading;
+    private LoginUserModel autoLogin = null;
+    private String loginUserId, loginUserPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +74,16 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
         mSelectCountry.setOnClickListener(this);
         tv_find_password.setOnClickListener(this);
         login_btn.setOnClickListener(this);
-        LoginUserModel loginUserModel = StartActivityHelper.getTransactionSerializable_1(this);
-        if (loginUserModel != null) {
+        autoLogin = StartActivityHelper.getTransactionSerializable_1(this);
+        if (autoLogin != null) {
             CacheDataManager.loginUser = null;
-            ed_phoneNumber.setText(loginUserModel.phone);
-            ed_pass_word.setText(loginUserModel.password);
-            uiHandler.obtainMessage(MSG_LOGIN_NOW, loginUserModel).sendToTarget();
+            ed_phoneNumber.setText(autoLogin.phone);
+            ed_pass_word.setText(autoLogin.password);
+            if (autoLogin.country.length() > 0) {
+                mSelectCountry.setText(autoLogin.country);
+                mAreaText.setText(StringHelper.formatStr(getString(R.string.phone_login_area_prefix), autoLogin.countryCode, ""));
+            }
+            uiHandler.sendEmptyMessage(MSG_LOGIN_NOW);
         }
     }
 
@@ -100,10 +107,9 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                     e.printStackTrace();
                 }
                 break;
-            case MSG_LOGIN_NOW:
+            case MSG_LOGIN_NOW: //自动登录
                 loading.showSysLoadingDialog(this, getString(R.string.login_now));
-                LoginUserModel loginUserModel = (LoginUserModel) msg.obj;
-                login(loginUserModel.countryCode + loginUserModel.phone, loginUserModel.password);
+                login(autoLogin.countryCode + autoLogin.phone, autoLogin.password);
                 break;
         }
     }
@@ -119,12 +125,12 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 StartActivityHelper.jumpActivity(this, RegisterFindPWDActivity.class, RegisterFindPWDActivity.FROM_TYPE_FIND_PASSWORD);
                 break;
             case R.id.login_btn:
-                String phone = ed_phoneNumber.getText().toString();
-                String password = ed_pass_word.getText().toString();
-                if (phone.startsWith("0")){
-                    phone = phone.replaceFirst("0","");
+                loginUserId = ed_phoneNumber.getText().toString();
+                loginUserPassword = ed_pass_word.getText().toString();
+                if (loginUserId.startsWith("0")) {
+                    loginUserId = loginUserId.replaceFirst("0", "");
                 }
-                login(StringHelper.stringMerge(mAreaText.getText().toString().replace("+", ""), phone), password);
+                login(StringHelper.stringMerge(mAreaText.getText().toString().replace("+", ""), loginUserId), loginUserPassword);
                 break;
         }
     }
@@ -145,7 +151,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
      */
     private void login(String userId, String password) {
         if (!userId.isEmpty() && !password.isEmpty()) {
-            loading.showSysLoadingDialog(this,getString(R.string.login_now));
+            loading.showSysLoadingDialog(this, getString(R.string.login_now));
             new PhoneLogin(this).loginPwd(userId, Md5.md5(password), httpCallback);
         }
     }

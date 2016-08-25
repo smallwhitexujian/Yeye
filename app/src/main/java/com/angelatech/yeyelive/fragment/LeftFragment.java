@@ -227,7 +227,7 @@ public class LeftFragment extends BaseFragment {
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
                 diamond.setText(String.format("%s", basicUserInfoDBModel.diamonds));
-                userFace.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(basicUserInfoDBModel.headurl)));
+                userFace.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl)));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
                 if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
                     sexImageView.setImageResource(R.drawable.icon_information_boy);

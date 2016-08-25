@@ -61,6 +61,7 @@ import java.util.TimerTask;
  */
 public class ReadyLiveFragment extends BaseFragment {
     private final int START_LIVE_CODE = 1;
+    private final int MSG_LOCATION_SUCCESS = 12;
     private final int LIVE_USER = 2; //直播者
     private View controlView;
     private RelativeLayout ly_body;
@@ -81,8 +82,9 @@ public class ReadyLiveFragment extends BaseFragment {
     private ArrayAdapter<String> spinnnerAdapter;
     private Spinner spinnner;
     private LinearLayout layout_ticket;
-    private BasicUserInfoDBModel liveUserModel,loginUserModel;
+    private BasicUserInfoDBModel liveUserModel, loginUserModel;
     private RoomModel roomModel;
+
     public interface OnCallEvents {
         //开始直播
         void onBeginLive();
@@ -112,17 +114,17 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         loginUserModel = CacheDataManager.getInstance().loadUser();
-        if (App.roomModel.getUserInfoDBModel() != null){
+        if (App.roomModel.getUserInfoDBModel() != null) {
             roomModel = App.roomModel;
             liveUserModel = roomModel.getUserInfoDBModel();
-        }else{
+        } else {
             liveUserModel = loginUserModel;
         }
 
         if (liveUserModel.isticket.equals("1")) {//主播是否有设置门票权限
             layout_ticket.setVisibility(View.VISIBLE);
             initTickets();
-        }else{
+        } else {
             layout_ticket.setVisibility(View.GONE);
         }
     }
@@ -150,17 +152,8 @@ public class ReadyLiveFragment extends BaseFragment {
                 img_location_bg.startAnimation(rotateAnimation);
             }
         });
-
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
-            if (gpsTracker == null) {
-                gpsTracker = new GpsTracker(getActivity());
-            }
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    straddres = gpsTracker.getCity();
-                }
-            }).start();
+            getLocationCity();
             mLocationInfo.setText(straddres);
         }
     }
@@ -230,22 +223,13 @@ public class ReadyLiveFragment extends BaseFragment {
                     btn_sign_on_location.setImageResource(R.drawable.btn_sign_on_location_n);
                     img_location_bg.setVisibility(View.VISIBLE);
                     img_location_bg.startAnimation(rotateAnimation);
-                    if (gpsTracker == null) {
-                        gpsTracker = new GpsTracker(getActivity());
-                    }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            straddres = gpsTracker.getCity();
-                        }
-                    }).start();
+                    getLocationCity();
                 } else {
                     btn_sign_on_location.setImageResource(R.drawable.btn_sign_on_location_s);
                     img_location_bg.setVisibility(View.GONE);
                     img_location_bg.clearAnimation();
                     straddres = "";
                 }
-                mLocationInfo.setText(straddres);
                 break;
 
             case R.id.btn_facebook:
@@ -277,6 +261,22 @@ public class ReadyLiveFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 获取定位
+     */
+    private void getLocationCity() {
+        if (gpsTracker == null) {
+            gpsTracker = new GpsTracker(getActivity());
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                straddres = gpsTracker.getCity();
+                fragmentHandler.sendEmptyMessage(MSG_LOCATION_SUCCESS);
+            }
+        }).start();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -297,7 +297,7 @@ public class ReadyLiveFragment extends BaseFragment {
                     json = new JSONObject((String) msg.obj);
                     if (json.getInt("code") == 1000) {
                         JSONObject jsonData = json.getJSONObject("data");
-                        if (jsonData != null){
+                        if (jsonData != null) {
                             App.roomModel.setId(jsonData.getInt("roomid"));
                             App.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
                             App.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
@@ -331,6 +331,9 @@ public class ReadyLiveFragment extends BaseFragment {
                         },
                         200);
                 break;
+            case MSG_LOCATION_SUCCESS:
+                mLocationInfo.setText(straddres);
+                break;
         }
 
     }
@@ -346,14 +349,16 @@ public class ReadyLiveFragment extends BaseFragment {
             @Override
             public void onSuccess(String response) {
                 Map map = JsonUtil.fromJson(response, Map.class);
-                if (HttpFunction.isSuc((String) map.get("code"))) {
-                    fragmentHandler.obtainMessage(START_LIVE_CODE, response).sendToTarget();
-                } else {
-                    onBusinessFaild((String) map.get("code"));
+                if (map != null) {
+                    if (HttpFunction.isSuc((String) map.get("code"))) {
+                        fragmentHandler.obtainMessage(START_LIVE_CODE, response).sendToTarget();
+                    } else {
+                        onBusinessFaild((String) map.get("code"));
+                    }
                 }
             }
         };
-        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, CacheDataManager.getInstance().loadUser(), title, area, price, callback);
+        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, callback);
     }
 
     @Override
