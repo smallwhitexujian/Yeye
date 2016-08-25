@@ -526,7 +526,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             } else {
                 giftBtn.setVisibility(View.GONE);
             }
-            if (baseInfo.isout || loginUser.role == 1) {//直播者 打开 踢人显示
+            if (baseInfo.isout || (loginUser.role == 1 && App.chatRoomApplication != null)) {//直播者 打开 踢人显示
                 btnUserControl.setVisibility(View.GONE);
                 btn_outUser.setVisibility(View.VISIBLE);
             } else {

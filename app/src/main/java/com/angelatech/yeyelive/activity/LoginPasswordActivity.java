@@ -22,6 +22,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
+import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.LoadingDialogNew;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -125,6 +126,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 StartActivityHelper.jumpActivity(this, RegisterFindPWDActivity.class, RegisterFindPWDActivity.FROM_TYPE_FIND_PASSWORD);
                 break;
             case R.id.login_btn:
+                Utility.closeKeybord(ed_pass_word, this);
                 loginUserId = ed_phoneNumber.getText().toString();
                 loginUserPassword = ed_pass_word.getText().toString();
                 if (loginUserId.startsWith("0")) {
@@ -151,7 +153,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
      */
     private void login(String userId, String password) {
         if (!userId.isEmpty() && !password.isEmpty()) {
-            loading.showSysLoadingDialog(this, getString(R.string.login_now));
+            loading.showSysLoadingDialog(this, getString(R.string.login_now_please));
             new PhoneLogin(this).loginPwd(userId, Md5.md5(password), httpCallback);
         }
     }

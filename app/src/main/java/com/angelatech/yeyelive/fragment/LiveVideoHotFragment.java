@@ -75,7 +75,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private int pageindex = 1;
     private int pagesize = 10;
     private String liveUrl;
-    private volatile boolean IS_REFRESH = false;  //是否需要刷新
+    private volatile boolean IS_REFRESH = true;  //是否需要刷新
     private SwipyRefreshLayout swipyRefreshLayout;
 
     private BasicUserInfoDBModel userInfo;
@@ -399,17 +399,17 @@ public class LiveVideoHotFragment extends BaseFragment implements
                                 datas.addAll(result.livedata);
                                 datas.addAll(result.videodata);
                                 fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
-                            } else {
-                                if (!IS_REFRESH) {
+                            }
+                            else{
+                                if (IS_REFRESH) {
+                                    fragmentHandler.sendEmptyMessage(MSG_NO_DATA);
+                                }else{
                                     fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
                                 }
                             }
                         } else {
                             onBusinessFaild(result.code, response);
                         }
-                    }
-                    if (datas.isEmpty()) {
-                        fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
                     }
                     IS_REFRESH = false;
                 }

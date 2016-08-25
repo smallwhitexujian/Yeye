@@ -336,6 +336,7 @@
     <string name="find_password">Forget Password</string>
     <string name="activity_register">Register</string>
     <string name="login_now">Login Process</string>
+    <string name="login_now_please">Login Process</string>
     <string name="need_to_login_again">Password is changed, and please login now.</string>
     <string name="now_submit">Submitting</string>
     <string name="password_error">Password is not standardized</string>

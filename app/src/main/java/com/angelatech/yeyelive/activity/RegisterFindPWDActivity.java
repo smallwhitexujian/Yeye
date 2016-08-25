@@ -23,6 +23,7 @@ import com.angelatech.yeyelive.activity.function.PhoneLogin;
 import com.angelatech.yeyelive.activity.function.Register;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
 import com.angelatech.yeyelive.model.LoginUserModel;
+import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
@@ -48,12 +49,12 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private final int MSG_REFRESH_TIME = 1;
     private final int MSG_REFRESH_TIME_FIN = 2;
     public final int MSG_FIND_PASSWORD_SUCCESS = 19;
+    private final int MSG_FIND_PASSWORD_ERROR = 20;
     private final int MSG_LEGAL_INPUT_PHONE = 6;
     private final int MSG_SEND_CODE_PHONE = 22;
-    private final int MSG_ILLEGAL_INPUT_CODE = 7;
     private final int MSG_LEGAL_INPUT_CODE = 8;
     private CountrySelectItemModel selectItemModel;
-    private String loginUserId, password, countryCode;
+    private String loginUserId, password, countryCode, phoneCode;
     private final int TOTAL_TIME = 60;
     private int coutTime = 0;
 
@@ -105,22 +106,8 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private void setView() {
         mAreaText.setText(StringHelper.formatStr(getString(R.string.phone_login_area_prefix), getString(R.string.phone_login_default_country_area_num), ""));
         mSelectCountry.setText(getString(R.string.phone_login_default_country));
-        mInputPhone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                uiHandler.sendEmptyMessage(MSG_SEND_CODE_PHONE);
-            }
-        });
+        mInputPhone.addTextChangedListener(watcher);
+        ed_pass_word.addTextChangedListener(watcher);
         mVerificationCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -142,6 +129,23 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         setIsWork();
     }
 
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            uiHandler.sendEmptyMessage(MSG_SEND_CODE_PHONE);
+        }
+    };
+
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
@@ -160,13 +164,6 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 setIsWork();
                 mHitText.setText("");
                 break;
-            case MSG_LEGAL_INPUT_CODE:
-                setIsWork();
-                mHitText.setText("");
-                break;
-            case MSG_ILLEGAL_INPUT_CODE:
-                setIsWork();
-                break;
             case Register.REGISTER_SUCCESS:
             case MSG_FIND_PASSWORD_SUCCESS:
                 LoginUserModel loginUserModel = new LoginUserModel();
@@ -176,7 +173,11 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 loginUserModel.country = mSelectCountry.getText().toString();
                 StartActivityHelper.jumpActivity(this, LoginPasswordActivity.class, loginUserModel);
                 break;
+            case MSG_FIND_PASSWORD_ERROR:
             case Register.REGISTER_ERROR:
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(this, ErrorHelper.getErrorHint(this, msg.obj.toString()));
+                mLoginBtn.setEnabled(true);
                 break;
         }
     }
@@ -186,6 +187,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         switch (v.getId()) {
             case R.id.login_btn:
                 mLoginBtn.setEnabled(false);
+                LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
                 if (fromType == FROM_TYPE_REGISTER) {
                     Register();
                 } else {
@@ -203,9 +205,6 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             case R.id.select_country:
                 StartActivityHelper.jumpActivityForResult(this, CountrySelectActivity.class, 1);
                 break;
-            case Register.REGISTER_SUCCESS:
-
-                break;
         }
 
     }
@@ -214,35 +213,31 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
      * 注册登录
      */
     private void Register() {
-        String code = mVerificationCode.getText().toString();
-        password = ed_pass_word.getText().toString();
         if (loginUserId.startsWith("0")) {
             loginUserId = loginUserId.replaceFirst("0", "");
         }
-        if (!code.isEmpty() && !password.isEmpty()) {
+        if (!phoneCode.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
-                new Register(this, uiHandler).phoneRegister(StringHelper.stringMerge(countryCode, loginUserId), code,
-                        Md5.md5(password), DeviceTool.getUniqueID(RegisterFindPWDActivity.this));
+                new Register(this, uiHandler).phoneRegister(StringHelper.stringMerge(countryCode, loginUserId), phoneCode,
+                        Md5.md5(password), DeviceTool.getUniqueID(this));
             } else {
+                LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(this, getString(R.string.password_error));
             }
         }
-        mLoginBtn.setEnabled(true);
     }
 
     /**
      * 找回密码
      */
     private void findPassword() {
-        String code = mVerificationCode.getText().toString();
         countryCode = mAreaText.getText().toString().replace("+", "");
-        password = ed_pass_word.getText().toString();
         if (loginUserId.startsWith("0")) {
             loginUserId = loginUserId.replaceFirst("0", "");
         }
-        if (!code.isEmpty() && !password.isEmpty()) {
+        if (!phoneCode.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
-                mPhoneLogin.findPassword(StringHelper.stringMerge(countryCode, loginUserId), code, Md5.md5(password), new HttpBusinessCallback() {
+                mPhoneLogin.findPassword(StringHelper.stringMerge(countryCode, loginUserId), phoneCode, Md5.md5(password), new HttpBusinessCallback() {
                     @Override
                     public void onFailure(Map<String, ?> errorMap) {
                         LoadingDialog.cancelLoadingDialog();
@@ -256,12 +251,13 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                             if (HttpFunction.isSuc(result.get("code").toString())) {
                                 uiHandler.sendEmptyMessage(MSG_FIND_PASSWORD_SUCCESS);
                             } else {
-                                onBusinessFaild(result.get("code").toString());
+                                uiHandler.obtainMessage(MSG_FIND_PASSWORD_ERROR, result.get("code")).sendToTarget();
                             }
                         }
                     }
                 });
             } else {
+                LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(this, getString(R.string.password_error));
             }
         }
@@ -351,8 +347,10 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private void setIsWork() {
         mHitText.setText("");
         loginUserId = mInputPhone.getText().toString();
+        password = ed_pass_word.getText().toString();
         if (!"".equals(loginUserId)) {
-            String code = mVerificationCode.getText().toString();
+            phoneCode = mVerificationCode.getText().toString();
+
             if (!isRunTimer) {
                 mSendBtn.setEnabled(true);
                 mSendBtn.setTextColor(0xFF222222);
@@ -360,7 +358,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 mSendBtn.setEnabled(false);
                 mSendBtn.setTextColor(0xFFA6A6A6);
             }
-            if (!"".equals(code)) {
+            if (!"".equals(phoneCode) && password != null && !password.equals("")) {
                 mLoginBtn.setEnabled(true);
                 mLoginBtn.setBackgroundResource(R.drawable.common_btn_bg);
                 mLoginBtn.setTextColor(0xFF222222);

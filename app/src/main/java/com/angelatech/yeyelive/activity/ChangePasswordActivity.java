@@ -99,6 +99,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_submit:
+                Utility.closeKeybord(ed_new_password, this);
                 submitChange();
                 break;
         }
