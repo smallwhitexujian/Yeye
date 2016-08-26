@@ -162,7 +162,7 @@
                     android:background="@null"
                     android:gravity="center|end"
                     android:hint="@string/user_name_hint"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="@color/color_222222"
                     android:textColorHint="@color/color_a6a6a6"
                     android:textSize="14sp" />

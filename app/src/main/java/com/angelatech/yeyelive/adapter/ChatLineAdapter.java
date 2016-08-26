@@ -89,7 +89,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                                 userInfoModel.Userid = String.valueOf(App.mChatlines.get(position).giftmodel.from.uid);
                                 userInfoModel.nickname = App.mChatlines.get(position).giftmodel.from.name + " ";
                                 userInfoModel.headurl = App.mChatlines.get(position).giftmodel.from.headphoto;
-                                //showUserInfoDialog(userInfoModel);
                                 if (iShowUser != null) {
                                     iShowUser.showUser(userInfoModel);
                                 }

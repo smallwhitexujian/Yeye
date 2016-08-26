@@ -54,6 +54,7 @@ import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.util.BinarySearch;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.DelHtml;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -689,7 +690,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private void sendMsg() {
         if (txt_msg.getText().length() > 0) {
-            callEvents.onSendMessage(txt_msg.getText().toString());
+            callEvents.onSendMessage(DelHtml.delHTMLTag(txt_msg.getText().toString()));
             txt_msg.setText("");
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
@@ -797,10 +798,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     //获取是否需要隐藏的面板
     public boolean getBackState() {
         return ly_send != null && (ly_send.getVisibility() == View.VISIBLE || giftView.getVisibility() == View.VISIBLE);
-    }
-
-    public void closeView() {
-        getFragmentHandler().obtainMessage(ONSHOW_SOFT_KEYB).sendToTarget();
     }
 
     //关注/取消关注

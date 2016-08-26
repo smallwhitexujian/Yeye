@@ -22,6 +22,7 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.qiniu.QiniuUpload;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.DelHtml;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -135,7 +136,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         map.put("token", model.token);
         map.put("userid", model.userid);
         map.put("email", Encryption.utf8ToUnicode(user_mail));
-        map.put("nickname", Encryption.utf8ToUnicode(user_name));
+        map.put("nickname", Encryption.utf8ToUnicode(DelHtml.delHTMLTag(user_name)));
         map.put("sex", String.valueOf(user_gender));
         new HttpFunction(this).httpPost(CommonUrlConfig.UserInformationEdit, map, httpCallback);
     }
@@ -307,7 +308,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         }
     }
 
-    HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
+    private HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
         @Override
         public void onFailure(Map<String, ?> errorMap) {
             LoadingDialog.cancelLoadingDialog();
