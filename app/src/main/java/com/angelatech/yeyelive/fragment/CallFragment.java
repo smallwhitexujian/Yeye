@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -106,7 +105,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ListView chatline;
     private OnCallEvents callEvents;
     private List<OnlineListModel> PopLinkData = new ArrayList<>();
-    private FragmentManager fragmentManager;
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
     private ChatLineAdapter<ChatLineModel> mAdapter;
@@ -149,8 +147,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
     private RelativeLayout rootView;
-    //软件盘弹起后所占高度阀值
-    private int keyHeight = 0;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -182,7 +178,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
         initCocos2dx();
-        fragmentManager = getFragmentManager();
         return controlView;
     }
 
@@ -201,7 +196,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (App.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = App.roomModel.getUserInfoDBModel();
         }
-
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
@@ -360,9 +354,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             final Rect rect = new Rect();
             rootView.getWindowVisibleDisplayFrame(rect);
             int screenHeight = rootView.getRootView().getHeight();
-            keyHeight = screenHeight / 3;
             int visibleHeight = rect.height();
-            //阀值设置为屏幕高度的1/3
             int heightDifference = screenHeight - (rect.bottom - rect.top);
             if (mVisibleHeight == 0) {
                 mVisibleHeight = visibleHeight;
