@@ -272,7 +272,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             if (!isqupai) {
                 MediaCenter.initLive(this);
                 //美颜开启此属性
-                MediaNative.VIDEO_FILTER = false;
+               // MediaNative.VIDEO_FILTER = false;
                 MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
             } else {
                 camera_surface.setVisibility(View.VISIBLE);
