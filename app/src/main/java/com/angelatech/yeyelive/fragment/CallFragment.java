@@ -183,6 +183,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
+        initControls();
         initCocos2dx();
         fragmentManager = getFragmentManager();
         return controlView;
@@ -356,6 +357,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         });
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
+
+    private void initControls(){
+        if (liveUserModel.userid.equals(userModel.userid)){
+            btn_lamp.setVisibility(View.VISIBLE);
+            if (App.isVideoFilter) {
+                btn_beautiful.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     int mVisibleHeight;
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -713,10 +724,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (App.roomModel.getRoomType().equals(App.LIVE_PREVIEW) && App.chatRoomApplication.isqupai) {
-            btn_lamp.setVisibility(View.VISIBLE);
-            btn_beautiful.setVisibility(View.VISIBLE);
-        }
         cocos2dxView.onResume();
     }
 
