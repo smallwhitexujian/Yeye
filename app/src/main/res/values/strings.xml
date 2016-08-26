@@ -147,6 +147,7 @@
     <!--设置-->
     <string name="setting_title">Setting</string>
     <string name="setting_live_notify">Notice of On Live</string>
+    <string name="setting_video_filter">Turn of Beauty</string>
     <string name="setting_bind_qq">Connect to QQ</string>
     <string name="setting_bind_weixin">Connect to Wechat</string>
     <string name="setting_bind_phone">Link with Phone</string>
