@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -56,6 +55,7 @@ import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.util.BinarySearch;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.DelHtml;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -110,7 +110,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ListView chatline;
     private OnCallEvents callEvents;
     private List<OnlineListModel> PopLinkData = new ArrayList<>();
-    private FragmentManager fragmentManager;
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
     private ChatLineAdapter<ChatLineModel> mAdapter;
@@ -190,7 +189,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         initView();
         initControls();
         initCocos2dx();
-        fragmentManager = getFragmentManager();
         return controlView;
     }
 
@@ -208,9 +206,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private void initView() {
         if (App.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = App.roomModel.getUserInfoDBModel();
-        }
-        if (Build.BRAND.equals("Meizu")) {
-            boolMeizuPhone = true;
         }
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
@@ -380,9 +375,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             final Rect rect = new Rect();
             rootView.getWindowVisibleDisplayFrame(rect);
             int screenHeight = rootView.getRootView().getHeight();
-            keyHeight = screenHeight / 3;
             int visibleHeight = rect.height();
-            //阀值设置为屏幕高度的1/3
             int heightDifference = screenHeight - (rect.bottom - rect.top);
             if (mVisibleHeight == 0) {
                 mVisibleHeight = visibleHeight;
@@ -732,10 +725,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void sendMsg() {
-        String txtMsg = txt_msg.getText().toString();
-        txtMsg = txtMsg.replace("<", "").replace(">", "");
-        if (txtMsg.length() > 0) {
-            callEvents.onSendMessage(txtMsg);
+        if (txt_msg.getText().length() > 0) {
+            callEvents.onSendMessage(DelHtml.delHTMLTag(txt_msg.getText().toString()));
             txt_msg.setText("");
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
