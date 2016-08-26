@@ -420,7 +420,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             //五次还是连不上就退出房间
             peerDisConnection(getString(R.string.room_net_toast_error));
         }
-
     }
 
     /**
