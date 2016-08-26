@@ -65,6 +65,8 @@ import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.tool.network.NetWorkUtil;
+import com.will.libmedia.MediaCenter;
+import com.will.libmedia.MediaNative;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -154,6 +156,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     //软件盘弹起后所占高度阀值
     private int keyHeight = 0;
     private boolean boolMeizuPhone = false;
+
+    private boolean bVideoFilter = false, bFlashEnable = false;
+
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
     }
@@ -204,7 +209,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (App.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = App.roomModel.getUserInfoDBModel();
         }
-        if (Build.BRAND.equals("Meizu")){
+        if (Build.BRAND.equals("Meizu")) {
             boolMeizuPhone = true;
         }
         userModel = CacheDataManager.getInstance().loadUser();
@@ -358,8 +363,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
-    private void initControls(){
-        if (liveUserModel.userid.equals(userModel.userid)){
+    private void initControls() {
+        if (liveUserModel.userid.equals(userModel.userid)) {
             btn_lamp.setVisibility(View.VISIBLE);
             if (App.isVideoFilter) {
                 btn_beautiful.setVisibility(View.VISIBLE);
@@ -390,7 +395,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             boolean visible = heightDifference > screenHeight / 3;
             if (visible) {
                 getFragmentHandler().obtainMessage(SHOW_SOFT_KEYB, heightDifference).sendToTarget();
-            }else{
+            } else {
                 getFragmentHandler().obtainMessage(ONSHOW_SOFT_KEYB).sendToTarget();
             }
         }
@@ -608,20 +613,36 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
-                App.chatRoomApplication.livePush.OpenFace();
-                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
-                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
-                } else {
+//                App.chatRoomApplication.livePush.OpenFace();
+//                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
+//                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+//                } else {
+//                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+//                }
+                if (bVideoFilter) {
                     btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+                    MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
+                } else {
+                    MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_BEAUTIFUL);
+                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
                 }
+                bVideoFilter = !bVideoFilter;
                 break;
             case R.id.button_lamp://闪光灯
-                App.chatRoomApplication.livePush.Openlamp();
-                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
+//                App.chatRoomApplication.livePush.Openlamp();
+//                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
+//                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
+//                } else {
+//                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
+//                }
+                if (bFlashEnable) {
+                    MediaCenter.setFlashEnable(false);
                     btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
                 } else {
+                    MediaCenter.setFlashEnable(true);
                     btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
                 }
+                bFlashEnable = !bFlashEnable;
                 break;
             case R.id.ly_main:
                 if (ly_send.getVisibility() == View.VISIBLE) {
@@ -813,10 +834,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     //获取是否需要隐藏的面板
     public boolean getBackState() {
         return ly_send != null && (ly_send.getVisibility() == View.VISIBLE || giftView.getVisibility() == View.VISIBLE);
-    }
-
-    public void closeView() {
-        getFragmentHandler().obtainMessage(ONSHOW_SOFT_KEYB).sendToTarget();
     }
 
     //关注/取消关注

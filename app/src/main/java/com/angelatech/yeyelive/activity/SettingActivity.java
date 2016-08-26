@@ -34,6 +34,7 @@ import com.facebook.CallbackManager;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.widget.LoginButton;
+import com.will.libmedia.MediaNative;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -134,6 +135,7 @@ public class SettingActivity extends HeaderBaseActivity {
         aboutLayout.setOnClickListener(this);
         blacklistLayout.setOnClickListener(this);
         layout_change_password.setOnClickListener(this);
+        notify_turn_videoFilter.setOnClickListener(this);
         callbackManager = FbProxy.init();
         new LoginManager(this, loginButton, uiHandler).login(LoginManager.LoginType.FACE_BOOK);
     }
@@ -315,9 +317,11 @@ public class SettingActivity extends HeaderBaseActivity {
     private void setVideoFilter() {
         if (App.isVideoFilter) {
             App.isVideoFilter = false;
+            MediaNative.VIDEO_FILTER = false;
             notify_turn_videoFilter.setImageResource(R.drawable.btn_me_switch_s);
         } else {
             App.isVideoFilter = true;
+            MediaNative.VIDEO_FILTER = true;
             notify_turn_videoFilter.setImageResource(R.drawable.btn_me_switch_n);
         }
         SPreferencesTool.getInstance().putValue(this, SPreferencesTool.VIDEO_FILTER, App.isVideoFilter);
