@@ -157,7 +157,7 @@ public class LivePush {
     private void initConfig() {
         screenOrientation = false;
         cameraFrontFacing = 1;
-        videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_480P;
+        videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_360P;
         createLive();//开播地址可以不适用趣拍
     }
 

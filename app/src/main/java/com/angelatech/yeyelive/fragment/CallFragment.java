@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -64,6 +65,8 @@ import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.tool.network.NetWorkUtil;
+import com.will.libmedia.MediaCenter;
+import com.will.libmedia.MediaNative;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -92,6 +95,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
     private final int SHOW_SOFT_KEYB = 14;
     private final int ONSHOW_SOFT_KEYB = 12;
+    private final int MSG_ADAPTER_CHANGE = 25;
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
@@ -148,6 +152,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
     private RelativeLayout rootView;
+    //软件盘弹起后所占高度阀值
+    private int keyHeight = 0;
+    private boolean boolMeizuPhone = false;
+
+    private boolean bVideoFilter = false, bFlashEnable = false;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
@@ -178,6 +187,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
+        initControls();
         initCocos2dx();
         return controlView;
     }
@@ -347,6 +357,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         });
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
+
+    private void initControls() {
+        if (liveUserModel.userid.equals(userModel.userid)) {
+            btn_lamp.setVisibility(View.VISIBLE);
+            if (App.isVideoFilter) {
+                btn_beautiful.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     int mVisibleHeight;
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -368,7 +388,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             boolean visible = heightDifference > screenHeight / 3;
             if (visible) {
                 getFragmentHandler().obtainMessage(SHOW_SOFT_KEYB, heightDifference).sendToTarget();
-            }else{
+            } else {
                 getFragmentHandler().obtainMessage(ONSHOW_SOFT_KEYB).sendToTarget();
             }
         }
@@ -586,20 +606,36 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
-                App.chatRoomApplication.livePush.OpenFace();
-                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
-                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
-                } else {
+//                App.chatRoomApplication.livePush.OpenFace();
+//                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
+//                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+//                } else {
+//                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+//                }
+                if (bVideoFilter) {
                     btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+                    MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
+                } else {
+                    MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_BEAUTIFUL);
+                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
                 }
+                bVideoFilter = !bVideoFilter;
                 break;
             case R.id.button_lamp://闪光灯
-                App.chatRoomApplication.livePush.Openlamp();
-                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
+//                App.chatRoomApplication.livePush.Openlamp();
+//                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
+//                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
+//                } else {
+//                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
+//                }
+                if (bFlashEnable) {
+                    MediaCenter.setFlashEnable(false);
                     btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
                 } else {
+                    MediaCenter.setFlashEnable(true);
                     btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
                 }
+                bFlashEnable = !bFlashEnable;
                 break;
             case R.id.ly_main:
                 if (ly_send.getVisibility() == View.VISIBLE) {
@@ -700,10 +736,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (App.roomModel.getRoomType().equals(App.LIVE_PREVIEW) && App.chatRoomApplication.isqupai) {
-            btn_lamp.setVisibility(View.VISIBLE);
-            btn_beautiful.setVisibility(View.VISIBLE);
-        }
         cocos2dxView.onResume();
     }
 
@@ -770,12 +802,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void notifyData() {
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-            if (chatline != null) {
-                chatline.setSelection(mAdapter.getCount());
-            }
-        }
+        fragmentHandler.sendEmptyMessage(MSG_ADAPTER_CHANGE);
     }
 
     @Override
@@ -910,6 +937,14 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_send.setVisibility(View.GONE);
                         ly_send.clearFocus();
                         ly_toolbar.setVisibility(View.VISIBLE);
+                    }
+                }
+                break;
+            case MSG_ADAPTER_CHANGE:
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                    if (chatline != null) {
+                        chatline.setSelection(mAdapter.getCount());
                     }
                 }
                 break;

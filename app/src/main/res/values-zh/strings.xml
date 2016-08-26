@@ -144,6 +144,7 @@
     <!--设置-->
     <string name="setting_title">设置</string>
     <string name="setting_live_notify">直播消息提醒</string>
+    <string name="setting_video_filter">美颜效果</string>
     <string name="setting_bind_qq">绑定QQ</string>
     <string name="setting_bind_weixin">绑定微信</string>
     <string name="setting_bind_phone">绑定手机</string>
@@ -240,7 +241,8 @@
     <string name="you_are_invited_out_of_the_room">您被请出了房间</string>
     <string name="room_peerconnection_error">流媒体连接失败</string>
     <string name="room_conne">连接房间服务器…</string>
-    <string name="room_peerconn">正在连接流媒体服务器…</string>
+    <string name="room_peerconn">正在连接流媒体服务器...</string>
+    <string name="room_peerconn_success">连接成功...</string>
     <string name="room_net_toast">网络状况不佳！</string>
     <string name="room_net_toast_error">你的网络睡着了</string>
     <string name="not_weibo">您未安装微博</string>

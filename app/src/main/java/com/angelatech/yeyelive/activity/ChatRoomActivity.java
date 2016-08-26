@@ -110,6 +110,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     //重连的次数
     private int connectionServiceNumber = 0;
+    private int rtmpConnectNumber = 0; //流媒体连接次数
     private LoadingDialogNew LoadingDialog;
     //房间是否初始化
     private boolean isInit = false;
@@ -425,8 +426,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 无网络
      */
     private void noNetWork() {
-        if (!ChatRoomActivity.this.isFinishing()) {
-            NomalAlertDialog.alwaysShow(this, getString(R.string.setting_network),
+        if (!this.isFinishing()) {
+            new NomalAlertDialog().alwaysShow(this, getString(R.string.setting_network),
                     getString(R.string.not_network), getString(R.string.ok), getString(R.string.cancel),
                     new NomalAlertDialog.HandlerDialog() {
                         @Override
@@ -448,6 +449,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         switch (msg.what) {
             case IServiceValues.NETWORK_SUCCESS:
                 if (!boolConnRoom) {
+                    connectionServiceNumber = 0;
                     restartConnection();
                 }
                 break;
@@ -640,7 +642,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 int gift_Num = giftModel.number;
                 String msgstr = "%/%";
-                if (giftModel.code.equals("0")) {
+                int resultCode = Integer.parseInt(giftModel.code);
+                if (resultCode == 0) {
                     if (giftModel.type == 6) {//收礼物消息，礼物接受者
                         //加币
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
@@ -705,8 +708,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     chatLineModel.message = msgstr;
                     chatManager.AddChatMessage(chatLineModel);
                     callFragment.notifyData();
-                } else if (giftModel.code.equals(String.valueOf(GlobalDef.NOT_SUFFICIENT_COIN_1012))) {
+                } else if (resultCode == GlobalDef.NOT_SUFFICIENT_COIN_1012) {
                     ToastUtils.showToast(this, getString(R.string.gift_code1012));
+                } else if (resultCode == GlobalDef.USER_NOTFOUND_1003) {
+                    ToastUtils.showToast(this, getString(R.string.microom_code_1));
                 }
                 break;
             case GlobalDef.WM_ROOM_Kicking:
@@ -991,10 +996,24 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 case MediaNative.RTMP_LIVE_RECONNECTING:
                     //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
                     //断线重连中
+                    if (rtmpConnectNumber >= 5) {
+                        peerDisConnection(getString(R.string.room_net_toast_error));
+                        return;
+                    }
+                    rtmpConnectNumber++;
+                    ChatLineModel msg = new ChatLineModel();
+                    msg.type = 10;
+                    msg.message = getString(R.string.room_peerconn);
+                    chatManager.AddChatMessage(msg);
+                    callFragment.notifyData();
                     break;
                 case MediaNative.RTMP_LIVE_RECONNECT:
                     face.setVisibility(View.GONE);
-                    DebugLogs.e("-------RTMP_LIVE_RECONNECT---------");
+                    ChatLineModel msg_reconnect = new ChatLineModel();
+                    msg_reconnect.type = 10;
+                    msg_reconnect.message = getString(R.string.room_peerconn_success);
+                    chatManager.AddChatMessage(msg_reconnect);
+                    callFragment.notifyData();
                     //重连成功
                     break;
                 case MediaNative.RTMP_LIVE_CONNECT_ERROR:

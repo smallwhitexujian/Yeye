@@ -21,6 +21,7 @@ import com.duanqu.qupai.auth.QupaiAuthListener;
 import com.duanqu.qupai.jni.ApplicationGlue;
 import com.facebook.FacebookSdk;
 import com.will.common.log.DebugLogs;
+import com.will.libmedia.MediaNative;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +60,8 @@ public class App extends Application {
     public static ArrayList<ChatLineModel> mChatlines = new ArrayList<>();          // 房间数据存储
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
 
-    public static boolean isLiveNotify = true;
+    public static boolean isLiveNotify = true; //直播提醒开关
+    public static boolean isVideoFilter = true; //美颜开关
 
     public static String topActivity = "";
 
@@ -99,6 +101,11 @@ public class App extends Application {
         screenHeight = screenWidth * 16 / 9;
         screenDpx = getResources().getDisplayMetrics(); // 取屏幕分辨率
         FacebookSdk.sdkInitialize(getApplicationContext());
+        if (App.isVideoFilter) { //需提前设置 在房间设置会失败
+            MediaNative.VIDEO_FILTER = true;
+        }else{
+            MediaNative.VIDEO_FILTER = false;
+        }
 
 //        try {
 //            PackageInfo info = getPackageManager().getPackageInfo(AppConfig.PACKAGE_NAME, PackageManager.GET_SIGNATURES);

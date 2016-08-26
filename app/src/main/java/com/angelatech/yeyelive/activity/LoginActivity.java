@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             finish();
         } else {
             if (!NetWorkUtil.isNetworkConnected(this)) {
-                NomalAlertDialog.alwaysShow2(this, getString(R.string.setting_network),
+               new  NomalAlertDialog().alwaysShow2(this, getString(R.string.setting_network),
                         getString(R.string.not_network), getString(R.string.ok),
                         new NomalAlertDialog.HandlerDialog() {
                             @Override
