@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -152,7 +153,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout rootView;
     //软件盘弹起后所占高度阀值
     private int keyHeight = 0;
-
+    private boolean boolMeizuPhone = false;
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
     }
@@ -202,7 +203,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (App.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = App.roomModel.getUserInfoDBModel();
         }
-
+        if (Build.BRAND.equals("Meizu")){
+            boolMeizuPhone = true;
+        }
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
@@ -907,6 +910,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     params2.height = App.screenDpx.heightPixels;
                     params2.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params2);
+                    ly_send.clearFocus();
                 }
                 break;
             case MSG_ADAPTER_CHANGE:

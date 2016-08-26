@@ -14,7 +14,8 @@ public class SPreferencesTool {
     private final String profile_name = "userinfo";
     public final static String room_guide_key = "room_guide";
     public final static String home_guide_key = "home_guide";
-
+    public final static String VIDEO_FILTER = "video_filter"; //美颜
+    public final static String LIVENOTIFY = "live_notify";//直播提醒
     public synchronized static SPreferencesTool getInstance() {
         if (mInstance == null) {
             mInstance = new SPreferencesTool();

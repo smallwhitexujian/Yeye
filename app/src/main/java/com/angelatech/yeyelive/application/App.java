@@ -59,7 +59,8 @@ public class App extends Application {
     public static ArrayList<ChatLineModel> mChatlines = new ArrayList<>();          // 房间数据存储
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
 
-    public static boolean isLiveNotify = true;
+    public static boolean isLiveNotify = true; //直播提醒开关
+    public static boolean isVideoFilter = true; //美颜开关
 
     public static String topActivity = "";
 

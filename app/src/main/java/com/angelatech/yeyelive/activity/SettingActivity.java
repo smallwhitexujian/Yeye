@@ -25,6 +25,7 @@ import com.angelatech.yeyelive.thirdLogin.WxProxy;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ClearCacheUtil;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.view.CommDialog;
@@ -51,7 +52,7 @@ public class SettingActivity extends HeaderBaseActivity {
     private final int MSG_CHECK_CALL_SUC = 1;
     private final int MSG_CHECK_CALL_FAIL = 0;
 
-    private ImageView notifyTurn;
+    private ImageView notifyTurn, notify_turn_videoFilter;
 
     private CallbackManager callbackManager;
     private ProfileTracker profileTracker;
@@ -98,6 +99,7 @@ public class SettingActivity extends HeaderBaseActivity {
         headerLayout.showLeftBackButton();
 
         notifyTurn = (ImageView) findViewById(R.id.notify_turn);
+        notify_turn_videoFilter = (ImageView) findViewById(R.id.notify_turn_videoFilter);
         bindQQ = (TextView) findViewById(R.id.bind_qq);
         bindQQLayout = (LinearLayout) findViewById(R.id.bind_qq_layout);
 
@@ -152,6 +154,9 @@ public class SettingActivity extends HeaderBaseActivity {
                 break;
             case R.id.notify_turn:
                 setLiveNotify();
+                break;
+            case R.id.notify_turn_videoFilter:
+                setVideoFilter();
                 break;
             case R.id.about_us_layout:
                 StartActivityHelper.jumpActivityDefault(this, AboutUsActivity.class);
@@ -280,6 +285,20 @@ public class SettingActivity extends HeaderBaseActivity {
         } else {
             bindPhone.setText(getString(R.string.setting_go_bind));
         }
+
+        if (App.isVideoFilter){
+            notify_turn_videoFilter.setImageResource(R.drawable.btn_me_switch_n);
+        }
+        else{
+            notify_turn_videoFilter.setImageResource(R.drawable.btn_me_switch_s);
+        }
+
+        if (App.isLiveNotify){
+            notifyTurn.setImageResource(R.drawable.btn_me_switch_n);
+        }
+        else{
+            notifyTurn.setImageResource(R.drawable.btn_me_switch_s);
+        }
     }
 
     private void setLiveNotify() {
@@ -290,6 +309,18 @@ public class SettingActivity extends HeaderBaseActivity {
             App.isLiveNotify = true;
             notifyTurn.setImageResource(R.drawable.btn_me_switch_n);
         }
+        SPreferencesTool.getInstance().putValue(this, SPreferencesTool.LIVENOTIFY, App.isLiveNotify);
+    }
+
+    private void setVideoFilter() {
+        if (App.isVideoFilter) {
+            App.isVideoFilter = false;
+            notify_turn_videoFilter.setImageResource(R.drawable.btn_me_switch_s);
+        } else {
+            App.isVideoFilter = true;
+            notify_turn_videoFilter.setImageResource(R.drawable.btn_me_switch_n);
+        }
+        SPreferencesTool.getInstance().putValue(this, SPreferencesTool.VIDEO_FILTER, App.isVideoFilter);
     }
 
     /**

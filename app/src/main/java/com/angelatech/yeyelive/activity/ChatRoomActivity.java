@@ -141,6 +141,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         initView();
         findView();
+        if (Build.BRAND.equals("Meizu")) {
+            body.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
         if (isqupai) {
             livePush = new LivePush();
             livePush.init(this, camera_surface);
