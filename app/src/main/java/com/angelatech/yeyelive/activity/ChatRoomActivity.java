@@ -1067,7 +1067,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      */
     public void exitRoom() {
         if (!boolCloseRoom) {
-            roomFinish();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    roomFinish();
+                }
+            });
+
         }
         finish();
     }
