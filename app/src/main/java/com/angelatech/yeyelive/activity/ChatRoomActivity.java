@@ -58,6 +58,7 @@ import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
 import com.angelatech.yeyelive.view.LoadingDialogNew;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -94,14 +95,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
     private ImageView face;
     private ImageView room_guide;
-    public RelativeLayout viewPanel, body;
+    private RelativeLayout viewPanel, body;
     private ViewPager mAbSlidingTabView;
     private ServiceManager serviceManager;
     private RoomModel roomModel;                                  //房间信息，其中包括房主信息
 
     private ChatManager chatManager;
     private ArrayList<Fragment> fragmentList;
-    private static List<OnlineListModel> onlineListDatas = new ArrayList<>();         // 房间在线人数列表
     private MyFragmentPagerAdapter fragmentPagerAdapter;
     private int beginTime = 0;          //房间直播开始时间，用来计算房间直播时长
 
@@ -124,9 +124,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
-    public LivePush livePush = null;
+    private LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = false;
+    private boolean isqupai = false;
     private boolean boolConnRoom = true; //
 
     @Override
@@ -380,9 +380,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             @Override
             public void onSuccess(String response) {
                 DebugLogs.e("=========response=====保存录像" + response);
+                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+                if (results !=null){
+                    if (!HttpFunction.isSuc(results.code)) {
+                        onBusinessFaild(results.code);
+                    }
+                }
             }
         };
-
         chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), callback);
     }
 
