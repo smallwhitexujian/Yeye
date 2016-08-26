@@ -157,7 +157,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
 
-
     private void permissionCheck() {
         int permissionCheck = PackageManager.PERMISSION_GRANTED;
         for (String permission : permissionManifest) {
@@ -272,7 +271,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             if (!isqupai) {
                 MediaCenter.initLive(this);
                 //美颜开启此属性
-               // MediaNative.VIDEO_FILTER = false;
+                // MediaNative.VIDEO_FILTER = false;
                 MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
             } else {
                 camera_surface.setVisibility(View.VISIBLE);
@@ -381,7 +380,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             public void onSuccess(String response) {
                 DebugLogs.e("=========response=====保存录像" + response);
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-                if (results !=null){
+                if (results != null) {
                     if (!HttpFunction.isSuc(results.code)) {
                         onBusinessFaild(results.code);
                     }
