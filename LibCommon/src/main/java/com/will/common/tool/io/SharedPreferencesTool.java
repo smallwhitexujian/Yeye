@@ -23,17 +23,13 @@ public class SharedPreferencesTool {
         String typeName = value.getClass().getSimpleName();
         if (INTTYPE.equals(typeName)) {
             editor.putInt(key, (Integer) value);
-        }
-        else if (BOOLEANTYPE.equals(typeName)) {
+        } else if (BOOLEANTYPE.equals(typeName)) {
             editor.putBoolean(key, (Boolean) value);
-        }
-        else if (STRINGTYPE.equals(typeName)) {
+        } else if (STRINGTYPE.equals(typeName)) {
             editor.putString(key, (String) value);
-        }
-        else if (LONGTYPE.equals(typeName)) {
+        } else if (LONGTYPE.equals(typeName)) {
             editor.putLong(key, (Long) value);
-        }
-        else {
+        } else {
             throw new RuntimeException();
         }
         editor.apply();
@@ -52,6 +48,11 @@ public class SharedPreferencesTool {
     public static boolean getBooleanValue(Context ctx, String prefName, String key) {
         SharedPreferences properties = ctx.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         return properties.getBoolean(key, true);
+    }
+
+    public static boolean getBooleanValue(Context ctx, String prefName, String key, boolean defVal) {
+        SharedPreferences properties = ctx.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        return properties.getBoolean(key, defVal);
     }
 
     public static long getLongValue(Context ctx, String prefName, String key) {

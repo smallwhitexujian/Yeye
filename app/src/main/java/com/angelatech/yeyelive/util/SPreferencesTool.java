@@ -16,6 +16,7 @@ public class SPreferencesTool {
     public final static String home_guide_key = "home_guide";
     public final static String VIDEO_FILTER = "video_filter"; //美颜
     public final static String LIVENOTIFY = "live_notify";//直播提醒
+
     public synchronized static SPreferencesTool getInstance() {
         if (mInstance == null) {
             mInstance = new SPreferencesTool();
@@ -44,6 +45,10 @@ public class SPreferencesTool {
 
     public boolean getBooleanValue(Context ctx, String key) {
         return SharedPreferencesTool.getBooleanValue(ctx, profile_name, key);
+    }
+
+    public boolean getBooleanValue(Context ctx, String key, boolean defVal) {
+        return SharedPreferencesTool.getBooleanValue(ctx, profile_name, key, defVal);
     }
 
     public long getLongValue(Context ctx, String key) {
