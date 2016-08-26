@@ -352,7 +352,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         });
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
-
+    int mVisibleHeight;
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -361,8 +361,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             rootView.getWindowVisibleDisplayFrame(rect);
             int screenHeight = rootView.getRootView().getHeight();
             keyHeight = screenHeight / 3;
+            int visibleHeight = rect.height();
             //阀值设置为屏幕高度的1/3
             int heightDifference = screenHeight - (rect.bottom - rect.top);
+            if (mVisibleHeight == 0) {
+                mVisibleHeight = visibleHeight;
+                return;
+            }
+            if (mVisibleHeight == visibleHeight) {
+                return;
+            }
+            mVisibleHeight = visibleHeight;
             boolean visible = heightDifference > screenHeight / 3;
             if (visible) {
                 getFragmentHandler().obtainMessage(SHOW_SOFT_KEYB, heightDifference).sendToTarget();
@@ -901,14 +910,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     }
                 }
                 break;
-            case ONSHOW_SOFT_KEYB:
-                //键盘收起了
+            case ONSHOW_SOFT_KEYB://键盘收起了
 //                DebugLogs.d("====键盘收齐-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params2 = ly_main.getLayoutParams();
                     params2.height = App.screenDpx.heightPixels;
                     params2.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params2);
+                    if (ly_send.getVisibility() == View.VISIBLE) {
+                        ly_send.setVisibility(View.GONE);
+                        ly_send.clearFocus();
+                        ly_toolbar.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
         }

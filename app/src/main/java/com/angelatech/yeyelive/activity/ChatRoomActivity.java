@@ -125,7 +125,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = true;
+    public boolean isqupai = false;
     private boolean boolConnRoom = true; //
 
     @Override
@@ -419,7 +419,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             //五次还是连不上就退出房间
             peerDisConnection(getString(R.string.room_net_toast_error));
         }
-
     }
 
     /**
