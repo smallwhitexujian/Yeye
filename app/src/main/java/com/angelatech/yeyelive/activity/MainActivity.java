@@ -2,10 +2,8 @@ package com.angelatech.yeyelive.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -31,13 +29,12 @@ import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
-import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.util.roomSoundState;
-import com.facebook.datasource.DataSource;
+import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -50,21 +47,20 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends BaseActivity {
-    public final int MSG_SUCC = 1;
-    public final int MSG_ERR = -1;
+    private final int MSG_SUCC = 1;
+    private final int MSG_ERR = -1;
 
     private List<Map> roomListData = new ArrayList<>();
     private BasicUserInfoDBModel userModel;
     private SlidingMenu Slidmenu;
     private CommonAdapter<Map> commonAdapter;
     private SimpleDraweeView mFaceIcon;//头像
-    private ImageView searchIcon, img_live, iv_vip;
+    private ImageView iv_vip;
     private TextView hotTab, followTab;
     private FragmentManager fragmentManager = null;
     private MainEnter mainEnter;
     private SimpleFragmentPagerAdapter pagerAdapter;
     private ViewPager viewPager;
-    private LeftFragment leftFragment;
     private GestureDetector gestureDetector;
     private ImageView home_guide;
 
@@ -103,11 +99,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        userModel = CacheDataManager.getInstance().loadUser();
         hotTab = (TextView) findViewById(R.id.hot_textview);
         followTab = (TextView) findViewById(R.id.follow_textview);
-        searchIcon = (ImageView) findViewById(R.id.search_icon);
-        img_live = (ImageView) findViewById(R.id.img_live);
+        ImageView searchIcon = (ImageView) findViewById(R.id.search_icon);
+        ImageView img_live = (ImageView) findViewById(R.id.img_live);
         mFaceIcon = (SimpleDraweeView) findViewById(R.id.face_icon);
         home_guide = (ImageView) findViewById(R.id.home_guide);
         iv_vip = (ImageView) findViewById(R.id.iv_vip);
@@ -121,8 +117,7 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    private void setPhoto(){
-        userModel = CacheDataManager.getInstance().loadUser();
+    private void setPhoto() {
         if (userModel != null) {
             mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
             if (userModel.isv.equals("1")) {
@@ -194,9 +189,7 @@ public class MainActivity extends BaseActivity {
         hotTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
 
         //预加载礼物列表
-        if (App.giftdatas.size() <= 0) {
-            loadGiftList();
-        }
+        loadGiftList();
 
         boolean isguide = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.home_guide_key);
         if (isguide) {
@@ -222,13 +215,9 @@ public class MainActivity extends BaseActivity {
                     if (result != null) {
                         App.giftdatas.addAll(result.data);
                         for (int i = 0; i < App.giftdatas.size(); i++) {
-                            LoadBitmap.loadBitmap(MainActivity.this, Uri.parse(App.giftdatas.get(i).getImageURL()), new LoadBitmap.LoadBitmapCallback() {
+                            FrescoBitmapUtils.getImageBitmap(MainActivity.this, App.giftdatas.get(i).getImageURL(), new FrescoBitmapUtils.BitCallBack() {
                                 @Override
-                                public void onLoadSuc(@Nullable Bitmap bitmap) {
-                                }
-
-                                @Override
-                                public void onLoadFaild(DataSource dataSource) {
+                                public void onNewResultImpl(Bitmap bitmap) {
                                 }
                             });
                         }
@@ -325,7 +314,7 @@ public class MainActivity extends BaseActivity {
         //为侧滑菜单设置布局
         Slidmenu.setMenu(R.layout.frame_left_menu);
         Slidmenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-        leftFragment = new LeftFragment();
+        LeftFragment leftFragment = new LeftFragment();
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
     }
 
