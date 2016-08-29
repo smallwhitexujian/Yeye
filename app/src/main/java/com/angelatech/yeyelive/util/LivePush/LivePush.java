@@ -103,7 +103,7 @@ public class LivePush {
         mConfigure.put(DQLiveMediaFormat.KEY_MAX_VIDEO_BITRATE, 800000);
         mConfigure.put(DQLiveMediaFormat.KEY_DISPLAY_ROTATION, screenOrientation ? DQLiveMediaFormat.DISPLAY_ROTATION_90 : DQLiveMediaFormat.DISPLAY_ROTATION_0);
         mConfigure.put(DQLiveMediaFormat.KEY_EXPOSURE_COMPENSATION, -1);//曝光度
-        if(mWatermark != null){
+        if (mWatermark != null) {
             mConfigure.put(DQLiveMediaFormat.KEY_WATERMARK, mWatermark);//水印
         }
     }
@@ -205,47 +205,57 @@ public class LivePush {
     }
 
     public void onResume() {
-        //开启预览
-        if (mPreviewSurface != null) {
-            mMediaRecorder.prepare(mConfigure, mPreviewSurface);//预览
-            if (isRecording) {
-                mMediaRecorder.startRecord(liveUrl);
+        if (mMediaRecorder != null) {
+            //开启预览
+            if (mPreviewSurface != null) {
+                mMediaRecorder.prepare(mConfigure, mPreviewSurface);//预览
+                if (isRecording) {
+                    mMediaRecorder.startRecord(liveUrl);
+                }
             }
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_BITRATE_DOWN, mBitrateDownRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_BITRATE_RAISE, mBitrateUpRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_SUCC, mAudioCaptureSuccRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_DATA_DISCARD, mDataDiscardRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_INIT_DONE, mInitDoneRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_SUCC, mVideoEncoderSuccRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_FAILED, mVideoEncoderFailedRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_VIDEO_ENCODED_FRAMES_FAILED, mVideoEncodeFrameFailedRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_ENCODED_FRAMES_FAILED, mAudioEncodeFrameFailedRes));
+            mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_FAILED, mAudioCaptureOpenFailedRes));
         }
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_BITRATE_DOWN, mBitrateDownRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_BITRATE_RAISE, mBitrateUpRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_SUCC, mAudioCaptureSuccRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_DATA_DISCARD, mDataDiscardRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_INIT_DONE, mInitDoneRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_SUCC, mVideoEncoderSuccRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_FAILED, mVideoEncoderFailedRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_VIDEO_ENCODED_FRAMES_FAILED, mVideoEncodeFrameFailedRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_ENCODED_FRAMES_FAILED, mAudioEncodeFrameFailedRes));
-        mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_FAILED, mAudioCaptureOpenFailedRes));
     }
 
     public void onPause() {
-        if (isRecording) {
-            mMediaRecorder.stopRecord();
+        if (mMediaRecorder != null) {
+            if (isRecording) {
+                mMediaRecorder.stopRecord();
+            }
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_BITRATE_DOWN);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_BITRATE_RAISE);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_SUCC);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_DATA_DISCARD);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_INIT_DONE);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_SUCC);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_FAILED);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_VIDEO_ENCODED_FRAMES_FAILED);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_AUDIO_ENCODED_FRAMES_FAILED);
+            mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_FAILED);
+            /**
+             * 如果要调用stopRecord和reset()方法，则stopRecord（）必须在reset之前调用，否则将会抛出IllegalStateException
+             */
+            mMediaRecorder.reset();
         }
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_BITRATE_DOWN);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_BITRATE_RAISE);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_SUCC);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_DATA_DISCARD);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_INIT_DONE);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_SUCC);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_VIDEO_ENCODER_OPEN_FAILED);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_VIDEO_ENCODED_FRAMES_FAILED);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_AUDIO_ENCODED_FRAMES_FAILED);
-        mMediaRecorder.unSubscribeEvent(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_FAILED);
-        /**
-         * 如果要调用stopRecord和reset()方法，则stopRecord（）必须在reset之前调用，否则将会抛出IllegalStateException
-         */
-        mMediaRecorder.reset();
     }
 
     public void onDestroy() {
-        mMediaRecorder.release();
+        try{
+            if (mMediaRecorder != null) {
+                mMediaRecorder.release();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -346,7 +356,9 @@ public class LivePush {
     private OnRecordStatusListener mRecordStatusListener = new OnRecordStatusListener() {
         @Override
         public void onDeviceAttach() {
-            mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_AUTO_FOCUS_ON);
+            if(mMediaRecorder !=null){
+                mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_AUTO_FOCUS_ON);
+            }
         }
 
         @Override
@@ -405,7 +417,9 @@ public class LivePush {
                     break;
                 case DQLiveStatusCode.STATUS_CONNECTION_CLOSED:
                     DebugLogs.i("Live stream connection is closed!");
-                    mMediaRecorder.stopRecord();
+                    if(mMediaRecorder !=null){
+                        mMediaRecorder.stopRecord();
+                    }
                     break;
             }
         }
