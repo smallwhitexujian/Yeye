@@ -595,7 +595,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 OnlineListModel.OnlineNotice onlineNotice = JsonUtil.fromJson(msg.obj.toString(), OnlineListModel.OnlineNotice.class);
                 if (onlineNotice != null) {
                     if (onlineNotice.kind == 0) {//上线
-                        // onlineListDatas.add(onlineNotice.user);
                         roomModel.addlivenum();
                         ChatLineModel chatlinemodel = new ChatLineModel();
                         ChatLineModel.from from = new ChatLineModel.from();
@@ -611,7 +610,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         callFragment.notifyData();
                     }
                     //更新界面
-                    //callFragment.initPeopleView(onlineListDatas);
                     callFragment.updateOnline(onlineNotice);
                 }
                 break;
@@ -633,8 +631,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 CommonListResult<OnlineListModel> results = JsonUtil.fromJson(msg.obj.toString(), new TypeToken<CommonListResult<OnlineListModel>>() {
                 }.getType());
                 if (results != null && results.code.equals("0")) {
-                    //onlineListDatas = results.users;//在线列表
-                    //callFragment.initPeopleView(onlineListDatas);
                     callFragment.InitializeOnline(results.users);
                 }
                 break;

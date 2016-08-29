@@ -118,7 +118,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                         holder.tv_content.append(mContext.getString(R.string.send_people));
                         holder.tv_content.append(tospanableInfo);
                         String ChatContent = html + msgStr;
-                        CharSequence charSequence = Html.fromHtml(ChatContent, meImageGetter, null);
+                        Spanned charSequence = Html.fromHtml(ChatContent, meImageGetter, null);
                         holder.tv_content.append(" ");
                         holder.tv_content.append(charSequence);
                         holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
