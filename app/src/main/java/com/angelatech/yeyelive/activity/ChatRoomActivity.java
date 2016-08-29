@@ -128,7 +128,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private int connTotalNum = 0; //总连接次数
     public boolean isqupai = true;
     private boolean boolConnRoom = true; //
-    private String watemarkUrl = "wartermark/room_watemark.png";
+    private String watemarkUrl = "wartermark/bg_room_mercury.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +146,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         if (isqupai) {
             livePush = new LivePush();
-            livePush.setWatermark(watemarkUrl,14,24,2);
+            livePush.setWatermark(watemarkUrl,14,55,1);
             livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;
