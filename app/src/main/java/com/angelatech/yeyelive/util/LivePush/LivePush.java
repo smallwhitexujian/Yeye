@@ -13,7 +13,6 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.angelatech.yeyelive.Contants;
-import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.application.App;
 import com.duanqu.qupai.live.CreateLiveListener;
 import com.duanqu.qupai.live.LiveService;
@@ -58,7 +57,6 @@ import java.util.Map;
  */
 
 public class LivePush {
-    protected String TAG = BaseActivity.class.getName();
     private Context mContext;
     //默认设置
     private boolean screenOrientation = false;          // 横竖屏
@@ -66,7 +64,7 @@ public class LivePush {
     private int videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_360P;//分辨率
 
     private DQLiveMediaRecorder mMediaRecorder;
-//    private DQLiveRecordReporter mRecordReporter;
+    //    private DQLiveRecordReporter mRecordReporter;
     private Surface mPreviewSurface;
     private String liveUrl;                             //播放地址
     //控件
@@ -77,11 +75,11 @@ public class LivePush {
     public boolean FLAG_BEAUTY_ON = true;              //是否开启美颜  默认关闭
     public boolean FLAG_FLASH_MODE_ON = false;          //是否开启闪光灯 默认关闭
 
-    public LivePush(){
+    public LivePush() {
         initConfig();
     }
 
-    public void init(Context context,SurfaceView camera_surface){
+    public void init(Context context, SurfaceView camera_surface) {
         this.mContext = context;
 
         //创建推流器准备推流
@@ -107,9 +105,10 @@ public class LivePush {
         mConfigure.put(DQLiveMediaFormat.KEY_DISPLAY_ROTATION, screenOrientation ? DQLiveMediaFormat.DISPLAY_ROTATION_90 : DQLiveMediaFormat.DISPLAY_ROTATION_0);
         mConfigure.put(DQLiveMediaFormat.KEY_EXPOSURE_COMPENSATION, -1);//曝光度
     }
+
     //开始推流
-    public void StartLive(String starturl){
-        if (!starturl.isEmpty()){
+    public void StartLive(String starturl) {
+        if (!starturl.isEmpty()) {
             liveUrl = starturl;
             try {
                 mMediaRecorder.startRecord(liveUrl);
@@ -121,7 +120,7 @@ public class LivePush {
     }
 
     //开启美颜效果
-    public void OpenFace(){
+    public void OpenFace() {
         if (!FLAG_BEAUTY_ON) {//开启美颜
             FLAG_BEAUTY_ON = true;
             mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_BEAUTY_ON);
@@ -132,24 +131,25 @@ public class LivePush {
     }
 
     //摄像头切换
-    public void mCamera(){
+    public void mCamera() {
         int currFacing = mMediaRecorder.switchCamera();
-        if(currFacing == DQLiveMediaFormat.CAMERA_FACING_FRONT) {
+        if (currFacing == DQLiveMediaFormat.CAMERA_FACING_FRONT) {
             mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_BEAUTY_ON);
         }
         mConfigure.put(DQLiveMediaFormat.KEY_CAMERA_FACING, currFacing);
     }
 
     //闪光灯切换
-    public void Openlamp(){
-        if (!FLAG_FLASH_MODE_ON){
+    public void Openlamp() {
+        if (!FLAG_FLASH_MODE_ON) {
             FLAG_FLASH_MODE_ON = true;
             mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_FLASH_MODE_ON);
-        }else{
+        } else {
             FLAG_FLASH_MODE_ON = false;
             mMediaRecorder.removeFlag(DQLiveMediaFormat.FLAG_FLASH_MODE_ON);
         }
     }
+
     /**
      * 直播开始之前的配置 竖屏 后摄像头 分辨率
      * 参数设定完成之后获取直播地址
@@ -169,9 +169,9 @@ public class LivePush {
         LiveService.getInstance().setCreateLiveListener(new CreateLiveListener() {
             @Override
             public void onCreateLiveError(int errorCode, String message) {
-                if (App.isDebug){
+                if (App.isDebug) {
                     DebugLogs.d("errorCode:" + errorCode + "message" + message);
-                    ToastUtils.showToast(mContext,"errorCode:" + errorCode + "message" + message);
+                    ToastUtils.showToast(mContext, "errorCode:" + errorCode + "message" + message);
                 }
             }
 
@@ -184,7 +184,7 @@ public class LivePush {
         });
     }
 
-    public void onResume(){
+    public void onResume() {
         //开启预览
         if (mPreviewSurface != null) {
             mMediaRecorder.prepare(mConfigure, mPreviewSurface);//预览
@@ -204,7 +204,7 @@ public class LivePush {
         mMediaRecorder.subscribeEvent(new DQLiveEventSubscriber(DQLiveEvent.EventType.EVENT_AUDIO_CAPTURE_OPEN_FAILED, mAudioCaptureOpenFailedRes));
     }
 
-    public void onPause(){
+    public void onPause() {
         if (isRecording) {
             mMediaRecorder.stopRecord();
         }
@@ -224,7 +224,7 @@ public class LivePush {
         mMediaRecorder.reset();
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         mMediaRecorder.release();
     }
 
@@ -341,7 +341,7 @@ public class LivePush {
                     mMediaRecorder.startRecord(liveUrl);
                 }
                 mMediaRecorder.focusing(0.5f, 0.5f);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -358,7 +358,7 @@ public class LivePush {
 
         @Override
         public void onIllegalOutputResolution() {
-            Log.d(TAG, "selected illegal output resolution");
+            DebugLogs.i("selected illegal output resolution");
         }
     };
 
@@ -378,13 +378,13 @@ public class LivePush {
         public void onConnectionStatusChange(int status) {
             switch (status) {
                 case DQLiveStatusCode.STATUS_CONNECTION_START:
-                    Log.i(TAG, "Start live stream connection!");
+                    DebugLogs.i("Start live stream connection!");
                     break;
                 case DQLiveStatusCode.STATUS_CONNECTION_ESTABLISHED:
-                    Log.i(TAG, "Live stream connection is established!");
+                    DebugLogs.i("Live stream connection is established!");
                     break;
                 case DQLiveStatusCode.STATUS_CONNECTION_CLOSED:
-                    Log.i(TAG, "Live stream connection is closed!");
+                    DebugLogs.i("Live stream connection is closed!");
                     mMediaRecorder.stopRecord();
                     break;
             }
@@ -408,7 +408,7 @@ public class LivePush {
                 case DQLiveStatusCode.ERROR_ILLEGAL_ARGUMENT:
                 case DQLiveStatusCode.ERROR_IO:
                 case DQLiveStatusCode.ERROR_NETWORK_UNREACHABLE:
-                    Log.i(TAG, "Live stream connection error-->" + errorCode);
+                    DebugLogs.i("Live stream connection error-->" + errorCode);
                     break;
                 default:
             }
@@ -421,7 +421,7 @@ public class LivePush {
             Bundle bundle = event.getBundle();
             int preBitrate = bundle.getInt(DQLiveEvent.EventBundleKey.KEY_PRE_BITRATE);
             int currBitrate = bundle.getInt(DQLiveEvent.EventBundleKey.KEY_CURR_BITRATE);
-            Log.d(TAG, "event->up bitrate, previous bitrate is " + preBitrate +
+            DebugLogs.i("event->up bitrate, previous bitrate is " + preBitrate +
                     "current bitrate is " + currBitrate);
         }
     };
@@ -431,33 +431,33 @@ public class LivePush {
             Bundle bundle = event.getBundle();
             int preBitrate = bundle.getInt(DQLiveEvent.EventBundleKey.KEY_PRE_BITRATE);
             int currBitrate = bundle.getInt(DQLiveEvent.EventBundleKey.KEY_CURR_BITRATE);
-            Log.d(TAG, "event->down bitrate, previous bitrate is " + preBitrate +
+            DebugLogs.i("event->down bitrate, previous bitrate is " + preBitrate +
                     "current bitrate is " + currBitrate);
         }
     };
     private DQLiveEventResponse mAudioCaptureSuccRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event->audio recorder start success");
+            DebugLogs.i("event->audio recorder start success");
         }
     };
 
     private DQLiveEventResponse mVideoEncoderSuccRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event->video encoder start success");
+            DebugLogs.i("event->video encoder start success");
         }
     };
     private DQLiveEventResponse mVideoEncoderFailedRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event->video encoder start failed");
+            DebugLogs.i("event->video encoder start failed");
         }
     };
     private DQLiveEventResponse mVideoEncodeFrameFailedRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event->video encode frame failed");
+            DebugLogs.i("event->video encode frame failed");
         }
     };
 
@@ -465,7 +465,7 @@ public class LivePush {
     private DQLiveEventResponse mInitDoneRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event->live recorder initialize completely");
+            DebugLogs.i("event->live recorder initialize completely");
         }
     };
 
@@ -477,21 +477,21 @@ public class LivePush {
             if (bundle != null) {
                 discardFrames = bundle.getInt(DQLiveEvent.EventBundleKey.KEY_DISCARD_FRAMES);
             }
-            Log.d(TAG, "event->data discard, the frames num is " + discardFrames);
+            DebugLogs.i("event->data discard, the frames num is " + discardFrames);
         }
     };
 
     private DQLiveEventResponse mAudioCaptureOpenFailedRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event-> audio capture device open failed");
+            DebugLogs.i("event-> audio capture device open failed");
         }
     };
 
     private DQLiveEventResponse mAudioEncodeFrameFailedRes = new DQLiveEventResponse() {
         @Override
         public void onEvent(DQLiveEvent event) {
-            Log.d(TAG, "event-> audio encode frame failed");
+            DebugLogs.i("event-> audio encode frame failed");
         }
     };
 }

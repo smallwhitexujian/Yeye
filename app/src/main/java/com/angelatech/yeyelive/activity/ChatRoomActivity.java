@@ -755,7 +755,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         liveFinishFragment = new LiveFinishFragment();
         liveFinishFragment.setRoomModel(roomModel);
         liveFinishFragment.show(getSupportFragmentManager(), "");
-        if (isqupai) {
+        if (isqupai && livePush != null) {
             livePush.onDestroy();
         }
     }
