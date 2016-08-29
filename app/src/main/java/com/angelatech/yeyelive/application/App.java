@@ -15,14 +15,13 @@ import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.service.IService;
-import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.duanqu.qupai.auth.AuthService;
 import com.duanqu.qupai.auth.QupaiAuthListener;
+import com.duanqu.qupai.httpfinal.QupaiHttpFinal;
 import com.duanqu.qupai.jni.ApplicationGlue;
 import com.facebook.FacebookSdk;
 import com.will.common.log.DebugLogs;
-import com.will.libmedia.MediaNative;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,7 +61,6 @@ public class App extends Application {
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
 
     public static boolean isLiveNotify = true; //直播提醒开关
-    public static boolean isVideoFilter = false; //美颜开关
 
     public static String topActivity = "";
 
@@ -103,12 +101,6 @@ public class App extends Application {
         screenHeight = screenWidth * 16 / 9;
         screenDpx = getResources().getDisplayMetrics(); // 取屏幕分辨率
         FacebookSdk.sdkInitialize(getApplicationContext());
-        App.isVideoFilter = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.VIDEO_FILTER, false);
-        if (App.isVideoFilter) { //需提前设置 在房间设置会失败
-            MediaNative.VIDEO_FILTER = true;
-        } else {
-            MediaNative.VIDEO_FILTER = false;
-        }
 
 //        try {
 //            PackageInfo info = getPackageManager().getPackageInfo(AppConfig.PACKAGE_NAME, PackageManager.GET_SIGNATURES);
@@ -127,6 +119,7 @@ public class App extends Application {
         System.loadLibrary("qupai-media-thirdparty");
         System.loadLibrary("qupai-media-jni");
         ApplicationGlue.initialize(this);
+        QupaiHttpFinal.getInstance().initOkHttpFinal();
         initAuth(getApplicationContext(), Contants.appkey, Contants.appsecret, Contants.space);
     }
 

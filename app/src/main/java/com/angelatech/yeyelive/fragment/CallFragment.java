@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -361,9 +360,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private void initControls() {
         if (liveUserModel.userid.equals(userModel.userid)) {
             btn_lamp.setVisibility(View.VISIBLE);
-            if (App.isVideoFilter) {
-                btn_beautiful.setVisibility(View.VISIBLE);
-            }
+            btn_beautiful.setVisibility(View.VISIBLE);
         }
     }
 
@@ -606,36 +603,42 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
-//                App.chatRoomApplication.livePush.OpenFace();
-//                if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
-//                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
-//                } else {
-//                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
-//                }
-                if (bVideoFilter) {
-                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
-                    MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
-                } else {
-                    MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_BEAUTIFUL);
-                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+                if (App.chatRoomApplication.isqupai){
+                    App.chatRoomApplication.livePush.OpenFace();
+                    if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
+                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+                    } else {
+                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+                    }
+                }else{
+                    if (bVideoFilter) {
+                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+                        MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
+                    } else {
+                        MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_BEAUTIFUL);
+                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+                    }
+                    bVideoFilter = !bVideoFilter;
                 }
-                bVideoFilter = !bVideoFilter;
                 break;
             case R.id.button_lamp://闪光灯
-//                App.chatRoomApplication.livePush.Openlamp();
-//                if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
-//                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
-//                } else {
-//                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
-//                }
-                if (bFlashEnable) {
-                    MediaCenter.setFlashEnable(false);
-                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
-                } else {
-                    MediaCenter.setFlashEnable(true);
-                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
+                if (App.chatRoomApplication.isqupai){
+                    App.chatRoomApplication.livePush.Openlamp();
+                    if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
+                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
+                    } else {
+                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
+                    }
+                }else{
+                    if (bFlashEnable) {
+                        MediaCenter.setFlashEnable(false);
+                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
+                    } else {
+                        MediaCenter.setFlashEnable(true);
+                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
+                    }
+                    bFlashEnable = !bFlashEnable;
                 }
-                bFlashEnable = !bFlashEnable;
                 break;
             case R.id.ly_main:
                 if (ly_send.getVisibility() == View.VISIBLE) {

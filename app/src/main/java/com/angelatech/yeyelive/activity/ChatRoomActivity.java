@@ -124,16 +124,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
-    private LivePush livePush = null;
+    public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    private boolean isqupai = false;
+    public boolean isqupai = true;
     private boolean boolConnRoom = true; //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-        //保持屏幕常亮
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         if (Build.VERSION.SDK_INT >= 23) {
