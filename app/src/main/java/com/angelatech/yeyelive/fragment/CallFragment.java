@@ -152,9 +152,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private List<OnlineListModel> showList = new ArrayList<>();
     private RelativeLayout rootView;
     //软件盘弹起后所占高度阀值
-    private int keyHeight = 0;
-    private boolean boolMeizuPhone = false;
-
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     public void setDiamonds(String diamonds) {
