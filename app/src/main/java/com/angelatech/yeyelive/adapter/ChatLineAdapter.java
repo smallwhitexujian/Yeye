@@ -19,7 +19,6 @@ import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.util.Clickable;
 import com.angelatech.yeyelive.util.MeImageGetter;
-import com.angelatech.yeyelive.util.VerificationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             if (sChatContent.contains("%/%") && chatline.giftmodel != null) {
                 try {
                     String picPath = chatRoom.getGifPath(chatline.giftmodel.giftid).getImageURL();
-                    picPath = VerificationUtil.getImageUrl100(picPath);
                     if (!picPath.isEmpty()) {
                         String html = "<img src='" + picPath + "'/>";
                         //处理礼物逻辑
@@ -168,8 +166,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
         } else if (chatline.type == 9) {
             //进入房间系统提示
             holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + chatline.message + "</font>"));
-        }
-        else if (chatline.type == 10) {
+        } else if (chatline.type == 10) {
             //系统消息类型
             holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_d80c18) + "'>" + chatline.message + "</font>"));
         }

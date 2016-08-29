@@ -40,10 +40,10 @@ public class DelHtml {
      * 定义HTML标签的正则表达式
      */
     private static final String REGEX_HTML = "<[^>]+>";
-    /**
-     * 定义空格回车换行符
-     */
-    private static final String REGEX_SPACE = "\\s*|\t|\r|\n";
+//    /**
+//     * 定义空格回车换行符
+//     */
+//    private static final String REGEX_SPACE = "\\s*|\t|\r|\n";
 
     public static String delHTMLTag(String htmlStr) {
         // 过滤script标签
@@ -59,9 +59,9 @@ public class DelHtml {
         Matcher m_html = p_html.matcher(htmlStr);
         htmlStr = m_html.replaceAll("");
         // 过滤空格回车标签
-        Pattern p_space = Pattern.compile(REGEX_SPACE, Pattern.CASE_INSENSITIVE);
-        Matcher m_space = p_space.matcher(htmlStr);
-        htmlStr = m_space.replaceAll("");
+//        Pattern p_space = Pattern.compile(REGEX_SPACE, Pattern.CASE_INSENSITIVE);
+//        Matcher m_space = p_space.matcher(htmlStr);
+//        htmlStr = m_space.replaceAll("");
         return htmlStr.trim(); // 返回文本字符串
     }
 }
