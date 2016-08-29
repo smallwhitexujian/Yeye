@@ -128,6 +128,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private int connTotalNum = 0; //总连接次数
     public boolean isqupai = true;
     private boolean boolConnRoom = true; //
+    private String watemarkUrl = "wartermark/room_watemark.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         if (isqupai) {
             livePush = new LivePush();
+            livePush.setWatermark(watemarkUrl,14,24,2);
             livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;
@@ -270,7 +272,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             if (!isqupai) {
                 MediaCenter.initLive(this);
                 //美颜开启此属性
-                // MediaNative.VIDEO_FILTER = false;
                 MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
             } else {
                 camera_surface.setVisibility(View.VISIBLE);
@@ -368,11 +369,16 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 保存直播视频
      */
+    private boolean isRun = false;
     private void LiveQiSaveVideo() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 DebugLogs.e("=========response=====保存录像失败");
+                if (!isRun){
+                    LiveQiSaveVideo();
+                    isRun = true;
+                }
             }
 
             @Override

@@ -26,6 +26,7 @@ import com.duanqu.qupai.sdk.qupailiverecord.live.DQLiveStatusCode;
 import com.duanqu.qupai.sdk.qupailiverecord.live.OnLiveRecordErrorListener;
 import com.duanqu.qupai.sdk.qupailiverecord.live.OnNetworkStatusListener;
 import com.duanqu.qupai.sdk.qupailiverecord.live.OnRecordStatusListener;
+import com.duanqu.qupai.sdk.qupailiverecord.model.DQLiveWatermark;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 
@@ -62,9 +63,8 @@ public class LivePush {
     private boolean screenOrientation = false;          // 横竖屏
     private int cameraFrontFacing = 0;                  // 前后摄像头
     private int videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_360P;//分辨率
-
+    private DQLiveWatermark mWatermark = null;                 // 水印
     private DQLiveMediaRecorder mMediaRecorder;
-    //    private DQLiveRecordReporter mRecordReporter;
     private Surface mPreviewSurface;
     private String liveUrl;                             //播放地址
     //控件
@@ -86,7 +86,6 @@ public class LivePush {
         mMediaRecorder = DQLiveMediaRecorderFactory.createMediaRecorder();
         mMediaRecorder.init(mContext);
         //创建预览界面
-//        mRecordReporter = mMediaRecorder.getRecordReporter();//日志
         camera_surface.getHolder().addCallback(_CameraSurfaceCallback);
         camera_surface.setOnTouchListener(mOnTouchListener);
 
@@ -104,7 +103,28 @@ public class LivePush {
         mConfigure.put(DQLiveMediaFormat.KEY_MAX_VIDEO_BITRATE, 800000);
         mConfigure.put(DQLiveMediaFormat.KEY_DISPLAY_ROTATION, screenOrientation ? DQLiveMediaFormat.DISPLAY_ROTATION_90 : DQLiveMediaFormat.DISPLAY_ROTATION_0);
         mConfigure.put(DQLiveMediaFormat.KEY_EXPOSURE_COMPENSATION, -1);//曝光度
+        if(mWatermark != null){
+            mConfigure.put(DQLiveMediaFormat.KEY_WATERMARK, mWatermark);//水印
+        }
     }
+
+    /**
+     * 设置水印位置,设置水印方法需要在init之前
+     *
+     * @param url  水印存放路径
+     * @param dx   水印x位置
+     * @param dy   水印y位置
+     * @param site 水印方位
+     */
+    public void setWatermark(String url, int dx, int dy, int site) {
+        mWatermark = new DQLiveWatermark.Builder()
+                .watermarkUrl(url)
+                .paddingX(dx)
+                .paddingY(dy)
+                .site(site)
+                .build();
+    }
+
 
     //开始推流
     public void StartLive(String starturl) {
