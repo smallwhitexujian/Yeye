@@ -46,38 +46,41 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     private int videoId = 0;
     private final int pageSize = 10;
     private int pageIndex = 1;
-    private long datesort;
     private final int MSG_VIDEO_LIST_SUCCESS = 1;
     private final int MSG_VIDEO_LIST_NODATA = 2;
     private final int MSG_DELETE_VIDEO_SUCCESS = 3;
     private final int MSG_DELETE_VIDEO_ERROR = 4;
     private final int MSG_NO_MORE = 9;
     private CommonAdapter<LiveVideoModel> adapter;
-    private ListView list_view_user_videos;
     private SwipyRefreshLayout swipyRefreshLayout;
     private List<LiveVideoModel> list = new ArrayList<>();
     private FrameLayout layout_delete;
-    private TextView tv_delete, tv_cancel;
     private int itemPosition = 0;
     private RelativeLayout noDataLayout;
     private volatile boolean IS_REFRESH = true;  //是否需要刷新
+    private String otherId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_video);
+        otherId = StartActivityHelper.getTransactionSerializable_1(this);
         setView();
         initData();
     }
 
     private void setView() {
-        headerLayout.showTitle(getString(R.string.activity_title_video));
+        if (otherId.isEmpty()){
+            headerLayout.showTitle(getString(R.string.activity_title_video));
+        }else{
+            headerLayout.showTitle(getString(R.string.activity_video));
+        }
         headerLayout.showLeftBackButton();
-        list_view_user_videos = (ListView) findViewById(R.id.list_view_user_videos);
+        ListView list_view_user_videos = (ListView) findViewById(R.id.list_view_user_videos);
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         layout_delete = (FrameLayout) findViewById(R.id.layout_delete);
-        tv_delete = (TextView) findViewById(R.id.tv_delete);
-        tv_cancel = (TextView) findViewById(R.id.tv_cancel);
+        TextView tv_delete = (TextView) findViewById(R.id.tv_delete);
+        TextView tv_cancel = (TextView) findViewById(R.id.tv_cancel);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
         tv_delete.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
@@ -100,7 +103,9 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         list_view_user_videos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                layout_delete.setVisibility(View.VISIBLE);
+                if (otherId.isEmpty()){
+                    layout_delete.setVisibility(View.VISIBLE);
+                }
                 itemPosition = position;
                 return true;
             }
@@ -109,7 +114,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         adapter = new CommonAdapter<LiveVideoModel>(this, list, R.layout.item_video) {
             @Override
             public void convert(ViewHolder helper, LiveVideoModel item, int position) {
-
                 if (item.type == LiveVideoModel.TYPE_RECORD) { //录像
                     VideoModel model = (VideoModel) item;
                     helper.setImageViewByImageLoader1(R.id.iv_cover, model.barcoverurl);
@@ -127,7 +131,11 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         loginUser = CacheDataManager.getInstance().loadUser();
         playRecord = new PlayRecord(this);
         swipyRefreshLayout.setRefreshing(true);
-        playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
+        if(otherId.isEmpty()){
+            playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
+        }else{
+            playRecord.getUserRecord(loginUser.userid, loginUser.token, String.valueOf(otherId), pageSize, pageIndex, callback);
+        }
     }
 
     private void showNodataLayout() {
@@ -235,7 +243,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 }.getType());
                 if (result != null) {
                     if (HttpFunction.isSuc(result.code)) {
-                        datesort = result.time;
                         pageIndex = result.index + 1;
                         if (result.videodata != null && result.videodata.size() > 0) {
                             if (IS_REFRESH) {
@@ -266,7 +273,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 if (direction == SwipyRefreshLayoutDirection.TOP) {
                     IS_REFRESH = true;
                     pageIndex = 0;
-                    datesort = 0;
                 } else {
                     IS_REFRESH = false;
                 }

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -63,7 +64,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager viewPager;
     private GestureDetector gestureDetector;
     private ImageView home_guide;
-
+    private boolean isShowOpen;
     Drawable drawable;
 
     @Override
@@ -314,15 +315,19 @@ public class MainActivity extends BaseActivity {
         //为侧滑菜单设置布局
         Slidmenu.setMenu(R.layout.frame_left_menu);
         Slidmenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        Slidmenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
+            @Override
+            public void onOpen() {
+                isShowOpen = true;
+            }
+        });
         LeftFragment leftFragment = new LeftFragment();
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
     }
 
     public MainEnter getMainEnter() {
-
         return mainEnter;
     }
-
 
     public void closeMenu() {
         Slidmenu.toggle();
@@ -332,4 +337,15 @@ public class MainActivity extends BaseActivity {
         this.gestureDetector = gestureDetector;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isShowOpen){
+                Slidmenu.toggle();
+                isShowOpen = false;
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

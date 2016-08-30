@@ -191,6 +191,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
         };
         mainEnter = ((MainActivity) getActivity()).getMainEnter();
+        loadBanner();
     }
 
     private void jumpUserInfo(LiveVideoModel item) {
@@ -210,7 +211,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
-
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     CommDialog commDialog = new CommDialog();
                     CommDialog.Callback callback = new CommDialog.Callback() {
@@ -227,7 +227,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     startLive(item);
                 }
-
             }
         });
         listView.setAdapter(adapter);

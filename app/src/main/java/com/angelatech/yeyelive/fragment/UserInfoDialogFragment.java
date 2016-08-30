@@ -21,6 +21,7 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
+import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.UserControl;
@@ -67,7 +68,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private SimpleDraweeView userface;
     private TextView usernick, intimacy, usersign, fansNum, fouceNum, btn_outUser, liveBtn, user_id;
     private ImageView closeImageView, userSex, attentionsBtn, ringBtn, leftIcon,
-            rightIcon, giftBtn, btnUserControl, iv_vip;
+            rightIcon, giftBtn, btnUserControl, iv_vip,recharge_btn;
     private LinearLayout fansLayout, fouceLayout, fansAndFouceLayout, userinfoLayout;
     private RelativeLayout noDataLayout, bottomLayout;
     private BasicUserInfoModel baseInfo;
@@ -118,6 +119,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         attentionsBtn = (ImageView) view.findViewById(R.id.attentions_btn);
         liveBtn = (TextView) view.findViewById(R.id.live_btn);
         ringBtn = (ImageView) view.findViewById(R.id.ring_btn);
+        recharge_btn = (ImageView) view.findViewById(R.id.recharge_btn);
         fansLayout = (LinearLayout) view.findViewById(R.id.fans_layout);
         fouceLayout = (LinearLayout) view.findViewById(R.id.attention_layout);
         mviewPager = (ViewPager) view.findViewById(R.id.data_layout);
@@ -153,6 +155,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         ringBtn.setOnClickListener(this);
         giftBtn.setOnClickListener(this);
         btn_outUser.setOnClickListener(this);
+        recharge_btn.setOnClickListener(this);
         btnUserControl.setOnClickListener(this);
         MyFragmentPagerAdapter simpleFragmentPagerAdapter = new MyFragmentPagerAdapter(getChildFragmentManager(), fragments);
         mviewPager.setAdapter(simpleFragmentPagerAdapter);
@@ -312,6 +315,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     picViewModel.defaultPic = R.drawable.default_face_icon;
                     StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
                 }
+                break;
+            case R.id.recharge_btn://录播
+                StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
                 break;
         }
     }
@@ -515,6 +521,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             attentionsBtn.setVisibility(View.GONE);
             ringBtn.setVisibility(View.GONE);
             liveBtn.setVisibility(View.VISIBLE);
+            recharge_btn.setVisibility(View.GONE);
             if (App.chatRoomApplication != null) {
                 liveBtn.setText(getString(R.string.userinfo_dialog_close_live));
             } else {
@@ -526,6 +533,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             } else {
                 giftBtn.setVisibility(View.GONE);
             }
+            recharge_btn.setVisibility(View.VISIBLE);
             if (baseInfo.isout || (loginUser.role == 1 && App.chatRoomApplication != null)) {//直播者 打开 踢人显示
                 btnUserControl.setVisibility(View.GONE);
                 btn_outUser.setVisibility(View.VISIBLE);

@@ -8,8 +8,8 @@ android {
         applicationId "com.angelatech.yeyelive"
         minSdkVersion 18
         targetSdkVersion 22
-        versionCode 21
-        versionName "1.8.811"
+        versionCode 13
+        versionName "1.8.91"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "x86_64", "mips"

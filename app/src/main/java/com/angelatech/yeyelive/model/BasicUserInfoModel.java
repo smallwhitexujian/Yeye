@@ -5,10 +5,10 @@ import java.io.Serializable;
 
 /**
  * Created by jjfly on 16-3-3.
+ * 用户的个人信息
  */
 
 public class BasicUserInfoModel implements Serializable {
-
     public String Userid;
     public String Token;
     public String headurl;

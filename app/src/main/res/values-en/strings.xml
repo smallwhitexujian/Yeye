@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Yeye Live</string>
     <!-- header -->
-    <string name="empty_header_str"></string>
+    <string name="empty_header_str"/>
     <!--Login-->
     <string name="login_id_hint">Account/Phone</string>
     <string name="login_password_hint">Password</string>
@@ -78,7 +78,7 @@
     <string name="input_id">Input ID</string>
     <string name="title_activity_chat_room">ChatRoomActivity</string>
     <string name="channel_error_title">Connection error</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_live_finish">LiveFinishActivity</string>
@@ -276,7 +276,7 @@
     <string name="sure">Sure</string>
     <string name="purchase_cancel">purchase cancel</string>
     <string name="google_play_useless">Google Play Not Available</string>
-    <string name="un"></string>
+    <string name="un"/>
     <string name="login_text_desc">Agreement of User</string>
     <string name="btn_login">Login</string>
     <string name="btn_login_facebook">Login by Facebook</string>
@@ -337,7 +337,7 @@
     <string name="need_to_login_again">Password is changed, and please login now.</string>
     <string name="now_submit">Submitting</string>
     <string name="password_error">Password is not standardized</string>
-    <string name="password_gz"> Passwords must contain letters and numbers (6-22Digits)</string>
+    <string name="password_gz"> Passwords must contain letters and numbers (6–22Digits)</string>
     <string name="activity_title_video">My Records</string>
     <string name="Invite_facebook_friends">Invite Facebook Friends</string>
     <string name="text_delete">Delete</string>
@@ -354,6 +354,7 @@
     <string name="other_place_login_kick_out">Loged in another phone</string>
     <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>
     <string name="live_time_short">Live show less than 1 min can\'t be saved ,are you sure to end?</string>
-    <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
-    <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
+    <string name="no_camera_permission">No permission to the camera, please approve Yeye Live to access camera. </string>
+    <string name="no_record_audio_permission">No permission to the microphone, please approve Yeye Live to access.</string>
+    <string name="activity_video">Video</string>
 </resources>

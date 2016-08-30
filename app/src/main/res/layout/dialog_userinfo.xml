@@ -320,10 +320,21 @@
                     android:src="@drawable/btn_information_gift_n"
                     android:visibility="gone" />
 
+                <ImageView
+                    android:id="@+id/recharge_btn"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/btn_information_videolist_n"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/live_btn"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
                     android:layout_height="42dp"
+                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:background="@drawable/circle_coner_ctl_live_bg"
                     android:gravity="center"

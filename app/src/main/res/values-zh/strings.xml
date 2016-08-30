@@ -241,8 +241,8 @@
     <string name="you_are_invited_out_of_the_room">您被请出了房间</string>
     <string name="room_peerconnection_error">流媒体连接失败</string>
     <string name="room_conne">连接房间服务器…</string>
-    <string name="room_peerconn">正在连接流媒体服务器...</string>
-    <string name="room_peerconn_success">连接成功...</string>
+    <string name="room_peerconn">正在连接流媒体服务器…</string>
+    <string name="room_peerconn_success">连接成功…</string>
     <string name="room_net_toast">网络状况不佳！</string>
     <string name="room_net_toast_error">你的网络睡着了</string>
     <string name="not_weibo">您未安装微博</string>
@@ -360,4 +360,5 @@
     <string name="live_time_short">直播时间小于一分钟无法保存，确定结束吗?</string>
     <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
     <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
+    <string name="activity_video">视频</string>
 </resources>
