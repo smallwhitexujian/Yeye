@@ -146,7 +146,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         if (isqupai) {
             livePush = new LivePush();
-            livePush.setWatermark(watemarkUrl,14,55,1);
+            livePush.setWatermark(watemarkUrl, 14, 55, 1);
             livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;
@@ -370,12 +370,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 保存直播视频
      */
     private boolean isRun = false;
+
     private void LiveQiSaveVideo() {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 DebugLogs.e("=========response=====保存录像失败");
-                if (!isRun){
+                if (!isRun) {
                     LiveQiSaveVideo();
                     isRun = true;
                 }
@@ -584,7 +585,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     int liveState = jsobj.optInt("live");
                     if (liveState == 0 && !liveUserModel.userid.equals(userModel.userid)) {
                         //主播停止直播了
-
                         liveFinish();
                     } else if (liveState == 1 && !liveUserModel.userid.equals(userModel.userid)) {
                         if (liveFinishFragment != null && roomModel != null) {
@@ -660,10 +660,39 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
                     }
-
+                    Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
                     switch (giftModel.giftid) {
+                        case 5://Racing Car白色的跑车
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_car_white";
+                                cocos2dxGiftModel.exportJsonPath = "fx_car_white.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
+                        case 11://Red Racing Car红色的跑车
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_car";
+                                cocos2dxGiftModel.exportJsonPath = "fx_car.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
                         case 37://烟花
-                            Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "firework_01_4";
