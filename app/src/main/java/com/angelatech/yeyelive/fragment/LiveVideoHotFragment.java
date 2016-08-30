@@ -324,7 +324,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     pointGroup.addView(view); // 向线性布局中添加“点”
                     descriptions.add("");
                 }
-
                 // 初始化viewpager的默认position.MAX_value的一半
                 BannerOnPageChangeListener bannerOnPageChangeListener =
                         new BannerOnPageChangeListener(viewPager, descriptions, desciption, pointGroup);
@@ -349,6 +348,17 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     moreLoad();
                 }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        swipyRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipyRefreshLayout.setRefreshing(false);
             }
         });
     }

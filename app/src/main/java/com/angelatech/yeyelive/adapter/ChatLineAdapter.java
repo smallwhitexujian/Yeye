@@ -19,6 +19,7 @@ import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.util.Clickable;
 import com.angelatech.yeyelive.util.MeImageGetter;
+import com.angelatech.yeyelive.util.VerificationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             if (sChatContent.contains("%/%") && chatline.giftmodel != null) {
                 try {
                     String picPath = chatRoom.getGifPath(chatline.giftmodel.giftid).getImageURL();
+                    picPath = VerificationUtil.getImageUrl100(picPath);
                     if (!picPath.isEmpty()) {
                         String html = "<img src='" + picPath + "'/>";
                         //处理礼物逻辑
