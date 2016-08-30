@@ -84,7 +84,6 @@ public class LiveFinishActivity extends BaseActivity {
                         payTicketsSet();
                     }
                 });
-
             }
             img_head.setImageURI(Uri.parse(roomModel.getUserInfoDBModel().headurl));
             txt_barname.setText(roomModel.getUserInfoDBModel().nickname);

@@ -20,7 +20,6 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
  * 获取图片bitmap
  */
 public class FrescoBitmapUtils {
-
     public static void getImageBitmap(Context context, String url, final BitCallBack callBack) {
         ImageRequest imageRequest = ImageRequestBuilder
                 .newBuilderWithSource(Uri.parse(url))

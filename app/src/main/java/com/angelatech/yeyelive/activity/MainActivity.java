@@ -216,7 +216,9 @@ public class MainActivity extends BaseActivity {
                     if (result != null) {
                         App.giftdatas.addAll(result.data);
                         for (int i = 0; i < App.giftdatas.size(); i++) {
-                            FrescoBitmapUtils.getImageBitmap(MainActivity.this, App.giftdatas.get(i).getImageURL(), new FrescoBitmapUtils.BitCallBack() {
+                            String url = App.giftdatas.get(i).getImageURL();
+                            url = VerificationUtil.getImageUrl(url);
+                            FrescoBitmapUtils.getImageBitmap(MainActivity.this, url, new FrescoBitmapUtils.BitCallBack() {
                                 @Override
                                 public void onNewResultImpl(Bitmap bitmap) {
                                 }

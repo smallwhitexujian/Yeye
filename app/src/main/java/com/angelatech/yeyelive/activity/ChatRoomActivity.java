@@ -662,21 +662,21 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     }
                     Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
                     switch (giftModel.giftid) {
-//                        case 5://Racing Car白色的跑车
-//                            for (int m = 0; m < gift_Num; m++) {
-//                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-//                                cocos2dxGiftModel.aniName = "fx_car_white";
-//                                cocos2dxGiftModel.exportJsonPath = "fx_car_white.ExportJson";
-//                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-//                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-//                                cocos2dxGiftModel.scale = 2f;
-//                                bigGift.add(cocos2dxGiftModel);
-//                                if (!isStart) {
-//                                    isStart = true;
-//                                    startPlayBigGift();
-//                                }
-//                            }
-//                            break;
+                        case 5://Racing Car白色的跑车
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_car_white";
+                                cocos2dxGiftModel.exportJsonPath = "fx_car_white.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
                         case 11://Red Racing Car红色的跑车
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
