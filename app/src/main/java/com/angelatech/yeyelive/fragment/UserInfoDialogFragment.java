@@ -315,9 +315,11 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     picViewModel.defaultPic = R.drawable.default_face_icon;
                     StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
                 }
+                dismiss();
                 break;
             case R.id.recharge_btn://录播
                 StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                dismiss();
                 break;
         }
     }
