@@ -70,7 +70,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     }
 
     private void setView() {
-        if (otherId.isEmpty()){
+        if (otherId == null){
             headerLayout.showTitle(getString(R.string.activity_title_video));
         }else{
             headerLayout.showTitle(getString(R.string.activity_video));
@@ -103,7 +103,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         list_view_user_videos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                if (otherId.isEmpty()){
+                if (otherId == null){
                     layout_delete.setVisibility(View.VISIBLE);
                 }
                 itemPosition = position;
@@ -131,7 +131,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         loginUser = CacheDataManager.getInstance().loadUser();
         playRecord = new PlayRecord(this);
         swipyRefreshLayout.setRefreshing(true);
-        if(otherId.isEmpty()){
+        if(otherId == null){
             playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
         }else{
             playRecord.getUserRecord(loginUser.userid, loginUser.token, String.valueOf(otherId), pageSize, pageIndex, callback);
