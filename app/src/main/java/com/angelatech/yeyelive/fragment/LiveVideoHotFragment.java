@@ -23,7 +23,6 @@ import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
 import com.angelatech.yeyelive.model.BannerModel;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
@@ -83,7 +82,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private RelativeLayout noDataLayout;
     private int result_type = 0;
     private final Object lock = new Object();
-    private CommonHandler<LiveVideoHotFragment> uiHandler;
     private static final String ARG_POSITION = "position";
     private int fromType = 0;
 
@@ -101,7 +99,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
         fromType = getArguments().getInt(ARG_POSITION, 0);
         initView();
         setView();
-        uiHandler = new CommonHandler<>(this);
         load(fromType);
         return view;
     }
@@ -458,7 +455,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                                         WebTransportModel webTransportModel = new WebTransportModel();
                                         webTransportModel.url = data.url;
                                         webTransportModel.title = getString(R.string.banner_title);
-                                        StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
+                                        if (!webTransportModel.url.isEmpty()){
+                                            StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
+                                        }
                                     }
                                 }
                             });
