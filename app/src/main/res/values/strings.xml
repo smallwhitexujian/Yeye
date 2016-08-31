@@ -106,7 +106,7 @@
     <!--搜索-->
     <string name="search_hint">Search User Name or ID</string>
     <string name="search_nick_name">Nickname</string>
-    <string name="search_intimacy">Fan Intimacy</string>
+    <string name="search_intimacy">Popularity</string>
     <string name="search_fans">Fans</string>
     <string name="search_attention">Follow</string>
     <string name="search_pull_blacklist">Blacklist</string>
@@ -117,7 +117,7 @@
     <!--我的-->
     <string name="attention">Following</string>
     <string name="fans">Followed</string>
-    <string name="diamond">My Diamond</string>
+    <string name="diamond">My Coins</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
     <string name="intimacy">Popularity:</string>

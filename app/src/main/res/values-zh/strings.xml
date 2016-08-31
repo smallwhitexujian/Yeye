@@ -102,7 +102,7 @@
     <!--搜索-->
     <string name="search_hint">搜索用户或用户ID</string>
     <string name="search_nick_name">昵称</string>
-    <string name="search_intimacy">粉丝亲密度</string>
+    <string name="search_intimacy">知名度</string>
     <string name="search_fans">粉丝</string>
     <string name="search_attention">关注</string>
     <string name="search_pull_blacklist">拉黑</string>
@@ -116,7 +116,7 @@
     <string name="diamond">我的金币</string>
     <string name="setting">设置</string>
     <string name="exit">退出</string>
-    <string name="intimacy">亲密度:</string>
+    <string name="intimacy">知名度:</string>
     <string name="ID">ID:</string>
     <string name="default_sign">该用户很懒，什么都没留下</string>
     <!--充值-->
