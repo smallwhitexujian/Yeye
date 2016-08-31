@@ -182,7 +182,7 @@
     <string name="user_fans">Followed</string>
     <string name="txt_live_time" formatted="false">Live Time：%s</string>
     <string name="live_num">People Viewed</string>
-    <string name="live_coin">Diamond Acquired</string>
+    <string name="live_coin">Coin Acquired</string>
     <string name="back_home">Home Page</string>
     <string name="live_end">Live Show Ended</string>
     <string name="live_end_bg">Background of Live End</string>
@@ -271,7 +271,7 @@
     <string name="purchase_success">Purchase Successfully</string>
     <string name="cancel_purcase">Purchase Canceled</string>
     <string name="select_coin">Payment Option</string>
-    <string name="diamond_balance">Diamond Balance</string>
+    <string name="diamond_balance">Coin Balance</string>
     <string name="exchange_coin">Exchange to Coins</string>
     <string name="balance">Balance</string>
     <string name="recharge_unit">MYR </string>
@@ -326,6 +326,7 @@
     <string name="change_password">Change Password </string>
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
+    <string name="Confirm_password">Confirm Password</string>
     <string name="confirm_changes">Confirm</string>
     <string name="can_not_empty">Password can\'t be empty</string>
     <string name="set_password">Set Password</string>

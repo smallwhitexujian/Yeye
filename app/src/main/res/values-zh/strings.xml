@@ -324,6 +324,7 @@
     <string name="change_password">修改密码</string>
     <string name="old_password">原密码</string>
     <string name="new_password">新密码</string>
+    <string name="Confirm_password">确认密码</string>
     <string name="confirm_changes">确认修改</string>
     <string name="can_not_empty">密码不能为空</string>
     <string name="set_password">设置密码</string>
