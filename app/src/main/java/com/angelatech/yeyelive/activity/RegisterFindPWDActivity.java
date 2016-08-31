@@ -52,13 +52,11 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private final int MSG_FIND_PASSWORD_ERROR = 20;
     private final int MSG_LEGAL_INPUT_PHONE = 6;
     private final int MSG_SEND_CODE_PHONE = 22;
-    private final int MSG_LEGAL_INPUT_CODE = 8;
-    private CountrySelectItemModel selectItemModel;
-    private String loginUserId, password, countryCode, phoneCode;
+    private String loginUserId, password, countryCode, phoneCode, confirWord;
     private final int TOTAL_TIME = 60;
     private int coutTime = 0;
 
-    private EditText mInputPhone, mVerificationCode, ed_pass_word;
+    private EditText mInputPhone, mVerificationCode, ed_pass_word, confir_word;
     private TextView mLoginBtn, mSendBtn, mSelectCountry, mAreaText, mHitText;
 
     // 定时器相关
@@ -68,7 +66,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     private PhoneLogin mPhoneLogin;
     private boolean isRunTimer = false;
 
-    SmsContent contentObserver;
+    private SmsContent contentObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +91,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         mAreaText = (TextView) findViewById(R.id.area_text);
         mHitText = (TextView) findViewById(R.id.hint_textview);
         ed_pass_word = (EditText) findViewById(R.id.ed_pass_word);
+        confir_word = (EditText) findViewById(R.id.confir_word);
 
         if (fromType == FROM_TYPE_REGISTER) {
             headerLayout.showTitle(getString(R.string.activity_register));
@@ -213,10 +212,17 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
      * 注册登录
      */
     private void Register() {
+        countryCode = mAreaText.getText().toString().replace("+", "");
         if (loginUserId.startsWith("0")) {
             loginUserId = loginUserId.replaceFirst("0", "");
         }
-        if (!phoneCode.isEmpty() && !password.isEmpty()) {
+        phoneCode = mVerificationCode.getText().toString();
+        password = ed_pass_word.getText().toString();
+        confirWord = confir_word.getText().toString();
+        if (!password.equals(confirWord)) {
+            LoadingDialog.cancelLoadingDialog();
+            ToastUtils.showToast(this, getString(R.string.password_error));
+        } else if (!phoneCode.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
                 new Register(this, uiHandler).phoneRegister(StringHelper.stringMerge(countryCode, loginUserId), phoneCode,
                         Md5.md5(password), DeviceTool.getUniqueID(this));
@@ -235,7 +241,13 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         if (loginUserId.startsWith("0")) {
             loginUserId = loginUserId.replaceFirst("0", "");
         }
-        if (!phoneCode.isEmpty() && !password.isEmpty()) {
+        phoneCode = mVerificationCode.getText().toString();
+        password = ed_pass_word.getText().toString();
+        confirWord = confir_word.getText().toString();
+        if (!password.equals(confirWord)) {
+            LoadingDialog.cancelLoadingDialog();
+            ToastUtils.showToast(this, getString(R.string.password_error));
+        } else if (!phoneCode.isEmpty() && !password.isEmpty()) {
             if (VerificationUtil.isContainLetterNumber(password)) {
                 mPhoneLogin.findPassword(StringHelper.stringMerge(countryCode, loginUserId), phoneCode, Md5.md5(password), new HttpBusinessCallback() {
                     @Override
@@ -271,8 +283,14 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             Map item = JsonUtil.fromJson(response, Map.class);
             if (item != null && !item.get("code").equals("1000")) {
                 onBusinessFaild(item.get("code").toString());
+            }else{
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtils.showToast(RegisterFindPWDActivity.this,getString(R.string.success));
+                    }
+                });
             }
-
         }
 
         @Override
@@ -285,7 +303,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            selectItemModel = data.getParcelableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+            CountrySelectItemModel selectItemModel = data.getParcelableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
             if (selectItemModel != null) {
                 mAreaText.setText(StringHelper.formatStr(getString(R.string.phone_login_area_prefix), selectItemModel.num, ""));
                 mSelectCountry.setText(selectItemModel.country);
@@ -348,9 +366,9 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         mHitText.setText("");
         loginUserId = mInputPhone.getText().toString();
         password = ed_pass_word.getText().toString();
+        confirWord = confir_word.getText().toString();
         if (!"".equals(loginUserId)) {
             phoneCode = mVerificationCode.getText().toString();
-
             if (!isRunTimer) {
                 mSendBtn.setEnabled(true);
                 mSendBtn.setTextColor(0xFF222222);
@@ -377,7 +395,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         }
     }
 
-    class SmsContent extends ContentObserver {
+    private class SmsContent extends ContentObserver {
         private Cursor cursor = null;
 
         public SmsContent(Handler handler) {
@@ -398,7 +416,6 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 String smsBody = cursor.getString(bodyColumn);
                 mVerificationCode.setText(VerificationUtil.getDynamicPassword(smsBody));
             }
-
             //在用managedQuery的时候，不能主动调用close()方法，
             // 否则在Android 4.0+的系统上， 会发生崩溃
             if (Build.VERSION.SDK_INT < 14 && cursor != null) {
@@ -406,6 +423,4 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             }
         }
     }
-
-
 }

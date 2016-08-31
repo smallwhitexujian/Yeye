@@ -344,7 +344,7 @@
     <string name="need_to_login_again">Password is changed, and please login now.</string>
     <string name="now_submit">Submitting</string>
     <string name="password_error">Password is not standardized</string>
-    <string name="password_gz"> Passwords must contain letters and numbers (6–22Digits)</string>
+    <string name="password_gz"> Passwords must contain letters and numbers (6–22 Digits)</string>
     <string name="activity_title_video">My Records</string>
     <string name="Invite_facebook_friends">Invite Facebook Friends</string>
     <string name="text_delete">Delete</string>
