@@ -195,6 +195,7 @@
     <string name="send">Send</string>
     <string name="recharge"><![CDATA[Top Up>]]></string>
     <string name="gift_send">Send</string>
+    <string name="send_people">To:</string>
     <string name="user_name_input">Invalid Nickname</string>
     <!--没有数据时候显示-->
     <string name="no_data_no_live">The performer is coming</string>

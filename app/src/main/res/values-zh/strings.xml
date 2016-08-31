@@ -193,7 +193,6 @@
     <string name="recharge"><![CDATA[充值>]]></string>
     <string name="gift_send">赠送</string>
     <string name="send_people">送给:</string>
-    <string name="send_people1">送给:</string>
     <string name="user_name_input">昵称输入不符合规则</string>
     <!--没有数据时候显示-->
     <string name="no_data_no_live">主播正在赶来的路上</string>
