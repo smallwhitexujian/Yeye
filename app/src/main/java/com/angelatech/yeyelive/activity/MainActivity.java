@@ -50,6 +50,7 @@ import java.util.Map;
 public class MainActivity extends BaseActivity {
     private final int MSG_SUCC = 1;
     private final int MSG_ERR = -1;
+    private final int MSG_LOAD_SUC = 2;
 
     private List<Map> roomListData = new ArrayList<>();
     private BasicUserInfoDBModel userModel;
@@ -91,6 +92,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        userModel = CacheDataManager.getInstance().loadUser();
         setPhoto();
     }
 
@@ -118,7 +120,7 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    private void setPhoto() {
+    public void setPhoto() {
         if (userModel != null) {
             mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
             if (userModel.isv.equals("1")) {
@@ -241,6 +243,8 @@ public class MainActivity extends BaseActivity {
                 break;
             case MSG_ERR:
                 ToastUtils.showToast(this, R.string.fail);
+                break;
+            case MSG_LOAD_SUC:
                 break;
         }
     }

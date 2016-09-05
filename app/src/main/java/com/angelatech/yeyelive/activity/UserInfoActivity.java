@@ -217,7 +217,6 @@ public class UserInfoActivity extends HeaderBaseActivity {
                     }
                     model.headurl = path;
                     user_head_photo.setImageURI(UriHelper.obtainUri(model.headurl));
-
                     mQiniuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
                         @Override
                         public void onUpTokenError() {
