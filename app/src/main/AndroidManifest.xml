@@ -106,7 +106,8 @@
 
         <activity
             android:name=".activity.ProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
 
         <!--选择国家-->
         <activity
@@ -122,7 +123,7 @@
 
         <activity
             android:name=".activity.UserVideoActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
@@ -140,7 +141,7 @@
 
         <activity
             android:name=".activity.UserInfoActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
@@ -304,7 +305,15 @@
 
             <data android:scheme="com.angelatech.yeyelive" />
         </intent-filter>
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.angelatech.yeyelive.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
 </manifest>

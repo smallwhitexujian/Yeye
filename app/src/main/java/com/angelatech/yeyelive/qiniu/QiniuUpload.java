@@ -31,11 +31,11 @@ import java.util.Map;
  * Since: 2016年05月13日 10:35
  * Desc: 七牛上传类：
  * 调用doUpload
- *  流程：
-     * 1、从业务服务器获取上传token
-     * 2、上传到七牛服务器
-     * 3、成功返回则调用业务服务器
- *  提供上传错误回调接口
+ * 流程：
+ * 1、从业务服务器获取上传token
+ * 2、上传到七牛服务器
+ * 3、成功返回则调用业务服务器
+ * 提供上传错误回调接口
  * <p/>
  * FIXME:
  */
@@ -45,9 +45,6 @@ public class QiniuUpload implements CommonDoHandler {
     private final int MSG_UPLOAD_FAILD = 2;
 
 
-
-
-
     private QiniuUtil mQiniuUtil;
     private CommonHandler<QiniuUpload> mHandler;
     private QiniuSimpleManager mQiniuSimpleManager;
@@ -55,7 +52,7 @@ public class QiniuUpload implements CommonDoHandler {
     private String mQiniuToken = null;
 
     public QiniuUpload(final Context context) {
-        if(context == null){
+        if (context == null) {
             throw new IllegalArgumentException();
         }
         this.mQiniuUtil = new QiniuUtil(context);

@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:ignore="UselessParent">
 
         <EditText

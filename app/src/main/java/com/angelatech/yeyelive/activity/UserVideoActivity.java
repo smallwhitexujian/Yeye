@@ -1,5 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -9,20 +11,26 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.CommonResultCode;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.PlayRecord;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.mediaplayer.util.PlayerUtil;
 import com.angelatech.yeyelive.model.CommonVideoModel;
 import com.angelatech.yeyelive.model.LiveModel;
 import com.angelatech.yeyelive.model.LiveVideoModel;
 import com.angelatech.yeyelive.model.VideoModel;
+import com.angelatech.yeyelive.qiniu.QiniuUpload;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.ActionSheetDialog;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.view.ToastUtils;
@@ -30,6 +38,7 @@ import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +67,10 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     private int itemPosition = 0;
     private RelativeLayout noDataLayout;
     private volatile boolean IS_REFRESH = true;  //是否需要刷新
-    private String otherId = "";
+    private String otherId = null;
+    private PictureObtain mObtain;
+    private Uri distUri;
+    private QiniuUpload qiNiuUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +88,19 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
             headerLayout.showTitle(getString(R.string.activity_video));
         }
         headerLayout.showLeftBackButton();
+        mObtain = new PictureObtain();
+        qiNiuUpload = new QiniuUpload(this);
         ListView list_view_user_videos = (ListView) findViewById(R.id.list_view_user_videos);
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         layout_delete = (FrameLayout) findViewById(R.id.layout_delete);
         TextView tv_delete = (TextView) findViewById(R.id.tv_delete);
         TextView tv_cancel = (TextView) findViewById(R.id.tv_cancel);
+        TextView tv_frontCover = (TextView) findViewById(R.id.tv_frontCover);
+        tv_frontCover.setVisibility(View.GONE);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
         tv_delete.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
+        tv_frontCover.setOnClickListener(this);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.post(new Runnable() {
             @Override
@@ -193,7 +210,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
     @Override
     public void onClick(View v) {
-        //super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_delete:
                 if (itemPosition < list.size()) {
@@ -207,6 +223,92 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
             case R.id.tv_cancel:
                 layout_delete.setVisibility(View.GONE);
                 break;
+            case R.id.tv_frontCover:
+                new ActionSheetDialog(this)
+                        .builder()
+                        .setCancelable(true)
+                        .setCanceledOnTouchOutside(true)
+                        .addSheetItem(getString(R.string.camera), ActionSheetDialog.SheetItemColor.BLACK_222222,
+                                new ActionSheetDialog.OnSheetItemClickListener() {
+                                    @Override
+                                    public void onClick(int which) {
+                                        mObtain.dispatchTakePictureIntent(UserVideoActivity.this, CommonResultCode.SET_ADD_PHOTO_CAMERA);
+                                    }
+                                })
+                        .addSheetItem(getString(R.string.album), ActionSheetDialog.SheetItemColor.BLACK_222222,
+                                new ActionSheetDialog.OnSheetItemClickListener() {
+                                    @Override
+                                    public void onClick(int which) {
+                                        mObtain.getLocalPicture(UserVideoActivity.this, CommonResultCode.SET_ADD_PHOTO_ALBUM);
+                                    }
+                                }).show();
+                break;
+        }
+    }
+
+    /**
+     * 接收用户返回头像参数
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CommonResultCode.SET_ADD_PHOTO_CAMERA:
+                    //拍照
+                    distUri = mObtain.obtainUrl();
+                    mObtain.notifyChange(this, mObtain.getUri(this));
+                    mObtain.cropBig(this, mObtain.getUri(this), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 800, 800);
+                    break;
+                case CommonResultCode.SET_ADD_PHOTO_ALBUM:
+                    //从相册获取
+                    if (data != null) {
+                        distUri = mObtain.obtainUrl();
+                        mObtain.cropBig(this, data.getData(), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 800, 800);
+                    }
+                    break;
+                case CommonResultCode.REQUEST_CROP_PICTURE:
+                    //裁剪后的图片
+                    String path = mObtain.getRealPathFromURI(this, distUri);
+                    if (!new File(path).exists()) {
+                        return;
+                    }
+                    list.get(itemPosition).headurl = path;
+                    qiNiuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
+                        @Override
+                        public void onUpTokenError() {
+
+                        }
+
+                        @Override
+                        public void onUpQiniuError() {
+                            LoadingDialog.cancelLoadingDialog();
+                            ToastUtils.showToast(UserVideoActivity.this, getString(R.string.upload_photo_error));
+                        }
+
+                        @Override
+                        public void onCallServerError() {
+
+                        }
+
+                        @Override
+                        public void onUpQiniuSuc(String key) {
+                            if (key == null) {
+                                return;
+                            }
+                            CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, key, loginUser.userid);
+                        }
+
+                        @Override
+                        public void onUpProgress(String key, double percent) {
+
+                        }
+                    });
+                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, path);
+                    break;
+            }
         }
     }
 

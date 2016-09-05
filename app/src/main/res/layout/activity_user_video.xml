@@ -48,6 +48,21 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_frontCover"
+                android:layout_width="280dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/text_frontCover"
+                android:textColor="@color/color_ff666666" />
+
+            <View
+                android:layout_width="280dp"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+
+            <TextView
                 android:id="@+id/tv_delete"
                 android:layout_width="280dp"
                 android:layout_height="44dp"
@@ -56,7 +71,6 @@
                 android:gravity="center"
                 android:text="@string/text_delete"
                 android:textColor="@color/color_ff666666" />
-
             <View
                 android:layout_width="280dp"
                 android:layout_height="0.5dp"

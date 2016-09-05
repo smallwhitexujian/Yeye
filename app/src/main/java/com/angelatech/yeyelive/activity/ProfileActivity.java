@@ -42,7 +42,6 @@ import java.util.Map;
 
 
 public class ProfileActivity extends HeaderBaseActivity {
-
     private final int LEN_LIMIT = 24;
     private final int MSG_INPUT_LIMIT = 1;
     private final int MSG_EMAIL_INPUT = 2;

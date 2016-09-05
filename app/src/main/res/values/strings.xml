@@ -348,6 +348,7 @@
     <string name="activity_title_video">My Records</string>
     <string name="Invite_facebook_friends">Invite Facebook Friends</string>
     <string name="text_delete">Delete</string>
+    <string name="text_frontCover">Front Cover</string>
     <string name="no_data_no_video">No Record</string>
     <string name="video_delete_success">Delete Succesffully</string>
     <string name="video_delete_error">Delete Failed</string>
