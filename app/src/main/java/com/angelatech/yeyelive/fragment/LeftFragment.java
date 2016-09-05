@@ -50,7 +50,7 @@ import java.util.Map;
 /**
  * 我的界面
  */
-public class LeftFragment extends BaseFragment {
+public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
@@ -60,7 +60,6 @@ public class LeftFragment extends BaseFragment {
     private ImageView editImageView, sexImageView, iv_vip;
     private SimpleDraweeView userFace;
     private GestureDetector gestureDetector;
-
     private BasicUserInfoDBModel userInfo;
 
     @Override
@@ -77,6 +76,11 @@ public class LeftFragment extends BaseFragment {
         userInfo = CacheDataManager.getInstance().loadUser();
         load();
         ((MainActivity) getActivity()).registerFragmentTouch(gestureDetector);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -182,7 +186,6 @@ public class LeftFragment extends BaseFragment {
     }
 
     private void load() {
-        // LoadingDialog.showLoadingDialog(getActivity());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -262,4 +265,13 @@ public class LeftFragment extends BaseFragment {
     };
 
 
+    @Override
+    protected void lazyLoad() {
+
+    }
+
+    public void setPhoto() {
+        userInfo = CacheDataManager.getInstance().loadUser();
+        userFace.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl150(userInfo.headurl)));
+    }
 }

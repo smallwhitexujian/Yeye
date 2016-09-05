@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -212,10 +213,17 @@ public class UserInfoActivity extends HeaderBaseActivity {
                 case CommonResultCode.REQUEST_CROP_PICTURE:
                     //裁剪后的图片
                     path = mObtain.getRealPathFromURI(this, distUri);
+                    String imgPath = null;
                     if (!new File(path).exists()) {
                         return;
                     }
-                    model.headurl = path;
+                    try {
+                        Bitmap bitmap = mObtain.getimage(path);
+                        imgPath = mObtain.saveBitmapFile(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    model.headurl = imgPath;
                     user_head_photo.setImageURI(UriHelper.obtainUri(model.headurl));
                     mQiniuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
                         @Override
@@ -244,7 +252,7 @@ public class UserInfoActivity extends HeaderBaseActivity {
 
                         }
                     });
-                    mQiniuUpload.doUpload(model.userid, model.token, path);
+                    mQiniuUpload.doUpload(model.userid, model.token, imgPath);
                     break;
                 default:
                     break;

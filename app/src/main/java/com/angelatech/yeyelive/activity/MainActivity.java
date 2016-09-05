@@ -321,13 +321,15 @@ public class MainActivity extends BaseActivity {
         //为侧滑菜单设置布局
         Slidmenu.setMenu(R.layout.frame_left_menu);
         Slidmenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        final LeftFragment leftFragment = new LeftFragment();
         Slidmenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
             @Override
             public void onOpen() {
                 isShowOpen = true;
+                leftFragment.setPhoto();
             }
         });
-        LeftFragment leftFragment = new LeftFragment();
+
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
     }
 
