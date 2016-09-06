@@ -99,14 +99,14 @@ public class LiveVideoHotFragment extends BaseFragment implements
         fromType = getArguments().getInt(ARG_POSITION, 0);
         initView();
         setView();
-        load(fromType);
+//        load(fromType);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        freshLoad();
     }
 
     @Override
