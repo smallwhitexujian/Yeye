@@ -110,8 +110,7 @@ public class FbShare {
      * @param url 连接
      * @param imageUrl 图片
      */
-    public void postStatusUpdate(String shareTitle, String Description,
-                                 String url, String imageUrl) {
+    public void postStatusUpdate(String shareTitle, String Description,String url, String imageUrl) {
         canPresentShareDialog = ShareDialog.canShow(ShareLinkContent.class);
         if (url == null) {
             String url2 = "http://goo.gl/ExzX9I";

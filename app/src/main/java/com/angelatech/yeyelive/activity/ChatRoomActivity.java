@@ -235,10 +235,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         chatManager = new ChatManager(this);
         fragmentList = new ArrayList<>();
         callFragment = new CallFragment();
-//        if (userModel.userid.equals(liveUserModel.userid)) {
-            readyLiveFragment = new ReadyLiveFragment();
-            fragmentList.add(readyLiveFragment);
-//        }
+        readyLiveFragment = new ReadyLiveFragment();
+        fragmentList.add(readyLiveFragment);
         fragmentPagerAdapter = new MyFragmentPagerAdapter(this.getSupportFragmentManager(), fragmentList);
         mAbSlidingTabView.setAdapter(fragmentPagerAdapter);
         mAbSlidingTabView.setCurrentItem(0);
@@ -591,9 +589,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         if (liveFinishFragment != null && roomModel != null) {
                             //恢复播放
                             liveFinishFragment.dismiss();
-                            if (uri.isEmpty()){
+                            if (uri.isEmpty()) {
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
-                            }else{
+                            } else {
                                 roomModel.setRtmpwatchaddress(uri);
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, uri, onPlayListener);
                             }
