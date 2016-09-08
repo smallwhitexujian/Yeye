@@ -85,17 +85,6 @@ public class MainActivity extends BaseActivity {
         roomSoundState roomsoundState = roomSoundState.getInstance();
         roomsoundState.init(this);
         initMenu();
-
-        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
-            return;
-        } else {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    upApk();
-                }
-            });
-        }
     }
 
     @Override
@@ -113,6 +102,16 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         userModel = CacheDataManager.getInstance().loadUser();
         setPhoto();
+        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
+            return;
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    upApk();
+                }
+            });
+        }
     }
 
     @Override

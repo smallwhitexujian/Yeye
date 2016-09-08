@@ -702,7 +702,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 //facebook分享
                 FbShare fbShare = new FbShare(getActivity(), listener);
                 fbShare.postStatusUpdate(getString(R.string.share_title), App.roomModel.getName(),
-                        CommonUrlConfig.shareURL,
+                        CommonUrlConfig.facebookURL+"?uid=" + liveUserModel.userid,
                         liveUserModel.headurl);
                 break;
             case R.id.img_head:
