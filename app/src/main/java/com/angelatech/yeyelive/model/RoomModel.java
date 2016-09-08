@@ -203,5 +203,4 @@ public class RoomModel implements Serializable {
                 ", liveid='" + liveid + '\'' +
                 '}';
     }
-//    {name='我是Binglong Cai欢迎大家进我的舞台！', id=10003, idx='10004', level='null', ip='47.88.193.80', rtmpip='rtmp://pili-live-rtmp.iamyeye.com/yeye/5030102', rtmpwatchaddress='null', port=7600, heatDay='null', likenum=0, roomType='WATCH', livenum=0, livecoin=0, livetime='00:00:01', userInfoDBModel=com.angelatech.yeyelive.db.model.BasicUserInfoDBModel@db814a8, liveid='null'}
 }

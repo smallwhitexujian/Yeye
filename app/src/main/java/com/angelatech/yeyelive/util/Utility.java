@@ -3,8 +3,11 @@ package com.angelatech.yeyelive.util;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import java.io.File;
 
 /**
  * Created by Shanli_pc on 2016/3/22.
@@ -53,5 +56,34 @@ public class Utility {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * [获取应用程序build称信息]
+     *
+     * @param context
+     * @return 当前应用的版本名称
+     */
+    public static String getVersionCode(Context context) {
+        try {
+            PackageInfo pinfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+            return String.valueOf(pinfo.versionCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static String getSDCardDir(Context context,String uniqueName){
+        String sdPath;
+        // 判断外存SD卡挂载状态，如果挂载正常，创建SD卡缓存文件夹
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            sdPath = Environment.getExternalStorageDirectory().getPath()+ File.separator+uniqueName;
+        } else {
+            // SD卡挂载不正常，获取本地缓存文件夹（应用包所在目录）
+            sdPath = context.getCacheDir().getPath()+File.separator+uniqueName;
+        }
+        return sdPath;
     }
 }
