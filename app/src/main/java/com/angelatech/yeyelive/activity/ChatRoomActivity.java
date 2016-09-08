@@ -535,7 +535,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             //如果状态是直播，发送直播上麦
-                            serviceManager.sendRTMP_WM_SDP(roomModel.getRtmpip(), "");
+                            serviceManager.sendRTMP_WM_SDP(roomModel.getRtmpwatchaddress(), "");
                         } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                             //如果是观看流程，首先检查是否正在直播
                             //上麦

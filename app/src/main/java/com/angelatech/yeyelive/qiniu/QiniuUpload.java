@@ -167,7 +167,6 @@ public class QiniuUpload implements CommonDoHandler {
         public CertificateTask(String userid, String token, String srcFilePath, String key, UpCompletionHandler upCompletionHandler) {
             this.mUserId = userid;
             this.mToken = token;
-
             this.mSrcFilePath = srcFilePath;
             this.mKey = key;
             this.mUpCompletionHandler = upCompletionHandler;
@@ -177,10 +176,8 @@ public class QiniuUpload implements CommonDoHandler {
         public CertificateTask(String userid, String token, String srcFilePath,UpCompletionHandler upCompletionHandler) {
             this.mUserId = userid;
             this.mToken = token;
-
             this.mSrcFilePath = srcFilePath;
             this.mUpCompletionHandler = upCompletionHandler;
-
         }
 
 

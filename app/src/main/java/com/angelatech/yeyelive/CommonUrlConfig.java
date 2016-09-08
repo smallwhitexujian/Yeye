@@ -161,4 +161,5 @@ public class CommonUrlConfig {
     public static String PayTicketsIsIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsIns";
     //直播是否收门票 返回门票数据
     public static String PayTicketsIsPay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsPay";
+    public static String apkUp = (isDebug ? TEST_HOST_URL : HOST_URL) + "web/ApkUpgrade.aspx";
 }

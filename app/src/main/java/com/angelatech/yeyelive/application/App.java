@@ -36,19 +36,19 @@ import java.util.concurrent.Executors;
  * 2、有盟统计
  */
 public class App extends Application {
-    public static List<Activity> activityList = new ArrayList<>();
+    private static List<Activity> activityList = new ArrayList<>();
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
     public static boolean isDebug = false;
-    public static boolean isLogin = false;//判断用户是否登录
-    public static boolean isQiNiu = true;// 是否使用七牛服务器
+    public static boolean isLogin = false;// 判断用户是否登录
+    public static boolean isQiNiu = true; // 是否使用七牛服务器
 
-    public static String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
-    public static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;
+    private static String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;
     public static final String FILEPATH_CACHE = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_CACHE_NAME;
     public static final String FILEPATH_VOICE = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_VOICE_NAME;
-    public static final String FILEPATH_UPAPK = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_UPAPK_NAME;
+    public static final String FILEPATH_UPAPK = "yalla" + File.separator + AppConfig.FILEPATH_UPAPK_NAME;
     public static final String FILEPATH_CAMERA = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_CAMERA_NAME;
     public static final String FILEPATH_VOICE_RECORD = FILEPATH_VOICE + File.separator + AppConfig.FILEPATH_VOICE_RECORD_NAME;
 
@@ -60,7 +60,7 @@ public class App extends Application {
     public static ArrayList<ChatLineModel> mChatlines = new ArrayList<>();          // 房间数据存储
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
 
-    public static boolean isLiveNotify = true; //直播提醒开关
+    public static boolean isLiveNotify = true; // 直播提醒开关
 
     public static String topActivity = "";
 
@@ -70,8 +70,8 @@ public class App extends Application {
 
     private static App instance = null;
 
-    public static final String LIVE_WATCH = "WATCH"; //观看者
-    public static final String LIVE_HOST = "LIVE"; //直播者
+    public static final String LIVE_WATCH = "WATCH"; // 观看者
+    public static final String LIVE_HOST = "LIVE";   // 直播者
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
     public static String loginPhone = null;

@@ -32,16 +32,22 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UploadApp;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.util.roomSoundState;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.view.DisplayTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,17 +72,30 @@ public class MainActivity extends BaseActivity {
     private GestureDetector gestureDetector;
     private ImageView home_guide;
     private boolean isShowOpen;
-    Drawable drawable;
+    private Drawable drawable;
+    private String versionCode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        versionCode = Utility.getVersionCode(MainActivity.this);
         initView();
         setView();
         roomSoundState roomsoundState = roomSoundState.getInstance();
         roomsoundState.init(this);
         initMenu();
+
+        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
+            return;
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    upApk();
+                }
+            });
+        }
     }
 
     @Override
@@ -120,7 +139,7 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    public void setPhoto() {
+    private void setPhoto() {
         if (userModel != null) {
             mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
             if (userModel.isv.equals("1")) {
@@ -329,7 +348,6 @@ public class MainActivity extends BaseActivity {
                 leftFragment.setPhoto();
             }
         });
-
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
     }
 
@@ -348,12 +366,51 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (isShowOpen){
+            if (isShowOpen) {
                 Slidmenu.toggle();
                 isShowOpen = false;
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //强制升级
+    private void upApk() {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                DebugLogs.e("response=========err==");
+            }
+
+            @Override
+            public void onSuccess(final String response) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String data = jsonObject.getString("data");
+                            JSONObject json = new JSONObject(data);
+                            String AppURL = json.getString("AppURL");
+                            String Content = json.getString("Content");
+                            String apkVersion = json.getString("AppVersion");
+                            int isUp = Integer.valueOf(json.getString("isUp"));
+                            if (isUp == 1) {
+                                SPreferencesTool.getInstance().saveUpLoadApk(MainActivity.this, true, apkVersion, Content, AppURL);
+                            }
+                            if (Integer.valueOf(apkVersion) > Integer.valueOf(versionCode)) {
+                                UploadApp uploadApp = new UploadApp(Utility.getSDCardDir(MainActivity.this, App.FILEPATH_UPAPK));
+                                uploadApp.showUpApk(MainActivity.this, Content, AppURL, isUp);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        };
+        ChatRoom chatRoom = new ChatRoom(this);
+        chatRoom.upApk(CommonUrlConfig.apkUp, versionCode, callback);
     }
 }

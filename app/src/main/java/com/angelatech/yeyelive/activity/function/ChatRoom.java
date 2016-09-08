@@ -240,4 +240,14 @@ public class ChatRoom extends HttpFunction {
         params.put("liveid", liveid);
         httpGet(url, params, callback);
     }
+
+    /**
+     * 升级
+     */
+    public void upApk(String url ,String versionCode,HttpBusinessCallback callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("version", versionCode);
+        params.put("os", "2");//2.表示Android 。1表示IOS
+        httpGet(url, params, callback);
+    }
 }

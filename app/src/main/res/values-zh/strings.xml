@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Yeye Live</string>
     <!-- header -->
-    <string name="empty_header_str"/>
+    <string name="empty_header_str" />
     <!--登录-->
     <string name="login_id_hint">账号/手机</string>
     <string name="login_password_hint">密码</string>
@@ -363,4 +363,9 @@
     <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
     <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
     <string name="activity_video">视频</string>
+
+    <string name="updata_tops">版本更新</string>
+    <string name="updata_tops_content">"有新的版本升级，是否下载安装？\n\n"</string>
+    <string name="updata_progress">"正在下载中，请稍后"</string>
+    <string name="updata_file_success">文件下载完成…</string>
 </resources>
