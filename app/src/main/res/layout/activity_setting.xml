@@ -54,6 +54,36 @@
             android:layout_marginBottom="10dp"
             android:background="@color/color_grey_d5" />
 
+        <!--直播消息提醒-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center_vertical"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="16dp"
+                android:text="@string/setting_video_filter"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/notify_turn_videoFilter"
+                android:layout_width="50dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/btn_me_switch_s" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_grey_d5" />
+
         <!--修改密码-->
         <LinearLayout
             android:id="@+id/layout_change_password"
