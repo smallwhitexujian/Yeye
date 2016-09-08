@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false">
@@ -23,7 +24,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
                 fresco:placeholderImage="@drawable/default_photo"
-                fresco:roundAsCircle="true" />
+                fresco:roundAsCircle="true"
+                tools:ignore="RtlHardcoded" />
 
             <ImageView
                 android:id="@+id/iv_vip"
@@ -34,7 +36,8 @@
                 android:layout_alignRight="@id/face_icon"
                 android:layout_marginBottom="1dp"
                 android:src="@drawable/icon_vip_mark"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" />
 
             <LinearLayout
                 android:id="@+id/tab_layout"
@@ -98,7 +101,8 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="14dp"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_nav_search" />
+                android:src="@drawable/btn_nav_search"
+                tools:ignore="RtlHardcoded" />
         </RelativeLayout>
 
         <View
@@ -121,7 +125,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         android:contentDescription="@null"
-        android:src="@drawable/btn_home_sign_on_n" />
+        android:src="@drawable/btn_home_sign_on_n"
+        tools:ignore="RtlHardcoded" />
 
     <ImageView
         android:id="@+id/home_guide"
