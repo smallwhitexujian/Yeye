@@ -427,6 +427,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
             liveUrl = CommonUrlConfig.LiveVideoList;
         } else if (type == 2) {
             liveUrl = CommonUrlConfig.LiveVideoFollow;
+        } else if (type == 3){
+            liveUrl = CommonUrlConfig.LiveVideoFollow;
         }
         mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
     }

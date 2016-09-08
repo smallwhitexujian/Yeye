@@ -74,6 +74,7 @@
             android:background="@color/color_728bcd"
             android:gravity="center"
             android:text="@string/btn_wechat"
+            android:visibility="gone"
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 

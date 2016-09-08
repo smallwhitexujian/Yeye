@@ -97,6 +97,7 @@
     <!---主页-->
     <string name="live_hot">Popular</string>
     <string name="live_follow">Following</string>
+    <string name="live_new">New</string>
     <string name="live_hot_default_area">From Yeye Live</string>
     <!--通知栏-->
     <string name="notify_default_title">New Message</string>

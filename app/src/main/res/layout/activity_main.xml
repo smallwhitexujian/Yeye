@@ -29,6 +29,7 @@
                 android:id="@+id/iv_vip"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
+                android:contentDescription="@null"
                 android:layout_alignBottom="@id/face_icon"
                 android:layout_alignRight="@id/face_icon"
                 android:layout_marginBottom="1dp"
@@ -37,9 +38,13 @@
 
             <LinearLayout
                 android:id="@+id/tab_layout"
-                android:layout_width="180dp"
+                android:layout_width="match_parent"
                 android:layout_height="31dp"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toEndOf="@+id/face_icon"
+                android:layout_toStartOf="@+id/search_icon"
                 android:orientation="horizontal">
 
                 <TextView
@@ -47,12 +52,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
                     android:drawablePadding="3dp"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="@string/live_hot"
+                    android:textColor="@color/color_d80c18"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/new_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="3dp"
+                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/live_new"
                     android:textColor="@color/color_d80c18"
                     android:textSize="13sp" />
 
@@ -61,13 +79,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:drawablePadding="3dp"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="@string/live_follow"
                     android:textColor="@color/color_d80c18"
-                    android:textSize="17sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
