@@ -235,10 +235,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         chatManager = new ChatManager(this);
         fragmentList = new ArrayList<>();
         callFragment = new CallFragment();
-        if (userModel.userid.equals(liveUserModel.userid)) {
+//        if (userModel.userid.equals(liveUserModel.userid)) {
             readyLiveFragment = new ReadyLiveFragment();
             fragmentList.add(readyLiveFragment);
-        }
+//        }
         fragmentPagerAdapter = new MyFragmentPagerAdapter(this.getSupportFragmentManager(), fragmentList);
         mAbSlidingTabView.setAdapter(fragmentPagerAdapter);
         mAbSlidingTabView.setCurrentItem(0);
@@ -583,6 +583,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 try {
                     jsobj = new JSONObject(msg.obj.toString());
                     int liveState = jsobj.optInt("live");
+                    String uri = jsobj.optString("uri");
                     if (liveState == 0 && !liveUserModel.userid.equals(userModel.userid)) {
                         //主播停止直播了
                         liveFinish();
@@ -590,7 +591,12 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         if (liveFinishFragment != null && roomModel != null) {
                             //恢复播放
                             liveFinishFragment.dismiss();
-                            MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
+                            if (uri.isEmpty()){
+                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
+                            }else{
+                                roomModel.setRtmpwatchaddress(uri);
+                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, uri, onPlayListener);
+                            }
                         }
                     }
                 } catch (JSONException e) {
@@ -900,7 +906,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (isqupai) {
             livePush.onDestroy();
         }
-
         System.gc();
     }
 
@@ -1103,7 +1108,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     roomFinish();
                 }
             });
-
         }
         finish();
     }

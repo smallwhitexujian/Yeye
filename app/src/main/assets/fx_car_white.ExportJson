@@ -7,7 +7,7 @@
       "name": "fx_car_white",
       "bone_data": [
         {
-          "name": "che",
+          "name": "che_white",
           "parent": "",
           "dI": 0,
           "x": 543.5001220703125,
@@ -23,7 +23,7 @@
           "bl": 245,
           "display_data": [
             {
-              "name": "che.png",
+              "name": "che_white.png",
               "displayType": 0,
               "skin_data": [
                 {
@@ -40,8 +40,8 @@
         },
         {
           "name": "luntai1_Copy8",
-          "parent": "che",
-          "dI": 1,
+          "parent": "che_white",
+          "dI": 4,
           "x": 215.59515380859375,
           "y": -23.698539733886719,
           "z": 3,
@@ -142,8 +142,8 @@
         },
         {
           "name": "luntai1",
-          "parent": "che",
-          "dI": 1,
+          "parent": "che_white",
+          "dI": 4,
           "x": -8.60052490234375,
           "y": -42.622817993164062,
           "z": 2,
@@ -3295,7 +3295,7 @@
               ]
             },
             {
-              "name": "che",
+              "name": "che_white",
               "dl": 0.0,
               "frame_data": [
                 {
@@ -3349,7 +3349,7 @@
   ],
   "texture_data": [
     {
-      "name": "che",
+      "name": "che_white",
       "width": 700.0,
       "height": 223.0,
       "pX": 0.5,

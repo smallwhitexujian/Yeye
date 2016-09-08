@@ -102,7 +102,7 @@
     <!--搜索-->
     <string name="search_hint">搜索用户或用户ID</string>
     <string name="search_nick_name">昵称</string>
-    <string name="search_intimacy">粉丝亲密度</string>
+    <string name="search_intimacy">知名度</string>
     <string name="search_fans">粉丝</string>
     <string name="search_attention">关注</string>
     <string name="search_pull_blacklist">拉黑</string>
@@ -116,7 +116,7 @@
     <string name="diamond">我的金币</string>
     <string name="setting">设置</string>
     <string name="exit">退出</string>
-    <string name="intimacy">亲密度:</string>
+    <string name="intimacy">知名度:</string>
     <string name="ID">ID:</string>
     <string name="default_sign">该用户很懒，什么都没留下</string>
     <!--充值-->
@@ -193,7 +193,6 @@
     <string name="recharge"><![CDATA[充值>]]></string>
     <string name="gift_send">赠送</string>
     <string name="send_people">送给:</string>
-    <string name="send_people1">送给:</string>
     <string name="user_name_input">昵称输入不符合规则</string>
     <!--没有数据时候显示-->
     <string name="no_data_no_live">主播正在赶来的路上</string>
@@ -325,6 +324,7 @@
     <string name="change_password">修改密码</string>
     <string name="old_password">原密码</string>
     <string name="new_password">新密码</string>
+    <string name="Confirm_password">确认密码</string>
     <string name="confirm_changes">确认修改</string>
     <string name="can_not_empty">密码不能为空</string>
     <string name="set_password">设置密码</string>
@@ -345,6 +345,7 @@
     <string name="activity_title_video">我的视频</string>
     <string name="Invite_facebook_friends">邀请Facebook好友</string>
     <string name="text_delete">删除</string>
+    <string name="text_frontCover">封面</string>
     <string name="no_data_no_video">没有视频</string>
     <string name="video_delete_success">删除成功</string>
     <string name="video_delete_error">删除失败</string>

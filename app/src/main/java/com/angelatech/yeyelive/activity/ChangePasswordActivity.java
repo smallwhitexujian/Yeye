@@ -34,10 +34,10 @@ import java.util.Map;
  */
 public class ChangePasswordActivity extends HeaderBaseActivity {
     private final int MSG_CHANGE_PASSWORD_SUCCESS = 19;
-    private EditText ed_old_password, ed_new_password;
+    private EditText ed_old_password, ed_new_password, Confirm_password;
     private TextView tv_submit;
     private BasicUserInfoDBModel model;
-    private String newPassword;
+    private String newPassword, confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
     private void initView() {
         ed_old_password = (EditText) findViewById(R.id.ed_old_password);
         ed_new_password = (EditText) findViewById(R.id.ed_new_password);
+        Confirm_password = (EditText) findViewById(R.id.Confirm_password);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
     }
 
@@ -111,8 +112,11 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
      */
     private void submitChange() {
         newPassword = ed_new_password.getText().toString();
-        if (ed_old_password.getText().toString().isEmpty() || newPassword.isEmpty()) {
+        confirmPassword = Confirm_password.getText().toString();
+        if (ed_old_password.getText().toString().isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             ToastUtils.showToast(this, getString(R.string.can_not_empty));
+        } else if (!newPassword.equals(confirmPassword)) {
+            ToastUtils.showToast(this, getString(R.string.password_error));
         } else {
             if (VerificationUtil.isContainLetterNumber(newPassword)) {
                 LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));

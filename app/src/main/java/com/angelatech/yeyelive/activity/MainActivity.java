@@ -50,6 +50,7 @@ import java.util.Map;
 public class MainActivity extends BaseActivity {
     private final int MSG_SUCC = 1;
     private final int MSG_ERR = -1;
+    private final int MSG_LOAD_SUC = 2;
 
     private List<Map> roomListData = new ArrayList<>();
     private BasicUserInfoDBModel userModel;
@@ -91,6 +92,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        userModel = CacheDataManager.getInstance().loadUser();
         setPhoto();
     }
 
@@ -118,7 +120,7 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    private void setPhoto() {
+    public void setPhoto() {
         if (userModel != null) {
             mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
             if (userModel.isv.equals("1")) {
@@ -217,7 +219,7 @@ public class MainActivity extends BaseActivity {
                         App.giftdatas.addAll(result.data);
                         for (int i = 0; i < App.giftdatas.size(); i++) {
                             String url = App.giftdatas.get(i).getImageURL();
-                            url = VerificationUtil.getImageUrl(url);
+                            url = VerificationUtil.getImageUrl100(url);
                             FrescoBitmapUtils.getImageBitmap(MainActivity.this, url, new FrescoBitmapUtils.BitCallBack() {
                                 @Override
                                 public void onNewResultImpl(Bitmap bitmap) {
@@ -241,6 +243,8 @@ public class MainActivity extends BaseActivity {
                 break;
             case MSG_ERR:
                 ToastUtils.showToast(this, R.string.fail);
+                break;
+            case MSG_LOAD_SUC:
                 break;
         }
     }
@@ -317,13 +321,15 @@ public class MainActivity extends BaseActivity {
         //为侧滑菜单设置布局
         Slidmenu.setMenu(R.layout.frame_left_menu);
         Slidmenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        final LeftFragment leftFragment = new LeftFragment();
         Slidmenu.setOnOpenListener(new SlidingMenu.OnOpenListener() {
             @Override
             public void onOpen() {
                 isShowOpen = true;
+                leftFragment.setPhoto();
             }
         });
-        LeftFragment leftFragment = new LeftFragment();
+
         fragmentManager.beginTransaction().replace(R.id.left_menu, leftFragment).commit();
     }
 

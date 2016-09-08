@@ -470,6 +470,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     showList.remove(index);
                 }
             }
+            int giftIndex = getIndexOfUserList(onlineNotice.user.uid, PopLinkData);
+            if (index >= 0 ){
+                PopLinkData.remove(giftIndex);
+            }
+            setRoomPopSpinner();
         }
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
@@ -502,8 +507,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             int k = list.size();
             for (int index = 0; index < k; index++) {
                 OnlineListModel user = list.get(index);
-                if (user != null && userId == user.uid)
+                if (user != null && userId == user.uid){
                     return index;
+                }
             }
         }
         return -1;
