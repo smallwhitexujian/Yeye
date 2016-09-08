@@ -20,7 +20,7 @@ import com.angelatech.yeyelive.model.WxOrder;
 public class WXInterface {
 
     //    //微信APPID
-    public static String WX_APP_ID = "wxbf42b422001b182d";
+    public static String WX_APP_ID = "wx1789e78e5e6cf29a";
     //    //微信AppSecret
     public static String WX_AppSecret = "0d6385421bca2b21ba07339e2da636a8";
 
@@ -52,8 +52,8 @@ public class WXInterface {
 
     public WXInterface(Context context, String WX_APP_ID, String WX_AppSecret) {
         this.context = context;
-        this.WX_APP_ID = WX_APP_ID;
-        this.WX_AppSecret = WX_AppSecret;
+        WXInterface.WX_APP_ID = WX_APP_ID;
+        WXInterface.WX_AppSecret = WX_AppSecret;
         regToWx();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo";

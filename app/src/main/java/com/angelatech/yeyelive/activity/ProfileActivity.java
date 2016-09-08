@@ -208,26 +208,35 @@ public class ProfileActivity extends HeaderBaseActivity {
 
             Drawable img_off = getResources().getDrawable(R.drawable.btn_login_sex_boy);
             if (img_off != null) {
-                img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
-                radioButton_male.setCompoundDrawables(img_off, null, null, null);
+                //img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
+                //radioButton_male.setCompoundDrawables(img_off, null, null, null);
+
+                radioButton_male.setCompoundDrawablesWithIntrinsicBounds(img_off, null, null, null);
             }
+
+
 
             img_off = getResources().getDrawable(R.drawable.btn_login_sex);
             if (img_off != null) {
-                img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
-                radioButton_female.setCompoundDrawables(img_off, null, null, null);
+                //img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
+                //radioButton_female.setCompoundDrawables(img_off, null, null, null);
+
+                radioButton_female.setCompoundDrawablesWithIntrinsicBounds(img_off, null, null, null);
             }
         } else {
 
             Drawable img_off = getResources().getDrawable(R.drawable.btn_login_sex_girl);
             if (img_off != null) {
-                img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
-                radioButton_female.setCompoundDrawables(img_off, null, null, null);
+//                img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
+//                radioButton_female.setCompoundDrawables(img_off, null, null, null);
+
+                radioButton_female.setCompoundDrawablesWithIntrinsicBounds(img_off, null, null, null);
             }
             img_off = getResources().getDrawable(R.drawable.btn_login_sex);
             if (img_off != null) {
-                img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
-                radioButton_male.setCompoundDrawables(img_off, null, null, null);
+//                img_off.setBounds(0, 0, img_off.getMinimumWidth(), img_off.getMinimumHeight());
+//                radioButton_male.setCompoundDrawables(img_off, null, null, null);
+                radioButton_male.setCompoundDrawablesWithIntrinsicBounds(img_off, null, null, null);
             }
             user_gender = 0;
         }

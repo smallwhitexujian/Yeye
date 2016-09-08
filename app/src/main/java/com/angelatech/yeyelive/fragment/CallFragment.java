@@ -484,9 +484,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online.setLayoutParams(params);
         grid_online.setNumColumns(onlineCount);
         txt_online.setText(String.valueOf(onlineCount - 1));
-        if (horizontalListViewAdapter != null) {
-            horizontalListViewAdapter.notifyDataSetChanged();
-        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (horizontalListViewAdapter != null) {
+                    horizontalListViewAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
     }
 
     /**
@@ -802,9 +808,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (chatline == null) {
             chatline = (ListView) controlView.findViewById(R.id.chatline);
         }
-        mAdapter.notifyDataSetChanged();
-        chatline.setAdapter(mAdapter);
-        chatline.setSelection(mAdapter.getCount());
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+                chatline.setAdapter(mAdapter);
+                chatline.setSelection(mAdapter.getCount());
+            }
+        });
+
     }
 
     public void notifyData() {

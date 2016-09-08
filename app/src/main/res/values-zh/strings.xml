@@ -281,6 +281,7 @@
     <string name="login_text_desc">用户条款</string>
     <string name="btn_login">登录</string>
     <string name="btn_login_facebook">Facebook 登录</string>
+    <string name="btn_wechat">微信登录</string>
     <string name="room_system_message" formatted="false">欢迎 %s，来到 Yeye 直播!</string>
     <string name="share_to">分享到: </string>
     <string name="microom_code_1">用户未找到</string>
