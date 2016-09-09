@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 
 /**
  * User: cbl
@@ -23,7 +24,7 @@ import com.angelatech.yeyelive.R;
  */
 public class CommChooseDialog {
     private AlertDialog dialog;
-    boolean isChoose = true;
+    private boolean isChoose = true;
 
     public interface Callback {
         void onCancel();
@@ -40,7 +41,7 @@ public class CommChooseDialog {
      * @param content 内容
      * @param NotOk   是否需要取消按钮 false 不需要 true 需要
      */
-    public void dialog(final Context context, String content, Boolean NotOk, boolean isLiveUser, Callback callback) {
+    public void dialog(final Context context, String content, Boolean NotOk, boolean isLiveUser, Callback callback, BasicUserInfoDBModel model) {
         dialog = new AlertDialog.Builder(context).create();
         mCallback = callback;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -55,7 +56,13 @@ public class CommChooseDialog {
         Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
         Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
         final TextView tv_choose = (TextView) window.findViewById(R.id.tv_choose);
+        final TextView tips = (TextView) window.findViewById(R.id.tips);
         final ImageView iv_choose = (ImageView) window.findViewById(R.id.iv_choose_save);
+        if (model.isv.equals("1")){
+            tips.setText(String.format(context.getString(R.string.tops_video),"50"));
+        }else{
+            tips.setText(String.format(context.getString(R.string.tops_video),"10"));
+        }
         if (!isLiveUser){
             layout_save.setVisibility(View.GONE);
         }else {
@@ -120,7 +127,7 @@ public class CommChooseDialog {
      * @param StrOk     确认按钮内容
      * @param StrCancel 取消按钮内容
      */
-    public void dialog(final Context context, String content, Boolean NotOk, Callback callback, String StrOk, String StrCancel) {
+    public void dialog(final Context context, String content, Boolean NotOk, Callback callback, String StrOk, String StrCancel, BasicUserInfoDBModel model) {
         dialog = new AlertDialog.Builder(context).create();
         mCallback = callback;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -135,7 +142,12 @@ public class CommChooseDialog {
         Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
         final TextView tv_choose = (TextView) window.findViewById(R.id.tv_choose);
         final ImageView iv_choose = (ImageView) window.findViewById(R.id.iv_choose_save);
-
+        final TextView tips = (TextView) window.findViewById(R.id.tips);
+        if (model.isv.equals("1")){
+            tips.setText(String.format(context.getString(R.string.tops_video),"50"));
+        }else{
+            tips.setText(String.format(context.getString(R.string.tops_video),"10"));
+        }
         iv_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
