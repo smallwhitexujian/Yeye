@@ -38,7 +38,6 @@ public class CacheDataManager {
         return mDao.add(userInfoDBModel);
     }
 
-
     //
     public BasicUserInfoDBModel loadUser() {
         if (loginUser == null) {

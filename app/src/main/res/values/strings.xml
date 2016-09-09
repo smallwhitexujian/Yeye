@@ -5,7 +5,7 @@
     <string name="facebook_app_id">1735313646749357</string>
     <string name="facebook_app_name">Yeye Live</string>
     <!-- header -->
-    <string name="empty_header_str"></string>
+    <string name="empty_header_str"/>
     <!--Login-->
     <string name="login_id_hint">Account/Phone</string>
     <string name="login_password_hint">Password</string>
@@ -183,6 +183,7 @@
     <string name="user_fans">Followed</string>
     <string name="txt_live_time" formatted="false">Live Time：%s</string>
     <string name="live_num">People Viewed</string>
+    <string name="new_fans">New Fans</string>
     <string name="live_coin">Coin Acquired</string>
     <string name="back_home">Home Page</string>
     <string name="live_end">Live Show Ended</string>

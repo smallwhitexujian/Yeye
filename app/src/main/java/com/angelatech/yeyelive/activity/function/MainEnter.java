@@ -56,6 +56,9 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+    /**
+     * 获取个人资料
+     */
     public void loadUserInfo(String url, String userid, String touserid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
