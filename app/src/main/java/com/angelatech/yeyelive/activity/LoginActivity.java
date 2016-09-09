@@ -32,6 +32,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.facebook.login.widget.LoginButton;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
@@ -45,9 +46,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public static final int MSG_GOTO_LOGIN = 2;
     public static final int MSG_ANIMATION = 3;
 
-    private TextView mPhoneLogin, tv_register,tv_we_chat;
+    private TextView tv_register;
     private TextView mLinceseLink;
-    private ImageView iv_logo;
+    private ImageView iv_logo, iv_we_chat, mPhoneLogin;
     private LinearLayout layout_login;
 
     private com.facebook.CallbackManager callbackManager;
@@ -75,8 +76,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         callbackManager = FbProxy.init();
         iv_logo = (ImageView) findViewById(R.id.iv_logo);
         mLinceseLink = (TextView) findViewById(R.id.license_link);
-        mPhoneLogin = (TextView) findViewById(R.id.phone_login);
-        tv_we_chat = (TextView) findViewById(R.id.tv_we_chat);
+        mPhoneLogin = (ImageView) findViewById(R.id.phone_login);
+        iv_we_chat = (ImageView) findViewById(R.id.iv_we_chat);
         tv_register = (TextView) findViewById(R.id.tv_register);
         loginButton = (LoginButton) findViewById(R.id.facebook_login);
         layout_login = (LinearLayout) findViewById(R.id.layout_login);
@@ -86,7 +87,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         new LoginManager(this, loginButton, uiHandler).login(LoginManager.LoginType.FACE_BOOK);
         mPhoneLogin.setOnClickListener(this);
         tv_register.setOnClickListener(this);
-        tv_we_chat.setOnClickListener(this);
+        iv_we_chat.setOnClickListener(this);
         mLinceseLink.setText(Html.fromHtml("<u>" + getString(R.string.lisence_title) + "</u>"));
         mLinceseLink.setOnClickListener(this);
     }
@@ -98,7 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             finish();
         } else {
             if (!NetWorkUtil.isNetworkConnected(this)) {
-               new  NomalAlertDialog().alwaysShow2(this, getString(R.string.setting_network),
+                new NomalAlertDialog().alwaysShow2(this, getString(R.string.setting_network),
                         getString(R.string.not_network), getString(R.string.ok),
                         new NomalAlertDialog.HandlerDialog() {
                             @Override
@@ -134,6 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         int id = v.getId();
         switch (id) {
             case R.id.phone_login:
+                DebugLogs.e("phone---->start");
                 StartActivityHelper.jumpActivityDefault(this, LoginPasswordActivity.class);
                 break;
             case R.id.license_link:
@@ -145,8 +147,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_register:
                 StartActivityHelper.jumpActivity(this, RegisterFindPWDActivity.class, RegisterFindPWDActivity.FROM_TYPE_REGISTER);
                 break;
-            case R.id.tv_we_chat:
-                WxProxy wxProxy = new WxProxy(this,uiHandler);
+            case R.id.iv_we_chat:
+                DebugLogs.e("wechat---->start");
+                WxProxy wxProxy = new WxProxy(this, uiHandler);
                 wxProxy.login();
                 break;
         }
@@ -202,6 +205,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case FbProxy.FB_LOGIN_ERROR:
                 Log.e("error--->", "error");
+                break;
+            case WxProxy.WX_LOGIN:
+                DebugLogs.e("======微信注册======");
+                new Register(this, uiHandler).wxRegister(msg.obj.toString(), DeviceTool.getUniqueID(this));
                 break;
         }
     }

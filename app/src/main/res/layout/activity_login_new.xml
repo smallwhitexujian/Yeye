@@ -27,8 +27,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
+            android:layout_height="wrap_content">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -39,73 +38,72 @@
                     android:id="@+id/facebook_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:alpha="0" />
             </FrameLayout>
 
-
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@color/color_728bcd"
-                android:gravity="center"
-                android:text="@string/btn_login_facebook"
-                android:textColor="@color/color_white"
-                android:textSize="15sp" />
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/btn_login_facebook" />
 
-            <ImageView
-                android:id="@+id/iv_facebook_login"
-                android:layout_width="50dp"
-                android:layout_height="44dp"
-                android:layout_gravity="center"
-                android:background="@color/color_10ffffff"
-                android:contentDescription="@null"
-                android:padding="2dp"
-                android:src="@drawable/icon_login_facebook_logo" />
+                    <ImageView
+                        android:id="@+id/phone_login"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/btn_login_phone" />
 
-
+                    <ImageView
+                        android:id="@+id/iv_we_chat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/btn_login_wechat" />
+                </LinearLayout>
+            </FrameLayout>
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_we_chat"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="@color/color_728bcd"
-            android:gravity="center"
-            android:text="@string/btn_wechat"
-            android:textColor="@color/color_white"
-            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/phone_login"
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@color/color_white"
-                android:gravity="center"
-                android:text="@string/btn_login"
-                android:textColor="@color/color_d80c18"
-                android:textSize="15sp" />
+                android:src="@drawable/icon_login_modifier_left" />
 
             <TextView
                 android:id="@+id/tv_register"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_height="34dp"
                 android:layout_weight="1"
-                android:background="@color/color_white"
+                android:background="@drawable/tv_no_bg_circle"
                 android:gravity="center"
                 android:text="@string/activity_register"
-                android:textColor="@color/color_d80c18"
-                android:textSize="15sp" />
+                android:textColor="@color/color_white" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/icon_login_modifier_right" />
         </LinearLayout>
 
         <TextView
