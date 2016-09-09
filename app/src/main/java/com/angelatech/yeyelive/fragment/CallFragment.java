@@ -469,16 +469,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 showList.add(BinarySearch.binSearch(showList, 0, showList.size(), onlineNotice.user), onlineNotice.user);
             }
         } else {
-            if (index >= 0) {
+            if (index >= 0 && index < showList.size()) {
                 synchronized (lock) {
                     showList.remove(index);
                 }
             }
-//            int giftIndex = getIndexOfUserList(onlineNotice.user.uid, PopLinkData);
-//            if (index >= 0 ){
-//                PopLinkData.remove(giftIndex);
-//            }
-            setRoomPopSpinner();
+            int giftIndex = getIndexOfUserList(onlineNotice.user.uid, PopLinkData);
+            if (index >= 0 && index < PopLinkData.size()){
+                PopLinkData.remove(giftIndex);
+                setRoomPopSpinner();
+            }
+
         }
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
