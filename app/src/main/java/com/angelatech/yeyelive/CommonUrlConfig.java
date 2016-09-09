@@ -14,7 +14,7 @@ public class CommonUrlConfig {
     public static final int OUT_PORT = isDebug ? 15302 : 13302;
 
     public static String shareURL = "http://share.iamyeye.com/";
-
+    public static String facebookURL = "http://share.iamyeye.com/share/live";
     public static String channel = "api";
 
     /**
@@ -65,10 +65,8 @@ public class CommonUrlConfig {
      * 个人视频
      */
     public static String PersonalVideoList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/PersonalRecordList";
-
     //个人视频删除
     public static String PersonalRecordDel = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/PersonalRecordDel";
-
     //  用户的关注和粉丝
     public static String FriendHeList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHeList";
     //用户搜索
@@ -96,10 +94,8 @@ public class CommonUrlConfig {
     //关注
     public static String LiveVideoFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoFollowM";
     //房间详细列表
-
     //录像点击次数
     public static String ClickToWatch = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/ClickToWatch";
-
     //保存视频
     public static String LiveQiSaveVideo = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveQiSaveVideo";
 
@@ -161,5 +157,6 @@ public class CommonUrlConfig {
     public static String PayTicketsIsIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsIns";
     //直播是否收门票 返回门票数据
     public static String PayTicketsIsPay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsPay";
+    //强制升级
     public static String apkUp = (isDebug ? TEST_HOST_URL : HOST_URL) + "web/ApkUpgrade.aspx";
 }

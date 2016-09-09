@@ -234,27 +234,28 @@ public class ReadyLiveFragment extends BaseFragment {
 
             case R.id.btn_facebook:
                 closekeybord();
+                if (imageUrl.indexOf("http://file.iamyeye.com") > 0) {
+                    imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
+                }
+                String liveUrl = CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid+"&videoid=";
                 FbShare fbShare = new FbShare(getActivity(), shareListener);
-                fbShare.postStatusUpdate(dialogTitle, text,
-                        CommonUrlConfig.shareURL,
-                        imageUrl);
-                // + "?id=" + ChatRoomActivity.userModel.idx + "&type=0"
+                fbShare.postStatusUpdate(dialogTitle, text,liveUrl,imageUrl);
                 break;
             case R.id.btn_webchatmoments:
                 closekeybord();
                 WxShare webchatmoment = new WxShare(getActivity(), shareListener);
-                webchatmoment.SceneWebPage(dialogTitle, text, CommonUrlConfig.shareURL + "?uid=" + liveUserModel.idx,
+                webchatmoment.SceneWebPage(dialogTitle, text, CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx,
                         img, 1);
                 break;
             case R.id.btn_wechat:
                 closekeybord();
                 WxShare wxShare = new WxShare(getActivity(), shareListener);
-                wxShare.SceneWebPage(dialogTitle, text, CommonUrlConfig.shareURL + "?uid=" + liveUserModel.idx, img, 0);
+                wxShare.SceneWebPage(dialogTitle, text, CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img, 0);
                 break;
             case R.id.btn_weibo:
                 closekeybord();
                 SinaShare sinaShare = new SinaShare(getActivity(), dialogTitle, text,
-                        CommonUrlConfig.shareURL + "?uid=" + liveUserModel.idx, img);
+                        CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img);
                 sinaShare.registerCallback(shareListener);
                 sinaShare.share(true, true, true, false, false, false);
                 break;

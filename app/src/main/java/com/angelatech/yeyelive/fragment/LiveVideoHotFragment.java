@@ -209,7 +209,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
-                    CommDialog commDialog = new CommDialog();
+                    final CommDialog commDialog = new CommDialog();
                     CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
                         public void onCancel() {
@@ -218,6 +218,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         @Override
                         public void onOK() {
                             startLive(item);
+                            commDialog.cancelDialog();
                         }
                     };
                     commDialog.CommDialog(getActivity(), getString(R.string.continue_to_watch), true, callback);
