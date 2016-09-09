@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.wxapi.WXInterface;
@@ -57,6 +58,7 @@ public class ThirdShareDialog extends Dialog {
         private LinearLayout ly_qq, ly_weibo, ly_wechat, ly_webchatmoments, ly_sinaweibo, ly_facebook;
         private RelativeLayout ly_body;
         private ThirdShareDialog dialog;
+        private TextView tv_cancel;
 
         private String dialogTitle, text, url, imageUrl, linkTitle;
 
@@ -95,6 +97,7 @@ public class ThirdShareDialog extends Dialog {
             ly_webchatmoments = (LinearLayout) layout.findViewById(R.id.ly_webchatmoments);
             ly_sinaweibo = (LinearLayout) layout.findViewById(R.id.ly_sinaweibo);
             ly_facebook = (LinearLayout) layout.findViewById(R.id.ly_facebook);
+            tv_cancel = (TextView) layout.findViewById(R.id.tv_cancel);
             ly_body.setOnClickListener(this);
             ly_qq.setOnClickListener(this);
             ly_weibo.setOnClickListener(this);
@@ -102,6 +105,7 @@ public class ThirdShareDialog extends Dialog {
             ly_webchatmoments.setOnClickListener(this);
             ly_sinaweibo.setOnClickListener(this);
             ly_facebook.setOnClickListener(this);
+            tv_cancel.setOnClickListener(this);
             Window win = dialog.getWindow();
             win.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = win.getAttributes();
