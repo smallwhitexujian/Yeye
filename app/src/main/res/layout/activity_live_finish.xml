@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,13 +8,32 @@
         android:id="@+id/face"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_end_background"
         android:contentDescription="@string/live_end_bg"
-        android:scaleType="matrix"
-        android:background="@drawable/bg_end_background" />
+        android:scaleType="matrix" />
+
+    <View
+        android:id="@+id/view_null"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true" />
+
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_above="@id/view_null"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/start_live_btn_bg"
+        android:text="@string/back_home"
+        android:textColor="#FEFEFE" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <include
@@ -38,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/txt_live_time"
@@ -68,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="30sp" />
+                        android:textSize="26sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -82,7 +103,7 @@
                     android:layout_width="1dp"
                     android:layout_height="43dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/white" />
+                    android:background="#20ffffff" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -96,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="30sp" />
+                        android:textSize="26sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -107,45 +128,82 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/ticke_num"
+            <View
+                android:id="@+id/line2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0.5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textSize="26sp" />
+                android:background="#20ffffff" />
 
-            <TextView
-                android:id="@+id/ticke_title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="@string/Ticket_sales"
-                android:textColor="@color/color_999999"
-                android:textSize="14sp" />
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/fans_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/fans_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_fans"
+                        android:textColor="#DADADA"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="1dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="#20ffffff" />
+
+                <LinearLayout
+                    android:id="@+id/ticke"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ticke_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/ticke_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Ticket_sales"
+                        android:textColor="#DADADA"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
-    <View
-        android:id="@+id/view_null"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true" />
-
-    <Button
-        android:id="@+id/btn_close"
-        android:layout_width="match_parent"
-        android:layout_height="41dp"
-        android:layout_above="@id/view_null"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/start_live_btn_bg"
-        android:text="@string/back_home"
-        android:textColor="#FEFEFE" />
-
 </RelativeLayout>

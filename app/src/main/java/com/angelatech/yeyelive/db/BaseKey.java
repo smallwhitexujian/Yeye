@@ -19,4 +19,5 @@ public class BaseKey {
     public final static String USER_LOGIN_TYPE = "loginType";
     public final static String USER_IS_TICKET = "isticket";
     public final static String USER_EMAIL = "email";
+    public final static String USER_FANS= "fansNum";
 }

@@ -116,6 +116,15 @@ public class LiveVideoHotFragment extends BaseFragment implements
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (timeCount!=null){
+            timeCount.cancel();
+            timeCount=null;
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
     }
@@ -123,6 +132,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
     @Override
     public void onStop() {
         super.onStop();
+        if (timeCount!=null){
+            timeCount.cancel();
+            timeCount=null;
+        }
     }
 
     private void initView() {
@@ -268,7 +281,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             ChatRoom.enterChatRoom(getActivity(), App.roomModel);
         } else {
             //回放视频
-            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, (VideoModel) item);
+            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class,  item);
         }
     }
 

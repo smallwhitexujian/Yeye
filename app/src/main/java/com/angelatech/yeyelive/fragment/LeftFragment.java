@@ -242,6 +242,7 @@ public class LeftFragment extends HintFragment {
                 } else {
                     iv_vip.setVisibility(View.GONE);
                 }
+                CacheDataManager.getInstance().update(BaseKey.USER_FANS,basicUserInfoDBModel.fansNum,basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
@@ -249,7 +250,7 @@ public class LeftFragment extends HintFragment {
         }
     }
 
-    GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+    private GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {

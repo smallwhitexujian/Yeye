@@ -53,7 +53,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         //sharedUtil.getInstance(mContext).putBoolean(sharedUtil.PREFERENCES_RESTART, true);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
