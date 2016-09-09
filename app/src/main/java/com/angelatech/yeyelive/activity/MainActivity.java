@@ -293,13 +293,13 @@ public class MainActivity extends BaseActivity {
                 hotTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 break;
             case R.id.follow_textview:
-                viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(2);
                 clearTabColor();
                 followTab.setCompoundDrawables(null, null, null, drawable);
                 followTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 break;
             case R.id.new_textview:
-                viewPager.setCurrentItem(2);
+                viewPager.setCurrentItem(1);
                 clearTabColor();
                 newTab.setCompoundDrawables(null, null, null, drawable);
                 newTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));

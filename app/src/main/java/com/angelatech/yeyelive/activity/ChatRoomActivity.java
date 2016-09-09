@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
@@ -18,6 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -207,6 +209,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         mAbSlidingTabView = (ViewPager) findViewById(R.id.mAbSlidingTabView);
         room_guide.setOnClickListener(this);
         button_call_disconnect.setOnClickListener(this);
+        Chronometer timer = (Chronometer)findViewById(R.id.chronometer);
+        timer.setBase(SystemClock.elapsedRealtime());
+        timer.start();
     }
 
     public void onClick(View v) {
