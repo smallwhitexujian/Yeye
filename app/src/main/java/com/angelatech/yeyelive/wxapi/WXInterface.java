@@ -22,7 +22,7 @@ public class WXInterface {
     //    //微信APPID
     public static String WX_APP_ID = "wx1789e78e5e6cf29a";
     //    //微信AppSecret
-    public static String WX_AppSecret = "0d6385421bca2b21ba07339e2da636a8";
+    public static String WX_AppSecret = "ca67e4f0fa7a058d233872316d328c0f";
 
     public static final String PARTNER_ID_WEIXIN = "1330307301";//商户号
     public static final String WEIXIN_PAY_RESULT_ACTION = "weixin.pay.result.action";

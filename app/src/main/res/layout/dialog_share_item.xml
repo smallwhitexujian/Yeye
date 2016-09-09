@@ -43,7 +43,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="50dp"

@@ -80,6 +80,14 @@
                 android:textColor="@color/color_ffffff"
                 android:textSize="14sp" />
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/color_ffffff"
+                android:text="@string/share_to"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,33 +98,26 @@
 
                 <ImageView
                     android:id="@+id/btn_wechat"
-                    android:layout_width="25dp"
+                    android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_wechat_n"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textColor="@color/color_ffffff"
-                    android:text="@string/share_to"/>
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/btn_facebook"
                     android:layout_width="60dp"
                     android:layout_height="25dp"
+                    android:layout_weight="1"
                     android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_facebook_n" />
 
                 <ImageView
                     android:id="@+id/btn_webchatmoments"
-                    android:layout_width="25dp"
+                    android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:contentDescription="@null"
                     android:src="@drawable/btn_sign_on_share_moments_n"

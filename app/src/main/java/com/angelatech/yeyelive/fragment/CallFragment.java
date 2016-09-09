@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -50,8 +51,8 @@ import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
-import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
+import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.util.BinarySearch;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.DelHtml;
@@ -151,6 +152,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
     private RelativeLayout rootView;
+
+    protected FragmentManager fragmentManager;
     //软件盘弹起后所占高度阀值
     private boolean bVideoFilter = false, bFlashEnable = false;
 
@@ -183,6 +186,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         initView();
+        fragmentManager = getFragmentManager();
         initControls();
         initCocos2dx();
         return controlView;
@@ -706,10 +710,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_share:
                 //facebook分享
-                FbShare fbShare = new FbShare(getActivity(), listener);
-                fbShare.postStatusUpdate(getString(R.string.share_title), App.roomModel.getName(),
+                ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
+                builder.setShareContent(getString(R.string.share_title), App.roomModel.getName(),
                         CommonUrlConfig.facebookURL+"?uid=" + liveUserModel.userid,
                         liveUserModel.headurl);
+                builder.RegisterCallback(null);
+                builder.create().show();
                 break;
             case R.id.img_head:
                 BasicUserInfoModel searchItemModel = new BasicUserInfoModel();
