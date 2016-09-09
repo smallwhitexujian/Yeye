@@ -339,10 +339,10 @@
                     android:background="@drawable/circle_coner_ctl_live_bg"
                     android:gravity="center"
                     android:text="@string/userinfo_dialog_live"
-                    android:textColor="@color/main_red"
-                    android:textSize="16sp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:textColor="@color/color_white"
+                    android:textSize="15sp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
                     android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
