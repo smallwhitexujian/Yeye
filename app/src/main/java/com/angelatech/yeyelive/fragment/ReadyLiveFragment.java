@@ -81,7 +81,6 @@ public class ReadyLiveFragment extends BaseFragment {
     private List<String> spinnnerList = new ArrayList<>();
     private ArrayAdapter<String> spinnnerAdapter;
     private Spinner spinnner;
-    private LinearLayout layout_ticket;
     private BasicUserInfoDBModel liveUserModel, loginUserModel;
     private RoomModel roomModel;
 
@@ -112,7 +111,7 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments = (ImageView) controlView.findViewById(R.id.btn_webchatmoments);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
-        layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
+        LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         loginUserModel = CacheDataManager.getInstance().loadUser();
         if (App.roomModel.getUserInfoDBModel() != null) {
             roomModel = App.roomModel;
@@ -140,7 +139,6 @@ public class ReadyLiveFragment extends BaseFragment {
                 return view;
             }
         };
-
     }
 
     private void goAnimation() {
