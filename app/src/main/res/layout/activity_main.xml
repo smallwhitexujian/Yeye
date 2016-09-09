@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false">
@@ -23,23 +24,30 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
                 fresco:placeholderImage="@drawable/default_photo"
-                fresco:roundAsCircle="true" />
+                fresco:roundAsCircle="true"
+                tools:ignore="RtlHardcoded" />
 
             <ImageView
                 android:id="@+id/iv_vip"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
+                android:contentDescription="@null"
                 android:layout_alignBottom="@id/face_icon"
                 android:layout_alignRight="@id/face_icon"
                 android:layout_marginBottom="1dp"
                 android:src="@drawable/icon_vip_mark"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" />
 
             <LinearLayout
                 android:id="@+id/tab_layout"
-                android:layout_width="180dp"
+                android:layout_width="match_parent"
                 android:layout_height="31dp"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toEndOf="@+id/face_icon"
+                android:layout_toStartOf="@+id/search_icon"
                 android:orientation="horizontal">
 
                 <TextView
@@ -47,12 +55,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
                     android:drawablePadding="3dp"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="@string/live_hot"
+                    android:textColor="@color/color_d80c18"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/new_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="3dp"
+                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/live_new"
                     android:textColor="@color/color_d80c18"
                     android:textSize="13sp" />
 
@@ -61,13 +82,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:drawablePadding="3dp"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="@string/live_follow"
                     android:textColor="@color/color_d80c18"
-                    android:textSize="17sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
@@ -80,7 +101,8 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="14dp"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_nav_search" />
+                android:src="@drawable/btn_nav_search"
+                tools:ignore="RtlHardcoded" />
         </RelativeLayout>
 
         <View
@@ -103,7 +125,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         android:contentDescription="@null"
-        android:src="@drawable/btn_home_sign_on_n" />
+        android:src="@drawable/btn_home_sign_on_n"
+        tools:ignore="RtlHardcoded" />
 
     <ImageView
         android:id="@+id/home_guide"

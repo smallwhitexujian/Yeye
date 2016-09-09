@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
     private CommonAdapter<Map> commonAdapter;
     private SimpleDraweeView mFaceIcon;//头像
     private ImageView iv_vip;
-    private TextView hotTab, followTab;
+    private TextView hotTab, followTab,newTab;
     private FragmentManager fragmentManager = null;
     private MainEnter mainEnter;
     private SimpleFragmentPagerAdapter pagerAdapter;
@@ -123,6 +123,7 @@ public class MainActivity extends BaseActivity {
         userModel = CacheDataManager.getInstance().loadUser();
         hotTab = (TextView) findViewById(R.id.hot_textview);
         followTab = (TextView) findViewById(R.id.follow_textview);
+        newTab = (TextView) findViewById(R.id.new_textview);
         ImageView searchIcon = (ImageView) findViewById(R.id.search_icon);
         ImageView img_live = (ImageView) findViewById(R.id.img_live);
         mFaceIcon = (SimpleDraweeView) findViewById(R.id.face_icon);
@@ -131,6 +132,7 @@ public class MainActivity extends BaseActivity {
         home_guide.setOnClickListener(this);
         hotTab.setOnClickListener(this);
         followTab.setOnClickListener(this);
+        newTab.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
         mFaceIcon.setOnClickListener(this);
         img_live.setOnClickListener(this);
@@ -186,15 +188,23 @@ public class MainActivity extends BaseActivity {
                 clearTabColor();
                 clearTabTextSize();
                 String hotStr = getString(R.string.live_hot);
-                final float textSize = DisplayTool.dip2px(MainActivity.this, 17);
+                String followStr = getString(R.string.live_follow);
+                String newStr = getString(R.string.live_new);
+                final float textSize = DisplayTool.dip2px(MainActivity.this, 15);
                 if (hotStr.equals(pagerAdapter.getPageTitle(position))) {
                     hotTab.setCompoundDrawables(null, null, null, drawable);
                     hotTab.setTextSize(textSize);
                     hotTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
-                } else {
+                }
+                if (followStr.equals(pagerAdapter.getPageTitle(position))) {
                     followTab.setCompoundDrawables(null, null, null, drawable);
                     followTab.setTextSize(textSize);
                     followTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
+                }
+                if (newStr.equals(pagerAdapter.getPageTitle(position))) {
+                    newTab.setCompoundDrawables(null, null, null, drawable);
+                    newTab.setTextSize(textSize);
+                    newTab.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.color_d80c18));
                 }
             }
 
@@ -202,12 +212,12 @@ public class MainActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(1);
         clearTabColor();
         clearTabTextSize();
-        hotTab.setCompoundDrawables(null, null, null, drawable);
-        hotTab.setTextSize(DisplayTool.dip2px(this, 17));
-        hotTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
+        newTab.setCompoundDrawables(null, null, null, drawable);
+        newTab.setTextSize(DisplayTool.dip2px(this, 15));
+        newTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
 
         //预加载礼物列表
         loadGiftList();
@@ -288,6 +298,12 @@ public class MainActivity extends BaseActivity {
                 followTab.setCompoundDrawables(null, null, null, drawable);
                 followTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 break;
+            case R.id.new_textview:
+                viewPager.setCurrentItem(2);
+                clearTabColor();
+                newTab.setCompoundDrawables(null, null, null, drawable);
+                newTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
+                break;
             case R.id.search_icon:
                 StartActivityHelper.jumpActivityDefault(this, SearchActivity.class);
                 break;
@@ -312,12 +328,14 @@ public class MainActivity extends BaseActivity {
     private void clearTabColor() {
         hotTab.setCompoundDrawables(null, null, null, null);
         followTab.setCompoundDrawables(null, null, null, null);
+        newTab.setCompoundDrawables(null, null, null, null);
     }
 
     private void clearTabTextSize() {
         final float textSize = DisplayTool.dip2px(this, 14);
         hotTab.setTextSize(textSize);
         followTab.setTextSize(textSize);
+        newTab.setTextSize(textSize);
     }
 
     /**

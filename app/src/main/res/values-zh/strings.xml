@@ -93,6 +93,7 @@
     <!---主页-->
     <string name="live_hot">热门</string>
     <string name="live_follow">关注</string>
+    <string name="live_new">最新</string>
     <string name="live_hot_default_area">Yeye My</string>
     <!--通知栏-->
     <string name="notify_default_title">收到新消息</string>

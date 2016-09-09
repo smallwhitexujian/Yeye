@@ -474,10 +474,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     showList.remove(index);
                 }
             }
-            int giftIndex = getIndexOfUserList(onlineNotice.user.uid, PopLinkData);
-            if (index >= 0 ){
-                PopLinkData.remove(giftIndex);
-            }
+//            int giftIndex = getIndexOfUserList(onlineNotice.user.uid, PopLinkData);
+//            if (index >= 0 ){
+//                PopLinkData.remove(giftIndex);
+//            }
             setRoomPopSpinner();
         }
         int length = 30;
