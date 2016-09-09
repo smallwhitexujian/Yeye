@@ -131,6 +131,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     public boolean isqupai = true;
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
+    private Chronometer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,9 +210,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         mAbSlidingTabView = (ViewPager) findViewById(R.id.mAbSlidingTabView);
         room_guide.setOnClickListener(this);
         button_call_disconnect.setOnClickListener(this);
-        Chronometer timer = (Chronometer)findViewById(R.id.chronometer);
-        timer.setBase(SystemClock.elapsedRealtime());
-        timer.start();
+        timer = (Chronometer)findViewById(R.id.chronometer);
     }
 
     public void onClick(View v) {
@@ -329,10 +328,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         title = getString(R.string.live_time_short);
                     }
                 }
-                dialog.dialog(this, title, true, isShowSave, callback);
+                dialog.dialog(this, title, true, isShowSave, callback,userModel);
             } else {
                 isShowSave = false;
-                dialog.dialog(this, getString(R.string.quit_room), true, isShowSave, callback);
+                dialog.dialog(this, getString(R.string.quit_room), true, isShowSave, callback,userModel);
             }
         }
     }
@@ -538,10 +537,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             //如果状态是直播，发送直播上麦
+                            timer.setBase(SystemClock.elapsedRealtime());
+                            timer.start();
                             serviceManager.sendRTMP_WM_SDP(roomModel.getRtmpwatchaddress(), "");
                         } else if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
                             //如果是观看流程，首先检查是否正在直播
                             //上麦
+                            timer.setBase(SystemClock.elapsedRealtime());
+                            timer.start();
                             if (loginMessage.live == 1) {
                                 App.roomModel.setRtmpwatchaddress(loginMessage.live_uri);
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
@@ -910,6 +913,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             livePush.onDestroy();
         }
         System.gc();
+        timer.stop();
     }
 
     /**

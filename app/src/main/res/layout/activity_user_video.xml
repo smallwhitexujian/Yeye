@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,6 +23,7 @@
             android:id="@+id/pullToRefreshView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ListView
@@ -32,6 +34,15 @@
                 android:dividerHeight="0.5dp" />
         </com.will.view.library.SwipyRefreshLayout>
 
+        <TextView
+            android:id="@+id/tops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp"
+            android:text="@string/tops_video"
+            android:textColor="@color/color_999999" />
     </LinearLayout>
 
     <FrameLayout
@@ -45,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/tv_frontCover"
@@ -71,6 +83,7 @@
                 android:gravity="center"
                 android:text="@string/text_delete"
                 android:textColor="@color/color_ff666666" />
+
             <View
                 android:layout_width="280dp"
                 android:layout_height="0.5dp"

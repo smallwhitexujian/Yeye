@@ -16,7 +16,7 @@
         android:id="@+id/camera_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="false"/>
+        android:layout_alignParentBottom="false" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/mAbSlidingTabView"
@@ -47,21 +47,23 @@
         android:id="@+id/face"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:contentDescription="@null"
         android:visibility="visible"
-        tools:ignore="RtlHardcoded"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        tools:ignore="RtlHardcoded" />
 
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/button_call_disconnect"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="26dp"
         android:format="%s"
         android:gravity="center"
         android:textColor="#80ffffff"
         android:textSize="40px"
-        android:layout_marginTop="26dp"
-        android:layout_below="@+id/button_call_disconnect"
-        android:layout_alignParentEnd="true" />
+        tools:ignore="RtlHardcoded" />
 </RelativeLayout>

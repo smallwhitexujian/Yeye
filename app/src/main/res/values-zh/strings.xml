@@ -369,4 +369,5 @@
     <string name="updata_tops_content">"有新的版本升级，是否下载安装？\n\n"</string>
     <string name="updata_progress">"正在下载中，请稍后"</string>
     <string name="updata_file_success">文件下载完成…</string>
+    <string name="tops_video" formatted="false">只保存最近的%s段视频</string>
 </resources>

@@ -365,4 +365,5 @@
     <string name="updata_tops_content">New version available, update now? \n</string>
     <string name="updata_progress">Upgrading, please wait…</string>
     <string name="updata_file_success">APK File downloaded successfully</string>
+    <string name="tops_video" formatted="false">Only save %s latest videos. </string>
 </resources>

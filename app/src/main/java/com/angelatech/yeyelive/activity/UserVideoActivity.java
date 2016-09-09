@@ -70,6 +70,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     private String otherId = null;
     private PictureObtain mObtain;
     private Uri distUri;
+    private TextView tops;
     private QiniuUpload qiNiuUpload;
 
     @Override
@@ -96,6 +97,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         TextView tv_delete = (TextView) findViewById(R.id.tv_delete);
         TextView tv_cancel = (TextView) findViewById(R.id.tv_cancel);
         TextView tv_frontCover = (TextView) findViewById(R.id.tv_frontCover);
+        tops = (TextView) findViewById(R.id.tops);
         tv_frontCover.setVisibility(View.GONE);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
         tv_delete.setOnClickListener(this);
@@ -152,6 +154,11 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
             playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
         }else{
             playRecord.getUserRecord(loginUser.userid, loginUser.token, String.valueOf(otherId), pageSize, pageIndex, callback);
+        }
+        if (loginUser.isv.equals("1")){
+            tops.setText(String.format(getString(R.string.tops_video),"50"));
+        }else{
+            tops.setText(String.format(getString(R.string.tops_video),"10"));
         }
     }
 
