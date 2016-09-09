@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.fragment;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -70,13 +71,13 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private ListView listView;
     private CommonAdapter<LiveVideoModel> adapter;
     private List<LiveVideoModel> datas = new ArrayList<>();
-    private long datesort;
+    private long datesort = 0;
     private int pageindex = 1;
-    private int pagesize = 10;
+    private int pagesize = 1000;
     private String liveUrl;
     private volatile boolean IS_REFRESH = true;  //是否需要刷新
     private SwipyRefreshLayout swipyRefreshLayout;
-
+    private TimeCount timeCount;
     private BasicUserInfoDBModel userInfo;
     private MainEnter mainEnter;
     private RelativeLayout noDataLayout;
@@ -99,13 +100,18 @@ public class LiveVideoHotFragment extends BaseFragment implements
         fromType = getArguments().getInt(ARG_POSITION, 0);
         initView();
         setView();
-//        load(fromType);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (timeCount!=null){
+            timeCount.cancel();
+            timeCount=null;
+        }
+        timeCount = new TimeCount(10000,10000);
+        timeCount.start();
         freshLoad();
     }
 
@@ -367,9 +373,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
-        if (pageindex <= 1) {
-            pageindex = 2;
-        }
+        pageindex = pageindex + 1;
         load(fromType);
     }
 
@@ -377,8 +381,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private void freshLoad() {
         IS_REFRESH = true;
         datesort = 0;
-        pageindex = 1;
         result_type = 0;
+        pageindex = 1;
         load(fromType);
     }
 
@@ -398,9 +402,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         if (HttpFunction.isSuc(result.code)) {
                             if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
                                 datesort = result.time;
-                                pageindex = result.index + 1;
                                 result_type = result.type;
-                                if (IS_REFRESH) {
+                                if (IS_REFRESH) {//刷新
                                     datas.clear();
                                 }
                                 datas.addAll(result.livedata);
@@ -506,5 +509,26 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
         }
         return "";
+    }
+
+    private class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            if (timeCount!=null){
+                timeCount.cancel();
+                timeCount=null;
+            }
+            timeCount = new TimeCount(10000,10000);
+            timeCount.start();
+            freshLoad();
+        }
     }
 }
