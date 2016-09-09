@@ -66,7 +66,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 }
             } else {
                 //分享回调
-                wxUIListener.callbackShare("");
+                if (wxUIListener != null) {
+                    wxUIListener.callbackShare("");
+                }
                 if (shareListener != null) {
                     shareListener.callBackSuccess(WxShare.SHARE_TYPE_WX);
                 }

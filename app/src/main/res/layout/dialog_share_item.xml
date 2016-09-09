@@ -57,7 +57,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:gravity="center_horizontal"
-                    android:text="微信"
+                    android:text="@string/share_we_chat"
                     android:textColor="@color/font_black"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="50dp"
@@ -83,7 +83,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:gravity="center_horizontal"
-                    android:text="朋友圈"
+                    android:text="@string/share_we_chat_pyq"
                     android:textColor="@color/font_black"
                     android:textSize="14sp" />
             </LinearLayout>

@@ -284,6 +284,8 @@
     <string name="btn_login_facebook">Login by Facebook</string>
     <string name="room_system_message" formatted="false">Welcome %s，to Yeye Live!</string>
     <string name="share_to">Share to:</string>
+    <string name="share_we_chat">Wechat</string>
+    <string name="share_we_chat_pyq">Wechat Moment</string>
     <string name="microom_code_1">User not find</string>
     <string name="microom_code_1001">Package Open Error</string>
     <string name="microom_code_1002">Fail to Enter Room</string>
