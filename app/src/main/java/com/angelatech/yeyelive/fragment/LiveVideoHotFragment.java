@@ -425,15 +425,21 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 }
             }
         };
-        MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
-        if (type == 1) {
-            liveUrl = CommonUrlConfig.LiveVideoList;
-        } else if (type == 2) {
-            liveUrl = CommonUrlConfig.LiveVideoFollow;
-        } else if (type == 3){
-            liveUrl = CommonUrlConfig.LiveVideoNewM;
+        try{
+            MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
+            if (type == 1) {
+                liveUrl = CommonUrlConfig.LiveVideoList;
+            } else if (type == 2) {
+                liveUrl = CommonUrlConfig.LiveVideoFollow;
+            } else if (type == 3){
+                liveUrl = CommonUrlConfig.LiveVideoNewM;
+            }
+            if (mainEnter != null){
+                mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
     }
 
     /**
