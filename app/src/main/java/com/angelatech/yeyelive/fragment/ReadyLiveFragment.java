@@ -83,10 +83,13 @@ public class ReadyLiveFragment extends BaseFragment {
     private Spinner spinnner;
     private BasicUserInfoDBModel liveUserModel, loginUserModel;
     private RoomModel roomModel;
+    private ImageView buttonCamera;
 
     public interface OnCallEvents {
         //开始直播
         void onBeginLive();
+
+        void onCameraSwitch();
     }
 
     @Override
@@ -109,6 +112,7 @@ public class ReadyLiveFragment extends BaseFragment {
         img_location_bg = (ImageView) controlView.findViewById(R.id.img_location_bg);
         mLocationInfo = (TextView) controlView.findViewById(R.id.location_info);
         btn_webchatmoments = (ImageView) controlView.findViewById(R.id.btn_webchatmoments);
+        buttonCamera = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
@@ -163,6 +167,7 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments.setOnClickListener(this);
         btn_wechat.setOnClickListener(this);
         btn_weibo.setOnClickListener(this);
+        buttonCamera.setOnClickListener(this);
         txt_title.setText(String.format(getString(R.string.formatted_2), loginUserModel.nickname));
         txt_title.selectAll();
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
@@ -235,9 +240,9 @@ public class ReadyLiveFragment extends BaseFragment {
                 if (imageUrl.indexOf("http://file.iamyeye.com") > 0) {
                     imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
                 }
-                String liveUrl = CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid+"&videoid=";
+                String liveUrl = CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid + "&videoid=";
                 FbShare fbShare = new FbShare(getActivity(), shareListener);
-                fbShare.postStatusUpdate(dialogTitle, text,liveUrl,imageUrl);
+                fbShare.postStatusUpdate(dialogTitle, text, liveUrl, imageUrl);
                 break;
             case R.id.btn_webchatmoments:
                 closekeybord();
@@ -256,6 +261,9 @@ public class ReadyLiveFragment extends BaseFragment {
                         CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img);
                 sinaShare.registerCallback(shareListener);
                 sinaShare.share(true, true, true, false, false, false);
+                break;
+            case R.id.button_call_switch_camera:
+                callEvents.onCameraSwitch();
                 break;
         }
     }

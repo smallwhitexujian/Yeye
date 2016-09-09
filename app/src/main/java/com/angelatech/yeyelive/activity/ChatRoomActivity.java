@@ -149,7 +149,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         if (isqupai) {
             livePush = new LivePush();
-            livePush.setWatermark(watemarkUrl, 14, 55, 1);
+            livePush.setWatermark(watemarkUrl, 14, 65, 1);
             livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;

@@ -170,5 +170,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/button_call_switch_camera"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="bottom"
+            android:contentDescription="@string/switch_camera"
+            android:padding="10dp"
+            android:src="@drawable/btn_start_play_switch_camera"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/layout_ticket" />
     </RelativeLayout>
 </RelativeLayout>
