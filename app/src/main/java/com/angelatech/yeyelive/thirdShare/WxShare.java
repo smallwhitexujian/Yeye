@@ -107,13 +107,11 @@ public class WxShare {
         WXMediaMessage msg = new WXMediaMessage(webPage);
         msg.title = title;
         msg.description = text;
-
-        msg.setThumbImage(bitmap);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 60, 60, true);
+        msg.setThumbImage(thumbBmp);
         send.transaction = "webpage";
         send.message = msg;
         send.scene = scene;
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 60, 60, true);
-        thumbBmp.recycle();
         wxApi.sendReq(send);
     }
 
