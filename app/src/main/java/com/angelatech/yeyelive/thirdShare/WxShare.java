@@ -101,6 +101,10 @@ public class WxShare {
      * @param scene  1 是朋友圈  0 是微信好友
      */
     public void SceneWebPage(String title, String text, String url, Bitmap bitmap, int scene) {
+
+        if (bitmap == null){
+            return;
+        }
         WXWebpageObject webPage = new WXWebpageObject();
         webPage.webpageUrl = url;
 
