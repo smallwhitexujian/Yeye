@@ -164,6 +164,13 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         diamondsStr.setText(String.format(getString(R.string.Coins),diamonds));
     }
 
+    public void setLikeNum(int likeNum) {
+        txt_likeNum.setText(String.valueOf(likeNum));
+    }
+
+    public void setOnline(String position){
+        txt_online.setText(position);
+    }
 
     public interface OnCallEvents {
         //切换摄像头
@@ -455,7 +462,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online.setColumnWidth(itemWidth);
         grid_online.setStretchMode(GridView.NO_STRETCH);
         grid_online.setNumColumns(onlineCount);
-        txt_online.setText(String.valueOf(onlineCount));
+//        txt_online.setText(String.valueOf(onlineCount));
         horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
         grid_online.setAdapter(horizontalListViewAdapter);
     }
@@ -610,9 +617,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
     }
 
-    public void setLikeNum(int likeNum) {
-        txt_likeNum.setText(String.valueOf(likeNum));
-    }
+
 
     @Override
     public void onClick(View v) {

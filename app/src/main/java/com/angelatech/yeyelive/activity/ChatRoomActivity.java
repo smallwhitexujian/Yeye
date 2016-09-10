@@ -534,6 +534,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         callFragment.setDiamonds(userModel.diamonds);
                         App.roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
                         callFragment.setLikeNum(App.roomModel.getLikenum());
+                        callFragment.setOnline(loginMessage.online);
                         serviceManager.getOnlineListUser();
                         if (!isSysMsg) {
                             isSysMsg = true;
