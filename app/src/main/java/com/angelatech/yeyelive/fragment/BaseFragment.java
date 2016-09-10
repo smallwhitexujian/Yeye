@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.angelatech.yeyelive.handler.CommonDoHandler;
 import com.angelatech.yeyelive.handler.CommonHandler;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -30,11 +31,13 @@ public class BaseFragment extends Fragment implements View.OnClickListener,Commo
     @Override
     public void onPause() {
         super.onPause();
+        MobclickAgent.onPause(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(getActivity());
     }
 
     @Override

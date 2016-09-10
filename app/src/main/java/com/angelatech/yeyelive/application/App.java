@@ -21,6 +21,7 @@ import com.duanqu.qupai.auth.QupaiAuthListener;
 import com.duanqu.qupai.httpfinal.QupaiHttpFinal;
 import com.duanqu.qupai.jni.ApplicationGlue;
 import com.facebook.FacebookSdk;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.will.common.log.DebugLogs;
 
 import java.io.File;
@@ -114,6 +115,8 @@ public class App extends Application {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        CrashReport.initCrashReport(getApplicationContext(), "900052519", App.isDebug);
+
         //趣拍
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("qupai-media-thirdparty");
