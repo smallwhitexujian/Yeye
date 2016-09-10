@@ -53,16 +53,4 @@
         android:visibility="visible"
         tools:ignore="RtlHardcoded" />
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="35dp"
-        android:format="%s"
-        android:gravity="center"
-        android:textColor="@color/color_80ffffff"
-        android:textSize="14sp"
-        tools:ignore="RtlHardcoded" />
 </RelativeLayout>

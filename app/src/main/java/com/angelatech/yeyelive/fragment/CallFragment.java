@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
@@ -23,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -99,7 +101,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
-    private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des;
+    private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des,diamondsStr;
     private SimpleDraweeView img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
@@ -143,8 +145,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private BasicUserInfoDBModel liveUserModel; //直播用户信息
     public static final Object lock = new Object();
     private ChatRoom chatRoom;
-    //cocos2d
-    private FrameLayout giftLayout;
     private Cocos2dxView cocos2dxView = new Cocos2dxView();
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
 
@@ -152,13 +152,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
     private RelativeLayout rootView;
-
-    protected FragmentManager fragmentManager;
+    private int mVisibleHeight;
+    private FragmentManager fragmentManager;
     //软件盘弹起后所占高度阀值
+    private Chronometer timer;
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
+        diamondsStr.setText(String.format(getString(R.string.Coins),diamonds));
     }
 
 
@@ -216,6 +218,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         initChatMessage(getActivity());
         ImageView img_open_send = (ImageView) controlView.findViewById(R.id.img_open_send);
         ImageView giftBtn = (ImageView) controlView.findViewById(R.id.giftbtn);
+        timer = (Chronometer) controlView.findViewById(R.id.chronometer);
         ly_toolbar = (LinearLayout) controlView.findViewById(R.id.ly_toolbar);
         ly_send = (LinearLayout) controlView.findViewById(R.id.ly_send);
         ly_main = (LinearLayout) controlView.findViewById(R.id.ly_main);
@@ -235,6 +238,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         btn_lamp = (ImageView) controlView.findViewById(R.id.button_lamp);
         iv_vip = (ImageView) controlView.findViewById(R.id.iv_vip);
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
+        diamondsStr = (TextView) controlView.findViewById(R.id.diamonds);
         txt_room_des = (TextView) controlView.findViewById(R.id.txt_room_des);
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
@@ -365,7 +369,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    int mVisibleHeight;
+    public void StartChronometer(){
+        timer.setBase(SystemClock.elapsedRealtime());
+        timer.start();
+    }
+
+
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -401,7 +410,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         scaleInfo.width = ScreenUtils.getScreenWidth(getActivity());
         scaleInfo.height = ScreenUtils.getScreenHeight(getActivity());
         cocos2dxView.setScaleInfo(scaleInfo);
-        giftLayout = cocos2dxView.getFrameLayout();
+        FrameLayout giftLayout = cocos2dxView.getFrameLayout();
         ((FrameLayout) controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
     }
 
@@ -497,10 +506,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     /**
      * 查询列表
-     *
-     * @param userId
-     * @param list
-     * @return
      */
     private synchronized int getIndexOfUserList(int userId, List<OnlineListModel> list) {
         synchronized (lock) { // 防止查询列表时列表更新或排序
