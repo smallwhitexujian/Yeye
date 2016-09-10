@@ -145,6 +145,7 @@
     <string name="userinfo_user_sign">Signature</string>
     <string name="userinfo_sign_unkonw">To be filled</string>
     <string name="user_info_mail">Email</string>
+    <string name="user_info_hint_email">Please input the email address</string>
     <string name="user_info_mail_error">Email format error</string>
     <!--设置-->
     <string name="setting_title">Setting</string>

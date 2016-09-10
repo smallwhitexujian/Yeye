@@ -46,6 +46,7 @@ public class EditActivity extends HeaderBaseActivity {
     private String userSign, userEmail;
     private TextView tv_input_limit;
     private Boolean boolCanSave = false;
+    private View line1,line2,line3;
     private final int USER_SIGN_LEN_LIMIT = 70;
     private final int USER_NAME_LEN_LIMIT = 24;
     private final int USER_EMAIL_LEN_LIMIT = 50;
@@ -68,6 +69,9 @@ public class EditActivity extends HeaderBaseActivity {
         tv_nickName = (EditText) findViewById(R.id.tv_nickName);
         et_sign = (EditText) findViewById(R.id.et_sign);
         iv_delete = (ImageView) findViewById(R.id.iv_delete);
+        line1 = (View)findViewById(R.id.line1);
+        line2 = (View)findViewById(R.id.line2);
+        line3 = (View)findViewById(R.id.line3);
         iv_delete_email = (ImageView) findViewById(R.id.iv_delete_email);
         tv_email = (EditText) findViewById(R.id.tv_email);
         tv_input_limit = (TextView) findViewById(R.id.tv_input_limit);
@@ -95,27 +99,37 @@ public class EditActivity extends HeaderBaseActivity {
         et_sign.addTextChangedListener(textWatcher);
         tv_nickName.addTextChangedListener(textWatcher);
         tv_email.addTextChangedListener(textWatcher);
-        if (type.equals("1")) {
-            layout_email.setVisibility(View.GONE);
-            layout_sign.setVisibility(View.GONE);
-            layout_nickName.setVisibility(View.VISIBLE);
-            tv_nickName.setText(model.nickname);
-            tv_nickName.selectAll();
-            headerLayout.showTitle(R.string.userinfo_user_nickname);
-            //tv_input_limit.setVisibility(View.GONE);
-        } else if (type.equals("2")) {
-            layout_nickName.setVisibility(View.GONE);
-            layout_email.setVisibility(View.GONE);
-            layout_sign.setVisibility(View.VISIBLE);
-            et_sign.setText(model.sign);
-            headerLayout.showTitle(R.string.userinfo_user_sign);
-            //tv_input_limit.setVisibility(View.VISIBLE);
-        } else {
-            layout_email.setVisibility(View.VISIBLE);
-            layout_nickName.setVisibility(View.GONE);
-            layout_sign.setVisibility(View.GONE);
-            tv_email.setText(model.email);
-            headerLayout.showTitle(R.string.user_info_mail);
+        switch (type) {
+            case "1"://昵称
+                layout_email.setVisibility(View.GONE);
+                layout_sign.setVisibility(View.GONE);
+                layout_nickName.setVisibility(View.VISIBLE);
+                tv_nickName.setText(model.nickname);
+                tv_nickName.selectAll();
+                line2.setVisibility(View.GONE);
+                line3.setVisibility(View.GONE);
+                headerLayout.showTitle(R.string.userinfo_user_nickname);
+                //tv_input_limit.setVisibility(View.GONE);
+                break;
+            case "2"://个性签名
+                layout_nickName.setVisibility(View.GONE);
+                layout_email.setVisibility(View.GONE);
+                layout_sign.setVisibility(View.VISIBLE);
+                et_sign.setText(model.sign);
+                line1.setVisibility(View.GONE);
+                line2.setVisibility(View.GONE);
+                headerLayout.showTitle(R.string.userinfo_user_sign);
+                //tv_input_limit.setVisibility(View.VISIBLE);
+                break;
+            default:
+                layout_email.setVisibility(View.VISIBLE);
+                layout_nickName.setVisibility(View.GONE);
+                layout_sign.setVisibility(View.GONE);
+                tv_email.setText(model.email);
+                line1.setVisibility(View.GONE);
+                line3.setVisibility(View.GONE);
+                headerLayout.showTitle(R.string.user_info_mail);
+                break;
         }
 
         Utility.openKeybord(tv_nickName, this);
@@ -134,25 +148,29 @@ public class EditActivity extends HeaderBaseActivity {
     }
 
     private void saveUserInfo() {
-        if (type.equals("1")) {
-            userSign = model.sign;
-            userEmail = model.email;
-            nickName = tv_nickName.getText().toString();
-            if (nickName.length() == 0) {
-                ToastUtils.showToast(this, getString(R.string.user_name_input));
-                return;
-            }
-        } else if (type.equals("2")) {
-            nickName = model.nickname;
-            userEmail = model.email;
-            userSign = et_sign.getText().toString();
-        } else {
-            if (!boolCanSave) {
-                return;
-            }
-            nickName = model.nickname;
-            userSign = model.sign;
-            userEmail = tv_email.getText().toString();
+        switch (type) {
+            case "1":
+                userSign = model.sign;
+                userEmail = model.email;
+                nickName = tv_nickName.getText().toString();
+                if (nickName.length() == 0) {
+                    ToastUtils.showToast(this, getString(R.string.user_name_input));
+                    return;
+                }
+                break;
+            case "2":
+                nickName = model.nickname;
+                userEmail = model.email;
+                userSign = et_sign.getText().toString();
+                break;
+            default:
+                if (!boolCanSave) {
+                    return;
+                }
+                nickName = model.nickname;
+                userSign = model.sign;
+                userEmail = tv_email.getText().toString();
+                break;
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);
@@ -176,12 +194,16 @@ public class EditActivity extends HeaderBaseActivity {
                 CommonModel common = JsonUtil.fromJson(response, CommonModel.class);
                 if (common != null) {
                     if (HttpFunction.isSuc(common.code)) {
-                        if (type.equals("1")) {
-                            CacheDataManager.getInstance().update(BaseKey.USER_NICKNAME, nickName, model.userid);
-                        } else if (type.equals("2")) {
-                            CacheDataManager.getInstance().update(BaseKey.USER_SIGN, userSign, model.userid);
-                        } else {
-                            CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, userEmail, model.userid);
+                        switch (type) {
+                            case "1":
+                                CacheDataManager.getInstance().update(BaseKey.USER_NICKNAME, nickName, model.userid);
+                                break;
+                            case "2":
+                                CacheDataManager.getInstance().update(BaseKey.USER_SIGN, userSign, model.userid);
+                                break;
+                            default:
+                                CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, userEmail, model.userid);
+                                break;
                         }
                         finish();
                     } else {
@@ -211,27 +233,31 @@ public class EditActivity extends HeaderBaseActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (type.equals("1")) {
-                editStart = tv_nickName.getSelectionStart();
-                editEnd = tv_nickName.getSelectionEnd();
-                if (temp.length() > USER_NAME_LEN_LIMIT) {
-                    editable.delete(editStart - 1, editEnd);
-                }
-                uiHandler.obtainMessage(MSG_INPUT_USER_NAME_LIMIT, 0, 0, editable.toString()).sendToTarget();
-            } else if (type.equals("2")) {
-                editStart = et_sign.getSelectionStart();
-                editEnd = et_sign.getSelectionEnd();
-                if (temp.length() > USER_SIGN_LEN_LIMIT) {
-                    editable.delete(editStart - 1, editEnd);
-                }
-                uiHandler.obtainMessage(MSG_INPUT_USER_SIGN_LIMIT, 0, 0, editable.toString()).sendToTarget();
-            } else {
-                editStart = tv_email.getSelectionStart();
-                editEnd = tv_email.getSelectionEnd();
-                if (temp.length() > USER_EMAIL_LEN_LIMIT && editStart > 0) {
-                    editable.delete(editStart - 1, editEnd);
-                }
-                uiHandler.obtainMessage(MSG_INPUT_USER_EMAIL, 0, 0, editable.toString()).sendToTarget();
+            switch (type) {
+                case "1":
+                    editStart = tv_nickName.getSelectionStart();
+                    editEnd = tv_nickName.getSelectionEnd();
+                    if (temp.length() > USER_NAME_LEN_LIMIT) {
+                        editable.delete(editStart - 1, editEnd);
+                    }
+                    uiHandler.obtainMessage(MSG_INPUT_USER_NAME_LIMIT, 0, 0, editable.toString()).sendToTarget();
+                    break;
+                case "2":
+                    editStart = et_sign.getSelectionStart();
+                    editEnd = et_sign.getSelectionEnd();
+                    if (temp.length() > USER_SIGN_LEN_LIMIT) {
+                        editable.delete(editStart - 1, editEnd);
+                    }
+                    uiHandler.obtainMessage(MSG_INPUT_USER_SIGN_LIMIT, 0, 0, editable.toString()).sendToTarget();
+                    break;
+                default:
+                    editStart = tv_email.getSelectionStart();
+                    editEnd = tv_email.getSelectionEnd();
+                    if (temp.length() > USER_EMAIL_LEN_LIMIT && editStart > 0) {
+                        editable.delete(editStart - 1, editEnd);
+                    }
+                    uiHandler.obtainMessage(MSG_INPUT_USER_EMAIL, 0, 0, editable.toString()).sendToTarget();
+                    break;
             }
         }
     };
