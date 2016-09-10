@@ -169,7 +169,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void setOnline(String position){
-        txt_online.setText(position);
+        String num = String.valueOf(Integer.valueOf(position)-1);
+        txt_online.setText(num);
     }
 
     public interface OnCallEvents {
