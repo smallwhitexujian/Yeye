@@ -46,6 +46,17 @@ android {
             java.srcDirs = ['src/main/java', 'src/test/java/']
         }
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                //这里修改apk文件名
+                def fileName = "yeye_live.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
 }
 
 repositories {

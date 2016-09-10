@@ -73,7 +73,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private List<LiveVideoModel> datas = new ArrayList<>();
     private long datesort = 0;
     private int pageindex = 1;
-    private int pagesize = 1000;
+    private int pagesize = 100;
     private String liveUrl;
     private volatile boolean IS_REFRESH = true;  //是否需要刷新
     private SwipyRefreshLayout swipyRefreshLayout;
@@ -106,22 +106,14 @@ public class LiveVideoHotFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if (timeCount!=null){
-            timeCount.cancel();
-            timeCount=null;
-        }
-        timeCount = new TimeCount(10000,10000);
-        timeCount.start();
+        StartTimeCount();
         freshLoad();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (timeCount!=null){
-            timeCount.cancel();
-            timeCount=null;
-        }
+        StopTimeCount();
     }
 
     @Override
@@ -132,10 +124,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     @Override
     public void onStop() {
         super.onStop();
-        if (timeCount!=null){
-            timeCount.cancel();
-            timeCount=null;
-        }
+        StopTimeCount();
     }
 
     private void initView() {
@@ -388,6 +377,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
         IS_REFRESH = false;
         pageindex = pageindex + 1;
         load(fromType);
+        StopTimeCount();
     }
 
     //刷新
@@ -397,6 +387,20 @@ public class LiveVideoHotFragment extends BaseFragment implements
         result_type = 0;
         pageindex = 1;
         load(fromType);
+        StartTimeCount();
+    }
+    //重新开始计时
+    private void StartTimeCount() {
+        StopTimeCount();
+        timeCount = new TimeCount(10000,10000);
+        timeCount.start();
+    }
+    //结束计时
+    private void StopTimeCount() {
+        if (timeCount!=null){
+            timeCount.cancel();
+            timeCount=null;
+        }
     }
 
     private void load(int type) {
@@ -541,12 +545,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
         @Override
         public void onFinish() {
-            if (timeCount!=null){
-                timeCount.cancel();
-                timeCount=null;
-            }
-            timeCount = new TimeCount(10000,10000);
-            timeCount.start();
+            StartTimeCount();
             freshLoad();
         }
     }
