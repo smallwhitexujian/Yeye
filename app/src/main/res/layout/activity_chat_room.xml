@@ -62,7 +62,7 @@
         android:layout_marginTop="35dp"
         android:format="%s"
         android:gravity="center"
-        android:textColor="#80ffffff"
-        android:textSize="40px"
+        android:textColor="@color/color_80ffffff"
+        android:textSize="14sp"
         tools:ignore="RtlHardcoded" />
 </RelativeLayout>

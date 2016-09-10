@@ -119,6 +119,7 @@
     <string name="attention">Following</string>
     <string name="fans">Followed</string>
     <string name="diamond">My Coins</string>
+    <string name="Coins" formatted="false">Coins: %s</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
     <string name="intimacy">Popularity:</string>

@@ -155,15 +155,18 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
         initView();
         findView();
+        //魅族适配
         if (Build.BRAND.equals("Meizu")) {
             body.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
+        //趣拍初始化
         if (isqupai) {
             livePush = new LivePush();
             livePush.setWatermark(watemarkUrl, 14, 65, 1);
             livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;
+        //屏幕的计算
         int statusBarHeight = ScreenUtils.getStatusHeight(this);
         ViewGroup.LayoutParams params2 = body.getLayoutParams();
         params2.height = App.screenDpx.heightPixels - statusBarHeight;
@@ -679,14 +682,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 if (resultCode == 0) {
                     if (giftModel.type == 6) {//收礼物消息，礼物接受者
                         //加币
-                        CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
+                        CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                         //记录金币数量
                         roomModel.addLivecoin(callFragment.getGiftCoinToId(giftModel.giftid) * giftModel.number);
                     } else if (giftModel.type == 61) {//发送礼物消息。发送者消息结果，
                         //减币
-                        CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
+                        CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
                     }
                     Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
                     switch (giftModel.giftid) {
@@ -1145,7 +1148,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * @param rtmpUrl url
      * @param event   event
      */
-    public OnLiveListener onLiveListener = new OnLiveListener() {
+    private OnLiveListener onLiveListener = new OnLiveListener() {
         @Override
         public void onLiveCallback(String s, int event) {
             DebugLogs.e("rtmp event" + event);
@@ -1192,7 +1195,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     /**
      * 观看的人 回调
      */
-    public OnPlayListener onPlayListener = new OnPlayListener() {
+    private OnPlayListener onPlayListener = new OnPlayListener() {
         @Override
         public void onPlayCallback(String rtmpUrl, int event) {
             switch (event) {
