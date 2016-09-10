@@ -100,6 +100,7 @@
                 android:paddingTop="2dp"
                 android:textColor="@color/color_ffffff"
                 android:textSize="12sp"
+                android:visibility="gone"
                 tools:ignore="RtlHardcoded" />
 
             <View
@@ -113,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:format="%s"
                 android:layout_marginRight="16dp"
-                android:gravity="center"
+                android:gravity="top"
                 android:textColor="@color/color_80ffffff"
                 android:textSize="14sp"
                 tools:ignore="RtlHardcoded" />

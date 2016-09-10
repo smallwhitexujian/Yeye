@@ -34,7 +34,6 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.Map;
@@ -185,7 +184,6 @@ public class LiveFinishActivity extends BaseActivity {
                 BasicUserInfoDBModel basicUserInfoDBModel = (BasicUserInfoDBModel) msg.obj;
                 int fans_num = Integer.valueOf(basicUserInfoDBModel.fansNum) - Integer.valueOf(model.fansNum);
                 fansNum.setText(String.valueOf(fans_num));
-                DebugLogs.d("----------->" + fans_num);
                 break;
         }
     }

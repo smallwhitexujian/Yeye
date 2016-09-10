@@ -160,6 +160,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
+        diamondsStr.setVisibility(View.VISIBLE);
         diamondsStr.setText(String.format(getString(R.string.Coins),diamonds));
     }
 
