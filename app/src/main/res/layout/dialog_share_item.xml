@@ -8,33 +8,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:layout_alignParentBottom="true"
-        android:background="#90ffffff"
+        android:background="@color/color_80000000"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/font_black"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/font_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
-
 
             <LinearLayout
                 android:id="@+id/ly_wechat"
@@ -58,7 +43,7 @@
                     android:layout_marginTop="3dp"
                     android:gravity="center_horizontal"
                     android:text="@string/share_we_chat"
-                    android:textColor="@color/font_black"
+                    android:textColor="@color/font_line"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -84,7 +69,7 @@
                     android:layout_marginTop="3dp"
                     android:gravity="center_horizontal"
                     android:text="@string/share_we_chat_pyq"
-                    android:textColor="@color/font_black"
+                    android:textColor="@color/font_line"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -136,12 +121,11 @@
                     android:layout_marginTop="3dp"
                     android:gravity="center_horizontal"
                     android:text="facebook"
-                    android:textColor="@color/font_black"
+                    android:textColor="@color/font_line"
                     android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -202,5 +186,22 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:alpha="20"
+            android:background="@color/font_grey" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/font_line" />
     </LinearLayout>
+
+
 </RelativeLayout>
