@@ -64,8 +64,10 @@ public class CommChooseDialog {
             tips.setText(String.format(context.getString(R.string.tops_video),"10"));
         }
         if (!isLiveUser){
+            tips.setVisibility(View.GONE);
             layout_save.setVisibility(View.GONE);
         }else {
+            tips.setVisibility(View.VISIBLE);
             layout_save.setVisibility(View.VISIBLE);
         }
         iv_choose.setOnClickListener(new View.OnClickListener() {
