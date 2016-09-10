@@ -300,7 +300,7 @@ public class ProfileActivity extends HeaderBaseActivity {
 
                         }
                     });
-                    qiNiuUpload.doUpload(model.userid, model.token, imgPath);
+                    qiNiuUpload.doUpload(model.userid, model.token, imgPath, model.userid, "1");
                     setBackground();
                     break;
             }

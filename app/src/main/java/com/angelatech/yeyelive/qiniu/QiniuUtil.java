@@ -12,16 +12,13 @@ import java.util.Map;
 /**
  * Author: jjfly
  * Since: 2016年05月11日 09:51
- * Desc:
+ * Desc: 七牛上传
  * FIXME:
  */
 public class QiniuUtil extends HttpFunction{
-
-
     public QiniuUtil(Context context) {
         super(context);
     }
-
 
     //获取七牛凭证
     public void getQiniuCertificate(String userid, String token, HttpBusinessCallback callback){
@@ -37,6 +34,17 @@ public class QiniuUtil extends HttpFunction{
         params.put("token", token);
         params.put("userid", userid);
         params.put("type",1+"");
+        params.put("imageurl",imageurl);
+        params.put("id",id);//
+        httpGet(CommonUrlConfig.PicQiniu,params,callback);
+    }
+
+    //http://videotest.vvago.com/api/Picture/PicQiniu?Token=B3B783A0A3A7E814173AAAA3F5364FD3&userid=10007&type=1&id=1&imageurl=http://123
+    public void callBusinessServer(String type ,String userid,String token,String imageurl,String id,HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userid);
+        params.put("type",type);
         params.put("imageurl",imageurl);
         params.put("id",id);//
         httpGet(CommonUrlConfig.PicQiniu,params,callback);

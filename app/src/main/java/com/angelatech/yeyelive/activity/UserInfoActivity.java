@@ -252,7 +252,7 @@ public class UserInfoActivity extends HeaderBaseActivity {
 
                         }
                     });
-                    mQiniuUpload.doUpload(model.userid, model.token, imgPath);
+                    mQiniuUpload.doUpload(model.userid, model.token, imgPath, model.userid, "1");
                     break;
                 default:
                     break;

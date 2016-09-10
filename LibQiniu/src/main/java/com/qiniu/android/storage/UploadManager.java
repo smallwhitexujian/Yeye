@@ -109,8 +109,7 @@ public final class UploadManager {
      * @param completionHandler 上传完成的后续处理动作
      * @param options           上传数据的可选参数
      */
-    public void put(String filePath, String key, String token, UpCompletionHandler completionHandler,
-                    final UploadOptions options) {
+    public void put(String filePath, String key, String token, UpCompletionHandler completionHandler,final UploadOptions options) {
         put(new File(filePath), key, token, completionHandler, options);
     }
 

@@ -83,13 +83,15 @@ public class ReadyLiveFragment extends BaseFragment {
     private Spinner spinnner;
     private BasicUserInfoDBModel liveUserModel, loginUserModel;
     private RoomModel roomModel;
-    private ImageView buttonCamera;
+    private ImageView buttonCamera,Front_cover;
 
     public interface OnCallEvents {
         //开始直播
         void onBeginLive();
 
         void onCameraSwitch();
+
+        void onCamera();
     }
 
     @Override
@@ -115,6 +117,7 @@ public class ReadyLiveFragment extends BaseFragment {
         buttonCamera = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
+        Front_cover = (ImageView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         loginUserModel = CacheDataManager.getInstance().loadUser();
         if (App.roomModel.getUserInfoDBModel() != null) {
@@ -132,6 +135,7 @@ public class ReadyLiveFragment extends BaseFragment {
         }
     }
 
+    //初始化门票功能,
     private void initTickets() {
         chatRoom.getPayTicketsList(loginUserModel.userid, loginUserModel.token, callback);
         spinnnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_spinner_gift_pop_item) {
@@ -167,7 +171,9 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_webchatmoments.setOnClickListener(this);
         btn_wechat.setOnClickListener(this);
         btn_weibo.setOnClickListener(this);
+        Front_cover.setOnClickListener(this);
         buttonCamera.setOnClickListener(this);
+
         txt_title.setText(String.format(getString(R.string.formatted_2), loginUserModel.nickname));
         txt_title.selectAll();
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
@@ -190,7 +196,7 @@ public class ReadyLiveFragment extends BaseFragment {
             }
         });
     }
-
+    //开播
     private void startLive() {
         img_location_bg.clearAnimation();
         rotateAnimation.cancel();
@@ -218,7 +224,6 @@ public class ReadyLiveFragment extends BaseFragment {
                 } else {
                     startLive();
                 }
-
                 break;
             case R.id.btn_sign_on_location:
                 isLocation = !isLocation;
@@ -264,6 +269,9 @@ public class ReadyLiveFragment extends BaseFragment {
                 break;
             case R.id.button_call_switch_camera:
                 callEvents.onCameraSwitch();
+                break;
+            case R.id.Front_cover:
+                callEvents.onCamera();
                 break;
         }
     }
@@ -372,6 +380,10 @@ public class ReadyLiveFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         callEvents = (OnCallEvents) context;
+    }
+
+    public void setPhoto(Uri uri){
+        Front_cover.setImageURI(uri);
     }
 
     /**

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.angelatech.yeyelive.CommonResultCode;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
@@ -45,15 +47,19 @@ import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.qiniu.QiniuUpload;
 import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.LivePush.LivePush;
+import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
+import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.CommChooseDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
@@ -78,6 +84,7 @@ import org.cocos2dx.lib.util.Cocos2dxGiftCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +139,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
     private Chronometer timer;
+    private QiniuUpload qiNiuUpload;
+    private PictureObtain mObtain;
+    private Uri distUri;
+    private String imgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,7 +221,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         mAbSlidingTabView = (ViewPager) findViewById(R.id.mAbSlidingTabView);
         room_guide.setOnClickListener(this);
         button_call_disconnect.setOnClickListener(this);
-        timer = (Chronometer)findViewById(R.id.chronometer);
+        timer = (Chronometer) findViewById(R.id.chronometer);
+        qiNiuUpload = new QiniuUpload(this);
+        mObtain = new PictureObtain();
     }
 
     public void onClick(View v) {
@@ -328,10 +341,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         title = getString(R.string.live_time_short);
                     }
                 }
-                dialog.dialog(this, title, true, isShowSave, callback,userModel);
+                dialog.dialog(this, title, true, isShowSave, callback, userModel);
             } else {
                 isShowSave = false;
-                dialog.dialog(this, getString(R.string.quit_room), true, isShowSave, callback,userModel);
+                dialog.dialog(this, getString(R.string.quit_room), true, isShowSave, callback, userModel);
             }
         }
     }
@@ -412,6 +425,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             socketConfig.setHost(roomModel.getIp());
             socketConfig.setPort(roomModel.getPort());
             serviceManager = new ServiceManager(this, socketConfig, roomModel.getId(), uiHandler, userModel);
+            if (imgPath != null) {
+                UpDataPhoto(imgPath,String.valueOf(roomModel.getId()));
+            }
         } else {
             ToastUtils.showToast(this, getString(R.string.login_room_fail));
         }
@@ -784,6 +800,78 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CommonResultCode.SET_ADD_PHOTO_CAMERA:
+                    //拍照
+                    distUri = mObtain.obtainUrl();
+                    mObtain.notifyChange(this, mObtain.getUri(this));
+                    mObtain.cropBig(this, mObtain.getUri(this), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 800, 800);
+                    break;
+                case CommonResultCode.SET_ADD_PHOTO_ALBUM:
+                    //从相册获取
+                    if (data != null) {
+                        distUri = mObtain.obtainUrl();
+                        mObtain.cropBig(this, data.getData(), distUri, CommonResultCode.REQUEST_CROP_PICTURE, 800, 800);
+                    }
+                    break;
+                case CommonResultCode.REQUEST_CROP_PICTURE:
+                    //裁剪后的图片
+                    String path = mObtain.getRealPathFromURI(this, distUri);
+                    if (!new File(path).exists()) {
+                        return;
+                    }
+                    try {
+                        Bitmap bitmap = mObtain.getimage(path);
+                        imgPath = mObtain.saveBitmapFile(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    readyLiveFragment.setPhoto(UriHelper.fromFile(imgPath));
+                    //UpDataPhoto(imgPath);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 上传服务器
+     *
+     * @param imgPath 图像地址;
+     */
+    private void UpDataPhoto(String imgPath,String id) {
+        qiNiuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
+            @Override
+            public void onUpTokenError() {
+
+            }
+
+            @Override
+            public void onUpQiniuError() {
+                ToastUtils.showToast(ChatRoomActivity.this, getString(R.string.upload_photo_error));
+            }
+
+            @Override
+            public void onCallServerError() {
+
+            }
+
+            @Override
+            public void onUpQiniuSuc(String key) {
+            }
+
+            @Override
+            public void onUpProgress(String key, double percent) {
+
+            }
+        });
+        qiNiuUpload.doUpload(userModel.userid, userModel.token, imgPath, id, "2");
+    }
+
     /**
      * 开始播放大礼物特效
      */
@@ -815,6 +903,29 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         } else {
             MediaCenter.switchCamera();
         }
+    }
+
+    @Override
+    public void onCamera() {
+        new ActionSheetDialog(this)
+                .builder()
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true)
+                .addSheetItem(getString(R.string.camera), ActionSheetDialog.SheetItemColor.BLACK_222222,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                mObtain.dispatchTakePictureIntent(ChatRoomActivity.this, CommonResultCode.SET_ADD_PHOTO_CAMERA);
+                            }
+                        })
+                .addSheetItem(getString(R.string.album), ActionSheetDialog.SheetItemColor.BLACK_222222,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                mObtain.getLocalPicture(ChatRoomActivity.this, CommonResultCode.SET_ADD_PHOTO_ALBUM);
+                            }
+                        }).show();
+        readyLiveFragment.closekeybord();
     }
 
     //发送私人消息

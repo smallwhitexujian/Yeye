@@ -10,6 +10,7 @@ import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.QiniuTokenModel;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StringHelper;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.out.QiniuSimpleManager;
@@ -102,8 +103,8 @@ public class QiniuUpload implements CommonDoHandler {
         mQiniuSimpleManager.upPhoto(mQiniuToken, data, key, upCompletionHandler, uploadOptions);
     }
 
-    private void callWebServer(String userid, String token, String imageName, String id) {
-        mHandler.post(new CallServerTask(userid, token, imageName, id));
+    private void callWebServer(String userid, String token, String imageName, String id,String type) {
+        mHandler.post(new CallServerTask(userid, token, imageName, id,type));
     }
 
 
@@ -111,14 +112,14 @@ public class QiniuUpload implements CommonDoHandler {
         mHandler.post(new CertificateTask(userid, token, data, key, upCompletionHandler));
     }
 
-    public void doUpload(final String userid, final String token, final String data, String key) {
+    public void doUpload(final String userid, final String token, final String data, String key,final String id,final String type) {
         UpCompletionHandler upCompletionHandler = new SimpleUpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
                 mQiniuToken = null;//每次调用一边就清空
                 Log.e("QiniuProxy", "====" + key +"====="+data+"======"+ info.toString() + "====" + response);
                 DebugLogs.e("=====" +info.toString());
-                if(info != null && info.isOK()){
+                if(info.isOK()){
                     if (response == null) {
                         if(mQiniuResultCallback != null){
                             mQiniuResultCallback.onUpQiniuError();
@@ -128,7 +129,7 @@ public class QiniuUpload implements CommonDoHandler {
                             //{"error":"file exists"}
                             String hash = response.getString("hash");
                             String keyStr = response.getString("key");
-                            callWebServer(userid, token, key, userid);
+                            callWebServer(userid, token, key, id,type);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -145,21 +146,15 @@ public class QiniuUpload implements CommonDoHandler {
     }
 
 
-    public void doUpload(String userid, String token, String data, UpCompletionHandler upCompletionHandler) {
+    public void doUpload(String userid, String token, String data,String id,String type) {
         //随便传递一个key值
-        doUpload(userid,token,data,"",upCompletionHandler);
-    }
-
-    public void doUpload(String userid, String token, String data) {
-        //随便传递一个key值
-        doUpload(userid,token,data,"");
+        doUpload(userid,token,data,"",id ,type);
     }
 
 
     private class CertificateTask implements Runnable {
         private String mUserId;//用户id
         private String mToken;//用户token
-
         private String mSrcFilePath;//
         private String mKey;//
         private UpCompletionHandler mUpCompletionHandler;
@@ -195,7 +190,7 @@ public class QiniuUpload implements CommonDoHandler {
                     CommonParseModel<QiniuTokenModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<QiniuTokenModel>>() {
                     }.getType());
                     if (result != null) {
-                        if (mQiniuUtil.isSuc(result.code)) {
+                        if (HttpFunction.isSuc(result.code)) {
                             DebugLogs.e("=====" + result.data);
                             if(result.data != null ){
                                 String suffix = StringHelper.getExtensionName(mSrcFilePath);
@@ -225,15 +220,16 @@ public class QiniuUpload implements CommonDoHandler {
     private class CallServerTask implements Runnable {
         private String mUserId;
         private String mToken;
-
+        private String upType;
         private String mImageName;
         private String mId;
 
-        public CallServerTask(String userId, String token, String imageName, String id) {
+        public CallServerTask(String userId, String token, String imageName, String id,String type) {
             this.mUserId = userId;
             this.mToken = token;
             this.mImageName = imageName;
             this.mId = id;
+            this.upType = type;
         }
 
         @Override
@@ -248,16 +244,15 @@ public class QiniuUpload implements CommonDoHandler {
                 public void onSuccess(String response) {
                     DebugLogs.e("====" + response);
                     Map map = JsonUtil.fromJson(response, Map.class);
-                    if (mQiniuUtil.isSuc((String) map.get("code"))) {
+                    if (HttpFunction.isSuc((String) map.get("code"))) {
                         mHandler.obtainMessage(MSG_UPLOAD_SUC,map.get("data")).sendToTarget();
-
                     }
                     else {
                         onBusinessFaild((String) map.get("code"));
                     }
                 }
             };
-            mQiniuUtil.callBusinessServer(mUserId, mToken, mImageName, mId, businessCallback);
+            mQiniuUtil.callBusinessServer(upType,mUserId, mToken, mImageName, mId, businessCallback);
         }
 
     }

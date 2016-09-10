@@ -83,9 +83,9 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     }
 
     private void setView() {
-        if (otherId == null){
+        if (otherId == null) {
             headerLayout.showTitle(getString(R.string.activity_title_video));
-        }else{
+        } else {
             headerLayout.showTitle(getString(R.string.activity_video));
         }
         headerLayout.showLeftBackButton();
@@ -122,7 +122,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         list_view_user_videos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                if (otherId == null){
+                if (otherId == null) {
                     layout_delete.setVisibility(View.VISIBLE);
                 }
                 itemPosition = position;
@@ -150,15 +150,15 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         loginUser = CacheDataManager.getInstance().loadUser();
         playRecord = new PlayRecord(this);
         swipyRefreshLayout.setRefreshing(true);
-        if(otherId == null){
+        if (otherId == null) {
             playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
-        }else{
+        } else {
             playRecord.getUserRecord(loginUser.userid, loginUser.token, String.valueOf(otherId), pageSize, pageIndex, callback);
         }
-        if (loginUser.isv.equals("1")){
-            tops.setText(String.format(getString(R.string.tops_video),"50"));
-        }else{
-            tops.setText(String.format(getString(R.string.tops_video),"10"));
+        if (loginUser.isv.equals("1")) {
+            tops.setText(String.format(getString(R.string.tops_video), "50"));
+        } else {
+            tops.setText(String.format(getString(R.string.tops_video), "10"));
         }
     }
 
@@ -313,7 +313,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
                         }
                     });
-                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, path);
+                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, path, loginUser.userid, "3");
                     break;
             }
         }
