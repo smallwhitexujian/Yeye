@@ -31,7 +31,7 @@
     <string name="phone_login_title">手机登录</string>
     <string name="phone_login_country_area">国家地区</string>
     <string name="phone_login_next_step">下一步</string>
-    <string name="phone_login_default_country">中国</string>
+    <string name="phone_login_default_country">马来西亚</string>
     <string name="phone_login_default_country_area_num">60</string>
     <string name="phone_login_illegal_phone">手机号码错误</string>
     <string name="phone_login_area_prefix">+</string>
