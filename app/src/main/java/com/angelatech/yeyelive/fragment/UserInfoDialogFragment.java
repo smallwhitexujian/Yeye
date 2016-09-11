@@ -318,6 +318,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.recharge_btn://录播
+                if (App.chatRoomApplication != null) {
+                    callBack.closeLive();
+                }
                 StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
                 dismiss();
                 break;
