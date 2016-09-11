@@ -58,7 +58,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserInfoDialogFragment extends DialogFragment implements View.OnClickListener, CommonDoHandler {
-    public static final int MSG_DISMISS = 0xff;
+    private static final int MSG_DISMISS = 0xff;
     private static final int MSG_LOAD_SUC = 1;
     private final int MSG_SET_FOLLOW = 5;
     private final int MSG_LOAD_STATUS = 6;
