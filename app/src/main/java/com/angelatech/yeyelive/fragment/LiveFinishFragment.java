@@ -1,10 +1,12 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
@@ -26,7 +29,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 /**
  * 直播结束页面
  * 观看者结束界面
- *
  */
 public class LiveFinishFragment extends DialogFragment implements View.OnClickListener {
     private Button btn_close;
@@ -45,6 +47,17 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
         view = inflater.inflate(R.layout.activity_live_finish, container, false);
         initView();
         setView();
+        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (App.chatRoomApplication != null) {
+                        App.chatRoomApplication.exitRoom();
+                    }
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -100,6 +113,5 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
                 break;
         }
     }
-
 
 }

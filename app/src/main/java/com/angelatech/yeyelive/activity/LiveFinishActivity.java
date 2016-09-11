@@ -98,7 +98,7 @@ public class LiveFinishActivity extends BaseActivity {
                         ticke.setVisibility(View.VISIBLE);
                         line1.setVisibility(View.VISIBLE);
                         line2.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         ticke.setVisibility(View.GONE);
                         line1.setVisibility(View.GONE);
                         line2.setVisibility(View.GONE);
@@ -201,9 +201,11 @@ public class LiveFinishActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            ChatRoom.closeChatRoom();
+            if (App.chatRoomApplication != null) {
+                App.chatRoomApplication.exitRoom();
+            }
             finish();
         }
-        return super.onKeyDown(keyCode, event);
+        return false;
     }
 }
