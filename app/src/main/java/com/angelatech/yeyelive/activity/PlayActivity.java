@@ -57,7 +57,7 @@ import java.util.Map;
  * Date              Author          Version
  * ---------------------------------------------------------
  */
-public class PlayActivity extends BaseActivity /*implements IWeiboHandler.Response*/ {
+public class PlayActivity extends BaseActivity {
 
     private final int MSG_SET_FLLOW = 211221;
     private final int MSG_REPORT_SUCCESS = 1200;

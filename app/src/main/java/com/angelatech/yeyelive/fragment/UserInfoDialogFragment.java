@@ -23,6 +23,7 @@ import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
+import com.angelatech.yeyelive.activity.function.CommDialog;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.UserControl;
 import com.angelatech.yeyelive.activity.function.UserInfoDialog;
@@ -318,14 +319,27 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.recharge_btn://录播
-                if (App.chatRoomApplication != null) {
-                    callBack.closeLive();
-                }
-                StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
-                dismiss();
+                CommDialog.Callback callback =new CommDialog.Callback() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onOK() {
+                        if (App.chatRoomApplication != null) {
+                            App.chatRoomApplication.exitRoom();
+                        }
+                        StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                        dismiss();
+                    }
+                };
+                CommDialog commDialog = new CommDialog();
+                commDialog.CommDialog(getActivity(),getString(R.string.finish_room),true,callback);
                 break;
         }
     }
+
 
     @Override
     public void doHandler(Message msg) {
