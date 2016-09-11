@@ -170,10 +170,6 @@ public class LivePush {
         }
     }
 
-    public void setResolution(Context context) {
-
-    }
-
     /**
      * 直播开始之前的配置 竖屏 后摄像头 分辨率
      * 参数设定完成之后获取直播地址

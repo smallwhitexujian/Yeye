@@ -83,7 +83,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private Spinner spinnner;
     private BasicUserInfoDBModel liveUserModel, loginUserModel;
     private RoomModel roomModel;
-    private ImageView buttonCamera,Front_cover;
+    private ImageView buttonCamera, Front_cover;
 
     public interface OnCallEvents {
         //开始直播

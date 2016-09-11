@@ -187,31 +187,6 @@
             android:padding="10dp"
             android:src="@drawable/btn_start_play_switch_camera" />
 
-        <LinearLayout
-            android:id="@+id/Linear_Resolving"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="80dp"
-            android:background="@color/color_30000000"
-            android:gravity="center_vertical"
-            android:paddingLeft="14dp"
-            android:paddingRight="10dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/resolution"
-                android:textColor="@color/color_white" />
-
-            <Spinner
-                android:id="@+id/spinner_Resolving"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/Front_cover"

@@ -226,18 +226,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         mObtain = new PictureObtain();
     }
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.room_guide:
-                room_guide.setVisibility(View.GONE);
-                SPreferencesTool.getInstance().putValue(this, SPreferencesTool.room_guide_key, false);
-                break;
-            case R.id.button_call_disconnect:
-                CloseLiveDialog();
-                break;
-        }
-    }
-
     private void findView() {
         if (App.roomModel.getUserInfoDBModel() != null) {
             roomModel = App.roomModel;
@@ -291,6 +279,18 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             } else {
                 camera_surface.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.room_guide:
+                room_guide.setVisibility(View.GONE);
+                SPreferencesTool.getInstance().putValue(this, SPreferencesTool.room_guide_key, false);
+                break;
+            case R.id.button_call_disconnect:
+                CloseLiveDialog();
+                break;
         }
     }
 
