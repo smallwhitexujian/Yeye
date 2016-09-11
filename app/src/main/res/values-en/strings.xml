@@ -358,7 +358,7 @@
     <string name="dialog_coin_lack_of_balance">Your coins is not enough, top up now</string>
     <string name="tickets">tickets:</string>
     <string name="resolution">resolution:</string>
-    <string name="Ticket_sales">Tickets Income</string>
+    <string name="Ticket_sales">Ticket Sales</string>
     <string name="save_live_video">Save the live show.</string>
     <string name="other_place_login_kick_out">Loged in another phone</string>
     <string name="mic_desc">The more intimacy, the better performer. Follow the artist and join your friends together!</string>
@@ -366,8 +366,8 @@
     <string name="no_camera_permission">No permission to the camera, please approve Yeye Live to access camera. </string>
     <string name="no_record_audio_permission">No permission to the microphone, please approve Yeye Live to access.</string>
     <string name="activity_video">Video</string>
-    <string name="updata_tops">System update</string>
-    <string name="updata_tops_content">New version available, update now? \n</string>
+    <string name="updata_tops">New Version</string>
+    <string name="updata_tops_content">Please install the NEW VERSION! \n</string>
     <string name="updata_progress">Upgrading, please wait…</string>
     <string name="updata_file_success">APK File downloaded successfully</string>
     <string name="tops_video" formatted="false">Only save %s latest videos. </string>
