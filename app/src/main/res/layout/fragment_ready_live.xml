@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:background="@drawable/start_live_btn_bg"
+            android:background="@drawable/startlive_btn_redbg"
             android:text="@string/btn_begin_live"
             android:textColor="@color/color_fefefe" />
 
@@ -73,9 +73,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/circular"
                     android:contentDescription="@null"
-                    android:visibility="gone"
-                    android:layout_alignParentTop="true"
-                    android:layout_toStartOf="@+id/btn_sign_on_location" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible"/>
             </RelativeLayout>
 
             <TextView
