@@ -192,7 +192,8 @@
 -keep class com.android.volley.RequestQueue$* { *; }
 -keep class com.android.volley.toolbox.HurlStack$* { *; }
 -keep class com.android.volley.toolbox.ImageLoader$* { *; }
-
+##添加混淆
+-keep class org.cocos2dx.lib.**{*;}
 
 ##okhttp
 -dontwarn okhttp3.**
