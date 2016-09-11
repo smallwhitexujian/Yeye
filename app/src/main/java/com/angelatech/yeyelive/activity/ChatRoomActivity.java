@@ -343,8 +343,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 dialog.dialog(this, title, true, isShowSave, callback, userModel);
             } else {
-                isShowSave = false;
-                dialog.dialog(this, getString(R.string.quit_room), true, isShowSave, callback, userModel);
+                dialog.dialog(this, getString(R.string.quit_room), true, false, callback, userModel);
             }
         }
     }

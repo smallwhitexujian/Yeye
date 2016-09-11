@@ -305,7 +305,7 @@ public class PlayActivity extends BaseActivity {
     /**
      * 举报 回调函数
      */
-    HttpBusinessCallback reportBack = new HttpBusinessCallback() {
+    private HttpBusinessCallback reportBack = new HttpBusinessCallback() {
         @Override
         public void onSuccess(String response) {
             uiHandler.sendEmptyMessage(MSG_REPORT_SUCCESS);
@@ -320,7 +320,6 @@ public class PlayActivity extends BaseActivity {
     //接受回调
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 

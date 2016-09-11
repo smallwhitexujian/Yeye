@@ -319,23 +319,28 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.recharge_btn://录播
-                CommDialog.Callback callback =new CommDialog.Callback() {
-                    @Override
-                    public void onCancel() {
+                if (App.chatRoomApplication != null){
+                    CommDialog.Callback callback =new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
 
-                    }
-
-                    @Override
-                    public void onOK() {
-                        if (App.chatRoomApplication != null) {
-                            App.chatRoomApplication.exitRoom();
                         }
-                        StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
-                        dismiss();
-                    }
-                };
-                CommDialog commDialog = new CommDialog();
-                commDialog.CommDialog(getActivity(),getString(R.string.finish_room),true,callback);
+
+                        @Override
+                        public void onOK() {
+                            if (App.chatRoomApplication != null) {
+                                App.chatRoomApplication.exitRoom();
+                            }
+                            StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                            dismiss();
+                        }
+                    };
+                    CommDialog commDialog = new CommDialog();
+                    commDialog.CommDialog(getActivity(),getString(R.string.finish_room),true,callback);
+                }else{
+                    StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                    dismiss();
+                }
                 break;
         }
     }
@@ -564,7 +569,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     }
 
     private void doFocus(final String fuserid, final String isfollow) {
-
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
