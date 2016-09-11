@@ -115,7 +115,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
     private ChatLineAdapter<ChatLineModel> mAdapter;
-
     private RelativeLayout ly_gift_view;                                                            //礼物特效view
     private TextView numText, numText1;                                                             //礼物数量  阴影
     private TextView txt_from_user;                                                  //发送礼物的人，礼物名称
@@ -123,18 +122,14 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private Animation translateAnimation_in, translateAnimation_out, translate_in, scaleAnimation;  //礼物特效
 
     private boolean giftA = false;                                                                  //礼物特效播放状态
-
     private boolean isRun = false;
     private boolean isTimeCount = true;                                 // 是否打开倒计时
     private boolean isTimeCount2 = true;                                 // 是否打开倒计时
     private long lastClick;                                             // 点赞点击事件
     private int count = 0;                                              // 统计点赞次数
-
     private TimeCount timeCount;
-
     private ViewPager viewPager;
     private List<GridView> gridViews = new ArrayList<>();
-
     private int GridViewIndex = 0;
     private int GridViewLastIndex = -1;
     private int GridViewItemIndex = 0;
@@ -160,7 +155,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     public void setDiamonds(String diamonds) {
         gift_Diamonds.setText(diamonds);
-        diamondsStr.setVisibility(View.VISIBLE);
+        if (liveUserModel.userid.equals(userModel.userid)) {
+            diamondsStr.setVisibility(View.VISIBLE);
+        }else{
+            diamondsStr.setVisibility(View.GONE);
+        }
         diamondsStr.setText(String.format(getString(R.string.Coins),diamonds));
     }
 
