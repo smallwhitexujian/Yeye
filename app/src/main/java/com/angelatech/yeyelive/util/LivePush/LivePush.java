@@ -63,7 +63,7 @@ public class LivePush {
     private boolean screenOrientation = false;          // 横竖屏
     private int cameraFrontFacing = 0;                  // 前后摄像头
     private int videoResolution = DQLiveMediaFormat.OUTPUT_RESOLUTION_360P;//分辨率
-    private DQLiveWatermark mWatermark = null;                 // 水印
+    private DQLiveWatermark mWatermark = null;          // 水印
     private DQLiveMediaRecorder mMediaRecorder;
     private Surface mPreviewSurface;
     private String liveUrl;                             //播放地址
@@ -170,6 +170,10 @@ public class LivePush {
         }
     }
 
+    public void setResolution(Context context) {
+
+    }
+
     /**
      * 直播开始之前的配置 竖屏 后摄像头 分辨率
      * 参数设定完成之后获取直播地址
@@ -249,11 +253,11 @@ public class LivePush {
     }
 
     public void onDestroy() {
-        try{
+        try {
             if (mMediaRecorder != null) {
                 mMediaRecorder.release();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -356,7 +360,7 @@ public class LivePush {
     private OnRecordStatusListener mRecordStatusListener = new OnRecordStatusListener() {
         @Override
         public void onDeviceAttach() {
-            if(mMediaRecorder !=null){
+            if (mMediaRecorder != null) {
                 mMediaRecorder.addFlag(DQLiveMediaFormat.FLAG_AUTO_FOCUS_ON);
             }
         }
@@ -417,7 +421,7 @@ public class LivePush {
                     break;
                 case DQLiveStatusCode.STATUS_CONNECTION_CLOSED:
                     DebugLogs.i("Live stream connection is closed!");
-                    if(mMediaRecorder !=null){
+                    if (mMediaRecorder != null) {
                         mMediaRecorder.stopRecord();
                     }
                     break;

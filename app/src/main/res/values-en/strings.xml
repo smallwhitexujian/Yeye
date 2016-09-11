@@ -357,6 +357,7 @@
     <string name="dialog_go_play">Pay Now</string>
     <string name="dialog_coin_lack_of_balance">Your coins is not enough, top up now</string>
     <string name="tickets">tickets:</string>
+    <string name="resolution">resolution:</string>
     <string name="Ticket_sales">Tickets Income</string>
     <string name="save_live_video">Save the live show.</string>
     <string name="other_place_login_kick_out">Loged in another phone</string>

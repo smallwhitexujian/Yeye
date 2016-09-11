@@ -356,7 +356,7 @@
     <string name="change_password_no_permissions">第三方登录不能修改密码</string>
     <string name="tickets">门票:</string>
     <string name="Ticket_sales">门票收入</string>
-
+    <string name="resolution">分辨率:</string>
     <string name="dialog_tickets">本场直播需要购买门票</string>
     <string name="dialog_go_play">马上去支付</string>
     <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
