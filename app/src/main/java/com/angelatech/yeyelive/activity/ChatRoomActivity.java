@@ -420,14 +420,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         } else {
             room_guide.setVisibility(View.GONE);
         }
+        if (imgPath != null) {
+            UpDataPhoto(imgPath,String.valueOf(roomModel.getId()));
+        }
         if (serviceManager == null && roomModel.getIp() != null && roomModel.getPort() != 0) {
             SocketConfig socketConfig = new SocketConfig();
             socketConfig.setHost(roomModel.getIp());
             socketConfig.setPort(roomModel.getPort());
             serviceManager = new ServiceManager(this, socketConfig, roomModel.getId(), uiHandler, userModel);
-            if (imgPath != null) {
-                UpDataPhoto(imgPath,String.valueOf(roomModel.getId()));
-            }
         } else {
             ToastUtils.showToast(this, getString(R.string.login_room_fail));
         }
