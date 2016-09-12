@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -28,10 +29,12 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -58,6 +61,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     private final int MSG_VIDEO_LIST_NODATA = 2;
     private final int MSG_DELETE_VIDEO_SUCCESS = 3;
     private final int MSG_DELETE_VIDEO_ERROR = 4;
+    private final int MSG_UP_COVER_SUCCESS = 5;
     private final int MSG_NO_MORE = 9;
     private CommonAdapter<LiveVideoModel> adapter;
     private SwipyRefreshLayout swipyRefreshLayout;
@@ -71,6 +75,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
     private Uri distUri;
     private TextView tops;
     private QiniuUpload qiNiuUpload;
+    private String imgPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +144,11 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
             public void convert(ViewHolder helper, LiveVideoModel item, int position) {
                 if (item.type == LiveVideoModel.TYPE_RECORD) { //录像
                     VideoModel model = (VideoModel) item;
-                    helper.setImageViewByImageLoader1(R.id.iv_cover, model.barcoverurl);
+                    if (model.barcoverurl.contains("http")){
+                        helper.setImageViewByImageLoader1(R.id.iv_cover, model.barcoverurl);
+                    }else{
+                        helper.setImageViewByImageLoader1(R.id.iv_cover, String.valueOf(UriHelper.fromFile(model.barcoverurl)));
+                    }
                     helper.setText(R.id.tv_title, model.introduce);
                     helper.setText(R.id.tv_video_time, model.addtime);
                     helper.setText(R.id.tv_play_num, model.playnum);
@@ -215,6 +224,10 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 layout_delete.setVisibility(View.GONE);
                 ToastUtils.showToast(this, getString(R.string.video_delete_error));
                 break;
+            case MSG_UP_COVER_SUCCESS:
+                list.get(itemPosition).barcoverurl = (String) msg.obj;
+                adapter.setData(list);
+                break;
         }
     }
 
@@ -279,14 +292,18 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                     break;
                 case CommonResultCode.REQUEST_CROP_PICTURE:
                     //裁剪后的图片
-                    String path = mObtain.getRealPathFromURI(this, distUri);
+                    final String path = mObtain.getRealPathFromURI(this, distUri);
                     if (!new File(path).exists()) {
                         return;
                     }
-                    list.get(itemPosition).barcoverurl = path;
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
+                    try {
+                        Bitmap bitmap = mObtain.getimage(path);
+                        imgPath = mObtain.saveBitmapFile(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    list.get(itemPosition).barcoverurl = imgPath;
+                    adapter.setData(list);
                     qiNiuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
                         @Override
                         public void onUpTokenError() {
@@ -306,17 +323,15 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
                         @Override
                         public void onUpQiniuSuc(String key) {
-                            if (adapter != null) {
-                                adapter.notifyDataSetChanged();
-                            }
+                            uiHandler.obtainMessage(MSG_UP_COVER_SUCCESS, imgPath).sendToTarget();
                         }
 
                         @Override
                         public void onUpProgress(String key, double percent) {
-
+                            DebugLogs.d("-----进度条---->"+percent);
                         }
                     });
-                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, path, String.valueOf(videoId), "3");
+                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, imgPath, String.valueOf(videoId), "3");
                     break;
             }
         }

@@ -9,7 +9,6 @@
         android:id="@+id/ly_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -26,6 +25,8 @@
             android:gravity="center"
             android:hint="@string/begin_live_title"
             android:maxLength="60"
+            android:layout_above="@+id/btn_start"
+            android:layout_marginBottom="50dp"
             android:textColor="#FEFEFE"
             android:textColorHint="@color/color_fefefe"
             android:textSize="20sp" />
@@ -205,9 +206,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/Front_cover"
+            android:layout_marginTop="4dp"
             android:layout_centerHorizontal="true"
             android:text="@string/last_cover"
             android:textColor="@color/color_66000000"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
     </RelativeLayout>
 </RelativeLayout>

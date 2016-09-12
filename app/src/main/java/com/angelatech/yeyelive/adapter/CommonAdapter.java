@@ -28,6 +28,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
     public void setData(List<T> listData) {
         this.listData = listData;
+        notifyDataSetChanged();
     }
 
     @Override
