@@ -65,6 +65,8 @@
     <string name="button_Reconnection">重连</string>
     <string name="reply">回复</string>
     <string name="moment_details">评论</string>
+    <string name="end_live">结束直播</string>
+    <string name="set_network">设置网络</string>
     <string name="moment">广场</string>
     <string name="comment">评论</string>
     <string name="people">他/她</string>

@@ -32,9 +32,9 @@ public class RoomConnectHandle extends SocketConnectHandle {
 
     @Override
     public void retryOverlimit(int i) {
-//            if(i > 5){
-//                mRoomHandler.sendEmptyMessage(GlobalDef. SERVICE_STATUS_FAILD);
-//            }
+//        if (i > 5) {
+//            mRoomHandler.sendEmptyMessage(GlobalDef.SERVICE_STATUS_FAILD);
+//        }
     }
 
     @Override

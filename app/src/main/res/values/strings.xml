@@ -57,8 +57,7 @@
     <string name="button_send">Send</string>
     <string name="button_finish">Finish</string>
     <string name="button_new_user">Register</string>
-  <string name="button_login">Login
-</string>
+    <string name="button_login">Login</string>
     <string name="button_private_chat">Private Chat</string>
     <string name="button_top_up">Top Up</string>
     <string name="button_top_up_submit">Confirm Purchase</string>
@@ -67,6 +66,8 @@
     <string name="button_yes">Agree</string>
     <string name="button_disagree">Reject</string>
     <string name="button_Reconnection">Reconnect</string>
+    <string name="end_live">End live</string>
+    <string name="set_network">Set network</string>
     <string name="reply">Reply</string>
     <string name="moment_details">Comment</string>
     <string name="moment">Square</string>

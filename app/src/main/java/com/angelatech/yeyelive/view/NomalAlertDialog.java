@@ -36,6 +36,10 @@ public class NomalAlertDialog {
     }
 
     public void alwaysShow(final Context context,String title,String msg,String strBtnOk,String strBtnCancel,final HandlerDialog handlerDialog){
+        if (dialog != null){
+            dialog.dismiss();
+            dialog.cancel();
+        }
         dialog = new AlertDialog.Builder(context).setTitle(title)// 设置标题
                 .setMessage(msg)// 设置内容
                 .setPositiveButton(strBtnOk,// 设置确定按钮

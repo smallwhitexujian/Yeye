@@ -60,6 +60,9 @@ public class IService extends Service {
                 @Override
                 public void onInactive() {
                     mIServiceInterface.handleNetworkInactive();
+                    if (mRoomHandler != null) {
+                        mRoomHandler.obtainMessage(IServiceValues.NETWORK_FAILD).sendToTarget();
+                    }
                 }
             });
         }

@@ -140,6 +140,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private PictureObtain mObtain;
     private Uri distUri;
     private String imgPath;
+    private boolean isNetWork = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -377,7 +378,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 restartConnection();
             }
         };
-        commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback);
+        commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
     }
 
     /**
@@ -440,12 +441,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (connectionServiceNumber < 5) {
             if (NetWorkUtil.isNetworkConnected(this) && serviceManager != null) {
                 serviceManager.connectionService();
+                isNetWork = true;
             } else {
+                isNetWork = false;
                 noNetWork();
             }
         } else {
             //五次还是连不上就退出房间
-            peerDisConnection(getString(R.string.room_net_toast_error));
+            peerDisConnection(getString(R.string.room_net_toast));
         }
     }
 
@@ -455,7 +458,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private void noNetWork() {
         if (!this.isFinishing()) {
             new NomalAlertDialog().alwaysShow(this, getString(R.string.setting_network),
-                    getString(R.string.not_network), getString(R.string.ok), getString(R.string.cancel),
+                    getString(R.string.not_network), getString(R.string.set_network), getString(R.string.end_live),
                     new NomalAlertDialog.HandlerDialog() {
                         @Override
                         public void handleOk() {
@@ -464,7 +467,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
                         @Override
                         public void handleCancel() {
-                            exitRoom();
+                            peerDisConnection(getString(R.string.room_net_toast));
                         }
                     }
             );
@@ -475,10 +478,15 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     public void doHandler(final Message msg) {
         switch (msg.what) {
             case IServiceValues.NETWORK_SUCCESS:
+                isNetWork = true;
                 if (!boolConnRoom) {
                     connectionServiceNumber = 0;
                     restartConnection();
                 }
+                break;
+            case IServiceValues.NETWORK_FAILD:
+                boolConnRoom = false;
+                noNetWork();
                 break;
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
                 exitRoom();
@@ -1007,6 +1015,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (isqupai) {
             livePush.onResume();
         }
+        if (!isNetWork){
+            restartConnection();
+        }
         super.onResume();
     }
 
@@ -1031,8 +1042,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             serviceManager.quitRoom();
             serviceManager = null;
         }
-        if (liveUserModel != null && userModel != null &&
-                !liveUserModel.userid.equals(userModel.userid)) {
+        if (liveUserModel != null && userModel != null && !liveUserModel.userid.equals(userModel.userid)) {
             MediaCenter.destoryPlay();
         } else {
             MediaCenter.destoryLive();
@@ -1051,16 +1061,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 CommDialog commDialog = new CommDialog();
                 CommDialog.Callback callback = new CommDialog.Callback() {
                     @Override
-                    public void onCancel() {
-                        isCloseLiveDialog = false;
-                        if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                            StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
-                        }
-                        exitRoom();
-                    }
-
-                    @Override
-                    public void onOK() {
+                    public void onCancel() {//拒绝
                         //如果是直播，发送下麦通知
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
@@ -1069,7 +1070,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                                 readyLiveFragment.closekeybord();
                             }
                         }
+                        isCloseLiveDialog = false;
                         exitRoom();
+                    }
+
+                    @Override
+                    public void onOK() {//重连
+                        restartConnection();
                     }
                 };
                 if (!isCloseLiveDialog) {
@@ -1078,7 +1085,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     }
                     isCloseLiveDialog = true;
-                    commDialog.CommDialog(ChatRoomActivity.this, s, false, callback);
+                    commDialog.CommDialog(ChatRoomActivity.this, s, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
                 }
             }
         });
@@ -1149,7 +1156,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
                     //断线重连中
                     if (rtmpConnectNumber >= 5) {
-                        peerDisConnection(getString(R.string.room_net_toast_error));
+                        peerDisConnection(getString(R.string.room_net_toast));
                         return;
                     }
                     rtmpConnectNumber++;
@@ -1171,7 +1178,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 case MediaNative.RTMP_LIVE_CONNECT_ERROR:
                     // ToastUtils.showToast(ChatRoomActivity.this,"主播正在化妆");
                     //直播错误
-                    peerDisConnection(getString(R.string.room_net_toast_error));
+                    peerDisConnection(getString(R.string.room_net_toast));
                     break;
                 case MediaNative.RTMP_LIVE_CONNECT:
                     break;
@@ -1204,7 +1211,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 case MediaNative.RTMP_PLAY_STOP:
                     break;
                 case MediaNative.RTMP_PLAY_CONNECT_ERROR:
-                    peerDisConnection(getString(R.string.room_net_toast_error));
+                    peerDisConnection(getString(R.string.room_net_toast));
                     break;
             }
         }

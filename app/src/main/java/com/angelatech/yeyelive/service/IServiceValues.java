@@ -23,6 +23,7 @@ public class IServiceValues {
 
     //连接网络
     public static final int NETWORK_SUCCESS = CMD_VALUE_PREFIX + 5;
+    public static final int NETWORK_FAILD = CMD_VALUE_PREFIX + 6;
 
     /*************************
      * key 部分
