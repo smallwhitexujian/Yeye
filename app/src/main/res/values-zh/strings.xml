@@ -85,8 +85,8 @@
     <string name="title_activity_live_finish">LiveFinishActivity</string>
     <string name="go_in">加载中……</string>
     <!--facebook-->
-    <string name="shareTitle">来我房间吧！</string>
-    <string name="shareDescription" formatted="false">我的Yeye Live 私人电视台，看我的表演吧！下载地址: %s</string>
+    <string name="shareTitle">Yeye Live Share</string>
+    <string name="shareDescription" formatted="false">Yeye Live, Live show of talent!</string>
     <string name="success">成功.</string>
     <string name="apply_success">申请成功</string>
     <string name="successfully_posted_post">Post ID: %1$s</string>
@@ -318,7 +318,6 @@
     <string name="click_open_location">打开地理位置</string>
 
     <string name="setting_exit_dialog">确认退出该账号吗？</string>
-    <string name="share_title">I am performing in Yeye Live, Come on!</string>
     <string name="text_line_desc_now">人在看</string>
     <string name="text_line_desc_already">人看过</string>
     <string name="play_finish">播放结束</string>
@@ -369,6 +368,7 @@
     <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
     <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
     <string name="activity_video">视频</string>
+    <string name="last_cover">修改封面，默认使用上次封面!</string>
 
     <string name="updata_tops">版本更新</string>
     <string name="updata_tops_content">"有新的版本升级，是否下载安装？\n\n"</string>

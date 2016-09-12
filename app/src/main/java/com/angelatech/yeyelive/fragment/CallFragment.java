@@ -101,7 +101,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
-    private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des,diamondsStr;
+    private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
     private SimpleDraweeView img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
@@ -157,18 +157,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         gift_Diamonds.setText(diamonds);
         if (liveUserModel.userid.equals(userModel.userid)) {
             diamondsStr.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             diamondsStr.setVisibility(View.GONE);
         }
-        diamondsStr.setText(String.format(getString(R.string.Coins),diamonds));
+        diamondsStr.setText(String.format(getString(R.string.Coins), diamonds));
     }
 
     public void setLikeNum(int likeNum) {
         txt_likeNum.setText(String.valueOf(likeNum));
     }
 
-    public void setOnline(String position){
-        String num = String.valueOf(Integer.valueOf(position)-1);
+    public void setOnline(String position) {
+        String num = String.valueOf(Integer.valueOf(position) - 1);
         txt_online.setText(num);
     }
 
@@ -377,7 +377,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    public void StartChronometer(){
+    public void StartChronometer() {
         timer.setBase(SystemClock.elapsedRealtime());
         timer.start();
     }
@@ -520,7 +520,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             int k = list.size();
             for (int index = 0; index < k; index++) {
                 OnlineListModel user = list.get(index);
-                if (user != null && userId == user.uid){
+                if (user != null && userId == user.uid) {
                     return index;
                 }
             }
@@ -618,19 +618,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
-                if (App.chatRoomApplication.isqupai){
+                if (App.chatRoomApplication.isqupai) {
                     App.chatRoomApplication.livePush.OpenFace();
                     if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
                         btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
                     } else {
                         btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
                     }
-                }else{
+                } else {
                     if (bVideoFilter) {
                         btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
                         MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
@@ -642,14 +641,14 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.button_lamp://闪光灯
-                if (App.chatRoomApplication.isqupai){
+                if (App.chatRoomApplication.isqupai) {
                     App.chatRoomApplication.livePush.Openlamp();
                     if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
                         btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
                     } else {
                         btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
                     }
-                }else{
+                } else {
                     if (bFlashEnable) {
                         MediaCenter.setFlashEnable(false);
                         btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
@@ -718,8 +717,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case R.id.btn_share:
                 //facebook分享
                 ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
-                builder.setShareContent(getString(R.string.share_title), App.roomModel.getName(),
-                        CommonUrlConfig.facebookURL+"?uid=" + liveUserModel.userid,
+                String sharetitle = App.roomModel.getName();
+                if (sharetitle.equals("")) {
+                    sharetitle = getString(R.string.shareTitle);
+                }
+                builder.setShareContent(sharetitle, getString(R.string.shareDescription),
+                        CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid,
                         liveUserModel.headurl);
                 builder.RegisterCallback(null);
                 builder.create().show();

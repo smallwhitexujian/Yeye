@@ -378,7 +378,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 restartConnection();
             }
         };
-        commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+        commDialog.CommDialog(ChatRoomActivity.this.getParent(), resId, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
     }
 
     /**

@@ -17,7 +17,6 @@ import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.PlayRecord;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
-import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.mediaplayer.util.PlayerUtil;
 import com.angelatech.yeyelive.model.CommonVideoModel;
@@ -98,7 +97,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         TextView tv_cancel = (TextView) findViewById(R.id.tv_cancel);
         TextView tv_frontCover = (TextView) findViewById(R.id.tv_frontCover);
         tops = (TextView) findViewById(R.id.tops);
-        tv_frontCover.setVisibility(View.GONE);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
         tv_delete.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
@@ -126,6 +124,12 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                     layout_delete.setVisibility(View.VISIBLE);
                 }
                 itemPosition = position;
+                if (itemPosition < list.size()) {
+                    if (list.get(itemPosition).type == LiveModel.TYPE_RECORD) {
+                        VideoModel model = (VideoModel) list.get(itemPosition);
+                        videoId = Integer.parseInt(model.videoid);
+                    }
+                }
                 return true;
             }
         });
@@ -249,16 +253,13 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                                         mObtain.getLocalPicture(UserVideoActivity.this, CommonResultCode.SET_ADD_PHOTO_ALBUM);
                                     }
                                 }).show();
+                layout_delete.setVisibility(View.GONE);
                 break;
         }
     }
 
     /**
      * 接收用户返回头像参数
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
@@ -282,7 +283,10 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                     if (!new File(path).exists()) {
                         return;
                     }
-                    list.get(itemPosition).headurl = path;
+                    list.get(itemPosition).barcoverurl = path;
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
                     qiNiuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
                         @Override
                         public void onUpTokenError() {
@@ -302,10 +306,9 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
                         @Override
                         public void onUpQiniuSuc(String key) {
-                            if (key == null) {
-                                return;
+                            if (adapter != null) {
+                                adapter.notifyDataSetChanged();
                             }
-                            CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, key, loginUser.userid);
                         }
 
                         @Override
@@ -313,7 +316,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
                         }
                     });
-                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, path, loginUser.userid, "3");
+                    qiNiuUpload.doUpload(loginUser.userid, loginUser.token, path, String.valueOf(videoId), "3");
                     break;
             }
         }

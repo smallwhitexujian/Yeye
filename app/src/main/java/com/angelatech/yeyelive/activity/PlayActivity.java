@@ -260,7 +260,7 @@ public class PlayActivity extends BaseActivity {
                 case R.id.btn_share:
                     //分享组件
                     ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(PlayActivity.this, getSupportFragmentManager(), null);
-                    builder.setShareContent("【" + getString(R.string.app_name) + "】", String.format(getString(R.string.shareDescription), videoModel.nickname),
+                    builder.setShareContent(videoModel.introduce, getString(R.string.shareDescription),
                             CommonUrlConfig.facebookURL + "?uid=" + videoModel.userid + "&videoid=" + videoModel.videoid,
                             videoModel.headurl);
                     builder.create().show();

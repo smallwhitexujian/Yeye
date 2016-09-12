@@ -88,8 +88,8 @@
     <string name="title_activity_live_finish">LiveFinishActivity</string>
     <string name="go_in">Loading</string>
     <!--facebook-->
-    <string name="shareTitle">The Tile of your Yeye Channel……</string>
-    <string name="shareDescription" formatted="false">I create my own TV Station in Yeye Live,Come to Join! Download Here: %s</string>
+    <string name="shareTitle">Yeye Live Share</string>
+    <string name="shareDescription" formatted="false">Yeye Live, Live show of talent!</string>
     <string name="success">Success</string>
     <string name="apply_success">Application Done!</string>
     <string name="successfully_posted_post">Post ID: %1$s</string>
@@ -321,8 +321,6 @@
     <string name="click_open_location">Open Location</string>
 
     <string name="setting_exit_dialog">Are you sure to logout？</string>
-    <string name="share_title">I am performing in Yeye Live, Come on!</string>
-
     <string name="text_line_desc_now">people is watching</string>
     <string name="text_line_desc_already"> people has watched</string>
     <string name="play_finish">Play Ended</string>
@@ -374,6 +372,7 @@
     <string name="no_camera_permission">No permission to the camera, please approve Yeye Live to access camera. </string>
     <string name="no_record_audio_permission">No permission to the microphone, please approve Yeye Live to access.</string>
     <string name="activity_video">Video</string>
+    <string name="last_cover">Change the cover or use last cover.</string>
     <string name="updata_tops">New Version</string>
     <string name="updata_tops_content">Please install the NEW VERSION! \n</string>
     <string name="updata_progress">Upgrading, please wait…</string>

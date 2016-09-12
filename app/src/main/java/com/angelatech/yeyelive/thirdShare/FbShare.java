@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -68,7 +69,7 @@ public class FbShare {
         canPresentShareDialog = ShareDialog.canShow(ShareLinkContent.class);
     }
 
-    FacebookCallback<Sharer.Result> shareCallback = new FacebookCallback<Sharer.Result>() {
+    private FacebookCallback<Sharer.Result> shareCallback = new FacebookCallback<Sharer.Result>() {
         @Override
         public void onCancel() {
             DebugLogs.e("HelloFacebook" + "Canceled");
@@ -113,10 +114,9 @@ public class FbShare {
     public void postStatusUpdate(String shareTitle, String Description,String url, String imageUrl) {
         canPresentShareDialog = ShareDialog.canShow(ShareLinkContent.class);
         if (url == null) {
-            String url2 = "http://goo.gl/ExzX9I";
             shareTitle = activity.getString(R.string.shareTitle);
-            Description = String.format(activity.getString(R.string.shareDescription), url2);
-            url = "http://goo.gl/ExzX9I";
+            Description = activity.getString(R.string.shareDescription);
+            url = CommonUrlConfig.facebookURL;
         }
 
         ShareLinkContent.Builder builder = new ShareLinkContent.Builder();

@@ -74,7 +74,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private OnCallEvents callEvents;
     private String straddres = "";
     private boolean isLocation = true;
-    private String dialogTitle = "", text, imageUrl;
+    private String text, imageUrl;
     private Bitmap img = null;
     private Animation rotateAnimation;
     private TextView mLocationInfo;
@@ -178,7 +178,6 @@ public class ReadyLiveFragment extends BaseFragment {
         txt_title.selectAll();
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
-            dialogTitle = getString(R.string.share_title);
             text = txt_title.getText().toString();
             fragmentHandler.sendEmptyMessage(LIVE_USER);
         }
@@ -196,6 +195,7 @@ public class ReadyLiveFragment extends BaseFragment {
             }
         });
     }
+
     //开播
     private void startLive() {
         img_location_bg.clearAnimation();
@@ -245,24 +245,36 @@ public class ReadyLiveFragment extends BaseFragment {
                 if (imageUrl.indexOf("http://file.iamyeye.com") > 0) {
                     imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
                 }
+                if (text.equals("")){
+                    text = getString(R.string.shareTitle);
+                }
                 String liveUrl = CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid + "&videoid=";
                 FbShare fbShare = new FbShare(getActivity(), shareListener);
-                fbShare.postStatusUpdate(dialogTitle, text, liveUrl, imageUrl);
+                fbShare.postStatusUpdate(text, getString(R.string.shareDescription), liveUrl, imageUrl);
                 break;
             case R.id.btn_webchatmoments:
                 closekeybord();
+                if (text.equals("")){
+                    text = getString(R.string.shareTitle);
+                }
                 WxShare webchatmoment = new WxShare(getActivity(), shareListener);
-                webchatmoment.SceneWebPage(dialogTitle, text, CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx,
+                webchatmoment.SceneWebPage(text, getString(R.string.shareDescription), CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx,
                         img, 1);
                 break;
             case R.id.btn_wechat:
                 closekeybord();
+                if (text.equals("")){
+                    text = getString(R.string.shareTitle);
+                }
                 WxShare wxShare = new WxShare(getActivity(), shareListener);
-                wxShare.SceneWebPage(dialogTitle, text, CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img, 0);
+                wxShare.SceneWebPage(text, getString(R.string.shareDescription), CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img, 0);
                 break;
             case R.id.btn_weibo:
                 closekeybord();
-                SinaShare sinaShare = new SinaShare(getActivity(), dialogTitle, text,
+                if (text.equals("")){
+                    text = getString(R.string.shareTitle);
+                }
+                SinaShare sinaShare = new SinaShare(getActivity(), text, getString(R.string.shareDescription),
                         CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img);
                 sinaShare.registerCallback(shareListener);
                 sinaShare.share(true, true, true, false, false, false);
@@ -382,7 +394,7 @@ public class ReadyLiveFragment extends BaseFragment {
         callEvents = (OnCallEvents) context;
     }
 
-    public void setPhoto(Uri uri){
+    public void setPhoto(Uri uri) {
         Front_cover.setImageURI(uri);
     }
 

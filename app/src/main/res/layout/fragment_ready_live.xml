@@ -28,28 +28,14 @@
             android:maxLength="60"
             android:textColor="#FEFEFE"
             android:textColorHint="@color/color_fefefe"
-            android:textSize="20sp"
-            tools:text="asdasdasdasdasdasd"
-            tools:textColor="@color/color_000000" />
-
-        <Button
-            android:id="@+id/btn_start"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:background="@drawable/startlive_btn_redbg"
-            android:text="@string/btn_begin_live"
-            android:textColor="@color/color_fefefe" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/btn_start"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
 
@@ -71,11 +57,11 @@
                     android:id="@+id/img_location_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circular"
-                    android:contentDescription="@null"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:visibility="visible"/>
+                    android:background="@drawable/circular"
+                    android:contentDescription="@null"
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <TextView
@@ -193,13 +179,35 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/Front_cover"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/button_call_switch_camera"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/btn_start_play_upload_cover"
             fresco:roundAsCircle="true" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/startlive_btn_redbg"
+            android:text="@string/btn_begin_live"
+            android:textColor="@color/color_fefefe" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Front_cover"
+            android:layout_centerHorizontal="true"
+            android:text="@string/last_cover"
+            android:textColor="@color/color_66000000"
+            android:textSize="10dp" />
     </RelativeLayout>
 </RelativeLayout>
