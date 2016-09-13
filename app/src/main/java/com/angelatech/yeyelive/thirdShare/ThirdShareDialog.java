@@ -16,11 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.util.LoadBitmap;
-import com.angelatech.yeyelive.wxapi.WXInterface;
 import com.facebook.datasource.DataSource;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.angelatech.yeyelive.R;
 
 
 public class ThirdShareDialog extends Dialog {
@@ -131,14 +130,14 @@ public class ThirdShareDialog extends Dialog {
                     break;
                 case R.id.ly_wechat:
                     if (img != null) {
-                        WXInterface wxInterface = new WXInterface(context);
-                        wxInterface.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneSession);
+                        WxShare wxInterface = new WxShare(context,listener);
+                        wxInterface.SceneWebPage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneSession);
                     }
                     break;
                 case R.id.ly_webchatmoments:
                     if (img != null) {
-                        WXInterface webchatmoment = new WXInterface(context);
-                        webchatmoment.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneTimeline);
+                        WxShare webchatmoment = new WxShare(context,listener);
+                        webchatmoment.SceneWebPage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneTimeline);
                     }
                     break;
                 case R.id.ly_facebook:

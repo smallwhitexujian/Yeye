@@ -48,6 +48,7 @@ import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.qiniu.QiniuUpload;
 import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.socket.room.ServiceManager;
+import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.LivePush.LivePush;
@@ -810,6 +811,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (FbShare.callbackManager != null) {
+            FbShare.callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case CommonResultCode.SET_ADD_PHOTO_CAMERA:

@@ -174,8 +174,8 @@ public class ReadyLiveFragment extends BaseFragment {
         Front_cover.setOnClickListener(this);
         buttonCamera.setOnClickListener(this);
 
-        txt_title.setText(String.format(getString(R.string.formatted_2), loginUserModel.nickname));
-        txt_title.selectAll();
+//        txt_title.setText(String.format(getString(R.string.formatted_2), loginUserModel.nickname));
+//        txt_title.selectAll();
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
             text = txt_title.getText().toString();

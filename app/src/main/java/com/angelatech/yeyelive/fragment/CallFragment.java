@@ -713,6 +713,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_Follow:
                 UserFollow();
+                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case R.id.btn_share:
                 //facebook分享
@@ -726,7 +727,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         liveUserModel.headurl);
                 builder.RegisterCallback(listener);
                 builder.create().show();
-                callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
                 break;
             case R.id.img_head:
                 BasicUserInfoModel searchItemModel = new BasicUserInfoModel();
@@ -902,7 +902,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
                         break;
                     case 1:
-                        callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                         btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
                         Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                         btn_Follow.startAnimation(rotateAnimation);
@@ -1358,6 +1357,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public ShareListener listener = new ShareListener() {
         @Override
         public void callBackSuccess(int shareType) {
+            callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
             ToastUtils.showToast(getActivity(), R.string.success);
         }
 

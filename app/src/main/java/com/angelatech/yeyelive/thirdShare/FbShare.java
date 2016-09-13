@@ -32,7 +32,7 @@ public class FbShare {
     private Activity activity;
     private boolean canPresentShareDialog;
     private ShareDialog shareDialog;
-    private static CallbackManager callbackManager;
+    public static CallbackManager callbackManager;
     private Profile profile;
     private ShareListener listener;
     private Handler handler;

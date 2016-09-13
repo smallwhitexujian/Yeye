@@ -209,7 +209,7 @@
             android:layout_marginTop="4dp"
             android:layout_centerHorizontal="true"
             android:text="@string/last_cover"
-            android:textColor="@color/color_66000000"
+            android:textColor="#FEFEFE"
             android:textSize="12dp" />
     </RelativeLayout>
 </RelativeLayout>
