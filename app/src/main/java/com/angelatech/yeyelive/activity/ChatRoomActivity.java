@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
@@ -21,7 +22,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.angelatech.yeyelive.CommonResultCode;
 import com.angelatech.yeyelive.CommonUrlConfig;
@@ -187,7 +187,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
@@ -200,7 +200,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             toastTip = R.string.no_record_audio_permission;
                         }
                         if (toastTip != 0) {
-                            Toast.makeText(this, toastTip, Toast.LENGTH_SHORT).show();
+                            ToastUtils.showToast(ChatRoomActivity.this,toastTip);
                         }
                     }
                 }
