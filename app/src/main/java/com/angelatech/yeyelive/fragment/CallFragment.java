@@ -716,7 +716,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case R.id.btn_share:
-                //facebook分享
+                String imageUrl = liveUserModel.headurl;
+                if (imageUrl.indexOf("http://file") > 0) {
+                    imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
+                }
                 ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
                 String sharetitle = App.roomModel.getName();
                 if (sharetitle.equals("")) {
@@ -724,7 +727,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 builder.setShareContent(sharetitle, getString(R.string.shareDescription),
                         CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid,
-                        liveUserModel.headurl);
+                        imageUrl);
                 builder.RegisterCallback(listener);
                 builder.create().show();
                 break;

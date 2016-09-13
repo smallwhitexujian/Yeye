@@ -33,7 +33,6 @@ public class ThirdShareDialog extends Dialog {
     }
 
     public static class Builder implements View.OnClickListener {
-
         private Activity context;
         private FragmentManager fragmentManager;
         private Handler handler;
@@ -58,9 +57,7 @@ public class ThirdShareDialog extends Dialog {
         private RelativeLayout ly_body;
         private ThirdShareDialog dialog;
         private TextView tv_cancel;
-
         private String dialogTitle, text, url, imageUrl;
-
         private Bitmap img = null;
 
         public Builder setShareContent(String dialogTitle, String text, String url, String imageUrl) {
@@ -131,13 +128,13 @@ public class ThirdShareDialog extends Dialog {
                 case R.id.ly_wechat:
                     if (img != null) {
                         WxShare wxInterface = new WxShare(context,listener);
-                        wxInterface.SceneWebPage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneSession);
+                        wxInterface.SceneWebPage(dialogTitle,  text,url, img, SendMessageToWX.Req.WXSceneSession);
                     }
                     break;
                 case R.id.ly_webchatmoments:
                     if (img != null) {
                         WxShare webchatmoment = new WxShare(context,listener);
-                        webchatmoment.SceneWebPage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneTimeline);
+                        webchatmoment.SceneWebPage( dialogTitle, text, url,img, SendMessageToWX.Req.WXSceneTimeline);
                     }
                     break;
                 case R.id.ly_facebook:

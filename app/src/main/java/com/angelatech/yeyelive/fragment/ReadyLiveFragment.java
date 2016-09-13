@@ -242,7 +242,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
             case R.id.btn_facebook:
                 closekeybord();
-                if (imageUrl.indexOf("http://file.iamyeye.com") > 0) {
+                if (imageUrl.indexOf("http://file") > 0) {
                     imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
                 }
                 if (text.equals("")){

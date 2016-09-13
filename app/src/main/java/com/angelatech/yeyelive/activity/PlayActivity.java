@@ -262,7 +262,7 @@ public class PlayActivity extends BaseActivity {
                     ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(PlayActivity.this, getSupportFragmentManager(), null);
                     builder.setShareContent(videoModel.introduce, getString(R.string.shareDescription),
                             CommonUrlConfig.facebookURL + "?uid=" + videoModel.userid + "&videoid=" + videoModel.videoid,
-                            videoModel.headurl);
+                            videoModel.barcoverurl);
                     builder.create().show();
                     break;
                 case R.id.tv_report:
