@@ -51,9 +51,8 @@ public class ProfileActivity extends HeaderBaseActivity {
     private TextView tv_input_limit;
     private EditText edit_user_name, edit_user_mail;
     private TextView tv_submit;
-    private RadioGroup radio_group;
     private int user_gender = 1;
-    private String user_name, user_mail;
+    private String user_name;
     private RadioButton radioButton_male, radioButton_female;
     private boolean check_gender = false, input_name = false, input_email = false;
     private PictureObtain mObtain;
@@ -77,7 +76,7 @@ public class ProfileActivity extends HeaderBaseActivity {
         edit_user_mail = (EditText) findViewById(R.id.edit_user_mail);
         tv_input_limit = (TextView) findViewById(R.id.tv_input_limit);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
-        radio_group = (RadioGroup) findViewById(R.id.radio_group);
+        RadioGroup radio_group = (RadioGroup) findViewById(R.id.radio_group);
         radioButton_male = (RadioButton) findViewById(R.id.radio_user_male);
         radioButton_female = (RadioButton) findViewById(R.id.radio_user_female);
 
@@ -131,7 +130,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     private void saveUserInfo() {
         LoadingDialog.showLoadingDialog(this);
         user_name = edit_user_name.getText().toString();
-        user_mail = edit_user_mail.getText().toString();
+        String user_mail = edit_user_mail.getText().toString();
         HashMap<String, String> map = new HashMap<>();
         map.put("token", model.token);
         map.put("userid", model.userid);

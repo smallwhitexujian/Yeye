@@ -31,6 +31,7 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
+import com.facebook.AccessToken;
 import com.facebook.login.widget.LoginButton;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
@@ -54,8 +55,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private com.facebook.CallbackManager callbackManager;
     private LoginButton loginButton;
     private boolean isLogin = false;
-
-    private Start mStart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                 );
             } else {
-                mStart = new Start(this, backgroundHandler);
+                Start mStart = new Start(this, backgroundHandler);
                 backgroundHandler.postDelayed(mStart, 100);
             }
         }
@@ -205,6 +204,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case FbProxy.FB_LOGIN_ERROR:
                 Log.e("error--->", "error");
+                AccessToken.setCurrentAccessToken(null);
                 break;
             case WxProxy.WX_LOGIN:
                 DebugLogs.e("======微信注册======");

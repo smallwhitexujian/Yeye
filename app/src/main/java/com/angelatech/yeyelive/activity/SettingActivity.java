@@ -30,6 +30,7 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
@@ -210,10 +211,13 @@ public class SettingActivity extends HeaderBaseActivity {
             case FbProxy.FB_LOGIN_SUCCESS:
                 Log.e("success--->", "success");
                 Profile profile = (Profile) msg.obj;
-                Response(profile);
+                if(profile != null){
+                    Response(profile);
+                }
                 break;
             case FbProxy.FB_LOGIN_ERROR:
                 Log.e("error--->", "error");
+                AccessToken.setCurrentAccessToken(null);
                 break;
         }
     }
