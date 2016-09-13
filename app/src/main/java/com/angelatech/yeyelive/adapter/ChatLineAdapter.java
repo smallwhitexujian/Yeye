@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
@@ -110,7 +111,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
 
                         SpannableString fromspanableInfo = new SpannableString(chatline.giftmodel.from.name + " ");
                         fromspanableInfo.setSpan(new Clickable(fromUserListener), 0, fromspanableInfo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
                         SpannableString tospanableInfo = new SpannableString(" " + chatline.giftmodel.to.name);
                         tospanableInfo.setSpan(new Clickable(toUserListener), 0, tospanableInfo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         msgStr = " x" + chatline.giftmodel.number;
@@ -126,7 +126,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else {
+            } else {//纯文字
                 View.OnClickListener fromUserListener = new View.OnClickListener() {
                     //如下定义自己的动作
                     public void onClick(View v) {
@@ -144,26 +144,34 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                     }
                 };
                 SpannableString spanableInfo;
-                if (chatline.isFirst) {
-                    spanableInfo = new SpannableString(chatline.from.name + " ");
-                } else {
-                    spanableInfo = new SpannableString(chatline.from.name);
-                }
-                int start = 0;
-                int end = spanableInfo.length();
-                spanableInfo.setSpan(new Clickable(fromUserListener), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                sChatContent = chatline.message;
                 Spanned spannedText;
-                //如果是首次进入房间，不显示冒号
-                if (chatline.isFirst) {
-                    spannedText = Html.fromHtml(sChatContent);
-                } else {
-                    spannedText = Html.fromHtml(":" + sChatContent);
+                if (!sChatContent.contains(GlobalDef.APPEND_FOLLOW) && !sChatContent.contains(GlobalDef.APPEND_SHARED)) {
+                    if (chatline.isFirst) {
+                        spanableInfo = new SpannableString(chatline.from.name + " ");
+                    } else {
+                        spanableInfo = new SpannableString(chatline.from.name);
+                    }
+                    int start = 0;
+                    int end = spanableInfo.length();
+                    spanableInfo.setSpan(new Clickable(fromUserListener), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    sChatContent = chatline.message;
+                    //如果是首次进入房间，不显示冒号
+                    if (chatline.isFirst) {
+                        spannedText = Html.fromHtml(sChatContent);
+                    } else {
+                        spannedText = Html.fromHtml(":" + sChatContent);
+                    }
+                    holder.tv_content.append(spanableInfo);
+                    holder.tv_content.append(spannedText);
+                    holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
+                } else {//转粉和关注
+                    if (sChatContent.contains(GlobalDef.APPEND_FOLLOW)) {
+                        sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_follow);
+                    } else if (sChatContent.contains(GlobalDef.APPEND_SHARED)) {
+                        sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_sherad);
+                    }
+                    holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + sChatContent + "</font>"));
                 }
-                holder.tv_content.append(spanableInfo);
-                holder.tv_content.append(spannedText);
-                holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
-
             }
         } else if (chatline.type == 9) {
             //进入房间系统提示

@@ -110,4 +110,11 @@ public class GlobalDef {
     public static final int ROOM_IP_PARSE_ERROR_20002       = 20002; ///< 房间ip地址无法解析
     public static final int CONNECT_SERVER_ERROR_20003      = 20003; ///< 连接服务器失败
     public static final int PARSEPACKET_EXCEPTION_20004     = 20004; ///< 解析数据包异常
+
+
+
+    //特殊处理字段
+    public static final String APPEND_FOLLOW =  "[@0_0@shared]";
+    public static final String APPEND_SHARED =  "[@0_0@Follow]";
+
 }

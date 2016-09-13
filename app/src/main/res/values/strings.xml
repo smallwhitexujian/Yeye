@@ -5,7 +5,7 @@
     <string name="facebook_app_id">1735313646749357</string>
     <string name="facebook_app_name">Yeye Live</string>
     <!-- header -->
-    <string name="empty_header_str"/>
+    <string name="empty_header_str" />
     <!--Login-->
     <string name="login_id_hint">Account/Phone</string>
     <string name="login_password_hint">Password</string>
@@ -285,7 +285,7 @@
     <string name="sure">Sure</string>
     <string name="purchase_cancel">purchase cancel</string>
     <string name="google_play_useless">Google Play Not Available</string>
-    <string name="un"/>
+    <string name="un" />
     <string name="login_text_desc">Agreement of User</string>
     <string name="btn_login">Login</string>
     <string name="btn_login_facebook">Login by Facebook</string>
@@ -378,4 +378,8 @@
     <string name="updata_progress">Upgrading, please wait…</string>
     <string name="updata_file_success">APK File downloaded successfully</string>
     <string name="tops_video" formatted="false">Only save %s latest videos. </string>
+
+    <!--房间 -->
+    <string name="append_follow">become fans</string>
+    <string name="append_sherad">shared current live show</string>
 </resources>

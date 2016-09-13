@@ -927,19 +927,20 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 GridViewLastIndex = GridViewIndex;
                 GridViewItemLastIndex = GridViewItemIndex;
                 break;
-            case MSG_CANCEL_FOLLOW:
+            case MSG_CANCEL_FOLLOW://取消关注
                 isFollow = 0;
                 btn_Follow.setVisibility(View.VISIBLE);
                 btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
                 Animation rotateAnimation2 = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_up);
                 btn_Follow.startAnimation(rotateAnimation2);
                 break;
-            case MSG_DO_FOLLOW:
+            case MSG_DO_FOLLOW://关注
                 isFollow = 1;
                 btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
                 Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                 btn_Follow.startAnimation(rotateAnimation);
                 btn_Follow.setVisibility(View.GONE);
+                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case MSG_ADAPTER_NOTIFY_GIFT:
                 initGiftViewpager();
@@ -1294,19 +1295,19 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         }
 
         @Override
-        public void follow(String val, String userId) {
+        public void follow(final String val, String userId) {
             if (!liveUserModel.userid.equals(userModel.userid) && userId.equals(liveUserModel.userid)) {
                 if (val != null && val.equals("0")) {
-                    fragmentHandler.sendEmptyMessage(MSG_DO_FOLLOW);
+                    fragmentHandler.obtainMessage(MSG_DO_FOLLOW).sendToTarget();
                 } else {
-                    fragmentHandler.sendEmptyMessage(MSG_CANCEL_FOLLOW);
+                    fragmentHandler.obtainMessage(MSG_CANCEL_FOLLOW).sendToTarget();
                 }
             }
         }
 
         /**
          * 踢人
-         * @param userId
+         * @param userId 用户id
          */
         @Override
         public void kickedOut(String userId) {

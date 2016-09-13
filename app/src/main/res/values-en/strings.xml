@@ -373,4 +373,8 @@
     <string name="updata_progress">Upgrading, please wait…</string>
     <string name="updata_file_success">APK File downloaded successfully</string>
     <string name="tops_video" formatted="false">Only save %s latest videos. </string>
+
+    <!--房间 -->
+    <string name="append_follow">become fans</string>
+    <string name="append_sherad">shared current live show</string>
 </resources>

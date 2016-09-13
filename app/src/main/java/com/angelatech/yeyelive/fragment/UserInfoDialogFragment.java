@@ -582,7 +582,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     if (HttpFunction.isSuc(results.code)) {
                         isFollowCode = getOppositeFollow(isfollow);
                         uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-
                         Intent intent = new Intent();
                         intent.setAction(WithBroadCastActivity.ACTION_WITH_BROADCAST_ACTIVITY);
                         SearchItemModel searchItemModel = new SearchItemModel();
