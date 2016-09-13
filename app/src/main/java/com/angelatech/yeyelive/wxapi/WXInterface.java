@@ -121,14 +121,15 @@ public class WXInterface {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = text;
-
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60, true);
-        bmp.recycle();
-        msg.setThumbImage(thumbBmp);
-        msgreq.transaction = "webpage";
-        msgreq.message = msg;
-        msgreq.scene = scene;
-        api.sendReq(msgreq);
+        if (bmp != null){
+            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60, true);
+            bmp.recycle();
+            msg.setThumbImage(thumbBmp);
+            msgreq.transaction = "webpage";
+            msgreq.message = msg;
+            msgreq.scene = scene;
+            api.sendReq(msgreq);
+        }
     }
 
 

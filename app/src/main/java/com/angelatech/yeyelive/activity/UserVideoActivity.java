@@ -34,7 +34,6 @@ import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -216,7 +215,9 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 break;
             case MSG_DELETE_VIDEO_SUCCESS:
                 layout_delete.setVisibility(View.GONE);
-                list.remove(itemPosition);
+                if (list.size() > 0){
+                    list.remove(itemPosition);
+                }
                 adapter.notifyDataSetChanged();
                 ToastUtils.showToast(this, getString(R.string.video_delete_success));
                 break;
@@ -328,7 +329,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
 
                         @Override
                         public void onUpProgress(String key, double percent) {
-                            DebugLogs.d("-----进度条---->"+percent);
                         }
                     });
                     qiNiuUpload.doUpload(loginUser.userid, loginUser.token, imgPath, String.valueOf(videoId), "3");

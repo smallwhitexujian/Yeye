@@ -20,7 +20,7 @@ import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.wxapi.WXInterface;
 import com.facebook.datasource.DataSource;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 
 
 public class ThirdShareDialog extends Dialog {
@@ -60,7 +60,7 @@ public class ThirdShareDialog extends Dialog {
         private ThirdShareDialog dialog;
         private TextView tv_cancel;
 
-        private String dialogTitle, text, url, imageUrl, linkTitle;
+        private String dialogTitle, text, url, imageUrl;
 
         private Bitmap img = null;
 
@@ -124,16 +124,22 @@ public class ThirdShareDialog extends Dialog {
                     qqshare.shareToFriend(dialogTitle, text, url, imageUrl);
                     break;
                 case R.id.ly_weibo:
-                    SinaShare sinaShare = new SinaShare(context, dialogTitle, text, url, img);
-                    sinaShare.share(true, true, true, false, false, false);
+                    if (img != null) {
+                        SinaShare sinaShare = new SinaShare(context, dialogTitle, text, url, img);
+                        sinaShare.share(true, true, true, false, false, false);
+                    }
                     break;
                 case R.id.ly_wechat:
-                    WXInterface wxInterface = new WXInterface(context);
-                    wxInterface.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneSession);
+                    if (img != null) {
+                        WXInterface wxInterface = new WXInterface(context);
+                        wxInterface.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneSession);
+                    }
                     break;
                 case R.id.ly_webchatmoments:
-                    WXInterface webchatmoment = new WXInterface(context);
-                    webchatmoment.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneTimeline);
+                    if (img != null) {
+                        WXInterface webchatmoment = new WXInterface(context);
+                        webchatmoment.SceneWebpage(url, dialogTitle, text, img, SendMessageToWX.Req.WXSceneTimeline);
+                    }
                     break;
                 case R.id.ly_facebook:
                     FbShare fbshare = new FbShare(context, listener);

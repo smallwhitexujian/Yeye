@@ -378,7 +378,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 restartConnection();
             }
         };
-        commDialog.CommDialog(ChatRoomActivity.this.getParent(), resId, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+        if (!isFinishing()){
+            commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+        }
     }
 
     /**
@@ -1085,7 +1087,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     }
                     isCloseLiveDialog = true;
-                    commDialog.CommDialog(ChatRoomActivity.this, s, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+                    if (!isFinishing()){
+                        commDialog.CommDialog(ChatRoomActivity.this, s, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+                    }
                 }
             }
         });
