@@ -157,6 +157,16 @@ public class RoomModel implements Serializable {
     private String heatDay;         //热度
     private int likenum;
     private String roomType;        //直播状态
+
+    public String getBarcoverurl() {
+        return barcoverurl;
+    }
+
+    public void setBarcoverurl(String barcoverurl) {
+        this.barcoverurl = barcoverurl;
+    }
+
+    private String barcoverurl;     //直播封面
     private int livenum = 0;
     private int livecoin = 0;
     private String livetime = "00:00:01";

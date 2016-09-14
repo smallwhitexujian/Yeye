@@ -257,6 +257,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             App.roomModel.setRtmpip(liveModel.rtmpserverip);
             App.roomModel.setRoomType(App.LIVE_WATCH);
             App.roomModel.setIdx(liveModel.roomidx);
+            App.roomModel.setBarcoverurl(liveModel.barcoverurl);
             BasicUserInfoDBModel user = new BasicUserInfoDBModel(); //直播者信息
             user.userid = liveModel.userid;
             user.headurl = liveModel.headurl;
