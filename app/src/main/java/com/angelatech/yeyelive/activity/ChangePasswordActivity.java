@@ -37,7 +37,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
     private EditText ed_old_password, ed_new_password, Confirm_password;
     private TextView tv_submit;
     private BasicUserInfoDBModel model;
-    private String newPassword, confirmPassword;
+    private String newPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,26 +71,28 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_CHANGE_PASSWORD_SUCCESS:
-                CommDialog commDialog = new CommDialog();
-                commDialog.CommDialog(this, getString(R.string.need_to_login_again), false,
-                        new CommDialog.Callback() {
-                            @Override
-                            public void onCancel() {
+                try {
+                    CommDialog commDialog = new CommDialog();
+                    commDialog.CommDialog(ChangePasswordActivity.this, getString(R.string.need_to_login_again), false,
+                            new CommDialog.Callback() {
+                                @Override
+                                public void onCancel() {
 
-                            }
+                                }
 
-                            @Override
-                            public void onOK() {
-                                LoginUserModel loginUserModel = new LoginUserModel();
-                                loginUserModel.phone = App.loginPhone;
-                                loginUserModel.password = newPassword;
-                                loginUserModel.countryCode = "";
-                                loginUserModel.country = "";
-                                StartActivityHelper.jumpActivity(ChangePasswordActivity.this, LoginPasswordActivity.class, loginUserModel);
-                            }
-                        });
-                //loginPhone 带有国家code
-
+                                @Override
+                                public void onOK() {
+                                    LoginUserModel loginUserModel = new LoginUserModel();
+                                    loginUserModel.phone = App.loginPhone;
+                                    loginUserModel.password = newPassword;
+                                    loginUserModel.countryCode = "";
+                                    loginUserModel.country = "";
+                                    StartActivityHelper.jumpActivity(ChangePasswordActivity.this, LoginPasswordActivity.class, loginUserModel);
+                                }
+                            });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -112,7 +114,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
      */
     private void submitChange() {
         newPassword = ed_new_password.getText().toString();
-        confirmPassword = Confirm_password.getText().toString();
+        String confirmPassword = Confirm_password.getText().toString();
         if (ed_old_password.getText().toString().isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             ToastUtils.showToast(this, getString(R.string.can_not_empty));
         } else if (!newPassword.equals(confirmPassword)) {

@@ -47,7 +47,6 @@ import java.util.Map;
  * 我的关注
  */
 public class FocusOnActivity extends WithBroadCastHeaderActivity implements SwipyRefreshLayout.OnRefreshListener {
-
     private ListView list_view_focus;
     private CommonAdapter<FocusModel> adapter;
     private BasicUserInfoDBModel model;
@@ -71,6 +70,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_focus);
+        getLoginUser();
         initView();
         setView();
         loadData();
@@ -143,9 +143,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
      * 获取登录用户
      */
     private void getLoginUser() {
-        if (model == null || model.userid == null || model.token == null) {
-            model = CacheDataManager.getInstance().loadUser();
-        }
+        model = CacheDataManager.getInstance().loadUser();
     }
 
     @Override
@@ -186,12 +184,10 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     }
 
     private void loadData() {
-        getLoginUser();
         LoadingDialog.showLoadingDialog(this);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
-                //uiHandler.obtainMessage(MSG_ERROR).sendToTarget();
             }
 
             @Override
@@ -207,9 +203,8 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                             }
                             data.addAll(result.data);
                             uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
-                        }
-                        else{
-                            if (!IS_REFRESH){
+                        } else {
+                            if (!IS_REFRESH) {
                                 uiHandler.obtainMessage(MSG_NO_DATA_MORE).sendToTarget();
                             }
                         }
@@ -224,14 +219,16 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
         };
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("token", model.token);
-        map.put("userid", model.userid);
-        map.put("type", String.valueOf(type));
-        if (dateSort > 0) {
-            map.put("datesort", String.valueOf(dateSort));
+        if (model != null) {
+            map.put("token", model.token);
+            map.put("userid", model.userid);
+            map.put("type", String.valueOf(type));
+            if (dateSort > 0) {
+                map.put("datesort", String.valueOf(dateSort));
+            }
+            map.put("pageindex", String.valueOf(pageIndex));
+            map.put("pagesize", String.valueOf(pageSize));
         }
-        map.put("pageindex", String.valueOf(pageIndex));
-        map.put("pagesize", String.valueOf(pageSize));
         focusFans.httpGet(CommonUrlConfig.FriendMyList, map, httpCallback);
     }
 
@@ -285,7 +282,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     //加载更多
     private void moreLoad() {
         IS_REFRESH = false;
-        pageIndex ++;
+        pageIndex++;
         loadData();
     }
 

@@ -252,7 +252,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         FrescoBitmapUtils.getImageBitmap(App.getInstance(), VerificationUtil.getImageUrl100(liveUserModel.headurl), new FrescoBitmapUtils.BitCallBack() {
             @Override
             public void onNewResultImpl(Bitmap bitmap) {
-                final Drawable drawable = GaussAmbiguity.BlurImages(bitmap, App.getInstance());
+                final Drawable drawable = GaussAmbiguity.BlurImages(bitmap, ChatRoomActivity.this);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

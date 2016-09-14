@@ -15,7 +15,9 @@ public class BroadCastHelper {
      * 发送广播
      ***/
     public static void sendBroadcast(Context context, Intent intent) {
-        context.sendBroadcast(intent);
+        if (context!=null){
+            context.sendBroadcast(intent);
+        }
     }
 
     public static void sendLocalBroadcast(Context context, Intent intent) {

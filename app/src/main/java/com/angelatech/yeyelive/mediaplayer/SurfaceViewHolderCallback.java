@@ -21,11 +21,15 @@ public class SurfaceViewHolderCallback implements SurfaceHolder.Callback {
     // SurfaceHolder被修改的时候回调
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        DebugLogs.e("SurfaceHolder 被销毁 " + currentPosition);
-        // 销毁SurfaceHolder的时候记录当前的播放位置并停止播放
-        currentPosition = mVideoPlayer.getCurrentPosition();
-        DebugLogs.e("SurfaceHolder 被销毁重新获得的 " + currentPosition);
-        mVideoPlayer.stop();
+        try{
+            DebugLogs.e("SurfaceHolder 被销毁 " + currentPosition);
+            // 销毁SurfaceHolder的时候记录当前的播放位置并停止播放
+            currentPosition = mVideoPlayer.getCurrentPosition();
+            DebugLogs.e("SurfaceHolder 被销毁重新获得的 " + currentPosition);
+            mVideoPlayer.stop();
+        }catch ( Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

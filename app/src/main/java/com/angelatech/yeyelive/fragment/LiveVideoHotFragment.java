@@ -82,7 +82,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private MainEnter mainEnter;
     private RelativeLayout noDataLayout;
     private int result_type = 0;
-    private final Object lock = new Object();
     private static final String ARG_POSITION = "position";
     private int fromType = 0;
 
@@ -195,6 +194,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 });
             }
         };
+        listView.setAdapter(adapter);
         mainEnter = ((MainActivity) getActivity()).getMainEnter();
         loadBanner();
     }
@@ -235,7 +235,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 }
             }
         });
-        listView.setAdapter(adapter);
+
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
         swipyRefreshLayout.post(new Runnable() {
@@ -271,7 +271,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             ChatRoom.enterChatRoom(getActivity(), App.roomModel);
         } else {
             //回放视频
-            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class,  item);
+            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, item);
         }
     }
 
@@ -285,8 +285,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                adapter.notifyDataSetChanged();
-                noDataLayout.setVisibility(View.GONE);
+
                 break;
             case MSG_ERROR:
                 swipyRefreshLayout.post(new Runnable() {
@@ -390,17 +389,19 @@ public class LiveVideoHotFragment extends BaseFragment implements
         load(fromType);
         StartTimeCount();
     }
+
     //重新开始计时
     private void StartTimeCount() {
         StopTimeCount();
-        timeCount = new TimeCount(10000,10000);
+        timeCount = new TimeCount(10000, 10000);
         timeCount.start();
     }
+
     //结束计时
     private void StopTimeCount() {
-        if (timeCount!=null){
+        if (timeCount != null) {
             timeCount.cancel();
-            timeCount=null;
+            timeCount = null;
         }
     }
 
@@ -413,49 +414,54 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
             @Override
             public void onSuccess(String response) {
-                synchronized (lock) {
-                    CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
-                    }.getType());
-                    if (result != null) {
-                        if (HttpFunction.isSuc(result.code)) {
-                            if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
-                                datesort = result.time;
-                                result_type = result.type;
-                                if (IS_REFRESH) {//刷新
-                                    datas.clear();
+                final CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
+                }.getType());
+                if (result != null) {
+                    if (HttpFunction.isSuc(result.code)) {
+                        if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
+                            datesort = result.time;
+                            result_type = result.type;
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (IS_REFRESH) {//刷新
+                                        datas.clear();
+                                    }
+                                    datas.addAll(result.livedata);
+                                    datas.addAll(result.videodata);
+                                    listView.requestLayout();
+                                    adapter.setData(datas);
+                                    noDataLayout.setVisibility(View.GONE);
+                                    fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
                                 }
-                                datas.addAll(result.livedata);
-                                datas.addAll(result.videodata);
-                                fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
-                            }
-                            else{
-                                if (IS_REFRESH) {
-                                    fragmentHandler.sendEmptyMessage(MSG_NO_DATA);
-                                }else{
-                                    fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
-                                }
-                            }
+                            });
                         } else {
-                            onBusinessFaild(result.code, response);
+                            if (IS_REFRESH) {
+                                fragmentHandler.sendEmptyMessage(MSG_NO_DATA);
+                            } else {
+                                fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
+                            }
                         }
+                    } else {
+                        onBusinessFaild(result.code, response);
                     }
-                    IS_REFRESH = false;
                 }
+                IS_REFRESH = false;
             }
         };
-        try{
+        try {
             MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
             if (type == 1) {
                 liveUrl = CommonUrlConfig.LiveVideoList;
             } else if (type == 2) {
                 liveUrl = CommonUrlConfig.LiveVideoFollow;
-            } else if (type == 3){
+            } else if (type == 3) {
                 liveUrl = CommonUrlConfig.LiveVideoNewM;
             }
-            if (mainEnter != null){
+            if (mainEnter != null) {
                 mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -495,7 +501,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                                         WebTransportModel webTransportModel = new WebTransportModel();
                                         webTransportModel.url = data.url;
                                         webTransportModel.title = getString(R.string.banner_title);
-                                        if (!webTransportModel.url.isEmpty()){
+                                        if (!webTransportModel.url.isEmpty()) {
                                             StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
                                         }
                                     }
@@ -503,9 +509,14 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             });
                             simpleDraweeViews.add(simpleDraweeView);
                         }
-                        if (!simpleDraweeViews.isEmpty()) {
-                            fragmentHandler.obtainMessage(MSG_SHOW_BANNER, simpleDraweeViews).sendToTarget();
-                        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!simpleDraweeViews.isEmpty()) {
+                                    fragmentHandler.obtainMessage(MSG_SHOW_BANNER, simpleDraweeViews).sendToTarget();
+                                }
+                            }
+                        });
                     }
                 }
             }

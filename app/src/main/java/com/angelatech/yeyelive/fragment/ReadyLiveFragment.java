@@ -245,7 +245,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 if (imageUrl.indexOf("http://file") > 0) {
                     imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
                 }
-                if (text.equals("")){
+                if (text.equals("")) {
                     text = getString(R.string.shareTitle);
                 }
                 String liveUrl = CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid + "&videoid=";
@@ -254,7 +254,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 break;
             case R.id.btn_webchatmoments:
                 closekeybord();
-                if (text.equals("")){
+                if (text.equals("")) {
                     text = getString(R.string.shareTitle);
                 }
                 WxShare webchatmoment = new WxShare(getActivity(), shareListener);
@@ -263,7 +263,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 break;
             case R.id.btn_wechat:
                 closekeybord();
-                if (text.equals("")){
+                if (text.equals("")) {
                     text = getString(R.string.shareTitle);
                 }
                 WxShare wxShare = new WxShare(getActivity(), shareListener);
@@ -271,7 +271,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 break;
             case R.id.btn_weibo:
                 closekeybord();
-                if (text.equals("")){
+                if (text.equals("")) {
                     text = getString(R.string.shareTitle);
                 }
                 SinaShare sinaShare = new SinaShare(getActivity(), text, getString(R.string.shareDescription),

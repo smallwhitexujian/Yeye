@@ -29,6 +29,7 @@ public class CountrySelectAdapter extends BaseAdapter {
     public void setData(List<CountrySelectItemModel> data) {
         this.datas.clear();
         this.datas.addAll(data);
+        notifyDataSetChanged();
     }
 
     @Override

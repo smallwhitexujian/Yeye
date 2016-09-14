@@ -32,7 +32,6 @@ import java.util.List;
  */
 public class CountrySelectActivity extends HeaderBaseActivity implements SideBarView.LetterSelectListener {
     private final int MSG_SEARCH = 1;
-    private final int MSG_NOTIFY_ADAPTER = 2;
     private ListView listView;
     private CountrySelectAdapter countrySelectAdapter;
     private List<CountrySelectItemModel> datas = new ArrayList<>();
@@ -94,7 +93,6 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CountrySelectItemModel itemModel = datas.get(position);
-//                ToastUtils.showToast(CountrySelectActivity.this, itemModel.country + "===" + itemModel.num);
                 Intent intent = new Intent(CountrySelectActivity.this, RegisterFindPWDActivity.class);
                 intent.putExtra(TransactionValues.UI_2_UI_KEY_OBJECT, itemModel);
                 setResult(RESULT_OK, intent);
@@ -152,9 +150,15 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
 
                     }
                 }
-                uiHandler.obtainMessage(MSG_NOTIFY_ADAPTER).sendToTarget();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        countrySelectAdapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
+
     }
 
     @Override
@@ -164,9 +168,6 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 String firstSpell = ChineseToEnglish.getFirstSpell((String) msg.obj);
                 String substring = firstSpell.substring(0, 1).toUpperCase();
                 setListViewPosition(substring);
-                break;
-            case MSG_NOTIFY_ADAPTER:
-                countrySelectAdapter.notifyDataSetChanged();
                 break;
         }
 

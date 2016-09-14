@@ -143,9 +143,9 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
             public void convert(ViewHolder helper, LiveVideoModel item, int position) {
                 if (item.type == LiveVideoModel.TYPE_RECORD) { //录像
                     VideoModel model = (VideoModel) item;
-                    if (model.barcoverurl.contains("http")){
+                    if (model.barcoverurl.contains("http")) {
                         helper.setImageViewByImageLoader1(R.id.iv_cover, model.barcoverurl);
-                    }else{
+                    } else {
                         helper.setImageViewByImageLoader1(R.id.iv_cover, String.valueOf(UriHelper.fromFile(model.barcoverurl)));
                     }
                     helper.setText(R.id.tv_title, model.introduce);
@@ -162,15 +162,17 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         loginUser = CacheDataManager.getInstance().loadUser();
         playRecord = new PlayRecord(this);
         swipyRefreshLayout.setRefreshing(true);
-        if (otherId == null) {
-            playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
-        } else {
-            playRecord.getUserRecord(loginUser.userid, loginUser.token, String.valueOf(otherId), pageSize, pageIndex, callback);
-        }
-        if (loginUser.isv.equals("1")) {
-            tops.setText(String.format(getString(R.string.tops_video), "50"));
-        } else {
-            tops.setText(String.format(getString(R.string.tops_video), "10"));
+        if (loginUser != null) {
+            if (otherId == null) {
+                playRecord.getUserRecord(loginUser.userid, loginUser.token, loginUser.userid, pageSize, pageIndex, callback);
+            } else {
+                playRecord.getUserRecord(loginUser.userid, loginUser.token, String.valueOf(otherId), pageSize, pageIndex, callback);
+            }
+            if (loginUser.isv.equals("1")) {
+                tops.setText(String.format(getString(R.string.tops_video), "50"));
+            } else {
+                tops.setText(String.format(getString(R.string.tops_video), "10"));
+            }
         }
     }
 
@@ -215,7 +217,7 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 break;
             case MSG_DELETE_VIDEO_SUCCESS:
                 layout_delete.setVisibility(View.GONE);
-                if (list.size() > 0){
+                if (list.size() > 0) {
                     list.remove(itemPosition);
                 }
                 adapter.notifyDataSetChanged();

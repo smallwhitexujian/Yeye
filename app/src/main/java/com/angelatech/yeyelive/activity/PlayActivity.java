@@ -58,7 +58,6 @@ import java.util.Map;
  * ---------------------------------------------------------
  */
 public class PlayActivity extends BaseActivity {
-
     private final int MSG_SET_FLLOW = 211221;
     private final int MSG_REPORT_SUCCESS = 1200;
     private final int MSG_REPORT_ERROR = 1201;
@@ -71,7 +70,6 @@ public class PlayActivity extends BaseActivity {
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
     private ImageView btn_share, btn_Follow, player_play_btn, backBtn;
     private VideoPlayer mVideoPlayer;
-
 
     private String path;
     private int isFollow = 0;
