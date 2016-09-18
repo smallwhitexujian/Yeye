@@ -373,7 +373,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 exitRoom();
             }
-
             @Override
             public void onOK() {
                 restartConnection();

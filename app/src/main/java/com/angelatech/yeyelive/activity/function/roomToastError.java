@@ -3,7 +3,8 @@ package com.angelatech.yeyelive.activity.function;
 import android.content.Context;
 
 import com.angelatech.yeyelive.GlobalDef;
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.view.CommDialog;
 
 
 /**

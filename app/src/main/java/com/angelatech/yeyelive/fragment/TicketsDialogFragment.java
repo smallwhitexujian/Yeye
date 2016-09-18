@@ -16,7 +16,6 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
-import com.angelatech.yeyelive.activity.function.CommDialog;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
 import com.angelatech.yeyelive.mediaplayer.handler.CommonHandler;
@@ -24,6 +23,7 @@ import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.web.handle.HttpBusinessCallback;
 

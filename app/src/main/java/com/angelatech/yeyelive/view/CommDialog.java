@@ -10,7 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 
 /**
  * Created by xujian on 15/11/27.
@@ -21,6 +21,7 @@ public class CommDialog {
 
     public interface Callback {
         void onCancel();
+
         void onOK();
     }
 
@@ -34,6 +35,9 @@ public class CommDialog {
      * @param NotOk   是否需要取消按钮 false 不需要 true 需要
      */
     public void CommDialog(Context context, String content, Boolean NotOk, Callback callback) {
+        if (content == null || context == null) {
+            return;
+        }
         dialog = new AlertDialog.Builder(context).create();
         mcallback = callback;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -92,6 +96,9 @@ public class CommDialog {
      * @param StrCancel 取消按钮内容
      */
     public void CommDialog(Context context, String content, Boolean NotOk, Callback callback, String StrOk, String StrCancel) {
+        if (content == null || context == null || StrOk == null || StrCancel == null) {
+            return;
+        }
         dialog = new AlertDialog.Builder(context).create();
         mcallback = callback;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -137,6 +144,7 @@ public class CommDialog {
             }
         });
     }
+
     /**
      * 通用dialog
      *
@@ -185,7 +193,6 @@ public class CommDialog {
             }
         });
     }
-
 
 
     /**
