@@ -410,26 +410,28 @@ public class ReadyLiveFragment extends BaseFragment {
                 for (int i = 0; i < results.data.size(); i++) {
                     spinnnerList.add(results.data.get(i).price);
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        spinnner.setAdapter(spinnnerAdapter);
-                        spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                App.price = String.valueOf(spinnnerList.get(position));
-                                parent.setVisibility(View.VISIBLE);
-                            }
+                if (isAdded()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinnner.setAdapter(spinnnerAdapter);
+                            spinnner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    App.price = String.valueOf(spinnnerList.get(position));
+                                    parent.setVisibility(View.VISIBLE);
+                                }
 
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                            }
-                        });
-                        spinnnerAdapter.clear();
-                        spinnnerAdapter.addAll(spinnnerList);
-                        spinnnerAdapter.notifyDataSetChanged();
-                    }
-                });
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                }
+                            });
+                            spinnnerAdapter.clear();
+                            spinnnerAdapter.addAll(spinnnerList);
+                            spinnnerAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
             }
         }
 

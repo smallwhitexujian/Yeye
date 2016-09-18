@@ -294,10 +294,14 @@ public class PlayActivity extends BaseActivity {
      * 退出 关闭 播放
      */
     private void ClosePlay() {
-        uiHandler.removeCallbacksAndMessages(null);
-        mVideoPlayer.stop();
-        mVideoPlayer.destroy();
-        finish();
+        try {
+            uiHandler.removeCallbacksAndMessages(null);
+            mVideoPlayer.stop();
+            mVideoPlayer.destroy();
+            finish();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

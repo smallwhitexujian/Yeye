@@ -154,13 +154,21 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     public void setDiamonds(String diamonds) {
-        gift_Diamonds.setText(diamonds);
-        if (liveUserModel.userid.equals(userModel.userid)) {
-            diamondsStr.setVisibility(View.VISIBLE);
-        } else {
-            diamondsStr.setVisibility(View.GONE);
+        try{
+            gift_Diamonds.setText(diamonds);
+            if (liveUserModel.userid.equals(userModel.userid)) {
+                diamondsStr.setVisibility(View.VISIBLE);
+            } else {
+                diamondsStr.setVisibility(View.GONE);
+            }
+            String str = String.format(getString(R.string.Coins), diamonds);
+            if (!str.isEmpty()){
+                diamondsStr.setText(str);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        diamondsStr.setText(String.format(getString(R.string.Coins), diamonds));
+
     }
 
     public void setLikeNum(int likeNum) {

@@ -233,7 +233,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     }
 
     private void doFocus(FocusModel userModel, final int position) {
-
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -243,7 +242,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
             @Override
             public void onSuccess(String response) {
                 CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-
                 if (results != null) {
                     if (HttpFunction.isSuc(results.code)) {
                         if (data.get(position).isfollow.equals("1")) {
@@ -258,14 +256,12 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 }
             }
         };
-
         chatRoom.UserFollow(CommonUrlConfig.UserFollow, model.token, model.userid,
                 userModel.userid, Integer.valueOf(userModel.isfollow), callback);
     }
 
     @Override
     public void onRefresh(final SwipyRefreshLayoutDirection direction) {
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

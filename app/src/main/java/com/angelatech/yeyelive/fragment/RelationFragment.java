@@ -1,7 +1,6 @@
 package com.angelatech.yeyelive.fragment;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +41,6 @@ import java.util.Map;
  * 关系fragment(包括粉丝和关注
  */
 public class RelationFragment extends BaseFragment implements SwipyRefreshLayout.OnRefreshListener {
-
     private View view;
     private ListView list_view_focus;
     private CommonAdapter<FocusModel> adapter;
@@ -53,9 +51,6 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
     private long dateSort = 0;
     private boolean IS_REFRESH = false;  //是否需要刷新
     private FocusFans focusFans;
-    private final int MSG_ADAPTER_NOTIFY = 1;
-    private final int MSG_SET_FOLLOW = 2;
-    private final int MSG_NO_DATA = 3;
     private SwipyRefreshLayout swipyRefreshLayout;
 
     private String url = CommonUrlConfig.FriendHeList;
@@ -125,7 +120,6 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
         list_view_focus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 FocusModel focusModel = data.get(position);
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                 userInfoModel.Userid = focusModel.userid;
@@ -153,22 +147,6 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
 
     }
 
-    @Override
-    public void doHandler(Message msg) {
-        switch (msg.what) {
-            case MSG_ADAPTER_NOTIFY:
-                adapter.notifyDataSetChanged();
-                break;
-            case MSG_SET_FOLLOW:
-                adapter.notifyDataSetChanged();
-                ToastUtils.showToast(getActivity(), getString(R.string.success));
-                break;
-            case MSG_NO_DATA:
-                showNodataLayout();
-                break;
-        }
-    }
-
     private void loadData() {
         LoadingDialog.showLoadingDialog(getActivity());
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
@@ -178,31 +156,36 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
             }
 
             @Override
-            public void onSuccess(String response) {
-                CommonParseListModel<FocusModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<FocusModel>>() {
-                }.getType());
-                if (result != null) {
-                    if (HttpFunction.isSuc(result.code)) {
-                        if (result.data != null && !result.data.isEmpty()) {
-                            dateSort = result.time;
-                            int index = result.index;
-                            if (IS_REFRESH) {
-                                data.clear();
-                                index = 0;
+            public void onSuccess(final String response) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final CommonParseListModel<FocusModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<FocusModel>>() {
+                        }.getType());
+                        if (result != null && isAdded()) {
+                            if (HttpFunction.isSuc(result.code)) {
+                                if (result.data != null && !result.data.isEmpty()) {
+                                    dateSort = result.time;
+                                    int index = result.index;
+                                    if (IS_REFRESH) {
+                                        data.clear();
+                                        index = 0;
+                                    }
+                                    pageIndex = index + 1;
+                                    data.addAll(result.data);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            } else {
+                                onBusinessFaild(result.code);
                             }
-                            pageIndex = index + 1;
-                            data.addAll(result.data);
-                            fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
                         }
-                    } else {
-                        onBusinessFaild(result.code);
+                        if (data.isEmpty()) {
+                            showNodataLayout();
+                        }
+                        IS_REFRESH = false;
+                        LoadingDialog.cancelLoadingDialog();
                     }
-                }
-                if (data.isEmpty()) {
-                    fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
-                }
-                IS_REFRESH = false;
-                LoadingDialog.cancelLoadingDialog();
+                });
             }
         };
 
@@ -228,22 +211,28 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
             }
 
             @Override
-            public void onSuccess(String response) {
-                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-
-                if (results != null) {
-                    if (HttpFunction.isSuc(results.code)) {
-                        if (data.get(position).isfollow.equals("1")) {
-                            data.get(position).isfollow = "0";
-                        } else {
-                            data.get(position).isfollow = "1";
+            public void onSuccess(final String response) {
+                if (isAdded()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+                            if (results != null) {
+                                if (HttpFunction.isSuc(results.code)) {
+                                    if (data.get(position).isfollow.equals("1")) {
+                                        data.get(position).isfollow = "0";
+                                    } else {
+                                        data.get(position).isfollow = "1";
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                    ToastUtils.showToast(getActivity(), getString(R.string.success));
+                                } else {
+                                    onBusinessFaild(results.code);
+                                }
+                            }
                         }
-                        fragmentHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-                    } else {
-                        onBusinessFaild(results.code);
-                    }
+                    });
                 }
-
             }
         };
         focusFans.UserFollow(CommonUrlConfig.UserFollow, model.token, model.userid, userModel.userid, Integer.valueOf(userModel.isfollow), callback);
