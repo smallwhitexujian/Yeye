@@ -721,7 +721,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_Follow:
                 UserFollow();
-                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
+//                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case R.id.btn_share:
                 String imageUrl = liveUserModel.headurl;
@@ -952,7 +952,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                 btn_Follow.startAnimation(rotateAnimation);
                 btn_Follow.setVisibility(View.GONE);
-                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
+//                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case MSG_ADAPTER_NOTIFY_GIFT:
                 initGiftViewpager();
@@ -1368,7 +1368,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public ShareListener listener = new ShareListener() {
         @Override
         public void callBackSuccess(int shareType) {
-            callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
+//            callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
             ToastUtils.showToast(getActivity(), R.string.success);
         }
 

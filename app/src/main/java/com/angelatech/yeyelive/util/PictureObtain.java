@@ -56,9 +56,7 @@ public class PictureObtain {
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
             // Create the File where the photo should go
             try {
-
                 contentUri = createImageFile();
-
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 ex.printStackTrace();
@@ -84,7 +82,7 @@ public class PictureObtain {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMG_" + timeStamp + ".jpg";
 
-        String imagePath = Environment.getExternalStorageDirectory().getAbsolutePath() +File.separator + App.FILEPATH_CAMERA + File.separator + imageFileName;
+        String imagePath =App.FILEPATH_CAMERA + File.separator + imageFileName;
         File fileInfo = new File(imagePath).getParentFile();
         mkDir(fileInfo);
 
