@@ -182,6 +182,9 @@ public class PhoneBindActivity extends HeaderBaseActivity {
     @Override
     public void onClick(View v) {
         String phone = mInputPhone.getText().toString();
+        if (phone.startsWith("0")) {
+            phone = phone.replaceFirst("0", "");
+        }
         String code = mVerificationCode.getText().toString();
         String areaNum = mAreaText.getText().toString();
         switch (v.getId()) {
