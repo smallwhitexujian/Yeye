@@ -196,6 +196,9 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
             case R.id.send_btn:
                 countryCode = mAreaText.getText().toString().replace("+", "");
                 loginUserId = mInputPhone.getText().toString();
+                if (loginUserId.startsWith("0")) {
+                    loginUserId = loginUserId.replaceFirst("0", "");
+                }
                 LoadingDialog.showLoadingDialog(this);
                 mPhoneLogin.getCode(CommonUrlConfig.GetPhoneCode, StringHelper.stringMerge(countryCode, loginUserId), sendCode);
                 stopTimer();
@@ -213,6 +216,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
      */
     private void Register() {
         countryCode = mAreaText.getText().toString().replace("+", "");
+        loginUserId = mInputPhone.getText().toString();
         if (loginUserId.startsWith("0")) {
             loginUserId = loginUserId.replaceFirst("0", "");
         }
@@ -238,6 +242,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
      */
     private void findPassword() {
         countryCode = mAreaText.getText().toString().replace("+", "");
+        loginUserId = mInputPhone.getText().toString();
         if (loginUserId.startsWith("0")) {
             loginUserId = loginUserId.replaceFirst("0", "");
         }

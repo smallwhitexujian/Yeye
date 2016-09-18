@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_centre_background"
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@null"
         android:layout_marginTop="190dp"
         android:layoutAnimation="@anim/logo_animation"
         android:src="@drawable/icon_login_logo" />
@@ -50,12 +52,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
 
                     <ImageView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:contentDescription="@null"
                         android:src="@drawable/btn_login_facebook" />
 
                     <ImageView
@@ -63,6 +67,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:contentDescription="@null"
                         android:src="@drawable/btn_login_phone" />
 
                     <ImageView
@@ -70,6 +75,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:contentDescription="@null"
                         android:src="@drawable/btn_login_wechat" />
                 </LinearLayout>
             </FrameLayout>
@@ -86,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:contentDescription="@null"
                 android:src="@drawable/icon_login_modifier_left" />
 
             <TextView
@@ -103,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:contentDescription="@null"
                 android:src="@drawable/icon_login_modifier_right" />
         </LinearLayout>
 

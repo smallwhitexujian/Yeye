@@ -45,7 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public static final int MSG_LOGIN_SUCC = 1;
     public static final int MSG_LOGIN_ERR = -1;
     public static final int MSG_GOTO_LOGIN = 2;
-    public static final int MSG_ANIMATION = 3;
+    private static final int MSG_ANIMATION = 3;
 
     private TextView tv_register;
     private TextView mLinceseLink;
@@ -71,7 +71,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initView() {
-
         callbackManager = FbProxy.init();
         iv_logo = (ImageView) findViewById(R.id.iv_logo);
         mLinceseLink = (TextView) findViewById(R.id.license_link);
