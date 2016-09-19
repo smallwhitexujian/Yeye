@@ -848,7 +848,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void notifyData() {
-        fragmentHandler.sendEmptyMessage(MSG_ADAPTER_CHANGE);
+        fragmentHandler.obtainMessage(MSG_ADAPTER_CHANGE).sendToTarget();
     }
 
     @Override
