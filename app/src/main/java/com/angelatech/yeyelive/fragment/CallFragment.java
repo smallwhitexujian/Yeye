@@ -390,7 +390,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         timer.start();
     }
 
-
     //键盘状态监听
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -836,15 +835,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (chatline == null) {
             chatline = (ListView) controlView.findViewById(R.id.chatline);
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-                chatline.setAdapter(mAdapter);
-                chatline.setSelection(mAdapter.getCount());
-            }
-        });
-
+        if (isAdded()){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.notifyDataSetChanged();
+                    chatline.setAdapter(mAdapter);
+                    chatline.setSelection(mAdapter.getCount());
+                }
+            });
+        }
     }
 
     public void notifyData() {
@@ -988,11 +988,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case MSG_ADAPTER_CHANGE:
-                if (mAdapter != null) {
-                    mAdapter.notifyDataSetChanged();
-                    if (chatline != null) {
-                        chatline.setSelection(mAdapter.getCount());
-                    }
+                if (isAdded()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mAdapter != null) {
+                                mAdapter.notifyDataSetChanged();
+                                if (chatline != null) {
+                                    chatline.setSelection(mAdapter.getCount());
+                                }
+                            }
+                        }
+                    });
                 }
                 break;
         }

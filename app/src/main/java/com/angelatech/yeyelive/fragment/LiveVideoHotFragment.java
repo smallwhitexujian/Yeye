@@ -288,8 +288,13 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     }
                 });
                 if (isAdded()){
-                    adapter.notifyDataSetChanged();
-                    noDataLayout.setVisibility(View.GONE);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            noDataLayout.setVisibility(View.GONE);
+                        }
+                    });
                 }
                 break;
             case MSG_ERROR:
