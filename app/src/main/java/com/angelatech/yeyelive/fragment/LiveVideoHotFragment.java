@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -83,9 +82,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private MainEnter mainEnter;
     private RelativeLayout noDataLayout;
     private int result_type = 0;
+    private final Object lock = new Object();
     private static final String ARG_POSITION = "position";
     private int fromType = 0;
-    private Context mContext;
 
     public static LiveVideoHotFragment newInstance(int position) {
         LiveVideoHotFragment f = new LiveVideoHotFragment();
@@ -102,12 +101,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
         initView();
         setView();
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
     }
 
     @Override
@@ -140,7 +133,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
         listView = (ListView) view.findViewById(R.id.live_video_hot_list);
 
         noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
-        adapter = new CommonAdapter<LiveVideoModel>(mContext, datas, R.layout.item_live_list) {
+        adapter = new CommonAdapter<LiveVideoModel>(getActivity(), datas, R.layout.item_live_list) {
             @Override
             public void convert(ViewHolder helper, final LiveVideoModel item, int position) {
                 if (item.type == 1) {
@@ -202,8 +195,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 });
             }
         };
-        listView.setAdapter(adapter);
-        mainEnter = ((MainActivity) mContext).getMainEnter();
+        mainEnter = ((MainActivity) getActivity()).getMainEnter();
         loadBanner();
     }
 
@@ -226,7 +218,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
-                if (NetWorkUtil.getActiveNetWorkType(mContext) == NetWorkUtil.TYPE_MOBILE) {
+                if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     final CommDialog commDialog = new CommDialog();
                     CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
@@ -239,13 +231,13 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             commDialog.cancelDialog();
                         }
                     };
-                    commDialog.CommDialog(mContext, getString(R.string.continue_to_watch), true, callback);
+                    commDialog.CommDialog(getActivity(), getString(R.string.continue_to_watch), true, callback);
                 } else {
                     startLive(item);
                 }
             }
         });
-
+        listView.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
         swipyRefreshLayout.post(new Runnable() {
@@ -278,10 +270,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
             loginUser.Userid = userInfo.userid;
             loginUser.Token = userInfo.token;
             App.roomModel.setLoginUser(loginUser);
-            ChatRoom.enterChatRoom(mContext, App.roomModel);
+            ChatRoom.enterChatRoom(getActivity(), App.roomModel);
         } else {
             //回放视频
-            StartActivityHelper.jumpActivity(mContext, PlayActivity.class, item);
+            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class,  item);
         }
     }
 
@@ -295,7 +287,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-
+                if (isAdded()){
+                    adapter.notifyDataSetChanged();
+                    noDataLayout.setVisibility(View.GONE);
+                }
                 break;
             case MSG_ERROR:
                 swipyRefreshLayout.post(new Runnable() {
@@ -321,20 +316,20 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                ToastUtils.showToast(mContext, getString(R.string.no_data_more));
+                ToastUtils.showToast(getActivity(), getString(R.string.no_data_more));
                 break;
             case MSG_SHOW_BANNER:
                 List<SimpleDraweeView> simpleDraweeViews = (List<SimpleDraweeView>) msg.obj;
                 List<String> descriptions = new ArrayList<>();
                 int size = simpleDraweeViews.size();
-                View banner = LayoutInflater.from(mContext).inflate(R.layout.banner_item, null);
+                View banner = LayoutInflater.from(getActivity()).inflate(R.layout.banner_item, null);
 
                 ViewPager viewPager = (ViewPager) banner.findViewById(R.id.viewpager);
                 LinearLayout pointGroup = (LinearLayout) banner.findViewById(R.id.point_group);
                 TextView desciption = (TextView) banner.findViewById(R.id.image_desc);
 
                 for (int i = 0; i < size; i++) {
-                    view = new View(mContext);
+                    view = new View(getActivity());
                     view.setBackgroundResource(R.drawable.point_background);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
                     params.leftMargin = 5;
@@ -425,61 +420,50 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
 
             @Override
-            public void onSuccess(final String response) {
-                try {
-                    final CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
+            public void onSuccess(String response) {
+                synchronized (lock) {
+                    CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
                     }.getType());
                     if (result != null && isAdded()) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (HttpFunction.isSuc(result.code)) {
-                                    if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
-                                        datesort = result.time;
-                                        result_type = result.type;
-                                        if (IS_REFRESH) {//刷新
-                                            datas.clear();
-                                        }
-                                        datas.addAll(result.livedata);
-                                        datas.addAll(result.videodata);
-                                        listView.requestLayout();
-                                        adapter.setData(datas);
-                                        noDataLayout.setVisibility(View.GONE);
-                                        fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
-                                    } else {
-                                        if (IS_REFRESH) {
-                                            fragmentHandler.sendEmptyMessage(MSG_NO_DATA);
-                                        } else {
-                                            fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
-                                        }
-                                    }
-                                } else {
-                                    onBusinessFaild(result.code, response);
+                        if (HttpFunction.isSuc(result.code)) {
+                            if (!result.livedata.isEmpty() || !result.videodata.isEmpty()) {
+                                datesort = result.time;
+                                result_type = result.type;
+                                if (IS_REFRESH) {//刷新
+                                    datas.clear();
+                                }
+                                datas.addAll(result.livedata);
+                                datas.addAll(result.videodata);
+                                fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
+                            }
+                            else{
+                                if (IS_REFRESH) {
+                                    fragmentHandler.sendEmptyMessage(MSG_NO_DATA);
+                                }else{
+                                    fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
                                 }
                             }
-                        });
+                        } else {
+                            onBusinessFaild(result.code, response);
+                        }
                     }
                     IS_REFRESH = false;
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         };
-        try {
-            if (isAdded()){
-                MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
-                if (type == 1) {
-                    liveUrl = CommonUrlConfig.LiveVideoList;
-                } else if (type == 2) {
-                    liveUrl = CommonUrlConfig.LiveVideoFollow;
-                } else if (type == 3) {
-                    liveUrl = CommonUrlConfig.LiveVideoNewM;
-                }
-                if (mainEnter != null) {
-                    mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
-                }
+        try{
+            MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
+            if (type == 1) {
+                liveUrl = CommonUrlConfig.LiveVideoList;
+            } else if (type == 2) {
+                liveUrl = CommonUrlConfig.LiveVideoFollow;
+            } else if (type == 3){
+                liveUrl = CommonUrlConfig.LiveVideoNewM;
             }
-        } catch (Exception e) {
+            if (mainEnter != null){
+                mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -500,7 +484,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 super.onSuccess(response);
                 CommonParseListModel<BannerModel<String>> results = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<BannerModel<String>>>() {
                 }.getType());
-                if (results != null && isAdded()) {
+                if (results != null && isAdded() ) {
                     if (HttpFunction.isSuc(results.code)) {
                         for (final BannerModel data : results.data) {
                             SimpleDraweeView simpleDraweeView = new SimpleDraweeView(getActivity());
@@ -527,14 +511,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             });
                             simpleDraweeViews.add(simpleDraweeView);
                         }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!simpleDraweeViews.isEmpty()) {
-                                    fragmentHandler.obtainMessage(MSG_SHOW_BANNER, simpleDraweeViews).sendToTarget();
-                                }
-                            }
-                        });
+                        if (!simpleDraweeViews.isEmpty()) {
+                            fragmentHandler.obtainMessage(MSG_SHOW_BANNER, simpleDraweeViews).sendToTarget();
+                        }
                     }
                 }
             }
