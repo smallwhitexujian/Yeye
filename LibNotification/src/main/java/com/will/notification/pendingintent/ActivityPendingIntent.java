@@ -13,20 +13,15 @@ import java.io.Serializable;
 
 
 public class ActivityPendingIntent implements PendingIntentNotification {
-    protected final Class<?> mActivity;
+    private final Class<?> mActivity;
     protected Context mContext;
-    protected int mIntentFlags = Intent.FLAG_ACTIVITY_SINGLE_TOP;
+    private int mIntentFlags = Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 
     public ActivityPendingIntent(Context context, Class<?> activity) {
         this.mContext = context;
         this.mActivity = activity;
     }
-
-
-
-
-
 
     @Override
     public void setIntentFlag(int flag) {

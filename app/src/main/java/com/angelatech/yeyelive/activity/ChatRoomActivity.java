@@ -258,6 +258,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                     public void run() {
                         face.setImageDrawable(drawable);
                         face.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        body.setBackground(drawable);
                     }
                 });
             }

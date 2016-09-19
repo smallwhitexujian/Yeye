@@ -154,7 +154,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     public void setDiamonds(String diamonds) {
-        try{
+        try {
             gift_Diamonds.setText(diamonds);
             if (liveUserModel.userid.equals(userModel.userid)) {
                 diamondsStr.setVisibility(View.VISIBLE);
@@ -162,10 +162,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 diamondsStr.setVisibility(View.GONE);
             }
             String str = String.format(getString(R.string.Coins), diamonds);
-            if (!str.isEmpty()){
+            if (!str.isEmpty()) {
                 diamondsStr.setText(str);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -609,9 +609,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
             txt_barName.setText(liveUserModel.nickname);
         }
-        if (App.giftdatas.size() <= 0) {
-            loadGiftList();
-        }
+        loadGiftList();
         if (!userModel.userid.equals(liveUserModel.userid)) {
             cameraSwitchButton.setVisibility(View.GONE);
             btn_share.setVisibility(View.VISIBLE);
@@ -835,7 +833,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (chatline == null) {
             chatline = (ListView) controlView.findViewById(R.id.chatline);
         }
-        if (isAdded()){
+        if (isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -907,17 +905,21 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_SET_FOLLOW:
-                switch (isFollow) {
-                    case 0:
-                        btn_Follow.setVisibility(View.VISIBLE);
-                        btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
-                        break;
-                    case 1:
-                        btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
-                        Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
-                        btn_Follow.startAnimation(rotateAnimation);
-                        btn_Follow.setVisibility(View.GONE);
-                        break;
+                try {
+                    switch (isFollow) {
+                        case 0:
+                            btn_Follow.setVisibility(View.VISIBLE);
+                            btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
+                            break;
+                        case 1:
+                            btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
+                            Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
+                            btn_Follow.startAnimation(rotateAnimation);
+                            btn_Follow.setVisibility(View.GONE);
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
             case 3:
@@ -988,7 +990,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case MSG_ADAPTER_CHANGE:
-                if (isAdded()){
+                if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

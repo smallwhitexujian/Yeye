@@ -83,6 +83,9 @@ public class BroadCastDispatch extends Dispatchable {
                             }
                             try {
                                 SystemBroadModel.LiveBroadCast result = JsonUtil.fromJson(systemMessageDBModel.data, SystemBroadModel.LiveBroadCast.class);
+                                if (result == null){
+                                    return;
+                                }
                                 RoomModel roomModel = new RoomModel();
                                 roomModel.setId(Integer.parseInt(result.roomid));
                                 roomModel.setIp(result.roomip.split(":")[0]);
