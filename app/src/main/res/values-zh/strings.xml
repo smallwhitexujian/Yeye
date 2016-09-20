@@ -62,6 +62,8 @@
     <string name="button_save">保存</string>
     <string name="button_yes">同意</string>
     <string name="button_disagree">拒绝</string>
+    <string name="button_downloads">直接下载</string>
+    <string name="button_google_play">Google商店</string>
     <string name="button_Reconnection">重连</string>
     <string name="reply">回复</string>
     <string name="moment_details">评论</string>

@@ -86,6 +86,7 @@ public class UploadApp {
         TextView tops = (TextView) window.findViewById(R.id.tops);
         Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
         Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+        Button btn_downloads = (Button) window.findViewById(R.id.btn_downloads);
         btn_cancel.setVisibility(View.VISIBLE);
         if (force == 1){//强制升级
             btn_cancel.setVisibility(View.GONE);
@@ -94,7 +95,18 @@ public class UploadApp {
         String message = mContext.getString(R.string.updata_tops_content) + str;
         tv_content.setText(message);
         //OK
-        btn_ok.setOnClickListener(new View.OnClickListener() {
+        btn_ok.setOnClickListener(new View.OnClickListener() {//直接去Google商店搜索
+            @Override
+            public void onClick(View v) {
+                final String appPackageName = mContext.getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+        });
+        btn_downloads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //进度条界面
