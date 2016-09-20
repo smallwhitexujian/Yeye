@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
@@ -222,8 +223,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initView() {
-        if (App.roomModel.getUserInfoDBModel() != null) {
-            liveUserModel = App.roomModel.getUserInfoDBModel();
+        if ( ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
+            liveUserModel =  ChatRoomActivity.roomModel.getUserInfoDBModel();
         }
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
@@ -541,7 +542,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param userInfoModel user
      */
     private void onShowUser(BasicUserInfoModel userInfoModel) {
-        if (App.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
             userInfoModel.isout = true;
         }
         UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
@@ -718,7 +719,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_Follow:
                 UserFollow();
-//                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
+                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case R.id.btn_share:
                 String imageUrl = liveUserModel.headurl;
@@ -726,7 +727,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";
                 }
                 ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(getActivity(), fragmentManager, null);
-                String sharetitle = App.roomModel.getName();
+                String sharetitle = ChatRoomActivity.roomModel.getName();
                 if (sharetitle.equals("")) {
                     sharetitle = getString(R.string.shareTitle);
                 }
@@ -954,7 +955,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                 btn_Follow.startAnimation(rotateAnimation);
                 btn_Follow.setVisibility(View.GONE);
-//                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
+                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case MSG_ADAPTER_NOTIFY_GIFT:
                 initGiftViewpager();
@@ -1150,8 +1151,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 timeCount.start();
             }
             count++;
-            App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
-            txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+            ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
+            txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
             if (loveView != null) {
                 loveView.addHeart();
             }
@@ -1186,9 +1187,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                                         isRun = true;
                                         if (loveView != null) {
                                             loveView.addHeart();
-                                            if (App.roomModel != null) {
-                                                App.roomModel.setLikenum(App.roomModel.getLikenum() + 1);
-                                                txt_likeNum.setText(String.valueOf(App.roomModel.getLikenum()));
+                                            if (ChatRoomActivity.roomModel != null) {
+                                                ChatRoomActivity.roomModel.setLikenum(ChatRoomActivity.roomModel.getLikenum() + 1);
+                                                txt_likeNum.setText(String.valueOf(ChatRoomActivity.roomModel.getLikenum()));
                                             }
                                         }
                                     }
@@ -1377,7 +1378,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public ShareListener listener = new ShareListener() {
         @Override
         public void callBackSuccess(int shareType) {
-//            callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
+            callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
             ToastUtils.showToast(getActivity(), R.string.success);
         }
 

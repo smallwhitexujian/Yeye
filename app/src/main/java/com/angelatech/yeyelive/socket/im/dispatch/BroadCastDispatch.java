@@ -64,7 +64,6 @@ public class BroadCastDispatch extends Dispatchable {
                     //发通知
                     SystemMessageDBModel systemMessageDBModel = parseJson(msg);
                     //保存数据
-
                     String ticker = mContext.getString(R.string.notify_default_ticker);
                     String title = mContext.getString(R.string.notify_default_title);
                     if (mContent == null || "".equals(mContent.trim())) {

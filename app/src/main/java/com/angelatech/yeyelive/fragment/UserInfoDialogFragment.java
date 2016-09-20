@@ -221,10 +221,10 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 if (App.chatRoomApplication != null) {
                     callBack.closeLive();
                 } else {
-                    App.roomModel.setId(0);
-                    App.roomModel.setRoomType(App.LIVE_PREVIEW);
-                    App.roomModel.setUserInfoDBModel(loginUser);
-                    StartActivityHelper.jumpActivity(mActivity, ChatRoomActivity.class, App.roomModel);
+                    ChatRoomActivity.roomModel.setId(0);
+                    ChatRoomActivity.roomModel.setRoomType(App.LIVE_PREVIEW);
+                    ChatRoomActivity.roomModel.setUserInfoDBModel(loginUser);
+                    StartActivityHelper.jumpActivity(mActivity, ChatRoomActivity.class, ChatRoomActivity.roomModel);
                 }
                 dismiss();
                 break;

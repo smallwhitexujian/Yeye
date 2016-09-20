@@ -27,6 +27,7 @@ import com.angelatech.yeyelive.CommonResultCode;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatManager;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
@@ -106,7 +107,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private RelativeLayout viewPanel, body;
     private ViewPager mAbSlidingTabView;
     private ServiceManager serviceManager;
-    private RoomModel roomModel;                                  //房间信息，其中包括房主信息
+    public static RoomModel roomModel;                                  //房间信息，其中包括房主信息
 
     private ChatManager chatManager;
     private ArrayList<Fragment> fragmentList;
@@ -201,7 +202,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             toastTip = R.string.no_record_audio_permission;
                         }
                         if (toastTip != 0) {
-                            ToastUtils.showToast(ChatRoomActivity.this,toastTip);
+                            ToastUtils.showToast(ChatRoomActivity.this, toastTip);
                         }
                     }
                 }
@@ -229,10 +230,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     }
 
     private void findView() {
-        if (App.roomModel.getUserInfoDBModel() != null) {
-            roomModel = App.roomModel;
+        App.mChatlines.clear();
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
             liveUserModel = roomModel.getUserInfoDBModel();
-        } else {
+        }
+        if (roomModel == null) {
             finish();
             return;
         }
@@ -313,7 +317,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 //如果是直播，发送下麦通知
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
-                    App.roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
+                    roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                     if (choose && (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
                         LiveQiSaveVideo();
@@ -374,13 +378,14 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                 }
                 exitRoom();
             }
+
             @Override
             public void onOK() {
                 restartConnection();
             }
         };
-        if (!isFinishing()){
-            commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+        if (!isFinishing()) {
+            commDialog.CommDialog(ChatRoomActivity.this, resId, true, callback, getString(R.string.button_Reconnection), getString(R.string.end_live));
         }
     }
 
@@ -424,7 +429,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             room_guide.setVisibility(View.GONE);
         }
         if (imgPath != null) {
-            UpDataPhoto(imgPath,String.valueOf(roomModel.getId()));
+            UpDataPhoto(imgPath, String.valueOf(roomModel.getId()));
         }
         if (serviceManager == null && roomModel.getIp() != null && roomModel.getPort() != 0) {
             SocketConfig socketConfig = new SocketConfig();
@@ -542,8 +547,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         userModel.diamonds = String.valueOf(coin);
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, userModel.diamonds, userModel.userid);
                         callFragment.setDiamonds(userModel.diamonds);
-                        App.roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
-                        callFragment.setLikeNum(App.roomModel.getLikenum());
+                        roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
+                        callFragment.setLikeNum(roomModel.getLikenum());
                         callFragment.setOnline(loginMessage.online);
                         serviceManager.getOnlineListUser();
                         if (!isSysMsg) {
@@ -569,7 +574,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             //如果是观看流程，首先检查是否正在直播
                             //上麦
                             if (loginMessage.live == 1) {
-                                App.roomModel.setRtmpwatchaddress(loginMessage.live_uri);
+                                roomModel.setRtmpwatchaddress(loginMessage.live_uri);
                                 MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
                             } else {
                                 //房间未直播
@@ -588,7 +593,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             case GlobalDef.WM_SDP:
                 //判断房间信息是否加载成功，如果没有加载，设置房间信息
                 if (!isInit) {
-                    callFragment.setLikeNum(App.roomModel.getLikenum());
+                    callFragment.setLikeNum(roomModel.getLikenum());
                     serviceManager.getOnlineListUser();
                     isInit = true;
                 }
@@ -853,7 +858,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      *
      * @param imgPath 图像地址;
      */
-    private void UpDataPhoto(String imgPath,String id) {
+    private void UpDataPhoto(String imgPath, String id) {
         qiNiuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {
             @Override
             public void onUpTokenError() {
@@ -1021,7 +1026,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (isqupai) {
             livePush.onResume();
         }
-        if (!isNetWork){
+        if (!isNetWork) {
             restartConnection();
         }
         super.onResume();
@@ -1054,7 +1059,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             MediaCenter.destoryLive();
         }
         App.mChatlines.clear();
-        App.roomModel = new RoomModel();
         boolCloseRoom = true;
         App.chatRoomApplication = null;
         Cocos2dxGiftCallback.onDestroy();
@@ -1091,8 +1095,8 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     }
                     isCloseLiveDialog = true;
-                    if (!isFinishing()){
-                        commDialog.CommDialog(ChatRoomActivity.this, s, true, callback,getString(R.string.button_Reconnection),getString(R.string.end_live));
+                    if (!isFinishing()) {
+                        commDialog.CommDialog(ChatRoomActivity.this, s, true, callback, getString(R.string.button_Reconnection), getString(R.string.end_live));
                     }
                 }
             }

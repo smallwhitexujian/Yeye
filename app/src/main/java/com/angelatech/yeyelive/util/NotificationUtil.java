@@ -64,7 +64,6 @@ public class NotificationUtil {
                 .autoCancel(true)//是否可以别取消
                 .clickActivity1(null,activity,key,serializable)
                 .flags(Notification.DEFAULT_ALL)//可以不用动
-//                .clickActivity(null, activity)//参数一：action可以为null,参数二:Class<Activity>类型(可以不设置该方法)
                 .simple()//普通通知可以默认使用
                 .build();//显示通知
     }

@@ -13,7 +13,6 @@ import com.angelatech.yeyelive.db.DBConfig;
 import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
-import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.duanqu.qupai.auth.AuthService;
@@ -41,7 +40,7 @@ public class App extends Application {
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static boolean isLogin = false;// 判断用户是否登录
     public static boolean isQiNiu = true; // 是否使用七牛服务器
 
@@ -78,7 +77,6 @@ public class App extends Application {
     public static String loginPhone = null;
     public static String price = "";
     public static DisplayMetrics screenDpx;
-    public static RoomModel roomModel = new RoomModel();
 
     //test
     //

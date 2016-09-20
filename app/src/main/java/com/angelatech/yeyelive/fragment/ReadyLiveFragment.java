@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
@@ -120,8 +121,8 @@ public class ReadyLiveFragment extends BaseFragment {
         Front_cover = (ImageView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         loginUserModel = CacheDataManager.getInstance().loadUser();
-        if (App.roomModel.getUserInfoDBModel() != null) {
-            roomModel = App.roomModel;
+        if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
+            roomModel = ChatRoomActivity.roomModel;
             liveUserModel = roomModel.getUserInfoDBModel();
         } else {
             liveUserModel = loginUserModel;
@@ -325,13 +326,13 @@ public class ReadyLiveFragment extends BaseFragment {
                     if (json.getInt("code") == 1000) {
                         JSONObject jsonData = json.getJSONObject("data");
                         if (jsonData != null) {
-                            App.roomModel.setId(jsonData.getInt("roomid"));
-                            App.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
-                            App.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
-                            App.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
-                            App.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
-                            App.roomModel.setLiveid(jsonData.getString("liveid"));
-                            App.roomModel.setName(txt_title.getText().toString());
+                            ChatRoomActivity.roomModel.setId(jsonData.getInt("roomid"));
+                            ChatRoomActivity.roomModel.setRtmpip(jsonData.getString("rtmpaddress"));
+                            ChatRoomActivity.roomModel.setRtmpwatchaddress(jsonData.getString("rtmpwatchaddress"));
+                            ChatRoomActivity.roomModel.setIp(jsonData.getString("roomserverip").split(":")[0]);
+                            ChatRoomActivity.roomModel.setPort(Integer.parseInt(jsonData.getString("roomserverip").split(":")[1]));
+                            ChatRoomActivity.roomModel.setLiveid(jsonData.getString("liveid"));
+                            ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
                         }
                     } else {
                         ToastUtils.showToast(getActivity(), getString(R.string.data_get_fail));
@@ -339,7 +340,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                App.roomModel.setName(txt_title.getText().toString());
+                ChatRoomActivity.roomModel.setName(txt_title.getText().toString());
                 LoadingDialog.cancelLoadingDialog();
                 Utility.closeKeybord(txt_title, getActivity());
                 ly_body.setVisibility(View.GONE);

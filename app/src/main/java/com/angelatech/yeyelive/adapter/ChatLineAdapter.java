@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
@@ -144,7 +145,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                 };
                 SpannableString spanableInfo;
                 Spanned spannedText;
-//                if (!sChatContent.contains(GlobalDef.APPEND_FOLLOW) && !sChatContent.contains(GlobalDef.APPEND_SHARED)) {
+                if (!sChatContent.startsWith(GlobalDef.APPEND_FOLLOW) && !sChatContent.startsWith(GlobalDef.APPEND_SHARED)) {
                     if (chatline.isFirst) {
                         spanableInfo = new SpannableString(chatline.from.name + " ");
                     } else {
@@ -163,14 +164,14 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                     holder.tv_content.append(spanableInfo);
                     holder.tv_content.append(spannedText);
                     holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
-//                } else {//转粉和关注
-//                    if (sChatContent.contains(GlobalDef.APPEND_FOLLOW)) {
-//                        sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_follow);
-//                    } else if (sChatContent.contains(GlobalDef.APPEND_SHARED)) {
-//                        sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_sherad);
-//                    }
-//                    holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + sChatContent + "</font>"));
-//                }
+                } else {//转粉和关注
+                    if (sChatContent.startsWith(GlobalDef.APPEND_FOLLOW)) {
+                        sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_follow);
+                    } else if (sChatContent.startsWith(GlobalDef.APPEND_SHARED)) {
+                        sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_sherad);
+                    }
+                    holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + sChatContent + "</font>"));
+                }
             }
         } else if (chatline.type == 9) {
             //进入房间系统提示

@@ -281,10 +281,11 @@ public class MainActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_live:
-                App.roomModel.setId(0);
-                App.roomModel.setRoomType(App.LIVE_PREVIEW);
-                App.roomModel.setUserInfoDBModel(userModel);
-                StartActivityHelper.jumpActivity(this, ChatRoomActivity.class, App.roomModel);
+                RoomModel roomModel = new RoomModel();
+                roomModel.setId(0);
+                roomModel.setRoomType(App.LIVE_PREVIEW);
+                roomModel.setUserInfoDBModel(userModel);
+                StartActivityHelper.jumpActivity(this, ChatRoomActivity.class, roomModel);
                 break;
             case R.id.hot_textview:
                 viewPager.setCurrentItem(0);
