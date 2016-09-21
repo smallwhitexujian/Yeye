@@ -36,8 +36,9 @@ public class SystemMessageType {
 
 
     public static final int NOTICE_LIVE = 50;//直播
-
-    public static final int NOTICE_LIVE_FEEDBACK = 51;
+    public static final int NOTICE_LIVE_FEEDBACK = 51;//意见反馈
+    public static final int NOTICE_TO_ALL = 52;//全平台推送
+    public static final int NOTICE_SHOW_PERSON_MSG = 53;//展示个人消息
 
 
 }

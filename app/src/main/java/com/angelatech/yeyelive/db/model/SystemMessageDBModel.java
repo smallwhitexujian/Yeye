@@ -1,39 +1,40 @@
 package com.angelatech.yeyelive.db.model;
 
 
-
-
 import com.angelatech.yeyelive.db.DBConfig;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * 系统消息数据库模型
  */
-
 @DatabaseTable(tableName = DBConfig.TABLE_SYSTEM_MESSAGE)
-public class SystemMessageDBModel {
+public class SystemMessageDBModel implements Serializable {
 
-    @DatabaseField(generatedId=true)
+    @DatabaseField(generatedId = true)
     private long id;//
 
-    @DatabaseField(columnName="type_code")
+    @DatabaseField(columnName = "type_code")
     public int type_code;
-    @DatabaseField(columnName="data")
+    @DatabaseField(columnName = "data")
     public String data;
 
-    @DatabaseField(columnName="content")
+    @DatabaseField(columnName = "content")
     public String content;
 
-    @DatabaseField(columnName="localtime")
+    @DatabaseField(columnName = "localtime")
     public long localtime;
 
-    @DatabaseField(columnName="datetime")
+    @DatabaseField(columnName = "datetime")
     public String datetime;
 
-    @DatabaseField(columnName="uid")
+    @DatabaseField(columnName = "uid")
     public String uid;//用户id
 
+    @DatabaseField(columnName = "_data")
+    public String _data;//固定字段{url,}
 
     @Override
     public String toString() {

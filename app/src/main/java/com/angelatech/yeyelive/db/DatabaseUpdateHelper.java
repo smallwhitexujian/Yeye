@@ -73,7 +73,6 @@ public class DatabaseUpdateHelper {
             String tempTableName = tableName + "_temp";
             String sql = "ALTER TABLE " + tableName + " RENAME TO " + tempTableName;
             database.execSQL(sql);
-
             //Create table
             try {
                 sql = TableUtils.getCreateTableStatements(connectionSource, clazz).get(0);

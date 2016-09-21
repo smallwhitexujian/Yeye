@@ -47,5 +47,5 @@ public class Constant {
     public static final String Login_facebook = "1";
     public static final String Login_wx = "2";
     public static final String Login_qq = "3";
-
+    public static final String REFRESH_SYSTEM_MESSAGE = "com.will.maracuyalive.system_message_refresh_action";
 }

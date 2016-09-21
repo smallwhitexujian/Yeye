@@ -7,7 +7,6 @@ package com.angelatech.yeyelive.db;
  * 数据库 字段
  */
 public class BaseKey {
-
     public final static String USER_USERID = "userid";
     public final static String USER_DIAMOND = "diamonds"; //钻石
     public final static String USER_NICKNAME = "nickname"; //昵称

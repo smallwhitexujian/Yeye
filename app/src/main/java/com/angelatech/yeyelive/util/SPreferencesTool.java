@@ -65,4 +65,17 @@ public class SPreferencesTool {
         SPreferencesTool.getInstance().putValue(context, PREFERENCES_UP_APK_INFO_MESSAGE, message);
         SPreferencesTool.getInstance().putValue(context, PREFERENCES_UP_APK_INFO_URL, URl);
     }
+
+
+    public static class SharedPreferencesConfigs {
+        public static final String profile_name = "will_live_user";
+        public static final String LIVE_SWITCH = "LIVE_SWITCH";
+        public static final String PREFERENCES_UP_APK_INFO_isUp = "isUp";
+        public static final String PREFERENCES_UP_APK_INFO_VERSION = "version";
+        public static final String PREFERENCES_UP_APK_INFO_MESSAGE = "message";
+        public static final String PREFERENCES_UP_APK_INFO_URL = "upLoadApkUrl";
+        public static final String PREFERENCES_UP_APK_INFO_CANCEL = "cancel";
+        public static final String PREFERENCES_DAY_RECORD = "datetime";
+        public static final String PREFERENCES_SYSTEM_MSG = "system_msg";
+    }
 }

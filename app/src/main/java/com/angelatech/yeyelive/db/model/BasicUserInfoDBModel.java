@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.db.model;
 
 
+import com.angelatech.yeyelive.db.DBConfig;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
  * 用户信息数据库
  */
 
-@DatabaseTable(tableName = "CacheUser")
+@DatabaseTable(tableName = DBConfig.TABLE_BASIC_USER_INFO)
 public class BasicUserInfoDBModel implements Serializable {
 
     @DatabaseField(columnName = "id", generatedId = true)

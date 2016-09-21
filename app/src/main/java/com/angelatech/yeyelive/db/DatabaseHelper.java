@@ -3,11 +3,12 @@ package com.angelatech.yeyelive.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DB_NAME = DBConfig.DB_NAME;
     private static final int DB_VERSION = DBConfig.DB_VERSION;
     private static List<Class<?>> mClasses = new ArrayList<>();
+
     static {
         mClasses.add(BasicUserInfoDBModel.class);
     }
@@ -31,16 +33,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 
     private DatabaseHelper(Context context) {
-        super(context,DB_NAME, null, DB_VERSION);
-        if(mClasses == null){
-            throw  new RuntimeException();
+        super(context, DB_NAME, null, DB_VERSION);
+        if (mClasses == null) {
+            throw new RuntimeException();
         }
     }
 
-    private DatabaseHelper(Context context,String DBName,int DBVersion){
-        super(context,DBName, null,DBVersion);
-        if(mClasses == null){
-            throw  new RuntimeException();
+    private DatabaseHelper(Context context, String DBName, int DBVersion) {
+        super(context, DBName, null, DBVersion);
+        if (mClasses == null) {
+            throw new RuntimeException();
         }
     }
 
@@ -60,12 +62,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            if (mClasses != null) {
-                for (Class clazz : mClasses) {
-                    TableUtils.dropTable(connectionSource,clazz, true);
+            if (oldVersion < 16){
+                TableUtils.dropTable(connectionSource,SystemMessageDBModel.class,true);
             }
+            if (oldVersion == 16){
+                DatabaseUpdateHelper.upgradeTable(database,connectionSource,SystemMessageDBModel.class, DatabaseUpdateHelper.OPERATION_TYPE.ADD);
+            }else{
+                if (mClasses != null) {
+                    for (Class clazz : mClasses) {
+                        TableUtils.dropTable(connectionSource, clazz, true);
+                    }
+                }
+                onCreate(database, connectionSource);
             }
-            onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
