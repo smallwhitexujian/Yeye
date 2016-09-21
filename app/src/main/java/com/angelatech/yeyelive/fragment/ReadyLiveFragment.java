@@ -386,6 +386,9 @@ public class ReadyLiveFragment extends BaseFragment {
                 }
             }
         };
+        if (title.isEmpty()){
+            title = String.format(getString(R.string.formatted_2), loginUserModel.nickname);
+        }
         chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, callback);
     }
 

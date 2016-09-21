@@ -379,8 +379,12 @@
     <string name="updata_file_success">文件下载完成…</string>
     <string name="tops_video" formatted="false">只保存最近的%s段视频</string>
 
-
     <!--房间 -->
     <string name="append_follow">路人转粉</string>
     <string name="append_sherad">分享了直播</string>
+
+    <!-- 排行榜 -->
+    <string name="rank_history_dedicated">历史奉献榜</string>
+    <string name="rank_seven_dedicated">七日奉献榜</string>
+    <string name="rank_title">排行榜</string>
 </resources>

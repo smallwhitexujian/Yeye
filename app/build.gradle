@@ -8,7 +8,7 @@ android {
         applicationId "com.angelatech.yeyelive"
         minSdkVersion 18
         targetSdkVersion 22
-        versionCode 14
+        versionCode 16
         versionName "1.8.101"
         multiDexEnabled true
         ndk {

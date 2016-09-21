@@ -380,4 +380,8 @@
     <!--房间 -->
     <string name="append_follow">become fans</string>
     <string name="append_sherad">shared current live show</string>
+    <!-- 排行榜 -->
+    <string name="rank_history_dedicated">历史奉献榜</string>
+    <string name="rank_seven_dedicated">七日奉献榜</string>
+    <string name="rank_title">排行榜</string>
 </resources>
