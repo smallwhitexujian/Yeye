@@ -216,7 +216,6 @@ public class LeftFragment extends HintFragment {
                 if (isAdded()) {
                     id.setText(MessageFormat.format("{0}{1}", getString(R.string.ID), basicUserInfoDBModel.idx));
                     intimacy.setText(MessageFormat.format("{0}{1}", getString(R.string.intimacy), basicUserInfoDBModel.Intimacy));
-
                     if (basicUserInfoDBModel.sign == null || "".equals(basicUserInfoDBModel.sign)) {
                         user_sign.setText(getString(R.string.default_sign));
                     } else {

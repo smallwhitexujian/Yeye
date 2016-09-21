@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
@@ -18,32 +19,32 @@
             android:id="@+id/tops_title"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:text="Tips"
+            android:gravity="center"
+            android:text="@string/updata_tops"
             android:textColor="@color/main_red"
-            android:textSize="16dp" />
+            android:textSize="18sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/main_red" />
+            android:background="@color/font_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:minHeight="120dp"
+            android:minHeight="100dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:textColor="@color/font_black"
                 android:textSize="16dp" />
 
@@ -58,59 +59,50 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/font_line" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_ok"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_bg_red"
+                android:drawableLeft="@drawable/btn_download_android"
+                android:paddingLeft="20dp"
                 android:text="@string/button_google_play"
-                android:textColor="@color/font_black" />
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:background="@color/font_line" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/color_white"
+                android:textSize="14sp"
+                tools:ignore="RtlSymmetry" />
 
             <Button
                 android:id="@+id/btn_downloads"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@null"
-                android:textSize="12sp"
-                android:visibility="gone"
                 android:text="@string/button_downloads"
-                android:textColor="@color/font_black" />
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/font_line" />
+                android:textColor="@color/font_black"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@null"
-                android:textSize="14dp"
-                android:text="@string/cancel"
-                android:textColor="@color/font_black" />
+                android:background="@drawable/btn_bg_d9"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/button_cancal_up"
+                android:textColor="@color/color_white"
+                android:textSize="14dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

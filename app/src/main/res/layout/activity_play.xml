@@ -36,6 +36,7 @@
                 android:paddingLeft="14dp"
                 android:paddingRight="10dp"
                 android:paddingTop="15dp"
+                android:contentDescription="@null"
                 android:src="@drawable/back" />
 
             <View
@@ -77,6 +78,7 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:padding="6dp"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_playback_play"
                 android:visibility="visible" />
 
@@ -202,6 +204,7 @@
         android:id="@+id/video_loading"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:contentDescription="@null"
         android:layout_centerInParent="true"
         android:src="@drawable/video_load" />
 

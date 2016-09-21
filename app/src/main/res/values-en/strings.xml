@@ -53,6 +53,7 @@
     <string name="button_myleceived">History</string>
     <string name="button_downloads">Direct download</string>
     <string name="button_google_play">Google Play</string>
+    <string name="button_cancal_up">keep old version</string>
     <string name="button_send">Send</string>
     <string name="button_finish">Finish</string>
     <string name="button_new_user">Register</string>

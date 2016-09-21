@@ -64,6 +64,7 @@
     <string name="button_disagree">拒绝</string>
     <string name="button_downloads">直接下载</string>
     <string name="button_google_play">Google商店</string>
+    <string name="button_cancal_up">继续坚持老版</string>
     <string name="button_Reconnection">重连</string>
     <string name="reply">回复</string>
     <string name="moment_details">评论</string>
@@ -373,7 +374,7 @@
     <string name="last_cover">修改封面，默认使用上次封面!</string>
 
     <string name="updata_tops">版本更新</string>
-    <string name="updata_tops_content">"有新的版本升级，是否下载安装？\n\n"</string>
+    <string name="updata_tops_content">"请下载最新版本! \n\n"</string>
     <string name="updata_progress">"正在下载中，请稍后"</string>
     <string name="updata_file_success">文件下载完成…</string>
     <string name="tops_video" formatted="false">只保存最近的%s段视频</string>
