@@ -38,9 +38,15 @@ public class ScreenUtils {
      * @return
      */
     public static int dip2px(Context context, float dipValue) {
-        if (context.getResources() != null) {
-            final float scale = context.getResources().getDisplayMetrics().density;
-            return (int) (dipValue * scale + 0.5f);
+        try{
+            if (context !=null){
+                if (context.getResources() != null) {
+                    final float scale = context.getResources().getDisplayMetrics().density;
+                    return (int) (dipValue * scale + 0.5f);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return 0;
     }

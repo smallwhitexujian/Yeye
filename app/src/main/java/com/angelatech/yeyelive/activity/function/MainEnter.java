@@ -21,7 +21,7 @@ public class MainEnter extends HttpFunction {
     /**
      * 获取所有的房间列表
      */
-    public void loadRoomList(String url, BasicUserInfoDBModel userInfo,int pageIndex, int pagesize, long time, int type, HttpBusinessCallback callback) {
+    public void loadRoomList(String url, BasicUserInfoDBModel userInfo, int pageIndex, int pagesize, long time, int type, HttpBusinessCallback callback) {
         if (userInfo == null || callback == null) {
             return;
         }
@@ -42,7 +42,7 @@ public class MainEnter extends HttpFunction {
      * 获取所有的房间列表
      */
     public void loadRoomList(String url, BasicUserInfoDBModel userInfo, int pageIndex, int pagesize, long time, HttpBusinessCallback callback) {
-        if(userInfo == null || callback == null){
+        if (userInfo == null || callback == null) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -66,6 +66,17 @@ public class MainEnter extends HttpFunction {
             params.put("touserid", touserid);
         }
         params.put("token", token);
+        httpGet(url, params, callback);
+    }
+
+    /**
+     * 排行榜
+     */
+    public void loadSevenRank(String url, String userid, String token,String id, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("id",id);
         httpGet(url, params, callback);
     }
 }

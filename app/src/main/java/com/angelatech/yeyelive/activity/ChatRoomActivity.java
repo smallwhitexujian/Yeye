@@ -135,7 +135,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = true;
+    public boolean isqupai = false;
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
     private QiniuUpload qiNiuUpload;
@@ -1130,7 +1130,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
      * 开播
      */
     @Override
-    public void onBeginLive() {
+    public synchronized void onBeginLive() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

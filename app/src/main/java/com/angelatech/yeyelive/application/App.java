@@ -40,9 +40,9 @@ public class App extends Application {
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
-    public static boolean isDebug = true;
+    public static boolean isDebug = false;
     public static boolean isLogin = false;// 判断用户是否登录
-    public static boolean isQiNiu = false; // 是否使用七牛服务器
+    public static boolean isQiNiu = true; // 是否使用七牛服务器
 
     private static String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
     private static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;

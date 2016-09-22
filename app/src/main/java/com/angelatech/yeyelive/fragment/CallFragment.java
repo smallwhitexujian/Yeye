@@ -340,10 +340,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                numText.setVisibility(View.VISIBLE);
-                numText.startAnimation(scaleAnimation);
-                if (giftModelList.size() > 0) {
-                    addGiftAnimationNum(giftModelList.get(0));
+                if(scaleAnimation!=null){
+                    numText.setVisibility(View.VISIBLE);
+                    numText.startAnimation(scaleAnimation);
+                    if (giftModelList.size() > 0) {
+                        addGiftAnimationNum(giftModelList.get(0));
+                    }
                 }
             }
 
