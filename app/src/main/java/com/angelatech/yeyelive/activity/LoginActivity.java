@@ -30,6 +30,7 @@ import com.angelatech.yeyelive.thirdLogin.WxProxy;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.facebook.AccessToken;
 import com.facebook.login.widget.LoginButton;
@@ -175,6 +176,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 initAnimation();
                 break;
             case MSG_LOGIN_SUCC: //注册成功流程
+                LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(LoginActivity.this, getString(R.string.login_suc));
                 BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
                 if (userInfo.userid != null && userInfo.nickname != null) {
@@ -188,12 +190,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
             case MSG_LOGIN_ERR:
+                LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(this, getString(R.string.login_faild));
                 Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
                         IServiceValues.CMD_EXIT_LOGIN);
                 BroadCastHelper.sendBroadcast(this, exitIntent);
                 break;
             case FbProxy.FB_LOGIN_SUCCESS:
+                LoadingDialog.showLoadingDialog(LoginActivity.this);
                 Log.e("success--->", "success");
                 if (!isLogin) {
                     CacheDataManager.getInstance().deleteAll();
@@ -206,6 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 AccessToken.setCurrentAccessToken(null);
                 break;
             case WxProxy.WX_LOGIN:
+                LoadingDialog.showLoadingDialog(LoginActivity.this);
                 DebugLogs.e("======微信注册======");
                 new Register(this, uiHandler).wxRegister(msg.obj.toString(), DeviceTool.getUniqueID(this));
                 break;
