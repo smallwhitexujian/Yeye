@@ -35,14 +35,13 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class LeftFragment extends HintFragment {
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
             layout_diamond, layout_video, layout_Invite_friend;
     private ImageView editImageView, sexImageView, iv_vip;
-    private SimpleDraweeView userFace;
+    private FrescoRoundView userFace;
     private GestureDetector gestureDetector;
     private BasicUserInfoDBModel userInfo;
 
@@ -111,7 +110,7 @@ public class LeftFragment extends HintFragment {
 
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
-        userFace = (SimpleDraweeView) view.findViewById(R.id.user_face);
+        userFace = (FrescoRoundView) view.findViewById(R.id.user_face);
         iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
     }
 
@@ -229,7 +228,7 @@ public class LeftFragment extends HintFragment {
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
                 diamond.setText(String.format("%s", basicUserInfoDBModel.diamonds));
-                userFace.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl)));
+                userFace.setImageURI(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
                 if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
                     sexImageView.setImageResource(R.drawable.icon_information_boy);
@@ -241,7 +240,7 @@ public class LeftFragment extends HintFragment {
                 } else {
                     iv_vip.setVisibility(View.GONE);
                 }
-                CacheDataManager.getInstance().update(BaseKey.USER_FANS,basicUserInfoDBModel.fansNum,basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_FANS, basicUserInfoDBModel.fansNum, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
@@ -272,6 +271,6 @@ public class LeftFragment extends HintFragment {
 
     public void setPhoto() {
         userInfo = CacheDataManager.getInstance().loadUser();
-        userFace.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl150(userInfo.headurl)));
+        userFace.setImageURI(VerificationUtil.getImageUrl150(userInfo.headurl));
     }
 }

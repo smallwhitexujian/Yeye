@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -13,14 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.xj.frescolib.View.FrescoDrawee;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.io.File;
 
 
 /**
  * Created by Shanli_pc on 2015/9/9.
+ * 公用的viewHolder管理器
  */
 public class ViewHolder {
     private final SparseArray<View> mViews;
@@ -167,7 +172,41 @@ public class ViewHolder {
         return mPosition;
     }
 
+    /**
+     * 为ImageView设置图片
+     */
+    public ViewHolder setImageUrl(int viewId, String url) {
+        FrescoRoundView img = getView(viewId);
+        img.setImageURI(url);
+        return this;
+    }
 
+    /**
+     * 为ImageView设置图片
+     */
+    public ViewHolder setDefutImageUrl(int viewId, Drawable drawable) {
+        FrescoRoundView img = getView(viewId);
+        img.setDefutImage(drawable);
+        return this;
+    }
+
+    public ViewHolder setImageURI(int viewId, String url) {
+        FrescoDrawee img = getView(viewId);
+        img.setImageURI(url);
+        return this;
+    }
+
+    public ViewHolder setImageBackground(int viewId, Drawable drawable) {
+        FrescoDrawee img = getView(viewId);
+        img.setDefutImage(drawable);
+        return this;
+    }
+
+    public ViewHolder setImageImageScaleType(int viewId, ScalingUtils.ScaleType scaleType) {
+        FrescoDrawee img = getView(viewId);
+        img.setImageImageScaleType(scaleType);
+        return this;
+    }
 
     //加载网络允许动画(默认的图片占位和重新加载图片在xml中配置）
     public void setImageViewByImageLoader(int viewId, String filePath) {
@@ -179,6 +218,7 @@ public class ViewHolder {
                 .build();
         view.setController(controller);
     }
+
     //加载图片
     public void setImageViewByImageLoader1(int viewId, String filePath) {
         final SimpleDraweeView view = getView(viewId);
@@ -212,14 +252,14 @@ public class ViewHolder {
         view.setEnabled(enable);
     }
 
-    public void startAnimationList(int viewId){
+    public void startAnimationList(int viewId) {
         final View view = getView(viewId);
-        ((AnimationDrawable)((ImageView)view).getDrawable()).start();
+        ((AnimationDrawable) ((ImageView) view).getDrawable()).start();
     }
 
-    public void stopAnimationList(int viewId){
+    public void stopAnimationList(int viewId) {
         final View view = getView(viewId);
-        ((AnimationDrawable)((ImageView)view).getDrawable()).stop();
+        ((AnimationDrawable) ((ImageView) view).getDrawable()).stop();
     }
 
 }

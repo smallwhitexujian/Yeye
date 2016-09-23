@@ -25,15 +25,14 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.RankModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
-import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,12 +92,12 @@ public class SevenRankFragment extends BaseFragment implements
         LoadingDialog.showLoadingDialog(getActivity());
         userInfo = CacheDataManager.getInstance().loadUser();
         LinearLayout bottom_layout = (LinearLayout) view.findViewById(R.id.bottom_layout);
-        SimpleDraweeView rank_my_pic = (SimpleDraweeView) view.findViewById(R.id.rank_my_pic);
+        FrescoRoundView rank_my_pic = (FrescoRoundView) view.findViewById(R.id.rank_my_pic);
         rank_coin = (TextView) view.findViewById(R.id.rank_mycoin);
         if (ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(userInfo.userid)) {
             bottom_layout.setVisibility(View.GONE);
         }
-        rank_my_pic.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userInfo.headurl)));
+        rank_my_pic.setImageURI(VerificationUtil.getImageUrl(userInfo.headurl));
         swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
@@ -132,7 +131,7 @@ public class SevenRankFragment extends BaseFragment implements
                         break;
                 }
                 helper.setText(R.id.rank_top, top);
-                helper.setImageViewByImageLoader(R.id.rank_handler, item.imageurl);
+                helper.setImageUrl(R.id.rank_handler, item.imageurl);
                 helper.setText(R.id.rank_nickName, item.name);
                 CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
                         "<font color='" + ContextCompat.getColor(mContext, R.color.color_eecc1b) + "'>" + item.number + "</font>"

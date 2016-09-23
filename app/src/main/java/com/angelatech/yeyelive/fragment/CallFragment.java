@@ -3,7 +3,6 @@ package com.angelatech.yeyelive.fragment;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -66,13 +65,14 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.libmedia.MediaCenter;
 import com.will.libmedia.MediaNative;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoDrawee;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 import org.cocos2dx.lib.util.Cocos2dxGift;
@@ -104,7 +104,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
-    private SimpleDraweeView img_head;
+    private FrescoRoundView img_head,gif_img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
     private LinearLayout ly_send, ly_toolbar, ly_main, giftView;                                    // 礼物界面
@@ -120,7 +120,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout ly_gift_view;                                                            //礼物特效view
     private TextView numText, numText1;                                                             //礼物数量  阴影
     private TextView txt_from_user;                                                  //发送礼物的人，礼物名称
-    private SimpleDraweeView imageView, gif_img_head;                                               //礼物图片， 礼物发送人的头像
+    private FrescoDrawee imageView;//礼物图片， 礼物发送人的头像
     private Animation translateAnimation_in, translateAnimation_out, translate_in, scaleAnimation;  //礼物特效
 
     private boolean giftA = false;                                                                  //礼物特效播放状态
@@ -241,7 +241,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         ly_send = (LinearLayout) controlView.findViewById(R.id.ly_send);
         ly_main = (LinearLayout) controlView.findViewById(R.id.ly_main);
         loveView = (PeriscopeLayout) controlView.findViewById(R.id.PeriscopeLayout);
-        img_head = (SimpleDraweeView) controlView.findViewById(R.id.img_head);
+        img_head = (FrescoRoundView) controlView.findViewById(R.id.img_head);
         giftView = (LinearLayout) controlView.findViewById(R.id.giftView);
         viewPager = (ViewPager) controlView.findViewById(R.id.viewPager); //礼物 viewpager
         roomGiftNumSpinner = (Spinner) controlView.findViewById(R.id.roomGiftNumSpinner);
@@ -317,8 +317,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         });
 
         txt_from_user = (TextView) controlView.findViewById(R.id.txt_from_user);
-        imageView = (SimpleDraweeView) controlView.findViewById(R.id.img_gift);
-        gif_img_head = (SimpleDraweeView) controlView.findViewById(R.id.gif_img_head);
+        imageView = (FrescoDrawee) controlView.findViewById(R.id.img_gift);
+        gif_img_head = (FrescoRoundView) controlView.findViewById(R.id.gif_img_head);
         ly_gift_view = (RelativeLayout) controlView.findViewById(R.id.ly_gift_view);
         numText = (TextView) controlView.findViewById(R.id.numText);
         numText1 = (TextView) controlView.findViewById(R.id.numText1);
@@ -605,7 +605,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void setRoomInfo() {
         if (liveUserModel != null) {
             if (liveUserModel.headurl != null) {
-                img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl100(liveUserModel.headurl)));
+                img_head.setImageURI(VerificationUtil.getImageUrl100(liveUserModel.headurl));
             }
             if (liveUserModel.isv.equals("1")) {
                 iv_vip.setVisibility(View.VISIBLE);
@@ -1102,10 +1102,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         ly_gift_view.setVisibility(View.VISIBLE);
         ly_gift_view.startAnimation(translateAnimation_in);
         if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
-            imageView.setImageURI(Uri.parse(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL())));
+            imageView.setImageURI(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL()));
         }
         if (giftModel.userheadpoto != null) {
-            gif_img_head.setImageURI(Uri.parse(VerificationUtil.getImageUrl(giftModel.userheadpoto)));
+            gif_img_head.setImageURI(VerificationUtil.getImageUrl(giftModel.userheadpoto));
         }
         txt_from_user.setText(giftModel.from_uname);
         imageView.startAnimation(translate_in);

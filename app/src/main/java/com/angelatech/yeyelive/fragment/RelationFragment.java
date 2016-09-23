@@ -84,7 +84,7 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
         adapter = new CommonAdapter<FocusModel>(getContext(), data, R.layout.item_focus) {
             @Override
             public void convert(ViewHolder helper, final FocusModel item, final int position) {
-                helper.setImageViewByImageLoader(R.id.user_head_photo, item.headurl);
+                helper.setImageUrl(R.id.user_head_photo, item.headurl);
                 helper.setText(R.id.tv_name, item.nickname);
                 if (item.sex.equals(Constant.SEX_MALE)) {
                     helper.setImageResource(R.id.iv_user_sex, R.drawable.icon_information_boy);

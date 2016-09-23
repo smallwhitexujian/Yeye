@@ -1,7 +1,6 @@
 package com.angelatech.yeyelive.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.model.GiftModel;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.xj.frescolib.View.FrescoDrawee;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.List;
  * gridView adapter
  */
 public class GridViewAdapter extends BaseAdapter {
-
     private List<GiftModel> list;
     private Context context;
     private List<GiftModel> mList = new ArrayList<>();//定义一个list对象
@@ -69,21 +67,19 @@ public class GridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_gift, parent, false);
-            //holder.name = (TextView) convertView.findViewById(R.id.gift_name);
             holder.price = (TextView) convertView.findViewById(R.id.txt_propNum);
-            holder.image = (SimpleDraweeView) convertView.findViewById(R.id.img_propimage);
+            holder.image = (FrescoDrawee) convertView.findViewById(R.id.img_propimage);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        //holder.name.setText(mList.get(i).getName());
         holder.price.setText(mList.get(i).getPrice());
-        holder.image.setImageURI(Uri.parse(mList.get(i).getImageURL()));
+        holder.image.setImageURI(mList.get(i).getImageURL());
         return convertView;
     }
 
     class ViewHolder {
-        TextView name, price;
-        SimpleDraweeView image;
+        TextView price;
+        FrescoDrawee image;
     }
 }

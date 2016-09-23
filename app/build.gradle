@@ -71,7 +71,6 @@ dependencies {
     compile project(':LibSocket')
     compile project(':LibView')
     compile project(':LibWeb')
-    compile project(':LibImageLoader')
     compile project(':LibGooglePay')
     compile project(':LibQiniu')
     compile 'com.android.support:multidex:'
@@ -80,6 +79,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:7.8.+'
     compile 'com.google.android.gms:play-services-location:7.8.+'
     compile 'com.facebook.android:facebook-android-sdk:4.7.+'
+    compile 'com.facebook.fresco:fresco:0.9.0'
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
     compile project(':LibCocos2dx')
@@ -90,4 +90,5 @@ dependencies {
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.android.support:support-v4:23.3.0'
+    compile files('libs/frescolib.jar')
 }

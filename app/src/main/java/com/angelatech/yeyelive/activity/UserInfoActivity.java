@@ -26,9 +26,9 @@ import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.io.File;
 import java.util.HashMap;
@@ -44,9 +44,8 @@ public class UserInfoActivity extends HeaderBaseActivity {
     private LinearLayout layout_user_sign;
     private PictureObtain mObtain;
     private BasicUserInfoDBModel model;
-    private SimpleDraweeView user_head_photo;
+    private FrescoRoundView user_head_photo;
     private TextView tv_nickName, tv_sign, tv_sex, tv_email;
-    private CacheDataManager cacheDataManager;
     private String path = null;
     private QiniuUpload mQiniuUpload;
     private String sex = Constant.SEX_FEMALE;
@@ -69,7 +68,7 @@ public class UserInfoActivity extends HeaderBaseActivity {
         layout_email = (RelativeLayout) findViewById(R.id.layout_email);
         layout_sex = (RelativeLayout) findViewById(R.id.layout_sex);
         layout_user_sign = (LinearLayout) findViewById(R.id.layout_user_sign);
-        user_head_photo = (SimpleDraweeView) findViewById(R.id.user_head_photo);
+        user_head_photo = (FrescoRoundView) findViewById(R.id.user_head_photo);
         tv_nickName = (TextView) findViewById(R.id.tv_nickName);
         tv_sign = (TextView) findViewById(R.id.tv_sign);
         tv_sex = (TextView) findViewById(R.id.tv_sex);
@@ -95,9 +94,9 @@ public class UserInfoActivity extends HeaderBaseActivity {
             tv_sex.setText(getString(R.string.user_male));
         }
         if (path == null) {
-            user_head_photo.setImageURI(UriHelper.obtainUri(model.headurl));
+            user_head_photo.setImageURI(model.headurl);
         } else {
-            user_head_photo.setImageURI(UriHelper.obtainUri(path));
+            user_head_photo.setImageURI(path);
         }
 
     }
@@ -110,7 +109,7 @@ public class UserInfoActivity extends HeaderBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        cacheDataManager = CacheDataManager.getInstance();
+        CacheDataManager cacheDataManager = CacheDataManager.getInstance();
         model = cacheDataManager.loadUser();
         initData();
     }

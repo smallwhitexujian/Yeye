@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -8,7 +9,7 @@
     android:clickable="false"
     android:padding="0dp">
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <com.xj.frescolib.View.FrescoDrawee
         android:id="@+id/img_propimage"
         android:layout_width="60dp"
         android:layout_height="50dp"
@@ -24,14 +25,15 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:src="@drawable/icon_sand_gold"
             android:paddingRight="2dp"
-            />
+            android:contentDescription="@null"/>
 
         <TextView
             android:id="@+id/txt_propNum"
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/white"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            tools:ignore="SpUsage" />
     </LinearLayout>
 </LinearLayout>

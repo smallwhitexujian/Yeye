@@ -41,17 +41,16 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private final int MSG_PULL_BLACKLIST_SUC = 8;
     private final int MSG_REPORT_SUC = 10;
 
-    private SimpleDraweeView userface;
+    private FrescoRoundView userface;
     private TextView usernick, intimacy, usersign, fansNum, fouceNum, btn_outUser, liveBtn, user_id;
     private ImageView closeImageView, userSex, attentionsBtn, ringBtn, leftIcon,
             rightIcon, giftBtn, btnUserControl, iv_vip, recharge_btn;
@@ -113,7 +112,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
 
     private void initView() {
         loginUser = CacheDataManager.getInstance().loadUser();
-        userface = (SimpleDraweeView) view.findViewById(R.id.user_face);
+        userface = (FrescoRoundView) view.findViewById(R.id.user_face);
         usernick = (TextView) view.findViewById(R.id.user_nick);
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);
         usersign = (TextView) view.findViewById(R.id.user_sign);
@@ -220,9 +219,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 break;
             case R.id.live_btn://点击直播按钮
                 if (App.chatRoomApplication != null) {
-                    if (callBack!=null){
+                    if (callBack != null) {
                         callBack.closeLive();
-                    }else{
+                    } else {
                         App.chatRoomApplication.closeLive();
                     }
                 } else {
@@ -524,7 +523,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         if (user.nickname != null) {
             usernick.setText(user.nickname);
         }
-        userface.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl150(user.headurl)));
+        userface.setImageURI(VerificationUtil.getImageUrl150(user.headurl));
         if (user.Intimacy != null) {
             intimacy.setText(String.format("%s%s", mActivity.getString(R.string.intimacy), user.Intimacy));
         }

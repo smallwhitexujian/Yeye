@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/user_head_photo"
             android:layout_width="39dp"
             android:layout_height="39dp"

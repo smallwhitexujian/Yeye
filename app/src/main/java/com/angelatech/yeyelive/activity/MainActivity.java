@@ -33,18 +33,17 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UploadApp;
-import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.util.roomSoundState;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.view.DisplayTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +61,7 @@ public class MainActivity extends BaseActivity {
     private BasicUserInfoDBModel userModel;
     private SlidingMenu Slidmenu;
     private CommonAdapter<Map> commonAdapter;
-    private SimpleDraweeView mFaceIcon;//头像
+    private FrescoRoundView mFaceIcon;//头像
     private ImageView iv_vip;
     private TextView hotTab, followTab,newTab;
     private FragmentManager fragmentManager = null;
@@ -126,7 +125,7 @@ public class MainActivity extends BaseActivity {
         newTab = (TextView) findViewById(R.id.new_textview);
         ImageView searchIcon = (ImageView) findViewById(R.id.search_icon);
         ImageView img_live = (ImageView) findViewById(R.id.img_live);
-        mFaceIcon = (SimpleDraweeView) findViewById(R.id.face_icon);
+        mFaceIcon = (FrescoRoundView) findViewById(R.id.face_icon);
         home_guide = (ImageView) findViewById(R.id.home_guide);
         iv_vip = (ImageView) findViewById(R.id.iv_vip);
         home_guide.setOnClickListener(this);
@@ -142,7 +141,7 @@ public class MainActivity extends BaseActivity {
 
     private void setPhoto() {
         if (userModel != null) {
-            mFaceIcon.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userModel.headurl)));
+            mFaceIcon.setImageURI(VerificationUtil.getImageUrl(userModel.headurl));
             if (userModel.isv.equals("1")) {
                 iv_vip.setVisibility(View.VISIBLE);
             } else {
@@ -159,7 +158,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void convert(ViewHolder helper, final Map item, final int position) {
                 helper.setText(R.id.tv_describe, item.get("barname").toString());
-                helper.setImageViewByImageLoader(R.id.img_body, item.get("barimage").toString());
+                helper.setImageURI(R.id.img_body, item.get("barimage").toString());
                 helper.setText(R.id.tv_address, item.get("roomserverip").toString());
                 helper.setOnClick(R.id.img_body, new View.OnClickListener() {
                     @Override

@@ -27,15 +27,14 @@ import com.angelatech.yeyelive.util.DelHtml;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.will.common.string.Encryption;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.io.File;
 import java.util.HashMap;
@@ -47,7 +46,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     private final int MSG_INPUT_LIMIT = 1;
     private final int MSG_EMAIL_INPUT = 2;
     private final int MSG_CHANGE_SUCCESS = 3;
-    private SimpleDraweeView user_head_photo;
+    private FrescoRoundView user_head_photo;
     private TextView tv_input_limit;
     private EditText edit_user_name, edit_user_mail;
     private TextView tv_submit;
@@ -71,7 +70,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     private void initView() {
         headerLayout.showTitle(getString(R.string.userinfo_title));
         headerLayout.showLeftBackButton();
-        user_head_photo = (SimpleDraweeView) findViewById(R.id.user_head_photo);
+        user_head_photo = (FrescoRoundView) findViewById(R.id.user_head_photo);
         edit_user_name = (EditText) findViewById(R.id.edit_user_name);
         edit_user_mail = (EditText) findViewById(R.id.edit_user_mail);
         tv_input_limit = (TextView) findViewById(R.id.tv_input_limit);
@@ -265,7 +264,7 @@ public class ProfileActivity extends HeaderBaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    user_head_photo.setImageURI(UriHelper.fromFile(imgPath));
+                    user_head_photo.setImageURI(imgPath);
                     model.headurl = imgPath;
 
                     qiNiuUpload.setQiniuResultCallback(new QiniuUpload.QiniuResultCallback() {

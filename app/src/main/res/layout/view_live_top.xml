@@ -24,7 +24,7 @@
             android:paddingLeft="22dp"
             android:paddingRight="6dp"
             android:paddingTop="2dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="#222222"
             android:textSize="10sp" />
 
@@ -52,7 +52,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/red_shape" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/img_head"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -63,6 +63,7 @@
             fresco:roundAsCircle="true" />
 
         <ImageView
+            android:contentDescription="@null"
             android:id="@+id/iv_vip"
             android:layout_width="11dp"
             android:layout_height="11dp"

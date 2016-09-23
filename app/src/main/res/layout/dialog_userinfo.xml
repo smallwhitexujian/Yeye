@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true">
         <!--头像-->
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/user_face"
             android:layout_width="87dp"
             android:layout_height="87dp"

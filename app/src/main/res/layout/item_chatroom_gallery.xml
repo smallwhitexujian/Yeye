@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -11,7 +12,7 @@
         android:layout_height="30dp"
         android:gravity="center">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/item_chatRoom_gallery_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -22,19 +23,20 @@
 
         <ImageView
             android:id="@+id/iv_vip"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
-            android:layout_marginBottom="2dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:layout_alignBottom="@id/item_chatRoom_gallery_image"
             android:layout_alignRight="@id/item_chatRoom_gallery_image"
-            android:visibility="gone"
-            android:src="@drawable/icon_vip_mark" />
+            android:layout_marginBottom="2dp"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_vip_mark"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/item_chatroom_gallery_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="name"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:text="name" />
 </LinearLayout>

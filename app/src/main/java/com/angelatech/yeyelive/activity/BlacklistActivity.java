@@ -35,7 +35,6 @@ import java.util.Map;
  * 黑名单
  */
 public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefreshLayout.OnRefreshListener {
-
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_NO_DATA = 2;
     private final int MSG_DELETE_BLACKLIST = 3;
@@ -70,7 +69,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
         adapter = new CommonAdapter<BasicUserInfoDBModel>(BlacklistActivity.this, data, R.layout.item_blacklist) {
             @Override
             public void convert(ViewHolder helper, final BasicUserInfoDBModel item, final int position) {
-                helper.setImageViewByImageLoader(R.id.user_head_photo, item.headurl);
+                helper.setImageUrl(R.id.user_head_photo, item.headurl);
                 helper.setText(R.id.tv_name, item.nickname);
                 if (item.sex.equals(Constant.SEX_MALE)) {
                     helper.setImageResource(R.id.iv_user_sex, R.drawable.icon_information_boy);

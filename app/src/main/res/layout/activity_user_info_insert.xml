@@ -28,7 +28,7 @@
             android:background="@color/color_f6f6f6"
             android:gravity="center">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <com.xj.frescolib.View.FrescoRoundView
                 android:id="@+id/user_head_photo"
                 android:layout_width="87dp"
                 android:layout_height="87dp"

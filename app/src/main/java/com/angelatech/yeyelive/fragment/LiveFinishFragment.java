@@ -3,7 +3,6 @@ package com.angelatech.yeyelive.fragment;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
@@ -24,7 +23,7 @@ import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.xj.frescolib.View.FrescoRoundView;
 
 /**
  * 直播结束页面
@@ -33,7 +32,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 public class LiveFinishFragment extends DialogFragment implements View.OnClickListener {
     private Button btn_close;
     public RoomModel roomModel;
-    private SimpleDraweeView img_head;
+    private FrescoRoundView img_head;
     private TextView tv_userName, tv_likeNum;
     private LinearLayout ly_live;
     private ImageView face;
@@ -75,7 +74,7 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
 
     public void initView() {
         btn_close = (Button) view.findViewById(R.id.btn_close);
-        img_head = (SimpleDraweeView) view.findViewById(R.id.img_head);
+        img_head = (FrescoRoundView) view.findViewById(R.id.img_head);
         tv_userName = (TextView) view.findViewById(R.id.txt_barname);
         tv_likeNum = (TextView) view.findViewById(R.id.txt_likenum);
         face = (ImageView) view.findViewById(R.id.face);
@@ -84,7 +83,7 @@ public class LiveFinishFragment extends DialogFragment implements View.OnClickLi
 
     public void setView() {
         roomModel = (RoomModel) getActivity().getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
-        img_head.setImageURI(Uri.parse(roomModel.getUserInfoDBModel().headurl));
+        img_head.setImageURI(roomModel.getUserInfoDBModel().headurl);
         tv_userName.setText(roomModel.getUserInfoDBModel().nickname);
         tv_likeNum.setText(String.valueOf(roomModel.getLikenum()));
         ly_live.setVisibility(View.INVISIBLE);

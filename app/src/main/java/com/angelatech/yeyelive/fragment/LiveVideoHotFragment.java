@@ -140,8 +140,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 if (item.type == 1) {
                     LiveModel liveModel = (LiveModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_live_ing);
-                    helper.setImageViewByImageLoader(R.id.user_face, VerificationUtil.getImageUrl(liveModel.headurl));
-                    helper.setImageViewByImageLoader(R.id.live_cover, liveModel.barcoverurl);
+                    helper.setImageUrl(R.id.user_face, VerificationUtil.getImageUrl(liveModel.headurl));
+                    helper.setImageURI(R.id.live_cover, liveModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
                     helper.setText(R.id.user_nick, liveModel.nickname);
                     helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_now));
@@ -164,8 +164,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     VideoModel videoModel = (VideoModel) item;
                     helper.setImageResource(R.id.iv_line, R.drawable.icon_home_play_back);
-                    helper.setImageViewByImageLoader(R.id.user_face, VerificationUtil.getImageUrl(videoModel.headurl));
-                    helper.setImageViewByImageLoader(R.id.live_cover, videoModel.barcoverurl);
+                    helper.setImageUrl(R.id.user_face, VerificationUtil.getImageUrl(videoModel.headurl));
+                    helper.setImageURI(R.id.live_cover, videoModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(videoModel.playnum));
                     helper.setText(R.id.user_nick, item.nickname);
                     helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_already));

@@ -47,6 +47,7 @@ import com.google.gson.reflect.TypeToken;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,7 +85,8 @@ public class ReadyLiveFragment extends BaseFragment {
     private Spinner spinnner;
     private BasicUserInfoDBModel liveUserModel, loginUserModel;
     private RoomModel roomModel;
-    private ImageView buttonCamera, Front_cover;
+    private ImageView buttonCamera;
+    private FrescoRoundView Front_cover;
 
     public interface OnCallEvents {
         //开始直播
@@ -118,7 +120,7 @@ public class ReadyLiveFragment extends BaseFragment {
         buttonCamera = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
-        Front_cover = (ImageView) controlView.findViewById(R.id.Front_cover);
+        Front_cover = (FrescoRoundView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         loginUserModel = CacheDataManager.getInstance().loadUser();
         if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {

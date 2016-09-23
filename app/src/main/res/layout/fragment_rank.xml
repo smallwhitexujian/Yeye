@@ -41,7 +41,7 @@
             android:textSize="14sp"
             android:text="@string/rank_my" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/rank_my_pic"
             android:layout_width="30dp"
             android:layout_height="30dp"

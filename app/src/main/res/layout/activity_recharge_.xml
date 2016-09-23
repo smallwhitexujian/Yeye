@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_f9f9f9"
@@ -19,13 +20,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables,UselessParent">
 
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@null"
                 android:src="@drawable/icon_sand_gold" />
 
             <TextView
@@ -36,7 +39,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/balance"
                 android:textColor="@color/color_a1d4ff"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -66,7 +69,7 @@
     <ListView
         android:id="@+id/recharge_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="none" />
 
@@ -97,7 +100,7 @@
             android:paddingRight="13dp"
             android:text="@string/text_desc"
             android:textColor="@color/color_999999"
-            android:textSize="13dp"
+            android:textSize="13sp"
 
             />
     </LinearLayout>

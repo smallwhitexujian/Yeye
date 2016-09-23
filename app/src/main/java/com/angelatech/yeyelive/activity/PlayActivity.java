@@ -3,7 +3,6 @@ package com.angelatech.yeyelive.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.MotionEvent;
@@ -38,10 +37,10 @@ import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.view.CommDialog;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoDrawee;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +74,7 @@ public class PlayActivity extends BaseActivity {
     private int isFollow = 0;
     private VideoModel videoModel;
     private BasicUserInfoDBModel userModel;
-    private SimpleDraweeView default_img;
+    private FrescoDrawee default_img;
 
     private boolean boolReport = false; //是否举报
 
@@ -133,7 +132,7 @@ public class PlayActivity extends BaseActivity {
     }
 
     private void initView() {
-        default_img = (SimpleDraweeView) findViewById(R.id.default_img);
+        default_img = (FrescoDrawee) findViewById(R.id.default_img);
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
         player_play_btn = (ImageView) findViewById(R.id.player_play_btn);
@@ -180,7 +179,7 @@ public class PlayActivity extends BaseActivity {
                 return;
             }
             path = videoModel.playaddress;
-            default_img.setImageURI(Uri.parse(videoModel.barcoverurl));
+            default_img.setImageURI(videoModel.barcoverurl);
             if (!videoModel.userid.equals(userModel.userid)) {
                 UserIsFollow();
             }
@@ -299,7 +298,7 @@ public class PlayActivity extends BaseActivity {
             mVideoPlayer.stop();
             mVideoPlayer.destroy();
             finish();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

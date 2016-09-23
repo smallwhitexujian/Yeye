@@ -161,7 +161,7 @@
 
             </LinearLayout>
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <com.xj.frescolib.View.FrescoDrawee
                 android:id="@+id/img_gift"
                 android:layout_width="65dp"
                 android:layout_height="55dp"
@@ -200,7 +200,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/red_shape" />
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <com.xj.frescolib.View.FrescoRoundView
                 android:id="@+id/gif_img_head"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
@@ -40,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
-                android:text="@string/userinfo_user_header" />
+                android:text="@string/userinfo_user_header"
+                tools:ignore="RelativeOverlap" />
 
 
             <LinearLayout
@@ -51,12 +53,10 @@
                 android:layout_marginRight="16dp"
                 android:orientation="horizontal">
 
-                <com.facebook.drawee.view.SimpleDraweeView
+                <com.xj.frescolib.View.FrescoRoundView
                     android:id="@+id/user_head_photo"
                     android:layout_width="58dp"
                     android:layout_height="58dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     fresco:fadeDuration="300"
                     fresco:placeholderImage="@drawable/default_face_icon"
@@ -67,6 +67,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="9dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_next" />
             </LinearLayout>
         </RelativeLayout>
@@ -96,7 +97,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="RelativeOverlap,UseCompoundDrawables">
 
 
                 <TextView
@@ -113,6 +115,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="9dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_next" />
             </LinearLayout>
 
@@ -144,8 +147,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                tools:ignore="RelativeOverlap,UseCompoundDrawables">
 
                 <TextView
                     android:id="@+id/tv_sex"
@@ -164,6 +167,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="9dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_next" />
             </LinearLayout>
 
@@ -193,7 +197,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="RelativeOverlap,UseCompoundDrawables">
 
                 <TextView
                     android:id="@+id/tv_email"
@@ -209,6 +214,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="9dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_next" />
             </LinearLayout>
 
@@ -242,9 +248,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:maxLines="1"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:singleLine="true"
                 android:textColor="@color/color_a6a6a6"
                 android:textSize="14sp" />
 
@@ -256,15 +262,12 @@
                 android:layout_marginRight="16dp"
                 android:contentDescription="@null"
                 android:src="@drawable/btn_next" />
-
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/color_grey_d5" />
-
-
     </LinearLayout>
 
 </LinearLayout>

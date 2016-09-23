@@ -3,7 +3,6 @@ package com.angelatech.yeyelive.activity;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -32,9 +31,9 @@ import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import java.util.Map;
 
@@ -73,7 +72,7 @@ public class LiveFinishActivity extends BaseActivity {
         model = CacheDataManager.getInstance().loadUser();
         Button btn_close = (Button) findViewById(R.id.btn_close);
         btn_close.setOnClickListener(this);
-        SimpleDraweeView img_head = (SimpleDraweeView) findViewById(R.id.img_head);
+        FrescoRoundView img_head = (FrescoRoundView) findViewById(R.id.img_head);
         TextView txt_barname = (TextView) findViewById(R.id.txt_barname);
         TextView txt_likenum = (TextView) findViewById(R.id.txt_likenum);
         fansNum = (TextView) findViewById(R.id.fans_num);
@@ -106,7 +105,7 @@ public class LiveFinishActivity extends BaseActivity {
                     load();
                 }
             });
-            img_head.setImageURI(Uri.parse(roomModel.getUserInfoDBModel().headurl));
+            img_head.setImageURI(roomModel.getUserInfoDBModel().headurl);
             txt_barname.setText(roomModel.getUserInfoDBModel().nickname);
             txt_likenum.setText(String.valueOf(roomModel.getLikenum()));
             if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
