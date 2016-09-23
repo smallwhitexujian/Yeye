@@ -18,6 +18,7 @@ import com.angelatech.yeyelive.adapter.CountrySelectAdapter;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.will.view.indexview.ChineseToEnglish;
 import com.will.view.indexview.PingYinUtil;
 import com.will.view.indexview.PinyinComparator;
@@ -54,6 +55,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
 
 
     private void initView() {
+        LoadingDialog.showLoadingDialog(CountrySelectActivity.this);
         sideBarView = (SideBarView) findViewById(R.id.sidebarview);
         listView = (ListView) findViewById(R.id.country_list);
         mTip = (TextView) findViewById(R.id.tip);
@@ -153,6 +155,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        LoadingDialog.cancelLoadingDialog();
                         countrySelectAdapter.notifyDataSetChanged();
                     }
                 });

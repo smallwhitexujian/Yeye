@@ -62,10 +62,9 @@ public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
                 c_width = screenW / 3;
                 break;
             case "TabActivity":
-                screenW = (dm.widthPixels);//
-                position_one = screenW / 2;
-                position_two = screenW / 2 * 2;
-                c_width = screenW / 2;
+                position_one = bottomLineWidth ;
+                position_two = bottomLineWidth ;
+                c_width = bottomLineWidth;
                 break;
         }
         ivBottomLine.getLayoutParams().width = c_width;
@@ -127,12 +126,12 @@ public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
                 if (arg0 == 0) {
                     TabActivity.Tab_1.setSelected(true);
                     TabActivity.Tab_2.setSelected(false);
-                    TabActivity.Tab_1.setTextColor(0xFF36bcf1);
+                    TabActivity.Tab_1.setTextColor(0xFFD80C18);
                     TabActivity.Tab_2.setTextColor(0xFF949494);
                 } else if (arg0 == 1) {
                     TabActivity.Tab_2.setSelected(true);
                     TabActivity.Tab_1.setSelected(false);
-                    TabActivity.Tab_2.setTextColor(0xFF36bcf1);
+                    TabActivity.Tab_2.setTextColor(0xFFD80C18);
                     TabActivity.Tab_1.setTextColor(0xFF949494);
                 }
                 break;

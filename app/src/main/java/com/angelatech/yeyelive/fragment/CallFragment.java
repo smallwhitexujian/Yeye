@@ -41,6 +41,7 @@ import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
+import com.angelatech.yeyelive.activity.TabActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
 import com.angelatech.yeyelive.adapter.CustomerPageAdapter;
@@ -261,6 +262,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         ly_main.setOnClickListener(this);
+        diamondsStr.setOnClickListener(this);
         btn_send.setOnClickListener(this);
         img_open_send.setOnClickListener(this);
         cameraSwitchButton.setOnClickListener(this);
@@ -760,6 +762,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.gift_Recharge:
                 StartActivityHelper.jumpActivityDefault(getActivity(), RechargeActivity.class);
+                break;
+            case R.id.diamonds:
+                StartActivityHelper.jumpActivityDefault(getActivity(), TabActivity.class);
                 break;
         }
     }

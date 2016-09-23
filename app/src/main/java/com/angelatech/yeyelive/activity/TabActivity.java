@@ -1,9 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
-import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.fragment.SevenRankFragment;
 import com.angelatech.yeyelive.util.MyOnPageChangeListener;
 
 import java.util.ArrayList;
@@ -60,10 +58,8 @@ public class TabActivity extends HeaderBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         fragmentList = new ArrayList<>();
-        fragment_Tab_1 = new ListFragment();
-        fragment_Tab_2 = new ListFragment();
+        fragment_Tab_1 = SevenRankFragment.newInstance(1);
         fragmentList.add(fragment_Tab_1);
-        fragmentList.add(fragment_Tab_2);
         initView(getString(R.string.rank_title), getString(R.string.rank_seven_dedicated), getString(R.string.rank_history_dedicated), fragmentList);
     }
 
@@ -98,7 +94,7 @@ public class TabActivity extends HeaderBaseActivity {
                 mAbSlidingTabView.setCurrentItem(0);
                 Tab_1.setSelected(true);
                 Tab_2.setSelected(false);
-                Tab_1.setTextColor(ContextCompat.getColor(this, R.color.main_red));
+                Tab_1.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 Tab_2.setTextColor(ContextCompat.getColor(this, R.color.font_grey));
                 break;
             case R.id.Tab_2:
@@ -107,7 +103,7 @@ public class TabActivity extends HeaderBaseActivity {
                 Tab_1.setSelected(false);
                 Tab_2.setSelected(true);
                 Tab_1.setTextColor(ContextCompat.getColor(this, R.color.font_grey));
-                Tab_2.setTextColor(ContextCompat.getColor(this, R.color.main_red));
+                Tab_2.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
                 break;
             default:
                 break;
@@ -117,10 +113,6 @@ public class TabActivity extends HeaderBaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (App.chatRoomApplication != null) {
-                Intent intent = new Intent(TabActivity.this, App.chatRoomApplication.getClass());
-                startActivity(intent);
-            }
             finish();
             return true;
         }

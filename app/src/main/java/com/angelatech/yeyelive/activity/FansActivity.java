@@ -222,7 +222,6 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
 
     @Override
     public void onRefresh(final SwipyRefreshLayoutDirection direction) {
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -72,11 +72,11 @@ public class MainEnter extends HttpFunction {
     /**
      * 排行榜
      */
-    public void loadSevenRank(String url, String userid, String token,String id, HttpBusinessCallback callback) {
+    public void loadSevenRank(String url, String userid, String token,String roomid, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
-        params.put("id",id);
+        params.put("roomid",roomid);
         httpGet(url, params, callback);
     }
 }

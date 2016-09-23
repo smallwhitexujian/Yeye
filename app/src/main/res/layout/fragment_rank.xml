@@ -14,7 +14,8 @@
             android:id="@+id/liveView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null" />
+            android:divider="@color/font_line"
+            android:dividerHeight="0.5dp" />
     </com.will.view.library.SwipyRefreshLayout>
 
     <include

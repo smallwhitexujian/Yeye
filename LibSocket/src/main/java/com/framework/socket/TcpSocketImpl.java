@@ -1,6 +1,7 @@
 package com.framework.socket;
 
 
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.framework.socket.heartbeat.Heartbeat;
@@ -44,6 +45,8 @@ public class TcpSocketImpl implements TcpSocket{
         mProtocol = protocol;
         mSocketConfig = socketConfig;
         mTcpSocketCallback = tcpSocketCallback;
+        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     @Override

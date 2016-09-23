@@ -86,6 +86,12 @@ public class ViewHolder {
         return this;
     }
 
+    public ViewHolder setAppendText(int viewId, CharSequence text) {
+        TextView view = getView(viewId);
+        view.append(text);
+        return this;
+    }
+
     public ViewHolder setButtonText(int viewId, CharSequence text) {
         Button view = getView(viewId);
         view.setText(text);

@@ -11,6 +11,8 @@ public class CommonModel implements Serializable  {
     public String msg;      //消息
     public long time;       //时间
     public int index;//页码
+    public String pernumber;//排行榜金币
+    public String perimageurl;//排行榜头像
 
     @Override
     public String toString() {

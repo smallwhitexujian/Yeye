@@ -135,7 +135,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = false;
+    public boolean isqupai = true;
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
     private QiniuUpload qiNiuUpload;

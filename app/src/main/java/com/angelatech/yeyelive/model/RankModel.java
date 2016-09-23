@@ -1,5 +1,7 @@
 package com.angelatech.yeyelive.model;
 
+import java.io.Serializable;
+
 /**
  *
  * 　　┏┓　　　　┏┓
@@ -25,6 +27,23 @@ package com.angelatech.yeyelive.model;
  * com.angelatech.yeyelive.model
  */
 
-public class RankModel {
-    public String nickName;
+public class RankModel implements Serializable{
+    public String num;          //排名?
+    public String id;           //用户id
+    public String imageurl;     //用户头像
+    public String name;         //用户昵称
+    public String sex;          //用户性别
+    public double number;       //用户奉献的金币
+
+    @Override
+    public String toString() {
+        return "RankModel{" +
+                "num='" + num + '\'' +
+                ", id='" + id + '\'' +
+                ", imageurl='" + imageurl + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", number=" + number +
+                '}';
+    }
 }
