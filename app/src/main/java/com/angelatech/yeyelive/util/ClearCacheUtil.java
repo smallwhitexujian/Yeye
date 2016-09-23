@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.angelatech.yeyelive.application.App;
 import com.will.common.tool.io.FileTool;
-import com.will.imageloader.FrescoHelper;
+import com.xj.frescolib.Config.FrescoHelper;
 
 import java.io.File;
 
@@ -39,9 +39,7 @@ public class ClearCacheUtil {
         /**
          * 清除fresco 缓存
          */
-        FrescoHelper.cleanDiskCache();
-        FrescoHelper.cleanMemoryCache();
-
+        FrescoHelper.clean();
     }
 
     public static void clearDB(Context context){

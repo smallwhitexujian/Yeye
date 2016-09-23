@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.angelatech.yeyelive.db.DatabaseHelper;
-import com.will.imageloader.FrescoHelper;
+import com.xj.frescolib.Config.FrescoHelper;
 
 import java.io.File;
 import java.util.List;
@@ -25,7 +25,7 @@ public class AppInterfaceImpl implements AppInterface {
         pool.execute(new Runnable() {
             @Override
             public void run() {
-                FrescoHelper.frescoInitDefault(context);
+                FrescoHelper.frescoInit(context);
             }
         });
     }
