@@ -27,14 +27,31 @@
         android:visibility="gone"
         tools:text="1" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/rank_handler"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        fresco:actualImageScaleType="centerCrop"
-        fresco:placeholderImage="@drawable/bg_default_playback_video"
-        fresco:roundAsCircle="true" />
+    <RelativeLayout
+        android:id="@+id/layout_user_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/rank_handler"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/bg_default_playback_video"
+            fresco:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/iv_vip"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignBottom="@id/rank_handler"
+            android:layout_alignRight="@id/rank_handler"
+            android:layout_marginBottom="2dp"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_vip_mark"
+            android:visibility="visible" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

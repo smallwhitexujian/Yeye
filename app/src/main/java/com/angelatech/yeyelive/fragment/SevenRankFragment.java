@@ -124,9 +124,9 @@ public class SevenRankFragment extends BaseFragment implements
                 helper.setImageViewByImageLoader(R.id.rank_handler, item.imageurl);
                 helper.setText(R.id.rank_nickName, item.name);
                 CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
-                        "<font color='" + ContextCompat.getColor(mContext, R.color.color_eecc1b) + "'>" + item.num + "</font>"
+                        "<font color='" + ContextCompat.getColor(mContext, R.color.color_eecc1b) + "'>" + item.number + "</font>"
                         + "<font color='" + ContextCompat.getColor(mContext, R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
-                helper.setAppendText(R.id.txt_coin, str);
+                helper.setText(R.id.txt_coin, str);
                 if (item.sex.equals(Constant.SEX_MALE)) {
                     helper.setImageResource(R.id.icon_sex, R.drawable.icon_information_boy);
                 } else {
@@ -138,6 +138,11 @@ public class SevenRankFragment extends BaseFragment implements
                         jumpUserInfo(item);
                     }
                 });
+                if (item.isv.equals("1")) {
+                    helper.showView(R.id.iv_vip);
+                } else {
+                    helper.hideView(R.id.iv_vip);
+                }
             }
         };
         liveView.setAdapter(adapter);
@@ -157,6 +162,7 @@ public class SevenRankFragment extends BaseFragment implements
         userInfoModel.headurl = item.imageurl;
         userInfoModel.nickname = item.name;
         userInfoModel.sex = item.sex;
+        userInfoModel.isv = item.isv;
         UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
         userInfoDialogFragment.setUserInfoModel(userInfoModel);
         if (isAdded()) {

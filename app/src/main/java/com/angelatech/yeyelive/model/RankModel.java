@@ -34,6 +34,7 @@ public class RankModel implements Serializable{
     public String name;         //用户昵称
     public String sex;          //用户性别
     public double number;       //用户奉献的金币
+    public String isv;          //是否加V
 
     @Override
     public String toString() {

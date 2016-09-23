@@ -70,7 +70,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private SimpleDraweeView userface;
     private TextView usernick, intimacy, usersign, fansNum, fouceNum, btn_outUser, liveBtn, user_id;
     private ImageView closeImageView, userSex, attentionsBtn, ringBtn, leftIcon,
-            rightIcon, giftBtn, btnUserControl, iv_vip,recharge_btn;
+            rightIcon, giftBtn, btnUserControl, iv_vip, recharge_btn;
     private LinearLayout fansLayout, fouceLayout, fansAndFouceLayout, userinfoLayout;
     private RelativeLayout noDataLayout, bottomLayout;
     private BasicUserInfoModel baseInfo;
@@ -87,6 +87,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     private ICallBack callBack;
     private BasicUserInfoDBModel loginUser;
     private Activity mActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -219,7 +220,11 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 break;
             case R.id.live_btn://点击直播按钮
                 if (App.chatRoomApplication != null) {
-                    callBack.closeLive();
+                    if (callBack!=null){
+                        callBack.closeLive();
+                    }else{
+                        App.chatRoomApplication.closeLive();
+                    }
                 } else {
                     ChatRoomActivity.roomModel.setId(0);
                     ChatRoomActivity.roomModel.setRoomType(App.LIVE_PREVIEW);
@@ -325,8 +330,8 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.recharge_btn://录播
-                if (App.chatRoomApplication != null){
-                    CommDialog.Callback callback =new CommDialog.Callback() {
+                if (App.chatRoomApplication != null) {
+                    CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
                         public void onCancel() {
 
@@ -342,8 +347,8 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         }
                     };
                     CommDialog commDialog = new CommDialog();
-                    commDialog.CommDialog(mActivity,getString(R.string.finish_room),true,callback);
-                }else{
+                    commDialog.CommDialog(mActivity, getString(R.string.finish_room), true, callback);
+                } else {
                     StartActivityHelper.jumpActivity(mActivity, UserVideoActivity.class, baseInfo.Userid);
                     dismiss();
                 }
@@ -414,7 +419,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         if (userInfoDialog == null) {
             userInfoDialog = new UserInfoDialog(mActivity);
         }
-
         Map<String, String> params = new HashMap<>();
         params.put("userid", loginUser.userid);
         params.put("token", loginUser.token);
