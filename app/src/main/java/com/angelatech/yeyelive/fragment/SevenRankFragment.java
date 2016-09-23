@@ -195,7 +195,10 @@ public class SevenRankFragment extends BaseFragment implements
                     LoadingDialog.cancelLoadingDialog();
                     CommonListResult<RankModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RankModel>>() {
                     }.getType());
-                    if (datas != null && HttpFunction.isSuc(datas.code)) {
+                    if (datas == null) {
+                        return;
+                    }
+                    if (HttpFunction.isSuc(datas.code)) {
                         rankModels.clear();
                         rankModels.addAll(datas.data);
                         adapter.setData(rankModels);
@@ -203,8 +206,10 @@ public class SevenRankFragment extends BaseFragment implements
                                 "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_eecc1b) + "'>" + datas.pernumber + "</font>"
                                 + "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
                         rank_coin.setText(str);
-                        swipyRefreshLayout.setRefreshing(false);
+                    } else {
+                        onBusinessFaild(datas.code);
                     }
+                    swipyRefreshLayout.setRefreshing(false);
                 }
             });
         }
