@@ -107,7 +107,7 @@ public class CommonUrlConfig {
     //礼物
     public static String PropList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/PropList";
     //开播 存储web服务器
-    private static String LiveVideoWebBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoBroadcast";
+    public static String LiveVideoWebBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveVideoBroadcast";
     //开播 存储七牛
     private static String LiveVideoQNBroadcast = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/LiveQiVideoBroadcast";
 

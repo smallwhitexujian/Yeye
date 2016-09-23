@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,7 +19,52 @@
             android:dividerHeight="0.5dp" />
     </com.will.view.library.SwipyRefreshLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line"
+        android:layout_above="@+id/bottom_layout" />
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp"
+            android:text="@string/rank_my" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/rank_my_pic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/bg_default_playback_video"
+            fresco:roundAsCircle="true" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/rank_mycoin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <include
         layout="@layout/none_data_layout"
         android:visibility="gone" />
-</FrameLayout>
+</RelativeLayout>

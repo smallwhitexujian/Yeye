@@ -386,4 +386,5 @@
     <string name="rank_title">排行榜</string>
     <string name="dedicate">奉献:</string>
     <string name="rank_coin">金币</string>
+    <string name="rank_my">我</string>
 </resources>

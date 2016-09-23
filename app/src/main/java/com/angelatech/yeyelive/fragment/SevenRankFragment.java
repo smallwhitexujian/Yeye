@@ -6,8 +6,10 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.Constant;
@@ -23,8 +25,11 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.RankModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -61,13 +66,12 @@ import java.util.Map;
 public class SevenRankFragment extends BaseFragment implements
         SwipyRefreshLayout.OnRefreshListener, CommonDoHandler {
     private SwipyRefreshLayout swipyRefreshLayout;
-    private ListView liveView;
-    private RelativeLayout noDataLayout;
     private static final String ARG_POSITION = "position";
     private BasicUserInfoDBModel userInfo;
     private CommonAdapter<RankModel> adapter;
     private List<RankModel> rankModels = new ArrayList<>();
     private MainEnter mainEnter;
+    private TextView rank_coin;
 
     public static SevenRankFragment newInstance(int position) {
         SevenRankFragment f = new SevenRankFragment();
@@ -88,6 +92,13 @@ public class SevenRankFragment extends BaseFragment implements
         mainEnter = new MainEnter(getActivity());
         LoadingDialog.showLoadingDialog(getActivity());
         userInfo = CacheDataManager.getInstance().loadUser();
+        LinearLayout bottom_layout = (LinearLayout) view.findViewById(R.id.bottom_layout);
+        SimpleDraweeView rank_my_pic = (SimpleDraweeView) view.findViewById(R.id.rank_my_pic);
+        rank_coin = (TextView) view.findViewById(R.id.rank_mycoin);
+        if (ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(userInfo.userid)) {
+            bottom_layout.setVisibility(View.GONE);
+        }
+        rank_my_pic.setImageURI(UriHelper.obtainUri(VerificationUtil.getImageUrl(userInfo.headurl)));
         swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
@@ -97,8 +108,8 @@ public class SevenRankFragment extends BaseFragment implements
                 swipyRefreshLayout.setRefreshing(true);
             }
         });
-        liveView = (ListView) view.findViewById(R.id.liveView);
-        noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
+        ListView liveView = (ListView) view.findViewById(R.id.liveView);
+        RelativeLayout noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
         noDataLayout.findViewById(R.id.no_data_icon).setOnClickListener(this);
         adapter = new CommonAdapter<RankModel>(getActivity(), rankModels, R.layout.item_rank) {
             @Override
@@ -188,6 +199,10 @@ public class SevenRankFragment extends BaseFragment implements
                         rankModels.clear();
                         rankModels.addAll(datas.data);
                         adapter.setData(rankModels);
+                        CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
+                                "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_eecc1b) + "'>" + datas.pernumber + "</font>"
+                                + "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
+                        rank_coin.setText(str);
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 }

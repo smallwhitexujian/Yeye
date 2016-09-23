@@ -158,11 +158,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void setDiamonds(String diamonds) {
         try {
             gift_Diamonds.setText(diamonds);
-            if (liveUserModel.userid.equals(userModel.userid)) {
-                diamondsStr.setVisibility(View.VISIBLE);
-            } else {
-                diamondsStr.setVisibility(View.GONE);
-            }
+//            if (liveUserModel.userid.equals(userModel.userid)) {
+//                diamondsStr.setVisibility(View.VISIBLE);
+//            } else {
+//                diamondsStr.setVisibility(View.GONE);
+//            }
             String str = String.format(getString(R.string.Coins), diamonds);
             if (!str.isEmpty()) {
                 diamondsStr.setText(str);
