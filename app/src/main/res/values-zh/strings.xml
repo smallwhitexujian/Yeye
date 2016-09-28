@@ -390,4 +390,5 @@
     <string name="dedicate">奉献:</string>
     <string name="rank_coin">金币</string>
     <string name="rank_my">我</string>
+    <string name="save_exit_tips">确定不保存本次视频吗?</string>
 </resources>

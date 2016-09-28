@@ -28,7 +28,9 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
-import com.angelatech.yeyelive.activity.base.BaseActivity;
+import com.angelatech.yeyelive.activity.Qiniupush.PLVideoTextureUtils;
+import com.angelatech.yeyelive.activity.Qiniupush.push.CameraPreviewFrameView;
+import com.angelatech.yeyelive.activity.Qiniupush.push.StreamingBaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatManager;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
@@ -69,13 +71,15 @@ import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
+import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.widget.PLVideoTextureView;
+import com.qiniu.pili.droid.streaming.AVCodecType;
+import com.qiniu.pili.droid.streaming.MediaStreamingManager;
+import com.qiniu.pili.droid.streaming.WatermarkSetting;
+import com.qiniu.pili.droid.streaming.widget.AspectFrameLayout;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.common.tool.time.DateTimeTool;
-import com.will.libmedia.MediaCenter;
-import com.will.libmedia.MediaNative;
-import com.will.libmedia.OnLiveListener;
-import com.will.libmedia.OnPlayListener;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -92,7 +96,7 @@ import java.util.Map;
 /**
  * 视频直播主界面
  */
-public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents {
+public class ChatRoomActivity extends StreamingBaseActivity implements CallFragment.OnCallEvents, ReadyLiveFragment.OnCallEvents, PLVideoTextureUtils.PLVideoCallBack {
     //权限检测
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String[] permissionManifest = {
@@ -104,7 +108,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
     private ImageView face;
     private ImageView room_guide;
-    private RelativeLayout viewPanel, body;
+    private RelativeLayout body;
     private ViewPager mAbSlidingTabView;
     private ServiceManager serviceManager;
     public static RoomModel roomModel;                                  //房间信息，其中包括房主信息
@@ -135,7 +139,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = true;
+    public boolean isqupai = false;
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
     private QiniuUpload qiNiuUpload;
@@ -143,13 +147,27 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     private Uri distUri;
     private String imgPath;
     private boolean isNetWork = true;
+    private PLVideoTextureUtils plUtils;
+    private PLVideoTextureView plVideoTextureView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+            liveUserModel = roomModel.getUserInfoDBModel();
+        }
+        if (roomModel == null) {
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+            initQiniuSDK();
+        }
         if (Build.VERSION.SDK_INT >= 23) {
             permissionCheck();
         }
@@ -216,7 +234,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         LoadingDialog = new LoadingDialogNew();
         chatRoom = new ChatRoom(this);
         camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
-        viewPanel = (RelativeLayout) findViewById(R.id.view);
         body = (RelativeLayout) findViewById(R.id.body);
         ImageView button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
@@ -224,22 +241,13 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         mAbSlidingTabView = (ViewPager) findViewById(R.id.mAbSlidingTabView);
         room_guide.setOnClickListener(this);
         button_call_disconnect.setOnClickListener(this);
-
+        plVideoTextureView = (PLVideoTextureView) findViewById(R.id.plVideoView);
         qiNiuUpload = new QiniuUpload(this);
         mObtain = new PictureObtain();
     }
 
     private void findView() {
         App.mChatlines.clear();
-        Bundle bundle = this.getIntent().getExtras();
-        if (bundle != null) {
-            roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
-            liveUserModel = roomModel.getUserInfoDBModel();
-        }
-        if (roomModel == null) {
-            finish();
-            return;
-        }
         connectionServiceNumber = 0;
         isInit = false;
         isCloseLiveDialog = false;
@@ -273,20 +281,49 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             face.setVisibility(View.GONE);
             fragmentList.add(callFragment);
             fragmentPagerAdapter.notifyDataSetChanged();
-            MediaCenter.initPlay(this);
+            plVideoTextureView.setVisibility(View.VISIBLE);
+            // 为进度条添加进度更改事件
+            plUtils = new PLVideoTextureUtils();
+            plUtils.init(this, plVideoTextureView, PLVideoTextureUtils.REMEDIACODEC, PLVideoTextureUtils.LIVESTREAMING, roomModel.getRtmpwatchaddress(), null);
+            plUtils.setCallBack(this);
             roomStart();
         }
         //如果是预览，进入预览流程
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
-            if (!isqupai) {
-                MediaCenter.initLive(this);
-                //美颜开启此属性
-                MediaCenter.startRecording(viewPanel, App.screenWidth, App.screenHeight);
-            } else {
+            if (isqupai) {
                 camera_surface.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private void initQiniuSDK() {
+        AspectFrameLayout afl = (AspectFrameLayout) findViewById(R.id.cameraPreview_afl);
+        afl.setVisibility(View.VISIBLE);
+        afl.setShowMode(AspectFrameLayout.SHOW_MODE.FULL);
+        CameraPreviewFrameView cameraPreviewFrameView = (CameraPreviewFrameView) findViewById(R.id.cameraPreview_surfaceView);
+        cameraPreviewFrameView.setListener(this);
+
+        WatermarkSetting watermarksetting = new WatermarkSetting(this);
+        watermarksetting.setResourceId(R.drawable.logo_watermask)
+                .setAlpha(100)
+                .setLocation(WatermarkSetting.WATERMARK_LOCATION.NORTH_EAST)
+                .setSize(WatermarkSetting.WATERMARK_SIZE.SMALL)
+                .setInJustDecodeBoundsEnabled(false)
+                .setCustomPosition(0.9f,0.04f);
+
+        mMediaStreamingManager = new MediaStreamingManager(this, afl, cameraPreviewFrameView,
+                AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC); // sw codec
+
+        mMediaStreamingManager.prepare(mCameraStreamingSetting, mMicrophoneStreamingSetting, watermarksetting, mProfile);
+        mMediaStreamingManager.setStreamingStateListener(this);
+        mMediaStreamingManager.setSurfaceTextureCallback(this);
+        mMediaStreamingManager.setStreamingSessionListener(this);
+        mMediaStreamingManager.setStreamStatusCallback(this);
+        mMediaStreamingManager.setStreamingPreviewCallback(this);
+        mMediaStreamingManager.setAudioSourceCallback(this);
+        setFocusAreaIndicator();//设置聚焦功能
+        setBeauty(92);//设置默认美颜功能
     }
 
     public void onClick(View v) {
@@ -547,6 +584,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         userModel.diamonds = String.valueOf(coin);
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, userModel.diamonds, userModel.userid);
                         callFragment.setDiamonds(userModel.diamonds);
+                        callFragment.setAnchorDiamonds(loginMessage.anchor_coin);
                         roomModel.setLikenum(Integer.parseInt(loginMessage.hot));
                         callFragment.setLikeNum(roomModel.getLikenum());
                         callFragment.setOnline(loginMessage.online);
@@ -575,7 +613,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             //上麦
                             if (loginMessage.live == 1) {
                                 roomModel.setRtmpwatchaddress(loginMessage.live_uri);
-                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
+                                plUtils.onResetStart(roomModel.getRtmpwatchaddress());
                             } else {
                                 //房间未直播
                                 liveFinish();
@@ -626,10 +664,10 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                             //恢复播放
                             liveFinishFragment.dismiss();
                             if (uri.isEmpty()) {
-                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, roomModel.getRtmpwatchaddress(), onPlayListener);
+                                plUtils.onResetStart(roomModel.getRtmpwatchaddress());
                             } else {
                                 roomModel.setRtmpwatchaddress(uri);
-                                MediaCenter.startPlay(viewPanel, App.screenWidth, App.screenHeight, uri, onPlayListener);
+                                plUtils.onResetStart(roomModel.getRtmpwatchaddress());
                             }
                         }
                     }
@@ -699,6 +737,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
                         //减币
                         callFragment.setDiamonds(String.valueOf(giftModel.coin));
                         CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, String.valueOf(giftModel.coin), userModel.userid);
+                    }
+                    if (giftModel.anchor_coin != null) {
+                        callFragment.setAnchorDiamonds(giftModel.anchor_coin);
                     }
                     Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
                     switch (giftModel.giftid) {
@@ -916,7 +957,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (isqupai) {
             livePush.mCamera();
         } else {
-            MediaCenter.switchCamera();
+            setCameraSwitch();
         }
     }
 
@@ -1009,19 +1050,19 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
 
     @Override
     public void onPause() {
-        if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
-            MediaCenter.onPause();
-        }
         if (isqupai) {
             livePush.onPause();
+        }
+        if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+            plUtils.onPause();
         }
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        if (roomModel != null && liveUserModel.userid.equals(userModel.userid)) {
-            MediaCenter.onResume();
+        if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+            plUtils.onResume();
         }
         if (isqupai) {
             livePush.onResume();
@@ -1036,6 +1077,9 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
     protected void onDestroy() {
         if (!boolCloseRoom) {
             exitRoom();
+        }
+        if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+            plUtils.onDestroy();
         }
         super.onDestroy();
         if (isqupai) {
@@ -1052,11 +1096,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         if (serviceManager != null) {
             serviceManager.quitRoom();
             serviceManager = null;
-        }
-        if (liveUserModel != null && userModel != null && !liveUserModel.userid.equals(userModel.userid)) {
-            MediaCenter.destoryPlay();
-        } else {
-            MediaCenter.destoryLive();
         }
         App.mChatlines.clear();
         boolCloseRoom = true;
@@ -1108,6 +1147,26 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         //No call for super(). Bug on API Level > 11.
     }
 
+    @Override
+    public void onPrepared(PLMediaPlayer plMediaPlayer) {
+
+    }
+
+    @Override
+    public void onCompletion(PLMediaPlayer plMediaPlayer) {
+
+    }
+
+    @Override
+    public void onTimeOut() {
+
+    }
+
+    @Override
+    public void setCurrentTime(String CurrentTime, String endTime) {
+
+    }
+
     private class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -1135,7 +1194,7 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
             @Override
             public void run() {
                 if (!isqupai) {
-                    MediaCenter.startLive(roomModel.getRtmpip(), onLiveListener);
+                    setStartStreaming(roomModel.getRtmpip());
                 } else {
                     livePush.StartLive(roomModel.getRtmpip());
                 }
@@ -1153,81 +1212,6 @@ public class ChatRoomActivity extends BaseActivity implements CallFragment.OnCal
         });
     }
 
-    /**
-     * 直播者回调函数
-     *
-     * @param rtmpUrl url
-     * @param event   event
-     */
-    private OnLiveListener onLiveListener = new OnLiveListener() {
-        @Override
-        public void onLiveCallback(String s, int event) {
-            DebugLogs.e("rtmp event" + event);
-            switch (event) {
-                case MediaNative.RTMP_LIVE_RECONNECTING:
-                    //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
-                    //断线重连中
-                    if (rtmpConnectNumber >= 5) {
-                        peerDisConnection(getString(R.string.room_net_toast));
-                        return;
-                    }
-                    rtmpConnectNumber++;
-                    ChatLineModel msg = new ChatLineModel();
-                    msg.type = 10;
-                    msg.message = getString(R.string.room_peerconn);
-                    chatManager.AddChatMessage(msg);
-                    callFragment.notifyData();
-                    break;
-                case MediaNative.RTMP_LIVE_RECONNECT:
-                    face.setVisibility(View.GONE);
-                    ChatLineModel msg_reconnect = new ChatLineModel();
-                    msg_reconnect.type = 10;
-                    msg_reconnect.message = getString(R.string.room_peerconn_success);
-                    chatManager.AddChatMessage(msg_reconnect);
-                    callFragment.notifyData();
-                    //重连成功
-                    break;
-                case MediaNative.RTMP_LIVE_CONNECT_ERROR:
-                    // ToastUtils.showToast(ChatRoomActivity.this,"主播正在化妆");
-                    //直播错误
-                    peerDisConnection(getString(R.string.room_net_toast));
-                    break;
-                case MediaNative.RTMP_LIVE_CONNECT:
-                    break;
-                case MediaNative.RTMP_LIVE_STOP:
-                    // ToastUtils.showToast(ChatRoomActivity.this,"网络去哪了？");
-                    // roomFinish();
-                    break;
-            }
-        }
-    };
-
-
-    /**
-     * 观看的人 回调
-     */
-    private OnPlayListener onPlayListener = new OnPlayListener() {
-        @Override
-        public void onPlayCallback(String rtmpUrl, int event) {
-            switch (event) {
-                case MediaNative.RTMP_PLAY_RECONNECTING://流媒体重连
-                    //ToastUtils.showToast(ChatRoomActivity.this,"网络开小差了");
-                    //重连
-                    break;
-                case MediaNative.RTMP_PLAY_RECONNECT://
-                    //重连成功
-                    break;
-                case MediaNative.RTMP_PLAY_CONNECT:
-                    face.setVisibility(View.GONE);
-                    break;
-                case MediaNative.RTMP_PLAY_STOP:
-                    break;
-                case MediaNative.RTMP_PLAY_CONNECT_ERROR:
-                    peerDisConnection(getString(R.string.room_net_toast));
-                    break;
-            }
-        }
-    };
 
     /**
      * 退出房间

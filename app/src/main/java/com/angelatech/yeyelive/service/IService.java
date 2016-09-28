@@ -96,7 +96,6 @@ public class IService extends Service {
      * 登录房间
      */
     public void startRoomConnection(SocketConfig socketconfig, int BarId, int UserId, String token) {
-
         roomConnectManager = new RoomConnectManager(mRoomHandler);
         RoomInfo roomInfo = new RoomInfo();
         roomInfo.barid = BarId;

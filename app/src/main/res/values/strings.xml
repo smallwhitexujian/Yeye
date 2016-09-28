@@ -386,10 +386,11 @@
     <string name="append_follow">become fans</string>
     <string name="append_sherad">shared current live show</string>
     <!-- 排行榜 -->
-    <string name="rank_history_dedicated">历史奉献榜</string>
-    <string name="rank_seven_dedicated">七日奉献榜</string>
-    <string name="rank_title">排行榜</string>
-    <string name="dedicate">奉献:</string>
-    <string name="rank_coin">金币</string>
-    <string name="rank_my">我</string>
+    <string name="rank_history_dedicated">History Top </string>
+    <string name="rank_seven_dedicated">Weekly Top</string>
+    <string name="rank_title">Top Rank</string>
+    <string name="dedicate">Contribute:</string>
+    <string name="rank_coin">Coins</string>
+    <string name="rank_my">Me</string>
+    <string name="save_exit_tips">Are you sure to DELETE the video?</string>
 </resources>

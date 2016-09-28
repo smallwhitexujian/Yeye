@@ -7,10 +7,31 @@
     android:background="@drawable/bg_end_background"
     android:keepScreenOn="true">
 
-    <RelativeLayout
-        android:id="@+id/view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+
+    <com.qiniu.pili.droid.streaming.widget.AspectFrameLayout
+        android:id="@+id/cameraPreview_afl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true">
+
+        <com.angelatech.yeyelive.activity.Qiniupush.push.CameraPreviewFrameView
+            android:id="@+id/cameraPreview_surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <include layout="@layout/focus_indicator" />
+
+    </com.qiniu.pili.droid.streaming.widget.AspectFrameLayout>
+
+    <com.pili.pldroid.player.widget.PLVideoTextureView
+        android:id="@+id/plVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
     <SurfaceView
         android:id="@+id/camera_surface"
@@ -47,7 +68,7 @@
         android:id="@+id/face"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@null"
         android:visibility="visible"

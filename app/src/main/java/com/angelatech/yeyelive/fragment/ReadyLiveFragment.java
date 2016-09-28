@@ -55,8 +55,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Fragment准备直播(预览)页面
@@ -177,8 +175,6 @@ public class ReadyLiveFragment extends BaseFragment {
         Front_cover.setOnClickListener(this);
         buttonCamera.setOnClickListener(this);
 
-//        txt_title.setText(String.format(getString(R.string.formatted_2), loginUserModel.nickname));
-//        txt_title.selectAll();
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
             text = txt_title.getText().toString();
@@ -350,16 +346,15 @@ public class ReadyLiveFragment extends BaseFragment {
                 callEvents.onBeginLive();
                 break;
             case LIVE_USER:
-                new Timer().schedule(
-                        new TimerTask() {
-                            public void run() {
-                                txt_title.setFocusable(true);
-                                txt_title.setFocusableInTouchMode(true);
-                                txt_title.requestFocus();
-                                Utility.openKeybord(txt_title, getActivity());
-                            }
-                        },
-                        200);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        txt_title.setFocusable(true);
+                        txt_title.setFocusableInTouchMode(true);
+                        txt_title.requestFocus();
+                        Utility.openKeybord(txt_title, getActivity());
+                    }
+                });
                 break;
             case MSG_LOCATION_SUCCESS:
                 mLocationInfo.setText(straddres);

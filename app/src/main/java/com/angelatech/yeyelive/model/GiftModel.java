@@ -27,6 +27,7 @@ public class GiftModel {
         public int giftid;              //礼物id
         public int number;              //礼物数量
         public long coin;               //金币数量
+        public String anchor_coin;      //直播的金币
     }
     public int getState() {
         return state;

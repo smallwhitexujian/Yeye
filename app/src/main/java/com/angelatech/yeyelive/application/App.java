@@ -19,8 +19,7 @@ import com.duanqu.qupai.auth.AuthService;
 import com.duanqu.qupai.auth.QupaiAuthListener;
 import com.duanqu.qupai.httpfinal.QupaiHttpFinal;
 import com.duanqu.qupai.jni.ApplicationGlue;
-import com.facebook.FacebookSdk;
-import com.tencent.bugly.crashreport.CrashReport;
+import com.qiniu.pili.droid.streaming.StreamingEnv;
 import com.will.common.log.DebugLogs;
 
 import java.io.File;
@@ -42,7 +41,7 @@ public class App extends Application {
     //常量区
     public static boolean isDebug = true;
     public static boolean isLogin = false;// 判断用户是否登录
-    public static boolean isQiNiu = false; // 是否使用七牛服务器
+    public static boolean isQiNiu = true; // 是否使用七牛服务器
 
     private static String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
     private static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;
@@ -99,8 +98,7 @@ public class App extends Application {
         screenWidth = ScreenUtils.getScreenWidth(this);
         screenHeight = screenWidth * 16 / 9;
         screenDpx = getResources().getDisplayMetrics(); // 取屏幕分辨率
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
+        StreamingEnv.init(this);
 //        try {
 //            PackageInfo info = getPackageManager().getPackageInfo(AppConfig.PACKAGE_NAME, PackageManager.GET_SIGNATURES);
 //            for (Signature signature : info.signatures) {
@@ -113,8 +111,6 @@ public class App extends Application {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        CrashReport.initCrashReport(getApplicationContext(), "900052519", App.isDebug);
-
         //趣拍
         System.loadLibrary("gnustl_shared");
         System.loadLibrary("qupai-media-thirdparty");

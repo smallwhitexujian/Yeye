@@ -37,7 +37,6 @@ import java.util.Map;
  * service 业务实现
  */
 public class IServiceInterfaceImpl implements IServiceInterface {
-
     private final int DELAY = 100;
     private final int RETRYTIME = 5;
     private final int PERIOD = 10000;
@@ -52,12 +51,9 @@ public class IServiceInterfaceImpl implements IServiceInterface {
     @Override
     public void handleAction(String action, Intent intent) {
         if (IServiceValues.ACTION_CMD_WAY.equals(action)) {
-
             int cmd = intent.getIntExtra(IServiceValues.KEY_BROADCAST_CMD_VALUE, -1);
             String sign = intent.getStringExtra(IServiceValues.KEY_BROADCAST_SIGN);
-
             Logger.e("======" + cmd + "----" + sign + "-----");
-
             if (cmd == -1 || sign == null) {
                 return;
             }

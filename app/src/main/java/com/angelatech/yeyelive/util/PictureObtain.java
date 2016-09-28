@@ -198,7 +198,7 @@ public class PictureObtain {
         cropIntent.putExtra("outputY", outputY);
         cropIntent.putExtra("scale", true);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, distUri);
-        cropIntent.putExtra("return-data", false);
+        cropIntent.putExtra("return-data", true);
         cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         cropIntent.putExtra("noFaceDetection", true); // no face detection
         context.startActivityForResult(cropIntent, reqCode);

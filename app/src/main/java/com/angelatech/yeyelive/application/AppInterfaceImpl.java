@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.angelatech.yeyelive.db.DatabaseHelper;
+import com.facebook.FacebookSdk;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.xj.frescolib.Config.FrescoHelper;
 
 import java.io.File;
@@ -26,6 +28,8 @@ public class AppInterfaceImpl implements AppInterface {
             @Override
             public void run() {
                 FrescoHelper.frescoInit(context);
+                FacebookSdk.sdkInitialize(context);
+                CrashReport.initCrashReport(context, "900052519", App.isDebug);
             }
         });
     }

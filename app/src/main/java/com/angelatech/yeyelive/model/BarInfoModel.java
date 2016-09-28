@@ -22,7 +22,7 @@ public class BarInfoModel extends CommonModel {
     public long coin = 0;                  // 金币
     public long diamonds = 0;               // 钻石
     public int guestlive = 0;                // 是否是自由麦 1.表示允许自由麦 0.不允许
-
+    public String anchor_coin;              //主播的金币数量
     public String online = "";           //在线人数
     public String position = "";         //用户等级
     public String level = "";            //等级

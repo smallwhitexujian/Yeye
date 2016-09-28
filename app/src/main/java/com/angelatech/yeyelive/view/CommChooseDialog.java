@@ -42,7 +42,7 @@ public class CommChooseDialog {
      * @param content 内容
      * @param NotOk   是否需要取消按钮 false 不需要 true 需要
      */
-    public void dialog(final Context context, String content, Boolean NotOk, boolean isLiveUser, Callback callback, BasicUserInfoDBModel model) {
+    public void dialog(final Context context, final String content, Boolean NotOk, boolean isLiveUser, Callback callback, BasicUserInfoDBModel model) {
         dialog = new AlertDialog.Builder(context).create();
         mCallback = callback;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -60,15 +60,15 @@ public class CommChooseDialog {
         final TextView tv_choose = (TextView) window.findViewById(R.id.tv_choose);
         final TextView tips = (TextView) window.findViewById(R.id.tips);
         final ImageView iv_choose = (ImageView) window.findViewById(R.id.iv_choose_save);
-        if (model.isv.equals("1")){
-            tips.setText(String.format(context.getString(R.string.tops_video),"50"));
-        }else{
-            tips.setText(String.format(context.getString(R.string.tops_video),"10"));
+        if (model.isv.equals("1")) {
+            tips.setText(String.format(context.getString(R.string.tops_video), "50"));
+        } else {
+            tips.setText(String.format(context.getString(R.string.tops_video), "10"));
         }
-        if (!isLiveUser){
+        if (!isLiveUser) {
             tips.setVisibility(View.GONE);
             layout_save.setVisibility(View.GONE);
-        }else {
+        } else {
             tips.setVisibility(View.VISIBLE);
             layout_save.setVisibility(View.VISIBLE);
         }
@@ -76,9 +76,21 @@ public class CommChooseDialog {
             @Override
             public void onClick(View view) {
                 if (isChoose) {
-                    isChoose = false;
-                    iv_choose.setImageResource(R.drawable.icon_pub_choose_n);
-                    tv_choose.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                    CommDialog.Callback callback1 = new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onOK() {
+                            isChoose = false;
+                            iv_choose.setImageResource(R.drawable.icon_pub_choose_n);
+                            tv_choose.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                        }
+                    };
+                    CommDialog commDialog = new CommDialog();
+                    commDialog.CommDialog(context, context.getString(R.string.save_exit_tips),true,callback1);
                 } else {
                     isChoose = true;
                     iv_choose.setImageResource(R.drawable.icon_pub_choose_s);
@@ -86,6 +98,7 @@ public class CommChooseDialog {
                 }
             }
         });
+
         btn_cancel.setVisibility(View.GONE);
         tv_content.setText(content);
         if (NotOk) {
@@ -147,18 +160,30 @@ public class CommChooseDialog {
         final TextView tv_choose = (TextView) window.findViewById(R.id.tv_choose);
         final ImageView iv_choose = (ImageView) window.findViewById(R.id.iv_choose_save);
         final TextView tips = (TextView) window.findViewById(R.id.tips);
-        if (model.isv.equals("1")){
-            tips.setText(String.format(context.getString(R.string.tops_video),"50"));
-        }else{
-            tips.setText(String.format(context.getString(R.string.tops_video),"10"));
+        if (model.isv.equals("1")) {
+            tips.setText(String.format(context.getString(R.string.tops_video), "50"));
+        } else {
+            tips.setText(String.format(context.getString(R.string.tops_video), "10"));
         }
         iv_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isChoose) {
-                    isChoose = false;
-                    iv_choose.setImageResource(R.drawable.icon_pub_choose_n);
-                    tv_choose.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                    CommDialog.Callback callback1 = new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onOK() {
+                            isChoose = false;
+                            iv_choose.setImageResource(R.drawable.icon_pub_choose_n);
+                            tv_choose.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                        }
+                    };
+                    CommDialog commDialog = new CommDialog();
+                    commDialog.CommDialog(context, context.getString(R.string.save_exit_tips),true,callback1);
                 } else {
                     isChoose = true;
                     iv_choose.setImageResource(R.drawable.icon_pub_choose_s);
@@ -228,9 +253,21 @@ public class CommChooseDialog {
             @Override
             public void onClick(View view) {
                 if (isChoose) {
-                    isChoose = false;
-                    iv_choose.setImageResource(R.drawable.icon_pub_choose_n);
-                    tv_choose.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                    CommDialog.Callback callback1 = new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onOK() {
+                            isChoose = false;
+                            iv_choose.setImageResource(R.drawable.icon_pub_choose_n);
+                            tv_choose.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                        }
+                    };
+                    CommDialog commDialog = new CommDialog();
+                    commDialog.CommDialog(context, context.getString(R.string.save_exit_tips),true,callback1);
                 } else {
                     isChoose = true;
                     iv_choose.setImageResource(R.drawable.icon_pub_choose_s);

@@ -67,8 +67,6 @@ import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.tool.network.NetWorkUtil;
-import com.will.libmedia.MediaCenter;
-import com.will.libmedia.MediaNative;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
@@ -104,7 +102,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
-    private FrescoRoundView img_head,gif_img_head;
+    private FrescoRoundView img_head, gif_img_head;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
     private LinearLayout ly_send, ly_toolbar, ly_main, giftView;                                    // 礼物界面
@@ -158,19 +156,22 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void setDiamonds(String diamonds) {
         try {
             gift_Diamonds.setText(diamonds);
-//            if (liveUserModel.userid.equals(userModel.userid)) {
-//                diamondsStr.setVisibility(View.VISIBLE);
-//            } else {
-//                diamondsStr.setVisibility(View.GONE);
-//            }
-            String str = String.format(getString(R.string.Coins), diamonds);
-            if (!str.isEmpty()) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAnchorDiamonds(String anchorCoin) {
+        try {
+            if (anchorCoin != null) {
+                String str = String.format(getString(R.string.Coins), anchorCoin);
                 diamondsStr.setText(str);
+            }else{
+                diamondsStr.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void setLikeNum(int likeNum) {
@@ -224,8 +225,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initView() {
-        if ( ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
-            liveUserModel =  ChatRoomActivity.roomModel.getUserInfoDBModel();
+        if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
+            liveUserModel = ChatRoomActivity.roomModel.getUserInfoDBModel();
         }
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
@@ -342,7 +343,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if(scaleAnimation!=null){
+                if (scaleAnimation != null) {
                     numText.setVisibility(View.VISIBLE);
                     numText.startAnimation(scaleAnimation);
                     if (giftModelList.size() > 0) {
@@ -642,9 +643,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 } else {
                     if (bVideoFilter) {
                         btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
-                        MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_NONE);
+                        App.chatRoomApplication.setOpenFB();
                     } else {
-                        MediaCenter.setVideoFilter(MediaNative.VIDEO_FILTER_BEAUTIFUL);
+                        App.chatRoomApplication.setOpenFB();
                         btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
                     }
                     bVideoFilter = !bVideoFilter;
@@ -660,10 +661,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     }
                 } else {
                     if (bFlashEnable) {
-                        MediaCenter.setFlashEnable(false);
+                        App.chatRoomApplication.setmTurnLight(false);
                         btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
                     } else {
-                        MediaCenter.setFlashEnable(true);
+                        App.chatRoomApplication.setmTurnLight(true);
                         btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
                     }
                     bFlashEnable = !bFlashEnable;

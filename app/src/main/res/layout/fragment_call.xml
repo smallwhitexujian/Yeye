@@ -292,7 +292,7 @@
                 android:layout_gravity="bottom"
                 android:contentDescription="@string/switch_camera"
                 android:padding="10dp"
-                android:src="@drawable/btn_start_play_beautiful_n"
+                android:src="@drawable/btn_start_play_beautiful_s"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
