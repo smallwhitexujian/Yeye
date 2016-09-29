@@ -59,8 +59,9 @@ public class BroadCastDispatch extends Dispatchable {
         String dataStr = getDataStr(datas);
         CommonParseModel<ReceiveBroadcastModel> broadcastModel = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<ReceiveBroadcastModel>>() {
         }.getType());
-        DebugLogs.e("IM系统消息通知====" + broadcastModel.msg + "-----" + broadcastModel.data.toString());
+        DebugLogs.e("IM系统消息通知====" + broadcastModel.msg + "-----" + broadcastModel.data);
         DebugLogs.e("IM系统消息通知====" + broadcastModel.time);
+        DebugLogs.e("IM系统消息通知====" + broadcastModel.data.url);
         //“code”: 0余额不足1用户喇叭,2系统公告,3系统小秘书,4系统升级消息
         try {
             int code = Integer.parseInt(broadcastModel.code);
@@ -72,7 +73,7 @@ public class BroadCastDispatch extends Dispatchable {
                 case CODE_SYSTEM_MSG:
                     String msg = broadcastModel.msg;
                     //发通知
-                    SystemMessageDBModel systemMessageDBModel = parseJson(msg);
+                    SystemMessageDBModel systemMessageDBModel = parseJson(msg, broadcastModel);
                     //保存数据
                     String ticker = mContext.getString(R.string.notify_default_ticker);
                     String title = mContext.getString(R.string.notify_default_title);
@@ -80,7 +81,7 @@ public class BroadCastDispatch extends Dispatchable {
                         mContent = title;
                     }
                     switch (systemMessageDBModel.type_code) {
-                        case SystemMessageType.NOTICE_LIVE:
+                        case SystemMessageType.NOTICE_LIVE://直播通知只显示提示通知跳转房间
                             int requestCode = NotificationUtil.NOTICE_LIVE;
                             long nowTime = DateTimeTool.GetDateTimeNowlong(); //毫秒
                             long startTime = broadcastModel.time * 1000;
@@ -121,7 +122,7 @@ public class BroadCastDispatch extends Dispatchable {
                                 NotificationUtil.lauchNotifyOnlyShow(mContext, requestCode, ticker, title, mContent, mContent);
                             }
                             break;
-                        case SystemMessageType.NOTICE_SHOW_PERSON_MSG://全平台推送
+                        case SystemMessageType.NOTICE_SHOW_PERSON_MSG://针对个人的推送
                             checkReadOrNot();
                             systemMessage.add(systemMessageDBModel);
                             try {
@@ -141,7 +142,7 @@ public class BroadCastDispatch extends Dispatchable {
                     checkReadOrNot();
                     int requestSystemNoticeCode = NotificationUtil.CODE_SYSTEM_NOTICE;
                     String message = mContext.getString(R.string.notify_default_message);
-                    SystemMessageDBModel noticeMessageDBModel = parseJson(JsonUtil.toJson(broadcastModel.data), broadcastModel.msg);
+                    SystemMessageDBModel noticeMessageDBModel = parseJson(broadcastModel);
                     systemMessage.add(noticeMessageDBModel);
                     switch (noticeMessageDBModel.type_code) {
                         case SystemMessageType.NOTICE_TO_ALL:
@@ -173,7 +174,7 @@ public class BroadCastDispatch extends Dispatchable {
         return true;
     }
 
-    private SystemMessageDBModel parseJson(String jsonStr) {
+    private SystemMessageDBModel parseJson(String jsonStr, CommonParseModel<ReceiveBroadcastModel> commonParseModel) {
         SystemMessageDBModel systemMessageDBModel = null;
         try {
             systemMessageDBModel = new SystemMessageDBModel();
@@ -181,17 +182,16 @@ public class BroadCastDispatch extends Dispatchable {
             String typeCode = jsonObject.getString("type_code");
             mTypeCode = Integer.parseInt(typeCode);
             systemMessageDBModel.type_code = mTypeCode;
-
             String data = jsonObject.getString("data");
             systemMessageDBModel.data = data;
-
-            String datetime = jsonObject.getString("datetime");
-            systemMessageDBModel.datetime = datetime;
-
-            String content = jsonObject.getString("content");
-            mContent = content;
+            systemMessageDBModel.datetime = String.valueOf(commonParseModel.time);
+            JSONObject msgJsonObj = new JSONObject(data);
+            mContent = msgJsonObj.getString("msg");
+            systemMessageDBModel._data = commonParseModel.data.url;
+            if (CacheDataManager.getInstance().loadUser() != null && CacheDataManager.getInstance().loadUser().userid != null) {
+                systemMessageDBModel.uid = CacheDataManager.getInstance().loadUser().userid;
+            }
             systemMessageDBModel.content = mContent;
-
             systemMessageDBModel.localtime = System.currentTimeMillis();
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,31 +199,24 @@ public class BroadCastDispatch extends Dispatchable {
         return systemMessageDBModel;
     }
 
-    private SystemMessageDBModel parseJson(String dataStr, String msg) {
+    private SystemMessageDBModel parseJson(CommonParseModel<ReceiveBroadcastModel> commonParseModel) {
         SystemMessageDBModel systemMessageDBModel = new SystemMessageDBModel();
         systemMessageDBModel.localtime = System.currentTimeMillis();
         if (CacheDataManager.getInstance().loadUser() != null && CacheDataManager.getInstance().loadUser().userid != null) {
             systemMessageDBModel.uid = CacheDataManager.getInstance().loadUser().userid;
         }
         try {
-            if (!"null".equals(dataStr)) {
-                systemMessageDBModel._data = dataStr;
-            }
-            JSONObject jsonObject = new JSONObject(msg);
+            systemMessageDBModel._data = commonParseModel.data.url;
+            JSONObject jsonObject = new JSONObject(commonParseModel.msg);
             String typeCode = jsonObject.getString("type_code");
             mTypeCode = Integer.parseInt(typeCode);
             systemMessageDBModel.type_code = mTypeCode;
-
             String data = jsonObject.getString("data");
             systemMessageDBModel.data = data;
-
-            String datetime = jsonObject.getString("datetime");
-            systemMessageDBModel.datetime = datetime;
-
-            String content = jsonObject.getString("content");
-            mContent = content;
+            systemMessageDBModel.datetime = String.valueOf(commonParseModel.time);
+            JSONObject msgJsonObj = new JSONObject(data);
+            mContent = msgJsonObj.getString("msg");
             systemMessageDBModel.content = mContent;
-
         } catch (Exception e) {
             e.printStackTrace();
         }

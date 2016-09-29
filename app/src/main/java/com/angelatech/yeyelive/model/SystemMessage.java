@@ -39,11 +39,21 @@ import java.util.Map;
 
 public class SystemMessage {
     private CommonDao<SystemMessageDBModel> commonDao ;
-
+    private static SystemMessage instance;
     public SystemMessage(){
         commonDao = new CommonDao<>(App.sDatabaseHelper,SystemMessageDBModel.class);
     }
 
+    public static SystemMessage getInstance(){
+        if (instance == null){
+            synchronized (SystemMessage.class){
+                if (instance == null){
+                    instance = new SystemMessage();
+                }
+            }
+        }
+        return instance;
+    }
 
     public void add(SystemMessageDBModel systemMessageDBModel){
         commonDao.add(systemMessageDBModel);

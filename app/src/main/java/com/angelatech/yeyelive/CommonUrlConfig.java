@@ -10,8 +10,8 @@ public class CommonUrlConfig {
     private static boolean isDebug = App.isDebug;
     private static String TEST_HOST_URL = "http://weblivetest.iamyeye.com/";
     private static String HOST_URL = "http://liveapi.iamyeye.com/";
-    public static final String OUT_IP = isDebug ? "121.199.29.67" : "dtlogin.iamyeye.com";
-    public static final int OUT_PORT = isDebug ? 15302 : 13302;
+    public static final String OUT_IP = isDebug ? "47.88.190.205" : "dtlogin.iamyeye.com";
+    public static final int OUT_PORT = isDebug ? 13302 : 13302;
 
     public static String shareURL = "http://share.iamyeye.com/";
     public static String facebookURL = "http://share.iamyeye.com/share/live";

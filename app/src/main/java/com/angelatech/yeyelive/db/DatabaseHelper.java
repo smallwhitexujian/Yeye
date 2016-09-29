@@ -25,6 +25,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     static {
         mClasses.add(BasicUserInfoDBModel.class);
+        mClasses.add(SystemMessageDBModel.class);
     }
 
 
@@ -62,19 +63,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            if (oldVersion < 16){
-                TableUtils.dropTable(connectionSource,SystemMessageDBModel.class,true);
-            }
-            if (oldVersion == 16){
-                DatabaseUpdateHelper.upgradeTable(database,connectionSource,SystemMessageDBModel.class, DatabaseUpdateHelper.OPERATION_TYPE.ADD);
-            }else{
-                if (mClasses != null) {
-                    for (Class clazz : mClasses) {
-                        TableUtils.dropTable(connectionSource, clazz, true);
-                    }
+            if (mClasses != null) {
+                for (Class clazz : mClasses) {
+                    TableUtils.dropTable(connectionSource, clazz, true);
                 }
-                onCreate(database, connectionSource);
             }
+            onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }

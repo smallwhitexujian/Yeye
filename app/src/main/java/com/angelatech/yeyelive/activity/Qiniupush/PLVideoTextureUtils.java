@@ -134,6 +134,7 @@ public class PLVideoTextureUtils {
     }
 
     public void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
         mVideoView.stopPlayback();
     }
 
@@ -393,7 +394,6 @@ public class PLVideoTextureUtils {
      */
     private long setProgress() {
         long position = mVideoView.getCurrentPosition();
-        DebugLogs.d("-------->"+position);
         long duration = mVideoView.getDuration();
         if (mProgress != null) {
             mProgress.setMax(1000);
