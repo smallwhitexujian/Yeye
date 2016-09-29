@@ -46,9 +46,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_toEndOf="@+id/face_icon"
-                android:layout_toStartOf="@+id/search_icon"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_toRightOf="@+id/face_icon"
+                android:layout_toLeftOf="@+id/search_icon">
 
                 <TextView
                     android:id="@+id/hot_textview"

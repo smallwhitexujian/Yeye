@@ -114,7 +114,7 @@ public class GlobalDef {
 
 
     //特殊处理字段
-    public static final String APPEND_FOLLOW =  "[@0_0@shared]";
-    public static final String APPEND_SHARED =  "[@0_0@Follow]";
+    public static final String APPEND_FOLLOW =  "[@0_0@Follow]";
+    public static final String APPEND_SHARED =  "[@0_0@shared]";
 
 }

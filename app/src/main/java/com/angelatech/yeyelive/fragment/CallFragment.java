@@ -467,17 +467,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         int onlineCount = showList.size();
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
-        int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
-        int itemWidth = (int) (length * density.density);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        grid_online.setLayoutParams(params);
-        grid_online.setColumnWidth(itemWidth);
-        grid_online.setStretchMode(GridView.NO_STRETCH);
-        grid_online.setNumColumns(onlineCount);
-//        txt_online.setText(String.valueOf(onlineCount));
-        horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
-        grid_online.setAdapter(horizontalListViewAdapter);
+        if (density!=null){
+            int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
+            int itemWidth = (int) (length * density.density);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+            grid_online.setLayoutParams(params);
+            grid_online.setColumnWidth(itemWidth);
+            grid_online.setStretchMode(GridView.NO_STRETCH);
+            grid_online.setNumColumns(onlineCount);
+            horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
+            grid_online.setAdapter(horizontalListViewAdapter);
+        }
     }
 
     /**
@@ -551,13 +552,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param userInfoModel user
      */
     private void onShowUser(BasicUserInfoModel userInfoModel) {
-        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-            userInfoModel.isout = true;
+        if (isAdded()){
+            if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+                userInfoModel.isout = true;
+            }
+            UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+            userInfoDialogFragment.setUserInfoModel(userInfoModel);
+            userInfoDialogFragment.setCallBack(iCallBack);
+            userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
         }
-        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-        userInfoDialogFragment.setUserInfoModel(userInfoModel);
-        userInfoDialogFragment.setCallBack(iCallBack);
-        userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
     }
 
     /**
@@ -1265,41 +1268,42 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         int lineNum = 2; //行数
         int columnNum = 4; //列数
         GridViewAdapter gridViewAdapter;
-        if (App.giftdatas.size() <= columnNum) {
-            viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ScreenUtils.dip2px(getActivity(), 90))); //使设置好的布局参数应用到控件
-        } else {
-            viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ScreenUtils.dip2px(getActivity(), 180))); //使设置好的布局参数应用到控件
-        }
-        final int giftPageSize = lineNum * columnNum;
-        if (App.giftdatas.size() % giftPageSize == 0) {
-            pageCount = App.giftdatas.size() / giftPageSize;
-        } else {
-            pageCount = App.giftdatas.size() / giftPageSize + 1;
-        }
+        if (App.giftdatas.size() > 0 ){
+            if (App.giftdatas.size() <= columnNum) {
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ScreenUtils.dip2px(getActivity(), 90))); //使设置好的布局参数应用到控件
+            } else {
+                viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ScreenUtils.dip2px(getActivity(), 180))); //使设置好的布局参数应用到控件
+            }
+            final int giftPageSize = lineNum * columnNum;
+            if (App.giftdatas.size() % giftPageSize == 0) {
+                pageCount = App.giftdatas.size() / giftPageSize;
+            } else {
+                pageCount = App.giftdatas.size() / giftPageSize + 1;
+            }
+            for (int i = 0; i < pageCount; i++) {
+                final GridView gridView = new GridView(getActivity());
+                gridViewAdapter = new GridViewAdapter(getActivity(), App.giftdatas, i, giftPageSize);
+                gridView.setAdapter(gridViewAdapter);
+                gridView.setGravity(Gravity.CENTER);
+                gridView.setClickable(true);
+                gridView.setFocusable(true);
+                gridView.setNumColumns(columnNum);
+                gridView.setVerticalSpacing(20);
+                gridViews.add(gridView);
 
-        for (int i = 0; i < pageCount; i++) {
-            final GridView gridView = new GridView(getActivity());
-            gridViewAdapter = new GridViewAdapter(getActivity(), App.giftdatas, i, giftPageSize);
-            gridView.setAdapter(gridViewAdapter);
-            gridView.setGravity(Gravity.CENTER);
-            gridView.setClickable(true);
-            gridView.setFocusable(true);
-            gridView.setNumColumns(columnNum);
-            gridView.setVerticalSpacing(20);
-            gridViews.add(gridView);
-
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                    GridViewItemIndex = position;
-                    fragmentHandler.obtainMessage(HANDLER_GIFT_CHANGE_BACKGROUND).sendToTarget();
-                }
-            });
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                        GridViewItemIndex = position;
+                        fragmentHandler.obtainMessage(HANDLER_GIFT_CHANGE_BACKGROUND).sendToTarget();
+                    }
+                });
+            }
+            CustomerPageAdapter pagerAdapter = new CustomerPageAdapter(getActivity(), gridViews);
+            viewPager.setAdapter(pagerAdapter);
         }
-        CustomerPageAdapter pagerAdapter = new CustomerPageAdapter(getActivity(), gridViews);
-        viewPager.setAdapter(pagerAdapter);
         //initPoint(pageCount);
     }
 

@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
 
         <com.angelatech.yeyelive.activity.Qiniupush.push.CameraPreviewFrameView
             android:id="@+id/cameraPreview_surfaceView"
@@ -30,8 +30,8 @@
         android:id="@+id/plVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <SurfaceView
         android:id="@+id/camera_surface"
@@ -44,16 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/button_call_disconnect"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentRight="true"
-        android:layout_margin="7dp"
-        android:contentDescription="@null"
-        android:padding="8dp"
-        android:src="@drawable/btn_room_close_n"
-        tools:ignore="RtlHardcoded" />
 
     <ImageView
         android:id="@+id/room_guide"
@@ -74,4 +64,14 @@
         android:visibility="visible"
         tools:ignore="RtlHardcoded" />
 
+    <ImageView
+        android:id="@+id/button_call_disconnect"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="7dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/btn_room_close_n"
+        tools:ignore="RtlHardcoded" />
 </RelativeLayout>
