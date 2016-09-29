@@ -87,7 +87,7 @@ public class BroadCastDispatch extends Dispatchable {
                             long startTime = broadcastModel.time * 1000;
                             long intervalTime = DateTimeTool.getCompareValue(startTime, nowTime, DateTimeTool.FORMAT_MINUTE);
                             //如果在房间或者关闭通知则不发送通知
-                            if (intervalTime > 30 || !App.isLiveNotify || App.topActivity.equals(ChatRoomActivity.class.getSimpleName())) {
+                            if (intervalTime > 30 || !App.isLiveNotify || App.chatRoomApplication != null) {
                                 return;
                             }
                             try {

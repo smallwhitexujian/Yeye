@@ -507,11 +507,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             setRoomPopSpinner();
         }
         int length = 30;
-        DisplayMetrics density = ScreenUtils.getScreen(getActivity());
-        int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        grid_online.setLayoutParams(params);
+        if (isAdded()){
+            DisplayMetrics density = ScreenUtils.getScreen(getActivity());
+            if (density!=null){
+                int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+                grid_online.setLayoutParams(params);
+            }
+        }
         grid_online.setNumColumns(onlineCount);
         txt_online.setText(String.valueOf(onlineCount - 1));
         getActivity().runOnUiThread(new Runnable() {

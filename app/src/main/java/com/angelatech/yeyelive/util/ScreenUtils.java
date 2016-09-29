@@ -38,14 +38,14 @@ public class ScreenUtils {
      * @return
      */
     public static int dip2px(Context context, float dipValue) {
-        try{
-            if (context !=null){
+        try {
+            if (context != null) {
                 if (context.getResources() != null) {
                     final float scale = context.getResources().getDisplayMetrics().density;
                     return (int) (dipValue * scale + 0.5f);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
@@ -106,10 +106,17 @@ public class ScreenUtils {
     }
 
     public static DisplayMetrics getScreen(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(outMetrics);
-        return outMetrics;
+        try {
+            if (context != null) {
+                WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                DisplayMetrics outMetrics = new DisplayMetrics();
+                wm.getDefaultDisplay().getMetrics(outMetrics);
+                return outMetrics;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
