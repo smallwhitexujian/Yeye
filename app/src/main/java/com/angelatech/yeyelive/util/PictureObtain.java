@@ -162,7 +162,7 @@ public class PictureObtain {
         cropIntent.putExtra("outputX", x);
         cropIntent.putExtra("outputY", y);
         // retrieve data on return
-        cropIntent.putExtra("return-data", true);
+        cropIntent.putExtra("return-data", false);
         context.startActivityForResult(cropIntent, reqCode);
     }
 
@@ -198,7 +198,7 @@ public class PictureObtain {
         cropIntent.putExtra("outputY", outputY);
         cropIntent.putExtra("scale", true);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, distUri);
-        cropIntent.putExtra("return-data", true);
+        cropIntent.putExtra("return-data", false);
         cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         cropIntent.putExtra("noFaceDetection", true); // no face detection
         context.startActivityForResult(cropIntent, reqCode);

@@ -193,7 +193,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         tv_report.setOnClickListener(click);
         backBtn.setOnClickListener(click);
         // 为进度条添加进度更改事件
-        if (mVideoPlayer!=null){
+        if (!isQiniuSDK){
             player_seekBar.setOnSeekBarChangeListener(change);
         }
 
