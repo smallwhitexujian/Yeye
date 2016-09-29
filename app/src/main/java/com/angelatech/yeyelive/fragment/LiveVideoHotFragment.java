@@ -40,6 +40,7 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.CommDialog;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.banner.Banner;
 import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -115,6 +116,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     public void onPause() {
         super.onPause();
         StopTimeCount();
+        LoadingDialog.cancelLoadingDialog();
     }
 
     @Override
@@ -218,6 +220,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LoadingDialog.showLoadingDialog(getActivity());
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     final CommDialog commDialog = new CommDialog();

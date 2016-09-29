@@ -114,19 +114,19 @@ public class SevenRankFragment extends BaseFragment implements
             @Override
             public void convert(ViewHolder helper, final RankModel item, int position) {
                 String top = item.num;
-                if (top.equals("1")){
+                if (top.equals("1")) {
                     helper.hideView(R.id.rank_top);
                     helper.showView(R.id.rank_top_img);
                     helper.setImageResource(R.id.rank_top_img, R.drawable.icon_contribution_list_one);
-                }else if (top.equals("2")){
+                } else if (top.equals("2")) {
                     helper.hideView(R.id.rank_top);
                     helper.showView(R.id.rank_top_img);
                     helper.setImageResource(R.id.rank_top_img, R.drawable.icon_contribution_list_two);
-                }else if (top.equals("3")){
+                } else if (top.equals("3")) {
                     helper.hideView(R.id.rank_top);
                     helper.showView(R.id.rank_top_img);
                     helper.setImageResource(R.id.rank_top_img, R.drawable.icon_contribution_list_three);
-                }else {
+                } else {
                     helper.showView(R.id.rank_top);
                     helper.hideView(R.id.rank_top_img);
                 }

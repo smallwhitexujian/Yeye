@@ -232,6 +232,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         Cocos2dxGiftCallback.onCreate(uiHandler);
         userModel = CacheDataManager.getInstance().loadUser();
         LoadingDialog = new LoadingDialogNew();
+        LoadingDialog.showLoadingDialog(ChatRoomActivity.this);
         chatRoom = new ChatRoom(this);
         camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
         body = (RelativeLayout) findViewById(R.id.body);
@@ -278,7 +279,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         camera_surface.setVisibility(View.GONE);
         //如果是观众，直接启动房间
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-            face.setVisibility(View.GONE);
             fragmentList.add(callFragment);
             fragmentPagerAdapter.notifyDataSetChanged();
             plVideoTextureView.setVisibility(View.VISIBLE);
@@ -291,6 +291,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         //如果是预览，进入预览流程
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
+            LoadingDialog.cancelLoadingDialog();
             if (isqupai) {
                 camera_surface.setVisibility(View.VISIBLE);
             }
@@ -305,12 +306,12 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         cameraPreviewFrameView.setListener(this);
 
         WatermarkSetting watermarksetting = new WatermarkSetting(this);
-        watermarksetting.setResourceId(R.drawable.logo_watermask)
+        watermarksetting.setResourceId(R.drawable.logo_watermask1)
                 .setAlpha(100)
                 .setLocation(WatermarkSetting.WATERMARK_LOCATION.NORTH_EAST)
                 .setSize(WatermarkSetting.WATERMARK_SIZE.SMALL)
                 .setInJustDecodeBoundsEnabled(false)
-                .setCustomPosition(0.9f,0.04f);
+                .setCustomPosition(0.85f,0.04f);
 
         mMediaStreamingManager = new MediaStreamingManager(this, afl, cameraPreviewFrameView,
                 AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC); // sw codec
@@ -323,7 +324,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         mMediaStreamingManager.setStreamingPreviewCallback(this);
         mMediaStreamingManager.setAudioSourceCallback(this);
         setFocusAreaIndicator();//设置聚焦功能
-        setBeauty(92);//设置默认美颜功能
+        setBeauty();//设置默认美颜功能
     }
 
     public void onClick(View v) {
@@ -578,7 +579,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                     if (loginMessage != null && loginMessage.code.equals("0")) {
-                        LoadingDialog.cancelLoadingDialog();
                         long coin = loginMessage.coin;
                         //更新金币
                         userModel.diamonds = String.valueOf(coin);
@@ -1149,7 +1149,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     @Override
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
-
+        face.setVisibility(View.GONE);
+        LoadingDialog.cancelLoadingDialog();
     }
 
     @Override

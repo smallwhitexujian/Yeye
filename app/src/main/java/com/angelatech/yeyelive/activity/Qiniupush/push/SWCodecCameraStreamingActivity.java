@@ -45,7 +45,7 @@ public class SWCodecCameraStreamingActivity extends StreamingBaseActivity {
         mMediaStreamingManager.setStreamingPreviewCallback(this);
         mMediaStreamingManager.setAudioSourceCallback(this);
         setFocusAreaIndicator();//设置聚焦功能
-        setBeauty(92);//设置默认美颜功能
+        setBeauty();//设置默认美颜功能
         ImageView button_call_disconnect = (ImageView)findViewById(R.id.button_call_disconnect);
         button_call_disconnect.setOnClickListener(new View.OnClickListener() {
             @Override
