@@ -20,6 +20,7 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
+import com.angelatech.yeyelive.activity.Qiniupush.PLVideoTextureUtils;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.UserControl;
@@ -37,6 +38,8 @@ import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.view.CommDialog;
+import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -56,7 +59,7 @@ import java.util.Map;
  * Date              Author          Version
  * ---------------------------------------------------------
  */
-public class PlayActivity extends BaseActivity {
+public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PLVideoCallBack{
     private final int MSG_SET_FLLOW = 211221;
     private final int MSG_REPORT_SUCCESS = 1200;
     private final int MSG_REPORT_ERROR = 1201;
@@ -80,8 +83,11 @@ public class PlayActivity extends BaseActivity {
 
     private ImageView video_loading;
     private AnimationDrawable animationDrawable;
-
+    private boolean isQiniuSDK = false;
+    private PLVideoTextureView plVideoTextureView;
+    private PLVideoTextureUtils plUtils;
     private volatile int time = 5000;
+    private boolean isonclick = true;
 
     Runnable runnable = new Runnable() {
         @Override
@@ -129,9 +135,29 @@ public class PlayActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (plUtils!=null){
+            plUtils.onDestroy();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (plUtils!=null){
+            plUtils.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (plUtils!=null){
+            plUtils.onResume();
+        }
     }
 
     private void initView() {
+        plVideoTextureView = (PLVideoTextureView)findViewById(R.id.plVideoView);
         default_img = (FrescoDrawee) findViewById(R.id.default_img);
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
@@ -167,7 +193,9 @@ public class PlayActivity extends BaseActivity {
         tv_report.setOnClickListener(click);
         backBtn.setOnClickListener(click);
         // 为进度条添加进度更改事件
-        player_seekBar.setOnSeekBarChangeListener(change);
+        if (mVideoPlayer!=null){
+            player_seekBar.setOnSeekBarChangeListener(change);
+        }
 
         CommonHandler<PlayActivity> mCommonHandler = new CommonHandler<>(this);
 
@@ -185,13 +213,23 @@ public class PlayActivity extends BaseActivity {
             }
         }
 
-        mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
-        // 为SurfaceHolder添加回调
-        player_surfaceView.getHolder().addCallback(new SurfaceViewHolderCallback(mVideoPlayer));
-        // 4.0版本之下需要设置的属性
-        // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面
-        // player_surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        mVideoPlayer.prepare();
+        if (!isQiniuSDK){
+            mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
+            player_surfaceView.setVisibility(View.VISIBLE);
+            // 为SurfaceHolder添加回调
+            player_surfaceView.getHolder().addCallback(new SurfaceViewHolderCallback(mVideoPlayer));
+            // 4.0版本之下需要设置的属性
+            // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面
+            // player_surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            mVideoPlayer.prepare();
+        }else{
+            // 为进度条添加进度更改事件
+            plUtils = new PLVideoTextureUtils();
+            plUtils.init(this, plVideoTextureView, PLVideoTextureUtils.REMEDIACODEC, PLVideoTextureUtils.LIVESTREAMING, path, null);
+            plVideoTextureView.setVisibility(View.VISIBLE);
+            plUtils.setSeekBar(player_seekBar);
+            plUtils.setCallBack(this);
+        }
     }
 
     private SeekBar.OnSeekBarChangeListener change = new SeekBar.OnSeekBarChangeListener() {
@@ -201,16 +239,18 @@ public class PlayActivity extends BaseActivity {
             // 当进度条停止修改的时候触发
             // 取得当前进度条的刻度
             time = 0;
-            if (mVideoPlayer.getStatus() == VideoPlayer.STATUS_INIT) {
-                seekBar.setProgress(0);
-                return;
-            }
-            int progress = seekBar.getProgress();
+            if (mVideoPlayer!=null){
+                if (mVideoPlayer.getStatus() == VideoPlayer.STATUS_INIT) {
+                    seekBar.setProgress(0);
+                    return;
+                }
+                int progress = seekBar.getProgress();
 //          // 设置当前播放的位置
 //            currentPosition = progress;
 //            mVideoPlayer.seekTo(progress);
-            mVideoPlayer.play();
-            mVideoPlayer.seekTo(progress);
+                mVideoPlayer.play();
+                mVideoPlayer.seekTo(progress);
+            }
             player_play_btn.setImageResource(R.drawable.btn_playback_stop);
             default_img.setVisibility(View.GONE);
         }
@@ -231,19 +271,36 @@ public class PlayActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.player_play_btn:
                     default_img.setVisibility(View.GONE);
-                    if (mVideoPlayer.getStatus() == VideoPlayer.STATUS_PREPARE) {
-                        mVideoPlayer.play();
-                        ClickToWatch();
-                        player_play_btn.setImageResource(R.drawable.btn_playback_stop);
-//                        }
-                    } else {
-                        mVideoPlayer.pause();
+                    if(mVideoPlayer!=null){
+                        if (mVideoPlayer.getStatus() == VideoPlayer.STATUS_PREPARE) {
+                            mVideoPlayer.play();
+                            ClickToWatch();
+                            player_play_btn.setImageResource(R.drawable.btn_playback_stop);
+                        } else {
+                            mVideoPlayer.pause();
+                        }
+                    }
+                    if (isQiniuSDK){
+                        if(isonclick){
+                            isonclick = false;
+                            plUtils.onClickPause();
+                            player_play_btn.setImageResource(R.drawable.btn_playback_play);
+                        }else{
+                            isonclick = true;
+                            plUtils.onClickResume();
+                            player_play_btn.setImageResource(R.drawable.btn_playback_stop);
+                        }
                     }
                     break;
                 case R.id.player_replay_btn:
                     ly_playfinish.setVisibility(View.GONE);
                     player_play_btn.setImageResource(R.drawable.btn_playback_stop);
-                    mVideoPlayer.replay();
+                    if(mVideoPlayer!=null){
+                        mVideoPlayer.replay();
+                    }
+                    if (isQiniuSDK){
+                        plUtils.onClickPlay();
+                    }
                     break;
                 case R.id.btn_back:
                     finish();
@@ -295,8 +352,10 @@ public class PlayActivity extends BaseActivity {
     private void ClosePlay() {
         try {
             uiHandler.removeCallbacksAndMessages(null);
-            mVideoPlayer.stop();
-            mVideoPlayer.destroy();
+            if (mVideoPlayer!=null){
+                mVideoPlayer.stop();
+                mVideoPlayer.destroy();
+            }
             finish();
         } catch (Exception e) {
             e.printStackTrace();
@@ -331,20 +390,15 @@ public class PlayActivity extends BaseActivity {
     public ShareListener listener = new ShareListener() {
         @Override
         public void callBackSuccess(int shareType) {
-            int pType = 0;
             switch (shareType) {
                 case FbShare.SHARE_TYPE_FACEBOOK:
                     ToastUtils.showToast(PlayActivity.this, getString(R.string.success));
                     break;
                 case WxShare.SHARE_TYPE_WX:
-
                     break;
                 case SinaShare.SHARE_TYPE_SINA:
-
                     break;
-
             }
-
         }
 
         @Override
@@ -454,21 +508,23 @@ public class PlayActivity extends BaseActivity {
                 animationDrawable.stop();
                 scaleVideo(getResources().getConfiguration().orientation);
                 //setVideoSize();
-                int duration = mVideoPlayer.getDuration();
-                player_seekBar.setMax(duration);
-                player_total_time.setText(PlayerUtil.showTime(duration));
+                if (mVideoPlayer!=null){
+                    int duration = mVideoPlayer.getDuration();
+                    player_seekBar.setMax(duration);
+                    player_total_time.setText(PlayerUtil.showTime(duration));
+                    mVideoPlayer.play();
+                }
                 player_split_line.setVisibility(View.VISIBLE);
                 player_current_time.setText(PlayerUtil.showTime(0));
-
-                mVideoPlayer.play();
-
                 ClickToWatch();
                 player_play_btn.setImageResource(R.drawable.btn_playback_stop);
                 default_img.setVisibility(View.GONE);
                 break;
             case VideoPlayer.MSG_PLAYER_ONPLAYING:
-                player_seekBar.setProgress(mVideoPlayer.getCurrentPosition());
-                player_current_time.setText(PlayerUtil.showTime(mVideoPlayer.getCurrentPosition()));
+                if (mVideoPlayer!=null){
+                    player_seekBar.setProgress(mVideoPlayer.getCurrentPosition());
+                    player_current_time.setText(PlayerUtil.showTime(mVideoPlayer.getCurrentPosition()));
+                }
                 break;
             case VideoPlayer.MSG_PLAYER_ONCOMPLETIION:
                 ly_playfinish.setVisibility(View.VISIBLE);
@@ -520,19 +576,48 @@ public class PlayActivity extends BaseActivity {
     }
 
     private void scaleVideo(int orientation) {
-        int[] videoSizeAry = mVideoPlayer.getVideoSize();
-        if (videoSizeAry == null || videoSizeAry[0] == 0 || videoSizeAry[1] == 0) {
-            return;
-        }
-        int[] calVideoSizeAry = PlayerUtil.scaleVideoSize(orientation, videoSizeAry[0], videoSizeAry[1], ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this));
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) player_surfaceView.getLayoutParams();
-        if (lp == null) {
-            lp = new RelativeLayout.LayoutParams(calVideoSizeAry[0], calVideoSizeAry[1]);
-        }
-        lp.width = calVideoSizeAry[0];
-        lp.height = calVideoSizeAry[1];
-        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        if (mVideoPlayer!=null){
+            int[] videoSizeAry = mVideoPlayer.getVideoSize();
+            if (videoSizeAry == null || videoSizeAry[0] == 0 || videoSizeAry[1] == 0) {
+                return;
+            }
+            int[] calVideoSizeAry = PlayerUtil.scaleVideoSize(orientation, videoSizeAry[0], videoSizeAry[1], ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this));
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) player_surfaceView.getLayoutParams();
+            if (lp == null) {
+                lp = new RelativeLayout.LayoutParams(calVideoSizeAry[0], calVideoSizeAry[1]);
+            }
+            lp.width = calVideoSizeAry[0];
+            lp.height = calVideoSizeAry[1];
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-        player_surfaceView.setLayoutParams(lp);
+            player_surfaceView.setLayoutParams(lp);
+        }
+    }
+
+    @Override
+    public void onPrepared(PLMediaPlayer plMediaPlayer) {
+        player_play_btn.setImageResource(R.drawable.btn_playback_stop);
+        default_img.setVisibility(View.GONE);
+        video_loading.setVisibility(View.GONE);
+        animationDrawable.stop();
+    }
+
+    @Override
+    public void onCompletion(PLMediaPlayer plMediaPlayer) {
+        default_img.setVisibility(View.VISIBLE);
+        player_play_btn.setImageResource(R.drawable.btn_playback_play);
+        ly_playfinish.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onTimeOut() {
+
+    }
+
+    @Override
+    public void setCurrentTime(String CurrentTime, String endTime) {
+        player_total_time.setText(endTime);
+        player_split_line.setVisibility(View.VISIBLE);
+        player_current_time.setText(CurrentTime);
     }
 }

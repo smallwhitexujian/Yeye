@@ -393,6 +393,7 @@ public class PLVideoTextureUtils {
      */
     private long setProgress() {
         long position = mVideoView.getCurrentPosition();
+        DebugLogs.d("-------->"+position);
         long duration = mVideoView.getDuration();
         if (mProgress != null) {
             mProgress.setMax(1000);

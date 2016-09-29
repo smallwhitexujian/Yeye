@@ -3,7 +3,6 @@ package com.angelatech.yeyelive.socket.im.dispatch;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
@@ -61,7 +60,7 @@ public class BroadCastDispatch extends Dispatchable {
         CommonParseModel<ReceiveBroadcastModel> broadcastModel = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<ReceiveBroadcastModel>>() {
         }.getType());
         DebugLogs.e("IM系统消息通知====" + broadcastModel.msg + "-----" + broadcastModel.data.toString());
-
+        DebugLogs.e("IM系统消息通知====" + broadcastModel.time);
         //“code”: 0余额不足1用户喇叭,2系统公告,3系统小秘书,4系统升级消息
         try {
             int code = Integer.parseInt(broadcastModel.code);
@@ -86,7 +85,6 @@ public class BroadCastDispatch extends Dispatchable {
                             long nowTime = DateTimeTool.GetDateTimeNowlong(); //毫秒
                             long startTime = broadcastModel.time * 1000;
                             long intervalTime = DateTimeTool.getCompareValue(startTime, nowTime, DateTimeTool.FORMAT_MINUTE);
-                            Log.e("直播通知时间分钟---->", intervalTime + "");
                             //如果在房间或者关闭通知则不发送通知
                             if (intervalTime > 30 || !App.isLiveNotify || App.topActivity.equals(ChatRoomActivity.class.getSimpleName())) {
                                 return;

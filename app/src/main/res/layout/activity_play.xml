@@ -9,7 +9,15 @@
     <SurfaceView
         android:id="@+id/player_surfaceView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.pili.pldroid.player.widget.PLVideoTextureView
+        android:id="@+id/plVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <com.xj.frescolib.View.FrescoDrawee
         android:id="@+id/default_img"
@@ -32,11 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:contentDescription="@null"
                 android:paddingBottom="10dp"
                 android:paddingLeft="14dp"
                 android:paddingRight="10dp"
                 android:paddingTop="15dp"
-                android:contentDescription="@null"
                 android:src="@drawable/back" />
 
             <View
@@ -77,8 +85,8 @@
                 android:id="@+id/player_play_btn"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:padding="6dp"
                 android:contentDescription="@null"
+                android:padding="6dp"
                 android:src="@drawable/btn_playback_play"
                 android:visibility="visible" />
 
@@ -204,8 +212,8 @@
         android:id="@+id/video_loading"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:contentDescription="@null"
         android:layout_centerInParent="true"
+        android:contentDescription="@null"
         android:src="@drawable/video_load" />
 
 </RelativeLayout>

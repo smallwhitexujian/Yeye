@@ -200,7 +200,10 @@
 -keep class okhttp3.** { *;}
 -dontwarn okio.**
 -keep class okio.** {*;}
-
+##七牛的混淆
+-keep class com.qiniu.pili.droid.streaming.** { *; }
+-keep class com.pili.pldroid.player.** { *; }
+-keep class tv.danmaku.ijk.media.player.** {*;}
 
 # ProGuard configurations for NetworkBench Lens
 -keep class com.networkbench.** { *; }
