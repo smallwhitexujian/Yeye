@@ -9,6 +9,7 @@
         android:id="@+id/pullToRefreshView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="48dp"
         android:orientation="vertical">
 
         <ListView
@@ -22,24 +23,25 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/font_line"
-        android:layout_above="@+id/bottom_layout" />
+        android:layout_above="@+id/bottom_layout"
+        android:background="@color/font_line" />
+
     <LinearLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:text="@string/rank_my"
             android:textColor="@color/color_666666"
-            android:textSize="14sp"
-            android:text="@string/rank_my" />
+            android:textSize="14sp" />
 
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/rank_my_pic"
