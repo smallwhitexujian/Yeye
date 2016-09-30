@@ -102,25 +102,16 @@ public class SettingActivity extends HeaderBaseActivity {
         notifyTurn = (ImageView) findViewById(R.id.notify_turn);
         bindQQ = (TextView) findViewById(R.id.bind_qq);
         bindQQLayout = (LinearLayout) findViewById(R.id.bind_qq_layout);
-
         bindPhone = (TextView) findViewById(R.id.bind_phone);
         bindPhoneLayout = (LinearLayout) findViewById(R.id.bind_phone_layout);
-
         bindWeichat = (TextView) findViewById(R.id.bind_weichat);
         bindWeichatLayout = (LinearLayout) findViewById(R.id.bind_weichat_layout);
-
         bind_facebook = (TextView) findViewById(R.id.bind_facebook);
-
         clearCacheLayout = (LinearLayout) findViewById(R.id.clear_cache_layout);
-
         feedbackLayout = (LinearLayout) findViewById(R.id.feedback_layout);
-
         aboutLayout = (LinearLayout) findViewById(R.id.about_us_layout);
-
         blacklistLayout = (LinearLayout) findViewById(R.id.blacklist_layout);
-
         layout_change_password = (LinearLayout) findViewById(R.id.layout_change_password);
-
         loginButton = (LoginButton) findViewById(R.id.facebook_login);
     }
 
@@ -211,7 +202,7 @@ public class SettingActivity extends HeaderBaseActivity {
             case FbProxy.FB_LOGIN_SUCCESS:
                 Log.e("success--->", "success");
                 Profile profile = (Profile) msg.obj;
-                if(profile != null){
+                if (profile != null) {
                     Response(profile);
                 }
                 break;

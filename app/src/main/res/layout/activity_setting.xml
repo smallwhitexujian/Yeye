@@ -37,6 +37,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/message_notice"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -50,7 +51,17 @@
                     android:layout_width="50dp"
                     android:layout_height="36dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/btn_me_switch_n" />
+
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="14dp"
+                    android:contentDescription="@null"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/btn_next"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

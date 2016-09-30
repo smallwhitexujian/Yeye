@@ -16,24 +16,24 @@ public class SystemMessageDBModel implements Serializable {
     @DatabaseField(generatedId = true)
     private long id;//
 
-    @DatabaseField(columnName = "type_code")
+    @DatabaseField(columnName = "type_code")//类别
     public int type_code;
-    @DatabaseField(columnName = "data")
+    @DatabaseField(columnName = "data")//内容  msg
     public String data;
 
-    @DatabaseField(columnName = "content")
+    @DatabaseField(columnName = "content")//内容
     public String content;
 
-    @DatabaseField(columnName = "localtime")
+    @DatabaseField(columnName = "localtime")//本地插入时间
     public long localtime;
 
-    @DatabaseField(columnName = "datetime")
+    @DatabaseField(columnName = "datetime")//系统推出时间
     public String datetime;
 
-    @DatabaseField(columnName = "uid")
+    @DatabaseField(columnName = "uid")//用户的id
     public String uid;//用户id
 
-    @DatabaseField(columnName = "_data")
+    @DatabaseField(columnName = "_data")//是否有连接
     public String _data;//固定字段{url,}
 
     @Override
