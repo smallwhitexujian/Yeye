@@ -36,15 +36,21 @@ public class SystemMessageDBModel implements Serializable {
     @DatabaseField(columnName = "_data")//是否有连接
     public String _data;//固定字段{url,}
 
+    @DatabaseField(columnName = "isread")//是否读取
+    public String isread;
+
     @Override
     public String toString() {
         return "SystemMessageDBModel{" +
-                "type_code='" + type_code + '\'' +
+                "id=" + id +
+                ", type_code=" + type_code +
                 ", data='" + data + '\'' +
                 ", content='" + content + '\'' +
                 ", localtime=" + localtime +
                 ", datetime='" + datetime + '\'' +
-                ", uid=" + uid +
+                ", uid='" + uid + '\'' +
+                ", _data='" + _data + '\'' +
+                ", isread='" + isread + '\'' +
                 '}';
     }
 }
