@@ -199,7 +199,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
         };
         mainEnter = ((MainActivity) getActivity()).getMainEnter();
-        loadBanner();
+        if (fromType == 1){
+            loadBanner();
+        }
     }
 
     private void jumpUserInfo(LiveVideoModel item) {
@@ -410,7 +412,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     //重新开始计时
     private void StartTimeCount() {
         StopTimeCount();
-        timeCount = new TimeCount(10000, 10000);
+        timeCount = new TimeCount(20000, 20000);
         timeCount.start();
     }
 

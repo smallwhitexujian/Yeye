@@ -177,6 +177,7 @@ public class MainActivity extends BaseActivity {
         };
         pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -211,12 +212,12 @@ public class MainActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
         clearTabColor();
         clearTabTextSize();
-        newTab.setCompoundDrawables(null, null, null, drawable);
-        newTab.setTextSize(DisplayTool.dip2px(this, 15));
-        newTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
+        hotTab.setCompoundDrawables(null, null, null, drawable);
+        hotTab.setTextSize(DisplayTool.dip2px(this, 15));
+        hotTab.setTextColor(ContextCompat.getColor(this, R.color.color_d80c18));
 
         //预加载礼物列表
         loadGiftList();
