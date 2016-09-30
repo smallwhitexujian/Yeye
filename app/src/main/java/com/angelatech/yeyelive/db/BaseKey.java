@@ -19,4 +19,5 @@ public class BaseKey {
     public final static String USER_IS_TICKET = "isticket";
     public final static String USER_EMAIL = "email";
     public final static String USER_FANS= "fansNum";
+    public final static String NOTIFICATION_ISREAD= "isread";
 }

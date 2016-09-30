@@ -21,7 +21,7 @@ public class CommonDao<T> {
     private Dao<T, Integer> mDao;
     private DatabaseHelper mHelper;
 
-    public CommonDao(DatabaseHelper helper,Class<?> clazz) {
+    public CommonDao(DatabaseHelper helper, Class<?> clazz) {
         try {
             mHelper = helper;
             mDao = mHelper.getDao(clazz);
@@ -53,7 +53,7 @@ public class CommonDao<T> {
         }
     }
 
-    public void deleteAll(Class<?> dataClass){
+    public void deleteAll(Class<?> dataClass) {
         try {
             TableUtils.clearTable(mDao.getConnectionSource(), dataClass);
         } catch (SQLException e) {
@@ -73,8 +73,43 @@ public class CommonDao<T> {
         }
     }
 
+    //update tablename set name=
+
+    /**
+     * 多条件修改某个字段的值
+     * @param tabName
+     * @param keyValue
+     * @param eqs
+     */
+    public void updateName(String tabName, Object keyValue, Map<String, Object> eqs) {
+        try {
+            UpdateBuilder builder = mDao.updateBuilder();
+            Where where = builder.where();
+            builder.updateColumnValue(tabName, keyValue);
+            int size = eqs.size();
+            int index = 0;
+            for (Map.Entry<String, Object> eq : eqs.entrySet()) {
+                String key = eq.getKey();
+                Object value = eq.getValue();
+                if (key != null && !"".equals(key) && value != null) {
+                    if (index++ != size - 1) {
+                        where = where.eq(key, value).and();
+                    } else {
+                        where = where.eq(key, value);
+                    }
+                } else {
+                    continue;
+                }
+            }
+            builder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 查询一条记录
+     *
      * @param id
      * @return
      */
@@ -88,9 +123,9 @@ public class CommonDao<T> {
         return data;
     }
 
-    public T queryForFirst() throws SQLException{
+    public T queryForFirst() throws SQLException {
         List<T> datas = queryAll();
-        if(datas != null && !datas.isEmpty()){
+        if (datas != null && !datas.isEmpty()) {
             return datas.get(0);
         }
         return null;
@@ -99,12 +134,13 @@ public class CommonDao<T> {
 
     /**
      * 查询所有记录
+     *
      * @return
      */
     public List<T> queryAll() {
         List<T> datas = new ArrayList<T>();
         try {
-           datas = mDao.queryForAll();
+            datas = mDao.queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,88 +148,83 @@ public class CommonDao<T> {
     }
 
     /***
-     *
      * @param orderByKey
      * @param ascending
      * @param eqs
      * @return
      * @throws SQLException
      */
-    public List<T> queryByCondition(String orderByKey,boolean ascending,Map<String,Object> eqs)  throws SQLException{
+    public List<T> queryByCondition(String orderByKey, boolean ascending, Map<String, Object> eqs) throws SQLException {
         QueryBuilder builder = mDao.queryBuilder();
-        Where where = builder.orderBy(orderByKey,ascending).where();
+        Where where = builder.orderBy(orderByKey, ascending).where();
         int size = eqs.size();
         int index = 0;
-        for(Map.Entry<String,Object> eq:eqs.entrySet()){
+        for (Map.Entry<String, Object> eq : eqs.entrySet()) {
             String key = eq.getKey();
             Object value = eq.getValue();
-            if(key != null && !"".equals(key) && value != null){
-                if(index ++ != size - 1 ){
-                    where = where.eq(key,value).and();
+            if (key != null && !"".equals(key) && value != null) {
+                if (index++ != size - 1) {
+                    where = where.eq(key, value).and();
+                } else {
+                    where = where.eq(key, value);
                 }
-                else{
-                    where = where.eq(key,value);
-                }
-            }
-            else {
+            } else {
                 continue;
             }
         }
         return builder.query();
     }
 
-    public T queryByConditionSingle(String orderByKey,boolean ascending,Map<String,Object> eqs)  throws SQLException{
+    public T queryByConditionSingle(String orderByKey, boolean ascending, Map<String, Object> eqs) throws SQLException {
         QueryBuilder builder = mDao.queryBuilder();
-        Where where = builder.orderBy(orderByKey,ascending).where();
+        Where where = builder.orderBy(orderByKey, ascending).where();
         int size = eqs.size();
         int index = 0;
-        for(Map.Entry<String,Object> eq:eqs.entrySet()){
+        for (Map.Entry<String, Object> eq : eqs.entrySet()) {
             String key = eq.getKey();
             Object value = eq.getValue();
-            if(key != null && !"".equals(key) && value != null){
-                if(index ++ != size - 1 ){
-                    where = where.eq(key,value).and();
+            if (key != null && !"".equals(key) && value != null) {
+                if (index++ != size - 1) {
+                    where = where.eq(key, value).and();
+                } else {
+                    where = where.eq(key, value);
                 }
-                else{
-                    where = where.eq(key,value);
-                }
-            }
-            else {
+            } else {
                 continue;
             }
         }
         List<T> results = builder.query();
-        if(results == null || results.isEmpty()){
+        if (results == null || results.isEmpty()) {
             return null;
         }
         return results.get(0);
     }
 
-    /**分页***/
-    public List<T> queryByConditionLimit(String orderByKey,boolean ascending,Map<String,Object> eqs,long startRow,long maxRows) throws SQLException{
+    /**
+     * 分页
+     ***/
+    public List<T> queryByConditionLimit(String orderByKey, boolean ascending, Map<String, Object> eqs, long startRow, long maxRows) throws SQLException {
         QueryBuilder builder = mDao.queryBuilder();
-        Where where = builder.orderBy(orderByKey,ascending).where();
+        Where where = builder.orderBy(orderByKey, ascending).where();
         int size = eqs.size();
         int index = 0;
-        for(Map.Entry<String,Object> eq:eqs.entrySet()){
+        for (Map.Entry<String, Object> eq : eqs.entrySet()) {
             String key = eq.getKey();
             Object value = eq.getValue();
-            if(key != null && !"".equals(key) && value != null){
-                if(index ++ != size - 1 ){
-                    where = where.eq(key,value).and();
+            if (key != null && !"".equals(key) && value != null) {
+                if (index++ != size - 1) {
+                    where = where.eq(key, value).and();
+                } else {
+                    where = where.eq(key, value);
                 }
-                else{
-                    where = where.eq(key,value);
-                }
-            }
-            else {
+            } else {
                 continue;
             }
         }
         builder.offset(startRow);
         builder.limit(maxRows);
         List<T> results = builder.query();
-        if(results == null || results.isEmpty()){
+        if (results == null || results.isEmpty()) {
             return null;
         }
         return results;
@@ -201,6 +232,7 @@ public class CommonDao<T> {
 
     /**
      * 查询所有分页
+     *
      * @param orderByKey
      * @param ascending
      * @param startRow
@@ -208,69 +240,64 @@ public class CommonDao<T> {
      * @return
      * @throws SQLException
      */
-    public List<T> queryAllLimit(String orderByKey,boolean ascending,long startRow,long maxRows) throws SQLException {
+    public List<T> queryAllLimit(String orderByKey, boolean ascending, long startRow, long maxRows) throws SQLException {
         QueryBuilder builder = mDao.queryBuilder();
-        builder.orderBy(orderByKey,ascending).where();
+        builder.orderBy(orderByKey, ascending).where();
         builder.offset(startRow);
         builder.limit(maxRows);
         List<T> results = builder.query();
-        if(results == null || results.isEmpty()){
+        if (results == null || results.isEmpty()) {
             return null;
         }
         return results;
     }
 
-    public void update(Map<String,Object> eqs,Map<String,Object> updates) throws SQLException{
+    public void update(Map<String, Object> eqs, Map<String, Object> updates) throws SQLException {
         UpdateBuilder updateBuilder = mDao.updateBuilder();
         Where where = updateBuilder.where();
         int size = eqs.size();
         int index = 0;
-        for(Map.Entry<String,Object> eq:eqs.entrySet()){
+        for (Map.Entry<String, Object> eq : eqs.entrySet()) {
             String key = eq.getKey();
             Object value = eq.getValue();
-            if(key != null && !"".equals(key) && value != null){
-                if(index ++ != size - 1 ){
-                    where = where.eq(key,value).and();
+            if (key != null && !"".equals(key) && value != null) {
+                if (index++ != size - 1) {
+                    where = where.eq(key, value).and();
+                } else {
+                    where = where.eq(key, value);
                 }
-                else{
-                    where = where.eq(key,value);
-                }
-            }
-            else {
+            } else {
                 continue;
             }
         }
 
-        for(Map.Entry<String,Object> update:updates.entrySet()){
+        for (Map.Entry<String, Object> update : updates.entrySet()) {
             String key = update.getKey();
             Object value = update.getValue();
-            if(key != null && !"".equals(key) && value != null){
-                updateBuilder = updateBuilder.updateColumnValue(key,value);
-            }
-            else{
+            if (key != null && !"".equals(key) && value != null) {
+                updateBuilder = updateBuilder.updateColumnValue(key, value);
+            } else {
                 continue;
             }
         }
         updateBuilder.update();
     }
 
-    public void delete(Map<String,Object> eqs) throws SQLException {
+    public void delete(Map<String, Object> eqs) throws SQLException {
         DeleteBuilder deleteBuilder = mDao.deleteBuilder();
         Where where = deleteBuilder.where();
         int size = eqs.size();
         int index = 0;
-        for(Map.Entry<String,Object> eq:eqs.entrySet()){
+        for (Map.Entry<String, Object> eq : eqs.entrySet()) {
             String key = eq.getKey();
             Object value = eq.getValue();
-            if(key != null && !"".equals(key) && value != null){
-                if(index ++ != size - 1 ){
-                    where = where.eq(key,value).and();
+            if (key != null && !"".equals(key) && value != null) {
+                if (index++ != size - 1) {
+                    where = where.eq(key, value).and();
+                } else {
+                    where = where.eq(key, value);
                 }
-                else{
-                    where = where.eq(key,value);
-                }
-            }
-            else {
+            } else {
                 continue;
             }
         }

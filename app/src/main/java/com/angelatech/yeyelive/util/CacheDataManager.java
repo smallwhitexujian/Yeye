@@ -69,7 +69,6 @@ public class CacheDataManager {
         updates.put(key, value);
         try {
             mDao.update(eqs, updates);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

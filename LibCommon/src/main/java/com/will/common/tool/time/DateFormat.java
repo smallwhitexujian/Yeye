@@ -29,7 +29,6 @@ public class DateFormat {
 	 * @param str
 	 * @param format
 	 * @return
-	 * @throws NetAPIException
 	 */
 	public static Date parseDate(String str, String format) {
 		if (str == null || "".equals(str) || "null".equals(str)) {

@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 　　┏┓　　　　┏┓
  * 　┏┛┻━━━━┛┻┓
  * 　┃　　　　　　　　┃
@@ -30,24 +29,26 @@ import java.util.Map;
  * 　　　　┃　　　　　　　┏┛
  * 　　　　┗┓┓┏━┳┓┏┛
  * 　　　　　┃┫┫　┃┫┫
- *
- *
+ * <p>
+ * <p>
  * 作者: Created by: xujian on Date: 16/9/21.
  * 邮箱: xj626361950@163.com
  * com.angelatech.yeyelive.model
  */
 
 public class SystemMessage {
-    private CommonDao<SystemMessageDBModel> commonDao ;
+    private CommonDao<SystemMessageDBModel> commonDao;
     private static SystemMessage instance;
-    public SystemMessage(){
-        commonDao = new CommonDao<>(App.sDatabaseHelper,SystemMessageDBModel.class);
+    public static SystemMessageDBModel systemMessageDBModel = null;
+
+    public SystemMessage() {
+        commonDao = new CommonDao<>(App.sDatabaseHelper, SystemMessageDBModel.class);
     }
 
-    public static SystemMessage getInstance(){
-        if (instance == null){
-            synchronized (SystemMessage.class){
-                if (instance == null){
+    public static SystemMessage getInstance() {
+        if (instance == null) {
+            synchronized (SystemMessage.class) {
+                if (instance == null) {
                     instance = new SystemMessage();
                 }
             }
@@ -55,38 +56,61 @@ public class SystemMessage {
         return instance;
     }
 
-    public void add(SystemMessageDBModel systemMessageDBModel){
+    public void add(SystemMessageDBModel systemMessageDBModel) {
         commonDao.add(systemMessageDBModel);
     }
 
-    public List<SystemMessageDBModel> load(String userId, long startRow, long maxRows){
-        Map<String,Object> eqs = new HashMap<>();
-        eqs.put("uid",userId);
+    public List<SystemMessageDBModel> load(String type_code, long startRow, long maxRows) {
+        Map<String, Object> eqs = new HashMap<>();
+        eqs.put("type_code", type_code);
         String orderByKey = "localtime";
         try {
-            return commonDao.queryByConditionLimit(orderByKey,false,eqs,startRow,maxRows);
+            return commonDao.queryByConditionLimit(orderByKey, false, eqs, startRow, maxRows);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public boolean haveNewSystemMsg(Context context){
+    //更新某一列数据
+    public void update(String key, String value, String uid) {
+        try {
+            Map<String, Object> eqs = new HashMap<>();
+            eqs.put("uid", uid);
+            commonDao.updateName(key, value, eqs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public SystemMessageDBModel getQueryForFirst() {
+        if (systemMessageDBModel == null) {
+            try {
+                systemMessageDBModel = commonDao.queryForFirst();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return systemMessageDBModel;
+    }
+
+    public boolean haveNewSystemMsg(Context context) {
         SPreferencesTool sp = SPreferencesTool.getInstance();
-        int flag = sp.getIntValue(context,SPreferencesTool.SharedPreferencesConfigs.PREFERENCES_SYSTEM_MSG);
-        if(flag == -1){
+        int flag = sp.getIntValue(context, SPreferencesTool.SharedPreferencesConfigs.PREFERENCES_SYSTEM_MSG);
+        if (flag == -1) {
             return false;
         }
         return true;
     }
 
-    public void addUnReadTag(Context context){
+    public void addUnReadTag(Context context) {
         SPreferencesTool sp = SPreferencesTool.getInstance();
-        sp.putValue(context, SPreferencesTool.SharedPreferencesConfigs.PREFERENCES_SYSTEM_MSG,1);
+        sp.putValue(context, SPreferencesTool.SharedPreferencesConfigs.PREFERENCES_SYSTEM_MSG, 1);
     }
 
-    public void clearUnReadTag(Context context){
+    public void clearUnReadTag(Context context) {
         SPreferencesTool sp = SPreferencesTool.getInstance();
-        sp.putValue(context, SPreferencesTool.SharedPreferencesConfigs.PREFERENCES_SYSTEM_MSG,-1);
+        sp.putValue(context, SPreferencesTool.SharedPreferencesConfigs.PREFERENCES_SYSTEM_MSG, -1);
     }
 }

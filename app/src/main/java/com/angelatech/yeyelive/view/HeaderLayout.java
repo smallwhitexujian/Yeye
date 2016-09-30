@@ -164,6 +164,15 @@ public class HeaderLayout extends LinearLayout {
         rightContainer.addView(imageViewLayout);
     }
 
+    public void showRightTextButton(int color, String str, OnClickListener listener) {
+        View imageViewLayout = mInflater.inflate(R.layout.base_common_header_right_btn, null, false);
+        rightButton = (TextView) imageViewLayout.findViewById(R.id.textBtn);
+        rightButton.setText(str);
+        rightButton.setTextColor(color);
+        rightButton.setOnClickListener(listener);
+        rightContainer.addView(imageViewLayout);
+    }
+
 
     public void setRightTextButton(int color){
         rightButton.setTextColor(color);
