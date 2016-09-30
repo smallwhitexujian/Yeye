@@ -472,9 +472,9 @@ public class StreamingBaseActivity extends BaseActivity implements
      */
     public void setBeauty() {
         CameraStreamingSetting.FaceBeautySetting fbSetting = mCameraStreamingSetting.getFaceBeautySetting();
-        fbSetting.beautyLevel = 80 / 100.0f;
-        fbSetting.whiten = 100 / 100.0f;
-        fbSetting.redden = 100 / 100.0f;
+        fbSetting.beautyLevel = 50 / 100.0f;
+        fbSetting.whiten = 50 / 100.0f;
+        fbSetting.redden = 50 / 100.0f;
         mMediaStreamingManager.updateFaceBeautySetting(fbSetting);
     }
 
