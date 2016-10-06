@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  * 作者: Created by: xujian on Date: 16/8/10.
  * 邮箱: xj626361950@163.com
  * com.angelatech.yeyelive.activity.function
+ * 线程池控制
  */
 public class ChatManagerTest {
     @Test
