@@ -1,12 +1,12 @@
 package com.angelatech.yeyelive.db.dao;
 
+import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.TableUtils;
-import com.angelatech.yeyelive.db.DatabaseHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class CommonDao<T> {
     }
 
     /**
-     * @param
+     * 增加一条记录
      */
     public int add(T entity) {
         try {
@@ -53,6 +53,9 @@ public class CommonDao<T> {
         }
     }
 
+    /**
+     * 删除所有记录 当前表
+     */
     public void deleteAll(Class<?> dataClass) {
         try {
             TableUtils.clearTable(mDao.getConnectionSource(), dataClass);
@@ -77,6 +80,7 @@ public class CommonDao<T> {
 
     /**
      * 多条件修改某个字段的值
+     *
      * @param tabName
      * @param keyValue
      * @param eqs
@@ -109,9 +113,6 @@ public class CommonDao<T> {
 
     /**
      * 查询一条记录
-     *
-     * @param id
-     * @return
      */
     public T queryById(int id) {
         T data = null;
@@ -123,6 +124,9 @@ public class CommonDao<T> {
         return data;
     }
 
+    /***
+     * 查询第一条记录
+     */
     public T queryForFirst() throws SQLException {
         List<T> datas = queryAll();
         if (datas != null && !datas.isEmpty()) {
@@ -148,11 +152,7 @@ public class CommonDao<T> {
     }
 
     /***
-     * @param orderByKey
-     * @param ascending
-     * @param eqs
-     * @return
-     * @throws SQLException
+     * 根据条件查询所有数据
      */
     public List<T> queryByCondition(String orderByKey, boolean ascending, Map<String, Object> eqs) throws SQLException {
         QueryBuilder builder = mDao.queryBuilder();
@@ -175,6 +175,9 @@ public class CommonDao<T> {
         return builder.query();
     }
 
+    /**
+     * 根据条件查询一条数据
+     */
     public T queryByConditionSingle(String orderByKey, boolean ascending, Map<String, Object> eqs) throws SQLException {
         QueryBuilder builder = mDao.queryBuilder();
         Where where = builder.orderBy(orderByKey, ascending).where();
@@ -252,6 +255,9 @@ public class CommonDao<T> {
         return results;
     }
 
+    /**
+     * 根据条件更新相应的字段
+     */
     public void update(Map<String, Object> eqs, Map<String, Object> updates) throws SQLException {
         UpdateBuilder updateBuilder = mDao.updateBuilder();
         Where where = updateBuilder.where();
@@ -270,7 +276,6 @@ public class CommonDao<T> {
                 continue;
             }
         }
-
         for (Map.Entry<String, Object> update : updates.entrySet()) {
             String key = update.getKey();
             Object value = update.getValue();
@@ -283,6 +288,9 @@ public class CommonDao<T> {
         updateBuilder.update();
     }
 
+    /**
+     * 根据条件删除
+     */
     public void delete(Map<String, Object> eqs) throws SQLException {
         DeleteBuilder deleteBuilder = mDao.deleteBuilder();
         Where where = deleteBuilder.where();

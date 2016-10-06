@@ -112,12 +112,14 @@ public class App extends Application {
 //            e.printStackTrace();
 //        }
         //趣拍
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("qupai-media-thirdparty");
-        System.loadLibrary("qupai-media-jni");
-        ApplicationGlue.initialize(this);
-        QupaiHttpFinal.getInstance().initOkHttpFinal();
-        initAuth(getApplicationContext(), Contants.appkey, Contants.appsecret, Contants.space);
+        if (App.chatRoomApplication.isqupai){
+            System.loadLibrary("gnustl_shared");
+            System.loadLibrary("qupai-media-thirdparty");
+            System.loadLibrary("qupai-media-jni");
+            ApplicationGlue.initialize(this);
+            QupaiHttpFinal.getInstance().initOkHttpFinal();
+            initAuth(getApplicationContext(), Contants.appkey, Contants.appsecret, Contants.space);
+        }
     }
 
     /**
