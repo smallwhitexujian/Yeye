@@ -139,7 +139,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private ChatRoom chatRoom;
     public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
-    public boolean isqupai = false;
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
     private QiniuUpload qiNiuUpload;
@@ -178,7 +177,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             body.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
         //趣拍初始化
-        if (isqupai) {
+        if (App.isqupai) {
             livePush = new LivePush();
             livePush.setWatermark(watemarkUrl, 14, 55, 1);
             livePush.init(this, camera_surface);
@@ -292,7 +291,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
             LoadingDialog.cancelLoadingDialog();
-            if (isqupai) {
+            if (App.isqupai) {
                 camera_surface.setVisibility(View.VISIBLE);
             }
         }
@@ -311,7 +310,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 .setLocation(WatermarkSetting.WATERMARK_LOCATION.NORTH_EAST)
                 .setSize(WatermarkSetting.WATERMARK_SIZE.SMALL)
                 .setInJustDecodeBoundsEnabled(false)
-                .setCustomPosition(0.85f,0.04f);
+                .setCustomPosition(0.82f,0.05f);
 
         mMediaStreamingManager = new MediaStreamingManager(this, afl, cameraPreviewFrameView,
                 AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC); // sw codec
@@ -946,7 +945,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         liveFinishFragment = new LiveFinishFragment();
         liveFinishFragment.setRoomModel(roomModel);
         liveFinishFragment.show(getSupportFragmentManager(), "");
-        if (isqupai && livePush != null) {
+        if (App.isqupai && livePush != null) {
             livePush.onDestroy();
         }
     }
@@ -954,7 +953,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     //切换摄像头
     @Override
     public void onCameraSwitch() {
-        if (isqupai) {
+        if (App.isqupai) {
             livePush.mCamera();
         } else {
             setCameraSwitch();
@@ -1050,7 +1049,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     @Override
     public void onPause() {
-        if (isqupai) {
+        if (App.isqupai) {
             livePush.onPause();
         }
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
@@ -1064,7 +1063,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onResume();
         }
-        if (isqupai) {
+        if (App.isqupai) {
             livePush.onResume();
         }
         if (!isNetWork) {
@@ -1082,7 +1081,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             plUtils.onDestroy();
         }
         super.onDestroy();
-        if (isqupai) {
+        if (App.isqupai) {
             livePush.onDestroy();
         }
         System.gc();
@@ -1194,7 +1193,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!isqupai) {
+                if (!App.isqupai) {
                     setStartStreaming(roomModel.getRtmpip());
                 } else {
                     livePush.StartLive(roomModel.getRtmpip());

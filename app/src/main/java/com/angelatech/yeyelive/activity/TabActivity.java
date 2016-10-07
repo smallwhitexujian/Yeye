@@ -43,7 +43,7 @@ import java.util.ArrayList;
  * 系统消息
  */
 
-public class TabActivity extends HeaderBaseActivity {
+public class TabActivity extends HeaderBaseActivity  {
     private ArrayList<Fragment> fragmentList;
     public static int currIndex = 0;
     private ViewPager mAbSlidingTabView;

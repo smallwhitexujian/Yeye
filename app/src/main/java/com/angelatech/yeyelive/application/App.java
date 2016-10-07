@@ -39,9 +39,10 @@ public class App extends Application {
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static boolean isLogin = false;// 判断用户是否登录
     public static boolean isQiNiu = true; // 是否使用七牛服务器
+    public static boolean isqupai = false;// 推流选择,是否是趣拍
 
     private static String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
     private static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;
@@ -112,7 +113,7 @@ public class App extends Application {
 //            e.printStackTrace();
 //        }
         //趣拍
-        if (App.chatRoomApplication.isqupai){
+        if (isqupai){
             System.loadLibrary("gnustl_shared");
             System.loadLibrary("qupai-media-thirdparty");
             System.loadLibrary("qupai-media-jni");

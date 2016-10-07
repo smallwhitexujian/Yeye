@@ -226,10 +226,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <!--<activity-->
-            <!--android:name=".activity.MessageNotificationActivity"-->
-            <!--android:configChanges="keyboard|screenLayout|screenSize|orientation"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="adjustPan|stateHidden" />-->
+        <!--android:name=".activity.MessageNotificationActivity"-->
+        <!--android:configChanges="keyboard|screenLayout|screenSize|orientation"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:windowSoftInputMode="adjustPan|stateHidden" />-->
 
         <service
             android:name=".service.IService"

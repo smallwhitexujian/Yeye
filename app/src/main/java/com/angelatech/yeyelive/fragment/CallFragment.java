@@ -640,7 +640,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
-                if (App.chatRoomApplication.isqupai) {
+                if (App.isqupai) {
                     App.chatRoomApplication.livePush.OpenFace();
                     if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
                         btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
@@ -659,7 +659,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.button_lamp://闪光灯
-                if (App.chatRoomApplication.isqupai) {
+                if (App.isqupai) {
                     App.chatRoomApplication.livePush.Openlamp();
                     if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
                         btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);

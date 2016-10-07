@@ -18,7 +18,7 @@ import com.angelatech.yeyelive.R;
  * 通用dialog
  */
 public class CommDialog {
-    private AlertDialog dialog;
+    private AlertDialog dialog = null;
 
     public interface Callback {
         void onCancel();
@@ -39,53 +39,56 @@ public class CommDialog {
         if (content == null || context == null) {
             return;
         }
-        dialog = new AlertDialog.Builder(context).create();
-        mcallback = callback;
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//指定会全局,可以在后台弹出
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        window.setGravity(Gravity.CENTER);
-        window.setContentView(R.layout.dialog_othermic);
-        TextView tv_content = (TextView) window.findViewById(R.id.content);
-        Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
-        Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
-        btn_cancel.setVisibility(View.GONE);
-        tv_content.setText(content);
-        if (NotOk) {
-            btn_cancel.setVisibility(View.VISIBLE);
-            btn_cancel.setOnClickListener(new View.OnClickListener() {
+        if (dialog == null) {
+            dialog = new AlertDialog.Builder(context).create();
+            mcallback = callback;
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);//指定会全局,可以在后台弹出
+            dialog.show();
+
+            Window window = dialog.getWindow();
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            window.setGravity(Gravity.CENTER);
+            window.setContentView(R.layout.dialog_othermic);
+            TextView tv_content = (TextView) window.findViewById(R.id.content);
+            Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
+            Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+            btn_cancel.setVisibility(View.GONE);
+            tv_content.setText(content);
+            if (NotOk) {
+                btn_cancel.setVisibility(View.VISIBLE);
+                btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mcallback != null) {
+                            mcallback.onCancel();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+            btn_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mcallback != null) {
-                        mcallback.onCancel();
+                        mcallback.onOK();
                     }
                     dialog.dismiss();
                 }
             });
-        }
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mcallback != null) {
-                    mcallback.onOK();
-                }
-                dialog.dismiss();
-            }
-        });
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (mcallback != null) {
-                        mcallback.onCancel();
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (mcallback != null) {
+                            mcallback.onCancel();
+                        }
                     }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -101,50 +104,52 @@ public class CommDialog {
         if (content == null || context == null || StrOk == null || StrCancel == null) {
             return;
         }
-        dialog = new AlertDialog.Builder(context).create();
-        mcallback = callback;
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        window.setGravity(Gravity.CENTER);
-        window.setContentView(R.layout.dialog_othermic);
-        TextView tv_content = (TextView) window.findViewById(R.id.content);
-        Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
-        Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
-        btn_ok.setText(StrOk);
-        btn_cancel.setText(StrCancel);
-        btn_cancel.setVisibility(View.GONE);
-        tv_content.setText(content);
-        if (NotOk) {
-            btn_cancel.setVisibility(View.VISIBLE);
-            btn_cancel.setOnClickListener(new View.OnClickListener() {
+        if (dialog == null) {
+            dialog = new AlertDialog.Builder(context).create();
+            mcallback = callback;
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            window.setGravity(Gravity.CENTER);
+            window.setContentView(R.layout.dialog_othermic);
+            TextView tv_content = (TextView) window.findViewById(R.id.content);
+            Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
+            Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+            btn_ok.setText(StrOk);
+            btn_cancel.setText(StrCancel);
+            btn_cancel.setVisibility(View.GONE);
+            tv_content.setText(content);
+            if (NotOk) {
+                btn_cancel.setVisibility(View.VISIBLE);
+                btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mcallback.onCancel();
+                        dialog.dismiss();
+                    }
+                });
+            }
+            btn_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mcallback.onCancel();
+                    mcallback.onOK();
                     dialog.dismiss();
                 }
             });
-        }
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mcallback.onOK();
-                dialog.dismiss();
-            }
-        });
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (mcallback != null) {
-                        mcallback.onCancel();
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (mcallback != null) {
+                            mcallback.onCancel();
+                        }
                     }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -155,45 +160,47 @@ public class CommDialog {
      * @param NotOk   是否需要取消按钮 false 不需要 true 需要
      */
     public void CommDialog(Context context, String content, Boolean NotOk) {
-        dialog = new AlertDialog.Builder(context).create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        window.setGravity(Gravity.CENTER);
-        window.setContentView(R.layout.dialog_othermic);
-        TextView tv_content = (TextView) window.findViewById(R.id.content);
-        Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
-        Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
-        btn_cancel.setVisibility(View.GONE);
-        tv_content.setText(content);
-        if (NotOk) {
-            btn_cancel.setVisibility(View.VISIBLE);
-            btn_cancel.setOnClickListener(new View.OnClickListener() {
+        if (dialog == null) {
+            dialog = new AlertDialog.Builder(context).create();
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            window.setGravity(Gravity.CENTER);
+            window.setContentView(R.layout.dialog_othermic);
+            TextView tv_content = (TextView) window.findViewById(R.id.content);
+            Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
+            Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+            btn_cancel.setVisibility(View.GONE);
+            tv_content.setText(content);
+            if (NotOk) {
+                btn_cancel.setVisibility(View.VISIBLE);
+                btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+            btn_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
                 }
             });
-        }
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (mcallback != null) {
-                        mcallback.onCancel();
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (mcallback != null) {
+                            mcallback.onCancel();
+                        }
                     }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
 
