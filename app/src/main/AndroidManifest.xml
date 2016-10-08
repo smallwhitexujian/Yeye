@@ -221,15 +221,20 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
-            android:name=".activity.SystemMessageActivity"
+            android:name=".activity.MessageNotificationActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <!--<activity-->
-        <!--android:name=".activity.MessageNotificationActivity"-->
-        <!--android:configChanges="keyboard|screenLayout|screenSize|orientation"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="adjustPan|stateHidden" />-->
+        <activity
+            android:name=".activity.MessageOfficialActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.MessageFansActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <service
             android:name=".service.IService"

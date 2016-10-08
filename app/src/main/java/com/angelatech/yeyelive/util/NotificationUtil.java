@@ -22,6 +22,7 @@ public class NotificationUtil {
     public static final int NOTICE_LIVE = 4;
     public static final int NOTICE_FEEDBACK = 5;
     public static final int NOTICE_SHOW_PERSON_MSG = 6;//个人消息提醒
+    public static final int NOTICE_FANS_MSG = 7;//个人消息提醒
 
     public static void launchNotifyDefault(Context context, int id, String ticker, String title, String msg, Class<? extends Activity> activity) {
         Load load = NoticeManager.with(context).load();

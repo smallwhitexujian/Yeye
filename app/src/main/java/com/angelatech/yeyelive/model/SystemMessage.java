@@ -60,6 +60,7 @@ public class SystemMessage {
         commonDao.add(systemMessageDBModel);
     }
 
+    //分页取数据
     public List<SystemMessageDBModel> load(String type_code, long startRow, long maxRows) {
         Map<String, Object> eqs = new HashMap<>();
         eqs.put("type_code", type_code);
@@ -82,6 +83,19 @@ public class SystemMessage {
             e.printStackTrace();
         }
     }
+
+    //更新某一列数据
+    public void updateIsread(String key, String value, String uid,String type_code) {
+        try {
+            Map<String, Object> eqs = new HashMap<>();
+            eqs.put("uid", uid);
+            eqs.put("type_code", type_code);
+            commonDao.updateName(key, value, eqs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //查询这个消息是否已读
     public List<SystemMessageDBModel> getQuerypot(String key, String uid, String type_code) {

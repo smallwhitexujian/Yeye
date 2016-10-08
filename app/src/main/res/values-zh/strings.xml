@@ -391,4 +391,11 @@
     <string name="rank_coin">金币</string>
     <string name="rank_my">我</string>
     <string name="save_exit_tips">确定不保存本次视频吗?</string>
+
+    <!-- 消息通知-->
+    <string name="system_msg">消息通知</string>
+    <string name="system_clear">忽略未读</string>
+    <string name="system_gf">官方消息</string>
+    <string name="system_click">点击查看</string>
+    <string name="system_new_fans">新增粉丝</string>
 </resources>

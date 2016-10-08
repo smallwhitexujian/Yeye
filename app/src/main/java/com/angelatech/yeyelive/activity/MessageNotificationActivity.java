@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.angelatech.yeyelive.R;
@@ -13,7 +14,7 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.will.common.log.DebugLogs;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.will.common.tool.time.DateFormat;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -51,10 +52,9 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
     private CommonAdapter<SystemMessageDBModel> adapter;
     private List<SystemMessageDBModel> models = new ArrayList<>();
     private BasicUserInfoDBModel userInfo;
-    private static String NOTICE_TO_ALL = "52";
-    private static String NOTICE_SHOW_PERSON_MSG = "53";
-    private long startRow = 0;
-    private long maxRows = 1000;
+    public static String NOTICE_TO_ALL = "52";//系统通知
+    public static String NOTICE_SHOW_PERSON_MSG = "53";//个人通知
+    public static String NOTICE_FANS_MSG = "54";//个人通知
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +67,11 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
     private void initData() {
         try {
             userInfo = CacheDataManager.getInstance().loadUser();
-            if (userInfo ==null){
+            if (userInfo == null) {
                 return;
             }
             List<SystemMessageDBModel> systemMsg = SystemMessage.getInstance().load(NOTICE_TO_ALL, 0, 1);
-            List<SystemMessageDBModel> fensMsg = SystemMessage.getInstance().load(NOTICE_SHOW_PERSON_MSG, 0, 1);
+            List<SystemMessageDBModel> fensMsg = SystemMessage.getInstance().load(NOTICE_FANS_MSG, 0, 1);
             if (systemMsg != null) {
                 models.addAll(systemMsg);//系统消息数据
             }
@@ -85,8 +85,8 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
 
     private void initView() {
         headerLayout.showLeftBackButton();
-        headerLayout.showTitle("消息通知");
-        headerLayout.showRightTextButton(R.color.color_999999, "忽略未读", new View.OnClickListener() {
+        headerLayout.showTitle(R.string.system_msg);
+        headerLayout.showRightTextButton(R.color.color_999999, getString(R.string.system_clear), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SystemMessage.getInstance().update(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid);//修改所有未读改成已读
@@ -111,9 +111,9 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
                     } else {
                         helper.hideView(R.id.pot);
                     }
-                    helper.setText(R.id.title, "官方消息");
+                    helper.setText(R.id.title, getString(R.string.system_gf));
                     helper.setImageResource(R.id.pic, R.drawable.icon_notice_official);
-                } else if (item.type_code == 53) {
+                } else if (item.type_code == 54) {
                     List<SystemMessageDBModel> dbModels = SystemMessage.getInstance().getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_SHOW_PERSON_MSG);
                     if (dbModels.size() > 0) {
                         helper.setText(R.id.pot, String.valueOf(dbModels.size()));
@@ -128,15 +128,27 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
                 String result = DateFormat.formatData("MM:dd", Long.valueOf(item.datetime));
                 helper.setText(R.id.time, result);
                 helper.setText(R.id.context, item.content);
-                DebugLogs.d("===>" + result);
             }
         };
         message_notice_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (models.get(position).type_code == 52){//官方通知
+                    StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageOfficialActivity.class);
+                }else if (models.get(position).type_code == 54){//消息活动
+                    StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageFansActivity.class);
+                }
+            }
+        });
     }
 
     @Override
     public void onRefresh(SwipyRefreshLayoutDirection direction) {
-
+        if (direction == SwipyRefreshLayoutDirection.TOP) {
+            initData();
+        }
+        swipyRefreshLayout.setRefreshing(false);
     }
 }

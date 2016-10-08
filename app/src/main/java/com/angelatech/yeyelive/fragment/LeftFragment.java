@@ -18,6 +18,7 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
 import com.angelatech.yeyelive.activity.MainActivity;
+import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
@@ -55,7 +56,7 @@ public class LeftFragment extends HintFragment {
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
-            layout_diamond, layout_video, layout_Invite_friend;
+            layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg;
     private ImageView editImageView, sexImageView, iv_vip;
     private FrescoRoundView userFace;
     private GestureDetector gestureDetector;
@@ -101,6 +102,7 @@ public class LeftFragment extends HintFragment {
         diamond = (TextView) view.findViewById(R.id.user_diamond);
 
         exitLayout = (RelativeLayout) view.findViewById(R.id.exit_layout);
+        layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
         fansLayout = (RelativeLayout) view.findViewById(R.id.fans_layout);
         attentionLayout = (RelativeLayout) view.findViewById(R.id.attention_layout);
         settingLayout = (RelativeLayout) view.findViewById(R.id.setting_layout);
@@ -119,7 +121,7 @@ public class LeftFragment extends HintFragment {
         fansLayout.setOnClickListener(this);
         attentionLayout.setOnClickListener(this);
         settingLayout.setOnClickListener(this);
-
+        layout_systemMsg.setOnClickListener(this);
         editImageView.setOnClickListener(this);
         userFace.setOnClickListener(this);
         layout_diamond.setOnClickListener(this);
@@ -180,6 +182,9 @@ public class LeftFragment extends HintFragment {
             case R.id.layout_Invite_friend:
                 FbProxy fbProxy = new FbProxy();
                 fbProxy.inviteFriend(getActivity());
+                break;
+            case R.id.layout_systemMsg:
+                StartActivityHelper.jumpActivityDefault(getActivity(), MessageNotificationActivity.class);
                 break;
         }
     }

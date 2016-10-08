@@ -91,7 +91,6 @@ public class Load {
         if (message.trim().length() == 0) {
             throw new IllegalArgumentException("Message Must Not Be Empty!");
         }
-
         this.message = message;
         this.builder.setContentText(message);
         return this;

@@ -393,4 +393,10 @@
     <string name="rank_coin">Coins</string>
     <string name="rank_my">Me</string>
     <string name="save_exit_tips">Are you sure to DELETE the video?</string>
+    <!-- 消息通知-->
+    <string name="system_msg">消息通知</string>
+    <string name="system_clear">忽略未读</string>
+    <string name="system_gf">官方消息</string>
+    <string name="system_click">点击查看</string>
+    <string name="system_new_fans">新增粉丝</string>
 </resources>

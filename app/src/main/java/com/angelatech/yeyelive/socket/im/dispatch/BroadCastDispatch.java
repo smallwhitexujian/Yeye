@@ -1,15 +1,13 @@
 package com.angelatech.yeyelive.socket.im.dispatch;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
-import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
-import com.angelatech.yeyelive.activity.StartActivity;
-import com.angelatech.yeyelive.activity.SystemMessageActivity;
+import com.angelatech.yeyelive.activity.MessageNotificationActivity;
+import com.angelatech.yeyelive.activity.MessageOfficialActivity;
+import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
@@ -19,18 +17,14 @@ import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.SystemBroadModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.model.SystemMessageType;
-import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.NotificationUtil;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.time.DateTimeTool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
 
 
 /**
@@ -128,10 +122,22 @@ public class BroadCastDispatch extends Dispatchable {
                             try {
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
                                 mContent = msgJsonObj.getString("msg");
+                                NotificationUtil.lauchNotifyOnlyShow(mContext, NotificationUtil.NOTICE_SHOW_PERSON_MSG, ticker, title, mContent, mContent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            startAppOrJumpActivity(NotificationUtil.NOTICE_SHOW_PERSON_MSG, ticker, title, mContent, systemMessageDBModel, SystemMessageActivity.class);
+                            break;
+                        case SystemMessageType.NOTICE_FANS_MSG://粉丝关注
+                            checkReadOrNot();
+                            try {
+                                JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
+                                mContent = msgJsonObj.getString("nickname")+"关注了你";
+                                systemMessageDBModel.content = mContent;
+                                NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_FANS_MSG, ticker, title, mContent, MessageOfficialActivity.class);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            systemMessage.add(systemMessageDBModel);
                             break;
                     }
                     mContent = "";//还原
@@ -153,7 +159,7 @@ public class BroadCastDispatch extends Dispatchable {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            startAppOrJumpActivity(requestSystemNoticeCode, message, message, msgStr, noticeMessageDBModel, SystemMessageActivity.class);
+                            NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, message, message, msgStr, MessageOfficialActivity.class);
                             break;
                     }
                     break;
@@ -187,6 +193,7 @@ public class BroadCastDispatch extends Dispatchable {
             systemMessageDBModel.datetime = String.valueOf(commonParseModel.time);
             JSONObject msgJsonObj = new JSONObject(data);
             mContent = msgJsonObj.getString("msg");
+            systemMessageDBModel.isread = "0";
             systemMessageDBModel._data = commonParseModel.data.url;
             if (CacheDataManager.getInstance().loadUser() != null && CacheDataManager.getInstance().loadUser().userid != null) {
                 systemMessageDBModel.uid = CacheDataManager.getInstance().loadUser().userid;
@@ -214,6 +221,7 @@ public class BroadCastDispatch extends Dispatchable {
             String data = jsonObject.getString("data");
             systemMessageDBModel.data = data;
             systemMessageDBModel.datetime = String.valueOf(commonParseModel.time);
+            systemMessageDBModel.isread = "0";
             JSONObject msgJsonObj = new JSONObject(data);
             mContent = msgJsonObj.getString("msg");
             systemMessageDBModel.content = mContent;
@@ -223,22 +231,9 @@ public class BroadCastDispatch extends Dispatchable {
         return systemMessageDBModel;
     }
 
-    //
-    private void startAppOrJumpActivity(int requestSystemNoticeCode, String ticker, String title, String message, Serializable data, Class<? extends Activity> activity) {
-        if (App.topActivity == null || "".equals(App.topActivity)) {
-            NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, ticker, title, message, StartActivity.class);
-        } else {
-            Intent intent = new Intent();
-            intent.setAction(Constant.REFRESH_SYSTEM_MESSAGE);
-            intent.putExtra(TransactionValues.SERVICE_2_UI_KEY1, data);
-            BroadCastHelper.sendBroadcast(mContext, intent);
-//            NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, ticker, title, message, activity);
-        }
-    }
-
     //判断广播消息是否位读
     private void checkReadOrNot() {
-        if (!SystemMessageActivity.class.getSimpleName().equals(App.topActivity)) {
+        if (!MessageNotificationActivity.class.getSimpleName().equals(App.topActivity)) {
             systemMessage.addUnReadTag(mContext);
         }
     }
