@@ -113,9 +113,7 @@ public class IService extends Service {
      * @param jsonStr   发送的内容 json字符窜
      */
     public void sendMessage(int typeValue, String jsonStr) {
-
         byte[] bytes = WillProtocol.sendMessage(typeValue, jsonStr);
-
         roomConnectManager.sendMessage(bytes);
     }
 

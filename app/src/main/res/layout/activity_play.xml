@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,7 +46,8 @@
                 android:paddingLeft="14dp"
                 android:paddingRight="10dp"
                 android:paddingTop="15dp"
-                android:src="@drawable/back" />
+                android:src="@drawable/back"
+                tools:ignore="RtlHardcoded" />
 
             <View
                 android:layout_width="match_parent"
@@ -62,7 +64,8 @@
                 android:paddingTop="15dp"
                 android:text="@string/search_report"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="RelativeOverlap,RtlHardcoded" />
         </RelativeLayout>
 
 
@@ -110,7 +113,8 @@
                 android:text="/"
                 android:textColor="#FFFFFFFF"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/player_total_time"

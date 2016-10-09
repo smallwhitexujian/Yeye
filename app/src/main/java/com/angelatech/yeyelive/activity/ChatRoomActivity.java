@@ -310,7 +310,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 .setLocation(WatermarkSetting.WATERMARK_LOCATION.NORTH_EAST)
                 .setSize(WatermarkSetting.WATERMARK_SIZE.SMALL)
                 .setInJustDecodeBoundsEnabled(false)
-                .setCustomPosition(0.82f,0.05f);
+                .setCustomPosition(0.82f, 0.05f);
 
         mMediaStreamingManager = new MediaStreamingManager(this, afl, cameraPreviewFrameView,
                 AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC); // sw codec
@@ -487,13 +487,15 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             if (NetWorkUtil.isNetworkConnected(this) && serviceManager != null) {
                 serviceManager.connectionService();
                 isNetWork = true;
-            } else {
-                isNetWork = false;
-                noNetWork();
             }
         } else {
-            //五次还是连不上就退出房间
-            peerDisConnection(getString(R.string.room_net_toast));
+            if (!NetWorkUtil.isNetworkConnected(this)){
+                isNetWork = false;
+                noNetWork();
+            }else{
+                //五次还是连不上就退出房间
+                peerDisConnection(getString(R.string.room_net_toast));
+            }
         }
     }
 
@@ -524,14 +526,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         switch (msg.what) {
             case IServiceValues.NETWORK_SUCCESS:
                 isNetWork = true;
-                if (!boolConnRoom) {
-                    connectionServiceNumber = 0;
-                    restartConnection();
-                }
                 break;
             case IServiceValues.NETWORK_FAILD:
                 boolConnRoom = false;
-                noNetWork();
                 break;
             case GlobalDef.WM_ROOM_LOGIN_OUT://退出房间
                 exitRoom();
@@ -562,7 +559,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
                 break;
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
-                connectionServiceNumber = 1;
+                DebugLogs.e("房间连接成功---------SERVICE_STATUS_SUCCESS");
+                connectionServiceNumber = 0;
                 boolConnRoom = true;
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
                 if (!isInit && roomModel != null) {
@@ -1079,9 +1077,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (App.isqupai) {
             livePush.onResume();
         }
-        if (!isNetWork) {
-            restartConnection();
-        }
         super.onResume();
     }
 
@@ -1114,12 +1109,12 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         App.chatRoomApplication = null;
         Cocos2dxGiftCallback.onDestroy();
     }
-
+    private CommDialog peerDisConnectionDialog;
     private void peerDisConnection(final String s) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CommDialog commDialog = new CommDialog();
+                peerDisConnectionDialog = new CommDialog();
                 CommDialog.Callback callback = new CommDialog.Callback() {
                     @Override
                     public void onCancel() {//拒绝
@@ -1137,7 +1132,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
                     @Override
                     public void onOK() {//重连
-                        restartConnection();
+                        if (!boolConnRoom){
+                            restartConnection();
+                        }
                     }
                 };
                 if (!isCloseLiveDialog) {
@@ -1147,11 +1144,17 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     }
                     isCloseLiveDialog = true;
                     if (!isFinishing()) {
-                        commDialog.CommDialog(ChatRoomActivity.this, s, true, callback, getString(R.string.button_Reconnection), getString(R.string.end_live));
+                        peerDisConnectionDialog.CommDialog(ChatRoomActivity.this, s, true, callback, getString(R.string.button_Reconnection), getString(R.string.end_live));
                     }
                 }
             }
         });
+    }
+
+    private void stopDisConnectionDialog(){
+        if (peerDisConnectionDialog!=null){
+            peerDisConnectionDialog.cancelDialog();
+        }
     }
 
     @Override

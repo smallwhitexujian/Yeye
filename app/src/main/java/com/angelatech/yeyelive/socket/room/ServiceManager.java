@@ -21,7 +21,6 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 public class ServiceManager {
     private IService bindService;
     private Activity activity;
-
     private int barId;
     private SocketConfig socketConfig;
     private Handler handler;
