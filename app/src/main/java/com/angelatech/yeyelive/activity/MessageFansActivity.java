@@ -44,6 +44,7 @@ import java.util.List;
  * 作者: Created by: xujian on Date: 2016/10/8.
  * 邮箱: xj626361950@163.com
  * com.angelatech.yeyelive
+ * 粉丝消息
  */
 
 public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefreshLayout.OnRefreshListener {

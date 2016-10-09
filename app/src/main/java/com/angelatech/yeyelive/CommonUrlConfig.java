@@ -119,7 +119,7 @@ public class CommonUrlConfig {
     public static String UserIsFollow = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UserIsFollow";
 
     //统计
-    public static String PlatformIntoLogIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + channel + "/user/PlatformIntoLogIns";
+    public static String PlatformIntoLogIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/PlatformIntoLogIns";
     //用户通知编辑
     public static String UserNoticeEdit = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/User/UserNoticeEdit";
 

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.angelatech.yeyelive.view.HeaderLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+    <!--直播消息提醒-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/live_notice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:text="@string/setting_live_notify"
+            android:textColor="@color/color_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/live_notify_turn"
+            android:layout_width="50dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_me_switch_n" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="14dp"
+            android:contentDescription="@null"
+            android:gravity="center_vertical"
+            android:src="@drawable/btn_next"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+    <!--官方消息提醒-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/official_notice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:text="@string/system_gf_notice"
+            android:textColor="@color/color_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/official_notify_turn"
+            android:layout_width="50dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_me_switch_n" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="14dp"
+            android:contentDescription="@null"
+            android:gravity="center_vertical"
+            android:src="@drawable/btn_next"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+    <!--红包消息提醒-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/red_notice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:text="@string/system_red_notice"
+            android:textColor="@color/color_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/red_notify_turn"
+            android:layout_width="50dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_me_switch_n" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="14dp"
+            android:contentDescription="@null"
+            android:gravity="center_vertical"
+            android:src="@drawable/btn_next"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+    <!--直播消息提醒-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/fans_notice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:text="@string/system_fans_notice"
+            android:textColor="@color/color_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/fans_notify_turn"
+            android:layout_width="50dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_me_switch_n" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="14dp"
+            android:contentDescription="@null"
+            android:gravity="center_vertical"
+            android:src="@drawable/btn_next"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+</LinearLayout>

@@ -111,6 +111,19 @@ public class SystemMessage {
         return null;
     }
 
+    //查询这个消息是否已读
+    public List<SystemMessageDBModel> getQueryAllpot(String key, String uid) {
+        try {
+            Map<String, Object> eqs = new HashMap<>();
+            eqs.put("uid", uid);
+            eqs.put("isread", 0);
+            return commonDao.queryByCondition(key, true, eqs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public SystemMessageDBModel getQueryForFirst() {
         if (systemMessageDBModel == null) {

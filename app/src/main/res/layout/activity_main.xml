@@ -31,11 +31,22 @@
                 android:id="@+id/iv_vip"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:contentDescription="@null"
                 android:layout_alignBottom="@id/face_icon"
                 android:layout_alignRight="@id/face_icon"
                 android:layout_marginBottom="1dp"
+                android:contentDescription="@null"
                 android:src="@drawable/icon_vip_mark"
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/pot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_alignRight="@id/face_icon"
+                android:layout_alignTop="@id/face_icon"
+                android:background="@drawable/circular_red"
+                android:contentDescription="@null"
                 android:visibility="visible"
                 tools:ignore="RtlHardcoded" />
 
@@ -46,9 +57,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:orientation="horizontal"
+                android:layout_toLeftOf="@+id/search_icon"
                 android:layout_toRightOf="@+id/face_icon"
-                android:layout_toLeftOf="@+id/search_icon">
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
 
                 <TextView
                     android:id="@+id/hot_textview"
@@ -69,8 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:drawablePadding="3dp"
                     android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
+                    android:drawablePadding="3dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/live_new"

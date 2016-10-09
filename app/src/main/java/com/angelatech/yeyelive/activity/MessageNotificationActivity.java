@@ -55,6 +55,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
     public static String NOTICE_TO_ALL = "52";//系统通知
     public static String NOTICE_SHOW_PERSON_MSG = "53";//个人通知
     public static String NOTICE_FANS_MSG = "54";//个人通知
+    private SystemMessage systemMessage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +68,12 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
     private void initData() {
         try {
             userInfo = CacheDataManager.getInstance().loadUser();
+            systemMessage = SystemMessage.getInstance();
             if (userInfo == null) {
                 return;
             }
-            List<SystemMessageDBModel> systemMsg = SystemMessage.getInstance().load(NOTICE_TO_ALL, 0, 1);
-            List<SystemMessageDBModel> fensMsg = SystemMessage.getInstance().load(NOTICE_FANS_MSG, 0, 1);
+            List<SystemMessageDBModel> systemMsg = systemMessage.load(NOTICE_TO_ALL, 0, 1);
+            List<SystemMessageDBModel> fensMsg = systemMessage.load(NOTICE_FANS_MSG, 0, 1);
             if (systemMsg != null) {
                 models.addAll(systemMsg);//系统消息数据
             }
@@ -89,7 +91,8 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
         headerLayout.showRightTextButton(R.color.color_999999, getString(R.string.system_clear), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SystemMessage.getInstance().update(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid);//修改所有未读改成已读
+                systemMessage.update(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid);//修改所有未读改成已读
+                systemMessage.clearUnReadTag(MessageNotificationActivity.this);
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
                 }
@@ -103,7 +106,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
             @Override
             public void convert(ViewHolder helper, final SystemMessageDBModel item, final int position) {
                 if (item.type_code == 52) {
-                    List<SystemMessageDBModel> dbModels = SystemMessage.getInstance().getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_TO_ALL);
+                    List<SystemMessageDBModel> dbModels = systemMessage.getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_TO_ALL);
                     if (dbModels.size() > 0) {
                         helper.setText(R.id.pot, String.valueOf(dbModels.size()));
                     } else if (dbModels.size() > 99) {
@@ -114,7 +117,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
                     helper.setText(R.id.title, getString(R.string.system_gf));
                     helper.setImageResource(R.id.pic, R.drawable.icon_notice_official);
                 } else if (item.type_code == 54) {
-                    List<SystemMessageDBModel> dbModels = SystemMessage.getInstance().getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_SHOW_PERSON_MSG);
+                    List<SystemMessageDBModel> dbModels = systemMessage.getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_FANS_MSG);
                     if (dbModels.size() > 0) {
                         helper.setText(R.id.pot, String.valueOf(dbModels.size()));
                     } else if (dbModels.size() > 99) {
@@ -135,13 +138,24 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
         message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (models.get(position).type_code == 52){//官方通知
+                if (models.get(position).type_code == 52) {//官方通知
                     StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageOfficialActivity.class);
-                }else if (models.get(position).type_code == 54){//消息活动
+                } else if (models.get(position).type_code == 54) {//消息活动
                     StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageFansActivity.class);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (systemMessage.getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid).size() == 0) {
+            systemMessage.clearUnReadTag(MessageNotificationActivity.this);
+        }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

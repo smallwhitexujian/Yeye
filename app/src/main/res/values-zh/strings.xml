@@ -398,4 +398,7 @@
     <string name="system_gf">官方消息</string>
     <string name="system_click">点击查看</string>
     <string name="system_new_fans">新增粉丝</string>
+    <string name="system_red_notice">红包消息通知</string>
+    <string name="system_fans_notice">新增粉丝通知</string>
+    <string name="system_gf_notice">官方消息通知</string>
 </resources>

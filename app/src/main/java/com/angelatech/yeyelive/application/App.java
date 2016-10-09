@@ -14,6 +14,7 @@ import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.service.IService;
+import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.duanqu.qupai.auth.AuthService;
 import com.duanqu.qupai.auth.QupaiAuthListener;
@@ -61,6 +62,9 @@ public class App extends Application {
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
 
     public static boolean isLiveNotify = true; // 直播提醒开关
+    public static boolean isofficialNotify = true; // 官方提醒开关
+    public static boolean isredNotify = true; // 红包提醒开关
+    public static boolean isfansNotify = true; // 直播提醒开关
 
     public static String topActivity = "";
 
@@ -112,6 +116,10 @@ public class App extends Application {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        isLiveNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.LIVENOTIFY);
+        isofficialNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.OFFICIALNOTIFY);
+        isredNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.COINSNOTIFY);
+        isfansNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.FANSNOTIFY);
         //趣拍
         if (isqupai){
             System.loadLibrary("gnustl_shared");

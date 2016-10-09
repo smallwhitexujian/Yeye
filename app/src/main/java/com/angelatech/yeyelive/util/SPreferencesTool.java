@@ -15,6 +15,9 @@ public class SPreferencesTool {
     public final static String home_guide_key = "home_guide";
     public final static String VIDEO_FILTER = "video_filter"; //美颜
     public final static String LIVENOTIFY = "live_notify";//直播提醒
+    public final static String FANSNOTIFY = "fans_notify";//粉丝提醒
+    public final static String COINSNOTIFY = "coins_notify";//红包提醒
+    public final static String OFFICIALNOTIFY = "official_notify";//官方提醒
     private static final String PREFERENCES_UP_APK_INFO_isUp = "isUp";
     private static final String PREFERENCES_UP_APK_INFO_VERSION = "version";
     private static final String PREFERENCES_UP_APK_INFO_MESSAGE = "message";

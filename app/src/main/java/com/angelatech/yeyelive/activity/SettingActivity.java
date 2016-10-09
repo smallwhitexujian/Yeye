@@ -63,7 +63,7 @@ public class SettingActivity extends HeaderBaseActivity {
     private LinearLayout bindQQLayout, bindPhoneLayout,
             bindWeichatLayout, clearCacheLayout,
             feedbackLayout, aboutLayout, blacklistLayout, layout_change_password;
-
+    private LinearLayout notice;
     private HttpFunction settingFunction = null;
     private BasicUserInfoDBModel userInfo;
 
@@ -111,12 +111,14 @@ public class SettingActivity extends HeaderBaseActivity {
         feedbackLayout = (LinearLayout) findViewById(R.id.feedback_layout);
         aboutLayout = (LinearLayout) findViewById(R.id.about_us_layout);
         blacklistLayout = (LinearLayout) findViewById(R.id.blacklist_layout);
+        notice = (LinearLayout) findViewById(R.id.notice);
         layout_change_password = (LinearLayout) findViewById(R.id.layout_change_password);
         loginButton = (LoginButton) findViewById(R.id.facebook_login);
     }
 
     private void setView() {
         bindPhoneLayout.setOnClickListener(this);
+        notice.setOnClickListener(this);
         bindQQLayout.setOnClickListener(this);
         bindWeichatLayout.setOnClickListener(this);
         clearCacheLayout.setOnClickListener(this);
@@ -132,6 +134,9 @@ public class SettingActivity extends HeaderBaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.notice:
+                StartActivityHelper.jumpActivityDefault(this, SettingNoticeActivity.class);
+                break;
             case R.id.bind_phone_layout:
                 if (App.loginPhone == null) {
                     StartActivityHelper.jumpActivityDefault(this, PhoneBindActivity.class);
@@ -142,9 +147,6 @@ public class SettingActivity extends HeaderBaseActivity {
                 break;
             case R.id.bind_weichat_layout:
                 new WxProxy(this, uiHandler).bind();
-                break;
-            case R.id.notify_turn:
-                setLiveNotify();
                 break;
             case R.id.about_us_layout:
                 StartActivityHelper.jumpActivityDefault(this, AboutUsActivity.class);
@@ -254,12 +256,6 @@ public class SettingActivity extends HeaderBaseActivity {
         String isBindWeichat = (String) map.get(IS_BIND_WEICHAT_KEY);
         String isBindPhone = (String) map.get(IS_BIND_PHONE_KEY);
         String isBindFacebook = (String) map.get(IS_BIND_FACEBOOK_KEY);
-
-//        if ((HttpFunction.TRUE + "").equals(isBindQQ)) {
-//            bindQQ.setText(getString(R.string.setting_binded));
-//        } else {
-//            bindQQ.setText(getString(R.string.setting_go_bind));
-//        }
         if ((HttpFunction.TRUE + "").equals(isBindWeichat)) {
             bindWeichat.setText(getString(R.string.setting_binded));
         } else {
@@ -277,17 +273,6 @@ public class SettingActivity extends HeaderBaseActivity {
             bindPhone.setText(getString(R.string.setting_go_bind));
         }
 
-    }
-
-    private void setLiveNotify() {
-        if (App.isLiveNotify) {
-            App.isLiveNotify = false;
-            notifyTurn.setImageResource(R.drawable.btn_me_switch_s);
-        } else {
-            App.isLiveNotify = true;
-            notifyTurn.setImageResource(R.drawable.btn_me_switch_n);
-        }
-        SPreferencesTool.getInstance().putValue(this, SPreferencesTool.LIVENOTIFY, App.isLiveNotify);
     }
 
     /**

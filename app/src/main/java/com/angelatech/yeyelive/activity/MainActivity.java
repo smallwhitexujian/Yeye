@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.angelatech.yeyelive.fragment.LeftFragment;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.SPreferencesTool;
@@ -40,6 +42,7 @@ import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.google.gson.reflect.TypeToken;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.will.common.log.DebugLogs;
+import com.will.common.tool.DeviceTool;
 import com.will.common.tool.view.DisplayTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -48,7 +51,9 @@ import com.xj.frescolib.View.FrescoRoundView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +68,7 @@ public class MainActivity extends BaseActivity {
     private CommonAdapter<Map> commonAdapter;
     private FrescoRoundView mFaceIcon;//头像
     private ImageView iv_vip;
-    private TextView hotTab, followTab,newTab;
+    private TextView hotTab, followTab,newTab,pot;
     private FragmentManager fragmentManager = null;
     private MainEnter mainEnter;
     private SimpleFragmentPagerAdapter pagerAdapter;
@@ -73,7 +78,7 @@ public class MainActivity extends BaseActivity {
     private boolean isShowOpen;
     private Drawable drawable;
     private String versionCode = null;
-
+    private  SystemMessage systemMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +105,11 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         userModel = CacheDataManager.getInstance().loadUser();
+        if (systemMessage.haveNewSystemMsg(MainActivity.this)){
+            pot.setVisibility(View.VISIBLE);
+        }else{
+            pot.setVisibility(View.GONE);
+        }
         setPhoto();
         if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
             return;
@@ -119,10 +129,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
+        systemMessage = new SystemMessage();
         userModel = CacheDataManager.getInstance().loadUser();
+        mark(MainActivity.this, userModel.userid);
         hotTab = (TextView) findViewById(R.id.hot_textview);
         followTab = (TextView) findViewById(R.id.follow_textview);
         newTab = (TextView) findViewById(R.id.new_textview);
+        pot = (TextView) findViewById(R.id.pot);
         ImageView searchIcon = (ImageView) findViewById(R.id.search_icon);
         ImageView img_live = (ImageView) findViewById(R.id.img_live);
         mFaceIcon = (FrescoRoundView) findViewById(R.id.face_icon);
@@ -137,6 +150,7 @@ public class MainActivity extends BaseActivity {
         img_live.setOnClickListener(this);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fragmentManager = getSupportFragmentManager();
+
     }
 
     private void setPhoto() {
@@ -430,5 +444,51 @@ public class MainActivity extends BaseActivity {
         };
         ChatRoom chatRoom = new ChatRoom(this);
         chatRoom.upApk(CommonUrlConfig.apkUp, versionCode, callback);
+    }
+
+    /**
+     * 统计策略
+     */
+    private SPreferencesTool sp;
+    private String ACCOUNT_TIME_STAMP = "accountTimeStamp";
+    private boolean markStrategy(Context context) {
+        if (sp == null) {
+            sp = SPreferencesTool.getInstance();
+        }
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        long today = Long.valueOf(sdf.format(dt));
+        long recordDay = sp.getLongValue(MainActivity.this,ACCOUNT_TIME_STAMP);
+        if (recordDay == -1) {
+            return true;
+        } else if (today != recordDay) {
+            return true;
+        }
+        return false;
+    }
+
+    public void mark(final Context context, String userId) {
+        //不符合策略则不进行统计
+        if (!markStrategy(context)) {
+            return;
+        }
+        HttpBusinessCallback callback = new HttpBusinessCallback(){
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                super.onFailure(errorMap);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                //写文件
+                Date dt = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                long today = Long.valueOf(sdf.format(dt));
+                sp.putValue(context,ACCOUNT_TIME_STAMP, today);
+            }
+        };
+        ChatRoom chatRoom = new ChatRoom(this);
+        chatRoom.setMark(CommonUrlConfig.PlatformIntoLogIns, userId, DeviceTool.getUniqueID(context),callback);
     }
 }

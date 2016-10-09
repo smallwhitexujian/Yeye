@@ -412,7 +412,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     //重新开始计时
     private void StartTimeCount() {
         StopTimeCount();
-        timeCount = new TimeCount(20000, 20000);
+        timeCount = new TimeCount(25000, 25000);
         timeCount.start();
     }
 

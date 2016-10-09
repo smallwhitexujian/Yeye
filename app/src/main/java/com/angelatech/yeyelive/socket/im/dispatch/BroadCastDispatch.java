@@ -131,9 +131,11 @@ public class BroadCastDispatch extends Dispatchable {
                             checkReadOrNot();
                             try {
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
-                                mContent = msgJsonObj.getString("nickname")+"关注了你";
+                                mContent = msgJsonObj.getString("nickname") + "关注了你";
                                 systemMessageDBModel.content = mContent;
-                                NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_FANS_MSG, ticker, title, mContent, MessageOfficialActivity.class);
+                                if (App.isfansNotify) {
+                                    NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_FANS_MSG, ticker, title, mContent, MessageOfficialActivity.class);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -159,7 +161,9 @@ public class BroadCastDispatch extends Dispatchable {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, message, message, msgStr, MessageOfficialActivity.class);
+                            if (App.isofficialNotify) {
+                                NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, message, message, msgStr, MessageOfficialActivity.class);
+                            }
                             break;
                     }
                     break;

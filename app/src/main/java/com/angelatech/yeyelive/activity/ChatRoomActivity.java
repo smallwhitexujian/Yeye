@@ -788,16 +788,29 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                             }
                             break;
                         case 7: //飞机
-                            Cocos2dxGift.Cocos2dxGiftModel cocosPlaneModel;
                             for (int m = 0; m < gift_Num; m++) {
-                                cocosPlaneModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                                cocosPlaneModel.aniName = "fjxxxg";
-                                cocosPlaneModel.exportJsonPath = "fjxxxg.ExportJson";
-                                cocosPlaneModel.x = ScreenUtils.getScreenWidth(this) / 2;
-                                cocosPlaneModel.y = ScreenUtils.getScreenHeight(this) / 2;
-                                cocosPlaneModel.scale = 1.6f;
-                                cocosPlaneModel.speedScale = 0.5f;
-                                bigGift.add(cocosPlaneModel);
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_feiji2";
+                                cocos2dxGiftModel.exportJsonPath = "fx_feiji2.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
+                        case 1111: //飞机
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_youting";
+                                cocos2dxGiftModel.exportJsonPath = "fx_youting.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+                                bigGift.add(cocos2dxGiftModel);
                                 if (!isStart) {
                                     isStart = true;
                                     startPlayBigGift();

@@ -249,4 +249,14 @@ public class ChatRoom extends HttpFunction {
         params.put("os", "2");//2.表示Android 。1表示IOS
         httpGet(url, params, callback);
     }
+
+    /**
+     * 统计活跃
+     */
+    public void setMark(String url ,String userId,String device,HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userId);
+        params.put("Device", device);
+        httpGet(url, params, callback);
+    }
 }

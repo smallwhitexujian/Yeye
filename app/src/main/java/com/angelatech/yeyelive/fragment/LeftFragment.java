@@ -29,6 +29,7 @@ import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.PicViewModel;
+import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.thirdLogin.FbProxy;
@@ -54,7 +55,7 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video;
+    private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video,message_notice;
     private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
             layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg;
     private ImageView editImageView, sexImageView, iv_vip;
@@ -81,6 +82,14 @@ public class LeftFragment extends HintFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (userInfo.userid==null){
+            return;
+        }
+        String str = String.valueOf(SystemMessage.getInstance().getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid).size());
+        if (str.equals("0")){
+            SystemMessage.getInstance().clearUnReadTag(getActivity());
+        }
+        message_notice.setText(str);
     }
 
     @Override
@@ -100,6 +109,7 @@ public class LeftFragment extends HintFragment {
         attention = (TextView) view.findViewById(R.id.user_attention);//关注
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);//亲密度
         diamond = (TextView) view.findViewById(R.id.user_diamond);
+        message_notice = (TextView) view.findViewById(R.id.message_notice);
 
         exitLayout = (RelativeLayout) view.findViewById(R.id.exit_layout);
         layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
@@ -277,5 +287,13 @@ public class LeftFragment extends HintFragment {
     public void setPhoto() {
         userInfo = CacheDataManager.getInstance().loadUser();
         userFace.setImageURI(VerificationUtil.getImageUrl150(userInfo.headurl));
+        if (userInfo.userid==null){
+            return;
+        }
+        String str = String.valueOf(SystemMessage.getInstance().getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid).size());
+        if (str.equals("0")){
+            SystemMessage.getInstance().clearUnReadTag(getActivity());
+        }
+        message_notice.setText(str);
     }
 }

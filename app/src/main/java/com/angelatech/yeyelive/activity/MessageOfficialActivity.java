@@ -1,6 +1,8 @@
 package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.angelatech.yeyelive.R;
@@ -11,7 +13,9 @@ import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
 import com.angelatech.yeyelive.model.SystemMessage;
+import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.will.common.tool.time.DateFormat;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -63,7 +67,7 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
                 return;
             }
             systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_TO_ALL, 0, 1000);
-            SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid,MessageNotificationActivity.NOTICE_TO_ALL);//修改所有未读改成已读
+            SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_TO_ALL);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +85,7 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
         CommonAdapter<SystemMessageDBModel> adapter = new CommonAdapter<SystemMessageDBModel>(MessageOfficialActivity.this, systemMsg, R.layout.item_official) {
             @Override
             public void convert(ViewHolder helper, final SystemMessageDBModel item, final int position) {
-                if (item._data!=null) {
+                if (item._data != null) {
                     helper.showView(R.id.line1);
                     helper.showView(R.id.str);
                 } else {
@@ -95,6 +99,19 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
         };
         message_notice_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (systemMsg.get(position)._data!=null){
+                    WebTransportModel webTransportModel = new WebTransportModel();
+                    webTransportModel.url = systemMsg.get(position)._data;
+                    webTransportModel.title = getString(R.string.system_gf);
+                    if (!webTransportModel.url.isEmpty()) {
+                        StartActivityHelper.jumpActivity(MessageOfficialActivity.this, WebActivity.class, webTransportModel);
+                    }
+                }
+            }
+        });
     }
 
     @Override
