@@ -5,6 +5,7 @@ import android.content.Context;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.MessageFansActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.MessageOfficialActivity;
 import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
@@ -134,7 +135,7 @@ public class BroadCastDispatch extends Dispatchable {
                                 mContent = msgJsonObj.getString("nickname") + "关注了你";
                                 systemMessageDBModel.content = mContent;
                                 if (App.isfansNotify) {
-                                    NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_FANS_MSG, ticker, title, mContent, MessageOfficialActivity.class);
+                                    NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_FANS_MSG, ticker, title, mContent, MessageFansActivity.class);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
