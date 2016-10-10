@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
@@ -49,6 +48,7 @@ import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.will.common.log.DebugLogs;
@@ -93,8 +93,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
 
     private boolean boolReport = false; //是否举报
 
-    private ImageView video_loading;
-    private AnimationDrawable animationDrawable;
     private boolean isQiniuSDK = false;
     private PLVideoTextureView plVideoTextureView;
     private PLVideoTextureUtils plUtils;
@@ -183,9 +181,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         backBtn = (ImageView) findViewById(R.id.backBtn);
         player_ctl_layout = (LinearLayout) findViewById(R.id.player_ctl_layout);
 
-        video_loading = (ImageView) findViewById(R.id.video_loading);
-        animationDrawable = (AnimationDrawable) video_loading.getDrawable();
-
+        LoadingDialog.showLoadingDialog(PlayActivity.this,null);
         ly_playfinish = (RelativeLayout) findViewById(R.id.ly_playfinish);
         player_total_time = (TextView) findViewById(R.id.player_total_time);
         player_current_time = (TextView) findViewById(R.id.player_current_time);
@@ -195,7 +191,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     }
 
     private void setView() {
-        animationDrawable.start();
         userModel = CacheDataManager.getInstance().loadUser();
         player_play_btn.setOnClickListener(click);
         player_replay_btn.setOnClickListener(click);
@@ -626,9 +621,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 break;
             case VideoPlayer.MSG_PLAYER_ONPREPARED:
                 //加载完成
-//                LoadingDialog.cancelLoadingDialog();
-                video_loading.setVisibility(View.GONE);
-                animationDrawable.stop();
+                LoadingDialog.cancelLoadingDialog();
                 scaleVideo(getResources().getConfiguration().orientation);
                 //setVideoSize();
                 if (mVideoPlayer != null) {
@@ -682,14 +675,11 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 break;
             case VideoPlayer.MSG_PLAYER_BUFFER_START:
                 //ToastUtils.showToast(PlayActivity.this,"开始缓存");
-                video_loading.setVisibility(View.VISIBLE);
-                animationDrawable.start();
+                LoadingDialog.showLoadingDialog(PlayActivity.this,null);
 
                 break;
             case VideoPlayer.MSG_PLAYER_BUFFER_END:
-                video_loading.setVisibility(View.GONE);
-                animationDrawable.stop();
-                //ToastUtils.showToast(PlayActivity.this,"结束缓存");
+                LoadingDialog.cancelLoadingDialog();
                 break;
             case MSG_HIDE_PLAYER_CTL:
                 player_seekBar.setVisibility(View.GONE);
@@ -728,8 +718,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         player_play_btn.setImageResource(R.drawable.btn_playback_stop);
         default_img.setVisibility(View.GONE);
-        video_loading.setVisibility(View.GONE);
-        animationDrawable.stop();
+        LoadingDialog.cancelLoadingDialog();
     }
 
     @Override

@@ -222,13 +222,14 @@ public class LiveVideoHotFragment extends BaseFragment implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LoadingDialog.showLoadingDialog(getActivity());
+                LoadingDialog.showLoadingDialog(getActivity(),null);
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     final CommDialog commDialog = new CommDialog();
                     CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
                         public void onCancel() {
+                            commDialog.cancelDialog();
                         }
 
                         @Override

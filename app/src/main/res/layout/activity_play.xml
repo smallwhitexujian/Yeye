@@ -217,16 +217,6 @@
                 android:background="@drawable/start_live_btn_bg"
                 android:text="@string/button_closed"
                 android:textColor="@color/white" />
-
         </LinearLayout>
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/video_loading"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_centerInParent="true"
-        android:contentDescription="@null"
-        android:src="@drawable/video_load" />
-
 </RelativeLayout>

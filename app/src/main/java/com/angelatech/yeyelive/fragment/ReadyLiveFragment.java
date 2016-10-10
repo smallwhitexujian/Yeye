@@ -365,7 +365,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
     // 获取开播地址
     private void LiveVideoBroadcast(String title, String area, String price) {
-        LoadingDialog.showSysLoadingDialog(getActivity(), getString(R.string.go_in));
+        LoadingDialog.showLoadingDialog(getActivity(), getString(R.string.go_in));
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
