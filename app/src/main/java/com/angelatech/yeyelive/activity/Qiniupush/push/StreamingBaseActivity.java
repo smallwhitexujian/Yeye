@@ -169,7 +169,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     private void init() {
         mContext = this;
         StreamingProfile.AudioProfile aProfile = new StreamingProfile.AudioProfile(44100, 96 * 1024);
-        StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(30, 1000 * 1024, 48);
+        StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(30, 1000 * 800, 48);
         StreamingProfile.AVProfile avProfile = new StreamingProfile.AVProfile(vProfile, aProfile);
         mProfile = new StreamingProfile();
         mProfile.setVideoQuality(StreamingProfile.VIDEO_QUALITY_MEDIUM1)

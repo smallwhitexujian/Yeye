@@ -357,7 +357,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                     if (choose && (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
-                        LiveQiSaveVideo();
+                        LiveQiSaveVideo(0);//需要保存视频,
+                    } else {
+                        LiveQiSaveVideo(1);//不需要保存视频
                     }
                 } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                     //收起键盘
@@ -431,13 +433,13 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
      */
     private boolean isRun = false;
 
-    private void LiveQiSaveVideo() {
+    private void LiveQiSaveVideo(final int isSave) {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 DebugLogs.e("=========response=====保存录像失败");
                 if (!isRun) {
-                    LiveQiSaveVideo();
+                    LiveQiSaveVideo(isSave);
                     isRun = true;
                 }
             }
@@ -453,7 +455,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
             }
         };
-        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), callback);
+        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLikenum(), 0, callback);
     }
 
 
@@ -489,10 +491,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 isNetWork = true;
             }
         } else {
-            if (!NetWorkUtil.isNetworkConnected(this)){
+            if (!NetWorkUtil.isNetworkConnected(this)) {
                 isNetWork = false;
                 noNetWork();
-            }else{
+            } else {
                 //五次还是连不上就退出房间
                 peerDisConnection(getString(R.string.room_net_toast));
             }
@@ -803,8 +805,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         case 1111: //飞机
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                                cocos2dxGiftModel.aniName = "fx_youting";
-                                cocos2dxGiftModel.exportJsonPath = "fx_youting.ExportJson";
+                                cocos2dxGiftModel.aniName = "fx_jixiangwu";
+                                cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu.ExportJson";
                                 cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
                                 cocos2dxGiftModel.scale = 2f;
@@ -1109,7 +1111,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         App.chatRoomApplication = null;
         Cocos2dxGiftCallback.onDestroy();
     }
+
     private CommDialog peerDisConnectionDialog;
+
     private void peerDisConnection(final String s) {
         runOnUiThread(new Runnable() {
             @Override
@@ -1132,7 +1136,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
                     @Override
                     public void onOK() {//重连
-                        if (!boolConnRoom){
+                        if (!boolConnRoom) {
                             restartConnection();
                         }
                     }
@@ -1151,8 +1155,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         });
     }
 
-    private void stopDisConnectionDialog(){
-        if (peerDisConnectionDialog!=null){
+    private void stopDisConnectionDialog() {
+        if (peerDisConnectionDialog != null) {
             peerDisConnectionDialog.cancelDialog();
         }
     }

@@ -40,6 +40,7 @@ public class SystemMessageType {
     public static final int NOTICE_TO_ALL = 52;//全平台推送
     public static final int NOTICE_SHOW_PERSON_MSG = 53;//展示个人消息
     public static final int NOTICE_FANS_MSG = 54;//粉丝关注
+    public static final int NOTICE_RED_MSG = 55;//红包
 
 
 }

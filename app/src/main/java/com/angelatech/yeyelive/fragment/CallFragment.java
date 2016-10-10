@@ -166,7 +166,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             if (anchorCoin != null) {
                 String str = String.format(getString(R.string.Coins), anchorCoin);
                 diamondsStr.setText(str);
-            }else{
+            } else {
                 diamondsStr.setVisibility(View.GONE);
             }
         } catch (Exception e) {
@@ -467,7 +467,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         int onlineCount = showList.size();
         int length = 30;
         DisplayMetrics density = ScreenUtils.getScreen(getActivity());
-        if (density!=null){
+        if (density != null) {
             int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
             int itemWidth = (int) (length * density.density);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -508,26 +508,25 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             setRoomPopSpinner();
         }
         int length = 30;
-        if (isAdded()){
+        if (isAdded()) {
             DisplayMetrics density = ScreenUtils.getScreen(getActivity());
-            if (density!=null){
+            if (density != null) {
                 int gridViewWidth = (int) (onlineCount * (length + 4) * density.density);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
                 grid_online.setLayoutParams(params);
             }
-        }
-        grid_online.setNumColumns(onlineCount);
-        txt_online.setText(String.valueOf(onlineCount - 1));
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (horizontalListViewAdapter != null) {
-                    horizontalListViewAdapter.notifyDataSetChanged();
+            grid_online.setNumColumns(onlineCount);
+            txt_online.setText(String.valueOf(onlineCount - 1));
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (horizontalListViewAdapter != null) {
+                        horizontalListViewAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
     /**
@@ -552,7 +551,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param userInfoModel user
      */
     private void onShowUser(BasicUserInfoModel userInfoModel) {
-        if (isAdded()){
+        if (isAdded()) {
             if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
                 userInfoModel.isout = true;
             }
@@ -1268,7 +1267,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         int lineNum = 2; //行数
         int columnNum = 4; //列数
         GridViewAdapter gridViewAdapter;
-        if (App.giftdatas.size() > 0 ){
+        if (App.giftdatas.size() > 0) {
             if (App.giftdatas.size() <= columnNum) {
                 viewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ScreenUtils.dip2px(getActivity(), 90))); //使设置好的布局参数应用到控件

@@ -134,7 +134,6 @@ public class App extends Application {
     /**
      * 鉴权 建议只调用一次,在Application调用。在demo里面为了测试调用了多次 得到accessToken
      *
-     * @param context
      * @param appKey    appkey
      * @param appsecret appsecret
      * @param space     space

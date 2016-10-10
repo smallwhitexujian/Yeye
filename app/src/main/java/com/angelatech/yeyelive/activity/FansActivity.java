@@ -55,7 +55,7 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
     private BasicUserInfoDBModel model;
     private List<FocusModel> data = new ArrayList<>();
     private int pageIndex = 1;
-    private int pageSize = 10;
+    private int pageSize = 20;
     private int type = 2;
     private long dateSort = 0;
     private final int MSG_ADAPTER_NOTIFY = 1;

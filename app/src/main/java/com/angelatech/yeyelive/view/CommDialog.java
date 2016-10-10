@@ -46,7 +46,6 @@ public class CommDialog {
             dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
             dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);//指定会全局,可以在后台弹出
             dialog.show();
-
             Window window = dialog.getWindow();
             window.getDecorView().setPadding(0, 0, 0, 0);
             window.setGravity(Gravity.CENTER);

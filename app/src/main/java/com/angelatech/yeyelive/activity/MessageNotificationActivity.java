@@ -55,6 +55,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
     public static String NOTICE_TO_ALL = "52";//系统通知
     public static String NOTICE_SHOW_PERSON_MSG = "53";//个人通知
     public static String NOTICE_FANS_MSG = "54";//个人通知
+    public static String NOTICE_RED_MSG = "55";//个人通知
     private SystemMessage systemMessage = null;
 
     @Override
@@ -74,11 +75,15 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
             }
             List<SystemMessageDBModel> systemMsg = systemMessage.load(NOTICE_TO_ALL, 0, 1);
             List<SystemMessageDBModel> fensMsg = systemMessage.load(NOTICE_FANS_MSG, 0, 1);
+            List<SystemMessageDBModel> redMsg = systemMessage.load(NOTICE_RED_MSG, 0, 1);
             if (systemMsg != null) {
                 models.addAll(systemMsg);//系统消息数据
             }
             if (fensMsg != null) {
                 models.addAll(fensMsg);//新增粉丝数据
+            }
+            if (redMsg != null) {
+                models.addAll(redMsg);//新增粉丝数据
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,10 +130,21 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
                     } else {
                         helper.hideView(R.id.pot);
                     }
-                    helper.setText(R.id.title, "个人消息");
+                    helper.setText(R.id.title, getString(R.string.system_fans_msg));
+                    helper.setImageResource(R.id.pic, R.drawable.icon_notice_newfans);
+                } else if (item.type_code == 55) {//红包消息
+                    List<SystemMessageDBModel> dbModels = systemMessage.getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_RED_MSG);
+                    if (dbModels.size() > 0) {
+                        helper.setText(R.id.pot, String.valueOf(dbModels.size()));
+                    } else if (dbModels.size() > 99) {
+                        helper.setText(R.id.pot, "…");
+                    } else {
+                        helper.hideView(R.id.pot);
+                    }
+                    helper.setText(R.id.title, getString(R.string.system_red_msg));
                     helper.setImageResource(R.id.pic, R.drawable.icon_notice_newfans);
                 }
-                String result = DateFormat.formatData("MM:dd", Long.valueOf(item.datetime));
+                String result = DateFormat.formatData("MM/dd HH:mm", Long.valueOf(item.datetime));
                 helper.setText(R.id.time, result);
                 helper.setText(R.id.context, item.content);
             }
@@ -140,8 +156,10 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (models.get(position).type_code == 52) {//官方通知
                     StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageOfficialActivity.class);
-                } else if (models.get(position).type_code == 54) {//消息活动
+                } else if (models.get(position).type_code == 54) {//粉丝消息活动
                     StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageFansActivity.class);
+                } else if (models.get(position).type_code == 55) {//红包消息活动
+                    StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageRedActivity.class);
                 }
             }
         });

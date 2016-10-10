@@ -52,7 +52,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private BasicUserInfoDBModel model;
     private List<FocusModel> data = new ArrayList<>();
     private int pageIndex = 1;
-    private int pageSize = 10;
+    private int pageSize = 20;
     private int type = 1;
     private long dateSort = 0;
     private boolean IS_REFRESH = false;  //是否需要刷新

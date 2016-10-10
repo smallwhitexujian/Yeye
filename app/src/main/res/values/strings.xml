@@ -403,4 +403,16 @@
     <string name="system_fans_notice">新增粉丝通知</string>
     <string name="system_gf_notice">官方消息通知</string>
     <string name="system_red_title">红包消息</string>
+    <string name="paly_title">发红包</string>
+    <string name="play_edit_coins">塞入金币</string>
+    <string name="play_str">个</string>
+    <string name="play_context">留言</string>
+    <string name="coins_low">余额不足</string>
+    <string name="recharge_coin">充值</string>
+    <string name="system_red_received">收到</string>
+    <string name="system_red_red">的红包</string>
+    <string name="system_red_tips">主播关注你好久了，非常喜欢你直播，希望能交个朋友！</string>
+    <string name="system_red_msg">红包消息</string>
+    <string name="system_fans_msg">粉丝消息</string>
+    <string name="system_follow">关注了你</string>
 </resources>

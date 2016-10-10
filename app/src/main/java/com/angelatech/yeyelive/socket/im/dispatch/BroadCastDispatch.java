@@ -8,6 +8,7 @@ import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.MessageFansActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.MessageOfficialActivity;
+import com.angelatech.yeyelive.activity.MessageRedActivity;
 import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
@@ -56,7 +57,7 @@ public class BroadCastDispatch extends Dispatchable {
         }.getType());
         DebugLogs.e("IM系统消息通知====" + broadcastModel.msg + "-----" + broadcastModel.data);
         DebugLogs.e("IM系统消息通知====" + broadcastModel.time);
-        DebugLogs.e("IM系统消息通知====" + broadcastModel.data.url);
+        DebugLogs.e("IM系统消息通知====" + broadcastModel.code);
         //“code”: 0余额不足1用户喇叭,2系统公告,3系统小秘书,4系统升级消息
         try {
             int code = Integer.parseInt(broadcastModel.code);
@@ -131,11 +132,27 @@ public class BroadCastDispatch extends Dispatchable {
                         case SystemMessageType.NOTICE_FANS_MSG://粉丝关注
                             checkReadOrNot();
                             try {
+                                title = mContext.getString(R.string.system_fans_msg);
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
-                                mContent = msgJsonObj.getString("nickname") + "关注了你";
+                                mContent = msgJsonObj.getString("nickname") + mContext.getString(R.string.system_follow);
                                 systemMessageDBModel.content = mContent;
                                 if (App.isfansNotify) {
                                     NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_FANS_MSG, ticker, title, mContent, MessageFansActivity.class);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            systemMessage.add(systemMessageDBModel);
+                            break;
+                        case SystemMessageType.NOTICE_RED_MSG:
+                            checkReadOrNot();
+                            try {
+                                title = mContext.getString(R.string.system_red_msg);
+                                JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
+                                mContent = msgJsonObj.getString("msg");
+                                systemMessageDBModel.content = mContent;
+                                if (App.isredNotify) {
+                                    NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_RED_MSG, ticker, title, mContent, MessageRedActivity.class);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

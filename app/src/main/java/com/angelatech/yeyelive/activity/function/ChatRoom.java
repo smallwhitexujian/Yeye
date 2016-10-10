@@ -231,12 +231,15 @@ public class ChatRoom extends HttpFunction {
 
     /**
      * 保存直播录像
+     *
      */
-    public void LiveQiSaveVideo(String url, BasicUserInfoDBModel userInfo, String liveid, HttpBusinessCallback callback) {
+    public void LiveQiSaveVideo(String url, BasicUserInfoDBModel userInfo, String liveid, int playnum,int issave, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userInfo.userid);
         params.put("token", userInfo.token);
         params.put("liveid", liveid);
+        params.put("playnum", String.valueOf(playnum));//观看人数
+        params.put("issave", String.valueOf(issave));//是否保存,1删除 0保存
         httpGet(url, params, callback);
     }
 
@@ -259,4 +262,18 @@ public class ChatRoom extends HttpFunction {
         params.put("Device", device);
         httpGet(url, params, callback);
     }
+
+    /**
+     * 发送红包
+     */
+    public void PayReward(String url ,String vid,String amount,String content,String userid,String token,HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("vid", vid);
+        params.put("amount", amount);
+        params.put("content", Encryption.utf8ToUnicode(content));
+        params.put("userid", userid);
+        params.put("token", token);
+        httpGet(url, params, callback);
+    }
+
 }

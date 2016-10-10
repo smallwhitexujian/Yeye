@@ -1,15 +1,23 @@
 package com.angelatech.yeyelive.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +32,7 @@ import com.angelatech.yeyelive.activity.Qiniupush.PLVideoTextureUtils;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.UserControl;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.mediaplayer.SurfaceViewHolderCallback;
@@ -36,7 +45,9 @@ import com.angelatech.yeyelive.thirdShare.SinaShare;
 import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.ScreenUtils;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
@@ -59,18 +70,19 @@ import java.util.Map;
  * Date              Author          Version
  * ---------------------------------------------------------
  */
-public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PLVideoCallBack{
+public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PLVideoCallBack {
     private final int MSG_SET_FLLOW = 211221;
     private final int MSG_REPORT_SUCCESS = 1200;
     private final int MSG_REPORT_ERROR = 1201;
     private final int MSG_HIDE_PLAYER_CTL = 1202;
+    private final int MSG_INPUT_LIMIT = 100;
     private SurfaceView player_surfaceView;
     private Button player_replay_btn, btn_back;
     private LinearLayout player_ctl_layout;
     private RelativeLayout ly_playfinish;
     private SeekBar player_seekBar;
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
-    private ImageView btn_share, btn_Follow, player_play_btn, backBtn;
+    private ImageView btn_share, btn_Follow, player_play_btn, backBtn, btn_red;
     private VideoPlayer mVideoPlayer;
 
     private String path;
@@ -135,7 +147,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (plUtils!=null){
+        if (plUtils != null) {
             plUtils.onDestroy();
         }
     }
@@ -143,7 +155,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onPause() {
         super.onPause();
-        if (plUtils!=null){
+        if (plUtils != null) {
             plUtils.onPause();
         }
     }
@@ -151,17 +163,18 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onResume() {
         super.onResume();
-        if (plUtils!=null){
+        if (plUtils != null) {
             plUtils.onResume();
         }
     }
 
     private void initView() {
-        plVideoTextureView = (PLVideoTextureView)findViewById(R.id.plVideoView);
+        plVideoTextureView = (PLVideoTextureView) findViewById(R.id.plVideoView);
         default_img = (FrescoDrawee) findViewById(R.id.default_img);
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
         player_play_btn = (ImageView) findViewById(R.id.player_play_btn);
+        btn_red = (ImageView) findViewById(R.id.btn_red);
         player_replay_btn = (Button) findViewById(R.id.player_replay_btn);
 
         btn_Follow = (ImageView) findViewById(R.id.btn_Follow);
@@ -188,12 +201,13 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         player_replay_btn.setOnClickListener(click);
 
         btn_Follow.setOnClickListener(click);
+        btn_red.setOnClickListener(click);
         btn_share.setOnClickListener(click);
         btn_back.setOnClickListener(click);
         tv_report.setOnClickListener(click);
         backBtn.setOnClickListener(click);
         // 为进度条添加进度更改事件
-        if (!isQiniuSDK){
+        if (!isQiniuSDK) {
             player_seekBar.setOnSeekBarChangeListener(change);
         }
 
@@ -213,7 +227,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             }
         }
 
-        if (!isQiniuSDK){
+        if (!isQiniuSDK) {
             mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
             player_surfaceView.setVisibility(View.VISIBLE);
             // 为SurfaceHolder添加回调
@@ -222,7 +236,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面
             // player_surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
             mVideoPlayer.prepare();
-        }else{
+        } else {
             // 为进度条添加进度更改事件
             plUtils = new PLVideoTextureUtils();
             plUtils.init(this, plVideoTextureView, PLVideoTextureUtils.REMEDIACODEC, PLVideoTextureUtils.LIVESTREAMING, path, null);
@@ -239,7 +253,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             // 当进度条停止修改的时候触发
             // 取得当前进度条的刻度
             time = 0;
-            if (mVideoPlayer!=null){
+            if (mVideoPlayer != null) {
                 if (mVideoPlayer.getStatus() == VideoPlayer.STATUS_INIT) {
                     seekBar.setProgress(0);
                     return;
@@ -271,7 +285,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             switch (v.getId()) {
                 case R.id.player_play_btn:
                     default_img.setVisibility(View.GONE);
-                    if(mVideoPlayer!=null){
+                    if (mVideoPlayer != null) {
                         if (mVideoPlayer.getStatus() == VideoPlayer.STATUS_PREPARE) {
                             mVideoPlayer.play();
                             ClickToWatch();
@@ -280,12 +294,12 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                             mVideoPlayer.pause();
                         }
                     }
-                    if (isQiniuSDK){
-                        if(isonclick){
+                    if (isQiniuSDK) {
+                        if (isonclick) {
                             isonclick = false;
                             plUtils.onClickPause();
                             player_play_btn.setImageResource(R.drawable.btn_playback_play);
-                        }else{
+                        } else {
                             isonclick = true;
                             plUtils.onClickResume();
                             player_play_btn.setImageResource(R.drawable.btn_playback_stop);
@@ -295,10 +309,10 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 case R.id.player_replay_btn:
                     ly_playfinish.setVisibility(View.GONE);
                     player_play_btn.setImageResource(R.drawable.btn_playback_stop);
-                    if(mVideoPlayer!=null){
+                    if (mVideoPlayer != null) {
                         mVideoPlayer.replay();
                     }
-                    if (isQiniuSDK){
+                    if (isQiniuSDK) {
                         plUtils.onClickPlay();
                     }
                     break;
@@ -340,9 +354,118 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                         ToastUtils.showToast(PlayActivity.this, getString(R.string.report_repeat));
                     }
                     break;
+                case R.id.btn_red:
+                    showRedDialog();
+                    break;
                 default:
                     break;
             }
+        }
+    };
+    private EditText edit_context;
+    private TextView edit_num;
+    private TextView coins_low_tips;
+
+    private void showRedDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(PlayActivity.this).create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);// 设置点击屏幕Dialog不消失
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.dialog_red, null);
+        dialog.setView(layout);
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        window.setGravity(Gravity.CENTER);
+        window.setContentView(R.layout.dialog_red);
+
+        final EditText edit_coins = (EditText) window.findViewById(R.id.edit_coins);
+        edit_context = (EditText) window.findViewById(R.id.edit_context);
+        edit_num = (TextView) window.findViewById(R.id.edit_num);
+        TextView recharge_btn = (TextView) window.findViewById(R.id.recharge_btn);
+        TextView coins_str = (TextView) window.findViewById(R.id.coins_str);
+        edit_context.addTextChangedListener(textWatcher);
+        Button btn_send = (Button) window.findViewById(R.id.btn_send);
+        coins_str.setText(userModel.diamonds);
+        coins_low_tips = (TextView) window.findViewById(R.id.coins_low_tips);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String aomunt = edit_coins.getText().toString();
+                String context = edit_context.getText().toString();
+                if (!aomunt.isEmpty() && Long.valueOf(userModel.diamonds) > Long.valueOf(aomunt)) {
+                    coins_low_tips.setVisibility(View.INVISIBLE);
+                    sendRed(aomunt, context);
+                    dialog.dismiss();
+                } else {
+                    coins_low_tips.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        recharge_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StartActivityHelper.jumpActivityDefault(PlayActivity.this, RechargeActivity.class);
+            }
+        });
+    }
+
+    private void sendRed(String aomunt, String context) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(final String response) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String code = jsonObject.getString("code");
+                            String data = jsonObject.getString("data");
+                            if (code.equals("1000")) {
+                                CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, data, userModel.userid);
+                            } else {
+                                ToastUtils.showToast(PlayActivity.this, ErrorHelper.getErrorHint(PlayActivity.this, code));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        };
+        ChatRoom chatRoom = new ChatRoom(PlayActivity.this);
+        chatRoom.PayReward(CommonUrlConfig.PayReward, videoModel.videoid, aomunt, context, userModel.userid, userModel.token, callback);
+    }
+
+    /*监听输入事件*/
+    private TextWatcher textWatcher = new TextWatcher() {
+        private int editStart;
+        private int editEnd;
+        private CharSequence temp;
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            temp = charSequence;
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            editStart = edit_context.getSelectionStart();
+            editEnd = edit_context.getSelectionEnd();
+            if (temp.length() > 30) {
+                editable.delete(editStart - 1, editEnd);
+            }
+            uiHandler.obtainMessage(MSG_INPUT_LIMIT, 0, 0, editable.toString()).sendToTarget();
         }
     };
 
@@ -352,7 +475,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private void ClosePlay() {
         try {
             uiHandler.removeCallbacksAndMessages(null);
-            if (mVideoPlayer!=null){
+            if (mVideoPlayer != null) {
                 mVideoPlayer.stop();
                 mVideoPlayer.destroy();
             }
@@ -508,7 +631,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 animationDrawable.stop();
                 scaleVideo(getResources().getConfiguration().orientation);
                 //setVideoSize();
-                if (mVideoPlayer!=null){
+                if (mVideoPlayer != null) {
                     int duration = mVideoPlayer.getDuration();
                     player_seekBar.setMax(duration);
                     player_total_time.setText(PlayerUtil.showTime(duration));
@@ -521,7 +644,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 default_img.setVisibility(View.GONE);
                 break;
             case VideoPlayer.MSG_PLAYER_ONPLAYING:
-                if (mVideoPlayer!=null){
+                if (mVideoPlayer != null) {
                     player_seekBar.setProgress(mVideoPlayer.getCurrentPosition());
                     player_current_time.setText(PlayerUtil.showTime(mVideoPlayer.getCurrentPosition()));
                 }
@@ -572,11 +695,18 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 player_seekBar.setVisibility(View.GONE);
                 player_ctl_layout.setVisibility(View.GONE);
                 break;
+            case MSG_INPUT_LIMIT:
+                String inputStr = (String) msg.obj;
+                if (inputStr != null && inputStr.length() > 0) {
+                    String str = inputStr.length() + "/" + 30;
+                    edit_num.setText(str);
+                }
+                break;
         }
     }
 
     private void scaleVideo(int orientation) {
-        if (mVideoPlayer!=null){
+        if (mVideoPlayer != null) {
             int[] videoSizeAry = mVideoPlayer.getVideoSize();
             if (videoSizeAry == null || videoSizeAry[0] == 0 || videoSizeAry[1] == 0) {
                 return;

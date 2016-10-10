@@ -13,12 +13,13 @@ import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
 import com.angelatech.yeyelive.model.SystemMessage;
-import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.will.common.tool.time.DateFormat;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +68,8 @@ public class MessageRedActivity extends HeaderBaseActivity implements SwipyRefre
             if (userInfo == null) {
                 return;
             }
-            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_TO_ALL, 0, 1000);
-            SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_TO_ALL);//修改所有未读改成已读
+            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_RED_MSG, 0, 1000);
+            SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_RED_MSG);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,36 +84,29 @@ public class MessageRedActivity extends HeaderBaseActivity implements SwipyRefre
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
-        CommonAdapter<SystemMessageDBModel> adapter = new CommonAdapter<SystemMessageDBModel>(MessageRedActivity.this, systemMsg, R.layout.item_official) {
+        CommonAdapter<SystemMessageDBModel> adapter = new CommonAdapter<SystemMessageDBModel>(MessageRedActivity.this, systemMsg, R.layout.item_red) {
             @Override
             public void convert(ViewHolder helper, final SystemMessageDBModel item, final int position) {
-                if (item._data != null) {
-                    helper.showView(R.id.line1);
-                    helper.showView(R.id.str);
-                } else {
-                    helper.hideView(R.id.line1);
-                    helper.hideView(R.id.str);
-                }
                 String result = DateFormat.formatData("yyyy-MM-dd HH:mm", Long.valueOf(item.datetime));
                 helper.setText(R.id.time, result);
-                helper.setText(R.id.context, item.content);
+                helper.setText(R.id.str_context, item.content);
+                JSONObject msgJsonObj;
+                String msgStr,nickname,amount;
+                try {
+                    msgJsonObj = new JSONObject(item.data);
+                    msgStr = msgJsonObj.getString("headurl");
+                    nickname = msgJsonObj.getString("nickname");
+                    amount = msgJsonObj.getString("amount");
+                    helper.setImageUrl(R.id.userPic, msgStr);
+                    helper.setText(R.id.tv_nickName,nickname);
+                    helper.setText(R.id.coins_str,amount);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
         message_notice_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (systemMsg.get(position)._data != null) {
-                    WebTransportModel webTransportModel = new WebTransportModel();
-                    webTransportModel.url = systemMsg.get(position)._data;
-                    webTransportModel.title = getString(R.string.system_gf);
-                    if (!webTransportModel.url.isEmpty()) {
-                        StartActivityHelper.jumpActivity(MessageRedActivity.this, WebActivity.class, webTransportModel);
-                    }
-                }
-            }
-        });
     }
 
     @Override
