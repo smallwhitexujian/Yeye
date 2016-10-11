@@ -142,7 +142,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
                         helper.hideView(R.id.pot);
                     }
                     helper.setText(R.id.title, getString(R.string.system_red_msg));
-                    helper.setImageResource(R.id.pic, R.drawable.icon_notice_newfans);
+                    helper.setImageResource(R.id.pic, R.drawable.icon_notice_receivemoney);
                 }
                 String result = DateFormat.formatData("MM/dd HH:mm", Long.valueOf(item.datetime));
                 helper.setText(R.id.time, result);
