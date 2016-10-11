@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
@@ -18,14 +19,16 @@ import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.qqapi.BaseUiListenerImpl;
 import com.angelatech.yeyelive.qqapi.QQModel;
+import com.angelatech.yeyelive.service.IServiceHelper;
+import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.thirdLogin.LoginManager;
 import com.angelatech.yeyelive.thirdLogin.QQProxy;
 import com.angelatech.yeyelive.thirdLogin.WxProxy;
+import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ClearCacheUtil;
 import com.angelatech.yeyelive.util.JsonUtil;
-import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.view.CommDialog;
@@ -63,6 +66,7 @@ public class SettingActivity extends HeaderBaseActivity {
     private LinearLayout bindQQLayout, bindPhoneLayout,
             bindWeichatLayout, clearCacheLayout,
             feedbackLayout, aboutLayout, blacklistLayout, layout_change_password;
+    private RelativeLayout exit_layout;
     private LinearLayout notice;
     private HttpFunction settingFunction = null;
     private BasicUserInfoDBModel userInfo;
@@ -112,12 +116,14 @@ public class SettingActivity extends HeaderBaseActivity {
         aboutLayout = (LinearLayout) findViewById(R.id.about_us_layout);
         blacklistLayout = (LinearLayout) findViewById(R.id.blacklist_layout);
         notice = (LinearLayout) findViewById(R.id.notice);
+        exit_layout = (RelativeLayout) findViewById(R.id.exit_layout);
         layout_change_password = (LinearLayout) findViewById(R.id.layout_change_password);
         loginButton = (LoginButton) findViewById(R.id.facebook_login);
     }
 
     private void setView() {
         bindPhoneLayout.setOnClickListener(this);
+        exit_layout.setOnClickListener(this);
         notice.setOnClickListener(this);
         bindQQLayout.setOnClickListener(this);
         bindWeichatLayout.setOnClickListener(this);
@@ -178,6 +184,21 @@ public class SettingActivity extends HeaderBaseActivity {
                 } else {
                     ToastUtils.showToast(this, getString(R.string.change_password_no_permissions));
                 }
+                break;
+            case R.id.exit_layout:
+                new CommDialog().CommDialog(SettingActivity.this, getString(R.string.setting_exit_dialog), true, new CommDialog.Callback() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onOK() {
+                        Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
+                                IServiceValues.CMD_EXIT_LOGIN);
+                        BroadCastHelper.sendBroadcast(SettingActivity.this, exitIntent);
+                    }
+                });
                 break;
         }
     }

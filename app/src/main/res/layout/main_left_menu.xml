@@ -398,45 +398,6 @@
                 android:layout_height="0.5dp"
                 android:background="@color/color_grey_d5" />
 
-            <!--分割 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/color_eaeaea" />
-
-            <!--退出-->
-            <RelativeLayout
-                android:id="@+id/exit_layout"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:layout_gravity="center"
-                android:background="@color/white">
-
-                <TextView
-                    android:id="@+id/btn_exit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
-                    android:text="@string/exit"
-                    android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="17dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/btn_next" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/color_grey_d5" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -343,24 +343,6 @@
             <data android:scheme="com.angelatech.yeyelive" />
         </intent-filter>
 
-        <!--Bugly -->
-        <!-- 配置APP ID -->
-        <meta-data
-            android:name="BUGLY_APPID"
-            android:value="900052519" />
-        <!-- 配置APP版本号 -->
-        <meta-data
-            android:name="BUGLY_APP_VERSION"
-            android:value="1.4" />
-        <!-- 配置APP渠道号 -->
-        <meta-data
-            android:name="BUGLY_APP_CHANNEL"
-            android:value="yeye" />
-        <!--&lt;!&ndash; 配置Bugly调试模式（true或者false）&ndash;&gt;-->
-        <!--<meta-data-->
-        <!--android:name="BUGLY_ENABLE_DEBUG"-->
-        <!--android:value="true" />-->
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.angelatech.yeyelive.fileprovider"

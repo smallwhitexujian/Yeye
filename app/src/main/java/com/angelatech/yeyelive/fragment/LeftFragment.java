@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.GestureDetector;
@@ -30,15 +29,11 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.SystemMessage;
-import com.angelatech.yeyelive.service.IServiceHelper;
-import com.angelatech.yeyelive.service.IServiceValues;
 import com.angelatech.yeyelive.thirdLogin.FbProxy;
-import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
-import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -56,7 +51,7 @@ public class LeftFragment extends HintFragment {
     private View view;
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video,message_notice;
-    private RelativeLayout exitLayout, attentionLayout, fansLayout, settingLayout,
+    private RelativeLayout attentionLayout, fansLayout, settingLayout,
             layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg;
     private ImageView editImageView, sexImageView, iv_vip;
     private FrescoRoundView userFace;
@@ -111,7 +106,6 @@ public class LeftFragment extends HintFragment {
         diamond = (TextView) view.findViewById(R.id.user_diamond);
         message_notice = (TextView) view.findViewById(R.id.message_notice);
 
-        exitLayout = (RelativeLayout) view.findViewById(R.id.exit_layout);
         layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
         fansLayout = (RelativeLayout) view.findViewById(R.id.fans_layout);
         attentionLayout = (RelativeLayout) view.findViewById(R.id.attention_layout);
@@ -127,7 +121,6 @@ public class LeftFragment extends HintFragment {
     }
 
     private void setView() {
-        exitLayout.setOnClickListener(this);
         fansLayout.setOnClickListener(this);
         attentionLayout.setOnClickListener(this);
         settingLayout.setOnClickListener(this);
@@ -143,21 +136,6 @@ public class LeftFragment extends HintFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.exit_layout:
-                new CommDialog().CommDialog(getActivity(), getString(R.string.setting_exit_dialog), true, new CommDialog.Callback() {
-                    @Override
-                    public void onCancel() {
-
-                    }
-
-                    @Override
-                    public void onOK() {
-                        Intent exitIntent = IServiceHelper.getBroadcastIntent(IServiceValues.ACTION_CMD_WAY,
-                                IServiceValues.CMD_EXIT_LOGIN);
-                        BroadCastHelper.sendBroadcast(getActivity(), exitIntent);
-                    }
-                });
-                break;
             case R.id.attention_layout:
                 StartActivityHelper.jumpActivityDefault(getActivity(), FocusOnActivity.class);
                 break;

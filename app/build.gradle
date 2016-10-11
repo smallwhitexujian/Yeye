@@ -85,10 +85,6 @@ dependencies {
     compile project(':LibCocos2dx')
     compile project(':QupaiLiveSDK')
     compile files('libs/gson-2.6.2.jar')
-    compile 'com.tencent.bugly:crashreport:latest.release'
-    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
-    compile 'com.tencent.bugly:nativecrashreport:latest.release'
-    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.android.support:support-v4:23.3.0'
     compile files('libs/frescolib.jar')
     compile 'com.qiniu:happy-dns:0.2.+'
