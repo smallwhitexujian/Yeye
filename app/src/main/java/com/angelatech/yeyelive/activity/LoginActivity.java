@@ -197,7 +197,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 BroadCastHelper.sendBroadcast(this, exitIntent);
                 break;
             case FbProxy.FB_LOGIN_SUCCESS:
-                LoadingDialog.showLoadingDialog(LoginActivity.this);
+                LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 Log.e("success--->", "success");
                 if (!isLogin) {
                     CacheDataManager.getInstance().deleteAll();
@@ -210,7 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 AccessToken.setCurrentAccessToken(null);
                 break;
             case WxProxy.WX_LOGIN:
-                LoadingDialog.showLoadingDialog(LoginActivity.this);
+                LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 DebugLogs.e("======微信注册======");
                 new Register(this, uiHandler).wxRegister(msg.obj.toString(), DeviceTool.getUniqueID(this));
                 break;

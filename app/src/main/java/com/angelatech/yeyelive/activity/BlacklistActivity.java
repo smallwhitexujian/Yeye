@@ -101,7 +101,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
 
                     @Override
                     public void onOK() {
-                        LoadingDialog.showLoadingDialog(BlacklistActivity.this);
+                        LoadingDialog.showLoadingDialog(BlacklistActivity.this,null);
                         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
                             @Override
                             public void onFailure(Map<String, ?> errorMap) {
@@ -181,7 +181,7 @@ public class BlacklistActivity extends HeaderBaseActivity implements SwipyRefres
     }
 
     private void loadData() {
-        LoadingDialog.showLoadingDialog(BlacklistActivity.this);
+        LoadingDialog.showLoadingDialog(BlacklistActivity.this,null);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {

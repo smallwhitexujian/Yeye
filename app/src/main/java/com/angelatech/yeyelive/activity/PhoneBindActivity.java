@@ -199,7 +199,7 @@ public class PhoneBindActivity extends HeaderBaseActivity {
                 break;
             case R.id.send_btn:
                 if (!phone.isEmpty()) {
-                    LoadingDialog.showLoadingDialog(this);
+                    LoadingDialog.showLoadingDialog(this,null);
                     HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
                         @Override
                         public void onFailure(Map<String, ?> errorMap) {

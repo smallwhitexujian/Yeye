@@ -186,7 +186,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
         switch (v.getId()) {
             case R.id.login_btn:
                 mLoginBtn.setEnabled(false);
-                LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
+                LoadingDialog.showLoadingDialog(this,null);
                 if (fromType == FROM_TYPE_REGISTER) {
                     Register();
                 } else {
@@ -199,7 +199,7 @@ public class RegisterFindPWDActivity extends HeaderBaseActivity {
                 if (loginUserId.startsWith("0")) {
                     loginUserId = loginUserId.replaceFirst("0", "");
                 }
-                LoadingDialog.showLoadingDialog(this);
+                LoadingDialog.showLoadingDialog(this,null);
                 mPhoneLogin.getCode(CommonUrlConfig.GetPhoneCode, StringHelper.stringMerge(countryCode, loginUserId), sendCode);
                 stopTimer();
                 startTimer();

@@ -365,7 +365,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
     // 获取开播地址
     private void LiveVideoBroadcast(String title, String area, String price) {
-        LoadingDialog.showLoadingDialog(getActivity(), getString(R.string.go_in));
+        LoadingDialog.showLoadingDialog(getActivity(), null);
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -411,7 +411,7 @@ public class ReadyLiveFragment extends BaseFragment {
                 for (int i = 0; i < results.data.size(); i++) {
                     spinnnerList.add(results.data.get(i).price);
                 }
-                if (isAdded()){
+                if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

@@ -127,7 +127,7 @@ public class ProfileActivity extends HeaderBaseActivity {
     }
 
     private void saveUserInfo() {
-        LoadingDialog.showLoadingDialog(this);
+        LoadingDialog.showLoadingDialog(this,null);
         user_name = edit_user_name.getText().toString();
         String user_mail = edit_user_mail.getText().toString();
         HashMap<String, String> map = new HashMap<>();

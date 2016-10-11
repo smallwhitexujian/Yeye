@@ -55,7 +55,7 @@ public class CountrySelectActivity extends HeaderBaseActivity implements SideBar
 
 
     private void initView() {
-        LoadingDialog.showLoadingDialog(CountrySelectActivity.this);
+        LoadingDialog.showLoadingDialog(CountrySelectActivity.this,null);
         sideBarView = (SideBarView) findViewById(R.id.sidebarview);
         listView = (ListView) findViewById(R.id.country_list);
         mTip = (TextView) findViewById(R.id.tip);

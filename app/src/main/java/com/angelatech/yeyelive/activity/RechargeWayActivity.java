@@ -78,7 +78,7 @@ public class RechargeWayActivity extends HeaderBaseActivity {
     }
 
     private void initView() {
-        LoadingDialog.showLoadingDialog(this);
+        LoadingDialog.showLoadingDialog(this,null);
         headerLayout.showTitle(getString(R.string.button_top_up));
         headerLayout.showLeftBackButton();
 
@@ -142,7 +142,7 @@ public class RechargeWayActivity extends HeaderBaseActivity {
                 break;
             case R.id.btn_submit_pay:
                 if (checkWay == 2) {
-                    LoadingDialog.showLoadingDialog(RechargeWayActivity.this);
+                    LoadingDialog.showLoadingDialog(RechargeWayActivity.this,null);
                     order(data.get(checkPayPosition));
                 }
                 if (checkWay == 1) {

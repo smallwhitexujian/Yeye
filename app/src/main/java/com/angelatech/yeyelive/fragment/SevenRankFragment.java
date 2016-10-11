@@ -89,7 +89,7 @@ public class SevenRankFragment extends BaseFragment implements
 
     private void initView(View view) {
         mainEnter = new MainEnter(getActivity());
-        LoadingDialog.showLoadingDialog(getActivity());
+        LoadingDialog.showLoadingDialog(getActivity(),null);
         userInfo = CacheDataManager.getInstance().loadUser();
         LinearLayout bottom_layout = (LinearLayout) view.findViewById(R.id.bottom_layout);
         FrescoRoundView rank_my_pic = (FrescoRoundView) view.findViewById(R.id.rank_my_pic);

@@ -184,7 +184,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     }
 
     private void loadData() {
-        LoadingDialog.showLoadingDialog(this);
+        LoadingDialog.showLoadingDialog(this,null);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {

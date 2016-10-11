@@ -121,7 +121,7 @@ public class ChangePasswordActivity extends HeaderBaseActivity {
             ToastUtils.showToast(this, getString(R.string.password_error));
         } else {
             if (VerificationUtil.isContainLetterNumber(newPassword)) {
-                LoadingDialog.showSysLoadingDialog(this, getString(R.string.now_submit));
+                LoadingDialog.showLoadingDialog(this, null);
                 HttpBusinessCallback callback = new HttpBusinessCallback() {
                     @Override
                     public void onSuccess(String response) {

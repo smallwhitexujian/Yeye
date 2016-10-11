@@ -250,7 +250,7 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
     }
 
     private void loadData() {
-        LoadingDialog.showLoadingDialog(this);
+        LoadingDialog.showLoadingDialog(this,null);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {

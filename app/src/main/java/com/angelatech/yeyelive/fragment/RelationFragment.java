@@ -148,7 +148,7 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
     }
 
     private void loadData() {
-        LoadingDialog.showLoadingDialog(getActivity());
+        LoadingDialog.showLoadingDialog(getActivity(),null);
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {

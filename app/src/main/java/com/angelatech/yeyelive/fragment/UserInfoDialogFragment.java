@@ -92,7 +92,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         view = inflater.inflate(R.layout.dialog_userinfo, container, false);
-        LoadingDialog.showSysLoadingDialog(mActivity, "");
+        LoadingDialog.showLoadingDialog(mActivity, null);
         initView();
         setView();
         uiHandler = new CommonHandler<>(this);
@@ -266,7 +266,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
-                                LoadingDialog.showLoadingDialog(mActivity);
+                                LoadingDialog.showLoadingDialog(mActivity,null);
                                 HttpBusinessCallback callback = new HttpBusinessCallback() {
                                     @Override
                                     public void onFailure(Map<String, ?> errorMap) {
@@ -293,7 +293,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
-                                LoadingDialog.showLoadingDialog(mActivity);
+                                LoadingDialog.showLoadingDialog(mActivity,null);
                                 HttpBusinessCallback callback = new HttpBusinessCallback() {
                                     @Override
                                     public void onFailure(Map<String, ?> errorMap) {
