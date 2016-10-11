@@ -114,14 +114,10 @@
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
-        <com.angelatech.yeyelive.view.Barrage.BarrageView
+        <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5" />
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="5" />-->
 
         <RelativeLayout
             android:id="@+id/ly_gift_view"
