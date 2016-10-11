@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 
-import com.angelatech.yeyelive.Contants;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.db.DBConfig;
 import com.angelatech.yeyelive.db.DatabaseHelper;
@@ -16,12 +15,7 @@ import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
-import com.duanqu.qupai.auth.AuthService;
-import com.duanqu.qupai.auth.QupaiAuthListener;
-import com.duanqu.qupai.httpfinal.QupaiHttpFinal;
-import com.duanqu.qupai.jni.ApplicationGlue;
 import com.qiniu.pili.droid.streaming.StreamingEnv;
-import com.will.common.log.DebugLogs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,10 +34,9 @@ public class App extends Application {
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static boolean isLogin = false;// 判断用户是否登录
     public static boolean isQiNiu = true; // 是否使用七牛服务器
-    public static boolean isqupai = false;// 推流选择,是否是趣拍
 
     private static String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
     private static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;
@@ -120,39 +113,6 @@ public class App extends Application {
         isofficialNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.OFFICIALNOTIFY);
         isredNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.COINSNOTIFY);
         isfansNotify = SPreferencesTool.getInstance().getBooleanValue(this, SPreferencesTool.FANSNOTIFY);
-        //趣拍
-        if (isqupai){
-            System.loadLibrary("gnustl_shared");
-            System.loadLibrary("qupai-media-thirdparty");
-            System.loadLibrary("qupai-media-jni");
-            ApplicationGlue.initialize(this);
-            QupaiHttpFinal.getInstance().initOkHttpFinal();
-            initAuth(getApplicationContext(), Contants.appkey, Contants.appsecret, Contants.space);
-        }
-    }
-
-    /**
-     * 鉴权 建议只调用一次,在Application调用。在demo里面为了测试调用了多次 得到accessToken
-     *
-     * @param appKey    appkey
-     * @param appsecret appsecret
-     * @param space     space
-     */
-    private void initAuth(Context context, String appKey, String appsecret, String space) {
-        AuthService service = AuthService.getInstance();
-        service.setQupaiAuthListener(new QupaiAuthListener() {
-            @Override
-            public void onAuthError(int errorCode, String message) {
-                DebugLogs.d("onAuthComplte" + errorCode + "message" + message);
-            }
-
-            @Override
-            public void onAuthComplte(int responseCode, String responseMessage) {
-                DebugLogs.d("onAuthComplte" + responseCode + "message" + responseMessage);
-                Contants.accessToken = responseMessage;
-            }
-        });
-        service.startAuth(context, appKey, appsecret, space);
     }
 
     public synchronized static void register(Activity activity) {

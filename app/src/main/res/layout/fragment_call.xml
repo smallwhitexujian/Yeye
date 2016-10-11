@@ -41,7 +41,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="10sp"
-                tools:ignore="SmallSp" />
+                tools:ignore="RtlHardcoded,SmallSp" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -106,19 +106,22 @@
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:format="%s"
                 android:layout_marginLeft="25dp"
+                android:format="%s"
                 android:gravity="top"
                 android:textColor="@color/color_80ffffff"
                 android:textSize="14sp"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
-
-        <View
+        <com.angelatech.yeyelive.view.Barrage.BarrageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="5" />-->
 
         <RelativeLayout
             android:id="@+id/ly_gift_view"
@@ -319,7 +322,8 @@
                 android:layout_marginRight="10dp"
                 android:contentDescription="@string/gift"
                 android:padding="10dp"
-                android:src="@drawable/btn_room_gift_n" />
+                android:src="@drawable/btn_room_gift_n"
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
         <LinearLayout

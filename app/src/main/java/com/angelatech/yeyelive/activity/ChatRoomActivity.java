@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -54,7 +53,6 @@ import com.angelatech.yeyelive.socket.room.ServiceManager;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
-import com.angelatech.yeyelive.util.LivePush.LivePush;
 import com.angelatech.yeyelive.util.PictureObtain;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
@@ -132,11 +130,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private TimeCount timeCount;
     private long BigData = 0;
     private boolean isbigData = false;
-    private SurfaceView camera_surface;
     private boolean isStart = false;
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
-    public LivePush livePush = null;
     private int connTotalNum = 0; //总连接次数
     private boolean boolConnRoom = true; //
     private String watemarkUrl = "wartermark/bg_room_mercury.png";
@@ -174,12 +170,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         //魅族适配
         if (Build.BRAND.equals("Meizu")) {
             body.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-        //趣拍初始化
-        if (App.isqupai) {
-            livePush = new LivePush();
-            livePush.setWatermark(watemarkUrl, 14, 55, 1);
-            livePush.init(this, camera_surface);
         }
         App.chatRoomApplication = this;
         //屏幕的计算
@@ -231,7 +221,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         userModel = CacheDataManager.getInstance().loadUser();
         LoadingDialog.showLoadingDialog(ChatRoomActivity.this,null);
         chatRoom = new ChatRoom(this);
-        camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
         body = (RelativeLayout) findViewById(R.id.body);
         ImageView button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
         face = (ImageView) findViewById(R.id.face);
@@ -273,7 +262,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 });
             }
         });
-        camera_surface.setVisibility(View.GONE);
         //如果是观众，直接启动房间
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             fragmentList.add(callFragment);
@@ -289,9 +277,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             face.setVisibility(View.GONE);
             LoadingDialog.cancelLoadingDialog();
-            if (App.isqupai) {
-                camera_surface.setVisibility(View.VISIBLE);
-            }
         }
     }
 
@@ -956,19 +941,12 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         liveFinishFragment = new LiveFinishFragment();
         liveFinishFragment.setRoomModel(roomModel);
         liveFinishFragment.show(getSupportFragmentManager(), "");
-        if (App.isqupai && livePush != null) {
-            livePush.onDestroy();
-        }
     }
 
     //切换摄像头
     @Override
     public void onCameraSwitch() {
-        if (App.isqupai) {
-            livePush.mCamera();
-        } else {
-            setCameraSwitch();
-        }
+        setCameraSwitch();
     }
 
     @Override
@@ -1060,9 +1038,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     @Override
     public void onPause() {
-        if (App.isqupai) {
-            livePush.onPause();
-        }
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onPause();
         }
@@ -1073,9 +1048,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     public void onResume() {
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onResume();
-        }
-        if (App.isqupai) {
-            livePush.onResume();
         }
         super.onResume();
     }
@@ -1089,9 +1061,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             plUtils.onDestroy();
         }
         super.onDestroy();
-        if (App.isqupai) {
-            livePush.onDestroy();
-        }
         System.gc();
     }
 
@@ -1211,11 +1180,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!App.isqupai) {
-                    setStartStreaming(roomModel.getRtmpip());
-                } else {
-                    livePush.StartLive(roomModel.getRtmpip());
-                }
+                setStartStreaming(roomModel.getRtmpip());
                 beginTime = (int) (DateTimeTool.GetDateTimeNowlong() / 1000);
                 if (callFragment != null) {
                     fragmentList.add(callFragment);
