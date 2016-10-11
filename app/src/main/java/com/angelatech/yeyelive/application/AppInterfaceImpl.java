@@ -1,10 +1,12 @@
 package com.angelatech.yeyelive.application;
 
+import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 
 import com.angelatech.yeyelive.db.DatabaseHelper;
+import com.appsflyer.AppsFlyerLib;
 import com.facebook.FacebookSdk;
 import com.xj.frescolib.Config.FrescoHelper;
 
@@ -22,7 +24,7 @@ public class AppInterfaceImpl implements AppInterface {
 
     @Override
     public void initThirdPlugin(final Context context) {
-        //AppsFlyerLib.getInstance().startTracking((Application) context, "70567ec6-da70-48e3-ab54-29a1451b9e91");
+        AppsFlyerLib.getInstance().startTracking((Application) context, "9v5atDfx84wq3afTjwjsub");
         pool.execute(new Runnable() {
             @Override
             public void run() {
