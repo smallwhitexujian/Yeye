@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yeye Live</string>
+    <!-- header -->
+    <string name="empty_header_str" />
+    <!--登录-->
+    <string name="login_id_hint">账号/手机</string>
+    <string name="login_password_hint">密码</string>
+    <string name="login_title">登录</string>
+    <string name="login_quick">快捷登录</string>
+    <string name="login_forgot_pwd">忘记密码?</string>
+    <string name="title_activity_select_address">选择地区</string>
+    <string name="login_suc">登录成功</string>
+    <string name="login_faild">登录失败</string>
+    <string name="change_login_type">请选择登录方式</string>
+    <!--用户信息编辑-->
+    <string name="user_sex">性别</string>
+    <string name="user_male">男性</string>
+    <string name="user_female">女性</string>
+    <string name="user_name">昵称</string>
+    <string name="user_name_hint">请输入昵称，空格除外</string>
+    <string name="user_sex_prompt">性别选择后不可修改，请慎重选择</string>
+    <string name="camera">相机</string>
+    <string name="album">相册</string>
+    <string name="upload_photo_error">头像上传失败</string>
+    <!--手机登录注册-->
+    <string name="phone_login_input_phone">请输入手机号</string>
+    <string name="phone_login_input_code">输入验证码</string>
+    <string name="phone_login_send_code">发送验证码</string>
+    <string name="phone_login_retry_send" formatted="false">重新发送(%s)</string>
+    <string name="phone_login_title">手机登录</string>
+    <string name="phone_login_country_area">国家地区</string>
+    <string name="phone_login_next_step">下一步</string>
+    <string name="phone_login_default_country">马来西亚</string>
+    <string name="phone_login_default_country_area_num">60</string>
+    <string name="phone_login_illegal_phone">手机号码错误</string>
+    <string name="phone_login_area_prefix">+</string>
+    <!--选择国家-->
+    <string name="select_country">选择国家和地区</string>
+    <string name="select_country_search">搜索</string>
+    <!-- button-->
+    <string name="button_submit">提交</string>
+    <string name="button_editor">编辑</string>
+    <string name="button_next">下一步</string>
+    <string name="button_resend">重发</string>
+    <string name="button_confirm">确认</string>
+    <string name="button_cancel">取消</string>
+    <string name="button_release">发布</string>
+    <string name="button_closed">返回</string>
+    <string name="button_close">关闭</string>
+    <string name="button_more">更多</string>
+    <string name="button_complete">完成</string>
+    <string name="button_myleceived">历史</string>
+    <string name="button_send">发送</string>
+    <string name="button_finish">完成</string>
+    <string name="button_new_user">注册</string>
+    <string name="button_login">登录</string>
+    <string name="button_private_chat">私聊</string>
+    <string name="button_top_up">充值</string>
+    <string name="button_top_up_submit">确认充值</string>
+    <string name="button_large_bar">大包</string>
+    <string name="button_save">保存</string>
+    <string name="button_yes">同意</string>
+    <string name="button_disagree">拒绝</string>
+    <string name="button_downloads">直接下载</string>
+    <string name="button_google_play">Google商店</string>
+    <string name="button_cancal_up">继续坚持老版</string>
+    <string name="button_Reconnection">重连</string>
+    <string name="reply">回复</string>
+    <string name="moment_details">评论</string>
+    <string name="end_live">结束直播</string>
+    <string name="set_network">设置网络</string>
+    <string name="moment">广场</string>
+    <string name="comment">评论</string>
+    <string name="people">他/她</string>
+    <string name="just">刚才</string>
+    <string name="view_all">查看所有</string>
+    <string name="input_complete">留下您的评论.</string>
+    <string name="girls">女孩</string>
+    <string name="date">时间</string>
+    <string name="my_post">我的动态</string>
+    <string name="input_id">输入ID</string>
+    <string name="title_activity_chat_room">ChatRoomActivity</string>
+    <string name="channel_error_title">Connection error</string>
+    <string name="ok">Ok</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_live_finish">LiveFinishActivity</string>
+    <string name="go_in">加载中……</string>
+    <!--facebook-->
+    <string name="shareTitle">Yeye Live Share</string>
+    <string name="shareDescription" formatted="false">Yeye Live, Live show of talent!</string>
+    <string name="success">成功.</string>
+    <string name="apply_success">申请成功</string>
+    <string name="successfully_posted_post">Post ID: %1$s</string>
+    <string name="error">错误</string>
+    <string name="clear">清空</string>
+    <!---主页-->
+    <string name="live_hot">热门</string>
+    <string name="live_follow">关注</string>
+    <string name="live_new">最新</string>
+    <string name="live_hot_default_area">Yeye My</string>
+    <!--通知栏-->
+    <string name="notify_default_title">收到新消息</string>
+    <string name="notify_default_message">新消息</string>
+    <string name="notify_default_ticker">新消息</string>
+    <string name="notify_live_content">%s开播了</string>
+    <!--搜索-->
+    <string name="search_hint">搜索用户或用户ID</string>
+    <string name="search_nick_name">昵称</string>
+    <string name="search_intimacy">知名度</string>
+    <string name="search_fans">粉丝</string>
+    <string name="search_attention">关注</string>
+    <string name="search_pull_blacklist">拉黑</string>
+    <string name="search_report">举报</string>
+    <string name="formatted_1" formatted="false">送给你：%s</string>
+    <string name="formatted_2" formatted="false">我是%s欢迎大家进我的舞台！</string>
+    <string name="gift_code1012">您的金币不够.</string>
+    <!--我的-->
+    <string name="attention">我的关注</string>
+    <string name="fans">我的粉丝</string>
+    <string name="diamond">我的金币</string>
+    <string name="Coins" formatted="false">金币: %s</string>
+    <string name="setting">设置</string>
+    <string name="exit">退出</string>
+    <string name="intimacy">知名度:</string>
+    <string name="ID">ID:</string>
+    <string name="default_sign">该用户很懒，什么都没留下</string>
+    <!--充值-->
+    <string name="pay_success">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_cancel">取消支付</string>
+    <string name="pay_deny">支付被拒绝</string>
+    <string name="pay_unknown">支付返回</string>
+    <string name="pay_error">支付错误</string>
+    <string name="ali_pay">支付宝充值</string>
+    <string name="wx_pay">微信充值</string>
+    <string name="choice_amount">请选择金额</string>
+    <string name="choice_way">请选择支付方式</string>
+    <string name="text_desc">温馨提示：请在网络良好的情况下充值，为保证顺利充值请耐心 等待充值返回，不要进行其他无关的操作。</string>
+    <!--个人信息-->
+    <string name="userinfo_title">个人信息</string>
+    <string name="userinfo_edit_finish">完成</string>
+    <string name="userinfo_user_header">头像</string>
+    <string name="userinfo_user_nickname">昵称</string>
+    <string name="userinfo_user_sign">个性签名</string>
+    <string name="userinfo_sign_unkonw">未填写</string>
+    <string name="user_info_mail">邮箱</string>
+    <string name="user_info_hint_email">请输入邮箱地址</string>
+    <string name="user_info_mail_error">邮箱格式错误</string>
+    <!--设置-->
+    <string name="setting_title">设置</string>
+    <string name="setting_live_notify">直播消息提醒</string>
+    <string name="setting_video_filter">美颜效果</string>
+    <string name="setting_bind_qq">绑定QQ</string>
+    <string name="setting_bind_weixin">绑定微信</string>
+    <string name="setting_bind_phone">绑定手机</string>
+    <string name="setting_bind_facebook">绑定Facebook</string>
+    <string name="setting_clear_cache">清除缓存</string>
+    <string name="setting_binded">已绑定</string>
+    <string name="setting_go_bind">未绑定</string>
+    <string name="setting_feedback">意见反馈</string>
+    <string name="setting_about_us">关于我们</string>
+    <string name="setting_blacklist">黑名单</string>
+    <string name="setting_bind_faild">绑定失败</string>
+    <string name="setting_bind_suc">绑定成功</string>
+    <string name="setting_clear_cache_dialog">清除缓存</string>
+    <!--关于我们-->
+    <string name="about_title">关于我们</string>
+    <string name="copyright">\@2016 Angela Technology Co., Limited</string>
+    <string name="lisence_hint">直播用户许可服务协议</string>
+    <string name="comp">Angela Technology Co., Ltd.</string>
+    <string name="versionCode">版本号</string>
+    <string name="about_us_qq">商务合作邮箱：bd@iamyeye.com</string>
+    <string name="about_us_secret_sign">邮件名称：YEYE商务合作</string>
+    <string name="lisence_title">用户许可及服务协议</string>
+    <!--绑定-->
+    <!--手机绑定-->
+    <string name="phone_bind_title">绑定手机</string>
+    <string name="phone_bind">绑定</string>
+    <string name="phone_bind_suc">手机绑定成功</string>
+    <string name="phone_bind_faild">手机绑定失败</string>
+    <string name="begin_live_title">输入主题吸引更多观众</string>
+    <string name="btn_begin_live">开始直播</string>
+    <string name="user_focus">我的关注</string>
+    <string name="user_fans">我的粉丝</string>
+    <string name="txt_live_time" formatted="false">直播时间：%s</string>
+    <string name="live_num">看过的人</string>
+    <string name="live_coin">收获的金币</string>
+    <string name="back_home">返回首页</string>
+    <string name="live_end">直播已结束</string>
+    <string name="live_end_bg">直播结束背景</string>
+    <string name="chatline">聊天</string>
+    <string name="share">分享</string>
+    <string name="follow">关注</string>
+    <string name="switch_camera">切换摄像头</string>
+    <string name="gift">礼物</string>
+    <string name="please_input">请输入聊天内容</string>
+    <string name="send">发送</string>
+    <string name="recharge"><![CDATA[充值>]]></string>
+    <string name="gift_send">赠送</string>
+    <string name="send_people">送给:</string>
+    <string name="user_name_input">昵称输入不符合规则</string>
+    <!--没有数据时候显示-->
+    <string name="no_data_no_live">主播正在赶来的路上</string>
+    <string name="no_data_no_live_hot">主播正在赶来的路上</string>
+    <string name="no_data_watch_hot">去看看热门直播</string>
+    <string name="no_data_watch_follow">去看看最新热门直播</string>
+    <string name="no_data_not_match_people">抱歉，找不到符合条件的人</string>
+    <string name="no_data_no_fans">没有粉丝</string>
+    <string name="no_data_no_follow">没有关注</string>
+    <string name="no_data_no_blacklist">没有黑名单</string>
+    <string name="activity_feedback_title">反馈</string>
+    <string name="feedback_prompt">如果您的建议被采纳，还有金币奖励哦！</string>
+    <string name="feedback_edit_hint">请输入你想说的</string>
+    <string name="feedback_phone_mail_prompt">你的手机号或邮箱，方便我们和你联系，只有工作人员知道</string>
+    <string name="feedback_phone_mail_edit_hint">手机或邮箱</string>
+    <string name="feedback_communication">好的建议请发送给support@iamyeye.com</string>
+    <string name="no_data_no_info">没有数据</string>
+    <string name="no_data_more">没有更多数据</string>
+    <string name="user_other">Otro</string>
+    <string name="upload_photo_suc">图像上传成功</string>
+    <!--黑名单-->
+    <string name="blacklist_title">黑名单</string>
+    <string name="blacklist_delete">从黑名单删除</string>
+    <!--查看用户信息对话框-->
+    <string name="userinfo_dialog_usernick">昵称</string>
+    <string name="userinfo_dialog_user_sign">签名</string>
+    <string name="userinfo_dialog_user_fans">粉丝</string>
+    <string name="userinfo_dialog_user_attention">关注</string>
+    <string name="userinfo_dialog_user_do">拉黑举报</string>
+    <string name="userinfo_dialog_pull_blacklist_suc">拉黑成功</string>
+    <string name="userinfo_dialog_pull_blacklist_faild">拉黑失败</string>
+    <string name="userinfo_dialog_report_suc">举报成功</string>
+    <string name="userinfo_dialog_report_faild">举报失败</string>
+    <string name="userinfo_dialog_live">开播</string>
+    <string name="userinfo_dialog_close_live">结束播放</string>
+    <string name="userinfo_dialog_do_pull_blacklist">拉黑</string>
+    <string name="userinfo_dialog_do_report">举报</string>
+    <string name="userinfo_dialog_do_kick">踢人</string>
+    <string name="userinfo_dialog_do_cancel">取消</string>
+    <string name="not_send_gift_me">不能给自己发送礼物</string>
+    <string name="quit_room">确定离开房间吗？</string>
+    <string name="finish_room">确定结束直播吗？</string>
+    <string name="the_server_connect_fail">服务器连接失败！</string>
+    <string name="room_login_failed">房间登录失败</string>
+    <string name="you_are_invited_out_of_the_room">您被请出了房间</string>
+    <string name="room_peerconnection_error">流媒体连接失败</string>
+    <string name="room_conne">连接房间服务器…</string>
+    <string name="room_peerconn">正在连接流媒体服务器…</string>
+    <string name="room_peerconn_success">连接成功…</string>
+    <string name="room_net_toast">网络状况不佳！</string>
+    <string name="room_net_toast_error">你的网络睡着了</string>
+    <string name="not_weibo">您未安装微博</string>
+    <string name="me_online">进入房间</string>
+    <string name="not_font">没有权限</string>
+    <string name="me">我</string>
+    <string name="login_room_fail">登陆房间失败</string>
+    <string name="please_select_gift_people">请选择礼物接收人</string>
+    <string name="please_input_text">请输入聊天内容</string>
+    <string name="traffic_alert">当前使用手机数据流量，是否继续开播？</string>
+    <string name="continue_to_watch">当前使用手机数据流量，是否继续观看？</string>
+    <string name="data_get_fail">直播数据获取失败！</string>
+    <string name="fail">失败！</string>
+    <!--banner-->
+    <string name="banner_title">推广</string>
+    <string name="alipay_testing">支付宝充值调试中…</string>
+    <string name="setting_network">设置网络</string>
+    <string name="not_network">无可用网络连接，请检查手机网络设置或尝试重启手机！</string>
+    <!--google play-->
+    <string name="recharge_title">充值</string>
+    <string name="server_require_faild">服务器连接失败，请重试</string>
+    <string name="reissue_faild">补单失败</string>
+    <string name="inquiry_faild">查询失败</string>
+    <string name="illegal_sku">不合法sku</string>
+    <string name="purchase_success">购买成功</string>
+    <string name="cancel_purcase">取消购买</string>
+    <string name="select_coin">选择金额充值:</string>
+    <string name="diamond_balance">金币余额</string>
+    <string name="exchange_coin">兑换金币</string>
+    <string name="balance">余额</string>
+    <string name="recharge_unit">MYR </string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
+    <string name="purchase_cancel">取消购买</string>
+    <string name="google_play_useless">google play 不能用</string>
+    <string name="un">个</string>
+    <string name="login_text_desc">用户条款</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_login_facebook">Facebook 登录</string>
+    <string name="btn_wechat">微信登录</string>
+    <string name="room_system_message" formatted="false">欢迎 %s，来到 Yeye 直播!</string>
+    <string name="share_to">分享到: </string>
+    <string name="share_we_chat">微信</string>
+    <string name="share_we_chat_pyq">朋友圈</string>
+    <string name="microom_code_1">用户未找到</string>
+    <string name="microom_code_1001">解包错误</string>
+    <string name="microom_code_1002">进入房间失败</string>
+    <string name="microom_code_1003">用户未找到</string>
+    <string name="microom_code_1004">房间未找到</string>
+    <string name="microom_code_1005">无剩余麦</string>
+    <string name="microom_code_1006">房间在线人数超出上限</string>
+    <string name="microom_code_1007">已进过房间，未正常退出</string>
+    <string name="microom_code_1008">被禁言</string>
+    <string name="microom_code_1009">无权限操作</string>
+    <string name="microom_code_1010">余额不足</string>
+    <string name="microom_code_1011">被踢出</string>
+    <string name="microom_code_1012">币不足</string>
+    <string name="microom_code_1013">礼物不存在</string>
+    <string name="microom_code_1014">签名效验失败</string>
+    <string name="microom_code_1015">房间被锁定</string>
+    <string name="microom_code_1016">已经在麦</string>
+    <string name="microom_code_1017">未占有麦</string>
+    <string name="microom_code_1018">已加入房间</string>
+    <string name="microom_code_1019">其他管理员已处理</string>
+    <string name="microom_code_1020">目标用户不是房间成员</string>
+    <string name="microom_code_1021">目标用户不是管理员</string>
+    <string name="room_goDownMIc_dialog">你是否要下麦</string>
+    <string name="net_connent_error">网络连接失败！</string>
+    <string name="send_pepole2">赠送</string>
+    <string name="click_open_location">打开地理位置</string>
+
+    <string name="setting_exit_dialog">确认退出该账号吗？</string>
+    <string name="text_line_desc_now">人在看</string>
+    <string name="text_line_desc_already">人看过</string>
+    <string name="play_finish">播放结束</string>
+    <string name="re_play">再看一次</string>
+    <string name="play_stop">停止</string>
+    <string name="report_prompt">确认举报该视频吗？</string>
+    <string name="report_repeat">已经举报过了</string>
+    <string name="restart_play">重新播放</string>
+    <string name="change_password">修改密码</string>
+    <string name="old_password">原密码</string>
+    <string name="new_password">新密码</string>
+    <string name="Confirm_password">确认密码</string>
+    <string name="confirm_changes">确认修改</string>
+    <string name="can_not_empty">密码不能为空</string>
+    <string name="set_password">设置密码</string>
+    <string name="reset_password">重置密码</string>
+    <string name="set_password_complete">完成</string>
+    <string name="set_password_skip">跳过</string>
+    <string name="login_password">输入密码</string>
+    <string name="activity_login_password">登录</string>
+    <string name="login_code">验证码登录</string>
+    <string name="find_password">找回密码</string>
+    <string name="activity_register">注册</string>
+    <string name="login_now">正在自动登录,请稍后…</string>
+    <string name="login_now_please">正在登录,请稍后…</string>
+    <string name="need_to_login_again">密码修改成功,现在去重新登录</string>
+    <string name="now_submit">正在提交,请稍后</string>
+    <string name="password_error">密码不符合规则</string>
+    <string name="password_gz">密码必须包含字母和数字(6–22位)</string>
+    <string name="activity_title_video">我的视频</string>
+    <string name="Invite_facebook_friends">邀请Facebook好友</string>
+    <string name="text_delete">删除</string>
+    <string name="text_frontCover">封面</string>
+    <string name="no_data_no_video">没有视频</string>
+    <string name="video_delete_success">删除成功</string>
+    <string name="video_delete_error">删除失败</string>
+    <string name="change_password_no_permissions">第三方登录不能修改密码</string>
+    <string name="tickets">门票:</string>
+    <string name="Ticket_sales">门票收入</string>
+    <string name="resolution">分辨率:</string>
+    <string name="dialog_tickets">本场直播需要购买门票</string>
+    <string name="dialog_go_play">马上去支付</string>
+    <string name="dialog_coin_lack_of_balance">金币不足,立刻去充值</string>
+    <string name="save_live_video">保存视频</string>
+    <string name="other_place_login_kick_out">其它地方登录</string>
+    <string name="mic_desc">主播人气越高，收到的礼物就越多。喜欢TA吗？那就关注一下TA哦！拉你的小伙伴一起进来玩吧！</string>
+    <string name="live_time_short">直播时间小于一分钟无法保存，确定结束吗?</string>
+    <string name="no_camera_permission">没有权限使用摄像头，请开启摄像头权限</string>
+    <string name="no_record_audio_permission">没有权限使用录音，请开启录音权限</string>
+    <string name="activity_video">视频</string>
+    <string name="last_cover">修改封面，默认使用上次封面!</string>
+
+    <string name="updata_tops">版本更新</string>
+    <string name="updata_tops_content">"请下载最新版本! \n\n"</string>
+    <string name="updata_progress">"正在下载中，请稍后"</string>
+    <string name="updata_file_success">文件下载完成…</string>
+    <string name="tops_video" formatted="false">只保存最近的%s段视频</string>
+
+    <!--房间 -->
+    <string name="append_follow">路人转粉</string>
+    <string name="append_sherad">分享了直播</string>
+
+    <!-- 排行榜 -->
+    <string name="rank_history_dedicated">历史奉献榜</string>
+    <string name="rank_seven_dedicated">七日奉献榜</string>
+    <string name="rank_title">排行榜</string>
+    <string name="dedicate">奉献:</string>
+    <string name="rank_coin">金币</string>
+    <string name="rank_my">我</string>
+    <string name="save_exit_tips">确定不保存本次视频吗?</string>
+
+    <!-- 消息通知-->
+    <string name="system_msg">消息通知</string>
+    <string name="system_clear">忽略未读</string>
+    <string name="system_gf">官方消息</string>
+    <string name="system_click">点击查看</string>
+    <string name="system_new_fans">新增粉丝</string>
+    <string name="system_red_notice">红包消息通知</string>
+    <string name="system_fans_notice">新增粉丝通知</string>
+    <string name="system_gf_notice">官方消息通知</string>
+    <string name="system_red_title">红包消息</string>
+    <string name="paly_title">发红包</string>
+    <string name="play_edit_coins">塞入金币</string>
+    <string name="play_str">个</string>
+    <string name="play_context">留言</string>
+    <string name="coins_low">余额不足</string>
+    <string name="recharge_coin">充值</string>
+    <string name="system_red_received">收到</string>
+    <string name="system_red_red">的红包</string>
+    <string name="system_red_tips">主播关注你好久了，非常喜欢你直播，希望能交个朋友！</string>
+    <string name="system_red_msg">红包消息</string>
+    <string name="system_fans_msg">粉丝消息</string>
+    <string name="system_follow">关注了你</string>
+</resources>
