@@ -24,7 +24,6 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.StringHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive.view.LoadingDialogNew;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.string.security.Md5;
@@ -45,7 +44,6 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     private TextView mSelectCountry, mAreaText, tv_find_password, login_btn;
     private CountrySelectItemModel selectItemModel;
     private EditText ed_pass_word, ed_phoneNumber;
-    private LoadingDialogNew loading;
     private LoginUserModel autoLogin = null;
     private String loginUserId, loginUserPassword;
 
@@ -58,7 +56,6 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     }
 
     private void initView() {
-        loading = new LoadingDialogNew();
         mAreaText = (TextView) findViewById(R.id.area_text);
         mSelectCountry = (TextView) findViewById(R.id.select_country);
         tv_find_password = (TextView) findViewById(R.id.tv_find_password);
@@ -109,7 +106,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 }
                 break;
             case MSG_LOGIN_NOW: //自动登录
-                loading.showSysLoadingDialog(this, getString(R.string.login_now));
+                LoadingDialog.showLoadingDialog(this,null);
                 login(autoLogin.countryCode + autoLogin.phone, autoLogin.password);
                 break;
         }
@@ -153,7 +150,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
      */
     private void login(String userId, String password) {
         if (!userId.isEmpty() && !password.isEmpty()) {
-            loading.showSysLoadingDialog(this, getString(R.string.login_now_please));
+            LoadingDialog.showLoadingDialog(this, null);
             new PhoneLogin(this).loginPwd(userId, Md5.md5(password), httpCallback);
         }
     }
@@ -162,7 +159,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
      * 保存密码回调
      * 保存密码到本地数据库
      */
-    HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
+    private HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
         @Override
         public void onFailure(Map<String, ?> errorMap) {
             LoadingDialog.cancelLoadingDialog();
@@ -170,7 +167,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
 
         @Override
         public void onSuccess(String response) {
-            loading.cancelLoadingDialog();
+            LoadingDialog.cancelLoadingDialog();
             if (response != null) {
                 CommonParseListModel<BasicUserInfoDBModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<BasicUserInfoDBModel>>() {
                 }.getType());

@@ -66,7 +66,7 @@ import com.angelatech.yeyelive.view.CommChooseDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
-import com.angelatech.yeyelive.view.LoadingDialogNew;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.framework.socket.model.SocketConfig;
@@ -124,7 +124,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     //重连的次数
     private int connectionServiceNumber = 0;
     private int rtmpConnectNumber = 0; //流媒体连接次数
-    private LoadingDialogNew LoadingDialog;
     //房间是否初始化
     private boolean isInit = false;
     private boolean isSysMsg = false;
@@ -230,8 +229,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private void initView() {
         Cocos2dxGiftCallback.onCreate(uiHandler);
         userModel = CacheDataManager.getInstance().loadUser();
-        LoadingDialog = new LoadingDialogNew();
-        LoadingDialog.showLoadingDialog(ChatRoomActivity.this);
+        LoadingDialog.showLoadingDialog(ChatRoomActivity.this,null);
         chatRoom = new ChatRoom(this);
         camera_surface = (SurfaceView) findViewById(R.id.camera_surface);
         body = (RelativeLayout) findViewById(R.id.body);
