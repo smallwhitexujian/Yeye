@@ -19,14 +19,6 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.pili.pldroid.player.widget.PLVideoTextureView
-        android:id="@+id/plVideoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:visibility="gone" />
-
-
     <com.xj.frescolib.View.FrescoDrawee
         android:id="@+id/default_img"
         android:layout_width="match_parent"

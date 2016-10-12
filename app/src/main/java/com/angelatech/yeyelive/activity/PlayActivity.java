@@ -51,7 +51,6 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.pili.pldroid.player.PLMediaPlayer;
-import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -82,7 +81,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private final int MSG_INPUT_LIMIT = 100;
     private SurfaceView player_surfaceView;
     private Button player_replay_btn, btn_back;
-    private LinearLayout player_ctl_layout,layout_onClick;
+    private LinearLayout player_ctl_layout, layout_onClick;
     private RelativeLayout ly_playfinish;
     private SeekBar player_seekBar;
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
@@ -98,11 +97,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
     private boolean boolReport = false; //是否举报
 
-    private boolean isQiniuSDK = false;
-    private PLVideoTextureView plVideoTextureView;
-    private PLVideoTextureUtils plUtils;
     private volatile int time = 5000;
-    private boolean isonclick = true;
 
     Runnable runnable = new Runnable() {
         @Override
@@ -167,9 +162,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         if (cocos2dxGift != null) {
             cocos2dxGift.destroy();
         }
-        if (plUtils != null) {
-            plUtils.onDestroy();
-        }
     }
 
     @Override
@@ -177,9 +169,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         super.onPause();
         if (cocos2dxView != null) {
             cocos2dxView.onPause();
-        }
-        if (plUtils != null) {
-            plUtils.onPause();
         }
     }
 
@@ -189,13 +178,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         if (cocos2dxView != null) {
             cocos2dxView.onResume();
         }
-        if (plUtils != null) {
-            plUtils.onResume();
-        }
     }
 
     private void initView() {
-        plVideoTextureView = (PLVideoTextureView) findViewById(R.id.plVideoView);
         default_img = (FrescoDrawee) findViewById(R.id.default_img);
 
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
@@ -231,11 +216,8 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         tv_report.setOnClickListener(click);
         backBtn.setOnClickListener(click);
         layout_onClick.setOnClickListener(click);
-        plVideoTextureView.setOnClickListener(click);
         // 为进度条添加进度更改事件
-        if (!isQiniuSDK) {
-            player_seekBar.setOnSeekBarChangeListener(change);
-        }
+        player_seekBar.setOnSeekBarChangeListener(change);
 
         CommonHandler<PlayActivity> mCommonHandler = new CommonHandler<>(this);
 
@@ -252,24 +234,14 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 UserIsFollow();
             }
         }
-
-        if (!isQiniuSDK) {
-            mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
-            player_surfaceView.setVisibility(View.VISIBLE);
-            // 为SurfaceHolder添加回调
-            player_surfaceView.getHolder().addCallback(new SurfaceViewHolderCallback(mVideoPlayer));
-            // 4.0版本之下需要设置的属性
-            // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面
-            // player_surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-            mVideoPlayer.prepare();
-        } else {
-            // 为进度条添加进度更改事件
-            plUtils = new PLVideoTextureUtils();
-            plUtils.init(this, plVideoTextureView, PLVideoTextureUtils.REMEDIACODEC, PLVideoTextureUtils.LIVESTREAMING, path, null);
-            plVideoTextureView.setVisibility(View.VISIBLE);
-            plUtils.setSeekBar(player_seekBar);
-            plUtils.setCallBack(this);
-        }
+        mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
+        player_surfaceView.setVisibility(View.VISIBLE);
+        // 为SurfaceHolder添加回调
+        player_surfaceView.getHolder().addCallback(new SurfaceViewHolderCallback(mVideoPlayer));
+        // 4.0版本之下需要设置的属性
+        // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面
+        // player_surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mVideoPlayer.prepare();
     }
 
     private SeekBar.OnSeekBarChangeListener change = new SeekBar.OnSeekBarChangeListener() {
@@ -320,26 +292,12 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                             mVideoPlayer.pause();
                         }
                     }
-                    if (isQiniuSDK) {
-                        if (isonclick) {
-                            isonclick = false;
-                            plUtils.onClickPause();
-                            player_play_btn.setImageResource(R.drawable.btn_playback_play);
-                        } else {
-                            isonclick = true;
-                            plUtils.onClickResume();
-                            player_play_btn.setImageResource(R.drawable.btn_playback_stop);
-                        }
-                    }
                     break;
                 case R.id.player_replay_btn:
                     ly_playfinish.setVisibility(View.GONE);
                     player_play_btn.setImageResource(R.drawable.btn_playback_stop);
                     if (mVideoPlayer != null) {
                         mVideoPlayer.replay();
-                    }
-                    if (isQiniuSDK) {
-                        plUtils.onClickPlay();
                     }
                     break;
                 case R.id.btn_back:
