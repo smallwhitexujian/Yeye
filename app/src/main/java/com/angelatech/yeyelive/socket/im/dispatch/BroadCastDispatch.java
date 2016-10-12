@@ -144,20 +144,21 @@ public class BroadCastDispatch extends Dispatchable {
                             }
                             systemMessage.add(systemMessageDBModel);
                             break;
-                        case SystemMessageType.NOTICE_RED_MSG:
+                        case SystemMessageType.NOTICE_RED_MSG://红包消息
                             checkReadOrNot();
                             try {
                                 title = mContext.getString(R.string.system_red_msg);
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
-                                mContent = msgJsonObj.getString("msg");
-                                systemMessageDBModel.content = mContent;
+                                String content = msgJsonObj.getString("msg");
+                                systemMessageDBModel.content = content;
+                                systemMessage.add(systemMessageDBModel);
+                                mContent = content == null ? mContext.getString(R.string.system_red_tips) : content;
                                 if (App.isredNotify) {
                                     NotificationUtil.launchNotifyDefault(mContext, NotificationUtil.NOTICE_RED_MSG, ticker, title, mContent, MessageRedActivity.class);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            systemMessage.add(systemMessageDBModel);
                             break;
                     }
                     mContent = "";//还原
@@ -176,11 +177,12 @@ public class BroadCastDispatch extends Dispatchable {
                             try {
                                 JSONObject msgJsonObj = new JSONObject(noticeMessageDBModel.data);
                                 msgStr = msgJsonObj.getString("msg");
+                                mContent = msgStr == null ? "" : msgStr;
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                             if (App.isofficialNotify) {
-                                NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, message, message, msgStr, MessageOfficialActivity.class);
+                                NotificationUtil.launchNotifyDefault(mContext, requestSystemNoticeCode, message, message, mContent, MessageOfficialActivity.class);
                             }
                             break;
                     }

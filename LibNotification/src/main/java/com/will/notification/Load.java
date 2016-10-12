@@ -78,29 +78,18 @@ public class Load {
     }
 
     public Load message(int message) {
-        if (message <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
-        }
-
         this.message = mContext.getResources().getString(message);
         this.builder.setContentText(this.message);
         return this;
     }
 
     public Load message(String message) {
-        if (message.trim().length() == 0) {
-            throw new IllegalArgumentException("Message Must Not Be Empty!");
-        }
         this.message = message;
         this.builder.setContentText(message);
         return this;
     }
 
     public Load message(Spanned messageSpanned) {
-        if (messageSpanned.length() == 0) {
-            throw new IllegalArgumentException("Message Must Not Be Empty!");
-        }
-
         this.messageSpanned = messageSpanned;
         this.builder.setContentText(messageSpanned);
         return this;
