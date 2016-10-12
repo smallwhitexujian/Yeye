@@ -81,14 +81,15 @@ public class PeriscopeLayout extends RelativeLayout {
 
     private void init(Context mContext) {
         //初始化显示的图片
-        drawables = new Drawable[7];
-        Drawable love_0 = ContextCompat.getDrawable(mContext,R.drawable.love_heart1);
-        Drawable love_1 = ContextCompat.getDrawable(mContext,R.drawable.love_heart2);
-        Drawable love_2 = ContextCompat.getDrawable(mContext,R.drawable.love_heart3);
-        Drawable love_3 = ContextCompat.getDrawable(mContext,R.drawable.love_heart4);
-        Drawable love_4 = ContextCompat.getDrawable(mContext,R.drawable.love_heart5);
-        Drawable love_5 = ContextCompat.getDrawable(mContext,R.drawable.love_heart6);
-        Drawable love_6 = ContextCompat.getDrawable(mContext,R.drawable.love_heart7);
+        drawables = new Drawable[8];
+        Drawable love_0 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_1);
+        Drawable love_1 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_2);
+        Drawable love_2 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_3);
+        Drawable love_3 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_4);
+        Drawable love_4 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_5);
+        Drawable love_5 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_6);
+        Drawable love_6 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_7);
+        Drawable love_7 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_8);
 
         drawables[0] = love_0;
         drawables[1] = love_1;
@@ -97,6 +98,7 @@ public class PeriscopeLayout extends RelativeLayout {
         drawables[4] = love_4;
         drawables[5] = love_5;
         drawables[6] = love_6;
+        drawables[7] = love_7;
         //获取图的宽高 用于后面的计算
         //注意 我这里3张图片的大小都是一样的,所以我只取了一个
         dHeight = love_0.getIntrinsicHeight();

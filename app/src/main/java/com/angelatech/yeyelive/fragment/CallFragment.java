@@ -702,42 +702,24 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
-                if (App.isqupai) {
-                    App.chatRoomApplication.livePush.OpenFace();
-                    if (App.chatRoomApplication.livePush.FLAG_BEAUTY_ON) {//开启美颜
-                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
-                    } else {
-                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
-                    }
+                if (bVideoFilter) {
+                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
+                    App.chatRoomApplication.setOpenFB();
                 } else {
-                    if (bVideoFilter) {
-                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
-                        App.chatRoomApplication.setOpenFB();
-                    } else {
-                        App.chatRoomApplication.setOpenFB();
-                        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
-                    }
-                    bVideoFilter = !bVideoFilter;
+                    App.chatRoomApplication.setOpenFB();
+                    btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
                 }
+                bVideoFilter = !bVideoFilter;
                 break;
             case R.id.button_lamp://闪光灯
-                if (App.isqupai) {
-                    App.chatRoomApplication.livePush.Openlamp();
-                    if (App.chatRoomApplication.livePush.FLAG_FLASH_MODE_ON) {//开启闪光灯
-                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
-                    } else {
-                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
-                    }
+                if (bFlashEnable) {
+                    App.chatRoomApplication.setmTurnLight(false);
+                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
                 } else {
-                    if (bFlashEnable) {
-                        App.chatRoomApplication.setmTurnLight(false);
-                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_s);
-                    } else {
-                        App.chatRoomApplication.setmTurnLight(true);
-                        btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
-                    }
-                    bFlashEnable = !bFlashEnable;
+                    App.chatRoomApplication.setmTurnLight(true);
+                    btn_lamp.setImageResource(R.drawable.btn_start_play_flash_n);
                 }
+                bFlashEnable = !bFlashEnable;
                 break;
             case R.id.ly_main:
                 if (ly_send.getVisibility() == View.VISIBLE) {

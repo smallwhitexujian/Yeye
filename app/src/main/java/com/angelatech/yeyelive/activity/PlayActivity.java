@@ -373,7 +373,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         window.getDecorView().setPadding(0, 0, 0, 0);
         window.setGravity(Gravity.CENTER);
         window.setContentView(R.layout.dialog_red);
-
+        userModel = CacheDataManager.getInstance().loadUser();
         final EditText edit_coins = (EditText) window.findViewById(R.id.edit_coins);
         edit_context = (EditText) window.findViewById(R.id.edit_context);
         edit_num = (TextView) window.findViewById(R.id.edit_num);
@@ -389,7 +389,8 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             public void onClick(View v) {
                 String aomunt = edit_coins.getText().toString();
                 String context = edit_context.getText().toString();
-                if (!aomunt.isEmpty() && Long.valueOf(userModel.diamonds) > Long.valueOf(aomunt)) {
+                double userDiamonds = Double.valueOf(userModel.diamonds);
+                if (!aomunt.isEmpty() && userDiamonds > Double.valueOf(aomunt.trim())) {
                     coins_low_tips.setVisibility(View.INVISIBLE);
                     sendRed(aomunt, context);
                     dialog.dismiss();

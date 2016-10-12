@@ -649,11 +649,9 @@
     }
   ],
   "config_file_path": [
-    "shuihua1.plist",
     "fx_youting0.plist"
   ],
   "config_png_path": [
-    "shuihua1.png",
     "fx_youting0.png"
   ]
 }

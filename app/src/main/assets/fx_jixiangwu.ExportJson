@@ -328,23 +328,10 @@
       ]
     }
   ],
-  "texture_data": [],
   "config_file_path": [
-    "coin_4.plist",
-    "jixiangwu_1.plist",
-    "jixiangwu_2.plist",
-    "jixiangwu_3.plist",
-    "hongbao.plist",
-    "coin_3.plist",
-    "jixiangwu_4.plist"
+    "jixiangwu_1.plist"
   ],
   "config_png_path": [
-    "coin_4.png",
-    "jixiangwu_1.png",
-    "jixiangwu_2.png",
-    "jixiangwu_3.png",
-    "hongbao.png",
-    "coin_3.png",
-    "jixiangwu_4.png"
+    "jixiangwu_1.png"
   ]
 }

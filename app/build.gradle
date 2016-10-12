@@ -83,7 +83,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
     compile project(':LibCocos2dx')
-    compile project(':QupaiLiveSDK')
     compile files('libs/gson-2.6.2.jar')
     compile 'com.android.support:support-v4:23.3.0'
     compile files('libs/frescolib.jar')
