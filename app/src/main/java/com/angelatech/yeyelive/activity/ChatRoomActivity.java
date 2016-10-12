@@ -219,7 +219,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private void initView() {
         Cocos2dxGiftCallback.onCreate(uiHandler);
         userModel = CacheDataManager.getInstance().loadUser();
-        LoadingDialog.showLoadingDialog(ChatRoomActivity.this,null);
+        LoadingDialog.showLoadingDialog(ChatRoomActivity.this, null);
         chatRoom = new ChatRoom(this);
         body = (RelativeLayout) findViewById(R.id.body);
         ImageView button_call_disconnect = (ImageView) findViewById(R.id.button_call_disconnect);
@@ -785,11 +785,11 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 }
                             }
                             break;
-                        case 1111: //飞机
+                        case 6: //游艇
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                                cocos2dxGiftModel.aniName = "fx_jixiangwu";
-                                cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu.ExportJson";
+                                cocos2dxGiftModel.aniName = "fx_youting";
+                                cocos2dxGiftModel.exportJsonPath = "fx_youting.ExportJson";
                                 cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
                                 cocos2dxGiftModel.scale = 2f;
