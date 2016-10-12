@@ -1171,21 +1171,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     //开始礼物特效
     private void startGiftAnimation(GiftAnimationModel giftModel) {
 
-        if (!giftA) {
-            giftA = true;
-            ly_gift_view.setVisibility(View.VISIBLE);
-            ly_gift_view.startAnimation(translateAnimation_in);
-            if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
-                imageView.setImageURI(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL()));
-            }
-            if (giftModel.userheadpoto != null) {
-                gif_img_head.setImageURI(VerificationUtil.getImageUrl(giftModel.userheadpoto));
-            }
-            txt_from_user.setText(giftModel.from_uname);
-            imageView.startAnimation(translate_in);
-            GiftAnimationModelA = giftModel;
-            giftModelList.remove(giftModel);
-        } else if (!giftB) {
+        if (!giftB) {
             giftB = true;
             ly_gift_view_s.setVisibility(View.VISIBLE);
             ly_gift_view_s.startAnimation(translateAnimation_in_s);
@@ -1198,6 +1184,20 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             txt_from_user_s.setText(giftModel.from_uname);
             imageView_s.startAnimation(translate_in_s);
             GiftAnimationModelB = giftModel;
+            giftModelList.remove(giftModel);
+        } else if (!giftA) {
+            giftA = true;
+            ly_gift_view.setVisibility(View.VISIBLE);
+            ly_gift_view.startAnimation(translateAnimation_in);
+            if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
+                imageView.setImageURI(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL()));
+            }
+            if (giftModel.userheadpoto != null) {
+                gif_img_head.setImageURI(VerificationUtil.getImageUrl(giftModel.userheadpoto));
+            }
+            txt_from_user.setText(giftModel.from_uname);
+            imageView.startAnimation(translate_in);
+            GiftAnimationModelA = giftModel;
             giftModelList.remove(giftModel);
         }
 
@@ -1226,7 +1226,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         });
                     }
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(220);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1258,7 +1258,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         });
                     }
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(220);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -56,6 +57,9 @@ import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
 
+import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
+import org.cocos2dx.lib.util.Cocos2dxGift;
+import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,7 +82,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private final int MSG_INPUT_LIMIT = 100;
     private SurfaceView player_surfaceView;
     private Button player_replay_btn, btn_back;
-    private LinearLayout player_ctl_layout;
+    private LinearLayout player_ctl_layout,layout_onClick;
     private RelativeLayout ly_playfinish;
     private SeekBar player_seekBar;
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
@@ -90,7 +94,8 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private VideoModel videoModel;
     private BasicUserInfoDBModel userModel;
     private FrescoDrawee default_img;
-
+    private Cocos2dxView cocos2dxView = new Cocos2dxView();
+    private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
     private boolean boolReport = false; //是否举报
 
     private boolean isQiniuSDK = false;
@@ -120,12 +125,26 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         initView();
         setView();
         uiHandler.postDelayed(runnable, 5000);
+        initCocos2dx();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         scaleVideo(getResources().getConfiguration().orientation);
+    }
+
+    //初始化cocos
+    private void initCocos2dx() {
+        //coco2动画SurfaceView
+        cocos2dxView.onCreate(PlayActivity.this, 0);
+        Cocos2dxGLSurfaceView.ScaleInfo scaleInfo = new Cocos2dxGLSurfaceView.ScaleInfo();
+        scaleInfo.nomal = true;
+        scaleInfo.width = ScreenUtils.getScreenWidth(PlayActivity.this);
+        scaleInfo.height = ScreenUtils.getScreenHeight(PlayActivity.this);
+        cocos2dxView.setScaleInfo(scaleInfo);
+        FrameLayout giftLayout = cocos2dxView.getFrameLayout();
+        ((LinearLayout) findViewById(R.id.gift_layout)).addView(giftLayout);
     }
 
 
@@ -145,6 +164,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (cocos2dxGift != null) {
+            cocos2dxGift.destroy();
+        }
         if (plUtils != null) {
             plUtils.onDestroy();
         }
@@ -153,6 +175,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onPause() {
         super.onPause();
+        if (cocos2dxView != null) {
+            cocos2dxView.onPause();
+        }
         if (plUtils != null) {
             plUtils.onPause();
         }
@@ -161,6 +186,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onResume() {
         super.onResume();
+        if (cocos2dxView != null) {
+            cocos2dxView.onResume();
+        }
         if (plUtils != null) {
             plUtils.onResume();
         }
@@ -169,6 +197,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private void initView() {
         plVideoTextureView = (PLVideoTextureView) findViewById(R.id.plVideoView);
         default_img = (FrescoDrawee) findViewById(R.id.default_img);
+
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
         player_play_btn = (ImageView) findViewById(R.id.player_play_btn);
@@ -180,8 +209,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         btn_back = (Button) findViewById(R.id.btn_back);
         backBtn = (ImageView) findViewById(R.id.backBtn);
         player_ctl_layout = (LinearLayout) findViewById(R.id.player_ctl_layout);
+        layout_onClick = (LinearLayout) findViewById(R.id.layout_onClick);
 
-        LoadingDialog.showLoadingDialog(PlayActivity.this,null);
+        LoadingDialog.showLoadingDialog(PlayActivity.this, null);
         ly_playfinish = (RelativeLayout) findViewById(R.id.ly_playfinish);
         player_total_time = (TextView) findViewById(R.id.player_total_time);
         player_current_time = (TextView) findViewById(R.id.player_current_time);
@@ -194,13 +224,14 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         userModel = CacheDataManager.getInstance().loadUser();
         player_play_btn.setOnClickListener(click);
         player_replay_btn.setOnClickListener(click);
-
         btn_Follow.setOnClickListener(click);
         btn_red.setOnClickListener(click);
         btn_share.setOnClickListener(click);
         btn_back.setOnClickListener(click);
         tv_report.setOnClickListener(click);
         backBtn.setOnClickListener(click);
+        layout_onClick.setOnClickListener(click);
+        plVideoTextureView.setOnClickListener(click);
         // 为进度条添加进度更改事件
         if (!isQiniuSDK) {
             player_seekBar.setOnSeekBarChangeListener(change);
@@ -352,6 +383,12 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 case R.id.btn_red:
                     showRedDialog();
                     break;
+                case R.id.layout_onClick:
+                    uiHandler.removeCallbacks(runnable);
+                    uiHandler.postDelayed(runnable, 5000);
+                    player_seekBar.setVisibility(View.VISIBLE);
+                    player_ctl_layout.setVisibility(View.VISIBLE);
+                    break;
                 default:
                     break;
             }
@@ -366,7 +403,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);// 设置点击屏幕Dialog不消失
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.dialog_red, null);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_red, null);
         dialog.setView(layout);
         dialog.show();
         Window window = dialog.getWindow();
@@ -423,6 +460,13 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                             String code = jsonObject.getString("code");
                             String data = jsonObject.getString("data");
                             if (code.equals("1000")) {
+                                Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_car_white";
+                                cocos2dxGiftModel.exportJsonPath = "fx_car_white.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this) / 2;
+                                cocos2dxGiftModel.scale = 2f;
+//                                cocos2dxGift.play(cocos2dxView, cocos2dxGiftModel);
                                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, data, userModel.userid);
                             } else {
                                 ToastUtils.showToast(PlayActivity.this, ErrorHelper.getErrorHint(PlayActivity.this, code));
@@ -676,7 +720,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 break;
             case VideoPlayer.MSG_PLAYER_BUFFER_START:
                 //ToastUtils.showToast(PlayActivity.this,"开始缓存");
-                LoadingDialog.showLoadingDialog(PlayActivity.this,null);
+                LoadingDialog.showLoadingDialog(PlayActivity.this, null);
 
                 break;
             case VideoPlayer.MSG_PLAYER_BUFFER_END:

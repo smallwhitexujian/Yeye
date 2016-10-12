@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/color_262626">
 
+    <LinearLayout
+        android:id="@+id/gift_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:orientation="horizontal" />
 
     <SurfaceView
         android:id="@+id/player_surfaceView"
@@ -20,6 +26,7 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
+
     <com.xj.frescolib.View.FrescoDrawee
         android:id="@+id/default_img"
         android:layout_width="match_parent"
@@ -27,6 +34,7 @@
         android:visibility="visible" />
 
     <LinearLayout
+        android:id="@+id/layout_onClick"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
