@@ -118,99 +118,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5" />
-
-        <RelativeLayout
-            android:id="@+id/ly_gift_view"
+        <include
+            layout="@layout/view_gift"
             android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:paddingBottom="10dp"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/gift_info"
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/room_chat_bg"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingLeft="30dp"
-                android:paddingRight="40dp">
-
-                <TextView
-                    android:id="@+id/txt_from_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="18dp"
-                    android:layout_marginTop="0dp"
-                    android:maxLines="1"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/txt_gift_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="18dp"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:maxLines="1"
-                    android:text="@string/send_pepole2"
-                    android:textColor="#FFFF00"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <com.xj.frescolib.View.FrescoDrawee
-                android:id="@+id/img_gift"
-                android:layout_width="65dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="-30dp"
-                android:layout_toRightOf="@+id/gift_info"
-                android:scaleType="centerInside"
-                fresco:fadeDuration="300"
-                fresco:placeholderImage="@drawable/icon_gift"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/numText"
-                style="@style/AudioFileInfoOverlayText"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/img_gift"
-                android:visibility="visible"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/numText1"
-                style="@style/AudioFileInfoOverlayText1"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/img_gift"
-                android:visibility="visible" />
-
-            <ImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="10dp"
-                android:contentDescription="@null"
-                android:scaleType="centerInside"
-                android:src="@drawable/red_shape" />
-
-            <com.xj.frescolib.View.FrescoRoundView
-                android:id="@+id/gif_img_head"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="11dp"
-                android:layout_marginTop="1dp"
-                fresco:fadeDuration="300"
-                fresco:placeholderImage="@drawable/default_face_icon"
-                fresco:roundAsCircle="true" />
-        </RelativeLayout>
+            android:layout_height="wrap_content" />
+        <include
+            layout="@layout/view_gift_s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -66,6 +66,7 @@ import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -102,7 +103,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
-    private FrescoRoundView img_head, gif_img_head;
+    private FrescoRoundView img_head, gif_img_head, gif_img_head_s;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
     private LinearLayout ly_send, ly_toolbar, ly_main, giftView;                                    // 礼物界面
@@ -114,14 +115,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private List<OnlineListModel> PopLinkData = new ArrayList<>();
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
+    private GiftAnimationModel GiftAnimationModelA, GiftAnimationModelB;
     private ChatLineAdapter<ChatLineModel> mAdapter;
-    private RelativeLayout ly_gift_view;                                                            //礼物特效view
-    private TextView numText, numText1;                                                             //礼物数量  阴影
-    private TextView txt_from_user;                                                  //发送礼物的人，礼物名称
-    private FrescoDrawee imageView;//礼物图片， 礼物发送人的头像
+    private RelativeLayout ly_gift_view, ly_gift_view_s;                                                            //礼物特效view
+    private TextView numText, numText1, numText_s, numText1_s;                                                             //礼物数量  阴影
+    private TextView txt_from_user, txt_from_user_s;                                                  //发送礼物的人，礼物名称
+    private FrescoDrawee imageView, imageView_s;//礼物图片， 礼物发送人的头像
     private Animation translateAnimation_in, translateAnimation_out, translate_in, scaleAnimation;  //礼物特效
+    private Animation translateAnimation_in_s, translateAnimation_out_s, translate_in_s, scaleAnimation_s;  //礼物特效2
 
-    private boolean giftA = false;                                                                  //礼物特效播放状态
+    private boolean giftA = false, giftB = false;                                                                  //礼物特效播放状态
     private boolean isRun = false;
     private boolean isTimeCount = true;                                 // 是否打开倒计时
     private boolean isTimeCount2 = true;                                 // 是否打开倒计时
@@ -318,11 +321,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         });
 
         txt_from_user = (TextView) controlView.findViewById(R.id.txt_from_user);
+        txt_from_user_s = (TextView) controlView.findViewById(R.id.txt_from_user_s);
         imageView = (FrescoDrawee) controlView.findViewById(R.id.img_gift);
+        imageView_s = (FrescoDrawee) controlView.findViewById(R.id.img_gift_s);
         gif_img_head = (FrescoRoundView) controlView.findViewById(R.id.gif_img_head);
+        gif_img_head_s = (FrescoRoundView) controlView.findViewById(R.id.gif_img_head_s);
         ly_gift_view = (RelativeLayout) controlView.findViewById(R.id.ly_gift_view);
+        ly_gift_view_s = (RelativeLayout) controlView.findViewById(R.id.ly_gift_view_s);
         numText = (TextView) controlView.findViewById(R.id.numText);
         numText1 = (TextView) controlView.findViewById(R.id.numText1);
+        numText_s = (TextView) controlView.findViewById(R.id.numText_s);
+        numText1_s = (TextView) controlView.findViewById(R.id.numText1_s);
 
         TextPaint tp1 = numText.getPaint();
         tp1.setStrokeWidth(3);
@@ -333,6 +342,13 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         translate_in = AnimationUtils.loadAnimation(getActivity(), R.anim.fade2_in_anim);
         translateAnimation_out = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out_anim);
         scaleAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.thepinanim);
+
+        translateAnimation_in_s = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_anim);
+        translate_in_s = AnimationUtils.loadAnimation(getActivity(), R.anim.fade2_in_anim);
+        translateAnimation_out_s = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out_anim);
+        scaleAnimation_s = AnimationUtils.loadAnimation(getActivity(), R.anim.thepinanim);
+
+        //礼物动画
         translateAnimation_in.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -346,9 +362,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (scaleAnimation != null) {
                     numText.setVisibility(View.VISIBLE);
                     numText.startAnimation(scaleAnimation);
-                    if (giftModelList.size() > 0) {
-                        addGiftAnimationNum(giftModelList.get(0));
-                    }
+                    //礼物数量动画
+
+                    addGiftAnimationNum(GiftAnimationModelA);
+
                 }
             }
 
@@ -364,11 +381,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onAnimationEnd(Animation animation) {
                 ly_gift_view.startAnimation(translateAnimation_out);
+
                 giftA = false;
                 try {
-                    if (giftModelList.size() > 0) {
-                        giftModelList.remove(0);
-                    }
                     if (giftModelList.size() > 0) {
                         startGiftAnimation(giftModelList.get(0));
                     }
@@ -381,6 +396,54 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             public void onAnimationRepeat(Animation animation) {
             }
         });
+
+//礼物动画2
+        translateAnimation_in_s.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                String str = "x1";
+                numText_s.setText(str);
+                numText1_s.setText(str);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (scaleAnimation_s != null) {
+                    numText_s.setVisibility(View.VISIBLE);
+                    numText_s.startAnimation(scaleAnimation_s);
+
+                    addGiftAnimationNum_s(GiftAnimationModelB);
+
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        scaleAnimation_s.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                ly_gift_view_s.startAnimation(translateAnimation_out_s);
+                giftB = false;
+                try {
+                    if (giftModelList.size() > 0) {
+                        startGiftAnimation(giftModelList.get(0));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
@@ -805,6 +868,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             translateAnimation_out.cancel();
             translateAnimation_out = null;
         }
+
         if (scaleAnimation != null) {
             scaleAnimation.cancel();
             scaleAnimation = null;
@@ -816,6 +880,24 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (translate_in != null) {
             translate_in.cancel();
             translate_in = null;
+        }
+
+        if (translateAnimation_out_s != null) {
+            translateAnimation_out_s.cancel();
+            translateAnimation_out_s = null;
+        }
+
+        if (scaleAnimation_s != null) {
+            scaleAnimation_s.cancel();
+            scaleAnimation_s = null;
+        }
+        if (translateAnimation_in_s != null) {
+            translateAnimation_in_s.cancel();
+            translateAnimation_in_s = null;
+        }
+        if (translate_in_s != null) {
+            translate_in_s.cancel();
+            translate_in_s = null;
         }
 
     }
@@ -1080,24 +1162,44 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void addGifAnimation(GiftAnimationModel giftaModel) {
         giftModelList.add(giftaModel);
         //如果队列里边只有1个礼物并且当前没有处于播放状态，就开始播放礼物动画
-        if (giftModelList.size() == 1 && !giftA) {
+        if (giftModelList.size() <= 2 && (!giftA || !giftB)) {
+
             startGiftAnimation(giftModelList.get(0));
         }
     }
 
     //开始礼物特效
     private void startGiftAnimation(GiftAnimationModel giftModel) {
-        giftA = true;
-        ly_gift_view.setVisibility(View.VISIBLE);
-        ly_gift_view.startAnimation(translateAnimation_in);
-        if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
-            imageView.setImageURI(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL()));
+
+        if (!giftB) {
+            giftB = true;
+            ly_gift_view_s.setVisibility(View.VISIBLE);
+            ly_gift_view_s.startAnimation(translateAnimation_in_s);
+            if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
+                imageView_s.setImageURI(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL()));
+            }
+            if (giftModel.userheadpoto != null) {
+                gif_img_head_s.setImageURI(VerificationUtil.getImageUrl(giftModel.userheadpoto));
+            }
+            txt_from_user_s.setText(giftModel.from_uname);
+            imageView_s.startAnimation(translate_in_s);
+            GiftAnimationModelB = giftModel;
+            giftModelList.remove(giftModel);
+        } else if (!giftA) {
+            giftA = true;
+            ly_gift_view.setVisibility(View.VISIBLE);
+            ly_gift_view.startAnimation(translateAnimation_in);
+            if (giftModel.giftmodel != null && giftModel.giftmodel.getImageURL() != null) {
+                imageView.setImageURI(VerificationUtil.getImageUrl(giftModel.giftmodel.getImageURL()));
+            }
+            if (giftModel.userheadpoto != null) {
+                gif_img_head.setImageURI(VerificationUtil.getImageUrl(giftModel.userheadpoto));
+            }
+            txt_from_user.setText(giftModel.from_uname);
+            imageView.startAnimation(translate_in);
+            GiftAnimationModelA = giftModel;
+            giftModelList.remove(giftModel);
         }
-        if (giftModel.userheadpoto != null) {
-            gif_img_head.setImageURI(VerificationUtil.getImageUrl(giftModel.userheadpoto));
-        }
-        txt_from_user.setText(giftModel.from_uname);
-        imageView.startAnimation(translate_in);
 
     }
 
@@ -1107,6 +1209,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void run() {
                 int k = giftModel.giftnum;
+                DebugLogs.e("========giftnum=======" + k);
                 for (int i = 1; i <= k; i++) {
                     if (isAdded()) {
                         final int finalI = i;
@@ -1123,7 +1226,39 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         });
                     }
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(220);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    //礼物数量动画
+    private void addGiftAnimationNum_s(final GiftAnimationModel giftModel) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int k = giftModel.giftnum;
+                DebugLogs.e("========giftnums=======" + k);
+                for (int i = 1; i <= k; i++) {
+                    if (isAdded()) {
+                        final int finalI = i;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String str = "x" + finalI;
+                                translateAnimation_out_s.start();
+                                numText_s.setText(str);
+                                numText1_s.setText(str);
+                                numText1_s.startAnimation(scaleAnimation_s);
+                                numText_s.startAnimation(scaleAnimation_s);
+                            }
+                        });
+                    }
+                    try {
+                        Thread.sleep(220);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
