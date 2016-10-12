@@ -52,11 +52,9 @@ public class ImLogin {
         CommonParseModel<SockRecvLoginServerModel> parseModel = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<SockRecvLoginServerModel>>() {
         }.getType());
         if (WillProtocol.CODE_SIGN_ERROR_STR.equals(parseModel.code)) {
-
             return null;
         }
         if (WillProtocol.CODE_NO_MORE_SERVER_STR.equals(parseModel.code)) {
-
             return null;
         }
         SockRecvLoginServerModel loginInfo = parseModel.data;
@@ -69,7 +67,6 @@ public class ImLogin {
 
     public final void performLogin(LoginServerModel param) {
         isWorking = true;
-
         SockRecvLoginServerModel loginInfo = connLoginServer(param);
         if (loginInfo == null) {
             //提示

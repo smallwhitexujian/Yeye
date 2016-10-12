@@ -167,4 +167,6 @@ public class CommonUrlConfig {
     public static String RankListByRoom = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/RankingList/RankListByRoom";
     //发送红包
     public static String PayReward = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/PayReward";
+    //获取直播封面
+    public static String roomInfo = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/roominfo";
 }

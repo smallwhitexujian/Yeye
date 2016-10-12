@@ -175,19 +175,9 @@
             android:layout_toEndOf="@+id/layout_ticket"
             android:contentDescription="@string/switch_camera"
             android:padding="10dp"
-            android:src="@drawable/btn_start_play_switch_camera" />
+            android:src="@drawable/btn_start_play_switch_camera"
+            android:layout_toRightOf="@+id/layout_ticket" />
 
-
-        <com.xj.frescolib.View.FrescoRoundView
-            android:id="@+id/Front_cover"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_below="@+id/button_call_switch_camera"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/btn_start_play_upload_cover"
-            fresco:roundAsCircle="true" />
 
         <Button
             android:id="@+id/btn_start"
@@ -211,5 +201,16 @@
             android:text="@string/last_cover"
             android:textColor="#FEFEFE"
             android:textSize="12dp" />
+
+        <com.xj.frescolib.View.FrescoRoundView
+            android:id="@+id/Front_cover"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/btn_start_play_upload_cover"
+            fresco:roundAsCircle="true"
+            android:layout_below="@+id/button_call_switch_camera"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </RelativeLayout>

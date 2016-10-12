@@ -276,4 +276,14 @@ public class ChatRoom extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+    /**
+     * 获取封面
+     */
+    public void getRoomInfo(String url,String userid ,String token,HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        httpGet(url, params, callback);
+    }
+
 }
