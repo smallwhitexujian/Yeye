@@ -419,12 +419,13 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                             String data = jsonObject.getString("data");
                             if (code.equals("1000")) {
                                 Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-                                cocos2dxGiftModel.aniName = "fx_car_white";
-                                cocos2dxGiftModel.exportJsonPath = "fx_car_white.ExportJson";
-                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 2;
-                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this) / 2;
-                                cocos2dxGiftModel.scale = 2f;
-//                                cocos2dxGift.play(cocos2dxView, cocos2dxGiftModel);
+                                cocos2dxGiftModel.aniName = "fx_jixiangwu";
+                                cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu/fx_jixiangwu.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 3;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this);
+                                cocos2dxGiftModel.speedScale = 0.009f;
+                                cocos2dxGiftModel.scale = 0.7f;
+                                cocos2dxGift.play(cocos2dxView, cocos2dxGiftModel);
                                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, data, userModel.userid);
                             } else {
                                 ToastUtils.showToast(PlayActivity.this, ErrorHelper.getErrorHint(PlayActivity.this, code));

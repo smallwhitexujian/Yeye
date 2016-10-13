@@ -47,12 +47,11 @@ public class ImBusinessHandle extends SocketBusinessHandle {
                 BroadCastHelper.sendBroadcast(mContext, exitIntent);
                 break;
         }
-
     }
 
     @Override
     public void onLostConnect() {
-
+        DebugLogs.d("------断开连接----_>");
     }
 
     @Override
