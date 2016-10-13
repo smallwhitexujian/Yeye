@@ -48,8 +48,6 @@ public class ImHeartbeat implements Heartbeat {
             public void run() {
                 try {
                     DebugLogs.e("jjfly 心跳了..........." + ByteUtil.bytes2Hex(mHeartbeatParcel));
-                    DebugLogs.e("jjfly 心跳了.....mSocketModuleManager......" + mSocketModuleManager);
-                    DebugLogs.e("jjfly 心跳了.....mSocketModuleManager......" + mSocketModuleManager.getRunStatus());
                     mSocketModuleManager.send(mHeartbeatParcel);
                 } catch (Exception e) {
                     e.printStackTrace();
