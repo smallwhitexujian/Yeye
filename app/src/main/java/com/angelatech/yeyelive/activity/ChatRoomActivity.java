@@ -438,7 +438,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
             }
         };
-        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLikenum(), 0, callback);
+        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLivenum(), isSave, callback);
     }
 
 
@@ -802,21 +802,21 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 }
                             }
                             break;
-//                        case 21: //游艇
-//                            for (int m = 0; m < gift_Num; m++) {
-//                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
-//                                cocos2dxGiftModel.aniName = "fx_qiubite";
-//                                cocos2dxGiftModel.exportJsonPath = "fx_qiubite.ExportJson";
-//                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-//                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-//                                cocos2dxGiftModel.scale = 2f;
-//                                bigGift.add(cocos2dxGiftModel);
-//                                if (!isStart) {
-//                                    isStart = true;
-//                                    startPlayBigGift();
-//                                }
-//                            }
-//                            break;
+                        case 73: //丘比特
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_qiubite";
+                                cocos2dxGiftModel.exportJsonPath = "fx_qiubite/fx_qiubite.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this)/2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this)/2;
+                                cocos2dxGiftModel.scale = 1f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
                     }
 
                     GiftModel giftmodelInfo = chatRoom.getGifPath(giftModel.giftid);

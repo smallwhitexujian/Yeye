@@ -11,18 +11,19 @@
         android:layout_width="wrap_content"
         android:layout_height="65dp"
         android:paddingBottom="10dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <LinearLayout
             android:id="@+id/gift_info"
             android:layout_width="wrap_content"
-            android:layout_height="42dp"
+            android:layout_height="46dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/room_chat_bg_s"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingLeft="30dp"
+            android:paddingLeft="50dp"
             android:paddingRight="40dp">
 
             <TextView
@@ -31,6 +32,7 @@
                 android:layout_height="18dp"
                 android:layout_marginTop="0dp"
                 android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
@@ -77,25 +79,13 @@
             android:layout_toRightOf="@+id/img_gift"
             android:visibility="visible" />
 
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:contentDescription="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/red_shape" />
-
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/gif_img_head"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="1dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="1dp"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/default_face_icon" />
+            android:layout_marginLeft="10dp"
+            fresco:placeholderImage="@drawable/default_photo" />
     </RelativeLayout>
 
 </LinearLayout>

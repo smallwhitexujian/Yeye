@@ -421,7 +421,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                                 Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "fx_jixiangwu";
                                 cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu/fx_jixiangwu.ExportJson";
-                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 3;
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 2;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this);
                                 cocos2dxGiftModel.speedScale = 0.005f;
                                 cocos2dxGiftModel.scale = 0.7f;

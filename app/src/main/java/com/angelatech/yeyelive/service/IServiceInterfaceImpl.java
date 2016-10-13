@@ -10,7 +10,6 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.LoginActivity;
-import com.angelatech.yeyelive.activity.function.Login;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.AccountTModel;
@@ -54,7 +53,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
         if (IServiceValues.ACTION_CMD_WAY.equals(action)) {
             int cmd = intent.getIntExtra(IServiceValues.KEY_BROADCAST_CMD_VALUE, -1);
             String sign = intent.getStringExtra(IServiceValues.KEY_BROADCAST_SIGN);
-            Logger.e("======" + cmd + "----" + sign + "-----");
+            DebugLogs.e("======" + cmd + "----" + sign + "-----");
             if (cmd == -1 || sign == null) {
                 return;
             }
@@ -156,8 +155,5 @@ public class IServiceInterfaceImpl implements IServiceInterface {
     @Override
     public void handleNetworkActivie(int networkType) {
         DebugLogs.d("==是否连接网络==>"+networkType);
-        BasicUserInfoDBModel userModel = CacheDataManager.getInstance().loadUser();
-        LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(userModel.userid), userModel.token);
-        new Login(mContext).attachIM(loginServerModel);
     }
 }
