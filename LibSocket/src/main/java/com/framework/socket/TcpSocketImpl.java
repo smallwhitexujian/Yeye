@@ -111,9 +111,6 @@ public class TcpSocketImpl implements TcpSocket{
     	mTcpSocketCallback = callback;
 
     }
-    
-    
-    
 
     @Override
     public void recv(){
@@ -194,82 +191,6 @@ public class TcpSocketImpl implements TcpSocket{
                  }
              }
         });
-//        ThreadPool.getInstance().run(new Runnable() {
-//            @Override
-//            public void run() {
-//                ByteArrayBuffer mByteBuffer = null;
-//                mRun = true;
-//                isLostConnect = false;
-//                while (mRun) {
-//                    Log.e("jjfly=====",mProtocol.getHeadLen()+"");
-//                    try {
-//                        if (mByteBuffer == null) {
-//                            mByteBuffer = new ByteArrayBuffer(mProtocol.getHeadLen());
-//                            Log.e("jjfly=====",mProtocol.getHeadLen()+"");
-//                        }
-//                        int count = mByteBuffer.mlen;
-//                        int readCount = mByteBuffer.moffset;// 已经成功读取的字节的个数
-//                        while (readCount < mByteBuffer.mlen) {
-//                            int readNum = mInputStream.read(mByteBuffer.mbuffer, readCount, count - readCount);
-//                            if (readNum < 0) {
-//                                mRun = false;
-//                                isLostConnect = true;
-//                                break;
-//                            }
-//                            if (readNum > 0) {
-//                                readCount += readNum;
-//                                mByteBuffer.flush(readCount);
-//                            }
-////                            Thread.sleep(SLEEP_TIME);
-//                        }
-//                        int totalLen = mProtocol.getDataLen(mByteBuffer.mbuffer);
-//                        //数据包小于指定大小,丢失连接（inputsream关闭)
-//                        if (mByteBuffer.mlen < mByteBuffer.moffset) {
-//                            mRun = false;
-//                            mByteBuffer = null;
-//                            isLostConnect = true;
-//                        } else {
-//                            if (mByteBuffer.mlen == totalLen) {
-//                                if (mTcpSocketCallback != null) {
-//                                	mTcpSocketCallback.onReceiveParcel(mByteBuffer.mbuffer);
-//                                }
-//                                mByteBuffer = null;
-//                            } else {
-//                                if (mByteBuffer.mlen < MAX_BORDER && totalLen < MAX_BORDER) {
-//                                    mByteBuffer.reSize(totalLen, mByteBuffer);
-//                                }
-//                                //oom异常处理
-//                                else {
-//                                    mRun = false;
-//                                    mByteBuffer = null;
-//                                    isLostConnect = true;
-//                                }
-//                            }
-//                        }
-//                    }catch (IOException e){
-//                        if(e instanceof java.net.SocketTimeoutException){
-//                            continue;
-//                        }
-//                        isLostConnect = true;
-//                        mRun = false;
-//                        e.printStackTrace();
-//                    }
-//                }
-//                disconnect();
-//                //丢失连接业务流程回调
-//                if (isLostConnect) {
-//                    if(mTcpSocketCallback != null){
-//                    	mTcpSocketCallback.onLostConnect();
-//                    }
-//                }
-//                else{
-//                    if(mTcpSocketCallback != null){
-//                    	mTcpSocketCallback.onReadTaskFinish();
-//                    }
-//                }
-//
-//            }
-//        });
     }
 
     @Override
@@ -296,6 +217,4 @@ public class TcpSocketImpl implements TcpSocket{
     public void takeCareHeartbeat(Heartbeat heartbeat) {
     	this.mHeartbeat = heartbeat;
     }
-   
-
 }

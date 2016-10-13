@@ -91,6 +91,12 @@ public class ViewHolder {
         return this;
     }
 
+    public ViewHolder setTextdrawableLeft(int viewId, Drawable drawable) {
+        TextView view = getView(viewId);
+        view.setCompoundDrawables(drawable, null, null, null);
+        return this;
+    }
+
     public ViewHolder setButtonText(int viewId, CharSequence text) {
         Button view = getView(viewId);
         view.setText(text);

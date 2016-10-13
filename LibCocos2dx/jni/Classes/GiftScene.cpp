@@ -37,6 +37,24 @@ void GiftScene::loadAnimation(const GiftModel gift,const GiftControlModel contro
 	armature->setPosition(Vec2(control.x,control.y));
 	armature->getAnimation()->setSpeedScale(control.speedScale);
 	armature->getAnimation()->setMovementEventCallFunc(this,movementEvent_selector(GiftScene::movementCallback));
+	if(strcmp(gift.aniName,"fx_jixiangwu") == 0)
+        {
+            LOGD("oooooo");
+            ParticleSystem* m1 = ParticleSystemQuad::create("fx_jixiangwu/coin_4.plist");
+            ParticleSystem* m2 = ParticleSystemQuad::create("fx_jixiangwu/jixiangwu_1.plist");
+            ParticleSystem* m3 = ParticleSystemQuad::create("fx_jixiangwu/jixiangwu_2.plist");
+            ParticleSystem* m4 = ParticleSystemQuad::create("fx_jixiangwu/jixiangwu_3.plist");
+            ParticleSystem* m5 = ParticleSystemQuad::create("fx_jixiangwu/hongbao.plist");
+            ParticleSystem* m6 = ParticleSystemQuad::create("fx_jixiangwu/coin_3.plist");
+            ParticleSystem* m7 = ParticleSystemQuad::create("fx_jixiangwu/jixiangwu_4.plist");
+            armature->addChild(m1);
+            armature->addChild(m2);
+            armature->addChild(m3);
+            armature->addChild(m4);
+            armature->addChild(m5);
+            armature->addChild(m6);
+            armature->addChild(m7);
+        }
 	this->addChild(armature);
 	armature->getAnimation()->playWithIndex(0);
 }

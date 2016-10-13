@@ -32,7 +32,6 @@ public class LoginDispatch extends Dispatchable {
         if (WillProtocol.CODE_SUCC_STR.equals(model.code)) {
             DebugLogs.e("jjfly login sucess ");
             App.isLogin = true;//登陆成功
-
             byte[] heartbeatParcel = WillProtocol.getParcel(WillProtocol.BEATHEART_TYPE_VALYE, "");
             ImHeartbeat imHeartbeat = new ImHeartbeat(mSocketModuleManager, heartbeatParcel);
             imHeartbeat.doHeartbeat();

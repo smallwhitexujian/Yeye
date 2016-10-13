@@ -62,7 +62,7 @@ import java.util.Map;
  */
 public class LiveVideoHotFragment extends BaseFragment implements
         SwipyRefreshLayout.OnRefreshListener, CommonDoHandler {
-    private final int DIVIDE = 999;
+    private final int DIVIDE = 999999999;
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_NO_DATA = 2;
     private final int MSG_SHOW_BANNER = 4;
@@ -146,7 +146,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     helper.setImageURI(R.id.live_cover, liveModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
                     helper.setText(R.id.user_nick, liveModel.nickname);
-                    helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_now));
+                    helper.setImageResource(R.id.tv_line_desc, R.drawable.icon_home_online_num);
                     if (liveModel.area == null || "".equals(liveModel.area)) {
                         helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                     } else {
@@ -170,7 +170,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     helper.setImageURI(R.id.live_cover, videoModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(videoModel.playnum));
                     helper.setText(R.id.user_nick, item.nickname);
-                    helper.setText(R.id.tv_line_desc, getString(R.string.text_line_desc_already));
+                    helper.setImageResource(R.id.tv_line_desc, R.drawable.icon_home_seen_num);
                     if (item.area == null || "".equals(item.area)) {
                         helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                     } else {

@@ -29,6 +29,7 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.Ticket;
+import com.angelatech.yeyelive.model.coverInfoModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.QqShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
@@ -134,6 +135,7 @@ public class ReadyLiveFragment extends BaseFragment {
         } else {
             layout_ticket.setVisibility(View.GONE);
         }
+        getRoomInfo(loginUserModel.userid, loginUserModel.token);
     }
 
     //初始化门票功能,
@@ -383,10 +385,37 @@ public class ReadyLiveFragment extends BaseFragment {
                 }
             }
         };
-        if (title.isEmpty()){
+        if (title.isEmpty()) {
             title = String.format(getString(R.string.formatted_2), loginUserModel.nickname);
         }
         chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, callback);
+    }
+
+    private void getRoomInfo(String userid, String token) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(final String response) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonListResult<coverInfoModel> commonListResult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<coverInfoModel>>() {
+                        }.getType());
+                        if (commonListResult != null) {
+                            if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))){
+                                if (!commonListResult.data.get(0).barcover.isEmpty()){
+                                    setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        chatRoom.getRoomInfo(CommonUrlConfig.roomInfo, userid, token, callback);
     }
 
     @Override
