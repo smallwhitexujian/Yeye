@@ -423,7 +423,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                                 cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu/fx_jixiangwu.ExportJson";
                                 cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 3;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this);
-                                cocos2dxGiftModel.speedScale = 0.009f;
+                                cocos2dxGiftModel.speedScale = 0.005f;
                                 cocos2dxGiftModel.scale = 0.7f;
                                 cocos2dxGift.play(cocos2dxView, cocos2dxGiftModel);
                                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, data, userModel.userid);
