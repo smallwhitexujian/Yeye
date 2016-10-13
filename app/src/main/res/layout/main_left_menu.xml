@@ -157,6 +157,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_my_focus"
+                    android:drawablePadding="8dp"
                     android:gravity="center"
                     android:text="@string/attention"
                     android:textColor="@color/color_232323"
@@ -194,6 +196,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_my_fans"
+                    android:drawablePadding="8dp"
                     android:text="@string/fans"
                     android:textColor="@color/color_232323"
                     android:textSize="14sp" />
@@ -219,42 +223,6 @@
                 android:background="@color/color_grey_d5" />
 
             <RelativeLayout
-                android:id="@+id/layout_diamond"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@color/white"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/diamond_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:text="@string/diamond"
-                    android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/user_diamond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="17dp"
-                    android:drawablePadding="13dp"
-                    android:drawableRight="@drawable/btn_next"
-                    android:gravity="center"
-                    android:textColor="@color/color_a6a6a6"
-                    android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
-
-            </RelativeLayout>
-            <!--分割 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/color_grey_d5" />
-
-            <RelativeLayout
                 android:id="@+id/layout_video"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
@@ -265,6 +233,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_video_playback"
+                    android:drawablePadding="8dp"
                     android:text="@string/activity_title_video"
                     android:textColor="@color/color_232323"
                     android:textSize="14sp" />
@@ -283,6 +253,51 @@
                     tools:ignore="RtlHardcoded" />
 
             </RelativeLayout>
+
+            <!--分割 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+            <!--分割 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_diamond"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/diamond_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_my_golds"
+                    android:drawablePadding="8dp"
+                    android:text="@string/diamond"
+                    android:textColor="@color/color_232323"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/user_diamond"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+
+            </RelativeLayout>
+
             <!--分割 -->
             <View
                 android:layout_width="match_parent"
@@ -300,6 +315,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_message_notice"
+                    android:drawablePadding="8dp"
                     android:text="@string/system_msg"
                     android:textColor="@color/color_232323"
                     android:textSize="14sp" />
@@ -334,6 +351,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_invitation"
+                    android:drawablePadding="8dp"
                     android:text="@string/Invite_facebook_friends"
                     android:textColor="@color/color_232323"
                     android:textSize="14sp" />
@@ -376,6 +395,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="43dp"
                     android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/icon_me_setting"
+                    android:drawablePadding="8dp"
                     android:gravity="left|center"
                     android:paddingLeft="18dp"
                     android:text="@string/setting"
@@ -397,7 +418,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/color_grey_d5" />
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
