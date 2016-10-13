@@ -8,10 +8,9 @@
     <ImageView
         android:id="@+id/dialog_loading_iamge"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:src="@drawable/dialog_loading_animations"
-        android:contentDescription="@null" />
+        android:layout_height="100dp"
+        android:contentDescription="@null"
+        android:src="@drawable/dialog_loading_animations" />
 
     <TextView
         android:id="@+id/dialog_loading_title"
@@ -19,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="loading..."
-        android:textColor="#000000"
+        android:textColor="@color/color_999999"
         android:textSize="16dp" />
 </LinearLayout>

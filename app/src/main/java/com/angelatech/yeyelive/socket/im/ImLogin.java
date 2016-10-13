@@ -18,8 +18,10 @@ import com.will.socket.SocketBusinessHandle;
 import com.will.socket.SocketConnectHandle;
 
 
+/**
+ * im登陆
+ */
 public class ImLogin {
-
     private SocketConfig mLoginSocketInfo;
     private Context mContext;
     private WillProtocol willoutProtocol = new WillProtocol();
