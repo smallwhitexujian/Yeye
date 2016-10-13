@@ -622,6 +622,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
                     chatManager.receivedChatMessage(msg.obj, callFragment);
+
+                    callFragment.sendDanmu(msg.obj);
                     callFragment.notifyData();
                     if (timeCount == null) {
                         timeCount = new TimeCount(1000, 100);

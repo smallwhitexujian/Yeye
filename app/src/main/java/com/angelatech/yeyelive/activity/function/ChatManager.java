@@ -87,6 +87,7 @@ public class ChatManager {
             ChatLineModel chatLineModel = JsonUtil.fromJson(object.toString(), ChatLineModel.class);
             if (chatLineModel != null) {
                 AddChatMessage(chatLineModel);
+
             }
         }
     }

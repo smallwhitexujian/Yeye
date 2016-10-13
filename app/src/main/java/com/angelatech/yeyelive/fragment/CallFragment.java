@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableString;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -66,6 +67,9 @@ import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.google.gson.reflect.TypeToken;
+import com.opendanmaku.DanmakuItem;
+import com.opendanmaku.DanmakuView;
+import com.opendanmaku.IDanmakuItem;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
@@ -156,6 +160,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private Chronometer timer;
     private boolean bVideoFilter = false, bFlashEnable = false;
 
+    //弹幕控件
+    private DanmakuView mDanmakuView;
+
     public void setDiamonds(String diamonds) {
         try {
             gift_Diamonds.setText(diamonds);
@@ -231,6 +238,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = ChatRoomActivity.roomModel.getUserInfoDBModel();
         }
+        mDanmakuView = (DanmakuView) controlView.findViewById(R.id.danmakuView);
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
@@ -823,23 +831,44 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private void sendMsg() {
         if (txt_msg.getText().length() > 0) {
-            callEvents.onSendMessage(DelHtml.delHTMLTag(txt_msg.getText().toString()));
+            String msg = DelHtml.delHTMLTag(txt_msg.getText().toString());
+            callEvents.onSendMessage(msg);
             txt_msg.setText("");
+            sendDanmu("我:" + msg);
+
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
         }
+    }
+
+    public void sendDanmu(Object obj)
+    {
+        ChatLineModel chatLineModel = JsonUtil.fromJson(obj.toString(), ChatLineModel.class);
+        IDanmakuItem  item = new DanmakuItem(getActivity(),
+                new SpannableString(chatLineModel.from.name + ":" + chatLineModel.message),
+                mDanmakuView.getWidth(),0, R.color.action_sheet_red,20,1);
+        mDanmakuView.addItemToHead(item);
+    }
+
+    private void sendDanmu(String text)
+    {
+        IDanmakuItem  item = new DanmakuItem(getActivity(),
+                new SpannableString(text), mDanmakuView.getWidth(),0, R.color.action_sheet_red,20,1);
+        mDanmakuView.addItemToHead(item);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         cocos2dxView.onResume();
+        mDanmakuView.show();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         cocos2dxView.onPause();
+        mDanmakuView.hide();
     }
 
     @Override
@@ -848,6 +877,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         clearTask();
         clearAnimation();
         cocos2dxGift.destroy();
+        mDanmakuView.clear();
     }
 
     /**
