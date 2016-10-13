@@ -64,14 +64,14 @@
     <style name="AudioFileInfoOverlayText">
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">#FFF23B</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">22dp</item>
         <item name="android:paddingLeft">6px</item>
         <item name="android:paddingBottom">4px</item>
     </style>
     <style name="AudioFileInfoOverlayText1">
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">#31B92A</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">22dp</item>
         <item name="android:paddingLeft">6px</item>
         <item name="android:paddingBottom">4px</item>
     </style>

@@ -61,7 +61,7 @@
         <TextView
             android:id="@+id/numText_s"
             style="@style/AudioFileInfoOverlayText"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_gift_s"
@@ -71,7 +71,7 @@
         <TextView
             android:id="@+id/numText1_s"
             style="@style/AudioFileInfoOverlayText1"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_gift_s"
