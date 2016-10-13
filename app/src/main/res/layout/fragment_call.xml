@@ -47,7 +47,8 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="38dp"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                tools:ignore="RtlHardcoded">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -144,7 +145,7 @@
                 android:scrollbars="none"
                 android:stackFromBottom="true"
                 android:transcriptMode="alwaysScroll"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout

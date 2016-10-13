@@ -438,7 +438,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
             }
         };
-        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLikenum(), 0, callback);
+        chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLivenum(), isSave, callback);
     }
 
 
