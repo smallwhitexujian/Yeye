@@ -406,7 +406,8 @@ public class ReadyLiveFragment extends BaseFragment {
                         }.getType());
                         if (commonListResult != null) {
                             if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))){
-                                if (!commonListResult.data.get(0).barcover.isEmpty()){
+
+                                if ( commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()){
                                     setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
                                 }
                             }
