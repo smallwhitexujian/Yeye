@@ -38,6 +38,7 @@ public class ImConnectHandle extends SocketConnectHandle {
 
     @Override
     public void connectSuc(SocketModuleManager socketModuleManager, int i) {
+        DebugLogs.d("----connectSuc---->" + i);
         socketModuleManager.send(mLoginParcel);
     }
 }

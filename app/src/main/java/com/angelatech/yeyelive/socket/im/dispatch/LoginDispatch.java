@@ -30,7 +30,7 @@ public class LoginDispatch extends Dispatchable {
         CommonParseModel<String> model = JsonUtil.fromJson(dataStr, new TypeToken<CommonParseModel<String>>() {
         }.getType());
         if (WillProtocol.CODE_SUCC_STR.equals(model.code)) {
-            DebugLogs.e("jjfly login sucess ");
+            DebugLogs.e("jjfly login sucess "+dataStr);
             App.isLogin = true;//登陆成功
             byte[] heartbeatParcel = WillProtocol.getParcel(WillProtocol.BEATHEART_TYPE_VALYE, "");
             ImHeartbeat imHeartbeat = new ImHeartbeat(mSocketModuleManager, heartbeatParcel);

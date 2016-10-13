@@ -120,6 +120,7 @@ public class TcpSocketImpl implements TcpSocket{
         ThreadPool.getInstance().run(new Thread(){
         	@Override
         	public void run() {
+                Log.d("TAG","---run--------》");
         		 ByteArrayBuffer mByteBuffer = null;
                  mRun = true;
                  isLostConnect = false;
@@ -171,6 +172,7 @@ public class TcpSocketImpl implements TcpSocket{
                          if(e instanceof java.net.SocketTimeoutException){
                              continue;
                          }
+                         Log.d("TAG","---IOException--------》");
                          isLostConnect = true;
                          mRun = false;
                          System.out.println("======"+e.getMessage());
