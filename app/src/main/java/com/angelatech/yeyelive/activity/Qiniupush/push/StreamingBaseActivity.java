@@ -176,7 +176,7 @@ public class StreamingBaseActivity extends BaseActivity implements
                 .setAudioQuality(StreamingProfile.AUDIO_QUALITY_MEDIUM1)
 //                .setPreferredVideoEncodingSize(960, 544)
                 .setEncodingSizeLevel(Config.ENCODING_LEVEL)
-                .setEncoderRCMode(StreamingProfile.EncoderRCModes.BITRATE_PRIORITY)
+                .setEncoderRCMode(StreamingProfile.EncoderRCModes.QUALITY_PRIORITY)
 //                .setAVProfile(avProfile)
                 .setDnsManager(getMyDnsManager())//设置dns加速
                 .setStreamStatusConfig(new StreamingProfile.StreamStatusConfig(3))//设置每隔3秒钟进行回调
@@ -434,7 +434,6 @@ public class StreamingBaseActivity extends BaseActivity implements
      * 设置推流地址,并开始推流
      */
     public void setStartStreaming(final String publish) {
-
         new Thread(new Runnable() {
             @Override
             public void run() {

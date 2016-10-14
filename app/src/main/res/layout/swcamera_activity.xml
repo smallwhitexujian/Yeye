@@ -6,17 +6,33 @@
     android:layout_height="match_parent"
     android:background="@color/background_floating_material_dark">
 
-    <com.pili.pldroid.streaming.widget.AspectFrameLayout
+
+
+    <com.qiniu.pili.droid.streaming.widget.AspectFrameLayout
         android:id="@+id/cameraPreview_afl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
 
-        <android.opengl.GLSurfaceView
+        <com.angelatech.yeyelive.activity.Qiniupush.push.CameraPreviewFrameView
             android:id="@+id/cameraPreview_surfaceView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
-    </com.pili.pldroid.streaming.widget.AspectFrameLayout>
+
+        <include layout="@layout/focus_indicator" />
+
+    </com.qiniu.pili.droid.streaming.widget.AspectFrameLayout>
+    <ImageView
+        android:id="@+id/button_call_disconnect"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="7dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/btn_room_close_n"
+        tools:ignore="RtlHardcoded" />
 </RelativeLayout>

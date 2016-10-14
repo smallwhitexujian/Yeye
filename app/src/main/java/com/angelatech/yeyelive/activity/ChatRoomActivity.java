@@ -135,7 +135,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private ChatRoom chatRoom;
     private int connTotalNum = 0; //总连接次数
     private boolean boolConnRoom = true; //
-    private String watemarkUrl = "wartermark/bg_room_mercury.png";
     private QiniuUpload qiNiuUpload;
     private PictureObtain mObtain;
     private Uri distUri;
@@ -179,7 +178,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         params2.width = App.screenDpx.widthPixels;
         body.setLayoutParams(params2);
     }
-
 
     private void permissionCheck() {
         int permissionCheck = PackageManager.PERMISSION_GRANTED;
@@ -947,8 +945,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     private void startPlayBigGift() {
         if (bigGift.size() > 0) {
+            callFragment.setShowCocosView();
             callFragment.play(bigGift.get(0));
         } else {
+            callFragment.setHintCocosView();
             isStart = false;
         }
     }

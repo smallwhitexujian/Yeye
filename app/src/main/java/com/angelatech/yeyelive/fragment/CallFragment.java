@@ -147,8 +147,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private BasicUserInfoDBModel liveUserModel; //直播用户信息
     public static final Object lock = new Object();
     private ChatRoom chatRoom;
-    private Cocos2dxView cocos2dxView = new Cocos2dxView();
-    private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
+    private Cocos2dxView cocos2dxView;
+    private Cocos2dxGift cocos2dxGift;
+    private FrameLayout giftLayout;
+    private LinearLayout ViewgiftLayout;
 
     private GridView grid_online;
     private HorizontalListViewAdapter horizontalListViewAdapter;
@@ -245,6 +247,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
         Button btn_send = (Button) controlView.findViewById(R.id.btn_send);
         chatline = (ListView) controlView.findViewById(R.id.chatline);
+        ViewgiftLayout = (LinearLayout) controlView.findViewById(R.id.gift_layout);
         initChatMessage(getActivity());
         ImageView img_open_send = (ImageView) controlView.findViewById(R.id.img_open_send);
         ImageView giftBtn = (ImageView) controlView.findViewById(R.id.giftbtn);
@@ -371,7 +374,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     numText.setVisibility(View.VISIBLE);
                     numText.startAnimation(scaleAnimation);
                     //礼物数量动画
-
                     addGiftAnimationNum(GiftAnimationModelA);
 
                 }
@@ -496,14 +498,37 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     //初始化cocos
     private void initCocos2dx() {
         //coco2动画SurfaceView
+        cocos2dxView = new Cocos2dxView();
+        cocos2dxGift = new Cocos2dxGift();
         cocos2dxView.onCreate(getActivity(), 0);
         Cocos2dxGLSurfaceView.ScaleInfo scaleInfo = new Cocos2dxGLSurfaceView.ScaleInfo();
         scaleInfo.nomal = true;
         scaleInfo.width = ScreenUtils.getScreenWidth(getActivity());
         scaleInfo.height = ScreenUtils.getScreenHeight(getActivity());
         cocos2dxView.setScaleInfo(scaleInfo);
-        FrameLayout giftLayout = cocos2dxView.getFrameLayout();
-        ((FrameLayout) controlView.findViewById(R.id.gift_layout)).addView(giftLayout);
+        giftLayout = cocos2dxView.getFrameLayout();
+        ViewgiftLayout.addView(giftLayout);
+    }
+
+    public void setHintCocosView() {
+        if (ViewgiftLayout != null) {
+            ViewgiftLayout.setVisibility(View.GONE);
+            ViewgiftLayout.clearFocus();
+            ViewgiftLayout.setFocusable(false);
+            if (cocos2dxView!=null){
+                cocos2dxView.onPause();
+            }
+        }
+    }
+
+    public void setShowCocosView() {
+        if (ViewgiftLayout != null) {
+            ViewgiftLayout.setFocusable(true);
+            ViewgiftLayout.setVisibility(View.VISIBLE);
+            if (cocos2dxView!=null){
+                cocos2dxView.onResume();
+            }
+        }
     }
 
 
@@ -834,23 +859,21 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             String msg = DelHtml.delHTMLTag(txt_msg.getText().toString());
             callEvents.onSendMessage(msg);
             txt_msg.setText("");
-            sendDanmu(userModel.nickname+":"+ msg);
+            sendDanmu(userModel.nickname + ":" + msg);
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
         }
     }
 
-    public void sendDanmu(Object obj)
-    {
+    public void sendDanmu(Object obj) {
         ChatLineModel chatLineModel = JsonUtil.fromJson(obj.toString(), ChatLineModel.class);
         sendDanmu(chatLineModel.from.name + ":" + chatLineModel.message);
     }
 
-    public void sendDanmu(String text)
-    {
-        IDanmakuItem  item = new DanmakuItem(getActivity(),
-                new SpannableString(text), mDanmakuView.getWidth(),0, R.color.action_sheet_red,20,1);
-        if(App.isDebug) {
+    public void sendDanmu(String text) {
+        IDanmakuItem item = new DanmakuItem(getActivity(),
+                new SpannableString(text), mDanmakuView.getWidth(), 0, R.color.action_sheet_red, 20, 1);
+        if (App.isDebug) {
             mDanmakuView.addItemToHead(item);
         }
     }
@@ -858,15 +881,23 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        cocos2dxView.onResume();
-        mDanmakuView.show();
+        if (cocos2dxView != null) {
+            cocos2dxView.onResume();
+        }
+        if (mDanmakuView != null) {
+//            mDanmakuView.show();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        cocos2dxView.onPause();
-        mDanmakuView.hide();
+        if (cocos2dxView != null) {
+            cocos2dxView.onPause();
+        }
+        if (mDanmakuView != null) {
+            mDanmakuView.hide();
+        }
     }
 
     @Override
@@ -874,8 +905,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         super.onDestroyView();
         clearTask();
         clearAnimation();
-        cocos2dxGift.destroy();
-        mDanmakuView.clear();
+        if (cocos2dxView != null) {
+            cocos2dxGift.destroy();
+        }
+        if (mDanmakuView != null) {
+            mDanmakuView.clear();
+        }
     }
 
     /**

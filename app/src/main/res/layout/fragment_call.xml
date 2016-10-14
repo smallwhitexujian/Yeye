@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/gift_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:orientation="horizontal" />
     <com.opendanmaku.DanmakuView
         android:id="@+id/danmakuView"
         android:layout_width="fill_parent"
