@@ -170,15 +170,18 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                     } else if (sChatContent.startsWith(GlobalDef.APPEND_SHARED)) {
                         sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_sherad);
                     }
-                    holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + sChatContent + "</font>"));
+                    holder.tv_content.setShadowLayer(1,2,2,R.color.transparent);
+                    holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_FFEE00) + "'>" + sChatContent + "</font>"));
                 }
             }
         } else if (chatline.type == 9) {
             //进入房间系统提示
-            holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_e0b66c) + "'>" + chatline.message + "</font>"));
+            holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_FFEE00) + "'>" + chatline.message + "</font>"));
+            holder.tv_content.setShadowLayer(1,2,2,R.color.transparent);
         } else if (chatline.type == 10) {
             //系统消息类型
-            holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_d80c18) + "'>" + chatline.message + "</font>"));
+            holder.tv_content.setShadowLayer(1,2,2,R.color.transparent);
+            holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_FFEE00) + "'>" + chatline.message + "</font>"));
         }
         return convertView;
     }

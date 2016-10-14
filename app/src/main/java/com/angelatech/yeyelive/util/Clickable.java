@@ -32,6 +32,6 @@ public class Clickable extends ClickableSpan implements View.OnClickListener {
     public void updateDrawState(TextPaint ds) {
         super.updateDrawState(ds);
         ds.setUnderlineText(false);
-        ds.setColor(Color.parseColor("#FFFF6771"));
+        ds.setColor(Color.parseColor("#FF6771"));
     }
 }
