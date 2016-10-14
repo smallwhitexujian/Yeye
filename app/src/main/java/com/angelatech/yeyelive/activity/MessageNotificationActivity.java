@@ -73,9 +73,9 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
             if (userInfo == null) {
                 return;
             }
-            List<SystemMessageDBModel> systemMsg = systemMessage.load(NOTICE_TO_ALL, 0, 1);
-            List<SystemMessageDBModel> fensMsg = systemMessage.load(NOTICE_FANS_MSG, 0, 1);
-            List<SystemMessageDBModel> redMsg = systemMessage.load(NOTICE_RED_MSG, 0, 1);
+            List<SystemMessageDBModel> systemMsg = systemMessage.load(NOTICE_TO_ALL,userInfo.userid, 0, 1);
+            List<SystemMessageDBModel> fensMsg = systemMessage.load(NOTICE_FANS_MSG,userInfo.userid, 0, 1);
+            List<SystemMessageDBModel> redMsg = systemMessage.load(NOTICE_RED_MSG,userInfo.userid, 0, 1);
             if (systemMsg != null) {
                 models.addAll(systemMsg);//系统消息数据
             }

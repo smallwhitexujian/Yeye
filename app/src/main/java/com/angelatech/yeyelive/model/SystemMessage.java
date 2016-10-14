@@ -61,9 +61,10 @@ public class SystemMessage {
     }
 
     //分页取数据
-    public List<SystemMessageDBModel> load(String type_code, long startRow, long maxRows) {
+    public List<SystemMessageDBModel> load(String type_code,String uid, long startRow, long maxRows) {
         Map<String, Object> eqs = new HashMap<>();
         eqs.put("type_code", type_code);
+        eqs.put("uid", uid);
         String orderByKey = "localtime";
         try {
             return commonDao.queryByConditionLimit(orderByKey, false, eqs, startRow, maxRows);

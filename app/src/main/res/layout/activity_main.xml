@@ -47,7 +47,7 @@
                 android:layout_alignTop="@id/face_icon"
                 android:background="@drawable/circular_red"
                 android:contentDescription="@null"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:ignore="RtlHardcoded" />
 
             <LinearLayout

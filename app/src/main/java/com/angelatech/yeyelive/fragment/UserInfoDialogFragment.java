@@ -193,6 +193,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         mviewPager.setCurrentItem(0);
         if (baseInfo != null) {
             load();
+            loadStatus();
         }
     }
 
@@ -365,7 +366,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 if (isAdded()) {
                     setUI(searchUserInfo);
                 }
-                loadStatus();
+
                 break;
             case MSG_LOAD_STATUS:
                 if (loginUser != null && !loginUser.userid.equals(baseInfo.Userid)) {

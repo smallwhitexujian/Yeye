@@ -66,7 +66,7 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
             if (userInfo == null) {
                 return;
             }
-            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_TO_ALL, 0, 1000);
+            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_TO_ALL, userInfo.userid, 0, 1000);
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_TO_ALL);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
         message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (systemMsg.get(position)._data!=null){
+                if (systemMsg.get(position)._data != null) {
                     WebTransportModel webTransportModel = new WebTransportModel();
                     webTransportModel.url = systemMsg.get(position)._data;
                     webTransportModel.title = getString(R.string.system_gf);

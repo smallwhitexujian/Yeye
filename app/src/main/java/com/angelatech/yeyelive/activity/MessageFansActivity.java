@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.angelatech.yeyelive.R;
@@ -10,6 +11,8 @@ import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
+import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.will.common.tool.time.DateFormat;
@@ -65,7 +68,7 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
             if (userInfo == null) {
                 return;
             }
-            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_FANS_MSG, 0, 1000);
+            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_FANS_MSG, userInfo.userid, 0, 1000);
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_FANS_MSG);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,11 +89,25 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
                 helper.setText(R.id.time, result);
                 helper.setText(R.id.context, item.content);
                 JSONObject msgJsonObj;
-                String msgStr;
+                final String msgStr, fromUserid, nickname;
                 try {
                     msgJsonObj = new JSONObject(item.data);
                     msgStr = msgJsonObj.getString("headurl");
+                    fromUserid = msgJsonObj.getString("fromuserid");
+                    nickname = msgJsonObj.getString("nickname");
                     helper.setImageUrl(R.id.userPic, msgStr);
+                    helper.setOnClick(R.id.userPic, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                            userInfoModel.Userid = fromUserid;
+                            userInfoModel.headurl = msgStr;
+                            userInfoModel.nickname = nickname;
+                            UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+                            userInfoDialogFragment.setUserInfoModel(userInfoModel);
+                            userInfoDialogFragment.show(getSupportFragmentManager(), "");
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

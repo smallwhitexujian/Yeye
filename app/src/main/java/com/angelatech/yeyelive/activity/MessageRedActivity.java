@@ -66,7 +66,7 @@ public class MessageRedActivity extends HeaderBaseActivity implements SwipyRefre
             if (userInfo == null) {
                 return;
             }
-            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_RED_MSG, 0, 1000);
+            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_RED_MSG,userInfo.userid, 0, 1000);
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_RED_MSG);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();
