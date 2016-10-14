@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="loading..."
-        android:textColor="@color/color_999999"
+        android:textColor="@color/color_ffffff"
         android:textSize="16dp" />
 </LinearLayout>
