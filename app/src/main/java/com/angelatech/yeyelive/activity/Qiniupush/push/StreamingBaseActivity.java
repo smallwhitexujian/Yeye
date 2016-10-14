@@ -169,15 +169,15 @@ public class StreamingBaseActivity extends BaseActivity implements
     private void init() {
         mContext = this;
         StreamingProfile.AudioProfile aProfile = new StreamingProfile.AudioProfile(44100, 96 * 1024);
-        StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(30, 1000 * 800, 48);
+        StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(16, 1000 * 700, 48);
         StreamingProfile.AVProfile avProfile = new StreamingProfile.AVProfile(vProfile, aProfile);
         mProfile = new StreamingProfile();
         mProfile.setVideoQuality(StreamingProfile.VIDEO_QUALITY_MEDIUM1)
-                .setAudioQuality(StreamingProfile.AUDIO_QUALITY_MEDIUM2)
+                .setAudioQuality(StreamingProfile.AUDIO_QUALITY_MEDIUM1)
 //                .setPreferredVideoEncodingSize(960, 544)
                 .setEncodingSizeLevel(Config.ENCODING_LEVEL)
-                .setEncoderRCMode(StreamingProfile.EncoderRCModes.QUALITY_PRIORITY)
-                .setAVProfile(avProfile)
+                .setEncoderRCMode(StreamingProfile.EncoderRCModes.BITRATE_PRIORITY)
+//                .setAVProfile(avProfile)
                 .setDnsManager(getMyDnsManager())//设置dns加速
                 .setStreamStatusConfig(new StreamingProfile.StreamStatusConfig(3))//设置每隔3秒钟进行回调
 //                .setEncodingOrientation(StreamingProfile.ENCODING_ORIENTATION.PORT)
@@ -189,11 +189,11 @@ public class StreamingBaseActivity extends BaseActivity implements
         mCameraStreamingSetting.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
                 .setContinuousFocusModeEnabled(true)//设置自动对焦功能
                 .setFocusMode(CameraStreamingSetting.FOCUS_MODE_CONTINUOUS_VIDEO)//设置对焦模式:FOCUS_MODE_CONTINUOUS_PICTURE 对焦会比 FOCUS_MODE_CONTINUOUS_VIDEO 更加频繁
-                .setResetTouchFocusDelayInMs(3000)//触发手动对焦之后恢复自动对焦功能。
+                .setResetTouchFocusDelayInMs(4000)//触发手动对焦之后恢复自动对焦功能。
                 .setRecordingHint(false)//以此来提升数据源的帧率。 但是在部分机型上会出现卡顿情况
                 .setCameraFacingId(cameraFacingId)
                 .setBuiltInFaceBeautyEnabled(true)
-                .setCameraPrvSizeLevel(CameraStreamingSetting.PREVIEW_SIZE_LEVEL.SMALL)
+                .setCameraPrvSizeLevel(CameraStreamingSetting.PREVIEW_SIZE_LEVEL.MEDIUM)
                 .setCameraPrvSizeRatio(CameraStreamingSetting.PREVIEW_SIZE_RATIO.RATIO_16_9)//摄像头采集模式
                 .setFaceBeautySetting(new CameraStreamingSetting.FaceBeautySetting(1.0f, 1.0f, 0.8f))
                 .setVideoFilter(CameraStreamingSetting.VIDEO_FILTER_TYPE.VIDEO_FILTER_BEAUTY);
