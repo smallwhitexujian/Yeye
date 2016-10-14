@@ -843,18 +843,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     public void sendDanmu(Object obj)
     {
-//        ChatLineModel chatLineModel = JsonUtil.fromJson(obj.toString(), ChatLineModel.class);
-//        IDanmakuItem  item = new DanmakuItem(getActivity(),
-//                new SpannableString(chatLineModel.from.name + ":" + chatLineModel.message),
-//                mDanmakuView.getWidth(),0, R.color.action_sheet_red,20,1);
-//        mDanmakuView.addItemToHead(item);
+        ChatLineModel chatLineModel = JsonUtil.fromJson(obj.toString(), ChatLineModel.class);
+        sendDanmu(chatLineModel.from.name + ":" + chatLineModel.message);
     }
 
-    private void sendDanmu(String text)
+    public void sendDanmu(String text)
     {
-//        IDanmakuItem  item = new DanmakuItem(getActivity(),
-//                new SpannableString(text), mDanmakuView.getWidth(),0, R.color.action_sheet_red,20,1);
-//        mDanmakuView.addItemToHead(item);
+        IDanmakuItem  item = new DanmakuItem(getActivity(),
+                new SpannableString(text), mDanmakuView.getWidth(),0, R.color.action_sheet_red,20,1);
+        if(App.isDebug) {
+            mDanmakuView.addItemToHead(item);
+        }
     }
 
     @Override

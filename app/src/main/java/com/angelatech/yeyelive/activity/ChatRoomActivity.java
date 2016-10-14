@@ -676,6 +676,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
+                        callFragment.sendDanmu(from.name +  getString(R.string.me_online));
                     }
                     //更新界面
                     callFragment.updateOnline(onlineNotice);
