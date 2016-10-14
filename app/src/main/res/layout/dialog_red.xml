@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/edit_coins"
             android:paddingRight="10dp"
-            android:text="0/30"
+            android:text="0/50"
             android:textColor="@color/color_666666"
             android:textSize="14sp" />
     </LinearLayout>

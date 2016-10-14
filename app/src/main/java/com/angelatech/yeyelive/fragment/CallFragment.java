@@ -834,8 +834,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             String msg = DelHtml.delHTMLTag(txt_msg.getText().toString());
             callEvents.onSendMessage(msg);
             txt_msg.setText("");
-            sendDanmu("我:" + msg);
-
+            sendDanmu(userModel.nickname+":"+ msg);
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
         }

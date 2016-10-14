@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/inputFieldStyle">
-    <solid android:color="#20000000" />
+    <solid android:color="#05000000" />
     <corners
         android:bottomLeftRadius="4dp"
         android:bottomRightRadius="4dp"

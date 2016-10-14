@@ -461,7 +461,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         public void afterTextChanged(Editable editable) {
             editStart = edit_context.getSelectionStart();
             editEnd = edit_context.getSelectionEnd();
-            if (temp.length() > 30) {
+            if (temp.length() > 50) {
                 editable.delete(editStart - 1, editEnd);
             }
             uiHandler.obtainMessage(MSG_INPUT_LIMIT, 0, 0, editable.toString()).sendToTarget();
@@ -692,7 +692,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             case MSG_INPUT_LIMIT:
                 String inputStr = (String) msg.obj;
                 if (inputStr != null && inputStr.length() > 0) {
-                    String str = inputStr.length() + "/" + 30;
+                    String str = inputStr.length() + "/" + 50;
                     edit_num.setText(str);
                 }
                 break;
