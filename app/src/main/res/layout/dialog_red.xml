@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="@string/play_context"
+            android:text="@string/red_deft_txt"
             android:paddingLeft="10dp" />
 
         <TextView
