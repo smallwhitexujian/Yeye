@@ -51,6 +51,7 @@ public class ImBusinessHandle extends SocketBusinessHandle {
 
     @Override
     public void onLostConnect() {
+        mSocketModuleManager.stopSocket();
         DebugLogs.d("------断开连接----_>"+mSocketModuleManager.getRunStatus());
     }
 

@@ -21,9 +21,9 @@ import java.net.Socket;
 /**
  * 收发包。Tcp Socket
  */
-public class TcpSocketImpl implements TcpSocket{
+public class TcpSocketImpl implements TcpSocket {
 
-	protected Socket mSocket;
+    protected Socket mSocket;
     protected InputStream mInputStream;
     protected OutputStream mOutputStream;
     protected volatile boolean mRun;
@@ -36,25 +36,25 @@ public class TcpSocketImpl implements TcpSocket{
 
     protected int MAX_BORDER = 10 * 1024 * 1024;
     protected int SLEEP_TIME = 250;
-    
-    protected Heartbeat mHeartbeat;
-    
 
-    public TcpSocketImpl(SocketConfig socketConfig,Protocol protocol,TcpSocketCallback tcpSocketCallback){
+    protected Heartbeat mHeartbeat;
+
+
+    public TcpSocketImpl(SocketConfig socketConfig, Protocol protocol, TcpSocketCallback tcpSocketCallback) {
         mRunStatus = CONNECTINIT;
         mProtocol = protocol;
         mSocketConfig = socketConfig;
         mTcpSocketCallback = tcpSocketCallback;
-        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
 
     @Override
     public void disconnect() {
-    	if(mHeartbeat != null){
-    		mHeartbeat.doneHeartbeat();
-    		mHeartbeat = null;
-    	}
+        if (mHeartbeat != null) {
+            mHeartbeat.doneHeartbeat();
+            mHeartbeat = null;
+        }
         try {
             if (mInputStream != null) {
                 mInputStream.close();
@@ -85,9 +85,9 @@ public class TcpSocketImpl implements TcpSocket{
         }
         try {
             mSocket = new Socket();
-            mSocket.connect(new InetSocketAddress(mSocketConfig.getHost(), mSocketConfig.getPort()),mSocketConfig.getTimeout());
+            mSocket.connect(new InetSocketAddress(mSocketConfig.getHost(), mSocketConfig.getPort()), mSocketConfig.getTimeout());
             mSocket.setSoTimeout(mSocketConfig.getTimeout());
-            Log.e("=====",mSocketConfig.getTimeout()+"====timeout====");
+            Log.e("=====", mSocketConfig.getTimeout() + "====timeout====");
             mInputStream = mSocket.getInputStream();
             mOutputStream = mSocket.getOutputStream();
             mRunStatus = CONNECTED;
@@ -102,107 +102,105 @@ public class TcpSocketImpl implements TcpSocket{
     @Override
     public void onLostConnect() {
         disconnect();
-        if(mTcpSocketCallback != null){
-        	mTcpSocketCallback.onLostConnect();
+        if (mTcpSocketCallback != null) {
+            mTcpSocketCallback.onLostConnect();
         }
     }
 
-    public void registerCallback(TcpSocketCallback callback){
-    	mTcpSocketCallback = callback;
+    public void registerCallback(TcpSocketCallback callback) {
+        mTcpSocketCallback = callback;
 
     }
 
     @Override
-    public void recv(){
-        if(mInputStream == null){
+    public void recv() {
+        if (mInputStream == null) {
             return;
         }
-        ThreadPool.getInstance().run(new Thread(){
-        	@Override
-        	public void run() {
-                Log.d("TAG","---run--------》");
-        		 ByteArrayBuffer mByteBuffer = null;
-                 mRun = true;
-                 isLostConnect = false;
-                 while (mRun) {
-                     try {
-                         if (mByteBuffer == null) {
-                             mByteBuffer = new ByteArrayBuffer(mProtocol.getHeadLen());
-                         }
-                         int count = mByteBuffer.mlen;
-                         int readCount = mByteBuffer.moffset;// 已经成功读取的字节的个数
-                         while (readCount < mByteBuffer.mlen) {
-                             int readNum = mInputStream.read(mByteBuffer.mbuffer, readCount, count - readCount);
-                             if (readNum < 0) {
-                                 mRun = false;
-                                 isLostConnect = true;
-                                 break;
-                             }
-                             if (readNum > 0) {
-                                 readCount += readNum;
-                                 mByteBuffer.flush(readCount);
-                             }
+        ThreadPool.getInstance().run(new Thread() {
+            @Override
+            public void run() {
+                Log.d("TAG", "---run--------》");
+                ByteArrayBuffer mByteBuffer = null;
+                mRun = true;
+                isLostConnect = false;
+                while (mRun) {
+                    try {
+                        if (mByteBuffer == null) {
+                            mByteBuffer = new ByteArrayBuffer(mProtocol.getHeadLen());
+                        }
+                        int count = mByteBuffer.mlen;
+                        int readCount = mByteBuffer.moffset;// 已经成功读取的字节的个数
+                        while (readCount < mByteBuffer.mlen) {
+                            int readNum = mInputStream.read(mByteBuffer.mbuffer, readCount, count - readCount);
+                            if (readNum < 0) {
+                                mRun = false;
+                                isLostConnect = true;
+                                break;
+                            }
+                            if (readNum > 0) {
+                                readCount += readNum;
+                                mByteBuffer.flush(readCount);
+                            }
 //                             Thread.sleep(SLEEP_TIME);
-                         }
-                         int totalLen = mProtocol.getDataLen(mByteBuffer.mbuffer);
-                         //数据包小于指定大小,丢失连接（inputsream关闭)
-                         if (mByteBuffer.mlen < mByteBuffer.moffset) {
-                             mRun = false;
-                             mByteBuffer = null;
-                             isLostConnect = true;
-                         } else {
-                             if (mByteBuffer.mlen == totalLen) {
-                                 if (mTcpSocketCallback != null) {
-                                 	mTcpSocketCallback.onReceiveParcel(mByteBuffer.mbuffer);
-                                 }
-                                 mByteBuffer = null;
-                             } else {
-                                 if (mByteBuffer.mlen < MAX_BORDER && totalLen < MAX_BORDER) {
-                                     mByteBuffer.reSize(totalLen, mByteBuffer);
-                                 }
-                                 //oom异常处理
-                                 else {
-                                     mRun = false;
-                                     mByteBuffer = null;
-                                     isLostConnect = true;
-                                 }
-                             }
-                         }
-                     }catch (IOException e){
-                         if(e instanceof java.net.SocketTimeoutException){
-                             continue;
-                         }
-                         Log.d("TAG","---IOException--------》");
-                         isLostConnect = true;
-                         mRun = false;
-                         System.out.println("======"+e.getMessage());
-                         e.printStackTrace();
-                     }
-                 }
-                 disconnect();
-                 //丢失连接业务流程回调
-                 if (isLostConnect) {
-                     if(mTcpSocketCallback != null){
-                     	mTcpSocketCallback.onLostConnect();
-                     }
-                 }
-                 else{
-                     if(mTcpSocketCallback != null){
-                     	mTcpSocketCallback.onReadTaskFinish();
-                     }
-                 }
-             }
+                        }
+                        int totalLen = mProtocol.getDataLen(mByteBuffer.mbuffer);
+                        //数据包小于指定大小,丢失连接（inputsream关闭)
+                        if (mByteBuffer.mlen < mByteBuffer.moffset) {
+                            mRun = false;
+                            mByteBuffer = null;
+                            isLostConnect = true;
+                        } else {
+                            if (mByteBuffer.mlen == totalLen) {
+                                if (mTcpSocketCallback != null) {
+                                    mTcpSocketCallback.onReceiveParcel(mByteBuffer.mbuffer);
+                                }
+                                mByteBuffer = null;
+                            } else {
+                                if (mByteBuffer.mlen < MAX_BORDER && totalLen < MAX_BORDER) {
+                                    mByteBuffer.reSize(totalLen, mByteBuffer);
+                                }
+                                //oom异常处理
+                                else {
+                                    mRun = false;
+                                    mByteBuffer = null;
+                                    isLostConnect = true;
+                                }
+                            }
+                        }
+                    } catch (IOException e) {
+                        if (e instanceof java.net.SocketTimeoutException) {
+                            continue;
+                        }
+                        Log.d("TAG", "---IOException--------》");
+                        isLostConnect = true;
+                        mRun = false;
+                        e.printStackTrace();
+                    }
+                }
+                disconnect();
+                //丢失连接业务流程回调
+                if (isLostConnect) {
+                    if (mTcpSocketCallback != null) {
+                        mTcpSocketCallback.onLostConnect();
+                    }
+                } else {
+                    if (mTcpSocketCallback != null) {
+                        mTcpSocketCallback.onReadTaskFinish();
+                    }
+                }
+            }
         });
     }
 
     @Override
-    public boolean send(final byte[] src,final int srcStart,final int len){
+    public boolean send(final byte[] src, final int srcStart, final int len) {
         if (mOutputStream != null) {
             try {
                 mOutputStream.write(src, srcStart, len);
                 return true;
             } catch (IOException e) {
-                Log.e("====",e.getMessage());
+                Log.e("====", e.getMessage());
                 e.printStackTrace();
                 onLostConnect();
             }
@@ -211,12 +209,12 @@ public class TcpSocketImpl implements TcpSocket{
     }
 
     @Override
-    public int getRunStatus(){
+    public int getRunStatus() {
         return mRunStatus;
     }
-    
+
     @Override
     public void takeCareHeartbeat(Heartbeat heartbeat) {
-    	this.mHeartbeat = heartbeat;
+        this.mHeartbeat = heartbeat;
     }
 }

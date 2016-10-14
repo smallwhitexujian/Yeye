@@ -76,7 +76,7 @@ public class SocketModuleManagerImpl implements SocketModuleManager{
 				tcpSocketServer.getRunStatus();
 			}
 		}
-		return TcpSocket.CONNECTNULL;
+		return TcpSocket.CONNECTLOST;
 	}
 
 	@Override

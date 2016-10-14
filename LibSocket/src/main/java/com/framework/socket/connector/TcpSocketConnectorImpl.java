@@ -71,7 +71,6 @@ public class TcpSocketConnectorImpl implements TcpSocketConnector{
                     if (mTcpSocketServer.connect()) {
                         closeTimerTask();
                         restore();
-
                         mTcpSocketServer.recv();
                         mTcpSocketConnectorCallback.connectSuc(socketModuleManager,mConnectTime);
                     } else {

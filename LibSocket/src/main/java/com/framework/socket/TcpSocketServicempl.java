@@ -16,7 +16,7 @@ public class TcpSocketServicempl implements TcpSocketService{
 	
 	private TcpSocket mTcpSocket;
 	private Selector mSelector;
-	private boolean init = false;
+	private boolean init = true;
 	
 	public TcpSocketServicempl(final Selector selector,final Protocol protocol,final TcpSocketCallback tcpSocketCallback) {
 		if(selector == null){
