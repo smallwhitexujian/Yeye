@@ -1,8 +1,6 @@
 package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.angelatech.yeyelive.R;
@@ -91,13 +89,11 @@ public class MessageRedActivity extends HeaderBaseActivity implements SwipyRefre
                 helper.setText(R.id.time, result);
                 helper.setText(R.id.str_context, item.content);
                 JSONObject msgJsonObj;
-                String msgStr,nickname,amount;
+                String nickname,amount;
                 try {
                     msgJsonObj = new JSONObject(item.data);
-                    msgStr = msgJsonObj.getString("headurl");
                     nickname = msgJsonObj.getString("nickname");
                     amount = msgJsonObj.getString("amount");
-                    helper.setImageUrl(R.id.userPic, msgStr);
                     helper.setText(R.id.tv_nickName,nickname);
                     helper.setText(R.id.coins_str,amount);
                 } catch (JSONException e) {

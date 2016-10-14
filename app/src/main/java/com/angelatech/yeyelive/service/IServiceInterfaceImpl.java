@@ -44,6 +44,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
     private Context mContext;
     private SocketModuleManager mImSocketModuleManager = null;//im socket 管理
     private HttpManager httpManager = new OkHttpManager();
+    private boolean IM_Run = false;
 
     public IServiceInterfaceImpl(Context context) {
         this.mContext = context;
@@ -96,10 +97,11 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                             params.put("device", accountTModel.device);
                             params.put("userid", accountTModel.userid);
                             httpManager.getRequest(CommonUrlConfig.PlatformIntoLogIns, params);
+                            IM_Run = true;
                         }
                     }).start();
                     break;
-                case IServiceValues.CMD_EXIT_LOGIN:
+                case IServiceValues.CMD_EXIT_LOGIN://手动退出
                     if (mImSocketModuleManager != null) {
                         mImSocketModuleManager.stopSocket();
                     }
@@ -116,7 +118,7 @@ public class IServiceInterfaceImpl implements IServiceInterface {
                     StartActivityHelper.jumpActivity(mContext, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, LoginActivity.class, null);
                     Logger.e("退出=========================");
                     break;
-                case IServiceValues.CMD_KICK_OUT:
+                case IServiceValues.CMD_KICK_OUT://重复退出
                     AlertDialog.Builder b = new AlertDialog.Builder(mContext);
                     b.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -153,14 +155,17 @@ public class IServiceInterfaceImpl implements IServiceInterface {
         //ToastUtils.showToast(mContext, "没有网络");
         if (mImSocketModuleManager != null) {
             mImSocketModuleManager.stopSocket();
+            mImSocketModuleManager = null;
+            App.isLogin = false;
         }
     }
 
     @Override
     public void handleNetworkActivie(int networkType) {
-        DebugLogs.d("==是否连接网络==>" + networkType);
-        BasicUserInfoDBModel userModel = CacheDataManager.getInstance().loadUser();
-        LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(userModel.userid), userModel.token);
-        new Login(mContext).attachIM(loginServerModel);
+        if(IM_Run){
+            BasicUserInfoDBModel userModel = CacheDataManager.getInstance().loadUser();
+            LoginServerModel loginServerModel = new LoginServerModel(Long.valueOf(userModel.userid), userModel.token);
+            new Login(mContext).attachIM(loginServerModel);
+        }
     }
 }
