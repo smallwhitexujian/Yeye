@@ -145,6 +145,9 @@ public class SevenRankFragment extends BaseFragment implements
                 helper.setOnClick(R.id.rank_handler, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(item.id)){
+                            return;
+                        }
                         jumpUserInfo(item);
                     }
                 });

@@ -849,6 +849,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 StartActivityHelper.jumpActivityDefault(getActivity(), RechargeActivity.class);
                 break;
             case R.id.diamonds:
+                setShowCocosView();
                 StartActivityHelper.jumpActivityDefault(getActivity(), TabActivity.class);
                 break;
         }
@@ -881,9 +882,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (cocos2dxView != null) {
-            cocos2dxView.onResume();
-        }
         if (mDanmakuView != null) {
 //            mDanmakuView.show();
         }
