@@ -1366,10 +1366,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 public void run() {
                     try {
                         for (int i = 0; i < count; i++) {
-                            if (i > 20 && isRun) {
-                                isRun = false;
-                                return;
-                            }
+//                            if (i > 20 && isRun) {
+//                                isRun = false;
+//                                return;
+//                            }
                             Thread.sleep(200);
                             if (isAdded()) {
                                 getActivity().runOnUiThread(new Runnable() {
