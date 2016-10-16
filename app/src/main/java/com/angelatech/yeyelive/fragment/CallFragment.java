@@ -979,7 +979,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 public void run() {
                     mAdapter.notifyDataSetChanged();
                     chatline.setAdapter(mAdapter);
-                    chatline.setSelection(mAdapter.getCount());
                 }
             });
         }

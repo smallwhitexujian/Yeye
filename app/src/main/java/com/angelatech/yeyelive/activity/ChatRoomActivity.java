@@ -336,6 +336,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
+                    if (callFragment!=null){
+                        callFragment.setShowCocosView();
+                    }
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                     if (choose && (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
                         LiveQiSaveVideo(0);//需要保存视频,
@@ -389,6 +392,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
+                    if (callFragment!=null){
+                        callFragment.setShowCocosView();
+                    }
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                 } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                     //收起键盘
@@ -612,7 +618,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 //判断房间信息是否加载成功，如果没有加载，设置房间信息
                 if (!isInit) {
                     callFragment.setLikeNum(roomModel.getLikenum());
-                    serviceManager.getOnlineListUser();
                     isInit = true;
                 }
                 break;
@@ -620,7 +625,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
                     chatManager.receivedChatMessage(msg.obj, callFragment);
-
                     callFragment.sendDanmu(msg.obj);
                     callFragment.notifyData();
                     if (timeCount == null) {
@@ -643,6 +647,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         liveFinish();
                     } else if (liveState == 1 && !liveUserModel.userid.equals(userModel.userid)) {
                         if (liveFinishFragment != null && roomModel != null) {
+                            if (plUtils != null) {
+                                plUtils.onClickResume();
+                            }
                             //恢复播放
                             liveFinishFragment.dismiss();
                             if (uri.isEmpty()) {
@@ -674,7 +681,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
-                        callFragment.sendDanmu(from.name +  getString(R.string.me_online));
+                        callFragment.sendDanmu(from.name + getString(R.string.me_online));
                     }
                     //更新界面
                     callFragment.updateOnline(onlineNotice);
@@ -806,8 +813,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "fx_qiubite";
                                 cocos2dxGiftModel.exportJsonPath = "fx_qiubite/fx_qiubite.ExportJson";
-                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this)/2;
-                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this)/2;
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
                                 cocos2dxGiftModel.scale = 1f;
                                 bigGift.add(cocos2dxGiftModel);
                                 if (!isStart) {
@@ -959,6 +966,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         liveFinishFragment = new LiveFinishFragment();
         liveFinishFragment.setRoomModel(roomModel);
         liveFinishFragment.show(getSupportFragmentManager(), "");
+        if (plUtils != null) {
+            plUtils.onClickPause();
+        }
     }
 
     //切换摄像头
@@ -1109,6 +1119,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     public void onCancel() {//拒绝
                         //如果是直播，发送下麦通知
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
+                            if (callFragment!=null){
+                                callFragment.setShowCocosView();
+                            }
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
                         } else if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
                             if (readyLiveFragment != null) {
@@ -1222,9 +1235,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (callFragment!=null){
-                        callFragment.setShowCocosView();
-                    }
                     roomFinish();
                 }
             });
