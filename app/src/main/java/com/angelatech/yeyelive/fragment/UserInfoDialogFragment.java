@@ -325,6 +325,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     PicViewModel picViewModel = new PicViewModel();
                     picViewModel.url = baseInfo.headurl;
                     picViewModel.defaultPic = R.drawable.default_face_icon;
+                    if (App.chatRoomApplication.callFragment!=null){
+                        App.chatRoomApplication.callFragment.setShowCocosView();
+                    }
                     StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
                 }
                 dismiss();

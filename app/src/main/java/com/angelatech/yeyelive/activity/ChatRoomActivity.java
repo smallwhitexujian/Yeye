@@ -102,7 +102,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             Manifest.permission.RECORD_AUDIO
     };
     private Boolean boolCloseRoom = false;
-    private CallFragment callFragment;//房间操作
+    public CallFragment callFragment;//房间操作
     private ReadyLiveFragment readyLiveFragment = null;//准备播放页面
     private ImageView face;
     private ImageView room_guide;
