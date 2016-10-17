@@ -189,7 +189,7 @@ public class StreamingBaseActivity extends BaseActivity implements
         mCameraStreamingSetting.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
                 .setContinuousFocusModeEnabled(true)//设置自动对焦功能
                 .setFocusMode(CameraStreamingSetting.FOCUS_MODE_CONTINUOUS_VIDEO)//设置对焦模式:FOCUS_MODE_CONTINUOUS_PICTURE 对焦会比 FOCUS_MODE_CONTINUOUS_VIDEO 更加频繁
-                .setResetTouchFocusDelayInMs(4000)//触发手动对焦之后恢复自动对焦功能。
+                .setResetTouchFocusDelayInMs(3000)//触发手动对焦之后恢复自动对焦功能。
                 .setRecordingHint(false)//以此来提升数据源的帧率。 但是在部分机型上会出现卡顿情况
                 .setCameraFacingId(cameraFacingId)
                 .setBuiltInFaceBeautyEnabled(true)
