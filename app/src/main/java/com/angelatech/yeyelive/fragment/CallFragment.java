@@ -811,6 +811,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
                 break;
             case R.id.btn_share:
+                setShowCocosView();
                 String imageUrl = liveUserModel.headurl;
                 if (imageUrl.indexOf("http://file") > 0) {
                     imageUrl = imageUrl.substring(0, imageUrl.indexOf("?")) + "?imageView2/2/w/1200/h/650";

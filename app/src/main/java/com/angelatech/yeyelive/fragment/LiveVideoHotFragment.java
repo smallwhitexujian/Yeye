@@ -39,7 +39,6 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
-import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.banner.Banner;
 import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
@@ -225,20 +224,21 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 LoadingDialog.showLoadingDialog(getActivity(),null);
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
-                    final CommDialog commDialog = new CommDialog();
-                    CommDialog.Callback callback = new CommDialog.Callback() {
-                        @Override
-                        public void onCancel() {
-                            commDialog.cancelDialog();
-                        }
-
-                        @Override
-                        public void onOK() {
-                            startLive(item);
-                            commDialog.cancelDialog();
-                        }
-                    };
-                    commDialog.CommDialog(getActivity(), getString(R.string.continue_to_watch), true, callback);
+                    ToastUtils.showToast(getActivity(),getString(R.string.continue_to_watch));
+//                    final CommDialog commDialog = new CommDialog();
+//                    CommDialog.Callback callback = new CommDialog.Callback() {
+//                        @Override
+//                        public void onCancel() {
+//                            commDialog.cancelDialog();
+//                        }
+//
+//                        @Override
+//                        public void onOK() {
+//                            startLive(item);
+//                            commDialog.cancelDialog();
+//                        }
+//                    };
+//                    commDialog.CommDialog(getActivity(), getString(R.string.continue_to_watch), true, callback);
                 } else {
                     startLive(item);
                 }

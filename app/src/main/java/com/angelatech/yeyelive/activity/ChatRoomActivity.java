@@ -391,6 +391,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 //结束直播
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
+                    if ((DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime > 60) {
+                        LiveQiSaveVideo(0);//需要保存视频,
+                    }
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
                     if (callFragment!=null){
                         callFragment.setShowCocosView();
@@ -1153,11 +1156,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         });
     }
 
-    private void stopDisConnectionDialog() {
-        if (peerDisConnectionDialog != null) {
-            peerDisConnectionDialog.cancelDialog();
-        }
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
