@@ -194,7 +194,10 @@
 -keep class com.android.volley.toolbox.ImageLoader$* { *; }
 ##添加混淆
 -keep class org.cocos2dx.lib.**{*;}
-
+##Zbar混淆
+-keep class net.sourceforge.zbar.** { *; }
+-keep interface net.sourceforge.zbar.** { *; }
+-dontwarn net.sourceforge.zbar.**
 ##okhttp
 -dontwarn okhttp3.**
 -keep class okhttp3.** { *;}
