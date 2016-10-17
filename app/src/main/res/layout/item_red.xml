@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_f9f9f9"
     android:orientation="vertical">
 
     <TextView
@@ -29,15 +29,6 @@
         android:layout_below="@+id/time"
         android:orientation="horizontal">
 
-        <!--<com.xj.frescolib.View.FrescoRoundView-->
-            <!--android:id="@+id/userPic"-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_marginLeft="14dp"-->
-            <!--fresco:placeholderImage="@drawable/ic_launcher"-->
-            <!--fresco:roundAsCircle="true"-->
-            <!--tools:ignore="RtlHardcoded" />-->
-
         <LinearLayout
             android:id="@+id/layout_item"
             android:layout_width="wrap_content"
@@ -52,11 +43,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="34dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,15 +61,14 @@
                     android:id="@+id/tv_nickName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="sadfjsdk"
-                    android:maxWidth="170dp"
-                    android:textColor="@color/color_eecc1b"
-                    android:textSize="14sp"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
-                    />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="170dp"
+                    android:text="sadfjsdk"
+                    android:textColor="@color/color_eecc1b"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -89,11 +79,21 @@
                     android:textColor="@color/color_ffffff"
                     android:textSize="14sp" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="46dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_red_envelope_gold"
                     android:gravity="center|right"
                     android:orientation="horizontal"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="2dp"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
@@ -104,9 +104,9 @@
 
                     <TextView
                         android:id="@+id/coins_str"
-                        android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:textColor="@color/color_ffffff"
                         android:textSize="12sp"
                         tools:text="12312312" />
@@ -121,19 +121,17 @@
                 android:background="#FFEC4B4E" />
 
 
-
             <TextView
                 android:id="@+id/str_context"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="12dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-
-                tools:text="@string/system_red_tips"
+                android:layout_marginTop="12dp"
                 android:textColor="@color/color_ffffff"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="@string/system_red_tips" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
