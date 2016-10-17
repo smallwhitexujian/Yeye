@@ -1232,6 +1232,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
      */
     public void exitRoom() {
         if (!boolCloseRoom) {
+            if (callFragment!=null){
+                callFragment.setShowCocosView();
+            }
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

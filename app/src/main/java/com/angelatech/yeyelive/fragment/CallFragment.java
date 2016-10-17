@@ -724,7 +724,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             UserIsFollow();
         } else {
             cameraSwitchButton.setVisibility(View.VISIBLE);
-            btn_share.setVisibility(View.GONE);
+            btn_share.setVisibility(View.VISIBLE);
             btn_Follow.setVisibility(View.GONE);
         }
         fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
@@ -882,6 +882,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+            cocos2dxView.onResume();
+        }
         if (mDanmakuView != null) {
 //            mDanmakuView.show();
         }
