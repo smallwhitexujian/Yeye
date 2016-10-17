@@ -20,13 +20,13 @@
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_start"
+            android:layout_marginBottom="50dp"
             android:layout_marginTop="158dp"
             android:background="@null"
             android:gravity="center"
             android:hint="@string/begin_live_title"
             android:maxLength="60"
-            android:layout_above="@+id/btn_start"
-            android:layout_marginBottom="50dp"
             android:textColor="#FEFEFE"
             android:textColorHint="@color/color_fefefe"
             android:textSize="20sp" />
@@ -173,10 +173,10 @@
             android:layout_gravity="bottom"
             android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/layout_ticket"
+            android:layout_toRightOf="@+id/layout_ticket"
             android:contentDescription="@string/switch_camera"
             android:padding="10dp"
-            android:src="@drawable/btn_start_play_switch_camera"
-            android:layout_toRightOf="@+id/layout_ticket" />
+            android:src="@drawable/btn_room_exchange_n" />
 
 
         <Button
@@ -196,8 +196,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/Front_cover"
-            android:layout_marginTop="4dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
             android:text="@string/last_cover"
             android:textColor="#FEFEFE"
             android:textSize="12dp" />
@@ -206,11 +206,11 @@
             android:id="@+id/Front_cover"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_below="@+id/button_call_switch_camera"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/btn_start_play_upload_cover"
-            fresco:roundAsCircle="true"
-            android:layout_below="@+id/button_call_switch_camera"
-            android:layout_centerHorizontal="true" />
+            fresco:roundAsCircle="true" />
     </RelativeLayout>
 </RelativeLayout>

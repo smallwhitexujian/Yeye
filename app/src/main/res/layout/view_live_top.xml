@@ -17,26 +17,30 @@
             android:layout_height="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="1dp"
-            android:background="@drawable/bg_room_name"
+            android:background="@drawable/bg_room_homeowners_info_up"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxLength="7"
             android:maxLines="1"
             android:paddingBottom="2dp"
             android:paddingLeft="22dp"
             android:paddingRight="6dp"
             android:paddingTop="2dp"
             android:textColor="#222222"
-            android:textSize="10sp" />
+            android:textSize="14sp"
+            tools:text="your name is " />
 
         <TextView
             android:id="@+id/txt_likenum"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:layout_alignLeft="@+id/txt_barname"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/txt_barname"
             android:layout_below="@+id/txt_barname"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/bg_room_intimacy"
-            android:drawableLeft="@drawable/icon_room_intimacy"
+            android:background="@drawable/bg_room_homeowners_info_down"
+            android:drawableLeft="@drawable/icon_room_user_attention"
+            android:drawablePadding="2dp"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:paddingBottom="1dp"
@@ -44,7 +48,7 @@
             android:paddingTop="1dp"
             android:text="--"
             android:textColor="#FEFEFE"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
 
         <ImageView
             android:layout_width="42dp"
@@ -73,6 +77,7 @@
             android:layout_marginBottom="2dp"
             android:contentDescription="@null"
             android:src="@drawable/icon_vip_mark"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
     </RelativeLayout>
 </LinearLayout>

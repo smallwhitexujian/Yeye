@@ -34,7 +34,7 @@ public class App extends Application {
     private AppInterface mAppInterface = new AppInterfaceImpl();
 
     //常量区
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static boolean isLogin = false;// 判断用户是否登录
     public static boolean isQiNiu = true; // 是否使用七牛服务器
 
@@ -42,7 +42,7 @@ public class App extends Application {
     private static final String FILEPATH_ROOT = SDCARD_ROOT + File.separator + AppConfig.FILEPATH_ROOT_NAME;
     public static final String FILEPATH_CACHE = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_CACHE_NAME;
     public static final String FILEPATH_VOICE = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_VOICE_NAME;
-    public static final String FILEPATH_UPAPK = "yalla" + File.separator + AppConfig.FILEPATH_UPAPK_NAME;
+    public static final String FILEPATH_UPAPK = "yeye" + File.separator + AppConfig.FILEPATH_UPAPK_NAME;
     public static final String FILEPATH_CAMERA = FILEPATH_ROOT + File.separator + AppConfig.FILEPATH_CAMERA_NAME;
     public static final String FILEPATH_VOICE_RECORD = FILEPATH_VOICE + File.separator + AppConfig.FILEPATH_VOICE_RECORD_NAME;
 
