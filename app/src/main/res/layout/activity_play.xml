@@ -11,12 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:orientation="horizontal" />
+        android:layout_marginLeft="40dp"
+        android:orientation="horizontal"
+        tools:ignore="RtlHardcoded" />
 
     <SurfaceView
         android:id="@+id/player_surfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:visibility="visible"
         android:visibility="gone" />
 
     <com.xj.frescolib.View.FrescoDrawee
@@ -86,8 +89,8 @@
 
             <ImageView
                 android:id="@+id/player_play_btn"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:contentDescription="@null"
                 android:padding="6dp"
                 android:src="@drawable/btn_playback_play"

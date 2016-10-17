@@ -96,7 +96,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private Cocos2dxView cocos2dxView = new Cocos2dxView();
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
     private boolean boolReport = false; //是否举报
-
+    private String diamonds = null;
     private volatile int time = 5000;
 
     Runnable runnable = new Runnable() {
@@ -182,7 +182,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
 
     private void initView() {
         default_img = (FrescoDrawee) findViewById(R.id.default_img);
-
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
         player_play_btn = (ImageView) findViewById(R.id.player_play_btn);
@@ -421,10 +420,10 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                                 Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "fx_jixiangwu";
                                 cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu/fx_jixiangwu.ExportJson";
-                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 2;
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 3;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this);
                                 cocos2dxGiftModel.speedScale = 0.005f;
-                                cocos2dxGiftModel.scale = 0.7f;
+                                cocos2dxGiftModel.scale = 0.8f;
                                 cocos2dxGift.play(cocos2dxView, cocos2dxGiftModel);
                                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, data, userModel.userid);
                             } else {
