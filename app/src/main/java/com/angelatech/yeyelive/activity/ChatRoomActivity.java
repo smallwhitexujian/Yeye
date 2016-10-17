@@ -255,7 +255,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     public void run() {
                         face.setImageDrawable(drawable);
                         face.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        body.setBackground(drawable);
                     }
                 });
             }
