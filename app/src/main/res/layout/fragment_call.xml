@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:background="@color/color_33000000"
+                android:background="@drawable/btn_room_assets"
                 android:drawablePadding="4dp"
                 android:drawableRight="@drawable/btn_room_assets_more"
                 android:paddingBottom="2dp"
