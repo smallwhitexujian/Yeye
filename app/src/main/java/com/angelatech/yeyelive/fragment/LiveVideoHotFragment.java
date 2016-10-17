@@ -198,7 +198,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
         };
         mainEnter = ((MainActivity) getActivity()).getMainEnter();
-        if (fromType == 1){
+        if (fromType == 1) {
             loadBanner();
         }
     }
@@ -212,7 +212,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
         userInfoModel.sex = item.sex;
         UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
         userInfoDialogFragment.setUserInfoModel(userInfoModel);
-        if (isAdded()){
+        if (isAdded()) {
             userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
         }
     }
@@ -221,10 +221,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LoadingDialog.showLoadingDialog(getActivity(),null);
+                LoadingDialog.showLoadingDialog(getActivity(), null);
                 final LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
-                    ToastUtils.showToast(getActivity(),getString(R.string.continue_to_watch));
+                    ToastUtils.showToast(getActivity(), getString(R.string.continue_to_watch));
 //                    final CommDialog commDialog = new CommDialog();
 //                    CommDialog.Callback callback = new CommDialog.Callback() {
 //                        @Override
@@ -239,9 +239,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
 //                        }
 //                    };
 //                    commDialog.CommDialog(getActivity(), getString(R.string.continue_to_watch), true, callback);
-                } else {
-                    startLive(item);
                 }
+                startLive(item);
             }
         });
         listView.setAdapter(adapter);
@@ -281,7 +280,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
             ChatRoom.enterChatRoom(getActivity(), roomModel);
         } else {
             //回放视频
-            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class,  item);
+            StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, item);
         }
     }
 
@@ -295,7 +294,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         swipyRefreshLayout.setRefreshing(false);
                     }
                 });
-                if (isAdded()){
+                if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -367,7 +366,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
     @Override
     public void onRefresh(final SwipyRefreshLayoutDirection direction) {
-        if (isAdded()){
+        if (isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -448,11 +447,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
                                 datas.addAll(result.livedata);
                                 datas.addAll(result.videodata);
                                 fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
-                            }
-                            else{
+                            } else {
                                 if (IS_REFRESH) {
                                     fragmentHandler.sendEmptyMessage(MSG_NO_DATA);
-                                }else{
+                                } else {
                                     fragmentHandler.sendEmptyMessage(MSG_NO_MORE);
                                 }
                             }
@@ -464,19 +462,19 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 }
             }
         };
-        try{
+        try {
             MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
             if (type == 1) {
                 liveUrl = CommonUrlConfig.LiveVideoList;
             } else if (type == 2) {
                 liveUrl = CommonUrlConfig.LiveVideoFollow;
-            } else if (type == 3){
+            } else if (type == 3) {
                 liveUrl = CommonUrlConfig.LiveVideoNewM;
             }
-            if (mainEnter != null){
+            if (mainEnter != null) {
                 mainEnter.loadRoomList(liveUrl, userInfo, pageindex, pagesize, datesort, result_type, callback);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -497,7 +495,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 super.onSuccess(response);
                 CommonParseListModel<BannerModel<String>> results = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<BannerModel<String>>>() {
                 }.getType());
-                if (results != null && isAdded() ) {
+                if (results != null && isAdded()) {
                     if (HttpFunction.isSuc(results.code)) {
                         for (final BannerModel data : results.data) {
                             SimpleDraweeView simpleDraweeView = new SimpleDraweeView(getActivity());
