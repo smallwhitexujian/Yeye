@@ -414,5 +414,6 @@
     <string name="system_red_msg">红包消息</string>
     <string name="system_fans_msg">粉丝消息</string>
     <string name="system_follow">关注了你</string>
-    <string name="red_deft_txt">恭喜发财，再接再厉！</string>
+    <string name="red_deft_txt">留言！</string>
+    <string name="system_rad_queren">确认发送</string>
 </resources>

@@ -62,7 +62,6 @@
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_alignParentRight="true"
-        android:layout_margin="7dp"
         android:contentDescription="@null"
         android:padding="8dp"
         android:src="@drawable/btn_start_play_live_close"
