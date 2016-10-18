@@ -234,6 +234,7 @@ public class LeftFragment extends HintFragment {
                     iv_vip.setVisibility(View.GONE);
                 }
                 CacheDataManager.getInstance().update(BaseKey.USER_FANS, basicUserInfoDBModel.fansNum, basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_IS_V, basicUserInfoDBModel.isv, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
