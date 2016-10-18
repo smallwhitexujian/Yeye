@@ -372,7 +372,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                 }.getType());
                 if (result != null) {
                     if (HttpFunction.isSuc(result.code)) {
-                        pageIndex = result.index + 1;
                         if (result.videodata != null && result.videodata.size() > 0) {
                             if (IS_REFRESH) {
                                 list.clear();
@@ -385,7 +384,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                             }
                         }
                     }
-
                 }
                 if (list.isEmpty()) {
                     uiHandler.sendEmptyMessage(MSG_VIDEO_LIST_NODATA);
