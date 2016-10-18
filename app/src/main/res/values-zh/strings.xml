@@ -259,7 +259,7 @@
     <string name="please_select_gift_people">请选择礼物接收人</string>
     <string name="please_input_text">请输入聊天内容</string>
     <string name="traffic_alert">当前使用手机数据流量，是否继续开播？</string>
-    <string name="continue_to_watch">当前使用手机数据流量，是否继续观看？</string>
+    <string name="continue_to_watch">你正在使用数据流量观看.</string>
     <string name="data_get_fail">直播数据获取失败！</string>
     <string name="fail">失败！</string>
     <!--banner-->
