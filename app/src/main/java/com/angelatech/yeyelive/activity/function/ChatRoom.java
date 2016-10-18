@@ -231,9 +231,8 @@ public class ChatRoom extends HttpFunction {
 
     /**
      * 保存直播录像
-     *
      */
-    public void LiveQiSaveVideo(String url, BasicUserInfoDBModel userInfo, String liveid, int playnum,int issave, HttpBusinessCallback callback) {
+    public void LiveQiSaveVideo(String url, BasicUserInfoDBModel userInfo, String liveid, int playnum, int issave, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userInfo.userid);
         params.put("token", userInfo.token);
@@ -246,7 +245,7 @@ public class ChatRoom extends HttpFunction {
     /**
      * 升级
      */
-    public void upApk(String url ,String versionCode,HttpBusinessCallback callback) {
+    public void upApk(String url, String versionCode, HttpBusinessCallback callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("version", versionCode);
         params.put("os", "2");//2.表示Android 。1表示IOS
@@ -256,17 +255,19 @@ public class ChatRoom extends HttpFunction {
     /**
      * 统计活跃
      */
-    public void setMark(String url ,String userId,String device,HttpBusinessCallback callback) {
+    public void setMark(String url, String userId, String device,String model,String edition , HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userId);
         params.put("Device", device);
+        params.put("model", model);//机型
+        params.put("edition", edition);//版本号
         httpGet(url, params, callback);
     }
 
     /**
      * 发送红包
      */
-    public void PayReward(String url ,String vid,String amount,String content,String userid,String token,HttpBusinessCallback callback) {
+    public void PayReward(String url, String vid, String amount, String content, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("vid", vid);
         params.put("amount", amount);
@@ -279,7 +280,7 @@ public class ChatRoom extends HttpFunction {
     /**
      * 获取封面
      */
-    public void getRoomInfo(String url,String userid ,String token,HttpBusinessCallback callback){
+    public void getRoomInfo(String url, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);

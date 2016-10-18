@@ -259,7 +259,7 @@ public class ReadyLiveFragment extends BaseFragment {
                     text = getString(R.string.shareTitle);
                 }
                 WxShare webchatmoment = new WxShare(getActivity(), shareListener);
-                webchatmoment.SceneWebPage(text, getString(R.string.shareDescription), CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx,
+                webchatmoment.SceneWebPage(text, getString(R.string.shareDescription), CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid,
                         img, 1);
                 break;
             case R.id.btn_wechat:
@@ -268,7 +268,7 @@ public class ReadyLiveFragment extends BaseFragment {
                     text = getString(R.string.shareTitle);
                 }
                 WxShare wxShare = new WxShare(getActivity(), shareListener);
-                wxShare.SceneWebPage(text, getString(R.string.shareDescription), CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img, 0);
+                wxShare.SceneWebPage(text, getString(R.string.shareDescription), CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid, img, 0);
                 break;
             case R.id.btn_weibo:
                 closekeybord();
@@ -276,7 +276,7 @@ public class ReadyLiveFragment extends BaseFragment {
                     text = getString(R.string.shareTitle);
                 }
                 SinaShare sinaShare = new SinaShare(getActivity(), text, getString(R.string.shareDescription),
-                        CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.idx, img);
+                        CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid, img);
                 sinaShare.registerCallback(shareListener);
                 sinaShare.share(true, true, true, false, false, false);
                 break;

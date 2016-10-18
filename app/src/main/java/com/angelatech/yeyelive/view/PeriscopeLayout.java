@@ -81,7 +81,7 @@ public class PeriscopeLayout extends RelativeLayout {
 
     private void init(Context mContext) {
         //初始化显示的图片
-        drawables = new Drawable[8];
+        drawables = new Drawable[10];
         Drawable love_0 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_1);
         Drawable love_1 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_2);
         Drawable love_2 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_3);
@@ -90,6 +90,8 @@ public class PeriscopeLayout extends RelativeLayout {
         Drawable love_5 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_6);
         Drawable love_6 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_7);
         Drawable love_7 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_8);
+        Drawable love_8 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_10);
+        Drawable love_9 = ContextCompat.getDrawable(mContext,R.drawable.icon_room_love_9);
 
         drawables[0] = love_0;
         drawables[1] = love_1;
@@ -99,6 +101,8 @@ public class PeriscopeLayout extends RelativeLayout {
         drawables[5] = love_5;
         drawables[6] = love_6;
         drawables[7] = love_7;
+        drawables[8] = love_8;
+        drawables[9] = love_9;
         //获取图的宽高 用于后面的计算
         //注意 我这里3张图片的大小都是一样的,所以我只取了一个
         dHeight = love_0.getIntrinsicHeight();
@@ -128,7 +132,7 @@ public class PeriscopeLayout extends RelativeLayout {
     public void addHeart() {
         ImageView imageView = new ImageView(getContext());
         //随机选一个
-        imageView.setImageDrawable(drawables[random.nextInt(7)]);
+        imageView.setImageDrawable(drawables[random.nextInt(9)]);
         imageView.setLayoutParams(lp);
         addView(imageView);
         Animator set = getAnimator(imageView);

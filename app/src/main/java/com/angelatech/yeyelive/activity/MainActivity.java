@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity {
     private CommonAdapter<Map> commonAdapter;
     private FrescoRoundView mFaceIcon;//头像
     private ImageView iv_vip;
-    private TextView hotTab, followTab,newTab,pot;
+    private TextView hotTab, followTab, newTab, pot;
     private FragmentManager fragmentManager = null;
     private MainEnter mainEnter;
     private SimpleFragmentPagerAdapter pagerAdapter;
@@ -78,12 +79,15 @@ public class MainActivity extends BaseActivity {
     private boolean isShowOpen;
     private Drawable drawable;
     private String versionCode = null;
-    private  SystemMessage systemMessage;
+    private String versionName = null;
+    private SystemMessage systemMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         versionCode = Utility.getVersionCode(MainActivity.this);
+        versionName = Utility.getVersionName(MainActivity.this);
         initView();
         setView();
         roomSoundState roomsoundState = roomSoundState.getInstance();
@@ -105,9 +109,9 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         userModel = CacheDataManager.getInstance().loadUser();
-        if (systemMessage.haveNewSystemMsg(MainActivity.this)){
+        if (systemMessage.haveNewSystemMsg(MainActivity.this)) {
             pot.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             pot.setVisibility(View.GONE);
         }
         setPhoto();
@@ -451,6 +455,7 @@ public class MainActivity extends BaseActivity {
      */
     private SPreferencesTool sp;
     private String ACCOUNT_TIME_STAMP = "accountTimeStamp";
+
     private boolean markStrategy(Context context) {
         if (sp == null) {
             sp = SPreferencesTool.getInstance();
@@ -458,7 +463,7 @@ public class MainActivity extends BaseActivity {
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         long today = Long.valueOf(sdf.format(dt));
-        long recordDay = sp.getLongValue(MainActivity.this,ACCOUNT_TIME_STAMP);
+        long recordDay = sp.getLongValue(MainActivity.this, ACCOUNT_TIME_STAMP);
         if (recordDay == -1) {
             return true;
         } else if (today != recordDay) {
@@ -472,7 +477,7 @@ public class MainActivity extends BaseActivity {
         if (!markStrategy(context)) {
             return;
         }
-        HttpBusinessCallback callback = new HttpBusinessCallback(){
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 super.onFailure(errorMap);
@@ -485,10 +490,10 @@ public class MainActivity extends BaseActivity {
                 Date dt = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 long today = Long.valueOf(sdf.format(dt));
-                sp.putValue(context,ACCOUNT_TIME_STAMP, today);
+                sp.putValue(context, ACCOUNT_TIME_STAMP, today);
             }
         };
         ChatRoom chatRoom = new ChatRoom(this);
-        chatRoom.setMark(CommonUrlConfig.PlatformIntoLogIns, userId, DeviceTool.getUniqueID(context),callback);
+        chatRoom.setMark(CommonUrlConfig.PlatformIntoLogIns, userId, DeviceTool.getUniqueID(context), Build.BRAND, versionName, callback);
     }
 }
