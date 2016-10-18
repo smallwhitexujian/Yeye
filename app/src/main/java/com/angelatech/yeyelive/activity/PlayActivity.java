@@ -385,11 +385,17 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 String context = edit_context.getText().toString();
                 double userDiamonds = Double.valueOf(userModel.diamonds);
                 if (!aomunt.isEmpty() && userDiamonds > Double.valueOf(aomunt.trim())) {
-                    coins_low_tips.setVisibility(View.INVISIBLE);
-                    sendRed(aomunt, context);
-                    dialog.dismiss();
+                    if (Double.valueOf(aomunt) < 10) {
+                        coins_low_tips.setVisibility(View.VISIBLE);
+                        coins_low_tips.setText(R.string.system_red_more_coins);
+                    } else {
+                        coins_low_tips.setVisibility(View.INVISIBLE);
+                        sendRed(aomunt, context);
+                        dialog.dismiss();
+                    }
                 } else {
                     coins_low_tips.setVisibility(View.VISIBLE);
+                    coins_low_tips.setText(R.string.coins_low);
                 }
             }
         });
