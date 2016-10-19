@@ -197,7 +197,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 });
             }
         };
-        mainEnter = ((MainActivity) getActivity()).getMainEnter();
+        mainEnter = new MainEnter(getActivity());
         if (fromType == 1) {
             loadBanner();
         }
@@ -463,7 +463,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
             }
         };
         try {
-            MainEnter mainEnter = ((MainActivity) getActivity()).getMainEnter();
             if (type == 1) {
                 liveUrl = CommonUrlConfig.LiveVideoList;
             } else if (type == 2) {

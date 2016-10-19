@@ -37,6 +37,9 @@ public class PicViewActivity extends BaseActivity {
     }
 
     private void setView(){
+        if(picViewModel.url.equals("")){
+            return;
+        }
         LoadBitmap.loadBitmap(this, UriHelper.obtainUri(picViewModel.url), new LoadBitmap.LoadBitmapCallback() {
             @Override
             public void onLoadSuc(Bitmap bitmap) {
