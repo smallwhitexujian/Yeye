@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.fragment.LiveVideoHotFragment;
+import com.angelatech.yeyelive.fragment.NewFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             tabTitles.add(newTab);
             tabTitles.add(followTab);
             fragments.put(hotTab, LiveVideoHotFragment.newInstance(1));
-            fragments.put(newTab, LiveVideoHotFragment.newInstance(3));
+            fragments.put(newTab, NewFragment.newInstance(0));
             fragments.put(followTab, LiveVideoHotFragment.newInstance(2));
         }
     }

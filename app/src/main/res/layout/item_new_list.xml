@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_ffffff"
+    android:orientation="vertical"
+    android:paddingTop="1dp">
+
+    <com.xj.frescolib.View.FrescoDrawee
+        android:id="@+id/live_cover"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:placeholderImage="@drawable/bg_default_cover_pic" />
+
+    <TextView
+        android:id="@+id/iv_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/icon_home_live_ing"
+        android:contentDescription="@null"
+        android:gravity="center"
+        android:text="LIVE"
+        android:textColor="@color/color_ffffff"
+        android:textSize="12sp"
+        tools:ignore="HardcodedText,RtlHardcoded" />
+
+
+    <TextView
+        android:id="@+id/area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/live_cover"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:drawableLeft="@drawable/icon_home_location"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="4dp"
+        android:textColor="@color/color_ffffff"
+        android:textSize="10sp"
+        tools:ignore="RelativeOverlap,RtlHardcoded,RtlSymmetry,SmallSp"
+        tools:text="amsndkajsndaklsjdalksjdlkajslkd" />
+
+    <ImageView
+        android:id="@+id/ticket"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/live_cover"
+        android:layout_alignRight="@+id/live_cover"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@null"
+        android:visibility="gone"
+        android:src="@drawable/icon_tickets_golds_big" />
+</RelativeLayout>
