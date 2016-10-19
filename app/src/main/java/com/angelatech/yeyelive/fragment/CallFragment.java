@@ -1104,7 +1104,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 setRoomPopSpinner();
                 break;
             case SHOW_SOFT_KEYB://键盘弹出事件
-//                DebugLogs.d("====键盘弹起-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
                     params.height = App.screenDpx.heightPixels - (int) msg.obj;
@@ -1118,7 +1117,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case ONSHOW_SOFT_KEYB://键盘收起了
-//                DebugLogs.d("====键盘收齐-------");
                 if (ly_main != null) {
                     ViewGroup.LayoutParams params2 = ly_main.getLayoutParams();
                     params2.height = App.screenDpx.heightPixels;
@@ -1279,11 +1277,13 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 String str = "x" + finalI;
-                                translateAnimation_out.start();
-                                numText.setText(str);
-                                numText1.setText(str);
-                                numText1.startAnimation(scaleAnimation);
-                                numText.startAnimation(scaleAnimation);
+                                if (translateAnimation_out!=null){
+                                    translateAnimation_out.start();
+                                    numText.setText(str);
+                                    numText1.setText(str);
+                                    numText1.startAnimation(scaleAnimation);
+                                    numText.startAnimation(scaleAnimation);
+                                }
                             }
                         });
                     }
