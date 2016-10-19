@@ -156,6 +156,11 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                     helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
                     helper.setText(R.id.iv_line, "LIVE");
                     helper.setImageURI(R.id.live_cover,liveModel.headurl);
+                    if (liveModel.area == null || "".equals(liveModel.area)) {
+                        helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                    } else {
+                        helper.setText(R.id.area, liveModel.area);
+                    }
                     if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
                         helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
                     } else {
@@ -171,6 +176,11 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                     helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
                     helper.setText(R.id.iv_line, "REC");
                     helper.setImageURI(R.id.live_cover, videoModel.headurl);
+                    if (item.area == null || "".equals(item.area)) {
+                        helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                    } else {
+                        helper.setText(R.id.area, item.area);
+                    }
                 }
             }
         };
