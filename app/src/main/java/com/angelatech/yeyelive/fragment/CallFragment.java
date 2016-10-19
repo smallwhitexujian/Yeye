@@ -515,7 +515,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             ViewgiftLayout.setVisibility(View.GONE);
             ViewgiftLayout.clearFocus();
             ViewgiftLayout.setFocusable(false);
-            if (cocos2dxView!=null){
+            if (cocos2dxView != null) {
                 cocos2dxView.onPause();
             }
         }
@@ -525,7 +525,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (ViewgiftLayout != null) {
             ViewgiftLayout.setFocusable(true);
             ViewgiftLayout.setVisibility(View.VISIBLE);
-            if (cocos2dxView!=null){
+            if (cocos2dxView != null) {
                 cocos2dxView.onResume();
             }
         }
@@ -1313,11 +1313,13 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 String str = "x" + finalI;
-                                translateAnimation_out_s.start();
-                                numText_s.setText(str);
-                                numText1_s.setText(str);
-                                numText1_s.startAnimation(scaleAnimation_s);
-                                numText_s.startAnimation(scaleAnimation_s);
+                                if (translateAnimation_out_s != null) {
+                                    translateAnimation_out_s.start();
+                                    numText_s.setText(str);
+                                    numText1_s.setText(str);
+                                    numText1_s.startAnimation(scaleAnimation_s);
+                                    numText_s.startAnimation(scaleAnimation_s);
+                                }
                             }
                         });
                     }

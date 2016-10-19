@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.fragment;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.MainActivity;
 import com.angelatech.yeyelive.activity.PlayActivity;
 import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
@@ -86,6 +86,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private final Object lock = new Object();
     private static final String ARG_POSITION = "position";
     private int fromType = 0;
+    private int screenWidth;
 
     public static LiveVideoHotFragment newInstance(int position) {
         LiveVideoHotFragment f = new LiveVideoHotFragment();
@@ -130,6 +131,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     }
 
     private void initView() {
+        screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth(); // 屏幕宽（像素，如：px）
         userInfo = CacheDataManager.getInstance().loadUser();
         swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
         listView = (ListView) view.findViewById(R.id.live_video_hot_list);
@@ -140,7 +142,13 @@ public class LiveVideoHotFragment extends BaseFragment implements
             public void convert(ViewHolder helper, final LiveVideoModel item, int position) {
                 if (item.type == 1) {
                     LiveModel liveModel = (LiveModel) item;
-                    helper.setImageResource(R.id.iv_line, R.drawable.icon_home_live_ing);
+                    ViewGroup.LayoutParams para;
+                    para = helper.getView(R.id.live_cover).getLayoutParams();
+                    para.height = screenWidth;
+                    para.width = screenWidth;
+                    helper.getView(R.id.live_cover).setLayoutParams(para);
+                    helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
+                    helper.setText(R.id.iv_line, "LIVE");
                     helper.setImageUrl(R.id.user_face, VerificationUtil.getImageUrl(liveModel.headurl));
                     helper.setImageURI(R.id.live_cover, liveModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(liveModel.onlinenum));
@@ -158,13 +166,19 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         helper.setText(R.id.live_introduce, liveModel.introduce);
                     }
                     if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
-                        helper.showView(R.id.layout_ticket);
+                        helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
                     } else {
-                        helper.hideView(R.id.layout_ticket);
+                        helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
                     }
                 } else {
                     VideoModel videoModel = (VideoModel) item;
-                    helper.setImageResource(R.id.iv_line, R.drawable.icon_home_play_back);
+                    ViewGroup.LayoutParams para;
+                    para = helper.getView(R.id.live_cover).getLayoutParams();
+                    para.height = screenWidth;
+                    para.width = screenWidth;
+                    helper.getView(R.id.live_cover).setLayoutParams(para);
+                    helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
+                    helper.setText(R.id.iv_line, "REC");
                     helper.setImageUrl(R.id.user_face, VerificationUtil.getImageUrl(videoModel.headurl));
                     helper.setImageURI(R.id.live_cover, videoModel.barcoverurl);
                     helper.setText(R.id.live_hot_num, getLimitNum(videoModel.playnum));
@@ -189,7 +203,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 } else {
                     helper.hideView(R.id.iv_vip);
                 }
-                helper.setOnClick(R.id.layout_bar, new View.OnClickListener() {
+                helper.setOnClick(R.id.user_face, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         jumpUserInfo(item);

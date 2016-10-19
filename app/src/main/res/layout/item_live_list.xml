@@ -1,171 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:layout_marginTop="2dp"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/layout_bar"
+    <com.xj.frescolib.View.FrescoDrawee
+        android:id="@+id/live_cover"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="300dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:placeholderImage="@drawable/bg_default_cover_pic" />
 
-        <com.xj.frescolib.View.FrescoRoundView
-            android:id="@+id/user_face"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/default_photo"
-            fresco:roundAsCircle="true" />
+    <TextView
+        android:id="@+id/iv_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/icon_home_live_ing"
+        android:contentDescription="@null"
+        android:gravity="center"
+        android:text="LIVE"
+        android:textColor="@color/color_ffffff"
+        android:textSize="12sp"
+        tools:ignore="HardcodedText,RtlHardcoded" />
+
+
+    <com.xj.frescolib.View.FrescoRoundView
+        android:id="@+id/user_face"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        fresco:fadeDuration="300"
+        fresco:placeholderImage="@drawable/default_photo"
+        fresco:roundAsCircle="true"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/iv_vip"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:layout_alignBottom="@id/user_face"
+        android:layout_alignRight="@id/user_face"
+        android:layout_marginBottom="2dp"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_vip_mark"
+        android:visibility="visible"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/tv_line_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:drawablePadding="4dp"
+        android:src="@drawable/icon_home_online_num"
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="70dp"
+        android:layout_alignBottom="@+id/live_cover"
+        tools:ignore="RtlHardcoded"
+        android:layout_alignParentLeft="true" />
+
+    <LinearLayout
+        android:id="@+id/layout_ticket"
+        android:layout_width="50dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="50dp"
+        android:background="@color/color_80000000"
+        android:gravity="center"
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/iv_vip"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
-            android:layout_alignBottom="@id/user_face"
-            android:layout_alignRight="@id/user_face"
-            android:layout_marginBottom="2dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:contentDescription="@null"
-            android:src="@drawable/icon_vip_mark"
-            android:visibility="gone" />
+            android:src="@drawable/icon_tickets_golds_big" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/live_hot_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingLeft="4dp"
-            android:paddingRight="12dp"
-            android:text="@string/text_line_desc_now"
-            android:textColor="@color/color_999999"
-            android:textSize="14sp"
-            tools:ignore="RtlHardcoded" />
+    <TextView
+        android:id="@+id/area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/user_face"
+        android:layout_gravity="center"
+        android:layout_toEndOf="@+id/user_face"
+        android:layout_toRightOf="@+id/user_face"
+        android:drawableLeft="@drawable/icon_home_location"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="4dp"
+        android:textColor="@color/color_ffffff"
+        android:textSize="10sp"
+        tools:ignore="RelativeOverlap,RtlHardcoded,RtlSymmetry,SmallSp"
+        tools:text="amsndkajsndaklsjdalksjdlkajslkd" />
 
-        <ImageView
-            android:id="@+id/tv_line_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@null"
-            android:layout_toLeftOf="@+id/live_hot_num"
-            android:src="@drawable/icon_home_online_num"
-            android:drawablePadding="4dp"
-            android:textSize="18sp"
-            tools:ignore="RtlHardcoded" />
-
-        <TextView
-            android:id="@+id/area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/iv_vip"
-            android:layout_gravity="center"
-            android:layout_marginTop="2dp"
-            android:layout_toLeftOf="@+id/live_hot_num"
-            android:layout_toRightOf="@+id/user_face"
-            android:drawableLeft="@drawable/icon_home_location"
-            android:drawablePadding="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:textColor="@color/color_999999"
-            android:textSize="12sp"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
-
-        <TextView
-            android:id="@+id/user_nick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/area"
-            android:layout_toLeftOf="@+id/live_hot_num"
-            android:layout_toRightOf="@+id/user_face"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:textColor="@color/color_ff262626"
-            android:textSize="14sp"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout_live"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.xj.frescolib.View.FrescoDrawee
-            android:id="@+id/live_cover"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            fresco:actualImageScaleType="centerCrop"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/bg_default_cover_pic"
-            fresco:roundedCornerRadius="0dp" />
-
-        <LinearLayout
-            android:id="@+id/live_animate_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/live_cover"
-            android:layout_alignTop="@id/live_cover"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="14dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            tools:ignore="RtlHardcoded">
-
-            <ImageView
-                android:id="@+id/iv_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:src="@drawable/icon_home_live_ing" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_home_roomname"
+        android:layout_alignBottom="@+id/live_cover"
+        tools:ignore="RelativeOverlap">
 
         <TextView
             android:id="@+id/live_introduce"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/live_cover"
-            android:gravity="left|center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="10dp"
-            android:textColor="@color/color_666666"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_ffffff"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:paddingRight="5dp"
+            android:paddingLeft="10dp"
+            android:drawablePadding="10dp"
             android:textSize="14sp"
+            tools:text="asasdasda"
+            android:visibility="visible"
             tools:ignore="RtlHardcoded" />
 
-        <LinearLayout
-            android:id="@+id/layout_ticket"
-            android:layout_width="50dp"
-            android:layout_height="34dp"
-            android:layout_alignBottom="@id/live_cover"
-            android:layout_marginBottom="50dp"
-            android:background="@color/color_80000000"
-            android:gravity="center"
-            android:visibility="gone">
+        <ImageView
+            android:id="@+id/icon_ticket"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="7dp"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_home_click_play"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:contentDescription="@null"
-                android:src="@drawable/icon_tickets_golds_big" />
-        </LinearLayout>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/live_hot_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="4dp"
+        android:paddingRight="12dp"
+        android:text="@string/text_line_desc_now"
+        android:textColor="@color/color_ffffff"
+        android:textSize="14sp"
+        tools:ignore="RelativeOverlap,RtlHardcoded"
+        android:layout_alignTop="@+id/tv_line_desc"
+        android:layout_toRightOf="@+id/tv_line_desc"
+        android:layout_toEndOf="@+id/tv_line_desc" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_grey_d5" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_f9f9f9" />
-</LinearLayout>
+    <TextView
+        android:id="@+id/user_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="4dp"
+        android:textColor="@color/color_ffffff"
+        android:textSize="14sp"
+        tools:ignore="RelativeOverlap,RtlHardcoded,RtlSymmetry"
+        android:layout_alignTop="@+id/user_face"
+        android:layout_toRightOf="@+id/user_face"
+        android:layout_toEndOf="@+id/user_face" />
+</RelativeLayout>

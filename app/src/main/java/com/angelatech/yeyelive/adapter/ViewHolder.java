@@ -91,9 +91,21 @@ public class ViewHolder {
         return this;
     }
 
+    public ViewHolder setTextBackground(int viewId, Drawable drawable) {
+        TextView view = getView(viewId);
+        view.setBackground(drawable);
+        return this;
+    }
+
     public ViewHolder setTextdrawableLeft(int viewId, Drawable drawable) {
         TextView view = getView(viewId);
         view.setCompoundDrawables(drawable, null, null, null);
+        return this;
+    }
+
+    public ViewHolder setTextdrawableRight(int viewId, Drawable drawable) {
+        TextView view = getView(viewId);
+        view.setCompoundDrawables(null, null, drawable, null);
         return this;
     }
 
