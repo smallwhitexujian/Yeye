@@ -349,7 +349,7 @@ public class ProfileActivity extends HeaderBaseActivity {
             case MSG_CHANGE_SUCCESS:
                 CacheDataManager.getInstance().update(BaseKey.USER_SEX, String.valueOf(user_gender), model.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_NICKNAME, user_name, model.userid);
-                StartActivityHelper.jumpActivity(ProfileActivity.this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, MainActivity.class, null);
+                StartActivityHelper.jumpActivity(ProfileActivity.this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, TabMenuActivity.class, null);
                 break;
         }
     }

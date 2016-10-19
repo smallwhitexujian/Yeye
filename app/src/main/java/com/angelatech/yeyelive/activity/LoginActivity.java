@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initData() {
         if (App.isLogin) {
             //外部服务器登陆成功，保证外部服务器成功直接进入首页
-            StartActivityHelper.jumpActivityDefault(this, MainActivity.class);
+            StartActivityHelper.jumpActivityDefault(this, TabMenuActivity.class);
             finish();
         } else {
             if (!NetWorkUtil.isNetworkConnected(this)) {
@@ -181,7 +181,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
                 if (userInfo.userid != null && userInfo.nickname != null) {
                     if (Login.checkUserInfo(userInfo.userid)) {
-                        StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, MainActivity.class, null);
+                        StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, TabMenuActivity.class, null);
                         finish();
                     }
                 } else {

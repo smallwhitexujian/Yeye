@@ -95,7 +95,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 try {
                     if (Login.checkUserInfo(model.userid)) {
                         ToastUtils.showToast(this, getString(R.string.login_suc));
-                        StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, MainActivity.class, null);
+                        StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, TabMenuActivity.class, null);
                     } else {
                         StartActivityHelper.jumpActivityDefault(this, ProfileActivity.class);
                         finish();

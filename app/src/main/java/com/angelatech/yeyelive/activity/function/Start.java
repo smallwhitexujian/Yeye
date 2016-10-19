@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.LoginActivity;
-import com.angelatech.yeyelive.activity.MainActivity;
 import com.angelatech.yeyelive.activity.ProfileActivity;
+import com.angelatech.yeyelive.activity.TabMenuActivity;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.model.AccountTModel;
@@ -61,7 +61,7 @@ public class Start implements Runnable{
 
     private void afterLogin(BasicUserInfoDBModel user){
         if(Login.checkUserInfo(user.userid)){
-            StartActivityHelper.jumpActivityDefault(mContext, MainActivity.class);
+            StartActivityHelper.jumpActivityDefault(mContext, TabMenuActivity.class);
         }
         else{
             StartActivityHelper.jumpActivityDefault(mContext, ProfileActivity.class);

@@ -44,7 +44,7 @@ public class StartActivity extends BaseActivity {
         super.onResume();
         if (App.isLogin) {
             //外部服务器登陆成功，保证外部服务器成功直接进入首页
-            StartActivityHelper.jumpActivityDefault(this, MainActivity.class);
+            StartActivityHelper.jumpActivityDefault(this, TabMenuActivity.class);
             finish();
         } else {
             if (!NetWorkUtil.isNetworkConnected(this)) {

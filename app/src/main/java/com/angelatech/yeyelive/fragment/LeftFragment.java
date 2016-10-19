@@ -2,9 +2,7 @@ package com.angelatech.yeyelive.fragment;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,7 +14,6 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
-import com.angelatech.yeyelive.activity.MainActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
@@ -55,7 +52,6 @@ public class LeftFragment extends HintFragment {
             layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg;
     private ImageView editImageView, sexImageView, iv_vip;
     private FrescoRoundView userFace;
-    private GestureDetector gestureDetector;
     private BasicUserInfoDBModel userInfo;
 
     @Override
@@ -71,7 +67,6 @@ public class LeftFragment extends HintFragment {
         super.onStart();
         userInfo = CacheDataManager.getInstance().loadUser();
         load();
-        ((MainActivity) getActivity()).registerFragmentTouch(gestureDetector);
     }
 
     @Override
@@ -93,8 +88,7 @@ public class LeftFragment extends HintFragment {
     }
 
     private void initView() {
-        gestureDetector = new GestureDetector(getActivity(), simpleOnGestureListener);
-        mainEnter = ((MainActivity) getActivity()).getMainEnter();
+        mainEnter = new MainEnter(getActivity());
 
         user_nick = (TextView) view.findViewById(R.id.user_nick);
         user_sign = (TextView) view.findViewById(R.id.user_sign);
@@ -160,9 +154,6 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.layout_diamond:
                 StartActivityHelper.jumpActivityDefault(getActivity(), RechargeActivity.class);
-                break;
-            case R.id.backBtn:
-                ((MainActivity) getActivity()).closeMenu();
                 break;
             case R.id.layout_video:
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
@@ -241,21 +232,6 @@ public class LeftFragment extends HintFragment {
                 CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
         }
     }
-
-    private GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                float distance = e2.getX() - e1.getX();
-                if (distance < 0 && Math.abs(distance) > 100) {
-                    ((MainActivity) getActivity()).closeMenu();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-    };
 
 
     @Override
