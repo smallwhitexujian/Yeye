@@ -70,7 +70,6 @@ import com.google.gson.reflect.TypeToken;
 import com.opendanmaku.DanmakuItem;
 import com.opendanmaku.DanmakuView;
 import com.opendanmaku.IDanmakuItem;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -1273,7 +1272,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void run() {
                 int k = giftModel.giftnum;
-                DebugLogs.e("========giftnum=======" + k);
                 for (int i = 1; i <= k; i++) {
                     if (isAdded()) {
                         final int finalI = i;
@@ -1305,7 +1303,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void run() {
                 int k = giftModel.giftnum;
-                DebugLogs.e("========giftnums=======" + k);
                 for (int i = 1; i <= k; i++) {
                     if (isAdded()) {
                         final int finalI = i;

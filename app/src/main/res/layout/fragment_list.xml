@@ -18,13 +18,13 @@
 
             <ImageView
                 android:id="@+id/search_icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"
-                android:layout_marginLeft="14dp"
                 android:contentDescription="@null"
+                android:paddingLeft="14dp"
                 android:src="@drawable/btn_nav_search"
                 tools:ignore="RtlHardcoded" />
 
@@ -46,12 +46,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:drawablePadding="3dp"
+                    android:drawablePadding="4dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/live_hot"
                     android:textColor="@color/color_d80c18"
-                    android:textSize="14sp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/new_textview"
@@ -60,12 +60,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
-                    android:drawablePadding="3dp"
+                    android:drawablePadding="4dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/live_new"
                     android:textColor="@color/color_d80c18"
-                    android:textSize="13sp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/follow_textview"
@@ -73,25 +73,25 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:drawablePadding="3dp"
+                    android:drawablePadding="4dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/live_follow"
                     android:textColor="@color/color_d80c18"
-                    android:textSize="15sp" />
+                    android:textSize="20dp" />
             </LinearLayout>
 
 
             <ImageView
                 android:id="@+id/Rank_icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"
-                android:layout_marginRight="14dp"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_nav_search"
+                android:paddingRight="14dp"
+                android:src="@drawable/btn_nav_search_people_list"
                 tools:ignore="RtlHardcoded" />
         </RelativeLayout>
 

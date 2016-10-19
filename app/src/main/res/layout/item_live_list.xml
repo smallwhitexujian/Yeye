@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:layout_marginTop="2dp"
+    android:paddingTop="1dp"
     android:orientation="vertical">
 
     <com.xj.frescolib.View.FrescoDrawee
@@ -17,7 +17,12 @@
         android:layout_alignParentTop="true"
         fresco:actualImageScaleType="centerCrop"
         fresco:placeholderImage="@drawable/bg_default_cover_pic" />
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_home_userinfo_top"
+        android:contentDescription="@null"
+        tools:ignore="ContentDescription" />
     <TextView
         android:id="@+id/iv_line"
         android:layout_width="wrap_content"
@@ -71,22 +76,6 @@
         tools:ignore="RtlHardcoded"
         android:layout_alignParentLeft="true" />
 
-    <LinearLayout
-        android:id="@+id/layout_ticket"
-        android:layout_width="50dp"
-        android:layout_height="34dp"
-        android:layout_marginBottom="50dp"
-        android:background="@color/color_80000000"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:contentDescription="@null"
-            android:src="@drawable/icon_tickets_golds_big" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/area"
         android:layout_width="wrap_content"
@@ -133,8 +122,8 @@
 
         <ImageView
             android:id="@+id/icon_ticket"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginRight="7dp"
             android:contentDescription="@null"
             android:src="@drawable/icon_home_click_play"
@@ -169,4 +158,6 @@
         android:layout_alignTop="@+id/user_face"
         android:layout_toRightOf="@+id/user_face"
         android:layout_toEndOf="@+id/user_face" />
+
+
 </RelativeLayout>

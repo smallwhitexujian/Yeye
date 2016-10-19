@@ -103,7 +103,7 @@ public class ListFragment extends BaseFragment {
                 String hotStr = getString(R.string.live_hot);
                 String followStr = getString(R.string.live_follow);
                 String newStr = getString(R.string.live_new);
-                final float textSize = DisplayTool.dip2px(getActivity(), 15);
+                final float textSize = DisplayTool.dip2px(getActivity(), 18);
                 if (hotStr.equals(pagerAdapter.getPageTitle(position))) {
                     hotTab.setCompoundDrawables(null, null, null, drawable);
                     hotTab.setTextSize(textSize);
@@ -129,28 +129,24 @@ public class ListFragment extends BaseFragment {
         clearTabTextSize();
         viewPager.setCurrentItem(0);
         hotTab.setCompoundDrawables(null, null, null, drawable);
-        hotTab.setTextSize(DisplayTool.dip2px(getActivity(), 15));
+        hotTab.setTextSize(DisplayTool.dip2px(getActivity(), 18));
         hotTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
     }
 
     private void clearTabColor() {
         hotTab.setCompoundDrawables(null, null, null, null);
+        hotTab.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_999999));
+        followTab.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_999999));
+        newTab.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_999999));
         followTab.setCompoundDrawables(null, null, null, null);
         newTab.setCompoundDrawables(null, null, null, null);
     }
 
     private void clearTabTextSize() {
-        final float textSize = DisplayTool.dip2px(getActivity(), 14);
+        final float textSize = DisplayTool.dip2px(getActivity(), 18);
         hotTab.setTextSize(textSize);
         followTab.setTextSize(textSize);
         newTab.setTextSize(textSize);
-    }
-
-    @Override
-    public void doHandler(Message msg) {
-        switch (msg.what) {
-
-        }
     }
 
     @Override
@@ -158,6 +154,24 @@ public class ListFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.search_icon:
                 StartActivityHelper.jumpActivityDefault(getActivity(), SearchActivity.class);
+                break;
+            case R.id.hot_textview:
+                viewPager.setCurrentItem(0);
+                clearTabColor();
+                hotTab.setCompoundDrawables(null, null, null, drawable);
+                hotTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
+                break;
+            case R.id.follow_textview:
+                viewPager.setCurrentItem(2);
+                clearTabColor();
+                followTab.setCompoundDrawables(null, null, null, drawable);
+                followTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
+                break;
+            case R.id.new_textview:
+                viewPager.setCurrentItem(1);
+                clearTabColor();
+                newTab.setCompoundDrawables(null, null, null, drawable);
+                newTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
                 break;
         }
     }

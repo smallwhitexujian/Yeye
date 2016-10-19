@@ -195,7 +195,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         helper.showView(R.id.live_introduce);
                         helper.setText(R.id.live_introduce, videoModel.introduce);
                     }
-                    helper.hideView(R.id.layout_ticket);
                 }
                 //加V标识
                 if (item.isv.equals("1")) {
