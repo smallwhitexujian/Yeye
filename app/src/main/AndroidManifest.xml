@@ -249,6 +249,11 @@
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.RankActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <service
             android:name=".service.IService"
@@ -324,6 +329,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/facebook_app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

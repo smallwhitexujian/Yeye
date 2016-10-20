@@ -127,9 +127,6 @@ public class TabMenuActivity extends BaseActivity {
                 roomModel.setUserInfoDBModel(userModel);
                 StartActivityHelper.jumpActivity(this, ChatRoomActivity.class, roomModel);
                 break;
-            case R.id.search_icon:
-                StartActivityHelper.jumpActivityDefault(TabMenuActivity.this, SearchActivity.class);
-                break;
             case R.id.layout_people:
                 clearSelectIcon();
                 setSelectedMenu(R.id.layout_people);

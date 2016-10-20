@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dir_list"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:paddingLeft="16dp"
+        android:paddingTop="14dp"
+        android:src="@drawable/btn_nav_back_w"
+        tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:text="主播排行榜"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:paddingTop="9dp"
+        android:src="@drawable/bg_dir_list_auxiliary" />
+
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="134dp"
+        android:background="@drawable/bg_dir_list_mod_side"
+        android:clipChildren="false"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="6dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_dir_list_second"
+                tools:ignore="RtlHardcoded" />
+
+            <com.xj.frescolib.View.FrescoRoundView
+                android:id="@+id/rank_handler2"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@drawable/default_photo" />
+
+            <ImageView
+                android:id="@+id/iv_vip2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignBottom="@id/rank_handler2"
+                android:layout_alignRight="@id/rank_handler2"
+                android:layout_marginBottom="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_vip_mark"
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/rank_name2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rank_handler2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/color_d80c18"
+                android:textSize="14sp"
+                tools:text="akdalksjdalk" />
+
+            <TextView
+                android:id="@+id/coins_str2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rank_name2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                tools:text="adassd" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="124dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_dir_list_mod_center"
+            android:clipChildren="false"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_dir_list_first"
+                tools:ignore="RtlHardcoded" />
+
+            <com.xj.frescolib.View.FrescoRoundView
+                android:id="@+id/rank_handler"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@drawable/default_photo" />
+
+            <ImageView
+                android:id="@+id/iv_vip"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignBottom="@id/rank_handler"
+                android:layout_alignRight="@id/rank_handler"
+                android:layout_marginBottom="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_vip_mark"
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/rank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rank_handler"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/color_d80c18"
+                android:textSize="14sp"
+                tools:text="akdalksjdalk" />
+
+            <TextView
+                android:id="@+id/coins_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rank_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                tools:text="adassd" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_dir_list_third"
+                tools:ignore="RtlHardcoded" />
+
+            <com.xj.frescolib.View.FrescoRoundView
+                android:id="@+id/rank_handler3"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_centerHorizontal="true"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@drawable/default_photo" />
+
+            <ImageView
+                android:id="@+id/iv_vip3"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignBottom="@id/rank_handler3"
+                android:layout_alignRight="@id/rank_handler3"
+                android:layout_marginBottom="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_vip_mark"
+                android:visibility="visible"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/rank_name3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rank_handler3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/color_d80c18"
+                android:textSize="14sp"
+                tools:text="akdalksjdalk" />
+
+            <TextView
+                android:id="@+id/coins_str3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rank_name3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                tools:text="adassd" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/pic"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="27dp"
+        android:background="@color/font_line" />
+
+    <com.will.view.library.SwipyRefreshLayout
+        android:id="@+id/pullToRefreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/line1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/liveView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/font_line"
+            android:dividerHeight="0.5dp" />
+    </com.will.view.library.SwipyRefreshLayout>
+</RelativeLayout>
