@@ -2,7 +2,6 @@ package com.angelatech.yeyelive.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.RankActivity;
 import com.angelatech.yeyelive.activity.SearchActivity;
 import com.angelatech.yeyelive.adapter.SimpleFragmentPagerAdapter;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
@@ -78,11 +78,13 @@ public class ListFragment extends BaseFragment {
         followTab = (TextView)view.findViewById(R.id.follow_textview);
         newTab = (TextView) view.findViewById(R.id.new_textview);
         ImageView searchIcon = (ImageView) view.findViewById(R.id.search_icon);
+        ImageView Rank_icon = (ImageView) view.findViewById(R.id.Rank_icon);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         hotTab.setOnClickListener(this);
         followTab.setOnClickListener(this);
         newTab.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
+        Rank_icon.setOnClickListener(this);
     }
 
     private void setView() {
@@ -154,6 +156,9 @@ public class ListFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.search_icon:
                 StartActivityHelper.jumpActivityDefault(getActivity(), SearchActivity.class);
+                break;
+            case R.id.Rank_icon:
+                StartActivityHelper.jumpActivityDefault(getActivity(), RankActivity.class);
                 break;
             case R.id.hot_textview:
                 viewPager.setCurrentItem(0);

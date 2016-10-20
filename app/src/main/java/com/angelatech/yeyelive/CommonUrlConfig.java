@@ -161,7 +161,7 @@ public class CommonUrlConfig {
     public static String PayTicketsIsPay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Tickets/PayTicketsIsPay";
     //强制升级
     public static String apkUp = (isDebug ? TEST_HOST_URL : HOST_URL) + "web/ApkUpgrade.aspx";
-    //七天奉献榜总榜
+    //榜总榜
     public static String RankingList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/RankingList/RankingList";
     //七天奉献榜,房间榜
     public static String RankListByRoom = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/RankingList/RankListByRoom";
@@ -169,4 +169,6 @@ public class CommonUrlConfig {
     public static String PayReward = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/PayReward";
     //获取直播封面
     public static String roomInfo = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/roominfo";
+    //扫描二维码 支付
+    public static String ScanRecharge = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/ScanRecharge";
 }
