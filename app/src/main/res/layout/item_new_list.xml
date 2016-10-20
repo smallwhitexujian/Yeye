@@ -18,6 +18,14 @@
         fresco:actualImageScaleType="centerCrop"
         fresco:placeholderImage="@drawable/bg_default_cover_pic" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/live_cover"
+        android:background="@drawable/bg_home_location_bottom"
+        android:contentDescription="@null"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/iv_line"
         android:layout_width="wrap_content"
@@ -61,6 +69,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:contentDescription="@null"
-        android:visibility="gone"
-        android:src="@drawable/icon_tickets_golds_big" />
+        android:src="@drawable/icon_tickets_golds_big"
+        android:visibility="gone" />
+
+
 </RelativeLayout>
