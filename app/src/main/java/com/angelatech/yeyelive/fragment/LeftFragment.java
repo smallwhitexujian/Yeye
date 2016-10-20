@@ -18,6 +18,7 @@ import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
+import com.angelatech.yeyelive.activity.TestScanActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
 import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
@@ -50,7 +51,7 @@ public class LeftFragment extends HintFragment {
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video,message_notice;
     private RelativeLayout attentionLayout, fansLayout, settingLayout,
             layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg;
-    private ImageView editImageView, sexImageView, iv_vip;
+    private ImageView editImageView, sexImageView, iv_vip,btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
 
@@ -112,6 +113,7 @@ public class LeftFragment extends HintFragment {
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
         userFace = (FrescoRoundView) view.findViewById(R.id.user_face);
         iv_vip = (ImageView) view.findViewById(R.id.iv_vip);
+        btn_qcode = (ImageView) view.findViewById(R.id.btn_qcode);
     }
 
     private void setView() {
@@ -123,8 +125,8 @@ public class LeftFragment extends HintFragment {
         userFace.setOnClickListener(this);
         layout_diamond.setOnClickListener(this);
         layout_video.setOnClickListener(this);
+        btn_qcode.setOnClickListener(this);
         layout_Invite_friend.setOnClickListener(this);
-        view.findViewById(R.id.backBtn).setOnClickListener(this);
     }
 
     @Override
@@ -164,6 +166,9 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.layout_systemMsg:
                 StartActivityHelper.jumpActivityDefault(getActivity(), MessageNotificationActivity.class);
+                break;
+            case R.id.btn_qcode:
+                StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
                 break;
         }
     }

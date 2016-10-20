@@ -12,30 +12,31 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:background="@color/white"
             android:clipChildren="false"
-            android:gravity="center">
+            android:gravity="right|center_vertical">
 
             <ImageView
-                android:id="@+id/backBtn"
-                android:layout_width="35dp"
-                android:layout_height="22dp"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/btn_qcode"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:contentDescription="@null"/>
+                android:contentDescription="@null"
+                android:paddingRight="20dp"
+                android:src="@drawable/btn_me_qcode" />
 
             <ImageView
                 android:id="@+id/btn_edit"
                 android:layout_width="40dp"
-                android:layout_height="22dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
+                android:layout_height="match_parent"
                 android:contentDescription="@null"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_me_modify_n" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/layout_user_face"
