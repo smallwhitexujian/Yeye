@@ -107,7 +107,7 @@ public class ServiceManager {
      */
     public void sendRadioBroadcast(String message) {
         if (bindService != null) {
-            bindService.sendMessage(GlobalDef.WM_OUT_RadioBroadcast, "{\"message\":\"" + message + "\"}");
+            bindService.sendMessage(GlobalDef.WM_OUT_RadioBroadcast, "{\"msg\":\"" + message + "\"}");
         }
     }
 
@@ -155,7 +155,6 @@ public class ServiceManager {
             bindService.sendMessage(GlobalDef.WM_ROOM_RECEIVE_PEOPLE, "");
         }
     }
-
 
     /**
      * 踢人

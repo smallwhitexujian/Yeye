@@ -64,8 +64,22 @@ public class BarInfoModel extends CommonModel {
 
     public static class RadioMessage {
         public int code;
-        public Radio data;
         public String msg;
+        public OnlineListModel from;
+        public int type;
+        public int type_code;
+        public int giftid;
+        public String multiple;
+        public int coin;
+        public int anchor_coin;
+        public String coin_bonus;
+        public FromRoomInfo from_room;
+
+    }
+
+    public static class FromRoomInfo {
+        public int uid;
+        public String name;
     }
 
     public static class Radio {

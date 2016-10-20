@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,7 +10,8 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.text.SpannableString;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -49,9 +51,11 @@ import com.angelatech.yeyelive.adapter.GridViewAdapter;
 import com.angelatech.yeyelive.adapter.HorizontalListViewAdapter;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.BarInfoModel;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
+import com.angelatech.yeyelive.model.Danmu;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
@@ -61,15 +65,17 @@ import com.angelatech.yeyelive.util.BinarySearch;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.DelHtml;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.MarqueeUilts;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
+import com.angelatech.yeyelive.view.DanmuControl;
+import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.google.gson.reflect.TypeToken;
-import com.opendanmaku.DanmakuItem;
-import com.opendanmaku.DanmakuView;
-import com.opendanmaku.IDanmakuItem;
+
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -83,10 +89,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import master.flame.danmaku.controller.IDanmakuView;
 
 /**
  * Fragment 视频操作类
@@ -121,7 +132,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private GiftAnimationModel GiftAnimationModelA, GiftAnimationModelB;
     private ChatLineAdapter<ChatLineModel> mAdapter;
     private RelativeLayout ly_gift_view, ly_gift_view_s;                                                            //礼物特效view
-    private TextView numText, numText1, numText_s, numText1_s;                                                             //礼物数量  阴影
+    private TextView numText, numText1, numText_s, numText1_s;                                                      //礼物数量  阴影
     private TextView txt_from_user, txt_from_user_s;                                                  //发送礼物的人，礼物名称
     private FrescoDrawee imageView, imageView_s;//礼物图片， 礼物发送人的头像
     private Animation translateAnimation_in, translateAnimation_out, translate_in, scaleAnimation;  //礼物特效
@@ -161,8 +172,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private Chronometer timer;
     private boolean bVideoFilter = false, bFlashEnable = false;
 
+    private MarqueeUilts marqueeUtils;
+    private LinearLayout marqueeLayout;
+
     //弹幕控件
-    private DanmakuView mDanmakuView;
+    private ImageView btn_danmu;
+    private boolean isdanmu = false;
+
+    private IDanmakuView mDanmakuView;
+    private DanmuControl mDanmuControl;
 
     public void setDiamonds(String diamonds) {
         try {
@@ -199,7 +217,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         void onCameraSwitch();
 
         //发送消息
-        void onSendMessage(String msg);
+        void onSendMessage(String msg, boolean isdanmu);
 
         //发送礼物
         void onSendGift(int toid, int giftId, int nNum);
@@ -210,6 +228,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         //踢人
         void kickedOut(String userId);
 
+        //播放幸运礼物动画
+        void playXingYunGift();
+
         //结束直播
         void closeLive();
     }
@@ -217,6 +238,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
+        mDanmuControl = new DanmuControl(getActivity());
+
         initView();
         fragmentManager = getFragmentManager();
         initControls();
@@ -235,11 +258,21 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         return 0;
     }
 
+    //根据礼物ID获取礼物图片
+    public String getGiftimg(int giftId) {
+        int k = App.giftdatas.size();
+        for (int i = 0; i < k; i++) {
+            if (App.giftdatas.get(i).getID() == giftId) {
+                return App.giftdatas.get(i).getImageURL();
+            }
+        }
+        return "";
+    }
+
     private void initView() {
         if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = ChatRoomActivity.roomModel.getUserInfoDBModel();
         }
-        mDanmakuView = (DanmakuView) controlView.findViewById(R.id.danmakuView);
         userModel = CacheDataManager.getInstance().loadUser();
         chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
@@ -275,6 +308,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
+        marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
+        mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
+        btn_danmu = (ImageView) controlView.findViewById(R.id.btn_danmu);
+        mDanmuControl.setDanmakuView(mDanmakuView);
         ly_main.setOnClickListener(this);
         diamondsStr.setOnClickListener(this);
         btn_send.setOnClickListener(this);
@@ -289,6 +326,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         btn_lamp.setOnClickListener(this);
         btn_beautiful.setOnClickListener(this);
         gift_Recharge.setOnClickListener(this);
+        btn_danmu.setOnClickListener(this);
 
         grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -374,7 +412,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     numText.startAnimation(scaleAnimation);
                     //礼物数量动画
                     addGiftAnimationNum(GiftAnimationModelA);
-
                 }
             }
 
@@ -406,7 +443,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 
-//礼物动画2
+        //礼物动画2
         translateAnimation_in_s.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -420,9 +457,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (scaleAnimation_s != null) {
                     numText_s.setVisibility(View.VISIBLE);
                     numText_s.startAnimation(scaleAnimation_s);
-
                     addGiftAnimationNum_s(GiftAnimationModelB);
-
                 }
             }
 
@@ -452,6 +487,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             public void onAnimationRepeat(Animation animation) {
             }
         });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (marqueeUtils == null) {
+                    marqueeUtils = new MarqueeUilts(getActivity(), App.marqueeData, marqueeLayout);
+                    marqueeUtils.Start();
+                }
+            }
+        }).start();
 
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
@@ -529,7 +574,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }
     }
-
 
     /**
      * 初始化列表
@@ -729,7 +773,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -807,7 +850,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_Follow:
                 UserFollow();
-                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
+                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW, false);
                 break;
             case R.id.btn_share:
                 setShowCocosView();
@@ -852,32 +895,151 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 setShowCocosView();
                 StartActivityHelper.jumpActivityDefault(getActivity(), TabActivity.class);
                 break;
+            case R.id.btn_danmu:
+                if (isdanmu) {
+                    btn_danmu.setImageResource(R.drawable.btn_room_sendtxt_cur_ord);
+                } else {
+                    btn_danmu.setImageResource(R.drawable.btn_room_sendtxt_cur_barrage);
+                }
+                isdanmu = !isdanmu;
+                break;
         }
     }
 
+    /**
+     * 发送消息
+     */
     private void sendMsg() {
         if (txt_msg.getText().length() > 0) {
             String msg = DelHtml.delHTMLTag(txt_msg.getText().toString());
-            callEvents.onSendMessage(msg);
+            callEvents.onSendMessage(msg, isdanmu);
             txt_msg.setText("");
-            sendDanmu(userModel.nickname + ":" + msg);
         } else {
             ToastUtils.showToast(getActivity(), getActivity().getString(R.string.please_input_text));
         }
     }
 
-    public void sendDanmu(Object obj) {
-        ChatLineModel chatLineModel = JsonUtil.fromJson(obj.toString(), ChatLineModel.class);
-        sendDanmu(chatLineModel.from.name + ":" + chatLineModel.message);
+    public void sendDanmu(String nikename, String headurl, final String msg) {
+        final List<Danmu> danmus = new ArrayList<>();
+        if (headurl == null || headurl.isEmpty()) {
+            //临时代码，发送弹幕时如果用户头像为空，设置一张默认头像
+            headurl = "http://b.hiphotos.baidu.com/image/pic/item/810a19d8bc3eb135aa449355a21ea8d3fc1f4458.jpg";
+        }
+
+        FrescoBitmapUtils.getImageBitmap(getActivity(), headurl, new FrescoBitmapUtils.BitCallBack() {
+            @Override
+            public void onNewResultImpl(final Bitmap bitmap) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Danmu danmu1 = new Danmu(0, new Random().nextInt(3), "Comment", bitmap, msg);
+                        danmus.add(danmu1);
+                        Collections.shuffle(danmus);
+                        mDanmuControl.addDanmuList(danmus);
+                    }
+                });
+            }
+        });
     }
 
-    public void sendDanmu(String text) {
-        IDanmakuItem item = new DanmakuItem(getActivity(),
-                new SpannableString(text), mDanmakuView.getWidth(), 0, R.color.action_sheet_red, 20, 1);
-        if (App.isDebug) {
-            mDanmakuView.addItemToHead(item);
+    /**
+     * 发送广播消息
+     *
+     * @param radioMessage
+     */
+    private void sendMarquee(BarInfoModel.RadioMessage radioMessage) {
+        marqueeLayout.invalidate();
+        marqueeUtils.restartAnim();
+        final HashMap<String, Object> params = new HashMap<>();
+        Spanned htmlStr = Html.fromHtml( "<font color='#ffff00'> <br> "+ radioMessage.msg+"</br></font>");
+        params.put(MarqueeUilts.CONTEXT, htmlStr);
+        App.marqueeData.add(params);
+    }
+
+    /**
+     * 上公聊
+     *
+     * @param radioMessage
+     */
+    private void sendPublicMessage(BarInfoModel.RadioMessage radioMessage) {
+        ChatLineModel chatlinemodel = new ChatLineModel();
+        ChatLineModel.from from = new ChatLineModel.from();
+
+        chatlinemodel.type = 10;
+        chatlinemodel.message = radioMessage.msg;
+        App.mChatlines.add(chatlinemodel);
+        notifyData();
+    }
+
+    /**
+     * 广播消息处理
+     */
+    public void RadioBroad(BarInfoModel.RadioMessage radioMessage) {
+        try {
+            if (radioMessage.code == 0) {//表示成功
+                if(radioMessage.type_code == 95){                                                   //幸运礼物
+                    radioMessage.msg = "恭喜" + radioMessage.from.name + "获得" + radioMessage.multiple
+                            + "倍幸运礼物大奖，获得" + radioMessage.coin_bonus + "金币";
+                }
+                // callEvents.playXingYunGift();
+                if (radioMessage.type == 0 || radioMessage.type == 93) {                                //0或92公聊显示
+                    sendPublicMessage(radioMessage);
+                } else if (radioMessage.type == 62) {                                                   //62礼物消息
+//                    marqueeUtils.restartAnim();
+//                    final HashMap<String, Object> params = new HashMap<>();
+//                    String RoomStr = String.format("[房间 ID：%s] ", radioMessage.from_room.uid + "");
+//                    String ToStr = "发送";
+//                    String text = String.format("礼物 %s ", radioMessage.giftid + "" + "x");
+//                    String str1 = "<font color='#FFFFEE00'><b>" + RoomStr;
+//                    String str2 = radioMessage.from.name;
+//                    String str3 = ToStr;
+//                    String str4 = radioMessage.from.name;
+//                    String str5 = text + "</b></font> ";
+//                    Spanned htmlStr = Html.fromHtml(str1 + str2 + str3 + str4 + str5);
+//                    String imageurl = getGiftimg(radioMessage.giftid);
+//                    FrescoBitmapUtils.getImageBitmap(getActivity(), imageurl, new FrescoBitmapUtils.BitCallBack() {
+//                        @Override
+//                        public void onNewResultImpl(final Bitmap bitmap) {
+//                            getActivity().runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    params.put(MarqueeUilts.BITMAP, bitmap);
+//                                }
+//                            });
+//                        }
+//                    });
+//                    params.put(MarqueeUilts.CONTEXT, htmlStr);
+//                    App.marqueeData.add(params);
+                } else if (radioMessage.type == 9) {                                                    //9他人发的弹幕
+                    sendDanmu(radioMessage.from.name, radioMessage.from.headphoto, radioMessage.msg);
+                } else if (radioMessage.type == 91) {                                                          //91自己发送弹幕收到的回执
+                    sendDanmu(userModel.nickname, userModel.headurl, radioMessage.msg);
+                    //更新金币
+                    userModel.diamonds = String.valueOf(radioMessage.coin);
+                    setDiamonds(userModel.diamonds);
+                } else if (radioMessage.type == 92) {                                                   //92喇叭显示
+
+
+                    sendMarquee(radioMessage);
+                } else if (radioMessage.type == 94) {                                                   //94喇叭，飞屏，公聊同时显示
+                    //喇叭
+                    sendMarquee(radioMessage);
+                    //飞屏
+
+                    sendDanmu(radioMessage.from.name, radioMessage.from.headphoto, radioMessage.msg);
+                    //公聊
+                    sendPublicMessage(radioMessage);
+                }
+
+            } else if (radioMessage.code == 1) {
+                //ToastUtils.showToast(getActivity(), getString(R.string.char_room_radio_on_coin));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.gc();
         }
     }
+
 
     @Override
     public void onResume() {
@@ -885,9 +1047,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             cocos2dxView.onResume();
         }
-        if (mDanmakuView != null) {
-//            mDanmakuView.show();
-        }
+        mDanmuControl.resume();
     }
 
     @Override
@@ -896,9 +1056,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (cocos2dxView != null) {
             cocos2dxView.onPause();
         }
-        if (mDanmakuView != null) {
-            mDanmakuView.hide();
-        }
+        mDanmuControl.pause();
     }
 
     @Override
@@ -909,9 +1067,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (cocos2dxView != null) {
             cocos2dxGift.destroy();
         }
-        if (mDanmakuView != null) {
-            mDanmakuView.clear();
-        }
+        mDanmuControl.pause();
     }
 
     /**
@@ -1096,7 +1252,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                 btn_Follow.startAnimation(rotateAnimation);
                 btn_Follow.setVisibility(View.GONE);
-                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW);
+                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW, false);
                 break;
             case MSG_ADAPTER_NOTIFY_GIFT:
                 initGiftViewpager();
@@ -1573,7 +1729,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public ShareListener listener = new ShareListener() {
         @Override
         public void callBackSuccess(int shareType) {
-            callEvents.onSendMessage(GlobalDef.APPEND_SHARED);
+            callEvents.onSendMessage(GlobalDef.APPEND_SHARED, false);
             ToastUtils.showToast(getActivity(), R.string.success);
         }
 

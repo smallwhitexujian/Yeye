@@ -10,8 +10,8 @@ public class OnlineListModel extends CommonModel {
     public String name;     //用户昵称
     public String headphoto;//头像地址
     public int position; //权限等级
-    public int level;    //等级
-    public int sex;
+    public int level = 1;    //等级
+    public int sex = 0;
     public String isv = "0";
     public String isrobot = "0";
     public int role = 0;
