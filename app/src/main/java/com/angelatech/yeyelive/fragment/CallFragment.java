@@ -74,8 +74,6 @@ import com.angelatech.yeyelive.view.DanmuControl;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.PeriscopeLayout;
 import com.google.gson.reflect.TypeToken;
-
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -173,7 +171,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     private MarqueeUilts marqueeUtils;
-    private LinearLayout marqueeLayout;
+    private LinearLayout marqueeLayout,marquee_layout;
 
     //弹幕控件
     private ImageView btn_danmu;
@@ -309,6 +307,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
+        marquee_layout = (LinearLayout) controlView.findViewById(R.id.marquee_layout);
         mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
         btn_danmu = (ImageView) controlView.findViewById(R.id.btn_danmu);
         mDanmuControl.setDanmakuView(mDanmakuView);
@@ -949,6 +948,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      */
     private void sendMarquee(BarInfoModel.RadioMessage radioMessage) {
         marqueeLayout.invalidate();
+        marquee_layout.setFocusable(true);
+        marquee_layout.invalidate();
         marqueeUtils.restartAnim();
         final HashMap<String, Object> params = new HashMap<>();
         Spanned htmlStr = Html.fromHtml( "<font color='#ffff00'> <br> "+ radioMessage.msg+"</br></font>");
@@ -1018,8 +1019,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     userModel.diamonds = String.valueOf(radioMessage.coin);
                     setDiamonds(userModel.diamonds);
                 } else if (radioMessage.type == 92) {                                                   //92喇叭显示
-
-
                     sendMarquee(radioMessage);
                 } else if (radioMessage.type == 94) {                                                   //94喇叭，飞屏，公聊同时显示
                     //喇叭
@@ -1387,7 +1386,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     //开始礼物特效
     private void startGiftAnimation(GiftAnimationModel giftModel) {
-
         if (!giftB) {
             giftB = true;
             ly_gift_view_s.setVisibility(View.VISIBLE);
