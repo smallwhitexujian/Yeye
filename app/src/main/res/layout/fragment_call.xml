@@ -13,18 +13,9 @@
         android:layout_centerInParent="true"
         android:orientation="horizontal"
         android:visibility="gone" />
+        android:orientation="horizontal"
+        android:visibility="gone" />
 
-    <com.opendanmaku.DanmakuView
-        android:id="@+id/danmakuView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone"
-        app:end_Y_offset="0.8"
-        app:max_row="4"
-        app:max_running_per_row="2"
-        app:pick_interval="1000"
-        app:show_debug="false"
-        app:start_Y_offset="0.2" />
 
     <LinearLayout
         android:id="@+id/ly_main"
@@ -119,22 +110,43 @@
                 android:textSize="12sp"
                 tools:ignore="RtlHardcoded" />
 
-            <Chronometer
-                android:id="@+id/chronometer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="6dp"
-                android:format="%s"
-                android:gravity="top"
-                android:textColor="@color/color_80ffffff"
-                android:textSize="14sp"
-                tools:ignore="RtlHardcoded" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Chronometer
+                    android:id="@+id/chronometer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:format="%s"
+                    android:gravity="top"
+                    android:textColor="@color/color_80ffffff"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+                <!-- 跑马灯-->
+                <include layout="@layout/marquee_view" />
+            </RelativeLayout>
+
+            <!--<Chronometer-->
+                <!--android:id="@+id/chronometer"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:format="%s"-->
+                <!--android:gravity="top"-->
+                <!--android:textColor="@color/color_80ffffff"-->
+                <!--android:textSize="14sp"-->
+                <!--tools:ignore="RtlHardcoded" />-->
         </LinearLayout>
 
-        <View
+        <!--弹幕 -->
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:id="@+id/danmakuView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_gravity="bottom"
             android:layout_weight="5" />
 
         <include
@@ -271,7 +283,6 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="3dp"
                 android:contentDescription="@string/gift"
                 android:padding="10dp"
                 android:src="@drawable/btn_room_gift_n"
@@ -287,6 +298,15 @@
             android:orientation="horizontal"
             android:visibility="gone"
             tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/btn_danmu"
+                android:layout_width="40dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/btn_room_sendtxt_cur_ord"
+                />
 
             <EditText
                 android:id="@+id/txt_msg"

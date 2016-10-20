@@ -91,7 +91,7 @@ dependencies {
     compile files('libs/pldroid-player-1.3.2.jar')
     compile files('libs/pldroid-media-streaming-2.0.4.jar')
     //弹幕用
-    compile 'com.linsea:opendanmaku:1.0.0@aar'
+    compile 'com.github.ctiao:dfm:0.4.1'
     //扫描二维码功能
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.3@aar'
     compile 'cn.bingoogolapple:bga-zbar:1.1.3@aar'

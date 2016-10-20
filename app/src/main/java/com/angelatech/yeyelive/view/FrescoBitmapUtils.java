@@ -2,9 +2,11 @@ package com.angelatech.yeyelive.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import com.angelatech.yeyelive.R;
 import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
@@ -20,7 +22,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
  * 获取图片bitmap
  */
 public class FrescoBitmapUtils {
-    public static void getImageBitmap(Context context, String url, final BitCallBack callBack) {
+    public static void getImageBitmap(final Context context, String url, final BitCallBack callBack) {
         ImageRequest imageRequest = ImageRequestBuilder
                 .newBuilderWithSource(Uri.parse(url))
                 .setProgressiveRenderingEnabled(true)
@@ -37,6 +39,7 @@ public class FrescoBitmapUtils {
             @Override
             public void onFailureImpl(DataSource dataSource) {
                 // No cleanup required here.
+                callBack.onNewResultImpl(  BitmapFactory.decodeResource(context.getResources(), R.drawable.default_photo));
             }
         }, CallerThreadExecutor.getInstance());
     }

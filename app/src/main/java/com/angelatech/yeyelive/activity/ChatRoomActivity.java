@@ -335,7 +335,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
-                    if (callFragment!=null){
+                    if (callFragment != null) {
                         callFragment.setShowCocosView();
                     }
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
@@ -394,7 +394,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         LiveQiSaveVideo(0);//需要保存视频,
                     }
                     roomModel.setLivetime(DateTimeTool.DateFormathms(((int) (DateTimeTool.GetDateTimeNowlong() / 1000) - beginTime)));
-                    if (callFragment!=null){
+                    if (callFragment != null) {
                         callFragment.setShowCocosView();
                     }
                     StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
@@ -446,7 +446,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         };
         chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLivenum(), isSave, callback);
     }
-
 
     private void roomStart() {
         //房间引导页展示
@@ -511,6 +510,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             );
         }
     }
+
+
 
     @Override
     public void doHandler(final Message msg) {
@@ -627,7 +628,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
                     chatManager.receivedChatMessage(msg.obj, callFragment);
-                    callFragment.sendDanmu(msg.obj);
+
                     callFragment.notifyData();
                     if (timeCount == null) {
                         timeCount = new TimeCount(1000, 100);
@@ -637,6 +638,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     }
                     BigData++;
                 }
+                break;
+            case GlobalDef.WM_OUT_RadioBroadcast: //收到广播
+                BarInfoModel.RadioMessage radioMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.RadioMessage.class);
+                callFragment.RadioBroad(radioMessage);
                 break;
             case GlobalDef.WM_LIVE_SHOWMIC: //主播上麦了，重新观看
                 JSONObject jsobj;
@@ -683,7 +688,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
-                        callFragment.sendDanmu(from.name + getString(R.string.me_online));
+
                     }
                     //更新界面
                     callFragment.updateOnline(onlineNotice);
@@ -1004,18 +1009,23 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     //发送私人消息
     @Override
-    public void onSendMessage(String msg) {
+    public void onSendMessage(String msg, boolean isdanmu) {
         if (serviceManager != null) {
-            serviceManager.sendRoomMessage(msg);
-            ChatLineModel chatLineModel = new ChatLineModel();
-            ChatLineModel.from from = new ChatLineModel.from();
-            from.name = userModel.nickname;
-            from.uid = String.valueOf(userModel.userid);
-            chatLineModel.from = from;
-            chatLineModel.type = 0;
-            chatLineModel.message = msg;
-            chatManager.AddChatMessage(chatLineModel);
-            callFragment.notifyData();
+            if (!isdanmu) {
+                serviceManager.sendRoomMessage(msg);
+                ChatLineModel chatLineModel = new ChatLineModel();
+                ChatLineModel.from from = new ChatLineModel.from();
+                from.name = userModel.nickname;
+                from.uid = String.valueOf(userModel.userid);
+                chatLineModel.from = from;
+                chatLineModel.type = 0;
+                chatLineModel.message = msg;
+                chatManager.AddChatMessage(chatLineModel);
+                callFragment.notifyData();
+            } else {
+                //弹幕消息
+                serviceManager.sendRadioBroadcast(msg);
+            }
         }
     }
 
@@ -1043,6 +1053,22 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     @Override
     public void closeLive() {
         CloseLiveDialog();
+    }
+
+    @Override
+    public void playXingYunGift() {
+        Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
+        cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+        cocos2dxGiftModel.aniName = "fx_coin_xingyunliwu";
+        cocos2dxGiftModel.exportJsonPath = "fx_coin_xingyunliwu.ExportJson";
+        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
+        cocos2dxGiftModel.scale = 2f;
+        bigGift.add(cocos2dxGiftModel);
+        if (!isStart) {
+            isStart = true;
+            startPlayBigGift();
+        }
     }
 
     /**
@@ -1121,7 +1147,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     public void onCancel() {//拒绝
                         //如果是直播，发送下麦通知
                         if (roomModel.getRoomType().equals(App.LIVE_HOST)) {
-                            if (callFragment!=null){
+                            if (callFragment != null) {
                                 callFragment.setShowCocosView();
                             }
                             StartActivityHelper.jumpActivity(ChatRoomActivity.this, LiveFinishActivity.class, roomModel);
@@ -1229,7 +1255,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
      */
     public void exitRoom() {
         if (!boolCloseRoom) {
-            if (callFragment!=null){
+            if (callFragment != null) {
                 callFragment.setShowCocosView();
             }
             runOnUiThread(new Runnable() {

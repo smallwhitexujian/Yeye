@@ -19,6 +19,7 @@ import com.qiniu.pili.droid.streaming.StreamingEnv;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -74,6 +75,7 @@ public class App extends Application {
     public static String loginPhone = null;
     public static String price = "";
     public static DisplayMetrics screenDpx;
+    public static ArrayList<HashMap<String, Object>> marqueeData = new ArrayList<>();
 
     //test
     //
