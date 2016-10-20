@@ -110,21 +110,28 @@ public class BroadCastDispatch extends Dispatchable {
                         case SystemMessageType.NOTICE_LIVE_FEEDBACK:
                             checkReadOrNot();
                             requestCode = NotificationUtil.NOTICE_FEEDBACK;
-                            systemMessage.add(systemMessageDBModel);
                             SystemBroadModel.FeedbackBroadCast feedbackBroadCast = JsonUtil.fromJson(systemMessageDBModel.data, SystemBroadModel.FeedbackBroadCast.class);
                             if (feedbackBroadCast != null) {
                                 String content = feedbackBroadCast.msg;
                                 mContent = content == null ? mContent : content;
-                                NotificationUtil.lauchNotifyOnlyShow(mContext, requestCode, ticker, title, mContent, mContent);
+                                systemMessageDBModel.content = mContent;
+                                if (App.isofficialNotify) {
+                                    NotificationUtil.launchNotifyDefault(mContext, requestCode, ticker, title, mContent, MessageOfficialActivity.class);
+                                }
                             }
+                            systemMessage.add(systemMessageDBModel);
                             break;
                         case SystemMessageType.NOTICE_SHOW_PERSON_MSG://针对个人的推送
                             checkReadOrNot();
-                            systemMessage.add(systemMessageDBModel);
+                            requestCode = NotificationUtil.NOTICE_FEEDBACK;
                             try {
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
                                 mContent = msgJsonObj.getString("msg");
-                                NotificationUtil.lauchNotifyOnlyShow(mContext, NotificationUtil.NOTICE_SHOW_PERSON_MSG, ticker, title, mContent, mContent);
+                                systemMessageDBModel.content = mContent;
+                                if (App.isofficialNotify) {
+                                    NotificationUtil.launchNotifyDefault(mContext, requestCode, ticker, title, mContent, MessageOfficialActivity.class);
+                                }
+                                systemMessage.add(systemMessageDBModel);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

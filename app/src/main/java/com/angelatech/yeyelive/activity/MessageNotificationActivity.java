@@ -54,9 +54,11 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
     private BasicUserInfoDBModel userInfo;
     public static String NOTICE_TO_ALL = "52";//系统通知
     public static String NOTICE_SHOW_PERSON_MSG = "53";//个人通知
+    public static String NOTICE_LIVE_FEEDBACK = "51";//意见返回
     public static String NOTICE_FANS_MSG = "54";//个人通知
     public static String NOTICE_RED_MSG = "55";//个人通知
     private SystemMessage systemMessage = null;
+    private List<SystemMessageDBModel> systemMsg = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +72,19 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
         try {
             userInfo = CacheDataManager.getInstance().loadUser();
             systemMessage = SystemMessage.getInstance();
+            systemMsg = new ArrayList<>();
             if (userInfo == null) {
                 return;
             }
-            List<SystemMessageDBModel> systemMsg = systemMessage.load(NOTICE_TO_ALL,userInfo.userid, 0, 1);
-            List<SystemMessageDBModel> fensMsg = systemMessage.load(NOTICE_FANS_MSG,userInfo.userid, 0, 1);
-            List<SystemMessageDBModel> redMsg = systemMessage.load(NOTICE_RED_MSG,userInfo.userid, 0, 1);
+            systemMsg = systemMessage.load(NOTICE_TO_ALL, userInfo.userid, 0, 1);
+            if (systemMsg == null) {
+                systemMsg = systemMessage.load(NOTICE_SHOW_PERSON_MSG, userInfo.userid, 0, 1);
+            }
+            if (systemMsg == null){
+                systemMsg = systemMessage.load(NOTICE_LIVE_FEEDBACK, userInfo.userid, 0, 1);
+            }
+            List<SystemMessageDBModel> fensMsg = systemMessage.load(NOTICE_FANS_MSG, userInfo.userid, 0, 1);
+            List<SystemMessageDBModel> redMsg = systemMessage.load(NOTICE_RED_MSG, userInfo.userid, 0, 1);
             if (systemMsg != null) {
                 models.addAll(systemMsg);//系统消息数据
             }
@@ -110,7 +119,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
         adapter = new CommonAdapter<SystemMessageDBModel>(MessageNotificationActivity.this, models, R.layout.item_msg_notification) {
             @Override
             public void convert(ViewHolder helper, final SystemMessageDBModel item, final int position) {
-                if (item.type_code == 52) {
+                if (item.type_code == 52 || item.type_code == 51 || item.type_code == 53) {
                     List<SystemMessageDBModel> dbModels = systemMessage.getQuerypot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid, NOTICE_TO_ALL);
                     if (dbModels.size() > 0) {
                         helper.setText(R.id.pot, String.valueOf(dbModels.size()));
@@ -154,7 +163,7 @@ public class MessageNotificationActivity extends HeaderBaseActivity implements S
         message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (models.get(position).type_code == 52) {//官方通知
+                if (models.get(position).type_code == 52 || models.get(position).type_code == 51 || models.get(position).type_code == 53) {//官方通知
                     StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageOfficialActivity.class);
                 } else if (models.get(position).type_code == 54) {//粉丝消息活动
                     StartActivityHelper.jumpActivityDefault(MessageNotificationActivity.this, MessageFansActivity.class);

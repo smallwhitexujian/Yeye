@@ -28,17 +28,17 @@
 
     <TextView
         android:id="@+id/iv_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="18dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/icon_home_live_ing"
         android:contentDescription="@null"
         android:gravity="center"
         android:text="LIVE"
         android:textColor="@color/color_ffffff"
-        android:textSize="12sp"
+        android:textSize="10sp"
         tools:ignore="HardcodedText,RtlHardcoded" />
 
 

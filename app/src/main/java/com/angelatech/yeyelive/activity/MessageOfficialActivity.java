@@ -50,7 +50,7 @@ import java.util.List;
 
 public class MessageOfficialActivity extends HeaderBaseActivity implements SwipyRefreshLayout.OnRefreshListener {
     private SwipyRefreshLayout swipyRefreshLayout;
-    private List<SystemMessageDBModel> systemMsg = new ArrayList<>();
+    private List<SystemMessageDBModel> models = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,19 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
             if (userInfo == null) {
                 return;
             }
-            systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_TO_ALL, userInfo.userid, 0, 1000);
+            List<SystemMessageDBModel> Allmsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_TO_ALL, userInfo.userid, 0, 1000);
+            List<SystemMessageDBModel> personMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_SHOW_PERSON_MSG, userInfo.userid, 0, 1000);
+            List<SystemMessageDBModel> systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_LIVE_FEEDBACK, userInfo.userid, 0, 1000);
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_TO_ALL);//修改所有未读改成已读
+            if (Allmsg != null) {
+                models.addAll(Allmsg);
+            }
+            if (personMsg != null) {
+                models.addAll(personMsg);
+            }
+            if (systemMsg != null) {
+                models.addAll(systemMsg);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,7 +93,7 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
-        CommonAdapter<SystemMessageDBModel> adapter = new CommonAdapter<SystemMessageDBModel>(MessageOfficialActivity.this, systemMsg, R.layout.item_official) {
+        CommonAdapter<SystemMessageDBModel> adapter = new CommonAdapter<SystemMessageDBModel>(MessageOfficialActivity.this, models, R.layout.item_official) {
             @Override
             public void convert(ViewHolder helper, final SystemMessageDBModel item, final int position) {
                 if (item._data != null) {
@@ -102,9 +113,9 @@ public class MessageOfficialActivity extends HeaderBaseActivity implements Swipy
         message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (systemMsg.get(position)._data != null) {
+                if (models.get(position)._data != null) {
                     WebTransportModel webTransportModel = new WebTransportModel();
-                    webTransportModel.url = systemMsg.get(position)._data;
+                    webTransportModel.url = models.get(position)._data;
                     webTransportModel.title = getString(R.string.system_gf);
                     if (!webTransportModel.url.isEmpty()) {
                         StartActivityHelper.jumpActivity(MessageOfficialActivity.this, WebActivity.class, webTransportModel);
