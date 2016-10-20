@@ -12,9 +12,11 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.will.common.log.DebugLogs;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.Map;
@@ -101,13 +103,13 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
 
     @Override
     public void onScanQRCodeSuccess(final String result) {
+        LoadingDialog.showLoadingDialog(this,null);
         Log.i(TAG, "result:" + result);
         vibrate();
         mQRCodeView.startSpot();
-        mainEnter.ScanRecharge(CommonUrlConfig.ScanRecharge, userInfo.userid, userInfo.token, result, callback);
+        String key = result.split("key=")[1];
+        mainEnter.ScanRecharge(CommonUrlConfig.ScanRecharge, userInfo.userid, userInfo.token, key, callback);
     }
-
-
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
         @Override
@@ -121,7 +123,12 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                 @Override
                 public void run() {
                     LoadingDialog.cancelLoadingDialog();
-                    DebugLogs.d("==========" + response);
+                    CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+                    if (results != null) {
+                        if (!HttpFunction.isSuc(results.code)) {
+                            onBusinessFaild(results.code);
+                        }
+                    }
                 }
             });
         }
