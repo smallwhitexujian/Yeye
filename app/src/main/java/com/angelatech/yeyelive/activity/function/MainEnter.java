@@ -80,11 +80,20 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+    //排行榜总榜
     public void loadRank(String url, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
         params.put("str", "perGet");
+        httpGet(url, params, callback);
+    }
+
+    public void ScanRecharge(String url, String userid, String token, String key,HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("key", key);
         httpGet(url, params, callback);
     }
 }
