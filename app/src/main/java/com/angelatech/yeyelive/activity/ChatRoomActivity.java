@@ -512,7 +512,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     }
 
 
-
     @Override
     public void doHandler(final Message msg) {
         switch (msg.what) {
@@ -815,7 +814,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 }
                             }
                             break;
-                        case 73: //丘比特
+                        case 40://丘比特
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "fx_qiubite_2";
@@ -1060,10 +1059,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel;
         cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
         cocos2dxGiftModel.aniName = "fx_coin_xingyunliwu";
-        cocos2dxGiftModel.exportJsonPath = "fx_coin_xingyunliwu.ExportJson";
-        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
-        cocos2dxGiftModel.scale = 2f;
+        cocos2dxGiftModel.exportJsonPath = "fx_coin_xingyunliwu/fx_coin_xingyunliwu.ExportJson";
+        cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2 + 4;
+        cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this);
+        cocos2dxGiftModel.speedScale = 0.0f;
         bigGift.add(cocos2dxGiftModel);
         if (!isStart) {
             isStart = true;
