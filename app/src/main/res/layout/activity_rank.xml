@@ -33,6 +33,9 @@
         android:id="@+id/pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:contentDescription="@null"
         android:paddingTop="9dp"
         android:src="@drawable/bg_dir_list_auxiliary" />
@@ -267,4 +270,6 @@
             android:divider="@color/font_line"
             android:dividerHeight="0.5dp" />
     </com.will.view.library.SwipyRefreshLayout>
+
+
 </RelativeLayout>

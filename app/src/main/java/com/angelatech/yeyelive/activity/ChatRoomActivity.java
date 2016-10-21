@@ -1064,7 +1064,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         cocos2dxGiftModel.exportJsonPath = "fx_coin_xingyunliwu/fx_coin_xingyunliwu.ExportJson";
         cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2 + 4;
         cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this);
-        cocos2dxGiftModel.speedScale = 0.0f;
+        cocos2dxGiftModel.speedScale = 0.005f;
         bigGift.add(cocos2dxGiftModel);
         if (!isStart) {
             isStart = true;

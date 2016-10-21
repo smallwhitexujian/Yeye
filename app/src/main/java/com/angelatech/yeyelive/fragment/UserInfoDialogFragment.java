@@ -108,6 +108,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LoadingDialog.cancelLoadingDialog();
     }
 
     private void initView() {
@@ -197,6 +198,10 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void onClick(View v) {
@@ -604,7 +609,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         BroadCastHelper.sendBroadcast(mActivity, intent);
                     }
                 }
-
             }
         };
         try {
