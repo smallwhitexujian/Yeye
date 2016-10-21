@@ -814,7 +814,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 }
                             }
                             break;
-                        case 40://丘比特
+                        case 73://丘比特
                             for (int m = 0; m < gift_Num; m++) {
                                 cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "fx_qiubite_2";
