@@ -828,7 +828,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                     startPlayBigGift();
                                 }
                             }
+
                             break;
+
                     }
 
                     GiftModel giftmodelInfo = chatRoom.getGifPath(giftModel.giftid);

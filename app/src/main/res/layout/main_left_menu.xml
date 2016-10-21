@@ -14,57 +14,59 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:clipChildren="false"
-            android:gravity="right|center_vertical">
+            android:gravity="top">
 
             <ImageView
                 android:id="@+id/btn_qcode"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="5dp"
                 android:contentDescription="@null"
-                android:paddingRight="20dp"
+
                 android:src="@drawable/btn_me_qcode" />
+
+            <RelativeLayout
+                android:id="@+id/layout_user_face"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
+                <!--头像-->
+                <com.xj.frescolib.View.FrescoRoundView
+                    android:id="@+id/user_face"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="8dp"
+                    fresco:fadeDuration="300"
+                    fresco:placeholderImage="@drawable/default_face_icon"
+                    fresco:roundAsCircle="true" />
+
+                <ImageView
+                    android:id="@+id/iv_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/user_face"
+                    android:layout_alignRight="@id/user_face"
+                    android:layout_marginBottom="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/icon_vip_mark"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/btn_edit"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="5dp"
                 android:contentDescription="@null"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:src="@drawable/btn_me_modify_n" />
+                android:src="@drawable/btn_me_edit" />
         </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_user_face"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp">
-            <!--头像-->
-            <com.xj.frescolib.View.FrescoRoundView
-                android:id="@+id/user_face"
-                android:layout_width="87dp"
-                android:layout_height="87dp"
-                android:layout_marginBottom="8dp"
-                fresco:fadeDuration="300"
-                fresco:placeholderImage="@drawable/default_face_icon"
-                fresco:roundAsCircle="true" />
-
-            <ImageView
-                android:id="@+id/iv_vip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/user_face"
-                android:layout_alignRight="@id/user_face"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@null"
-                android:src="@drawable/icon_vip_mark"
-                android:visibility="visible" />
-        </RelativeLayout>
 
         <!--昵称-->
         <LinearLayout
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/color_000000"
-                android:textSize="17sp" />
+                android:textSize="16dp" />
 
             <ImageView
                 android:id="@+id/user_sex"
@@ -104,7 +106,7 @@
             android:textColor="@color/color_a6a6a6"
             android:textSize="12sp" />
 
-        <!--亲密度-->
+        <!--知名度-->
         <TextView
             android:id="@+id/user_intimacy"
             android:layout_width="wrap_content"
@@ -113,6 +115,34 @@
             android:layout_marginTop="4dp"
             android:textColor="@color/color_a6a6a6"
             android:textSize="12sp" />
+        <!--个性签名-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_me_signature_line_left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFD9D9D9"
+                android:textSize="12dp"
+                android:text="@string/singnature_title" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_me_signature_line_right" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/user_sign"
@@ -120,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:gravity="center"
             android:paddingLeft="20dp"

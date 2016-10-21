@@ -980,8 +980,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if(radioMessage.type_code == 95){                                                   //幸运礼物
                     radioMessage.msg = "恭喜" + radioMessage.from.name + "获得" + radioMessage.multiple
                             + "倍幸运礼物大奖，获得" + radioMessage.coin_bonus + "金币";
+                    callEvents.playXingYunGift();
                 }
-                // callEvents.playXingYunGift();
                 if (radioMessage.type == 0 || radioMessage.type == 93) {                                //0或92公聊显示
                     sendPublicMessage(radioMessage);
                 } else if (radioMessage.type == 62) {                                                   //62礼物消息

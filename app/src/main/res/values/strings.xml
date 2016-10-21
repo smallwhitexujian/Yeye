@@ -418,4 +418,5 @@
     <string name="system_follow">has followed you </string>
     <string name="red_deft_txt">Message！</string>
     <string name="system_red_more_coins">At least 10 coins</string>
+    <string name="singnature_title">个性签名</string>
 </resources>

@@ -158,13 +158,7 @@
   ],
   "texture_data": null,
   "config_file_path": [
-    "coin2_1.plist",
-    "coin2_2.plist",
-    "star_2.plist"
   ],
   "config_png_path": [
-    "coin2_1.png",
-    "coin2_2.png",
-    "star_2.png"
   ]
 }
