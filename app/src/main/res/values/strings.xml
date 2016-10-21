@@ -419,4 +419,10 @@
     <string name="red_deft_txt">Message！</string>
     <string name="system_red_more_coins">At least 10 coins</string>
     <string name="singnature_title">个性签名</string>
+    <string name="Tab_menu_my">我的</string>
+    <string name="tab_menu_room">广场</string>
+    <string name="scan_tips">将条码放入框内，即可自动扫描</string>
+    <string name="scan_tips_1">将二维码/条码放入框内，即可自动扫描</string>
+    <string name="scan_title">扫描二维码</string>
+    <string name="Rank_title">主播排行榜</string>
 </resources>

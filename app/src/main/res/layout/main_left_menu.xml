@@ -24,10 +24,10 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="12dp"
                 android:contentDescription="@null"
-
-                android:src="@drawable/btn_me_qcode" />
+                android:src="@drawable/btn_me_qcode"
+                tools:ignore="RtlHardcoded" />
 
             <RelativeLayout
                 android:id="@+id/layout_user_face"
@@ -38,8 +38,8 @@
                 <!--头像-->
                 <com.xj.frescolib.View.FrescoRoundView
                     android:id="@+id/user_face"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="8dp"
                     fresco:fadeDuration="300"
@@ -55,7 +55,8 @@
                     android:layout_marginBottom="2dp"
                     android:contentDescription="@null"
                     android:src="@drawable/icon_vip_mark"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:ignore="RtlHardcoded" />
             </RelativeLayout>
 
             <ImageView
@@ -63,9 +64,10 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="12dp"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_me_edit" />
+                android:src="@drawable/btn_me_edit"
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
         <!--昵称-->
@@ -83,7 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/color_000000"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                tools:ignore="SpUsage" />
 
             <ImageView
                 android:id="@+id/user_sex"
@@ -93,7 +96,8 @@
                 android:layout_marginLeft="3dp"
                 android:contentDescription="@null"
                 android:src="@drawable/icon_information_girl"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
         <!--用户id-->
@@ -119,27 +123,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="4dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@null"
                 android:src="@drawable/bg_me_signature_line_left" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/singnature_title"
                 android:textColor="#FFD9D9D9"
                 android:textSize="12dp"
-                android:text="@string/singnature_title" />
+                tools:ignore="SpUsage" />
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@null"
                 android:src="@drawable/bg_me_signature_line_right" />
 
         </LinearLayout>
@@ -155,7 +162,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textColor="@color/color_222222"
+            android:textColor="@color/color_999999"
             android:textSize="12sp" />
 
         <View
@@ -192,7 +199,8 @@
                     android:gravity="center"
                     android:text="@string/attention"
                     android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/user_attention"
@@ -205,7 +213,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
             </RelativeLayout>
 
             <!--分割 -->
@@ -230,7 +238,8 @@
                     android:drawablePadding="8dp"
                     android:text="@string/fans"
                     android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/user_fans"
@@ -243,7 +252,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
             </RelativeLayout>
 
             <!--分割 -->
@@ -267,7 +276,8 @@
                     android:drawablePadding="8dp"
                     android:text="@string/activity_title_video"
                     android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/user_video"
@@ -280,7 +290,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
 
             </RelativeLayout>
 
@@ -311,7 +321,8 @@
                     android:drawablePadding="8dp"
                     android:text="@string/diamond"
                     android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/user_diamond"
@@ -324,7 +335,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
 
             </RelativeLayout>
 
@@ -349,7 +360,8 @@
                     android:drawablePadding="8dp"
                     android:text="@string/system_msg"
                     android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/message_notice"
@@ -362,7 +374,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
             </RelativeLayout>
 
             <View
@@ -385,7 +397,8 @@
                     android:drawablePadding="8dp"
                     android:text="@string/Invite_facebook_friends"
                     android:textColor="@color/color_232323"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -397,7 +410,7 @@
                     android:gravity="center"
                     android:textColor="@color/color_a6a6a6"
                     android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
 
             </RelativeLayout>
 
@@ -432,7 +445,7 @@
                     android:text="@string/setting"
                     android:textColor="@color/color_232323"
                     android:textSize="14sp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -441,7 +454,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="17dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/btn_next" />
+                    android:src="@drawable/btn_next"
+                    tools:ignore="RtlHardcoded" />
             </RelativeLayout>
 
             <View

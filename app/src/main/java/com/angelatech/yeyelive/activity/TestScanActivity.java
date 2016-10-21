@@ -83,7 +83,6 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         mQRCodeView.startCamera();
         mQRCodeView.startSpot();
         mQRCodeView.showScanRect();
-//        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
     }
 
     @Override
@@ -116,7 +115,7 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         }
         webTransportModel = new WebTransportModel();
         webTransportModel.url = iuresult;
-        webTransportModel.title = "扫描二维码";
+        webTransportModel.title = getString(R.string.scan_title);
         if (!webTransportModel.url.isEmpty()) {
             StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
         }

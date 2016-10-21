@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="16dp"
-        android:text="主播排行榜"
+        android:text="@string/Rank_title"
         android:textColor="@color/white"
         android:textSize="18sp"
         tools:ignore="HardcodedText" />

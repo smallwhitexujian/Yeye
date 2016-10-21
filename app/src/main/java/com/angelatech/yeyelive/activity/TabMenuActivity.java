@@ -249,16 +249,16 @@ public class TabMenuActivity extends BaseActivity {
         } else {
             pot.setVisibility(View.GONE);
         }
-        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
-            return;
-        } else {
+//        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
+//            return;
+//        } else {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     upApk();
                 }
             });
-        }
+//        }
     }
 
     //强制升级
@@ -282,9 +282,9 @@ public class TabMenuActivity extends BaseActivity {
                             String Content = json.getString("Content");
                             String apkVersion = json.getString("AppVersion");
                             int isUp = Integer.valueOf(json.getString("isUp"));
-                            if (isUp == 1) {
-                                SPreferencesTool.getInstance().saveUpLoadApk(TabMenuActivity.this, true, apkVersion, Content, AppURL);
-                            }
+//                            if (isUp == 1) {
+//                                SPreferencesTool.getInstance().saveUpLoadApk(TabMenuActivity.this, true, apkVersion, Content, AppURL);
+//                            }
                             if (Integer.valueOf(apkVersion) > Integer.valueOf(versionCode)) {
                                 UploadApp uploadApp = new UploadApp(Utility.getSDCardDir(TabMenuActivity.this, App.FILEPATH_UPAPK));
                                 uploadApp.showUpApk(TabMenuActivity.this, Content, AppURL, isUp);
