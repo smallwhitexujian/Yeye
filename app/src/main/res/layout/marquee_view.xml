@@ -16,8 +16,9 @@
         <LinearLayout
             android:id="@+id/marquee"
             android:layout_width="wrap_content"
-            android:layout_height="31dp"
+            android:layout_height="30dp"
             android:gravity="center"
+            android:background="@drawable/bg_red_envelope"
             android:orientation="horizontal">
 
             <TextView
@@ -27,6 +28,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:textColor="#FFEE00"
+
                 android:maxLines="1"
                 android:textSize="16sp" />
 
