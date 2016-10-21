@@ -829,6 +829,21 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 }
                             }
                             break;
+                        case 40://丘比特
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_coin_xingyunliwu";
+                                cocos2dxGiftModel.exportJsonPath = "fx_coin_xingyunliwu/fx_coin_xingyunliwu.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2 + 4;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this);
+                                cocos2dxGiftModel.speedScale = 0.005f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
                     }
 
                     GiftModel giftmodelInfo = chatRoom.getGifPath(giftModel.giftid);
@@ -1062,7 +1077,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         cocos2dxGiftModel.exportJsonPath = "fx_coin_xingyunliwu/fx_coin_xingyunliwu.ExportJson";
         cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2 + 4;
         cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this);
-        cocos2dxGiftModel.speedScale = 0.0f;
+        cocos2dxGiftModel.speedScale = 0.005f;
         bigGift.add(cocos2dxGiftModel);
         if (!isStart) {
             isStart = true;
