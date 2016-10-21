@@ -56,6 +56,17 @@ void GiftScene::loadAnimation(const GiftModel gift,const GiftControlModel contro
             armature->addChild(m7);
         }
 	this->addChild(armature);
+	if(strcmp(gift.aniName,"fx_coin_xingyunliwu") == 0)
+            {
+                LOGD("oooooo");
+                ParticleSystem* m1 = ParticleSystemQuad::create("fx_coin_xingyunliwu/coin2_1.plist");
+                ParticleSystem* m2 = ParticleSystemQuad::create("fx_coin_xingyunliwu/coin2_2.plist");
+                ParticleSystem* m3 = ParticleSystemQuad::create("fx_coin_xingyunliwu/star_2.plist");
+                this->addChild(m1);
+                this->addChild(m2);
+                this->addChild(m3);
+            }
+    this->addChild(armature);
 	armature->getAnimation()->playWithIndex(0);
 }
 

@@ -965,7 +965,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private void sendPublicMessage(BarInfoModel.RadioMessage radioMessage) {
         ChatLineModel chatlinemodel = new ChatLineModel();
         ChatLineModel.from from = new ChatLineModel.from();
-
         chatlinemodel.type = 10;
         chatlinemodel.message = radioMessage.msg;
         App.mChatlines.add(chatlinemodel);
@@ -1379,7 +1378,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         giftModelList.add(giftaModel);
         //如果队列里边只有1个礼物并且当前没有处于播放状态，就开始播放礼物动画
         if (giftModelList.size() <= 2 && (!giftA || !giftB)) {
-
             startGiftAnimation(giftModelList.get(0));
         }
     }
