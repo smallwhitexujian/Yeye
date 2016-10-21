@@ -419,4 +419,5 @@
     <string name="red_deft_txt">Message！</string>
     <string name="system_red_more_coins">At least 10 coins</string>
     <string name="singnature_title">个性签名</string>
+    <string name="title_activity_friend_user_info">FriendUserInfoActivity</string>
 </resources>

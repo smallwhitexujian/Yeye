@@ -65,7 +65,7 @@
             </intent-filter>
         </activity>
 
-        <!--主界面-->
+        <!-- 主界面 -->
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -82,97 +82,84 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize|stateAlwaysHidden" />
-
         <activity
             android:name=".activity.LiveFinishActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <!--手机登录 -->
+        <!-- 手机登录 -->
         <activity
             android:name=".activity.RegisterFindPWDActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.LoginPasswordActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <!--设置-->
+        <!-- 设置 -->
         <activity
             android:name=".activity.SettingActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.ProfileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 
-        <!--选择国家-->
+        <!-- 选择国家 -->
         <activity
             android:name=".activity.CountrySelectActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.SearchActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".activity.UserVideoActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".activity.PlayActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".activity.ChangePasswordActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".activity.UserInfoActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.FansActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.FocusOnActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.EditActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.PicViewActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.PhoneBindActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
@@ -188,37 +175,31 @@
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.FeedbackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activity.BlacklistActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.RechargeWayActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".activity.RechargeActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.TabActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activity.MessageNotificationActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
@@ -258,8 +239,8 @@
             android:name=".activity.TestScanActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/BaseAppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <service
             android:name=".service.IService"
@@ -277,7 +258,6 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent" />
-
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -298,14 +278,13 @@
                 <data android:scheme="tencent1105057529" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!--友盟-->
+        <!-- 友盟 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="57906dace0f55a13dd00166e" />
@@ -313,7 +292,7 @@
             android:name="UMENG_CHANNEL"
             android:value="YeYeLive" />
 
-        <!--微博-->
+        <!-- 微博 -->
         <!-- 必须注册在微博授权，分享微博时候用到 -->
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
@@ -327,7 +306,8 @@
         <meta-data
             android:name="WEIBO_CHANNEL"
             android:value="weibo" />
-        <!--测试-->
+        <!-- 测试 -->
+
 
         <!-- Facebook 相关配置 -->
         <activity
@@ -335,7 +315,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/facebook_app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -350,7 +329,8 @@
             android:exported="true" />
         <!-- Facebook 相关配置 end -->
 
-        <!--facebook 拉好友-->
+
+        <!-- facebook 拉好友 -->
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
 
@@ -370,7 +350,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
             android:exported="true">
@@ -388,6 +367,9 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.FriendUserInfoActivity"
+            android:label="@string/title_activity_friend_user_info"></activity>
     </application>
 
 </manifest>

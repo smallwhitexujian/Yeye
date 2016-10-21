@@ -18,9 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center"
-            android:background="@drawable/bg_red_envelope"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/context"
                 android:layout_width="0dp"

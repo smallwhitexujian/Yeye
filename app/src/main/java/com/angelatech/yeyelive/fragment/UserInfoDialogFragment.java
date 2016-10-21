@@ -21,6 +21,7 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
@@ -350,14 +351,16 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                             if (App.chatRoomApplication != null) {
                                 App.chatRoomApplication.exitRoom();
                             }
-                            StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                           // StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                            StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo.Userid);
                             dismiss();
                         }
                     };
                     CommDialog commDialog = new CommDialog();
                     commDialog.CommDialog(mActivity, getString(R.string.finish_room), true, callback);
                 } else {
-                    StartActivityHelper.jumpActivity(mActivity, UserVideoActivity.class, baseInfo.Userid);
+                    //StartActivityHelper.jumpActivity(mActivity, UserVideoActivity.class, baseInfo.Userid);
+                    StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo.Userid);
                     dismiss();
                 }
                 break;

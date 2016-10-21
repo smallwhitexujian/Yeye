@@ -16,7 +16,6 @@
         android:orientation="horizontal"
         android:visibility="gone" />
 
-
     <LinearLayout
         android:id="@+id/ly_main"
         android:layout_width="match_parent"
