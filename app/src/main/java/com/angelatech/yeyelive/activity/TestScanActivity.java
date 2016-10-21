@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive.activity;
 
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -8,13 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.web.handle.HttpBusinessCallback;
@@ -53,6 +53,7 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
     private QRCodeView mQRCodeView;
     private BasicUserInfoDBModel userInfo;
     private MainEnter mainEnter;
+    private WebTransportModel webTransportModel;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +82,8 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         super.onResume();
         mQRCodeView.startCamera();
         mQRCodeView.startSpot();
-        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        mQRCodeView.showScanRect();
+//        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
     }
 
     @Override
@@ -103,12 +105,22 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
 
     @Override
     public void onScanQRCodeSuccess(final String result) {
-        LoadingDialog.showLoadingDialog(this,null);
+        LoadingDialog.showLoadingDialog(this, null);
         Log.i(TAG, "result:" + result);
         vibrate();
         mQRCodeView.startSpot();
         String key = result.split("key=")[1];
-        mainEnter.ScanRecharge(CommonUrlConfig.ScanRecharge, userInfo.userid, userInfo.token, key, callback);
+        String iuresult = null;
+        if (result.contains("key=")) {
+            iuresult = result + "?userid=" + userInfo.userid + "?token" + userInfo.token;
+        }
+        webTransportModel = new WebTransportModel();
+        webTransportModel.url = iuresult;
+        webTransportModel.title = "扫描二维码";
+        if (!webTransportModel.url.isEmpty()) {
+            StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
+        }
+//        mainEnter.ScanRecharge(CommonUrlConfig.ScanRecharge, userInfo.userid, userInfo.token, key, callback);
     }
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -127,6 +139,8 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                     if (results != null) {
                         if (!HttpFunction.isSuc(results.code)) {
                             onBusinessFaild(results.code);
+                        } else {
+
                         }
                     }
                 }
@@ -136,7 +150,7 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        Log.e(TAG, "打开相机出错");
+//        Log.e(TAG, "打开相机出错");
     }
 
 }
