@@ -66,7 +66,7 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
     private List<RankModel> rankModels = new ArrayList<>();
     private List<RankModel> rankLists = new ArrayList<>();
     private FrescoRoundView rankPic, rankPic2, rankPic3;
-    private ImageView iv_vip,iv_vip2,iv_vip3;
+    private ImageView iv_vip,iv_vip2,iv_vip3,backBtn;
     private TextView rankName, rankName2, rankName3, rankCoins, rankCoins2, rankCoins3;
 
     @Override
@@ -139,6 +139,7 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
         iv_vip = (ImageView) findViewById(R.id.iv_vip);
         iv_vip2 = (ImageView) findViewById(R.id.iv_vip2);
         iv_vip3 = (ImageView) findViewById(R.id.iv_vip3);
+        backBtn = (ImageView) findViewById(R.id.backBtn);
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
@@ -151,6 +152,7 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
         rankPic.setOnClickListener(this);
         rankPic2.setOnClickListener(this);
         rankPic3.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
     }
 
     @Override
@@ -165,6 +167,9 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
                 break;
             case R.id.rank_handler3:
                 jumpUserInfo(rankLists.get(2));
+                break;
+            case R.id.backBtn:
+                finish();
                 break;
         }
     }
