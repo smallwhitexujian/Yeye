@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
@@ -19,27 +20,26 @@
             android:id="@+id/search_input"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_weight="1"
             android:layout_marginLeft="16dp"
+            android:layout_weight="1"
             android:background="@drawable/search_coner_bg"
             android:drawableLeft="@drawable/icon_search_search"
             android:drawablePadding="11dp"
             android:hint="@string/search_hint"
-            android:textColorHint="@color/color_hint_text"
+            android:maxLines="1"
             android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textSize="14sp" />
+            android:textColorHint="@color/color_hint_text"
+            android:textSize="14sp"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:id="@+id/search_cancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:layout_weight="5"
             android:gravity="center"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textSize="16sp" />
     </LinearLayout>
 

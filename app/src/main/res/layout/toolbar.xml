@@ -7,7 +7,7 @@
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/color_d80c18"
@@ -17,11 +17,22 @@
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:contentDescription="@null"
+            android:gravity="center"
             android:paddingLeft="10dp"
             android:src="@drawable/btn_nav_back_w"
             android:textColor="@color/white"
             android:textSize="16sp" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/str_titile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:gravity="center"
+            android:src="@drawable/btn_nav_back_w"
+            android:text="@string/scan_title"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
 </android.support.v7.widget.Toolbar>

@@ -44,7 +44,7 @@
                 android:drawablePadding="2dp"
                 android:drawableTop="@drawable/btn_menu_home_s"
                 android:gravity="center"
-                android:text="广场"
+                android:text="@string/tab_menu_room"
                 android:textColor="@color/color_d80c18"
                 android:textSize="10dp" />
         </LinearLayout>
@@ -93,7 +93,7 @@
                 android:drawablePadding="2dp"
                 android:drawableTop="@drawable/btn_menu_me_n"
                 android:gravity="center"
-                android:text="我的"
+                android:text="@string/Tab_menu_my"
                 android:textColor="@color/color_999999"
                 android:textSize="10dp" />
         </RelativeLayout>
