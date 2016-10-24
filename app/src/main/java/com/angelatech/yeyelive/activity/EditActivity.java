@@ -48,7 +48,7 @@ public class EditActivity extends HeaderBaseActivity {
     private Boolean boolCanSave = false;
     private View line1,line2,line3;
     private final int USER_SIGN_LEN_LIMIT = 70;
-    private final int USER_NAME_LEN_LIMIT = 24;
+    private final int USER_NAME_LEN_LIMIT = 12;
     private final int USER_EMAIL_LEN_LIMIT = 50;
     private final int MSG_INPUT_USER_NAME_LIMIT = 1;
     private final int MSG_INPUT_USER_SIGN_LIMIT = 2;
@@ -131,7 +131,6 @@ public class EditActivity extends HeaderBaseActivity {
                 headerLayout.showTitle(R.string.user_info_mail);
                 break;
         }
-
         Utility.openKeybord(tv_nickName, this);
     }
 

@@ -45,6 +45,8 @@ public class SettingNoticeActivity extends HeaderBaseActivity implements View.On
     }
 
     private void initView() {
+        headerLayout.showTitle(getString(R.string.setting_live_notify));
+        headerLayout.showLeftBackButton();
         live_notify_turn = (ImageView) findViewById(R.id.live_notify_turn);
         official_notify_turn = (ImageView) findViewById(R.id.official_notify_turn);
         red_notify_turn = (ImageView) findViewById(R.id.red_notify_turn);
