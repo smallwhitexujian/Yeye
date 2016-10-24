@@ -25,6 +25,7 @@
         android:layout_marginLeft="42dp"
         android:layout_marginRight="42dp"
         android:orientation="vertical"
+        tools:visibility="visible"
         android:visibility="gone">
 
         <RelativeLayout

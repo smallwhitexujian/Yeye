@@ -67,6 +67,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        LoadingDialog.cancelLoadingDialog();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
@@ -147,6 +153,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 StartActivityHelper.jumpActivity(this, RegisterFindPWDActivity.class, RegisterFindPWDActivity.FROM_TYPE_REGISTER);
                 break;
             case R.id.iv_we_chat:
+                LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 DebugLogs.e("wechat---->start");
                 WxProxy wxProxy = new WxProxy(this, uiHandler);
                 wxProxy.login();
@@ -206,6 +213,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
             case FbProxy.FB_LOGIN_ERROR:
+                LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 Log.e("error--->", "error");
                 AccessToken.setCurrentAccessToken(null);
                 break;
