@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/ly_gift_view"
@@ -12,6 +12,7 @@
         android:layout_height="65dp"
         android:paddingBottom="10dp"
         android:visibility="gone"
+        tools:ignore="UselessParent"
         tools:visibility="visible">
 
         <LinearLayout
@@ -22,17 +23,18 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/room_chat_bg_s"
             android:gravity="center_vertical"
+            android:minWidth="180dp"
             android:orientation="vertical"
             android:paddingLeft="50dp"
-            android:paddingRight="60dp">
+            tools:ignore="RtlHardcoded,RtlSymmetry">
 
             <TextView
                 android:id="@+id/txt_from_user"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
                 android:layout_marginTop="0dp"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
@@ -40,21 +42,23 @@
                 android:id="@+id/txt_gift_name"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
-                android:layout_gravity="right"
-                android:gravity="right"
+                android:gravity="left"
                 android:maxLines="1"
                 android:text="@string/send_pepole2"
                 android:textColor="#FFFF00"
-                android:textSize="12sp" />
-
+                android:textSize="12sp"
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
         <com.xj.frescolib.View.FrescoDrawee
             android:id="@+id/img_gift"
             android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginLeft="-50dp"
-            android:layout_toRightOf="@+id/gift_info"
+            android:layout_height="55dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@+id/gif_img_head"
+            android:layout_toRightOf="@+id/gif_img_head"
             android:scaleType="centerInside"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/icon_gift"
@@ -77,7 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_gift"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded" />
 
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/gif_img_head"
@@ -85,7 +90,8 @@
             android:layout_height="46dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
-            fresco:placeholderImage="@drawable/default_photo" />
+            fresco:placeholderImage="@drawable/default_photo"
+            tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 
 </LinearLayout>

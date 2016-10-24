@@ -18,13 +18,14 @@
             android:id="@+id/gift_info_s"
             android:layout_width="wrap_content"
             android:layout_height="46dp"
+            android:layout_alignLeft="@+id/gif_img_head_s"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
+            android:layout_alignStart="@+id/gif_img_head_s"
             android:background="@drawable/room_chat_bg_s"
             android:gravity="center_vertical"
+            android:minWidth="180dp"
             android:orientation="vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="40dp">
+            android:paddingLeft="50dp">
 
             <TextView
                 android:id="@+id/txt_from_user_s"
@@ -39,26 +40,14 @@
                 android:id="@+id/txt_gift_name_s"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:maxLines="1"
+                android:layout_gravity="left"
                 android:ellipsize="end"
+                android:gravity="left"
+                android:maxLines="1"
                 android:text="@string/send_pepole2"
                 android:textColor="#FFFF00"
                 android:textSize="12sp" />
-
         </LinearLayout>
-
-        <com.xj.frescolib.View.FrescoDrawee
-            android:id="@+id/img_gift_s"
-            android:layout_width="65dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="-30dp"
-            android:layout_toRightOf="@+id/gift_info_s"
-            android:scaleType="centerInside"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/icon_gift"
-            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/numText_s"
@@ -79,7 +68,6 @@
             android:layout_toRightOf="@+id/img_gift_s"
             android:visibility="visible" />
 
-
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/gif_img_head_s"
             android:layout_width="46dp"
@@ -87,6 +75,19 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             fresco:placeholderImage="@drawable/default_photo" />
-    </RelativeLayout>
 
+        <com.xj.frescolib.View.FrescoDrawee
+            android:id="@+id/img_gift_s"
+            android:layout_width="65dp"
+            android:layout_height="55dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@+id/gif_img_head_s"
+            android:layout_toRightOf="@+id/gif_img_head_s"
+            android:scaleType="centerInside"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/icon_gift"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
 </LinearLayout>
