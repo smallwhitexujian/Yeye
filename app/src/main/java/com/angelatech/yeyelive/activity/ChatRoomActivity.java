@@ -174,7 +174,12 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         //屏幕的计算
         int statusBarHeight = ScreenUtils.getStatusHeight(this);
         ViewGroup.LayoutParams params2 = body.getLayoutParams();
-        params2.height = App.screenDpx.heightPixels - statusBarHeight;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            params2.height = App.screenDpx.heightPixels;
+        }else{
+            params2.height = App.screenDpx.heightPixels - statusBarHeight;
+        }
+        params2.height = App.screenDpx.heightPixels;
         params2.width = App.screenDpx.widthPixels;
         body.setLayoutParams(params2);
     }
@@ -290,7 +295,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 .setLocation(WatermarkSetting.WATERMARK_LOCATION.NORTH_EAST)
                 .setSize(WatermarkSetting.WATERMARK_SIZE.SMALL)
                 .setInJustDecodeBoundsEnabled(false)
-                .setCustomPosition(0.82f, 0.05f);
+                .setCustomPosition(0.80f, 0.09f);
 
         mMediaStreamingManager = new MediaStreamingManager(this, afl, cameraPreviewFrameView,
                 AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC); // sw codec

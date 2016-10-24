@@ -3,6 +3,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingTop="20dp"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -144,7 +145,8 @@
             android:background="@color/color_30000000"
             android:gravity="center_vertical"
             android:paddingLeft="14dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            tools:ignore="RtlHardcoded">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -157,7 +159,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
                 android:paddingLeft="8dp"
-                android:src="@drawable/icon_tickets_golds_small" />
+                android:src="@drawable/icon_tickets_golds_small"
+                tools:ignore="RtlSymmetry" />
 
             <Spinner
                 android:id="@+id/spinner"
@@ -176,7 +179,8 @@
             android:layout_toRightOf="@+id/layout_ticket"
             android:contentDescription="@string/switch_camera"
             android:padding="10dp"
-            android:src="@drawable/btn_room_exchange_n" />
+            android:src="@drawable/btn_room_exchange_n"
+            tools:ignore="RtlHardcoded" />
 
 
         <Button
@@ -200,7 +204,8 @@
             android:layout_marginTop="4dp"
             android:text="@string/last_cover"
             android:textColor="#FEFEFE"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            tools:ignore="SpUsage" />
 
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/Front_cover"

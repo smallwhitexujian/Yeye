@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
@@ -96,7 +98,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private Cocos2dxView cocos2dxView = new Cocos2dxView();
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
     private boolean boolReport = false; //是否举报
-    private String diamonds = null;
     private volatile int time = 5000;
 
     Runnable runnable = new Runnable() {
@@ -115,6 +116,21 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //取消状态栏
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }else{
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         initView();

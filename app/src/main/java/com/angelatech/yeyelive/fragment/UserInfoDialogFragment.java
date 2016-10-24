@@ -231,10 +231,12 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         App.chatRoomApplication.closeLive();
                     }
                 } else {
-                    ChatRoomActivity.roomModel.setId(0);
-                    ChatRoomActivity.roomModel.setRoomType(App.LIVE_PREVIEW);
-                    ChatRoomActivity.roomModel.setUserInfoDBModel(loginUser);
-                    StartActivityHelper.jumpActivity(mActivity, ChatRoomActivity.class, ChatRoomActivity.roomModel);
+                    if ( ChatRoomActivity.roomModel!=null){
+                        ChatRoomActivity.roomModel.setId(0);
+                        ChatRoomActivity.roomModel.setRoomType(App.LIVE_PREVIEW);
+                        ChatRoomActivity.roomModel.setUserInfoDBModel(loginUser);
+                        StartActivityHelper.jumpActivity(mActivity, ChatRoomActivity.class, ChatRoomActivity.roomModel);
+                    }
                 }
                 dismiss();
                 break;
