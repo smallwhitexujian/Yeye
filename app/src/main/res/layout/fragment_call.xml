@@ -287,10 +287,11 @@
                 android:id="@+id/btn_danmu"
                 android:layout_width="40dp"
                 android:layout_height="26dp"
+                android:contentDescription="@null"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="6dp"
                 android:background="@drawable/btn_room_sendtxt_cur_ord"
-                />
+                tools:ignore="RtlHardcoded" />
 
             <EditText
                 android:id="@+id/txt_msg"

@@ -16,6 +16,7 @@ public class VerificationUtil {
     private final static String smallImage = "?imageView2/2/w/80";
     private final static String smallImage100 = "?imageView2/2/w/100";
     private final static String smallImage150 = "?imageView2/2/w/150";
+    private final static String smallImage500 = "?imageView2/2/w/500";
     private final static String filePath = "file.iamyeye.com";
 
     /**
@@ -110,6 +111,13 @@ public class VerificationUtil {
     public static String getImageUrl150(String url) {
         if (url.indexOf(filePath) > 0) {
             return url + smallImage150;
+        }
+        return url;
+    }
+
+    public static String getImageUrl500(String url) {
+        if (url.indexOf(filePath) > 0) {
+            return url + smallImage500;
         }
         return url;
     }

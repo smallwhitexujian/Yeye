@@ -11,6 +11,7 @@ import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.PicView;
 import com.facebook.datasource.DataSource;
 
@@ -39,7 +40,7 @@ public class PicViewActivity extends BaseActivity {
         if (picViewModel.url.equals("")) {
             return;
         }
-        LoadBitmap.loadBitmap(this, UriHelper.obtainUri(picViewModel.url), new LoadBitmap.LoadBitmapCallback() {
+        LoadBitmap.loadBitmap(this, UriHelper.obtainUri(VerificationUtil.getImageUrl500(picViewModel.url)), new LoadBitmap.LoadBitmapCallback() {
             @Override
             public void onLoadSuc(Bitmap bitmap) {
                 uiHandler.obtainMessage(MSG_ON_LOAD_BITMAP, bitmap).sendToTarget();

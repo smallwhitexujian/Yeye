@@ -115,16 +115,16 @@ public class MainActivity extends BaseActivity {
             pot.setVisibility(View.GONE);
         }
         setPhoto();
-        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
-            return;
-        } else {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    upApk();
-                }
-            });
-        }
+//        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
+//            return;
+//        } else {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                upApk();
+            }
+        });
+//        }
     }
 
     @Override

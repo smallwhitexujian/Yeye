@@ -20,6 +20,7 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.LeftFragment;
 import com.angelatech.yeyelive.fragment.ListFragment;
@@ -243,12 +244,17 @@ public class TabMenuActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        userModel = CacheDataManager.getInstance().loadUser();
-        if (systemMessage.haveNewSystemMsg(TabMenuActivity.this)) {
-            pot.setVisibility(View.VISIBLE);
-        } else {
-            pot.setVisibility(View.GONE);
-        }
+        try {
+            userModel = CacheDataManager.getInstance().loadUser();
+            String str = String.valueOf(SystemMessage.getInstance().getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userModel.userid).size());
+            if (str.equals("0")) {
+                SystemMessage.getInstance().clearUnReadTag(TabMenuActivity.this);
+            }
+            if (systemMessage.haveNewSystemMsg(TabMenuActivity.this)) {
+                pot.setVisibility(View.VISIBLE);
+            } else {
+                pot.setVisibility(View.GONE);
+            }
 //        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
 //            return;
 //        } else {
@@ -259,6 +265,9 @@ public class TabMenuActivity extends BaseActivity {
                 }
             });
 //        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //强制升级

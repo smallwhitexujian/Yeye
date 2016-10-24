@@ -237,7 +237,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         controlView = inflater.inflate(R.layout.fragment_call, container, false);
         mDanmuControl = new DanmuControl(getActivity());
-
         initView();
         fragmentManager = getFragmentManager();
         initControls();
@@ -733,7 +732,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
         OnlineListModel onlineListModel = new OnlineListModel();
         onlineListModel.isv = liveUserModel.isv;
         onlineListModel.uid = Integer.parseInt(liveUserModel.userid);
