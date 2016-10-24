@@ -63,7 +63,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            if(oldVersion < 19){
+            if(oldVersion < DBConfig.DB_VERSION){
                 DatabaseUpdateHelper.upgradeTable(database,connectionSource,SystemMessageDBModel.class, DatabaseUpdateHelper.OPERATION_TYPE.ADD);
             }else if (mClasses != null) {
                 for (Class clazz : mClasses) {
