@@ -65,7 +65,6 @@ import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.angelatech.yeyelive.view.GaussAmbiguity;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.framework.socket.model.SocketConfig;
 import com.google.gson.reflect.TypeToken;
@@ -121,7 +120,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     //重连的次数
     private int connectionServiceNumber = 0;
-    private int rtmpConnectNumber = 0; //流媒体连接次数
     //房间是否初始化
     private boolean isInit = false;
     private boolean isSysMsg = false;
@@ -134,14 +132,14 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private List<Cocos2dxGift.Cocos2dxGiftModel> bigGift = new ArrayList<>();
     private ChatRoom chatRoom;
     private int connTotalNum = 0; //总连接次数
-    private boolean boolConnRoom = true; //
+    private boolean boolConnRoom = false; //
     private QiniuUpload qiNiuUpload;
     private PictureObtain mObtain;
     private Uri distUri;
     private String imgPath;
-    private boolean isNetWork = true;
     private PLVideoTextureUtils plUtils;
     private PLVideoTextureView plVideoTextureView;
+    private boolean ispull = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,9 +172,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         //屏幕的计算
         int statusBarHeight = ScreenUtils.getStatusHeight(this);
         ViewGroup.LayoutParams params2 = body.getLayoutParams();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             params2.height = App.screenDpx.heightPixels;
-        }else{
+        } else {
             params2.height = App.screenDpx.heightPixels - statusBarHeight;
         }
         params2.height = App.screenDpx.heightPixels;
@@ -240,7 +238,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         App.mChatlines.clear();
         connectionServiceNumber = 0;
         isInit = false;
-        isCloseLiveDialog = false;
         chatManager = new ChatManager(this);
         fragmentList = new ArrayList<>();
         callFragment = new CallFragment();
@@ -307,6 +304,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         mMediaStreamingManager.setStreamStatusCallback(this);
         mMediaStreamingManager.setStreamingPreviewCallback(this);
         mMediaStreamingManager.setAudioSourceCallback(this);
+        setStreamCallback(streamCallback);
         setFocusAreaIndicator();//设置聚焦功能
         setBeauty();//设置默认美颜功能
     }
@@ -336,6 +334,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
             @Override
             public void onOK(boolean choose) {
+                isCloseLiveDialog = false;
                 //如果是直播，发送下麦通知
                 if (roomModel.getRoomType().equals(App.LIVE_HOST) && serviceManager != null) {
                     serviceManager.downMic();
@@ -477,42 +476,13 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
      * 重连房间
      */
     private void restartConnection() {
-        connectionServiceNumber++;
         if (connectionServiceNumber < 5) {
-            if (NetWorkUtil.isNetworkConnected(this) && serviceManager != null) {
+            if (NetWorkUtil.isNetworkConnected(this) && serviceManager != null && !boolConnRoom) {
                 serviceManager.connectionService();
-                isNetWork = true;
             }
         } else {
-            if (!NetWorkUtil.isNetworkConnected(this)) {
-                isNetWork = false;
-                noNetWork();
-            } else {
-                //五次还是连不上就退出房间
-                peerDisConnection(getString(R.string.room_net_toast));
-            }
-        }
-    }
-
-    /**
-     * 无网络
-     */
-    private void noNetWork() {
-        if (!this.isFinishing()) {
-            new NomalAlertDialog().alwaysShow(this, getString(R.string.setting_network),
-                    getString(R.string.not_network), getString(R.string.set_network), getString(R.string.end_live),
-                    new NomalAlertDialog.HandlerDialog() {
-                        @Override
-                        public void handleOk() {
-                            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-                        }
-
-                        @Override
-                        public void handleCancel() {
-                            peerDisConnection(getString(R.string.room_net_toast));
-                        }
-                    }
-            );
+            //五次还是连不上就退出房间
+            peerDisConnection(getString(R.string.room_net_toast));
         }
     }
 
@@ -521,7 +491,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     public void doHandler(final Message msg) {
         switch (msg.what) {
             case IServiceValues.NETWORK_SUCCESS:
-                isNetWork = true;
+                if (!boolConnRoom && connectionServiceNumber == 5) {
+                    restartConnection();
+                }
                 break;
             case IServiceValues.NETWORK_FAILD:
                 boolConnRoom = false;
@@ -530,25 +502,19 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 exitRoom();
                 break;
             case GlobalDef.SERVICE_STATUS_FAILD://连接失败
-                DebugLogs.e("network test---------faild");
+                DebugLogs.e("network test---------faild" + (int) msg.obj);
                 //如果首次连接失败，给出提示并退出房间
+                connectionServiceNumber = (int) msg.obj;
                 boolConnRoom = false;
                 connTotalNum++;
-                if (connectionServiceNumber < 1 || connTotalNum >= 10) {
-                    ToastUtils.showToast(this, getString(R.string.the_server_connect_fail));
-                    exitRoom();
-                } else {
-                    restartConnection();
-                }
+                restartConnection();
                 break;
             case GlobalDef.SERVICE_STATUS_CONNETN:
                 boolConnRoom = false;
                 connTotalNum++;
-                DebugLogs.e("network test---------SERVICE_STATUS_CONNETN");
+                DebugLogs.e("network test---------SERVICE_STATUS_CONNETN" + connTotalNum);
                 if (NetWorkUtil.getActiveNetWorkType(this) == NetWorkUtil.TYPE_MOBILE) {
                     endLive(getString(R.string.traffic_alert));
-                } else if (connTotalNum >= 10) {
-                    endLive(getString(R.string.the_server_connect_fail));
                 } else {
                     //失去了连接，重连5次
                     restartConnection();
@@ -557,7 +523,11 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
                 DebugLogs.e("房间连接成功---------SERVICE_STATUS_SUCCESS");
                 connectionServiceNumber = 0;
+                connTotalNum = 0;
                 boolConnRoom = true;
+                if (!ispull && roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
+                    setStartStreaming(roomModel.getRtmpip());
+                }
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
                 if (!isInit && roomModel != null) {
                     callFragment.setRoomInfo();
@@ -568,6 +538,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 //先判断是不是重连的状态，是重连的登录成功，跳过此步骤
                 if (fragmentList.size() > 1) {
                     mAbSlidingTabView.setCurrentItem(1);
+                }
+                if (!ispull && roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
+                    setStartStreaming(roomModel.getRtmpip());
                 }
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
@@ -632,7 +605,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 CommonModel commonModel_chat = JsonUtil.fromJson(msg.obj.toString(), CommonModel.class);
                 if (commonModel_chat != null && commonModel_chat.code.equals("0")) {
                     chatManager.receivedChatMessage(msg.obj, callFragment);
-
                     callFragment.notifyData();
                     if (timeCount == null) {
                         timeCount = new TimeCount(1000, 100);
@@ -884,6 +856,39 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         }
     }
 
+    private CommDialog pullDialog = new CommDialog();
+    private StreamCallback streamCallback = new StreamCallback() {
+        @Override
+        public void disconnected() {
+            //流媒体连接上
+            DebugLogs.d("---直播连接上了---->");
+            ispull = true;
+        }
+
+        @Override
+        public void ioerror() {
+            ispull = false;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    CommDialog.Callback callback = new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onOK() {
+
+                        }
+                    };
+                    if (pullDialog != null) {
+                        pullDialog.CommDialog(ChatRoomActivity.this, "直播断开", false, callback);
+                    }
+                }
+            });
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1169,7 +1174,11 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     @Override
                     public void onOK() {//重连
                         if (!boolConnRoom) {
-                            restartConnection();
+                            isCloseLiveDialog = false;
+                            connectionServiceNumber = 1;
+                            if (serviceManager != null) {
+                                serviceManager.connectionService();
+                            }
                         }
                     }
                 };
