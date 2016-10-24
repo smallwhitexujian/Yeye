@@ -1051,6 +1051,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
+        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+            cocos2dxView.onResume();
+        }
         if (cocos2dxView != null) {
             cocos2dxView.onPause();
         }

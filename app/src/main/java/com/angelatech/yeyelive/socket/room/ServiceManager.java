@@ -75,7 +75,7 @@ public class ServiceManager {
      * 连接服务
      */
     public void connectionService() {
-        if (bindService != null && socketConfig != null) {
+        if (bindService != null && socketConfig != null ) {
             bindService.setRoomHander(handler);
             bindService.startRoomConnection(socketConfig, barId, Integer.parseInt(userModel.userid), userModel.token);
         } else {

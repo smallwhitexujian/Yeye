@@ -48,11 +48,10 @@
 
                 <ImageView
                     android:id="@+id/iv_vip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignBottom="@id/user_face"
                     android:layout_alignRight="@id/user_face"
-                    android:layout_marginBottom="2dp"
                     android:contentDescription="@null"
                     android:src="@drawable/icon_vip_mark"
                     android:visibility="visible"
