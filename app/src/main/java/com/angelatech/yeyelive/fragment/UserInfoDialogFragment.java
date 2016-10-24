@@ -23,7 +23,6 @@ import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
-import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.UserControl;
@@ -273,7 +272,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
-                                LoadingDialog.showLoadingDialog(mActivity,null);
+                                LoadingDialog.showLoadingDialog(mActivity, null);
                                 HttpBusinessCallback callback = new HttpBusinessCallback() {
                                     @Override
                                     public void onFailure(Map<String, ?> errorMap) {
@@ -300,7 +299,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
-                                LoadingDialog.showLoadingDialog(mActivity,null);
+                                LoadingDialog.showLoadingDialog(mActivity, null);
                                 HttpBusinessCallback callback = new HttpBusinessCallback() {
                                     @Override
                                     public void onFailure(Map<String, ?> errorMap) {
@@ -331,7 +330,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     PicViewModel picViewModel = new PicViewModel();
                     picViewModel.url = baseInfo.headurl;
                     picViewModel.defaultPic = R.drawable.default_face_icon;
-                    if (App.chatRoomApplication.callFragment!=null){
+                    if (App.chatRoomApplication != null && App.chatRoomApplication.callFragment != null) {
                         App.chatRoomApplication.callFragment.setShowCocosView();
                     }
                     StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
@@ -351,7 +350,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                             if (App.chatRoomApplication != null) {
                                 App.chatRoomApplication.exitRoom();
                             }
-                           // StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
+                            // StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
                             StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo.Userid);
                             dismiss();
                         }
