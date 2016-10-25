@@ -101,7 +101,7 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         mQRCodeView.startSpot();
         String iuresult = null;
         if (result.contains("key=")) {
-            iuresult = result + "&userid=" + userInfo.userid + "&token" + userInfo.token;
+            iuresult = result + "&userid=" + userInfo.userid + "&token=" + userInfo.token;
         }
         webTransportModel = new WebTransportModel();
         webTransportModel.url = iuresult;
