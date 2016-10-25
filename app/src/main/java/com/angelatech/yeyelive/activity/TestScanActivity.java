@@ -1,5 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
@@ -101,7 +102,7 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         Log.i(TAG, "result:" + result);
         vibrate();
         mQRCodeView.startSpot();
-        if (result.contains(CommonUrlConfig.ScanRecharge)){
+        if (result.contains("ScanRecharge")){
             String iuresult = null;
             if (result.contains("key=")) {
                 iuresult = result + "&userid=" + userInfo.userid + "&token=" + userInfo.token+"&"+System.currentTimeMillis();
@@ -120,9 +121,12 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                webTransportModel.title = "";
                if (!webTransportModel.url.isEmpty()) {
                    LoadingDialog.cancelLoadingDialog();
-                   StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
+                   Uri uri = Uri.parse(result);
+                   Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                   startActivity(intent);
                }
            }else{
+               LoadingDialog.cancelLoadingDialog();
                ToastUtils.showToast(TestScanActivity.this,result);
            }
         }
