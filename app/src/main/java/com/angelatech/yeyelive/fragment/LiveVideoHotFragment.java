@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.PlayActivity;
 import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
@@ -219,14 +220,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private void jumpUserInfo(LiveVideoModel item) {
         BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
         userInfoModel.Userid = item.userid;
-        userInfoModel.headurl = item.headurl;
-        userInfoModel.nickname = item.nickname;
-        userInfoModel.isv = item.isv;
-        userInfoModel.sex = item.sex;
-        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-        userInfoDialogFragment.setUserInfoModel(userInfoModel);
+
         if (isAdded()) {
-            userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+            StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, userInfoModel);
         }
     }
 

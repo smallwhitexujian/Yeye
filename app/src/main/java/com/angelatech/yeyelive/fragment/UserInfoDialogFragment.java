@@ -351,7 +351,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                                 App.chatRoomApplication.exitRoom();
                             }
                             // StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
-                            StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo.Userid);
+                            StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
                             dismiss();
                         }
                     };
@@ -359,7 +359,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     commDialog.CommDialog(mActivity, getString(R.string.finish_room), true, callback);
                 } else {
                     //StartActivityHelper.jumpActivity(mActivity, UserVideoActivity.class, baseInfo.Userid);
-                    StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo.Userid);
+                    StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
                     dismiss();
                 }
                 break;
@@ -642,9 +642,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
             }
         };
         userInfoDialog.userNoticeEdit(CommonUrlConfig.UserNoticeEdit, loginUser.token, loginUser.userid, touserid, callback);
-
     }
-
 
     private String getOppositeFollow(String src) {
         if (UserInfoDialog.HAVE_FOLLOW.equals(src)) {
