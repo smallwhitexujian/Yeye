@@ -129,14 +129,14 @@ public class ThirdShareDialog extends Dialog {
                     break;
                 case R.id.ly_wechat:
                     if (img != null) {
-                        WxShare wxInterface = new WxShare(mContext,listener);
-                        wxInterface.SceneWebPage(dialogTitle,  text,url, img, SendMessageToWX.Req.WXSceneSession);
+                        WxShare wxInterface = new WxShare(mContext, listener);
+                        wxInterface.SceneWebPage(dialogTitle, text, url, img, SendMessageToWX.Req.WXSceneSession);
                     }
                     break;
                 case R.id.ly_webchatmoments:
                     if (img != null) {
-                        WxShare webchatmoment = new WxShare(mContext,listener);
-                        webchatmoment.SceneWebPage( dialogTitle, text, url,img, SendMessageToWX.Req.WXSceneTimeline);
+                        WxShare webchatmoment = new WxShare(mContext, listener);
+                        webchatmoment.SceneWebPage(dialogTitle, text, url, img, SendMessageToWX.Req.WXSceneTimeline);
                     }
                     break;
                 case R.id.ly_facebook:
@@ -144,8 +144,8 @@ public class ThirdShareDialog extends Dialog {
                     fbshare.postStatusUpdate(dialogTitle, text, url, imageUrl);
                     break;
                 case R.id.tv_cancel:
-                    Utility.copy(url,mContext);
-                    ToastUtils.showToast(mContext,mContext.getString(R.string.capy_to_clip));
+                    Utility.copy(url, mContext);
+                    ToastUtils.showToast(mContext, mContext.getString(R.string.capy_to_clip));
                     break;
             }
             dialog.dismiss();
