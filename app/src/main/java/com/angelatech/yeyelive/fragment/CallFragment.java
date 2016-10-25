@@ -848,7 +848,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_Follow:
                 UserFollow();
-                callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW, false);
                 break;
             case R.id.btn_share:
                 setShowCocosView();
@@ -1202,11 +1201,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case MSG_SET_FOLLOW:
                 try {
                     switch (isFollow) {
-                        case 0:
+                        case 0://未关注
                             btn_Follow.setVisibility(View.VISIBLE);
                             btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
                             break;
-                        case 1:
+                        case 1://关注
+                            callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW, false);
                             btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
                             Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                             btn_Follow.startAnimation(rotateAnimation);

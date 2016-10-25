@@ -150,6 +150,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     };
 
     public StreamingBaseActivity() {
+
     }
 
     @Override
@@ -168,7 +169,6 @@ public class StreamingBaseActivity extends BaseActivity implements
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }else{
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);

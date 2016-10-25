@@ -7,12 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.will.view.ToastUtils;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zbar.ZBarView;
@@ -99,16 +101,30 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         Log.i(TAG, "result:" + result);
         vibrate();
         mQRCodeView.startSpot();
-        String iuresult = null;
-        if (result.contains("key=")) {
-            iuresult = result + "&userid=" + userInfo.userid + "&token=" + userInfo.token+"&"+System.currentTimeMillis();
-        }
-        webTransportModel = new WebTransportModel();
-        webTransportModel.url = iuresult;
-        webTransportModel.title = getString(R.string.yeye_web_title);
-        if (!webTransportModel.url.isEmpty()) {
-            LoadingDialog.cancelLoadingDialog();
-            StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
+        if (result.contains(CommonUrlConfig.ScanRecharge)){
+            String iuresult = null;
+            if (result.contains("key=")) {
+                iuresult = result + "&userid=" + userInfo.userid + "&token=" + userInfo.token+"&"+System.currentTimeMillis();
+            }
+            webTransportModel = new WebTransportModel();
+            webTransportModel.url = iuresult;
+            webTransportModel.title = getString(R.string.yeye_web_title);
+            if (!webTransportModel.url.isEmpty()) {
+                LoadingDialog.cancelLoadingDialog();
+                StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
+            }
+        }else{
+           if (result.contains("http")){
+               webTransportModel = new WebTransportModel();
+               webTransportModel.url = result;
+               webTransportModel.title = "";
+               if (!webTransportModel.url.isEmpty()) {
+                   LoadingDialog.cancelLoadingDialog();
+                   StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
+               }
+           }else{
+               ToastUtils.showToast(TestScanActivity.this,result);
+           }
         }
     }
 
