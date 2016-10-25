@@ -1261,8 +1261,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case SHOW_SOFT_KEYB://键盘弹出事件
                 if (ly_main != null) {
+                    int getVirtualBarHeigh = ScreenUtils.getVirtualBarHeigh(getActivity());
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
-                    params.height = App.screenDpx.heightPixels - (int) msg.obj;
+                    params.height = App.screenDpx.heightPixels - (int) msg.obj + getVirtualBarHeigh;
                     params.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params);
                     if (ly_send.getVisibility() == View.GONE) {

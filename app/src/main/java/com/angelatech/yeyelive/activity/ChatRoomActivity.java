@@ -171,9 +171,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         App.chatRoomApplication = this;
         //屏幕的计算
         int statusBarHeight = ScreenUtils.getStatusHeight(this);
+        int getVirtualBarHeigh = ScreenUtils.getVirtualBarHeigh(this);
         ViewGroup.LayoutParams params2 = body.getLayoutParams();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            params2.height = App.screenDpx.heightPixels;
+            params2.height = App.screenDpx.heightPixels + getVirtualBarHeigh;
         } else {
             params2.height = App.screenDpx.heightPixels - statusBarHeight;
         }
@@ -528,7 +529,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     setStartStreaming(roomModel.getRtmpip());
                 }
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
-                if (!isInit && roomModel != null && callFragment!=null) {
+                if (!isInit && roomModel != null && callFragment != null) {
                     callFragment.setRoomInfo();
                     //检查关注状态
                 }
