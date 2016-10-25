@@ -36,6 +36,7 @@ import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.PicViewModel;
+import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
@@ -231,10 +232,11 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                         App.chatRoomApplication.closeLive();
                     }
                 } else {
-                    ChatRoomActivity.roomModel.setId(0);
-                    ChatRoomActivity.roomModel.setRoomType(App.LIVE_PREVIEW);
-                    ChatRoomActivity.roomModel.setUserInfoDBModel(loginUser);
-                    StartActivityHelper.jumpActivity(mActivity, ChatRoomActivity.class, ChatRoomActivity.roomModel);
+                    RoomModel roomModel = new RoomModel();
+                    roomModel.setId(0);
+                    roomModel.setRoomType(App.LIVE_PREVIEW);
+                    roomModel.setUserInfoDBModel(loginUser);
+                    StartActivityHelper.jumpActivity(mActivity, ChatRoomActivity.class, roomModel);
                 }
                 dismiss();
                 break;

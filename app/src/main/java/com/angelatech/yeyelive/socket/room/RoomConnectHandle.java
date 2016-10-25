@@ -40,7 +40,7 @@ public class RoomConnectHandle extends SocketConnectHandle {
     @Override
     public void connectFaild(int i) {
         DebugLogs.e("======连接失败=====" + i);
-        mRoomHandler.sendEmptyMessage(GlobalDef.SERVICE_STATUS_FAILD);
+        mRoomHandler.obtainMessage(GlobalDef.SERVICE_STATUS_FAILD,i).sendToTarget();
     }
 
     @Override

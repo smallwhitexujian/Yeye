@@ -2,7 +2,6 @@ package com.angelatech.yeyelive.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -15,8 +14,6 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.RankActivity;
 import com.angelatech.yeyelive.activity.SearchActivity;
 import com.angelatech.yeyelive.adapter.SimpleFragmentPagerAdapter;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.will.common.tool.view.DisplayTool;
 
@@ -48,8 +45,6 @@ public class ListFragment extends BaseFragment {
     private SimpleFragmentPagerAdapter pagerAdapter;
     private ViewPager viewPager;
     private TextView hotTab, followTab, newTab;
-    private FragmentManager fragmentManager = null;
-    private BasicUserInfoDBModel userModel;
     private Drawable drawable;
 
     @Override
@@ -71,9 +66,7 @@ public class ListFragment extends BaseFragment {
     }
 
     private void initView() {
-        userModel = CacheDataManager.getInstance().loadUser();
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        fragmentManager = getActivity().getSupportFragmentManager();
         hotTab = (TextView) view.findViewById(R.id.hot_textview);
         followTab = (TextView)view.findViewById(R.id.follow_textview);
         newTab = (TextView) view.findViewById(R.id.new_textview);

@@ -305,6 +305,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
+        int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
+        rootView.setPadding(0,statusBarHeight,0,0);
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
         marquee_layout = (LinearLayout) controlView.findViewById(R.id.marquee_layout);
         mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
@@ -1049,6 +1051,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
+        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
+            cocos2dxView.onResume();
+        }
         if (cocos2dxView != null) {
             cocos2dxView.onPause();
         }
