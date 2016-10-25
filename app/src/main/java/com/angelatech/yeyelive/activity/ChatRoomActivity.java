@@ -508,6 +508,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 boolConnRoom = false;
                 connTotalNum++;
                 restartConnection();
+                setSocketMessage(getString(R.string.socket_msg_conneting));
                 break;
             case GlobalDef.SERVICE_STATUS_CONNETN:
                 boolConnRoom = false;
@@ -522,6 +523,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 break;
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
                 DebugLogs.e("房间连接成功---------SERVICE_STATUS_SUCCESS");
+                setSocketMessage(getString(R.string.socket_msg_sevice_success));
                 connectionServiceNumber = 0;
                 connTotalNum = 0;
                 boolConnRoom = true;
@@ -529,7 +531,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     setStartStreaming(roomModel.getRtmpip());
                 }
                 //房间信息没有初始化才进行下一步，防止断线重连后重复初始化房间信息
-                if (!isInit && roomModel != null) {
+                if (!isInit && roomModel != null && callFragment!=null) {
                     callFragment.setRoomInfo();
                     //检查关注状态
                 }
@@ -542,6 +544,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 if (!ispull && roomModel != null && roomModel.getRoomType().equals(App.LIVE_HOST)) {
                     setStartStreaming(roomModel.getRtmpip());
                 }
+                callFragment.setHintCocosView();
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                     if (loginMessage != null && loginMessage.code.equals("0")) {
@@ -664,7 +667,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                         chatlinemodel.message = getString(R.string.me_online);
                         chatManager.AddChatMessage(chatlinemodel);
                         callFragment.notifyData();
-
                     }
                     //更新界面
                     callFragment.updateOnline(onlineNotice);
@@ -805,9 +807,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                     startPlayBigGift();
                                 }
                             }
-
                             break;
-
                     }
 
                     GiftModel giftmodelInfo = chatRoom.getGifPath(giftModel.giftid);
@@ -856,12 +856,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         }
     }
 
-    private CommDialog pullDialog = new CommDialog();
     private StreamCallback streamCallback = new StreamCallback() {
         @Override
         public void disconnected() {
-            //流媒体连接上
-            DebugLogs.d("---直播连接上了---->");
             ispull = true;
         }
 
@@ -871,20 +868,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    CommDialog.Callback callback = new CommDialog.Callback() {
-                        @Override
-                        public void onCancel() {
-
-                        }
-
-                        @Override
-                        public void onOK() {
-
-                        }
-                    };
-                    if (pullDialog != null) {
-                        pullDialog.CommDialog(ChatRoomActivity.this, "直播断开", false, callback);
-                    }
+                    setSocketMessage(getString(R.string.socket_msg_live_off));
                 }
             });
         }
@@ -1196,6 +1180,21 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         });
     }
 
+    private void setSocketMessage(String socketMessage) {
+        ChatLineModel chatlinemodel = new ChatLineModel();
+        ChatLineModel.from from = new ChatLineModel.from();
+        from.name = userModel.nickname;
+        from.uid = userModel.userid;
+        from.headphoto = userModel.headurl;
+        from.level = "0";
+        chatlinemodel.from = from;
+        chatlinemodel.type = 10;
+        chatlinemodel.isFirst = true;
+        chatlinemodel.message = socketMessage;
+        chatManager.AddChatMessage(chatlinemodel);
+        callFragment.notifyData();
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -1220,6 +1219,17 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
 
     @Override
     public void setCurrentTime(String CurrentTime, String endTime) {
+
+    }
+
+    @Override
+    public void sendReconnectMessage() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setSocketMessage(getString(R.string.socket_msg_watch));
+            }
+        });
 
     }
 

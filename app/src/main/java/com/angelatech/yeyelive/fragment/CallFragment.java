@@ -171,7 +171,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     private MarqueeUilts marqueeUtils;
-    private LinearLayout marqueeLayout,marquee_layout;
+    private LinearLayout marqueeLayout, marquee_layout;
 
     //弹幕控件
     private ImageView btn_danmu;
@@ -306,7 +306,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
-        rootView.setPadding(0,statusBarHeight,0,0);
+        rootView.setPadding(0, statusBarHeight, 0, 0);
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
         marquee_layout = (LinearLayout) controlView.findViewById(R.id.marquee_layout);
         mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
@@ -952,7 +952,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         marquee_layout.invalidate();
         marqueeUtils.restartAnim();
         final HashMap<String, Object> params = new HashMap<>();
-        Spanned htmlStr = Html.fromHtml( "<font color='#ffff00'> <br> "+ radioMessage.msg+"</br></font>");
+        Spanned htmlStr = Html.fromHtml("<font color='#ffff00'> <br> " + radioMessage.msg + "</br></font>");
         params.put(MarqueeUilts.CONTEXT, htmlStr);
         App.marqueeData.add(params);
     }
@@ -977,7 +977,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void RadioBroad(BarInfoModel.RadioMessage radioMessage) {
         try {
             if (radioMessage.code == 0) {//表示成功
-                if(radioMessage.type_code == 95){                                                   //幸运礼物
+                if (radioMessage.type_code == 95) {                                                   //幸运礼物
                     radioMessage.msg = "恭喜" + radioMessage.from.name + "获得" + radioMessage.multiple
                             + "倍幸运礼物大奖，获得" + radioMessage.coin_bonus + "金币";
                     callEvents.playXingYunGift();
@@ -1042,7 +1042,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+        if (cocos2dxView != null) {
             cocos2dxView.onResume();
         }
         mDanmuControl.resume();
@@ -1051,9 +1051,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-            cocos2dxView.onResume();
-        }
         if (cocos2dxView != null) {
             cocos2dxView.onPause();
         }
@@ -1432,7 +1429,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 String str = "x" + finalI;
-                                if (translateAnimation_out!=null){
+                                if (translateAnimation_out != null) {
                                     translateAnimation_out.start();
                                     numText.setText(str);
                                     numText1.setText(str);

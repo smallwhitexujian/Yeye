@@ -426,4 +426,9 @@
     <string name="scan_tips_1">将二维码/条码放入框内，即可自动扫描</string>
     <string name="scan_title">扫描二维码</string>
     <string name="Rank_title">主播排行榜</string>
+    <string name="socket_msg_live_on">直播连上了</string>
+    <string name="socket_msg_live_off">直播断开</string>
+    <string name="socket_msg_conneting">重连中...</string>
+    <string name="socket_msg_watch">主播暂时离开</string>
+    <string name="socket_msg_sevice_success">房间登陆成功...</string>
 </resources>

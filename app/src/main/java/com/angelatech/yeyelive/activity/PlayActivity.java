@@ -764,4 +764,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         player_split_line.setVisibility(View.VISIBLE);
         player_current_time.setText(CurrentTime);
     }
+
+    @Override
+    public void sendReconnectMessage() {
+
+    }
 }
