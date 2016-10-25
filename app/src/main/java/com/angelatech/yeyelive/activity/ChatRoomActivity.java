@@ -491,9 +491,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     public void doHandler(final Message msg) {
         switch (msg.what) {
             case IServiceValues.NETWORK_SUCCESS:
-                if (!boolConnRoom && connectionServiceNumber == 5) {
-                    restartConnection();
-                }
                 break;
             case IServiceValues.NETWORK_FAILD:
                 boolConnRoom = false;

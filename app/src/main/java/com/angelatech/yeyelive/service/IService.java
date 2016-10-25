@@ -16,6 +16,7 @@ import com.angelatech.yeyelive.socket.room.RoomConnectManager;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.framework.socket.model.SocketConfig;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.web.HttpPostFile;
 import com.will.web.callback.HttpCallback;
@@ -102,6 +103,7 @@ public class IService extends Service {
         roomInfo.userid = UserId;
         roomInfo.token = token;
         String jsonString = JsonUtil.toJson(roomInfo);
+        DebugLogs.e("----发送登陆房间包--->"+jsonString);
         byte[] bytes = WillProtocol.sendMessage(WillProtocol.ENTER_VOICEROOM_TYPE_VALUE, jsonString);
         roomConnectManager.performConnect(socketconfig, bytes);
     }
