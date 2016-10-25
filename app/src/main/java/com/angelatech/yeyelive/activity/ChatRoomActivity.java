@@ -859,7 +859,13 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private StreamCallback streamCallback = new StreamCallback() {
         @Override
         public void disconnected() {
-            ispull = true;
+            ispull = false;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setSocketMessage(getString(R.string.socket_msg_live_msg));
+                }
+            });
         }
 
         @Override
@@ -869,6 +875,17 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 @Override
                 public void run() {
                     setSocketMessage(getString(R.string.socket_msg_live_off));
+                }
+            });
+        }
+
+        @Override
+        public void connecting() {
+            ispull = true;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setSocketMessage(getString(R.string.socket_msg_live_on));
                 }
             });
         }

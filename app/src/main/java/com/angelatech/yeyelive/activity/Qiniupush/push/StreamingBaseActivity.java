@@ -365,6 +365,9 @@ public class StreamingBaseActivity extends BaseActivity implements
                 startStreaming();//开始推流
                 break;
             case CONNECTING://连接
+                if (streamCallback != null) {
+                    streamCallback.connecting();
+                }
                 break;
             case STREAMING://开始推流
                 break;
@@ -430,6 +433,8 @@ public class StreamingBaseActivity extends BaseActivity implements
         void disconnected();
 
         void ioerror();
+
+        void connecting();
     }
 
 
