@@ -497,7 +497,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         }).start();
-
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
