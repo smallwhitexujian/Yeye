@@ -71,6 +71,7 @@ public class ImHeartbeat implements Heartbeat {
 
     @Override
     public void doneHeartbeat() {
+        DebugLogs.e("jjfly 停止心跳了...........");
         closeTimerTask();
         isRun = false;
     }
