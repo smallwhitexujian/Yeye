@@ -435,4 +435,5 @@
     <string name="capy_to_clipboard">复制到剪切板</string>
     <string name="capy_to_clip">复制到剪切板成功</string>
     <string name="yeye_web_title">yeye支付</string>
+    <string name="red_tips_luck">祝你好运！</string>
 </resources>

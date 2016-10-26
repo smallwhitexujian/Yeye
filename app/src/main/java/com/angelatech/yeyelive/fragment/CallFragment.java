@@ -1061,7 +1061,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onDestroyView() {
         super.onDestroyView();
         if (txt_msg!=null){
-            Utility.openKeybord(txt_msg, getActivity());
+            Utility.closeKeybord(txt_msg, getActivity());
         }
         clearTask();
         clearAnimation();

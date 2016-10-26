@@ -72,7 +72,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="@string/red_deft_txt"
+                android:hint="@string/red_tips_luck"
                 android:paddingLeft="10dp"
                 android:textColor="@color/color_666666"
                 android:textColorHint="@color/color_d9d9d9" />
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="6dp"
-                android:text="@string/coins_low"
+                android:text="@string/system_red_more_coins"
                 android:textColor="@color/color_999999"
                 android:textSize="14sp"
                 android:visibility="invisible"

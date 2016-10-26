@@ -398,6 +398,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             public void onClick(View v) {
                 String aomunt = edit_coins.getText().toString();
                 String context = edit_context.getText().toString();
+                if (context.isEmpty()){
+                    context = getString(R.string.red_tips_luck);
+                }
                 double userDiamonds = Double.valueOf(userModel.diamonds);
                 if (!aomunt.isEmpty() && userDiamonds > Double.valueOf(aomunt.trim())) {
                     if (Double.valueOf(aomunt) < 10) {
