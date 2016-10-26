@@ -70,6 +70,9 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
                 return;
             }
             systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_FANS_MSG, userInfo.userid, 0, 1000);
+            if (systemMsg==null){
+                return;
+            }
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_FANS_MSG);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();

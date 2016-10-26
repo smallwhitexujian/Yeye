@@ -102,10 +102,10 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
         Log.i(TAG, "result:" + result);
         vibrate();
         mQRCodeView.startSpot();
-        if (result.contains("ScanRecharge")){
+        if (result.contains("ScanRecharge")) {
             String iuresult = null;
             if (result.contains("key=")) {
-                iuresult = result + "&userid=" + userInfo.userid + "&token=" + userInfo.token+"&"+System.currentTimeMillis();
+                iuresult = result + "&userid=" + userInfo.userid + "&token=" + userInfo.token + "&sources=" + 2 + "&" + System.currentTimeMillis();
             }
             webTransportModel = new WebTransportModel();
             webTransportModel.url = iuresult;
@@ -114,21 +114,21 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                 LoadingDialog.cancelLoadingDialog();
                 StartActivityHelper.jumpActivity(TestScanActivity.this, WebActivity.class, webTransportModel);
             }
-        }else{
-           if (result.contains("http")){
-               webTransportModel = new WebTransportModel();
-               webTransportModel.url = result;
-               webTransportModel.title = "";
-               if (!webTransportModel.url.isEmpty()) {
-                   LoadingDialog.cancelLoadingDialog();
-                   Uri uri = Uri.parse(result);
-                   Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                   startActivity(intent);
-               }
-           }else{
-               LoadingDialog.cancelLoadingDialog();
-               ToastUtils.showToast(TestScanActivity.this,result);
-           }
+        } else {
+            if (result.contains("http")) {
+                webTransportModel = new WebTransportModel();
+                webTransportModel.url = result;
+                webTransportModel.title = "";
+                if (!webTransportModel.url.isEmpty()) {
+                    LoadingDialog.cancelLoadingDialog();
+                    Uri uri = Uri.parse(result);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            } else {
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(TestScanActivity.this, result);
+            }
         }
     }
 

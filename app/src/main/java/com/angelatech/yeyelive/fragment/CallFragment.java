@@ -1060,6 +1060,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (txt_msg!=null){
+            Utility.openKeybord(txt_msg, getActivity());
+        }
         clearTask();
         clearAnimation();
         if (cocos2dxView != null) {
