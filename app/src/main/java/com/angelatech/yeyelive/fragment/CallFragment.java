@@ -530,7 +530,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             editEnd = txt_msg.getSelectionEnd();
             if (temp.length() > 20 && isdanmu) {
                 editable.delete(editStart - 1, editEnd);
-                ToastUtils.showToast(getContext(),"弹幕最多发送20字符");
+                ToastUtils.showToast(getContext(), R.string.danmu_tips);
             }
         }
     };
@@ -1012,9 +1012,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void RadioBroad(BarInfoModel.RadioMessage radioMessage) {
         try {
             if (radioMessage.code == 0) {//表示成功
-                if (radioMessage.type_code == 95) {                                                   //幸运礼物
-                    radioMessage.msg = "恭喜" + radioMessage.from.name + "获得" + radioMessage.multiple
-                            + "倍幸运礼物大奖，获得" + radioMessage.coin_bonus + "金币";
+                if (radioMessage.type_code == 95) {//幸运礼物
+                    radioMessage.msg = String.format( getString(R.string.xingyunliwu_tips) ,radioMessage.from.name,radioMessage.multiple,radioMessage.coin_bonus);
                     if( Float.parseFloat( radioMessage.multiple) > 0.5 && radioMessage.from_room.roomid == ChatRoomActivity.roomModel.getId() ) {
                         callEvents.playXingYunGift();
                     }
@@ -1022,31 +1021,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (radioMessage.type == 0 || radioMessage.type == 93) {                                //0或92公聊显示
                     sendPublicMessage(radioMessage);
                 } else if (radioMessage.type == 62) {                                                   //62礼物消息
-//                    marqueeUtils.restartAnim();
-//                    final HashMap<String, Object> params = new HashMap<>();
-//                    String RoomStr = String.format("[房间 ID：%s] ", radioMessage.from_room.uid + "");
-//                    String ToStr = "发送";
-//                    String text = String.format("礼物 %s ", radioMessage.giftid + "" + "x");
-//                    String str1 = "<font color='#FFFFEE00'><b>" + RoomStr;
-//                    String str2 = radioMessage.from.name;
-//                    String str3 = ToStr;
-//                    String str4 = radioMessage.from.name;
-//                    String str5 = text + "</b></font> ";
-//                    Spanned htmlStr = Html.fromHtml(str1 + str2 + str3 + str4 + str5);
-//                    String imageurl = getGiftimg(radioMessage.giftid);
-//                    FrescoBitmapUtils.getImageBitmap(getActivity(), imageurl, new FrescoBitmapUtils.BitCallBack() {
-//                        @Override
-//                        public void onNewResultImpl(final Bitmap bitmap) {
-//                            getActivity().runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    params.put(MarqueeUilts.BITMAP, bitmap);
-//                                }
-//                            });
-//                        }
-//                    });
-//                    params.put(MarqueeUilts.CONTEXT, htmlStr);
-//                    App.marqueeData.add(params);
                 } else if (radioMessage.type == 9) {                                                    //9他人发的弹幕
                     sendDanmu(radioMessage.from.name, radioMessage.from.headphoto, radioMessage.msg);
                 } else if (radioMessage.type == 91) {                                                          //91自己发送弹幕收到的回执
@@ -1060,7 +1034,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     //喇叭
                     sendMarquee(radioMessage);
                     //飞屏
-
                     sendDanmu(radioMessage.from.name, radioMessage.from.headphoto, radioMessage.msg);
                     //公聊
                     sendPublicMessage(radioMessage);
@@ -1074,7 +1047,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             System.gc();
         }
     }
-
 
     @Override
     public void onResume() {

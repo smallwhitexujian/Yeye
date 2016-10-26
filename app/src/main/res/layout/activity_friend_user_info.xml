@@ -172,7 +172,6 @@
                 android:id="@+id/txt_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="834"
                 android:textColor="#FF666666"
                 android:textSize="12dp" />
 
@@ -198,7 +197,6 @@
                 android:id="@+id/txt_fans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="83434344"
                 android:textColor="#FF666666"
                 android:textSize="12dp" />
 
@@ -224,7 +222,6 @@
                 android:id="@+id/txt_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4353454834"
                 android:textColor="#FF666666"
                 android:textSize="12dp" />
 
@@ -232,7 +229,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="知名度"
+                android:text="@string/search_intimacy"
                 android:textColor="#FF666666"
                 android:textSize="12dp" />
 
@@ -256,7 +253,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="粉丝贡献榜"
+            android:text="@string/fans_rank"
             android:textColor="#FF666666"
             android:textSize="14dp" />
 
