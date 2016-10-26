@@ -426,15 +426,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ly_gift_view.startAnimation(translateAnimation_out);
-
-                giftA = false;
-                try {
-                    if (giftModelList.size() > 0) {
-                        startGiftAnimation(giftModelList.get(0));
+                if (ly_gift_view != null && translateAnimation_out != null) {
+                    ly_gift_view.startAnimation(translateAnimation_out);
+                    giftA = false;
+                    try {
+                        if (giftModelList.size() > 0) {
+                            startGiftAnimation(giftModelList.get(0));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -472,14 +473,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ly_gift_view_s.startAnimation(translateAnimation_out_s);
-                giftB = false;
-                try {
-                    if (giftModelList.size() > 0) {
-                        startGiftAnimation(giftModelList.get(0));
+                if (ly_gift_view_s != null && translateAnimation_out_s != null) {
+                    ly_gift_view_s.startAnimation(translateAnimation_out_s);
+                    giftB = false;
+                    try {
+                        if (giftModelList.size() > 0) {
+                            startGiftAnimation(giftModelList.get(0));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -1060,7 +1063,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (txt_msg!=null){
+        if (txt_msg != null) {
             Utility.closeKeybord(txt_msg, getActivity());
         }
         clearTask();
