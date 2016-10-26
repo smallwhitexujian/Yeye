@@ -337,7 +337,43 @@
                     tools:ignore="RelativeOverlap,RtlHardcoded" />
 
             </RelativeLayout>
+            <!--分割 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
 
+            <RelativeLayout
+                android:id="@+id/layout_gift"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_gift_mall"
+                    android:drawablePadding="8dp"
+                    android:text="@string/system_msg"
+                    android:textColor="@color/color_232323"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/gift_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
+            </RelativeLayout>
             <!--分割 -->
             <View
                 android:layout_width="match_parent"

@@ -50,7 +50,7 @@ public class LeftFragment extends HintFragment {
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video,message_notice;
     private RelativeLayout attentionLayout, fansLayout, settingLayout,
-            layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg;
+            layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg,layout_gift;
     private ImageView editImageView, sexImageView, iv_vip,btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
@@ -108,6 +108,7 @@ public class LeftFragment extends HintFragment {
         layout_diamond = (RelativeLayout) view.findViewById(R.id.layout_diamond);
         layout_video = (RelativeLayout) view.findViewById(R.id.layout_video);
         layout_Invite_friend = (RelativeLayout) view.findViewById(R.id.layout_Invite_friend);
+        layout_gift = (RelativeLayout) view.findViewById(R.id.layout_gift);
 
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
@@ -118,6 +119,7 @@ public class LeftFragment extends HintFragment {
 
     private void setView() {
         fansLayout.setOnClickListener(this);
+        layout_gift.setOnClickListener(this);
         attentionLayout.setOnClickListener(this);
         settingLayout.setOnClickListener(this);
         layout_systemMsg.setOnClickListener(this);
@@ -169,6 +171,8 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.btn_qcode:
                 StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
+                break;
+            case R.id.layout_gift:
                 break;
         }
     }
