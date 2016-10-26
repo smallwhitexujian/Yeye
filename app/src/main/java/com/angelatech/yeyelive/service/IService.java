@@ -1,13 +1,13 @@
 package com.angelatech.yeyelive.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 
-import com.angelatech.yeyelive.CommonResultCode;
-import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.RoomInfo;
 import com.angelatech.yeyelive.receiver.IServiceReceiver;
 import com.angelatech.yeyelive.receiver.NetworkReceiver;
@@ -16,12 +16,10 @@ import com.angelatech.yeyelive.socket.room.RoomConnectManager;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.framework.socket.model.SocketConfig;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
-import com.will.web.HttpPostFile;
-import com.will.web.callback.HttpCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,6 +34,7 @@ public class IService extends Service {
     private Handler mRoomHandler = null;
     private RoomConnectManager roomConnectManager;
     private MyBinder myBinder = new MyBinder();
+    private PowerManager.WakeLock wakeLock = null;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,6 +44,7 @@ public class IService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        acquireWakeLock();
         {
             mIServiceInterface = new IServiceInterfaceImpl(IService.this);
             mIServiceReceiver = new IServiceReceiver(mIServiceInterface);
@@ -102,6 +102,7 @@ public class IService extends Service {
         roomInfo.userid = UserId;
         roomInfo.token = token;
         String jsonString = JsonUtil.toJson(roomInfo);
+        DebugLogs.e("----发送登陆房间包--->"+jsonString);
         byte[] bytes = WillProtocol.sendMessage(WillProtocol.ENTER_VOICEROOM_TYPE_VALUE, jsonString);
         roomConnectManager.performConnect(socketconfig, bytes);
     }
@@ -129,46 +130,27 @@ public class IService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        releaseWakeLock();
         BroadCastHelper.unregisterBroadCast(IService.this, mNetworkReceiver);
         BroadCastHelper.unregisterBroadCast(IService.this, mIServiceReceiver);
     }
 
-    /**
-     * 图片上传
-     *
-     * @param imgPath
-     * @param userId
-     * @param token
-     * @param webUrl
-     * @param type
-     * @param id
-     */
-    public void UpPicture(final String imgPath, final String userId, final String token, final String webUrl,
-                          final String type, final String id, final HttpCallback callback) {
-        new Thread() {
-            public void run() {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("userid", userId);
-                params.put("token", token);
-                params.put("type", type);
-                params.put("id", id);
-                HashMap<String, String> fileparams = new HashMap<>();
-                fileparams.put("imageurl", imgPath);//本地路径
-                try {
-                    String str = HttpPostFile.uploadFile(webUrl, params, fileparams);
-                    CommonModel results = JsonUtil.fromJson(str, CommonModel.class);
-                    if (results != null && results.code.equals(CommonResultCode.INTERFACE_RETURN_CODE)) {
-                        callback.onSuccess(results.code);
-                        //通知栏 功能 未完成
-                        //int requestCode = NotificationUtil.MSG_REQUEST_CODE;
-                        //NotificationUtil.launchNotifyDefault(getApplicationContext(), requestCode, getString(R.string.notification_new_message), getString(R.string.notification_new_message), getString(R.string.upload_fail), MainActivity.class);
-                    } else {
-                        callback.onFailure(null);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    private void acquireWakeLock() {
+        if (null == wakeLock) {
+            PowerManager pm = (PowerManager) IService.this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock) {
+                wakeLock.acquire();
             }
-        }.start();
+        }
+    }
+
+    //释放设备电源锁
+    private void releaseWakeLock() {
+        if (null != wakeLock) {
+            wakeLock.release();
+            wakeLock = null;
+        }
     }
 }

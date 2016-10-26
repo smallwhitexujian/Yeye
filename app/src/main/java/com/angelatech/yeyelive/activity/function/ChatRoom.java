@@ -71,7 +71,6 @@ public class ChatRoom extends HttpFunction {
                                 }
                             }
                         }
-
                     }
 
                     @Override

@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.angelatech.yeyelive.R;
@@ -69,6 +70,9 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
                 return;
             }
             systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_FANS_MSG, userInfo.userid, 0, 1000);
+            if (systemMsg==null){
+                return;
+            }
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_FANS_MSG);//修改所有未读改成已读
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +120,28 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
         };
         message_notice_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        message_notice_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                JSONObject msgJsonObj;
+                String msgStr, fromUserid, nickname;
+                try {
+                    msgJsonObj = new JSONObject(systemMsg.get(position).data);
+                    msgStr = msgJsonObj.getString("headurl");
+                    fromUserid = msgJsonObj.getString("fromuserid");
+                    nickname = msgJsonObj.getString("nickname");
+                    BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                    userInfoModel.Userid = fromUserid;
+                    userInfoModel.headurl = msgStr;
+                    userInfoModel.nickname = nickname;
+                    UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+                    userInfoDialogFragment.setUserInfoModel(userInfoModel);
+                    userInfoDialogFragment.show(getSupportFragmentManager(), "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

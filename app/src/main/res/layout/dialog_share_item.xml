@@ -33,6 +33,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:contentDescription="@null"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/logo_wechat" />
 
@@ -59,6 +60,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:contentDescription="@null"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/logo_wechatmoments" />
 
@@ -85,6 +87,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:contentDescription="@null"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/logo_sinaweibo" />
 
@@ -110,6 +113,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:contentDescription="@null"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/logo_facebook" />
 
@@ -146,6 +150,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:contentDescription="@null"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/logo_sinaweibo" />
 
@@ -171,6 +176,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:contentDescription="@null"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/logo_qq" />
 
@@ -184,7 +190,6 @@
                     android:textColor="@color/font_black"
                     android:textSize="14sp" />
             </LinearLayout>
-
         </LinearLayout>
 
         <View
@@ -199,9 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/cancel"
+            android:text="@string/capy_to_clipboard"
             android:textColor="@color/font_line" />
     </LinearLayout>
-
-
 </RelativeLayout>

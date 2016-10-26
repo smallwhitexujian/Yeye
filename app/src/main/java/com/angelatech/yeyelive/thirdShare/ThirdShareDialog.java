@@ -18,8 +18,10 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.util.LoadBitmap;
+import com.angelatech.yeyelive.util.Utility;
 import com.facebook.datasource.DataSource;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.will.view.ToastUtils;
 
 
 public class ThirdShareDialog extends Dialog {
@@ -33,13 +35,13 @@ public class ThirdShareDialog extends Dialog {
     }
 
     public static class Builder implements View.OnClickListener {
-        private Activity context;
+        private Activity mContext;
         private FragmentManager fragmentManager;
         private Handler handler;
         private ShareListener listener;
 
-        public Builder(Activity context, FragmentManager fragmentManager, Handler handler) {
-            this.context = context;
+        public Builder(Activity Content, FragmentManager fragmentManager, Handler handler) {
+            this.mContext = Content;
             this.fragmentManager = fragmentManager;
             this.handler = handler;
         }
@@ -49,7 +51,7 @@ public class ThirdShareDialog extends Dialog {
         }
 
         public Builder(Activity context, Handler handler) {
-            this.context = context;
+            this.mContext = context;
             this.handler = handler;
         }
 
@@ -67,7 +69,7 @@ public class ThirdShareDialog extends Dialog {
             this.imageUrl = imageUrl;
 
             Uri uri = Uri.parse(imageUrl);
-            LoadBitmap.loadBitmap(context, uri, new LoadBitmap.LoadBitmapCallback() {
+            LoadBitmap.loadBitmap(mContext, uri, new LoadBitmap.LoadBitmapCallback() {
                 @Override
                 public void onLoadSuc(Bitmap bitmap) {
                     img = bitmap;
@@ -82,8 +84,8 @@ public class ThirdShareDialog extends Dialog {
         }
 
         public ThirdShareDialog create() {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            dialog = new ThirdShareDialog(context, R.style.Dialog);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            dialog = new ThirdShareDialog(mContext, R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_share_item, null);
             //dialog.addContentView(layout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             ly_body = (RelativeLayout) layout.findViewById(R.id.ly_body);
@@ -116,30 +118,34 @@ public class ThirdShareDialog extends Dialog {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.ly_qq:
-                    QqShare qqshare = new QqShare(context, mHandler);
+                    QqShare qqshare = new QqShare(mContext, mHandler);
                     qqshare.shareToFriend(dialogTitle, text, url, imageUrl);
                     break;
                 case R.id.ly_weibo:
                     if (img != null) {
-                        SinaShare sinaShare = new SinaShare(context, dialogTitle, text, url, img);
+                        SinaShare sinaShare = new SinaShare(mContext, dialogTitle, text, url, img);
                         sinaShare.share(true, true, true, false, false, false);
                     }
                     break;
                 case R.id.ly_wechat:
                     if (img != null) {
-                        WxShare wxInterface = new WxShare(context,listener);
-                        wxInterface.SceneWebPage(dialogTitle,  text,url, img, SendMessageToWX.Req.WXSceneSession);
+                        WxShare wxInterface = new WxShare(mContext, listener);
+                        wxInterface.SceneWebPage(dialogTitle, text, url, img, SendMessageToWX.Req.WXSceneSession);
                     }
                     break;
                 case R.id.ly_webchatmoments:
                     if (img != null) {
-                        WxShare webchatmoment = new WxShare(context,listener);
-                        webchatmoment.SceneWebPage( dialogTitle, text, url,img, SendMessageToWX.Req.WXSceneTimeline);
+                        WxShare webchatmoment = new WxShare(mContext, listener);
+                        webchatmoment.SceneWebPage(dialogTitle, text, url, img, SendMessageToWX.Req.WXSceneTimeline);
                     }
                     break;
                 case R.id.ly_facebook:
-                    FbShare fbshare = new FbShare(context, listener);
+                    FbShare fbshare = new FbShare(mContext, listener);
                     fbshare.postStatusUpdate(dialogTitle, text, url, imageUrl);
+                    break;
+                case R.id.tv_cancel:
+                    Utility.copy(url, mContext);
+                    ToastUtils.showToast(mContext, mContext.getString(R.string.capy_to_clip));
                     break;
             }
             dialog.dismiss();

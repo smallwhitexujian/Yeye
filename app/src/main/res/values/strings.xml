@@ -426,4 +426,14 @@
     <string name="scan_tips_1">将二维码/条码放入框内，即可自动扫描</string>
     <string name="scan_title">扫描二维码</string>
     <string name="Rank_title">主播排行榜</string>
+    <string name="socket_msg_live_on">视频处理成功</string>
+    <string name="socket_msg_live_off">视频处理失败</string>
+    <string name="socket_msg_conneting">重连中…</string>
+    <string name="socket_msg_watch">主播暂时离开</string>
+    <string name="socket_msg_sevice_success">房间登陆成功…</string>
+    <string name="socket_msg_live_msg">正在处理视频…</string>
+    <string name="capy_to_clipboard">复制到剪切板</string>
+    <string name="capy_to_clip">复制到剪切板成功</string>
+    <string name="yeye_web_title">yeye支付</string>
+    <string name="red_tips_luck">祝你好运！</string>
 </resources>

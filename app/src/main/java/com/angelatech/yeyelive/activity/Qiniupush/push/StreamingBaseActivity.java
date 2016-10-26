@@ -150,6 +150,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     };
 
     public StreamingBaseActivity() {
+
     }
 
     @Override
@@ -161,14 +162,11 @@ public class StreamingBaseActivity extends BaseActivity implements
         }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LOW_PROFILE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }else{
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -365,6 +363,9 @@ public class StreamingBaseActivity extends BaseActivity implements
                 startStreaming();//开始推流
                 break;
             case CONNECTING://连接
+                if (streamCallback != null) {
+                    streamCallback.connecting();
+                }
                 break;
             case STREAMING://开始推流
                 break;
@@ -430,6 +431,8 @@ public class StreamingBaseActivity extends BaseActivity implements
         void disconnected();
 
         void ioerror();
+
+        void connecting();
     }
 
 

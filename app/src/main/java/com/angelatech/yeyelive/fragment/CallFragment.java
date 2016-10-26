@@ -173,7 +173,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private boolean bVideoFilter = false, bFlashEnable = false;
 
     private MarqueeUilts marqueeUtils;
-    private LinearLayout marqueeLayout,marquee_layout;
+    private LinearLayout marqueeLayout, marquee_layout;
 
     //弹幕控件
     private ImageView btn_danmu;
@@ -308,7 +308,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
-        rootView.setPadding(0,statusBarHeight,0,0);
+        rootView.setPadding(0, statusBarHeight, 0, 0);
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
         marquee_layout = (LinearLayout) controlView.findViewById(R.id.marquee_layout);
         mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
@@ -430,15 +430,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ly_gift_view.startAnimation(translateAnimation_out);
-
-                giftA = false;
-                try {
-                    if (giftModelList.size() > 0) {
-                        startGiftAnimation(giftModelList.get(0));
+                if (ly_gift_view != null && translateAnimation_out != null) {
+                    ly_gift_view.startAnimation(translateAnimation_out);
+                    giftA = false;
+                    try {
+                        if (giftModelList.size() > 0) {
+                            startGiftAnimation(giftModelList.get(0));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -476,14 +477,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ly_gift_view_s.startAnimation(translateAnimation_out_s);
-                giftB = false;
-                try {
-                    if (giftModelList.size() > 0) {
-                        startGiftAnimation(giftModelList.get(0));
+                if (ly_gift_view_s != null && translateAnimation_out_s != null) {
+                    ly_gift_view_s.startAnimation(translateAnimation_out_s);
+                    giftB = false;
+                    try {
+                        if (giftModelList.size() > 0) {
+                            startGiftAnimation(giftModelList.get(0));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -501,7 +504,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         }).start();
-
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
@@ -882,6 +884,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case R.id.btn_Follow:
                 UserFollow();
                 callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW, false);
+                btn_Follow.setClickable(false);
                 break;
             case R.id.btn_share:
                 setShowCocosView();
@@ -984,7 +987,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         marquee_layout.invalidate();
         marqueeUtils.restartAnim();
         final HashMap<String, Object> params = new HashMap<>();
-        Spanned htmlStr = Html.fromHtml( "<font color='#ffff00'> <br> "+ radioMessage.msg+"</br></font>");
+        Spanned htmlStr = Html.fromHtml("<font color='#ffff00'> <br> " + radioMessage.msg + "</br></font>");
         params.put(MarqueeUilts.CONTEXT, htmlStr);
         App.marqueeData.add(params);
     }
@@ -1009,7 +1012,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void RadioBroad(BarInfoModel.RadioMessage radioMessage) {
         try {
             if (radioMessage.code == 0) {//表示成功
-                if(radioMessage.type_code == 95){                                                   //幸运礼物
+                if (radioMessage.type_code == 95) {                                                   //幸运礼物
                     radioMessage.msg = "恭喜" + radioMessage.from.name + "获得" + radioMessage.multiple
                             + "倍幸运礼物大奖，获得" + radioMessage.coin_bonus + "金币";
                     if( Float.parseFloat( radioMessage.multiple) > 0.5 && radioMessage.from_room.roomid == ChatRoomActivity.roomModel.getId() ) {
@@ -1076,7 +1079,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_WATCH)) {
+        if (cocos2dxView != null) {
             cocos2dxView.onResume();
         }
         mDanmuControl.resume();
@@ -1085,9 +1088,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (cocos2dxView != null && ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_HOST)) {
-            cocos2dxView.onResume();
-        }
         if (cocos2dxView != null) {
             cocos2dxView.onPause();
         }
@@ -1097,6 +1097,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (txt_msg != null) {
+            Utility.closeKeybord(txt_msg, getActivity());
+        }
         clearTask();
         clearAnimation();
         if (cocos2dxView != null) {
@@ -1240,11 +1243,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case MSG_SET_FOLLOW:
                 try {
                     switch (isFollow) {
-                        case 0:
+                        case 0://未关注
+                            btn_Follow.setClickable(true);
                             btn_Follow.setVisibility(View.VISIBLE);
                             btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
                             break;
-                        case 1:
+                        case 1://关注
                             btn_Follow.setImageResource(R.drawable.btn_room_concern_s);
                             Animation rotateAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_down);
                             btn_Follow.startAnimation(rotateAnimation);
@@ -1276,6 +1280,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case MSG_CANCEL_FOLLOW://取消关注
                 isFollow = 0;
+                btn_Follow.setClickable(true);
                 btn_Follow.setVisibility(View.VISIBLE);
                 btn_Follow.setImageResource(R.drawable.btn_room_concern_n);
                 Animation rotateAnimation2 = AnimationUtils.loadAnimation(getActivity(), R.anim.free_fall_up);
@@ -1296,8 +1301,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case SHOW_SOFT_KEYB://键盘弹出事件
                 if (ly_main != null) {
+                    int getVirtualBarHeigh = ScreenUtils.getVirtualBarHeigh(getActivity());
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
-                    params.height = App.screenDpx.heightPixels - (int) msg.obj;
+                    params.height = App.screenDpx.heightPixels - (int) msg.obj + getVirtualBarHeigh;
                     params.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params);
                     if (ly_send.getVisibility() == View.GONE) {
@@ -1466,7 +1472,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 String str = "x" + finalI;
-                                if (translateAnimation_out!=null){
+                                if (translateAnimation_out != null) {
                                     translateAnimation_out.start();
                                     numText.setText(str);
                                     numText1.setText(str);

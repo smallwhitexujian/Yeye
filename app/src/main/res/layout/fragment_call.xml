@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:orientation="horizontal"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/ly_main"
@@ -114,7 +114,7 @@
                     android:id="@+id/chronometer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginLeft="10dp"
                     android:format="%s"
                     android:gravity="top"
                     android:textColor="@color/color_80ffffff"

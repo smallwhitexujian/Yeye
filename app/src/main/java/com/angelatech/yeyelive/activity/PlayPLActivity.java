@@ -226,6 +226,11 @@ public class PlayPLActivity extends BaseActivity implements PLVideoTextureUtils.
     }
 
     @Override
+    public void sendReconnectMessage() {
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         plUtils.onDestroy();

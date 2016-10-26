@@ -42,10 +42,8 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     private final static int MSG_LOGIN_SUCC = 1;
     private final int MSG_LOGIN_NOW = 2;
     private TextView mSelectCountry, mAreaText, tv_find_password, login_btn;
-    private CountrySelectItemModel selectItemModel;
     private EditText ed_pass_word, ed_phoneNumber;
     private LoginUserModel autoLogin = null;
-    private String loginUserId, loginUserPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +96,8 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                         StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK, null, TabMenuActivity.class, null);
                     } else {
                         StartActivityHelper.jumpActivityDefault(this, ProfileActivity.class);
-                        finish();
                     }
+                    finish();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -124,8 +122,8 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 break;
             case R.id.login_btn:
                 Utility.closeKeybord(ed_pass_word, this);
-                loginUserId = ed_phoneNumber.getText().toString();
-                loginUserPassword = ed_pass_word.getText().toString();
+                String loginUserId = ed_phoneNumber.getText().toString();
+                String loginUserPassword = ed_pass_word.getText().toString();
                 if (loginUserId.startsWith("0")) {
                     loginUserId = loginUserId.replaceFirst("0", "");
                 }
@@ -137,7 +135,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            selectItemModel = data.getParcelableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+            CountrySelectItemModel selectItemModel = data.getParcelableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
             if (selectItemModel != null) {
                 mAreaText.setText(StringHelper.formatStr(getString(R.string.phone_login_area_prefix), selectItemModel.num, ""));
                 mSelectCountry.setText(selectItemModel.country);

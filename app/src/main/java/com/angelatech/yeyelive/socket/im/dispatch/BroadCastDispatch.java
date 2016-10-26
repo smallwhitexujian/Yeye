@@ -139,6 +139,9 @@ public class BroadCastDispatch extends Dispatchable {
                         case SystemMessageType.NOTICE_FANS_MSG://粉丝关注
                             checkReadOrNot();
                             try {
+                                if (CacheDataManager.getInstance().loadUser() != null && CacheDataManager.getInstance().loadUser().userid != null) {
+                                    systemMessageDBModel.uid = CacheDataManager.getInstance().loadUser().userid;
+                                }
                                 title = mContext.getString(R.string.system_fans_msg);
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
                                 mContent = msgJsonObj.getString("nickname") + mContext.getString(R.string.system_follow);
@@ -154,6 +157,9 @@ public class BroadCastDispatch extends Dispatchable {
                         case SystemMessageType.NOTICE_RED_MSG://红包消息
                             checkReadOrNot();
                             try {
+                                if (CacheDataManager.getInstance().loadUser() != null && CacheDataManager.getInstance().loadUser().userid != null) {
+                                    systemMessageDBModel.uid = CacheDataManager.getInstance().loadUser().userid;
+                                }
                                 title = mContext.getString(R.string.system_red_msg);
                                 JSONObject msgJsonObj = new JSONObject(systemMessageDBModel.data);
                                 String content = msgJsonObj.getString("msg");
@@ -177,6 +183,9 @@ public class BroadCastDispatch extends Dispatchable {
                     int requestSystemNoticeCode = NotificationUtil.CODE_SYSTEM_NOTICE;
                     String message = mContext.getString(R.string.notify_default_message);
                     SystemMessageDBModel noticeMessageDBModel = parseJson(broadcastModel);
+                    if (CacheDataManager.getInstance().loadUser() != null && CacheDataManager.getInstance().loadUser().userid != null) {
+                        noticeMessageDBModel.uid = CacheDataManager.getInstance().loadUser().userid;
+                    }
                     systemMessage.add(noticeMessageDBModel);
                     switch (noticeMessageDBModel.type_code) {
                         case SystemMessageType.NOTICE_TO_ALL:

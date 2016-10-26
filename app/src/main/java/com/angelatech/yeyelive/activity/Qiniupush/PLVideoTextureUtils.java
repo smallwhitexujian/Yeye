@@ -330,6 +330,8 @@ public class PLVideoTextureUtils {
         void onTimeOut();//连接超时
 
         void setCurrentTime(String CurrentTime,String endTime);
+
+        void sendReconnectMessage();
     }
 
 
@@ -350,9 +352,12 @@ public class PLVideoTextureUtils {
     }
 
     private void sendReconnectMessage() {
-        showToastTips("正在重连...");
+//        showToastTips("正在重连...");
         if (LoadingView!=null){
             LoadingView.setVisibility(View.VISIBLE);
+        }
+        if (callBack!=null){
+            callBack.sendReconnectMessage();
         }
         mHandler.removeCallbacksAndMessages(null);
         mHandler.sendMessageDelayed(mHandler.obtainMessage(MESSAGE_ID_RECONNECTING), 1000);

@@ -10,6 +10,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.HttpAuthHandler;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
@@ -18,9 +19,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.model.WebTransportModel;
-import com.angelatech.yeyelive .R;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.HeaderLayout;
 
@@ -36,10 +37,8 @@ public class WebActivity extends HeaderBaseActivity {
     public static final String URL_KEY = WebActivity.class.getName() + "_URL_KEY";
     public static final String PARAM_KEY = WebActivity.class.getName() + "_PARAM_KEY";
     private WebView mWebView;
-    private String mUrl;
-    private String mParamStr;
     private WebTransportModel mWebTransportModel;
-;
+    @SuppressLint("AddJavascriptInterface")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +46,19 @@ public class WebActivity extends HeaderBaseActivity {
         mWebTransportModel = StartActivityHelper.getTransactionSerializable_1(WebActivity.this);
         initView();
         setView();
-        mUrl = mWebTransportModel.url;
-        mParamStr = getIntent().getStringExtra(PARAM_KEY);
+        String mUrl = mWebTransportModel.url;
+        String mParamStr = getIntent().getStringExtra(PARAM_KEY);
         if (mParamStr != null && mUrl != null) {
             mUrl = mUrl + "?" + mParamStr;
         }
         mWebView.loadUrl(mUrl);
+        //增加接口方法,让html页面调用
+        mWebView.addJavascriptInterface(new Object(){
+            @JavascriptInterface
+            public void clickOnAndroid(){
+                finish();
+            }
+        },"demo");
     }
 
     private void initView() {
@@ -68,10 +74,8 @@ public class WebActivity extends HeaderBaseActivity {
     }
 
     private void setView() {
-
         /***设置webView***/
         mWebView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-
         //设置支持js代码
         mWebView.getSettings().setJavaScriptEnabled(true);
         //设置支持插件
@@ -89,7 +93,6 @@ public class WebActivity extends HeaderBaseActivity {
         //设置此属性，可任意比例缩放
         mWebView.getSettings().setUseWideViewPort(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
-
         /**WebViewClient主要帮助WebView处理各种通知、请求事件**/
         mWebView.setWebViewClient(new WebViewClient() {
 
@@ -127,7 +130,7 @@ public class WebActivity extends HeaderBaseActivity {
                     return true;
                 }
                 mWebView.loadUrl(url);
-                return true;
+                return false;
             }
 
             @Override

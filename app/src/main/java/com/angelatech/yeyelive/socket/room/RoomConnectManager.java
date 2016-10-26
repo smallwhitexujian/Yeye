@@ -4,12 +4,12 @@ package com.angelatech.yeyelive.socket.room;
 import android.content.Context;
 import android.os.Handler;
 
+import com.angelatech.yeyelive.socket.WillProtocol;
 import com.framework.socket.factory.SocketModuleManager;
 import com.framework.socket.factory.SocketModuleManagerImpl;
 import com.framework.socket.model.SocketConfig;
 import com.framework.socket.model.TcpSocketConnectorConfig;
 import com.framework.socket.protocol.Protocol;
-import com.angelatech.yeyelive.socket.WillProtocol;
 import com.will.socket.SingleSocketConfigSelector;
 import com.will.socket.SocketBusinessHandle;
 import com.will.socket.SocketConnectHandle;
