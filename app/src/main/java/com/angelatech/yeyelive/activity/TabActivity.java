@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * 作者: Created by: xujian on Date: 16/9/21.
  * 邮箱: xj626361950@163.com
  * com.angelatech.yeyelive.activity
- * 系统消息
+ * 排行榜
  */
 
 public class TabActivity extends HeaderBaseActivity  {

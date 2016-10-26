@@ -47,8 +47,8 @@ public class DanmuControl {
     private static final int ORANGE_COLOR = 0xFFF18830;//橙色 我
     private static final int BLACK_COLOR = 0xFF5CC02C;//黑色 普通
 
-    private int   BITMAP_WIDTH    = 30;//头像的大小
-    private int   BITMAP_HEIGHT   = 30;
+    private int   BITMAP_WIDTH    = 26;//头像的大小
+    private int   BITMAP_HEIGHT   = 26;
     private float DANMU_TEXT_SIZE = 12f;//弹幕字体的大小
 //    private int   EMOJI_SIZE      = 14;//emoji的大小
 
@@ -133,9 +133,9 @@ public class DanmuControl {
             if (danmaku.isGuest) {//如果是赞 就不要设置背景
                 paint.setColor(Color.TRANSPARENT);
             }
-            canvas.drawRoundRect(new RectF(left + DANMU_PADDING_INNER, top + DANMU_PADDING_INNER
-                            , left + danmaku.paintWidth - DANMU_PADDING_INNER + 10,
-                            top + danmaku.paintHeight - DANMU_PADDING_INNER + 10),//+6 主要是底部被截得太厉害了，+6是增加padding的效果
+            canvas.drawRoundRect(new RectF(left + DANMU_PADDING_INNER + 10, top + DANMU_PADDING_INNER
+                            , left + danmaku.paintWidth - DANMU_PADDING_INNER + 6,
+                            top + danmaku.paintHeight - DANMU_PADDING_INNER + 6),//+6 主要是底部被截得太厉害了，+6是增加padding的效果
                     DANMU_RADIUS, DANMU_RADIUS, paint);
         }
 

@@ -171,4 +171,7 @@ public class CommonUrlConfig {
     public static String roomInfo = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/roominfo";
     //扫描二维码 支付
     public static String ScanRecharge = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/ScanRecharge";
+
+    //用户的关注和粉丝
+    public static String FriendHelist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHelist";
 }

@@ -26,13 +26,11 @@ import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.FocusModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -44,47 +42,50 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User: cbl
- * Date: 2016/4/6
- * Time: 18:26
- * 我的粉丝 界面
+ * User: shanli
+ * Date: 2016/10/26
+ * Time: 16:06
+ * 关注/粉丝
  */
-public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRefreshLayout.OnRefreshListener {
-    private boolean IS_REFRESH = false;  //是否需要刷新
+public class RelationActivity extends WithBroadCastHeaderActivity implements SwipyRefreshLayout.OnRefreshListener {
     private ListView list_view_focus;
     private CommonAdapter<FocusModel> adapter;
     private BasicUserInfoDBModel model;
     private List<FocusModel> data = new ArrayList<>();
     private int pageIndex = 1;
     private int pageSize = 20;
-    private int type = 2;
+    private int type = FocusFans.TYPE_FANS;
     private long dateSort = 0;
+    private boolean IS_REFRESH = false;  //是否需要刷新
+    private FocusFans focusFans;
+    private ChatRoom chatRoom;
     private final int MSG_ADAPTER_NOTIFY = 1;
     private final int MSG_SET_FOLLOW = 2;
     private final int MSG_NO_DATA = 3;
-    private final int MSG_ERROR = 4;
-    private final int MSG_NO_DATA_MORE = 5;
+    private final int MSG_NO_DATA_MORE = 4;
     private SwipyRefreshLayout swipyRefreshLayout;
-    private FocusFans focusFans;
-    private ChatRoom chatRoom;
     private RelativeLayout noDataLayout;
+    private String url = CommonUrlConfig.FriendHelist;
+    private String fuserid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_focus);
+        getLoginUser();
         initView();
         setView();
+        loadData();
     }
 
     private void initView() {
         list_view_focus = (ListView) findViewById(R.id.list_view_focus);
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         noDataLayout = (RelativeLayout) findViewById(R.id.no_data_layout);
-        CacheDataManager cacheDataManager = CacheDataManager.getInstance();
-        model = cacheDataManager.loadUser();
-        chatRoom = new ChatRoom(FansActivity.this);
-        adapter = new CommonAdapter<FocusModel>(FansActivity.this, data, R.layout.item_focus) {
+
+        focusFans = new FocusFans(this);
+        chatRoom = new ChatRoom(this);
+        adapter = new CommonAdapter<FocusModel>(RelationActivity.this, data, R.layout.item_focus) {
             @Override
             public void convert(ViewHolder helper, final FocusModel item, final int position) {
                 helper.setImageUrl(R.id.user_head_photo, item.headurl);
@@ -111,95 +112,54 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                     }
                 });
             }
-
         };
     }
 
     private void setView() {
-        focusFans = new FocusFans(this);
         list_view_focus.setAdapter(adapter);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
-        headerLayout.showTitle(getString(R.string.user_fans));
-        headerLayout.showLeftBackButton(R.id.backBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        headerLayout.showTitle(getString(R.string.user_focus));
+        headerLayout.showLeftBackButton();
         list_view_focus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FocusModel focusModel = data.get(position);
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                 userInfoModel.Userid = focusModel.userid;
-                StartActivityHelper.jumpActivity(FansActivity.this, FriendUserInfoActivity.class, userInfoModel);
 //                userInfoModel.isfollow = focusModel.isfollow;
 //                userInfoModel.headurl = focusModel.headurl;
 //                userInfoModel.nickname = focusModel.nickname;
 //                userInfoModel.isv = focusModel.isv;
 //                userInfoModel.sex = focusModel.sex;
-//                UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-//                userInfoDialogFragment.setUserInfoModel(userInfoModel);
-//                userInfoDialogFragment.show(getSupportFragmentManager(), "");
+                StartActivityHelper.jumpActivity(RelationActivity.this, FriendUserInfoActivity.class, userInfoModel);
             }
         });
-        loadData();
     }
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-    }
-
-    private void doFocus(FocusModel userModel, final int position) {
-
-        HttpBusinessCallback callback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-                DebugLogs.e("===============失败了");
-                //uiHandler.obtainMessage(MSG_ERROR).sendToTarget();
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-                if (results != null) {
-                    if (HttpFunction.isSuc(results.code)) {
-                        if (data.get(position).isfollow.equals("1")) {
-                            data.get(position).isfollow = "0";
-                        } else {
-                            data.get(position).isfollow = "1";
-                        }
-                        uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
-                    } else {
-                        uiHandler.obtainMessage(MSG_ERROR, results.code).sendToTarget();
-                    }
-                }
-            }
-        };
-
-        chatRoom.UserFollow(CommonUrlConfig.UserFollow, model.token, model.userid,
-                userModel.userid, Integer.valueOf(userModel.isfollow), callback);
+    /**
+     * 获取登录用户
+     */
+    private void getLoginUser() {
+        model = CacheDataManager.getInstance().loadUser();
     }
 
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_ADAPTER_NOTIFY:
-                adapter.notifyDataSetChanged();
-                break;
-            case MSG_NO_DATA:
-                showNodataLayout();
-                break;
-            case MSG_ERROR:
                 LoadingDialog.cancelLoadingDialog();
-                ToastUtils.showToast(this, ErrorHelper.getErrorHint(this, msg.obj.toString()));
+                noDataLayout.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
                 break;
             case MSG_SET_FOLLOW:
-                LoadingDialog.cancelLoadingDialog();
                 adapter.notifyDataSetChanged();
                 ToastUtils.showToast(this, getString(R.string.success));
+                break;
+            case MSG_NO_DATA:
+                LoadingDialog.cancelLoadingDialog();
+                showNodataLayout();
+                break;
             case MSG_NO_DATA_MORE:
                 LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(this, getString(R.string.no_data_more));
@@ -214,10 +174,99 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
             for (FocusModel d : data) {
                 if (d.userid.equals(searchItemModel.userid)) {
                     d.isfollow = searchItemModel.isfollow;
+                    break;
                 }
             }
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void loadData() {
+        LoadingDialog.showLoadingDialog(this, null);
+        HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                CommonParseListModel<FocusModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<FocusModel>>() {
+                }.getType());
+                if (result != null) {
+                    if (HttpFunction.isSuc(result.code)) {
+                        if (!result.data.isEmpty()) {
+                            dateSort = result.time;
+                            if (IS_REFRESH) {
+                                data.clear();
+                            }
+                            data.addAll(result.data);
+                            uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
+                        } else {
+                            if (!IS_REFRESH) {
+                                uiHandler.obtainMessage(MSG_NO_DATA_MORE).sendToTarget();
+                            }
+                        }
+                    } else {
+                        onBusinessFaild(result.code);
+                    }
+                }
+                if (data.isEmpty()) {
+                    uiHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
+                }
+            }
+        };
+
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            fuserid = bundle.getString("fuserid");
+            type = bundle.getInt("type");
+            if (type == FocusFans.TYPE_FANS) {
+                headerLayout.showTitle(getString(R.string.search_fans));
+            } else if (type == FocusFans.TYPE_FOCUS) {
+                headerLayout.showTitle(getString(R.string.follow));
+            }
+        }
+
+        BasicUserInfoDBModel model = CacheDataManager.getInstance().loadUser();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", model.token);
+        map.put("userid", model.userid);
+        map.put("type", String.valueOf(type));
+        map.put("fuserid", fuserid);
+        if (dateSort > 0) {
+            map.put("datesort", String.valueOf(dateSort));
+        }
+        map.put("pageindex", String.valueOf(pageIndex));
+        map.put("pagesize", String.valueOf(pageSize));
+        focusFans.httpGet(url, map, httpCallback);
+    }
+
+    private void doFocus(FocusModel userModel, final int position) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                //uiHandler.obtainMessage(MSG_ERROR).sendToTarget();
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (data.get(position).isfollow.equals("1")) {
+                            data.get(position).isfollow = "0";
+                        } else {
+                            data.get(position).isfollow = "1";
+                        }
+                        uiHandler.sendEmptyMessage(MSG_SET_FOLLOW);
+                    } else {
+                        onBusinessFaild(results.code);
+                    }
+                }
+            }
+        };
+        chatRoom.UserFollow(CommonUrlConfig.UserFollow, model.token, model.userid,
+                userModel.userid, Integer.valueOf(userModel.isfollow), callback);
     }
 
     @Override
@@ -249,65 +298,10 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
         loadData();
     }
 
-    private void loadData() {
-        LoadingDialog.showLoadingDialog(this,null);
-        HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                CommonParseListModel<FocusModel> result = JsonUtil.fromJson(response, new TypeToken<CommonParseListModel<FocusModel>>() {
-                }.getType());
-                if (result != null) {
-                    if (HttpFunction.isSuc(result.code)) {
-                        if (!result.data.isEmpty()) {
-                            dateSort = result.time;
-                            int index = result.index;
-                            if (IS_REFRESH) {
-                                data.clear();
-                                index = 0;
-                            }
-                            pageIndex = index + 1;
-                            data.addAll(result.data);
-                            uiHandler.obtainMessage(MSG_ADAPTER_NOTIFY).sendToTarget();
-                        } else {
-                            if (!IS_REFRESH) {
-                                uiHandler.sendEmptyMessage(MSG_NO_DATA_MORE);
-                            }
-                        }
-                    } else {
-                        onBusinessFaild(result.code);
-                    }
-
-                }
-                if (data.isEmpty()) {
-                    uiHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
-                }
-                IS_REFRESH = false;
-                LoadingDialog.cancelLoadingDialog();
-            }
-        };
-
-        HashMap<String, String> map = new HashMap<>();
-        map.put("token", model.token);
-        map.put("userid", model.userid);
-        map.put("type", String.valueOf(type));
-        if (dateSort > 0) {
-            map.put("datesort", String.valueOf(dateSort));
-        }
-        map.put("pageindex", String.valueOf(pageIndex));
-        map.put("pagesize", String.valueOf(pageSize));
-        focusFans.httpGet(CommonUrlConfig.FriendMyList, map, httpCallback);
-    }
-
-
     private void showNodataLayout() {
         noDataLayout.setVisibility(View.VISIBLE);
         noDataLayout.findViewById(R.id.hint_textview1).setVisibility(View.VISIBLE);
-        ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_fans));
+        ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_follow));
         noDataLayout.findViewById(R.id.hint_textview2).setVisibility(View.GONE);
     }
 }
