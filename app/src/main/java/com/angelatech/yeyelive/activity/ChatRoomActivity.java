@@ -233,6 +233,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         plVideoTextureView = (PLVideoTextureView) findViewById(R.id.plVideoView);
         qiNiuUpload = new QiniuUpload(this);
         mObtain = new PictureObtain();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            int statusBarHeight = ScreenUtils.getStatusHeight(ChatRoomActivity.this);
+            button_call_disconnect.setPadding(0, statusBarHeight, 0, 0);
+        }
     }
 
     private void findView() {
