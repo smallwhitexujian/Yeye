@@ -10,9 +10,11 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -353,6 +355,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 
+        txt_msg.addTextChangedListener(textWatcher);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -500,6 +504,34 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
+
+    /*监听输入事件*/
+    private TextWatcher textWatcher = new TextWatcher() {
+        private int editStart;
+        private int editEnd;
+        private CharSequence temp;
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            temp = charSequence;
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+            editStart = txt_msg.getSelectionStart();
+            editEnd = txt_msg.getSelectionEnd();
+            if (temp.length() > 20 && isdanmu) {
+                editable.delete(editStart - 1, editEnd);
+                ToastUtils.showToast(getContext(),"弹幕最多发送20字符");
+            }
+        }
+    };
 
     private void initControls() {
         if (liveUserModel.userid.equals(userModel.userid)) {
@@ -980,7 +1012,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if(radioMessage.type_code == 95){                                                   //幸运礼物
                     radioMessage.msg = "恭喜" + radioMessage.from.name + "获得" + radioMessage.multiple
                             + "倍幸运礼物大奖，获得" + radioMessage.coin_bonus + "金币";
-                    callEvents.playXingYunGift();
+                    if( Float.parseFloat( radioMessage.multiple) > 0.5 && radioMessage.from_room.roomid == ChatRoomActivity.roomModel.getId() ) {
+                        callEvents.playXingYunGift();
+                    }
                 }
                 if (radioMessage.type == 0 || radioMessage.type == 93) {                                //0或92公聊显示
                     sendPublicMessage(radioMessage);

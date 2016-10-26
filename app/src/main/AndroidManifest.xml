@@ -369,7 +369,14 @@
 
         <activity
             android:name=".activity.FriendUserInfoActivity"
-            android:label="@string/title_activity_friend_user_info"></activity>
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".activity.RelationActivity"
+            android:screenOrientation="portrait"
+            />
+
+
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@ import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.mediaplayer.util.PlayerUtil;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonVideoModel;
 import com.angelatech.yeyelive.model.LiveModel;
 import com.angelatech.yeyelive.model.LiveVideoModel;
@@ -142,6 +143,10 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                         user.headurl = liveModel.headurl;
                         user.nickname = liveModel.nickname;
                         roomModel.setUserInfoDBModel(user);
+                        BasicUserInfoModel loginUser = new BasicUserInfoModel();//登录信息
+                        loginUser.Userid = userInfo.userid;
+                        loginUser.Token = userInfo.token;
+                        roomModel.setLoginUser(loginUser);
                         ChatRoom.enterChatRoom(getActivity(), roomModel);
                     }
                     getActivity().finish();

@@ -27,6 +27,7 @@ import com.angelatech.yeyelive.model.FocusModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -63,7 +64,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
     private final int MSG_NO_DATA = 3;
     private final int MSG_NO_DATA_MORE = 4;
     private SwipyRefreshLayout swipyRefreshLayout;
-
     private RelativeLayout noDataLayout;
 
     @Override
@@ -110,7 +110,6 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                     }
                 });
             }
-
         };
     }
 
@@ -126,14 +125,15 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 FocusModel focusModel = data.get(position);
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                 userInfoModel.Userid = focusModel.userid;
-                userInfoModel.isfollow = focusModel.isfollow;
-                userInfoModel.headurl = focusModel.headurl;
-                userInfoModel.nickname = focusModel.nickname;
-                userInfoModel.isv = focusModel.isv;
-                userInfoModel.sex = focusModel.sex;
-                UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                userInfoDialogFragment.setUserInfoModel(userInfoModel);
-                userInfoDialogFragment.show(getSupportFragmentManager(), "");
+                StartActivityHelper.jumpActivity(FocusOnActivity.this, FriendUserInfoActivity.class, userInfoModel);
+//                userInfoModel.isfollow = focusModel.isfollow;
+//                userInfoModel.headurl = focusModel.headurl;
+//                userInfoModel.nickname = focusModel.nickname;
+//                userInfoModel.isv = focusModel.isv;
+//                userInfoModel.sex = focusModel.sex;
+//                UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
+//                userInfoDialogFragment.setUserInfoModel(userInfoModel);
+//                userInfoDialogFragment.show(getSupportFragmentManager(), "");
 
             }
         });

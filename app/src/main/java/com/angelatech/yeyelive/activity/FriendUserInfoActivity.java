@@ -1,10 +1,15 @@
 package com.angelatech.yeyelive.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,14 +19,24 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
+import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
+import com.angelatech.yeyelive.activity.function.FocusFans;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.activity.function.UserInfoDialog;
+import com.angelatech.yeyelive.adapter.HorizontalUserRankListViewAdapter;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.UserVideoFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.RankModel;
+import com.angelatech.yeyelive.model.SearchItemModel;
+import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.ScreenUtils;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -32,7 +47,9 @@ import com.xj.frescolib.View.FrescoRoundView;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 /**
  * 他人用户信息页面
@@ -48,15 +65,24 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
     private TextView user_sign;         //个性签名
     private LinearLayout ly_follow, ly_fans, ly_like;
     private TextView txt_follow, txt_fans, txt_like;
+    private GridView grid_online;
+    private Button attentionsBtn;
 
     private UserInfoDialog userInfoDialog;
     private BasicUserInfoDBModel loginUser;
     private BasicUserInfoModel baseInfo;
-    private static final int MSG_LOAD_SUC = 1;
+    private static final int MSG_LOAD_SUC = 1, RANK_LOAD_SUC = 11;
+    private final int MSG_SET_FOLLOW = 5;
+    private final int MSG_LOAD_STATUS = 6;
+
     private ArrayList<Fragment> fragments = new ArrayList<>();
+    private HorizontalUserRankListViewAdapter horizontalListViewAdapter;
+    private List<RankModel> showList;
 
     private ViewPager mviewPager;
     private UserVideoFragment userVideoFragment;
+    private MainEnter mainEnter;
+    private String isFollowCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,27 +108,48 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         txt_fans = (TextView) findViewById(R.id.txt_fans);
         txt_like = (TextView) findViewById(R.id.txt_like);
         mviewPager = (ViewPager) findViewById(R.id.data_layout);
+        grid_online = (GridView) findViewById(R.id.grid_online);
+        attentionsBtn = (Button) findViewById(R.id.attentions_btn);
     }
 
     private void setView() {
         btn_back.setOnClickListener(this);
+        ly_follow.setOnClickListener(this);
+        ly_fans.setOnClickListener(this);
+        ly_like.setOnClickListener(this);
+        attentionsBtn.setOnClickListener(this);
+        grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                RankModel onlineModel = showList.get(i);
+////                BasicUserInfoModel userInfo = new BasicUserInfoModel();
+////                userInfo.Userid = String.valueOf(onlineModel.id);
+////                userInfo.nickname = onlineModel.name;
+////                userInfo.headurl = onlineModel.imageurl;
+////                userInfo.isv = onlineModel.isv;
+////                userInfo.sex = String.valueOf(onlineModel.sex);
+////                StartActivityHelper.jumpActivity(FriendUserInfoActivity.this, FriendUserInfoActivity.class, userInfo);
+                StartActivityHelper.jumpActivityDefault(FriendUserInfoActivity.this, TabActivity.class);
+            }
+        });
     }
 
     private void initData() {
         loginUser = CacheDataManager.getInstance().loadUser();
-
+        mainEnter = new MainEnter(this);
+        showList = new ArrayList<>();
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            baseInfo = (BasicUserInfoModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+             baseInfo = (BasicUserInfoModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
             userVideoFragment = new UserVideoFragment();
             userVideoFragment.setFuserid(baseInfo.Userid);
-
             fragments.add(userVideoFragment);
         }
         MyFragmentPagerAdapter simpleFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         mviewPager.setAdapter(simpleFragmentPagerAdapter);
-
         load();
+        loadStatus();
+        getRank();
     }
 
     @Override
@@ -113,10 +160,23 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.ly_follow:
+                Intent focusactivity = new Intent(FriendUserInfoActivity.this, RelationActivity.class);
+                focusactivity.putExtra("fuserid",baseInfo.Userid);
+                focusactivity.putExtra("type", FocusFans.TYPE_FOCUS);
+                startActivity(focusactivity);
                 break;
             case R.id.ly_fans:
+                Intent fansactivity = new Intent(FriendUserInfoActivity.this, RelationActivity.class);
+                fansactivity.putExtra("fuserid",baseInfo.Userid);
+                fansactivity.putExtra("type", FocusFans.TYPE_FANS);
+                startActivity(fansactivity);
                 break;
             case R.id.ly_like:
+                break;
+            case R.id.attentions_btn:
+                if (baseInfo != null) {
+                    doFocus(baseInfo.Userid, isFollowCode);
+                }
                 break;
         }
     }
@@ -136,7 +196,6 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
-
             }
 
             @Override
@@ -157,6 +216,36 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         userInfoDialog.httpGet(CommonUrlConfig.UserInformation, params, callback);
     }
 
+    //获取粉丝贡献排行榜
+    private void getRank() {
+        final String touserid = String.valueOf(baseInfo.Userid);
+        if (baseInfo != null && !touserid.isEmpty()) {
+            HttpBusinessCallback callback = new HttpBusinessCallback() {
+                @Override
+                public void onFailure(Map<String, ?> errorMap) {
+                    LoadingDialog.cancelLoadingDialog();
+                }
+
+                @Override
+                public void onSuccess(final String response) {
+                    CommonListResult<RankModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RankModel>>() {
+                    }.getType());
+                    if (datas == null) {
+                        return;
+                    }
+                    if (HttpFunction.isSuc(datas.code)) {
+                        showList.clear();
+                        showList.addAll(datas.data);
+                        uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
+                    } else {
+                        onBusinessFaild(datas.code);
+                    }
+                }
+            };
+            mainEnter.loadSevenUserRank(CommonUrlConfig.RankListByRoom, loginUser.userid, loginUser.token, touserid, callback);
+        }
+    }
+
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
@@ -165,8 +254,107 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 BasicUserInfoDBModel searchUserInfo = (BasicUserInfoDBModel) msg.obj;
                 setUI(searchUserInfo);
                 break;
+            case RANK_LOAD_SUC:
+                int length = 30;
+                DisplayMetrics density = ScreenUtils.getScreen(FriendUserInfoActivity.this);
+                if (density != null) {
+                    int gridViewWidth = (int) (showList.size() * (length + 4) * density.density);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            gridViewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+                    grid_online.setLayoutParams(params);
+                }
+                int itemWidth = (int) (length * density.density);
+                grid_online.setNumColumns(showList.size());
+                grid_online.setColumnWidth(itemWidth);
+                grid_online.setStretchMode(GridView.NO_STRETCH);
+                horizontalListViewAdapter = new HorizontalUserRankListViewAdapter(FriendUserInfoActivity.this, showList);
+                grid_online.setAdapter(horizontalListViewAdapter);
+                horizontalListViewAdapter.notifyDataSetChanged();
+                break;
+            case MSG_LOAD_STATUS:
+                if (loginUser != null && !loginUser.userid.equals(baseInfo.Userid)) {
+                    uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
+                    attentionsBtn.setVisibility(View.VISIBLE);
+                }
+                break;
+            case MSG_SET_FOLLOW:
+                if (userInfoDialog.isFollow(isFollowCode)) {
+                    attentionsBtn.setBackgroundResource(R.drawable.btn_bg_d9);
+                    attentionsBtn.setText("已关注");
+                } else {
+                    attentionsBtn.setBackgroundResource(R.drawable.btn_bg_red);
+                    attentionsBtn.setText("关注");
+                }
+                break;
         }
     }
+
+    private String getOppositeFollow(String src) {
+        if (UserInfoDialog.HAVE_FOLLOW.equals(src)) {
+            return UserInfoDialog.HAVE_NO_FOLLOW;
+        }
+        return UserInfoDialog.HAVE_FOLLOW;
+    }
+
+    private void doFocus(final String fuserid, final String isfollow) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        isFollowCode = getOppositeFollow(isfollow);
+                        uiHandler.obtainMessage(MSG_SET_FOLLOW).sendToTarget();
+                        Intent intent = new Intent();
+                        intent.setAction(WithBroadCastActivity.ACTION_WITH_BROADCAST_ACTIVITY);
+                        SearchItemModel searchItemModel = new SearchItemModel();
+                        searchItemModel.isfollow = getOppositeFollow(isfollow);
+                        searchItemModel.userid = fuserid;
+                        intent.putExtra(TransactionValues.UI_2_UI_KEY_OBJECT, searchItemModel);
+                        BroadCastHelper.sendBroadcast(FriendUserInfoActivity.this, intent);
+                    }
+                }
+            }
+        };
+        try {
+            int isfollwValue = Integer.parseInt(isfollow);
+            userInfoDialog.UserFollow(CommonUrlConfig.UserFollow, loginUser.token, loginUser.userid, fuserid, isfollwValue, callback);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取用户的状态（是否已经被关注）
+     */
+    private void loadStatus() {
+        HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                Map map = JsonUtil.fromJson(response, Map.class);
+                if (map != null) {
+                    if (HttpFunction.isSuc((String) map.get("code"))) {
+                        Map data = (Map) map.get("data");
+                        isFollowCode = (String) data.get("isfollow");
+
+                        uiHandler.sendEmptyMessage(MSG_LOAD_STATUS);
+                    } else {
+                        onBusinessFaild((String) map.get("code"));
+                    }
+                }
+            }
+        };
+        userInfoDialog.UserIsFollow(CommonUrlConfig.UserIsFollow, loginUser.token, loginUser.userid, baseInfo.Userid, httpCallback);
+    }
+
 
     private void setUI(BasicUserInfoDBModel user) {
         if (user == null) {

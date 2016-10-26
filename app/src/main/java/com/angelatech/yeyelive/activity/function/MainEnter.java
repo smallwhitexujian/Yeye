@@ -80,6 +80,17 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+    /**
+     * 排行榜
+     */
+    public void loadSevenUserRank(String url, String userid, String token, String touserid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("touserid", touserid);
+        httpGet(url, params, callback);
+    }
+
     //排行榜总榜
     public void loadRank(String url, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();

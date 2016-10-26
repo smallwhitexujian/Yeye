@@ -80,6 +80,7 @@ public class BarInfoModel extends CommonModel {
     public static class FromRoomInfo {
         public int uid;
         public String name;
+        public int roomid;
     }
 
     public static class Radio {

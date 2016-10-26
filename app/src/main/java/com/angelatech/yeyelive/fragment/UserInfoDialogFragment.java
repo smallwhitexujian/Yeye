@@ -327,24 +327,23 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 }
                 dismiss();
                 break;
-            case R.id.user_face:
-                if (baseInfo != null) {
-                    PicViewModel picViewModel = new PicViewModel();
-                    picViewModel.url = baseInfo.headurl;
-                    picViewModel.defaultPic = R.drawable.default_face_icon;
-                    if (App.chatRoomApplication != null && App.chatRoomApplication.callFragment != null) {
-                        App.chatRoomApplication.callFragment.setShowCocosView();
-                    }
-                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
-                }
-                dismiss();
-                break;
-            case R.id.recharge_btn://录播
+            case R.id.user_face: //点用户头像也进入用户详情页
+//                if (baseInfo != null) {
+//                    PicViewModel picViewModel = new PicViewModel();
+//                    picViewModel.url = baseInfo.headurl;
+//                    picViewModel.defaultPic = R.drawable.default_face_icon;
+//                    if (App.chatRoomApplication != null && App.chatRoomApplication.callFragment != null) {
+//                        App.chatRoomApplication.callFragment.setShowCocosView();
+//                    }
+//                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
+//                }
+//                dismiss();
+//                break;
+            case R.id.recharge_btn://个人资料
                 if (App.chatRoomApplication != null) {
                     CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
                         public void onCancel() {
-
                         }
 
                         @Override
@@ -352,7 +351,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                             if (App.chatRoomApplication != null) {
                                 App.chatRoomApplication.exitRoom();
                             }
-                            // StartActivityHelper.jumpActivity(getContext(), UserVideoActivity.class, baseInfo.Userid);
                             StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
                             dismiss();
                         }
@@ -360,7 +358,6 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     CommDialog commDialog = new CommDialog();
                     commDialog.CommDialog(mActivity, getString(R.string.finish_room), true, callback);
                 } else {
-                    //StartActivityHelper.jumpActivity(mActivity, UserVideoActivity.class, baseInfo.Userid);
                     StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
                     dismiss();
                 }
