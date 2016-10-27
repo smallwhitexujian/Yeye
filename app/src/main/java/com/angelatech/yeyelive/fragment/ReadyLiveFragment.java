@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.LoadBitmap;
 import com.angelatech.yeyelive.util.LocationMap.GpsTracker;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
@@ -86,6 +88,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private RoomModel roomModel;
     private ImageView buttonCamera;
     private FrescoRoundView Front_cover;
+    private RelativeLayout ready_layout;
 
     public interface OnCallEvents {
         //开始直播
@@ -107,6 +110,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
     private void initView() {
         chatRoom = new ChatRoom(getActivity());
+        ready_layout = (RelativeLayout)controlView.findViewById(R.id.ready_layout);
         spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
         btn_start = (Button) controlView.findViewById(R.id.btn_start);
@@ -128,7 +132,10 @@ public class ReadyLiveFragment extends BaseFragment {
         } else {
             liveUserModel = loginUserModel;
         }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
+            ready_layout.setPadding(0, statusBarHeight, 0, 0);
+        }
         if (liveUserModel.isticket.equals("1")) {//主播是否有设置门票权限
             layout_ticket.setVisibility(View.VISIBLE);
             initTickets();

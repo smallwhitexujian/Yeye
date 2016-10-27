@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -308,7 +309,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
-        rootView.setPadding(0, statusBarHeight, 0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            rootView.setPadding(0, statusBarHeight, 0, 0);
+        }else{
+            rootView.setPadding(0, 0, 0, statusBarHeight);
+        }
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
         marquee_layout = (LinearLayout) controlView.findViewById(R.id.marquee_layout);
         mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
@@ -1275,7 +1280,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (ly_main != null) {
                     int getVirtualBarHeigh = ScreenUtils.getVirtualBarHeigh(getActivity());
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
-                    params.height = App.screenDpx.heightPixels - (int) msg.obj + getVirtualBarHeigh;
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        params.height = App.screenDpx.heightPixels - (int) msg.obj + getVirtualBarHeigh;
+                    }else{
+                        params.height = App.screenDpx.heightPixels - (int) msg.obj;
+                    }
                     params.width = App.screenDpx.widthPixels;
                     ly_main.setLayoutParams(params);
                     if (ly_send.getVisibility() == View.GONE) {
