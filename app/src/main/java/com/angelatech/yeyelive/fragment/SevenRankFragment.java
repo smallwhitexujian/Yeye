@@ -15,6 +15,9 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.FansActivity;
+import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
+import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
@@ -25,6 +28,7 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.RankModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -71,11 +75,25 @@ public class SevenRankFragment extends BaseFragment implements
     private List<RankModel> rankModels = new ArrayList<>();
     private MainEnter mainEnter;
     private TextView rank_coin;
+    private String roomid;
+    private int type;
 
     public static SevenRankFragment newInstance(int position) {
         SevenRankFragment f = new SevenRankFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
+        b.putInt("TYPE", 0);
+        f.setArguments(b);
+        return f;
+    }
+
+    //
+    public static SevenRankFragment newInstance(int position, String userid) {
+        SevenRankFragment f = new SevenRankFragment();
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        b.putString("USERID", userid);
+        b.putInt("TYPE", 1);
         f.setArguments(b);
         return f;
     }
@@ -89,14 +107,28 @@ public class SevenRankFragment extends BaseFragment implements
 
     private void initView(View view) {
         mainEnter = new MainEnter(getActivity());
-        LoadingDialog.showLoadingDialog(getActivity(),null);
+        LoadingDialog.showLoadingDialog(getActivity(), null);
         userInfo = CacheDataManager.getInstance().loadUser();
+
         LinearLayout bottom_layout = (LinearLayout) view.findViewById(R.id.bottom_layout);
         FrescoRoundView rank_my_pic = (FrescoRoundView) view.findViewById(R.id.rank_my_pic);
         rank_coin = (TextView) view.findViewById(R.id.rank_mycoin);
-        if (ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(userInfo.userid)) {
-            bottom_layout.setVisibility(View.GONE);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            type = bundle.getInt("TYPE", 0);
+            if (type == 1) {
+                roomid = bundle.getString("USERID");
+            } else {
+                roomid = String.valueOf(ChatRoomActivity.roomModel.getId());
+                if (ChatRoomActivity.roomModel.getUserInfoDBModel().userid.equals(userInfo.userid)) {
+                    bottom_layout.setVisibility(View.GONE);
+                }
+            }
+
+            DebugLogs.e("roomid=1===" + roomid);
         }
+
         rank_my_pic.setImageURI(VerificationUtil.getImageUrl(userInfo.headurl));
         swipyRefreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
@@ -145,7 +177,7 @@ public class SevenRankFragment extends BaseFragment implements
                 helper.setOnClick(R.id.rank_handler, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (userInfo.userid.equals(item.id)){
+                        if (userInfo.userid.equals(item.id)) {
                             return;
                         }
                         jumpUserInfo(item);
@@ -163,23 +195,21 @@ public class SevenRankFragment extends BaseFragment implements
     }
 
     private void load() {
-        String roomid = String.valueOf(ChatRoomActivity.roomModel.getId());
+
         if (userInfo != null && !roomid.isEmpty()) {
-            mainEnter.loadSevenRank(CommonUrlConfig.RankListByRoom, userInfo.userid, userInfo.token, roomid, callback);
+            if (type == 0) {
+                mainEnter.loadSevenRank(CommonUrlConfig.RankListByRoom, userInfo.userid, userInfo.token, roomid, callback);
+            } else {
+                mainEnter.loadSevenUserRank(CommonUrlConfig.RankListByRoom, userInfo.userid, userInfo.token, roomid, callback);
+            }
         }
     }
 
     private void jumpUserInfo(RankModel item) {
         BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
         userInfoModel.Userid = item.id;
-        userInfoModel.headurl = item.imageurl;
-        userInfoModel.nickname = item.name;
-        userInfoModel.sex = item.sex;
-        userInfoModel.isv = item.isv;
-        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-        userInfoDialogFragment.setUserInfoModel(userInfoModel);
         if (isAdded()) {
-            userInfoDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+            StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, userInfoModel);
         }
     }
 

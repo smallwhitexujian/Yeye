@@ -12,10 +12,10 @@ import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
-import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.will.common.tool.time.DateFormat;
 import com.will.view.library.SwipyRefreshLayout;
 import com.will.view.library.SwipyRefreshLayoutDirection;
@@ -70,7 +70,7 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
                 return;
             }
             systemMsg = SystemMessage.getInstance().load(MessageNotificationActivity.NOTICE_FANS_MSG, userInfo.userid, 0, 1000);
-            if (systemMsg==null){
+            if (systemMsg == null) {
                 return;
             }
             SystemMessage.getInstance().updateIsread(BaseKey.NOTIFICATION_ISREAD, "1", userInfo.userid, MessageNotificationActivity.NOTICE_FANS_MSG);//修改所有未读改成已读
@@ -105,11 +105,7 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
                         public void onClick(View v) {
                             BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                             userInfoModel.Userid = fromUserid;
-                            userInfoModel.headurl = msgStr;
-                            userInfoModel.nickname = nickname;
-                            UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                            userInfoDialogFragment.setUserInfoModel(userInfoModel);
-                            userInfoDialogFragment.show(getSupportFragmentManager(), "");
+                            StartActivityHelper.jumpActivity(MessageFansActivity.this, FriendUserInfoActivity.class, userInfoModel);
                         }
                     });
                 } catch (JSONException e) {
@@ -124,19 +120,13 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 JSONObject msgJsonObj;
-                String msgStr, fromUserid, nickname;
+                String fromUserid;
                 try {
                     msgJsonObj = new JSONObject(systemMsg.get(position).data);
-                    msgStr = msgJsonObj.getString("headurl");
                     fromUserid = msgJsonObj.getString("fromuserid");
-                    nickname = msgJsonObj.getString("nickname");
                     BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                     userInfoModel.Userid = fromUserid;
-                    userInfoModel.headurl = msgStr;
-                    userInfoModel.nickname = nickname;
-                    UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                    userInfoDialogFragment.setUserInfoModel(userInfoModel);
-                    userInfoDialogFragment.show(getSupportFragmentManager(), "");
+                    StartActivityHelper.jumpActivity(MessageFansActivity.this, FriendUserInfoActivity.class, userInfoModel);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

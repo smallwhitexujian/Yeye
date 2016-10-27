@@ -16,12 +16,12 @@ import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.RankModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -114,13 +114,7 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
     private void jumpUserInfo(RankModel item) {
         BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
         userInfoModel.Userid = item.id;
-        userInfoModel.headurl = item.imageurl;
-        userInfoModel.nickname = item.name;
-        userInfoModel.sex = item.sex;
-        userInfoModel.isv = item.isv;
-        UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-        userInfoDialogFragment.setUserInfoModel(userInfoModel);
-        userInfoDialogFragment.show(this.getSupportFragmentManager(), "");
+        StartActivityHelper.jumpActivity(RankActivity.this, FriendUserInfoActivity.class, userInfoModel);
     }
 
     private void initView() {

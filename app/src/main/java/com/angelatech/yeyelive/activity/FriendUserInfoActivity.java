@@ -36,7 +36,6 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -49,7 +48,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * 他人用户信息页面
@@ -118,20 +116,6 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         ly_fans.setOnClickListener(this);
         ly_like.setOnClickListener(this);
         attentionsBtn.setOnClickListener(this);
-        grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                RankModel onlineModel = showList.get(i);
-////                BasicUserInfoModel userInfo = new BasicUserInfoModel();
-////                userInfo.Userid = String.valueOf(onlineModel.id);
-////                userInfo.nickname = onlineModel.name;
-////                userInfo.headurl = onlineModel.imageurl;
-////                userInfo.isv = onlineModel.isv;
-////                userInfo.sex = String.valueOf(onlineModel.sex);
-////                StartActivityHelper.jumpActivity(FriendUserInfoActivity.this, FriendUserInfoActivity.class, userInfo);
-                StartActivityHelper.jumpActivityDefault(FriendUserInfoActivity.this, TabActivity.class);
-            }
-        });
     }
 
     private void initData() {
@@ -140,11 +124,19 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         showList = new ArrayList<>();
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-             baseInfo = (BasicUserInfoModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+            baseInfo = (BasicUserInfoModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
             userVideoFragment = new UserVideoFragment();
             userVideoFragment.setFuserid(baseInfo.Userid);
             fragments.add(userVideoFragment);
         }
+        grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent tabactivity = new Intent(FriendUserInfoActivity.this, TabActivity.class);
+                tabactivity.putExtra("USERID",baseInfo.Userid);
+                startActivity(tabactivity);
+            }
+        });
         MyFragmentPagerAdapter simpleFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         mviewPager.setAdapter(simpleFragmentPagerAdapter);
         load();
@@ -161,13 +153,13 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.ly_follow:
                 Intent focusactivity = new Intent(FriendUserInfoActivity.this, RelationActivity.class);
-                focusactivity.putExtra("fuserid",baseInfo.Userid);
+                focusactivity.putExtra("fuserid", baseInfo.Userid);
                 focusactivity.putExtra("type", FocusFans.TYPE_FOCUS);
                 startActivity(focusactivity);
                 break;
             case R.id.ly_fans:
                 Intent fansactivity = new Intent(FriendUserInfoActivity.this, RelationActivity.class);
-                fansactivity.putExtra("fuserid",baseInfo.Userid);
+                fansactivity.putExtra("fuserid", baseInfo.Userid);
                 fansactivity.putExtra("type", FocusFans.TYPE_FANS);
                 startActivity(fansactivity);
                 break;
@@ -235,7 +227,13 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                     }
                     if (HttpFunction.isSuc(datas.code)) {
                         showList.clear();
-                        showList.addAll(datas.data);
+                        if (datas.data.size() > 3) {
+                            for (int i = 0; i < 3; i++) {
+                                showList.add(datas.data.get(i));
+                            }
+                        } else {
+                            showList.addAll(datas.data);
+                        }
                         uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
                     } else {
                         onBusinessFaild(datas.code);

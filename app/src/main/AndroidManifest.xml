@@ -369,14 +369,13 @@
 
         <activity
             android:name=".activity.FriendUserInfoActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RelationActivity"
-            android:screenOrientation="portrait"
-            />
-
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FansRankActivity"
+            android:label="@string/title_activity_fans_rank"></activity>
     </application>
 
 </manifest>

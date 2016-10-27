@@ -12,7 +12,13 @@
         android:layout_centerInParent="true"
         android:orientation="horizontal"
         android:visibility="visible" />
-
+    <!--弹幕 -->
+    <master.flame.danmaku.ui.widget.DanmakuView
+        android:id="@+id/danmakuView"
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        />
     <LinearLayout
         android:id="@+id/ly_main"
         android:layout_width="match_parent"
@@ -123,15 +129,10 @@
                 <!-- 跑马灯-->
                 <include layout="@layout/marquee_view" />
             </RelativeLayout>
+
         </LinearLayout>
 
-        <!--弹幕 -->
-        <master.flame.danmaku.ui.widget.DanmakuView
-            android:id="@+id/danmakuView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:layout_weight="5" />
+
 
         <include
             layout="@layout/view_gift"
