@@ -146,40 +146,42 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
         adapter = new CommonAdapter<LiveVideoModel>(getActivity(), datas, R.layout.item_new_list) {
             @Override
             public void convert(ViewHolder helper, final LiveVideoModel item, int position) {
-                if (item.type == 1) {
-                    LiveModel liveModel = (LiveModel) item;
-                    ViewGroup.LayoutParams para;
-                    para = helper.getView(R.id.live_cover).getLayoutParams();
-                    para.height = screenWidth / 2;
-                    para.width = screenWidth / 2;
-                    helper.getView(R.id.live_cover).setLayoutParams(para);
-                    helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
-                    helper.setText(R.id.iv_line, "LIVE");
-                    helper.setImageURI(R.id.live_cover,liveModel.headurl);
-                    if (liveModel.area == null || "".equals(liveModel.area)) {
-                        helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                if (isAdded()){
+                    if (item.type == 1) {
+                        LiveModel liveModel = (LiveModel) item;
+                        ViewGroup.LayoutParams para;
+                        para = helper.getView(R.id.live_cover).getLayoutParams();
+                        para.height = screenWidth / 2;
+                        para.width = screenWidth / 2;
+                        helper.getView(R.id.live_cover).setLayoutParams(para);
+                        helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
+                        helper.setText(R.id.iv_line, "LIVE");
+                        helper.setImageURI(R.id.live_cover,liveModel.headurl);
+                        if (liveModel.area == null || "".equals(liveModel.area)) {
+                            helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                        } else {
+                            helper.setText(R.id.area, liveModel.area);
+                        }
+                        if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
+                            helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
+                        } else {
+                            helper.hideView(R.id.ticket);
+                        }
                     } else {
-                        helper.setText(R.id.area, liveModel.area);
-                    }
-                    if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
-                        helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
-                    } else {
-                        helper.hideView(R.id.ticket);
-                    }
-                } else {
-                    VideoModel videoModel = (VideoModel) item;
-                    ViewGroup.LayoutParams para;
-                    para = helper.getView(R.id.live_cover).getLayoutParams();
-                    para.height = screenWidth / 2;
-                    para.width = screenWidth / 2;
-                    helper.getView(R.id.live_cover).setLayoutParams(para);
-                    helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
-                    helper.setText(R.id.iv_line, "REC");
-                    helper.setImageURI(R.id.live_cover, videoModel.headurl);
-                    if (item.area == null || "".equals(item.area)) {
-                        helper.setText(R.id.area, getString(R.string.live_hot_default_area));
-                    } else {
-                        helper.setText(R.id.area, item.area);
+                        VideoModel videoModel = (VideoModel) item;
+                        ViewGroup.LayoutParams para;
+                        para = helper.getView(R.id.live_cover).getLayoutParams();
+                        para.height = screenWidth / 2;
+                        para.width = screenWidth / 2;
+                        helper.getView(R.id.live_cover).setLayoutParams(para);
+                        helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
+                        helper.setText(R.id.iv_line, "REC");
+                        helper.setImageURI(R.id.live_cover, videoModel.headurl);
+                        if (item.area == null || "".equals(item.area)) {
+                            helper.setText(R.id.area, getString(R.string.live_hot_default_area));
+                        } else {
+                            helper.setText(R.id.area, item.area);
+                        }
                     }
                 }
             }
