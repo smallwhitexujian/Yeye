@@ -328,7 +328,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/btn_information_videolist_n"
+                    android:src="@drawable/btn_information_totpage_n"
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
