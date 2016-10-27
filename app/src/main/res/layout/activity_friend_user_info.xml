@@ -23,16 +23,14 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="5dp"
             android:contentDescription="@null"
-
             android:src="@drawable/btn_nav_back_g" />
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:gravity="center|center_vertical"
-            android:text="Ta的主页"
+            android:text="@string/ta_home"
             android:textColor="#FF262626"
             android:textSize="17dp" />
 
@@ -72,7 +70,7 @@
             android:layout_marginBottom="2dp"
             android:contentDescription="@null"
             android:src="@drawable/icon_vip_mark"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <!--昵称-->
@@ -298,7 +296,7 @@
         android:layout_marginRight="12dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="已关注"
+        android:text="@string/follows"
         android:textColor="#ffffff"
         android:textSize="16dp"
         android:visibility="gone"
