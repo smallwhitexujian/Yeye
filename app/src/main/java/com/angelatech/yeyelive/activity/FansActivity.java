@@ -19,7 +19,6 @@ import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
@@ -134,14 +133,6 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                 userInfoModel.Userid = focusModel.userid;
                 StartActivityHelper.jumpActivity(FansActivity.this, FriendUserInfoActivity.class, userInfoModel);
-//                userInfoModel.isfollow = focusModel.isfollow;
-//                userInfoModel.headurl = focusModel.headurl;
-//                userInfoModel.nickname = focusModel.nickname;
-//                userInfoModel.isv = focusModel.isv;
-//                userInfoModel.sex = focusModel.sex;
-//                UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-//                userInfoDialogFragment.setUserInfoModel(userInfoModel);
-//                userInfoDialogFragment.show(getSupportFragmentManager(), "");
             }
         });
         loadData();
@@ -158,7 +149,6 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
             @Override
             public void onFailure(Map<String, ?> errorMap) {
                 DebugLogs.e("===============失败了");
-                //uiHandler.obtainMessage(MSG_ERROR).sendToTarget();
             }
 
             @Override

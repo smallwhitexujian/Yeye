@@ -10,3 +10,4 @@ script
 *.sh
 local.properties
 gradlew
+.svn/

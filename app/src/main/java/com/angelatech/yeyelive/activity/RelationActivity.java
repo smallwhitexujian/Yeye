@@ -19,7 +19,6 @@ import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;

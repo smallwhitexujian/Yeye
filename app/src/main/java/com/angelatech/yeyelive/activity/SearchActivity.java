@@ -22,13 +22,13 @@ import com.angelatech.yeyelive.activity.function.SearchUser;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.fragment.UserInfoDialogFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -146,18 +146,12 @@ public class SearchActivity extends WithBroadCastActivity {
         searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //关闭搜素输入矿
+                //关闭搜素输入框
                 Utility.closeKeybord(searchEditText,SearchActivity.this);
-
                 SearchItemModel searchItemModel = datas.get(position);
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
-                userInfoModel.isfollow = searchItemModel.isfollow;
                 userInfoModel.Userid = searchItemModel.userid;
-                userInfoModel.sex = searchItemModel.sex;
-                userInfoModel.headurl = searchItemModel.headurl;
-                UserInfoDialogFragment userInfoDialogFragment = new UserInfoDialogFragment();
-                userInfoDialogFragment.setUserInfoModel(userInfoModel);
-                userInfoDialogFragment.show(getSupportFragmentManager(),"");
+                StartActivityHelper.jumpActivity(SearchActivity.this, FriendUserInfoActivity.class, userInfoModel);
             }
         });
 

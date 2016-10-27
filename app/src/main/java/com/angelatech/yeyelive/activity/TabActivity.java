@@ -11,9 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.TransactionValues;
+import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
 import com.angelatech.yeyelive.fragment.SevenRankFragment;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.util.MyOnPageChangeListener;
 
 import java.util.ArrayList;
@@ -58,7 +61,15 @@ public class TabActivity extends HeaderBaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         fragmentList = new ArrayList<>();
-        fragment_Tab_1 = SevenRankFragment.newInstance(1);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String userid =  getIntent().getStringExtra("USERID");
+
+            fragment_Tab_1 = SevenRankFragment.newInstance(1,userid);
+        }
+        else {
+            fragment_Tab_1 = SevenRankFragment.newInstance(1);
+        }
         fragmentList.add(fragment_Tab_1);
         initView(getString(R.string.rank_title), getString(R.string.rank_seven_dedicated), getString(R.string.rank_history_dedicated), fragmentList);
     }
