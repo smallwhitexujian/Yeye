@@ -36,6 +36,7 @@ import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -68,6 +69,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
 
     private UserInfoDialog userInfoDialog;
     private BasicUserInfoDBModel loginUser;
+    private BasicUserInfoDBModel loadUser;
     private BasicUserInfoModel baseInfo;
     private static final int MSG_LOAD_SUC = 1, RANK_LOAD_SUC = 11;
     private final int MSG_SET_FOLLOW = 5;
@@ -133,7 +135,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent tabactivity = new Intent(FriendUserInfoActivity.this, TabActivity.class);
-                tabactivity.putExtra("USERID",baseInfo.Userid);
+                tabactivity.putExtra("USERID", baseInfo.Userid);
                 startActivity(tabactivity);
             }
         });
@@ -164,6 +166,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 startActivity(fansactivity);
                 break;
             case R.id.ly_like:
+                StartActivityHelper.jumpActivity(FriendUserInfoActivity.this,PopularityActivity.class,loadUser);
                 break;
             case R.id.attentions_btn:
                 if (baseInfo != null) {
@@ -249,8 +252,8 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         switch (msg.what) {
             case MSG_LOAD_SUC:
                 LoadingDialog.cancelLoadingDialog();
-                BasicUserInfoDBModel searchUserInfo = (BasicUserInfoDBModel) msg.obj;
-                setUI(searchUserInfo);
+                loadUser = (BasicUserInfoDBModel) msg.obj;
+                setUI(loadUser);
                 break;
             case RANK_LOAD_SUC:
                 int length = 30;

@@ -375,7 +375,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FansRankActivity"
-            android:label="@string/title_activity_fans_rank"></activity>
+            android:label="@string/title_activity_fans_rank" />
+        <activity
+            android:name=".activity.PopularityActivity"
+            android:label="@string/title_activity_popularity"></activity>
     </application>
 
 </manifest>

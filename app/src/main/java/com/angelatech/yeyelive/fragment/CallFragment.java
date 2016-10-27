@@ -992,7 +992,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         marquee_layout.invalidate();
         marqueeUtils.restartAnim();
         final HashMap<String, Object> params = new HashMap<>();
-        Spanned htmlStr = Html.fromHtml("<font color='#ffff00'> <br> " + radioMessage.msg + "</br></font>");
+        Spanned htmlStr = Html.fromHtml("<font color='#ffff00'> <b> " + radioMessage.msg + "</b></font>");
         params.put(MarqueeUilts.CONTEXT, htmlStr);
         App.marqueeData.add(params);
     }

@@ -22,7 +22,7 @@ import java.util.HashMap;
  *
  */
 public class MarqueeUilts {
-    public static int Duratuion = 6000;//设置动画执行的时间
+    public static int Duratuion = 6700;//设置动画执行的时间
     private AnimationSet mAnimationSet;
     private ArrayList<HashMap<String,Object>> mData = new ArrayList<>();
     public static String CONTEXT = "context";
