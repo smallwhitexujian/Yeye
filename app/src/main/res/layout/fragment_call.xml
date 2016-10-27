@@ -15,10 +15,10 @@
     <!--弹幕 -->
     <master.flame.danmaku.ui.widget.DanmakuView
         android:id="@+id/danmakuView"
-        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        />
+        android:layout_marginTop="80dp" />
+
     <LinearLayout
         android:id="@+id/ly_main"
         android:layout_width="match_parent"
@@ -132,7 +132,10 @@
 
         </LinearLayout>
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5" />
 
         <include
             layout="@layout/view_gift"
@@ -179,12 +182,12 @@
                 android:layout_width="50dp"
                 android:layout_height="56dp"
                 android:layout_gravity="bottom"
+                android:layout_marginLeft="5dp"
                 android:contentDescription="@string/chatline"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
-                android:layout_marginLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_chat_n"
                 tools:ignore="RtlHardcoded" />
 
@@ -194,10 +197,10 @@
                 android:layout_height="56dp"
                 android:layout_gravity="bottom"
                 android:contentDescription="@string/share"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_share_n"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -208,10 +211,10 @@
                 android:layout_height="56dp"
                 android:layout_gravity="bottom"
                 android:contentDescription="@string/follow"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_concern_n"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -222,10 +225,10 @@
                 android:layout_height="56dp"
                 android:layout_gravity="bottom"
                 android:contentDescription="@string/switch_camera"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_exchange_n"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -236,10 +239,10 @@
                 android:layout_height="56dp"
                 android:layout_gravity="bottom"
                 android:contentDescription="@string/switch_camera"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_start_play_beautiful_s"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -250,10 +253,10 @@
                 android:layout_height="56dp"
                 android:layout_gravity="bottom"
                 android:contentDescription="@string/switch_camera"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
                 android:src="@drawable/btn_start_play_flash_n"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -288,10 +291,10 @@
                 android:id="@+id/btn_danmu"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
-                android:contentDescription="@null"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="6dp"
                 android:background="@drawable/btn_room_sendtxt_cur_ord"
+                android:contentDescription="@null"
                 tools:ignore="RtlHardcoded" />
 
             <EditText
