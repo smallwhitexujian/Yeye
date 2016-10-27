@@ -356,7 +356,7 @@
                     android:layout_marginLeft="18dp"
                     android:drawableLeft="@drawable/icon_me_gift_mall"
                     android:drawablePadding="8dp"
-                    android:text="@string/system_msg"
+                    android:text="@string/gift_center"
                     android:textColor="@color/color_232323"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />

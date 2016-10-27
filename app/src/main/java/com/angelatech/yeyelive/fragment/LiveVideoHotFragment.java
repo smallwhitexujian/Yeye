@@ -168,7 +168,8 @@ public class LiveVideoHotFragment extends BaseFragment implements
                     }
                     if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
                         helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
-                    } else {
+                    }
+                    if (!liveModel.isticket.equals("1")){
                         helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
                     }
                 } else {
@@ -220,7 +221,6 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private void jumpUserInfo(LiveVideoModel item) {
         BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
         userInfoModel.Userid = item.userid;
-
         if (isAdded()) {
             StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, userInfoModel);
         }

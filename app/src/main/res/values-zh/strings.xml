@@ -450,4 +450,7 @@
     <string name="way_live">开播</string>
     <string name="send_gift">送礼物</string>
     <string name="way_share">分享作品</string>
+
+    <string name="gift_center">礼物中心</string>
+
 </resources>

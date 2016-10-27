@@ -10,6 +10,7 @@ import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.MessageOfficialActivity;
 import com.angelatech.yeyelive.activity.MessageRedActivity;
 import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
+import com.angelatech.yeyelive.activity.TabMenuActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.db.model.SystemMessageDBModel;
@@ -91,18 +92,31 @@ public class BroadCastDispatch extends Dispatchable {
                                 if (result == null) {
                                     return;
                                 }
+                                String roomtype = result.roomtype;//房间类型
+                                String roomPrice = result.price;//门票价格,
                                 RoomModel roomModel = new RoomModel();
                                 roomModel.setId(Integer.parseInt(result.roomid));
                                 roomModel.setIp(result.roomip.split(":")[0]);
                                 roomModel.setPort(Integer.parseInt(result.roomip.split(":")[1]));
                                 roomModel.setRoomType(App.LIVE_WATCH);
+                                roomModel.setTicket(roomPrice);
+
                                 BasicUserInfoDBModel user = new BasicUserInfoDBModel();
                                 user.userid = result.uid;
                                 user.headurl = result.headurl;
                                 user.nickname = result.nickname;
                                 roomModel.setUserInfoDBModel(user);
                                 String content = mContext.getString(R.string.notify_live_content, result.nickname);
-                                NotificationUtil.launchNoticeWithData(mContext, requestCode, ticker, title, content, ChatRoomActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
+
+                                if(roomtype.equals("1")){
+                                    if (Integer.valueOf(roomPrice) >0){
+                                        NotificationUtil.launchNoticeWithData2(mContext, requestCode, ticker, title, content, TabMenuActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
+                                    }else{
+                                        NotificationUtil.launchNoticeWithData(mContext, requestCode, ticker, title, content, ChatRoomActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
+                                    }
+                                }else{
+                                    NotificationUtil.launchNoticeWithData(mContext, requestCode, ticker, title, content, ChatRoomActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -68,7 +68,7 @@ public class ListFragment extends BaseFragment {
     private void initView() {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         hotTab = (TextView) view.findViewById(R.id.hot_textview);
-        followTab = (TextView)view.findViewById(R.id.follow_textview);
+        followTab = (TextView) view.findViewById(R.id.follow_textview);
         newTab = (TextView) view.findViewById(R.id.new_textview);
         ImageView searchIcon = (ImageView) view.findViewById(R.id.search_icon);
         ImageView Rank_icon = (ImageView) view.findViewById(R.id.Rank_icon);
@@ -130,9 +130,9 @@ public class ListFragment extends BaseFragment {
 
     private void clearTabColor() {
         hotTab.setCompoundDrawables(null, null, null, null);
-        hotTab.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_999999));
-        followTab.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_999999));
-        newTab.setTextColor(ContextCompat.getColor(getActivity(),R.color.color_999999));
+        hotTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_999999));
+        followTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_999999));
+        newTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_999999));
         followTab.setCompoundDrawables(null, null, null, null);
         newTab.setCompoundDrawables(null, null, null, null);
     }

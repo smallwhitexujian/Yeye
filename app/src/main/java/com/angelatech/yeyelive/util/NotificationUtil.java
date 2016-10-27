@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.content.Context;
 
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 import com.will.notification.Load;
 import com.will.notification.NoticeManager;
 
@@ -65,6 +65,21 @@ public class NotificationUtil {
                 .ticker(ticker)//可有可无
                 .autoCancel(true)//是否可以别取消
                 .clickActivity1(null,activity,key,serializable)
+                .flags(Notification.DEFAULT_ALL)//可以不用动
+                .simple()//普通通知可以默认使用
+                .build();//显示通知
+    }
+
+    public static void launchNoticeWithData2(Context context, int id, String ticker, String title, String msg, Class<? extends Activity> activity,String key,Serializable serializable){
+        Load load = NoticeManager.with(context).load();
+        load.title(title)
+                .message(msg)
+                .identifier(id)//int 唯一标识
+                .smallIcon(R.drawable.ic_launcher)//小图标(这个图标需要提供多个分辨率的图片)
+                .largeIcon(R.drawable.ic_launcher)//大图标(需要提供多个分辨率的图片)
+                .ticker(ticker)//可有可无
+                .autoCancel(true)//是否可以别取消
+                .clickActivity3(null,activity,key,serializable)
                 .flags(Notification.DEFAULT_ALL)//可以不用动
                 .simple()//普通通知可以默认使用
                 .build();//显示通知
