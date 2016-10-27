@@ -440,4 +440,5 @@
     <string name="xingyunliwu_tips" formatted="false">恭喜%s获得%s倍幸运礼物大奖，获得%s金币</string>
     <string name="danmu_tips">弹幕最多发送20字符</string>
     <string name="title_activity_fans_rank">FansRankActivity</string>
+    <string name="gift_center">礼物中心</string>
 </resources>

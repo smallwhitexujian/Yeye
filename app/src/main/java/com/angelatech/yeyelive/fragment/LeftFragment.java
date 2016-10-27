@@ -21,12 +21,14 @@ import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.TestScanActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
 import com.angelatech.yeyelive.activity.UserVideoActivity;
+import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.SystemMessage;
+import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
@@ -48,10 +50,10 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video,message_notice;
+    private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video, message_notice;
     private RelativeLayout attentionLayout, fansLayout, settingLayout,
-            layout_diamond, layout_video, layout_Invite_friend,layout_systemMsg,layout_gift;
-    private ImageView editImageView, sexImageView, iv_vip,btn_qcode;
+            layout_diamond, layout_video, layout_Invite_friend, layout_systemMsg, layout_gift;
+    private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
 
@@ -73,11 +75,11 @@ public class LeftFragment extends HintFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (userInfo.userid==null){
+        if (userInfo.userid == null) {
             return;
         }
         String str = String.valueOf(SystemMessage.getInstance().getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid).size());
-        if (str.equals("0")){
+        if (str.equals("0")) {
             SystemMessage.getInstance().clearUnReadTag(getActivity());
         }
         message_notice.setText(str);
@@ -173,6 +175,12 @@ public class LeftFragment extends HintFragment {
                 StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
                 break;
             case R.id.layout_gift:
+                WebTransportModel webTransportModel = new WebTransportModel();
+                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userInfo.userid + "&token=" + userInfo.token;
+                webTransportModel.title = getString(R.string.gift_center);
+                if (!webTransportModel.url.isEmpty()) {
+                    StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
+                }
                 break;
         }
     }
@@ -251,11 +259,11 @@ public class LeftFragment extends HintFragment {
     public void setPhoto() {
         userInfo = CacheDataManager.getInstance().loadUser();
         userFace.setImageURI(VerificationUtil.getImageUrl150(userInfo.headurl));
-        if (userInfo.userid==null){
+        if (userInfo.userid == null) {
             return;
         }
         String str = String.valueOf(SystemMessage.getInstance().getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userInfo.userid).size());
-        if (str.equals("0")){
+        if (str.equals("0")) {
             SystemMessage.getInstance().clearUnReadTag(getActivity());
         }
         message_notice.setText(str);
