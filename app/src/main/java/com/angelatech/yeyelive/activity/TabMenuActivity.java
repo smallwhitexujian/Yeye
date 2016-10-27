@@ -1,6 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.application.App;
@@ -24,6 +26,7 @@ import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.LeftFragment;
 import com.angelatech.yeyelive.fragment.ListFragment;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
@@ -81,12 +84,18 @@ public class TabMenuActivity extends BaseActivity {
     private SystemMessage systemMessage;
     private String ACCOUNT_TIME_STAMP = "accountTimeStamp";
     private FragmentManager fragmentManager = null;
-    private Fragment peopleFragment, ListFragment;
+    private Fragment peopleFragment;
+    private ListFragment listFragment;
     private TextView btn_list, btn_me, pot;
+    private RoomModel roomModel = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+        }
         setContentView(R.layout.activity_tab_menu);
         initData();
         initView();
@@ -116,6 +125,13 @@ public class TabMenuActivity extends BaseActivity {
         mark(TabMenuActivity.this, userModel.userid);
         loadGiftList();
         initFragment();
+        if (roomModel != null) {
+            BasicUserInfoModel loginUser = new BasicUserInfoModel();//登录信息
+            loginUser.Userid = userModel.userid;
+            loginUser.Token = userModel.token;
+            roomModel.setLoginUser(loginUser);
+            ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);
+        }
     }
 
     @Override
@@ -150,27 +166,26 @@ public class TabMenuActivity extends BaseActivity {
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        if (ListFragment == null && fragment instanceof ListFragment) {
-            ListFragment = fragment;
+        if (listFragment == null && fragment instanceof ListFragment) {
+            listFragment = (ListFragment) fragment;
         } else if (peopleFragment == null && fragment instanceof LeftFragment) {
             peopleFragment = fragment;
         }
     }
 
-
     private void initFragment() {
         fragmentManager = getSupportFragmentManager();
-        if (ListFragment == null) {
-            ListFragment = new ListFragment();
+        if (listFragment == null) {
+            listFragment = new ListFragment();
         }
         if (peopleFragment == null) {
             peopleFragment = new LeftFragment();
         }
         FragmentTransaction barTransaction = fragmentManager.beginTransaction();
-        if (!ListFragment.isAdded()) {
-            barTransaction.add(R.id.contentFrame, ListFragment, "ListFragment").show(ListFragment);
+        if (!listFragment.isAdded()) {
+            barTransaction.add(R.id.contentFrame, listFragment, "ListFragment").show(listFragment);
         } else {
-            barTransaction.show(ListFragment);
+            barTransaction.show(listFragment);
         }
         barTransaction.commitAllowingStateLoss();
         FragmentTransaction peopleTransaction = fragmentManager.beginTransaction();
@@ -187,12 +202,12 @@ public class TabMenuActivity extends BaseActivity {
         hideFragments(transaction);
         switch (viewId) {
             case R.id.layout_room:
-                if (ListFragment == null) {
-                    ListFragment = new ListFragment();
-                    transaction.add(R.id.contentFrame, ListFragment);
+                if (listFragment == null) {
+                    listFragment = new ListFragment();
+                    transaction.add(R.id.contentFrame, listFragment);
                 } else {
-                    ListFragment.onResume();
-                    transaction.show(ListFragment);
+                    listFragment.onResume();
+                    transaction.show(listFragment);
                 }
                 break;
             case R.id.layout_people:
@@ -212,8 +227,8 @@ public class TabMenuActivity extends BaseActivity {
      * 隐藏
      */
     private void hideFragments(FragmentTransaction transaction) {
-        if (ListFragment != null) {
-            transaction.hide(ListFragment);
+        if (listFragment != null) {
+            transaction.hide(listFragment);
         }
         if (peopleFragment != null) {
             transaction.hide(peopleFragment);
@@ -229,6 +244,19 @@ public class TabMenuActivity extends BaseActivity {
         btn_list.setCompoundDrawables(null, drawable, null, null);
         btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
         btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        roomModel = (RoomModel) intent.getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
+        if (roomModel != null) {
+            BasicUserInfoModel loginUser = new BasicUserInfoModel();//登录信息
+            loginUser.Userid = userModel.userid;
+            loginUser.Token = userModel.token;
+            roomModel.setLoginUser(loginUser);
+            ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);
+        }
     }
 
     @Override
@@ -255,16 +283,12 @@ public class TabMenuActivity extends BaseActivity {
             } else {
                 pot.setVisibility(View.GONE);
             }
-//        if (SPreferencesTool.getInstance().getBooleanValue(this, "cancel", false)) {
-//            return;
-//        } else {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     upApk();
                 }
             });
-//        }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -66,4 +66,16 @@ public class ActivityPendingIntent implements PendingIntentNotification {
 
     }
 
+    public PendingIntent onSettingPendingIntent4(int identifier,String action,String key,Serializable parcelable) {
+        Intent intentActivity = new Intent(mContext, mActivity);
+        intentActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intentActivity.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intentActivity.setPackage(mContext.getPackageName());
+        if (key != null && parcelable != null) {
+            intentActivity.putExtra(key,parcelable);
+        }
+        return PendingIntent.getActivity(mContext, identifier, intentActivity,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+    }
 }

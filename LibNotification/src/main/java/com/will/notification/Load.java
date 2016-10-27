@@ -316,6 +316,15 @@ public class Load {
         return this;
     }
 
+    public Load setContentIntent1(PendingIntent pendingIntent){
+        this.builder.setContentIntent(pendingIntent);
+        return this;
+    }
+
+    public Load clickActivity3(String action,Class<? extends Activity> activity,String key,Serializable serializable){
+        this.builder.setContentIntent(new ActivityPendingIntent(mContext,activity).onSettingPendingIntent4(notificationId,action,key,serializable));
+        return this;
+    }
 
     public Load clickActivity1(String action,Class<? extends Activity> activity,String key,Serializable serializable){
         this.builder.setContentIntent(new ActivityPendingIntent(mContext,activity).onSettingPendingIntent2(notificationId,action,key,serializable));
