@@ -22,6 +22,7 @@ import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.MainEnter;
+import com.angelatech.yeyelive.activity.function.UserControl;
 import com.angelatech.yeyelive.activity.function.UserInfoDialog;
 import com.angelatech.yeyelive.adapter.HorizontalUserRankListViewAdapter;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
@@ -38,9 +39,11 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
+import com.angelatech.yeyelive.view.ActionSheetDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
 
@@ -55,7 +58,7 @@ import java.util.Map;
  */
 public class FriendUserInfoActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView btn_back;
+    private ImageView btn_back,btn_more;
     private FrescoRoundView user_face;
     private ImageView iv_vip;
     private TextView user_nick;
@@ -74,6 +77,8 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
     private static final int MSG_LOAD_SUC = 1, RANK_LOAD_SUC = 11;
     private final int MSG_SET_FOLLOW = 5;
     private final int MSG_LOAD_STATUS = 6;
+    private final int MSG_PULL_BLACKLIST_SUC = 8;
+    private final int MSG_REPORT_SUC = 10;
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private HorizontalUserRankListViewAdapter horizontalListViewAdapter;
@@ -110,6 +115,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         mviewPager = (ViewPager) findViewById(R.id.data_layout);
         grid_online = (GridView) findViewById(R.id.grid_online);
         attentionsBtn = (Button) findViewById(R.id.attentions_btn);
+        btn_more = (ImageView) findViewById(R.id.btn_more);
     }
 
     private void setView() {
@@ -118,6 +124,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         ly_fans.setOnClickListener(this);
         ly_like.setOnClickListener(this);
         attentionsBtn.setOnClickListener(this);
+        btn_more.setOnClickListener(this);
     }
 
     private void initData() {
@@ -172,6 +179,57 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 if (baseInfo != null) {
                     doFocus(baseInfo.Userid, isFollowCode);
                 }
+                break;
+            case R.id.btn_more:
+                ActionSheetDialog dialog = new ActionSheetDialog(FriendUserInfoActivity.this);
+                dialog.builder();
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.addSheetItem(getString(R.string.userinfo_dialog_do_pull_blacklist), ActionSheetDialog.SheetItemColor.BLACK_222222,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                LoadingDialog.showLoadingDialog(FriendUserInfoActivity.this);
+                                HttpBusinessCallback callback = new HttpBusinessCallback() {
+                                    @Override
+                                    public void onFailure(Map<String, ?> errorMap) {
+                                    }
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        Map map = JsonUtil.fromJson(response, Map.class);
+                                        if (map != null) {
+                                            if (HttpFunction.isSuc((String) map.get("code"))) {
+                                                uiHandler.obtainMessage(MSG_PULL_BLACKLIST_SUC).sendToTarget();
+                                            } else {
+                                                onBusinessFaild((String) map.get("code"));
+                                            }
+                                        }
+                                        LoadingDialog.cancelLoadingDialog();
+                                    }
+                                };
+                                userInfoDialog.ctlBlacklist(loginUser.userid, loginUser.token, loadUser.userid, UserControl.PULL_TO_BLACKLIST, callback);
+                            }
+                        }).addSheetItem(getString(R.string.userinfo_dialog_do_report), ActionSheetDialog.SheetItemColor.BLACK_222222,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                LoadingDialog.showLoadingDialog(FriendUserInfoActivity.this);
+                                HttpBusinessCallback callback = new HttpBusinessCallback() {
+                                    @Override
+                                    public void onFailure(Map<String, ?> errorMap) {
+                                    }
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        Map map = JsonUtil.fromJson(response, Map.class);
+                                        if (map != null && HttpFunction.isSuc((String) map.get("code"))) {
+                                            uiHandler.obtainMessage(MSG_REPORT_SUC).sendToTarget();
+                                        }
+                                    }
+                                };
+                                userInfoDialog.report(loginUser.userid, loginUser.token, UserControl.SOURCE_REPORT + "", loadUser.userid, "", callback);
+                            }
+                        });
+                dialog.show();
                 break;
         }
     }
@@ -281,11 +339,19 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
             case MSG_SET_FOLLOW:
                 if (userInfoDialog.isFollow(isFollowCode)) {
                     attentionsBtn.setBackgroundResource(R.drawable.btn_bg_d9);
-                    attentionsBtn.setText("已关注");
+                    attentionsBtn.setText(R.string.follows);
                 } else {
                     attentionsBtn.setBackgroundResource(R.drawable.btn_bg_red);
-                    attentionsBtn.setText("关注");
+                    attentionsBtn.setText(R.string.live_follow);
                 }
+                break;
+            case MSG_PULL_BLACKLIST_SUC:
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(FriendUserInfoActivity.this, getString(R.string.userinfo_dialog_pull_blacklist_suc));
+                break;
+            case MSG_REPORT_SUC:
+                LoadingDialog.cancelLoadingDialog();
+                ToastUtils.showToast(FriendUserInfoActivity.this, getString(R.string.userinfo_dialog_report_suc));
                 break;
         }
     }
