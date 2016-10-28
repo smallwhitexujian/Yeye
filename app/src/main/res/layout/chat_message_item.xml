@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:paddingLeft="3dp"
     android:paddingRight="30dp"
-    android:paddingTop="3dp">
+    android:paddingTop="3dp"
+    tools:ignore="RtlHardcoded">
 
     <TextView
         android:id="@+id/tv_content"
@@ -22,6 +23,5 @@
         android:shadowDy="2"
         android:shadowRadius="1"
         android:textColor="@color/color_white"
-        android:textSize="16sp"
-        tools:text="adasdasdasda" />
+        android:textSize="16sp" />
 </LinearLayout>

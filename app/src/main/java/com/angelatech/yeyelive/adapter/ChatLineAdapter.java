@@ -73,6 +73,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv_content.setText("");
+        holder.tv_content.setLongClickable(false);
         if (chatline.type == 0) {
             String sChatContent = chatline.message;
             if (sChatContent.contains("%/%") && chatline.giftmodel != null) {

@@ -204,6 +204,7 @@ public class StreamingBaseActivity extends BaseActivity implements
                 .setRecordingHint(false)//以此来提升数据源的帧率。 但是在部分机型上会出现卡顿情况
                 .setCameraFacingId(cameraFacingId)
                 .setBuiltInFaceBeautyEnabled(true)
+                .setFrontCameraMirror(true)
                 .setCameraPrvSizeLevel(CameraStreamingSetting.PREVIEW_SIZE_LEVEL.MEDIUM)
                 .setCameraPrvSizeRatio(CameraStreamingSetting.PREVIEW_SIZE_RATIO.RATIO_16_9)//摄像头采集模式
                 .setFaceBeautySetting(new CameraStreamingSetting.FaceBeautySetting(1.0f, 1.0f, 0.8f))
