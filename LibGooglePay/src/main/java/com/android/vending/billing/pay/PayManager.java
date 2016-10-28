@@ -50,7 +50,7 @@ public class PayManager {
     /**************************************************
      * 回调接口
      ************************************************/
-    //查询回调
+    //如果查询成功,查询结果存储在一个库存对象传递到侦听器。下面的代码显示了如何检索项价格从结果集。
     private IabHelper.QueryInventoryFinishedListener gotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
             if (mHelper == null) {
@@ -76,7 +76,7 @@ public class PayManager {
     };
 
     // Callback for when a purchase is finished
-    IabHelper.OnIabPurchaseFinishedListener purchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+    private IabHelper.OnIabPurchaseFinishedListener purchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
             if (mHelper == null) {
                 return;
@@ -100,7 +100,7 @@ public class PayManager {
     };
 
     //消耗完成调用 接口
-    IabHelper.OnConsumeFinishedListener consumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
+    private IabHelper.OnConsumeFinishedListener consumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
         public void onConsumeFinished(Purchase purchase, IabResult result) {
             DebugLogs.e("jjfly", "Consumption finished. Purchase: " + purchase + ", result: " + result);
             if (mHelper == null) {
@@ -176,7 +176,7 @@ public class PayManager {
 
 
     /***********************************************************************
-     * 辅助方法
+     * 辅助方法 判断是否安装有Google服务
      ***********************************************************************/
     //Check Google Play
     protected boolean isHaveGooglePlay(Context context, String packageName) {
