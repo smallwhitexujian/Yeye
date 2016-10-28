@@ -19,6 +19,25 @@
 #-keepattributes SourceFile,LineNumberTable
 # RemoteViews might need annotations.
 -keepattributes *Annotation*
+-keepattributes *JavascriptInterface*
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
+ }
+-keepclassmembers class com.angelatech.yeyelive.activity.WebActivity$addJavascriptInterface{
+    public *;
+}
+#保留JavascriptInterface中的方法
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+#这个根据自己的project来设置，这个类用来与js交互，所以这个类中的 字段 ，方法， 等尽量保持
+-keepclassmembers public class com.angelatech.yeyelive.activity.WebActivity{
+   <fields>;
+   <methods>;
+   public *;
+   private *;
+}
 # Preserve all fundamental application classes.
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
