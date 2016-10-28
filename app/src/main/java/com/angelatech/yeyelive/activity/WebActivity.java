@@ -53,7 +53,7 @@ public class WebActivity extends HeaderBaseActivity {
         if (mParamStr != null && mUrl != null) {
             mUrl = mUrl + "?" + mParamStr;
         }
-        mWebView.loadUrl(mUrl+ "&time=" + System.currentTimeMillis());
+        mWebView.loadUrl(mUrl);
         //增加接口方法,让html页面调用
         mWebView.addJavascriptInterface(new Object(){
             @JavascriptInterface

@@ -176,7 +176,7 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.layout_gift:
                 WebTransportModel webTransportModel = new WebTransportModel();
-                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userInfo.userid + "&token=" + userInfo.token;
+                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userInfo.userid + "&token=" + userInfo.token+"&time="+System.currentTimeMillis();
                 webTransportModel.title = getString(R.string.gift_center);
                 if (!webTransportModel.url.isEmpty()) {
                     StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
