@@ -286,18 +286,20 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                     if (datas == null) {
                         return;
                     }
-                    if (HttpFunction.isSuc(datas.code)) {
-                        showList.clear();
-                        if (datas.data.size() > 3) {
-                            for (int i = 0; i < 3; i++) {
-                                showList.add(datas.data.get(i));
+                    if (HttpFunction.isSuc(datas.code) && datas.hasData()) {
+
+                            showList.clear();
+                            if (datas.data.size() > 3) {
+                                for (int i = 0; i < 3; i++) {
+                                    showList.add(datas.data.get(i));
+                                }
+                            } else {
+                                showList.addAll(datas.data);
                             }
-                        } else {
-                            showList.addAll(datas.data);
-                        }
-                        uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
+                            uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
+
                     } else {
-                        onBusinessFaild(datas.code);
+                       // onBusinessFaild(datas.code);
                     }
                 }
             };

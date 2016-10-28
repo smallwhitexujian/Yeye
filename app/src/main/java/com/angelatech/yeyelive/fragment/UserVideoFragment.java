@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.PlayActivity;
+import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.PlayRecord;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
@@ -96,7 +97,7 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                     helper.setImageViewByImageLoader(R.id.user_video_cover, liveModel.headurl);
                     helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
                     helper.setText(R.id.iv_line, "LIVE");
-                    helper.setText(R.id.user_video_duration,liveModel.onlinenum + " 人在看");
+                    helper.setText(R.id.user_video_duration, liveModel.onlinenum + getString(R.string.text_line_desc_now));
                 } else {
                     VideoModel videoModel = (VideoModel) item;
                     helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
@@ -109,7 +110,7 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                         helper.setText(R.id.user_video_duration, PlayerUtil.showTime3(0));
                     }
                     helper.setImageViewByImageLoader(R.id.user_video_cover, videoModel.barcoverurl);
-                    helper.setText(R.id.user_video_duration,videoModel.playnum + " 人看过");
+                    helper.setText(R.id.user_video_duration, videoModel.playnum + getString(R.string.text_line_desc_already));
                 }
             }
         };
@@ -178,8 +179,8 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                 break;
             case MSG_NO_DATA:
                 datas.clear();
-                adapter.setData(datas);
-                adapter.notifyDataSetChanged();
+//                adapter.setData(datas);
+//                adapter.notifyDataSetChanged();
                 showNodataLayout();
                 break;
             case MSG_HAVE_DATA:
@@ -232,31 +233,36 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
 
             @Override
             public void onSuccess(String response) {
+                DebugLogs.e("response9999" + response);
                 synchronized (lock) {
-                    CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
-                    }.getType());
-                    if (result != null) {
-                        if (HttpFunction.isSuc(result.code)) {
-                            datesort = result.time;
-                            pageindex = result.index + 1;
-                            result_type = result.type;
-                            if (result.livedata != null) {
-                                for (LiveModel liveModel : result.livedata) {
-                                    if (liveModel.livestate == null || PlayRecord.HAVE_NO_LIVE.equals(liveModel.livestate)) {
-                                        continue;
-                                    } else {
-                                        datas.add(liveModel);
+                    try {
+                        CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
+                        }.getType());
+                        if (result != null) {
+                            if (HttpFunction.isSuc(result.code)) {
+                                datesort = result.time;
+                                pageindex = result.index + 1;
+                                result_type = result.type;
+                                if (result.livedata != null && !result.livedata.isEmpty()) {
+                                    for (LiveModel liveModel : result.livedata) {
+                                        if (liveModel.livestate == null || PlayRecord.HAVE_NO_LIVE.equals(liveModel.livestate)) {
+                                            continue;
+                                        } else {
+                                            datas.add(liveModel);
+                                        }
                                     }
                                 }
-                            }
-                            if (result.videodata != null) {
-                                datas.addAll(result.videodata);
-                            }
+                                if (result.videodata != null && !result.videodata.isEmpty()) {
+                                    datas.addAll(result.videodata);
+                                }
 
-                            fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
-                        } else {
-                            onBusinessFaild(result.code, response);
+                                fragmentHandler.obtainMessage(MSG_ADAPTER_NOTIFY, result).sendToTarget();
+                            } else {
+                                onBusinessFaild(result.code, response);
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     if (datas == null || datas.isEmpty()) {
                         fragmentHandler.obtainMessage(MSG_NO_DATA).sendToTarget();
