@@ -15,9 +15,7 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
-import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
-import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
@@ -125,8 +123,6 @@ public class SevenRankFragment extends BaseFragment implements
                     bottom_layout.setVisibility(View.GONE);
                 }
             }
-
-            DebugLogs.e("roomid=1===" + roomid);
         }
 
         rank_my_pic.setImageURI(VerificationUtil.getImageUrl(userInfo.headurl));
@@ -230,18 +226,20 @@ public class SevenRankFragment extends BaseFragment implements
                     if (datas == null) {
                         return;
                     }
-                    if (HttpFunction.isSuc(datas.code)) {
-                        rankModels.clear();
-                        rankModels.addAll(datas.data);
-                        adapter.setData(rankModels);
-                        CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
-                                "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_eecc1b) + "'>" + datas.pernumber + "</font>"
-                                + "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
-                        rank_coin.setText(str);
-                    } else {
-                        onBusinessFaild(datas.code);
+                    if (isAdded()){
+                        if (HttpFunction.isSuc(datas.code)) {
+                            rankModels.clear();
+                            rankModels.addAll(datas.data);
+                            adapter.setData(rankModels);
+                            CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
+                                    "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_eecc1b) + "'>" + datas.pernumber + "</font>"
+                                    + "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
+                            rank_coin.setText(str);
+                        } else {
+                            onBusinessFaild(datas.code);
+                        }
+                        swipyRefreshLayout.setRefreshing(false);
                     }
-                    swipyRefreshLayout.setRefreshing(false);
                 }
             });
         }

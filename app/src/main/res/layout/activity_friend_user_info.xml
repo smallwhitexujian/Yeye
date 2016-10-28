@@ -53,10 +53,10 @@
         <!--头像-->
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/user_face"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="2dp"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/default_face_icon"
             fresco:roundAsCircle="true" />
@@ -67,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/user_face"
             android:layout_alignRight="@id/user_face"
-            android:layout_marginBottom="2dp"
             android:contentDescription="@null"
             android:src="@drawable/icon_vip_mark"
             android:visibility="gone" />
@@ -106,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:textColor="@color/color_a6a6a6"
         android:textSize="12sp" />
 
@@ -122,6 +121,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@null"
             android:src="@drawable/bg_me_signature_line_left" />
 
         <TextView
@@ -135,6 +135,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@null"
             android:src="@drawable/bg_me_signature_line_right" />
 
     </LinearLayout>
@@ -145,7 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:gravity="center"
         android:paddingLeft="20dp"
@@ -239,7 +240,7 @@
         android:layout_height="0.5dp"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="6dp"
-        android:background="#FFF9F9F9" />
+        android:background="@color/font_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -291,17 +292,15 @@
         android:id="@+id/attentions_btn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/btn_bg_d9"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="5dp"
+        android:background="@drawable/btn_bg_d9"
         android:layout_marginBottom="5dp"
         android:text="@string/follows"
         android:textColor="#ffffff"
         android:textSize="16dp"
-        android:visibility="gone"
-        />
-
+        android:visibility="gone" />
 </LinearLayout>
 
 

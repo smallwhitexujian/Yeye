@@ -525,7 +525,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 break;
             case GlobalDef.SERVICE_STATUS_SUCCESS://房间服务器连接成功
                 DebugLogs.e("房间连接成功---------SERVICE_STATUS_SUCCESS");
-                setSocketMessage(getString(R.string.socket_msg_sevice_success));
+//                setSocketMessage(getString(R.string.socket_msg_sevice_success));
                 connectionServiceNumber = 0;
                 connTotalNum = 0;
                 boolConnRoom = true;
