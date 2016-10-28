@@ -852,8 +852,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
                 break;
             case Cocos2dxGiftCallback.MSG_FINISH://一个特效播放结束通知
-                bigGift.remove(0);
-                startPlayBigGift();
+                if(bigGift.size() >=0){
+                    bigGift.remove(0);
+                    startPlayBigGift();
+                }
                 break;
         }
     }

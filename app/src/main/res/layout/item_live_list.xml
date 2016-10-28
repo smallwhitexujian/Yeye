@@ -99,6 +99,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="30dp"
+        android:layout_marginRight="50dp"
         android:gravity="center_vertical"
         android:background="@drawable/bg_home_roomname"
         android:layout_alignBottom="@+id/live_cover"
@@ -116,7 +117,7 @@
             android:paddingLeft="10dp"
             android:drawablePadding="10dp"
             android:textSize="14sp"
-            tools:text="asasdasda"
+            tools:text="aklsdjkajlsfjalskjfklasjflakshgkasdhjfl;kajsfl;kajdf;lkjaf;lkjal;ksjdflaksdjf;alkjsdlfk"
             android:visibility="visible"
             tools:ignore="RtlHardcoded" />
 
