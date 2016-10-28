@@ -163,6 +163,8 @@
                 android:divider="@android:color/white"
                 android:paddingLeft="10dp"
                 android:scrollbars="none"
+                android:stackFromBottom="true"
+                android:transcriptMode="normal"
                 tools:ignore="RtlHardcoded,RtlSymmetry" />
         </LinearLayout>
 

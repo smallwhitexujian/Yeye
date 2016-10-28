@@ -1323,9 +1323,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         public void run() {
                             if (mAdapter != null) {
                                 mAdapter.notifyDataSetChanged();
-//                                if (chatline != null) {
-//                                    chatline.setSelection(mAdapter.getCount());
-//                                }
                             }
                         }
                     });

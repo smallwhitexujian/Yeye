@@ -380,6 +380,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        fragmentHandler.removeMessages(MSG_ADAPTER_NOTIFY);
         swipyRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
