@@ -116,7 +116,6 @@
             android:paddingLeft="10dp"
             android:drawablePadding="10dp"
             android:textSize="14sp"
-            tools:text="asasdasda"
             android:visibility="visible"
             tools:ignore="RtlHardcoded" />
 
