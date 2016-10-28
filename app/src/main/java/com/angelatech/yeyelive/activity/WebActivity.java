@@ -37,6 +37,7 @@ public class WebActivity extends HeaderBaseActivity {
     public static final String URL_KEY = WebActivity.class.getName() + "_URL_KEY";
     public static final String PARAM_KEY = WebActivity.class.getName() + "_PARAM_KEY";
     private WebView mWebView;
+    private String type;
     private WebTransportModel mWebTransportModel;
     @SuppressLint("AddJavascriptInterface")
     @Override
@@ -47,11 +48,12 @@ public class WebActivity extends HeaderBaseActivity {
         initView();
         setView();
         String mUrl = mWebTransportModel.url;
+
         String mParamStr = getIntent().getStringExtra(PARAM_KEY);
         if (mParamStr != null && mUrl != null) {
             mUrl = mUrl + "?" + mParamStr;
         }
-        mWebView.loadUrl(mUrl);
+        mWebView.loadUrl(mUrl+ "&time=" + System.currentTimeMillis());
         //增加接口方法,让html页面调用
         mWebView.addJavascriptInterface(new Object(){
             @JavascriptInterface
@@ -70,6 +72,10 @@ public class WebActivity extends HeaderBaseActivity {
                 finish();
             }
         });
+        type = mWebTransportModel.title;
+        if (type.equals(getString(R.string.gift_center))){
+            headerLayout.setVisibility(View.GONE);
+        }
         mWebView = (WebView) findViewById(R.id.web_webview);
     }
 
