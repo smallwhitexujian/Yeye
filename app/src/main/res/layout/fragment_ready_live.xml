@@ -28,7 +28,7 @@
             android:background="@null"
             android:gravity="center"
             android:hint="@string/begin_live_title"
-            android:maxLength="60"
+            android:maxLength="20"
             android:textColor="#FEFEFE"
             android:textColorHint="@color/color_fefefe"
             android:textSize="20sp" />
