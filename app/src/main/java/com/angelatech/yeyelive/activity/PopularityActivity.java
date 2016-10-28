@@ -1,16 +1,14 @@
 package com.angelatech.yeyelive.activity;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.xj.frescolib.View.FrescoRoundView;
 
 /**
@@ -43,9 +41,10 @@ public class PopularityActivity extends Activity {
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             BasicUserInfoDBModel baseInfo = (BasicUserInfoDBModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
-            userface.setImageURI(baseInfo.headurl);
-            txt_popularity.setText(String.valueOf( baseInfo.Intimacy));
+            if (baseInfo !=null && baseInfo.headurl!=null){
+                userface.setImageURI(baseInfo.headurl);
+                txt_popularity.setText(String.valueOf( baseInfo.Intimacy));
+            }
         }
-
     }
 }

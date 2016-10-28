@@ -270,13 +270,15 @@ public class RelationFragment extends BaseFragment implements SwipyRefreshLayout
     }
 
     private void showNodataLayout() {
-        noDataLayout.setVisibility(View.VISIBLE);
-        noDataLayout.findViewById(R.id.hint_textview1).setVisibility(View.VISIBLE);
-        if (type == FocusFans.TYPE_FOCUS) {
-            ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_follow));
-        } else {
-            ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_fans));
+        if (isAdded()){
+            noDataLayout.setVisibility(View.VISIBLE);
+            noDataLayout.findViewById(R.id.hint_textview1).setVisibility(View.VISIBLE);
+            if (type == FocusFans.TYPE_FOCUS) {
+                ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_follow));
+            } else {
+                ((TextView) noDataLayout.findViewById(R.id.hint_textview1)).setText(getString(R.string.no_data_no_fans));
+            }
+            noDataLayout.findViewById(R.id.hint_textview2).setVisibility(View.GONE);
         }
-        noDataLayout.findViewById(R.id.hint_textview2).setVisibility(View.GONE);
     }
 }

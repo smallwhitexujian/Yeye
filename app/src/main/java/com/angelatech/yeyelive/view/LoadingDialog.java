@@ -32,51 +32,57 @@ public class LoadingDialog {
      * es
      */
     public static void showLoadingDialog(Context con, String title) {
-        if (loadingDialog != null) {
-            Window window = loadingDialog.getWindow();
-            TextView dTitle = (TextView) window.findViewById(R.id.dialog_loading_title);
-            if (title != null) {
-                dTitle.setText(title);
-            }
-            return;
-        }
-        loadingDialog = new AlertDialog.Builder(con).create();
-        loadingDialog.setCanceledOnTouchOutside(false);
-        loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));// set background was transparent
-        loadingDialog.getWindow().setDimAmount(0f);// 设置弹框遮盖层隐藏
-        loadingDialog.show();
-        Window window = loadingDialog.getWindow();
-        window.setGravity(Gravity.CENTER);// 居顶显示
-        window.setContentView(R.layout.dialog_loading);
-        ImageView manView = (ImageView) window.findViewById(R.id.dialog_loading_iamge);
-        TextView dTitle = (TextView) window.findViewById(R.id.dialog_loading_title);
-        if (title != null) {
-            dTitle.setText(title);
-        }
-        manView.setImageResource(R.drawable.dialog_loading_animations);
-        animationDrawable = (AnimationDrawable) manView.getDrawable();
-        animationDrawable.start();
-
-        loadingDialog.setOnCancelListener(new OnCancelListener() {
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                if (animationDrawable.isRunning()) {
-                    animationDrawable.stop();
+        try{
+            if (loadingDialog != null) {
+                Window window = loadingDialog.getWindow();
+                TextView dTitle = (TextView) window.findViewById(R.id.dialog_loading_title);
+                if (title != null) {
+                    dTitle.setText(title);
                 }
+                return;
             }
-        });
-
-        loadingDialog.setOnDismissListener(new OnDismissListener() {
-
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (animationDrawable.isRunning()) {
-                    animationDrawable.stop();
+            loadingDialog = new AlertDialog.Builder(con).create();
+            loadingDialog.setCanceledOnTouchOutside(false);
+            loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));// set background was transparent
+            loadingDialog.getWindow().setDimAmount(0f);// 设置弹框遮盖层隐藏
+            loadingDialog.show();
+            if (loadingDialog !=null){
+                Window window = loadingDialog.getWindow();
+                window.setGravity(Gravity.CENTER);// 居顶显示
+                window.setContentView(R.layout.dialog_loading);
+                ImageView manView = (ImageView) window.findViewById(R.id.dialog_loading_iamge);
+                TextView dTitle = (TextView) window.findViewById(R.id.dialog_loading_title);
+                if (title != null) {
+                    dTitle.setText(title);
                 }
+                manView.setImageResource(R.drawable.dialog_loading_animations);
+                animationDrawable = (AnimationDrawable) manView.getDrawable();
+                animationDrawable.start();
+
+                loadingDialog.setOnCancelListener(new OnCancelListener() {
+
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        if (animationDrawable.isRunning()) {
+                            animationDrawable.stop();
+                        }
+                    }
+                });
+
+                loadingDialog.setOnDismissListener(new OnDismissListener() {
+
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (animationDrawable.isRunning()) {
+                            animationDrawable.stop();
+                        }
+                    }
+                });
             }
-        });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

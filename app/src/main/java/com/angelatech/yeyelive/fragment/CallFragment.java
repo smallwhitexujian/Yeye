@@ -530,7 +530,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void afterTextChanged(Editable editable) {
-
             editStart = txt_msg.getSelectionStart();
             editEnd = txt_msg.getSelectionEnd();
             if (temp.length() > 20 && isdanmu) {
@@ -951,7 +950,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * 发送消息
      */
     private void sendMsg() {
-        if (txt_msg.getText().length() > 0) {
+        if (txt_msg.getText().length() > 0 && isAdded()) {
             String msg = DelHtml.delHTMLTag(txt_msg.getText().toString());
             callEvents.onSendMessage(msg, isdanmu);
             txt_msg.setText("");
@@ -989,14 +988,16 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param radioMessage
      */
     private void sendMarquee(BarInfoModel.RadioMessage radioMessage) {
-        marqueeLayout.invalidate();
-        marquee_layout.setFocusable(true);
-        marquee_layout.invalidate();
-        marqueeUtils.restartAnim();
-        final HashMap<String, Object> params = new HashMap<>();
-        Spanned htmlStr = Html.fromHtml("<font color='#ffff00'> <b> " + radioMessage.msg + "</b></font>");
-        params.put(MarqueeUilts.CONTEXT, htmlStr);
-        App.marqueeData.add(params);
+        if (isAdded()){
+            marqueeLayout.invalidate();
+            marquee_layout.setFocusable(true);
+            marquee_layout.invalidate();
+            marqueeUtils.restartAnim();
+            final HashMap<String, Object> params = new HashMap<>();
+            Spanned htmlStr = Html.fromHtml("<font color='#ffff00'> <b> " + radioMessage.msg + "</b></font>");
+            params.put(MarqueeUilts.CONTEXT, htmlStr);
+            App.marqueeData.add(params);
+        }
     }
 
     /**
@@ -1004,13 +1005,18 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      *
      * @param radioMessage
      */
-    private void sendPublicMessage(BarInfoModel.RadioMessage radioMessage) {
-        ChatLineModel chatlinemodel = new ChatLineModel();
-        ChatLineModel.from from = new ChatLineModel.from();
-        chatlinemodel.type = 10;
-        chatlinemodel.message = radioMessage.msg;
-        App.mChatlines.add(chatlinemodel);
-        notifyData();
+    private void sendPublicMessage(final BarInfoModel.RadioMessage radioMessage) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ChatLineModel chatlinemodel = new ChatLineModel();
+                ChatLineModel.from from = new ChatLineModel.from();
+                chatlinemodel.type = 10;
+                chatlinemodel.message = radioMessage.msg;
+                App.mChatlines.add(chatlinemodel);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
@@ -1085,6 +1091,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             cocos2dxGift.destroy();
         }
         mDanmuControl.pause();
+        fragmentHandler.removeMessages(MSG_ADAPTER_CHANGE);
     }
 
     /**
@@ -1316,9 +1323,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         public void run() {
                             if (mAdapter != null) {
                                 mAdapter.notifyDataSetChanged();
-                                if (chatline != null) {
-                                    chatline.setSelection(mAdapter.getCount());
-                                }
+//                                if (chatline != null) {
+//                                    chatline.setSelection(mAdapter.getCount());
+//                                }
                             }
                         }
                     });
