@@ -937,8 +937,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case R.id.btn_danmu:
                 if (isdanmu) {
                     btn_danmu.setImageResource(R.drawable.btn_room_sendtxt_cur_ord);
+                    txt_msg.setHint(R.string.please_input);
                 } else {
                     btn_danmu.setImageResource(R.drawable.btn_room_sendtxt_cur_barrage);
+                    txt_msg.setHint(R.string.send_barrage);
                 }
                 isdanmu = !isdanmu;
                 break;

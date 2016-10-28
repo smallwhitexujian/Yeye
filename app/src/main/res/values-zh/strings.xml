@@ -454,5 +454,6 @@
     <string name="gift_center">礼物中心</string>
     <string name="follows">已关注</string>
     <string name="ta_home">Ta的主页</string>
+    <string name="send_barrage">发送弹幕1金币/条</string>
 
 </resources>
