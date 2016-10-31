@@ -419,45 +419,48 @@
     <string name="red_deft_txt">Message！</string>
     <string name="system_red_more_coins">At least 10 coins</string>
     <string name="send_barrage">1coins/message</string>
-
-    <string name="singnature_title">个性签名</string>
     <string name="title_activity_friend_user_info">FriendUserInfoActivity</string>
-    <string name="Tab_menu_my">我的</string>
-    <string name="tab_menu_room">广场</string>
-    <string name="scan_tips">将条码放入框内，即可自动扫描</string>
-    <string name="scan_tips_1">将二维码/条码放入框内，即可自动扫描</string>
-    <string name="scan_title">扫描二维码</string>
-    <string name="Rank_title">主播排行榜</string>
-    <string name="socket_msg_live_on">视频处理成功</string>
-    <string name="socket_msg_live_off">视频处理失败</string>
-    <string name="socket_msg_conneting">重连中…</string>
-    <string name="socket_msg_watch">主播暂时离开</string>
-    <string name="socket_msg_sevice_success">房间登陆成功…</string>
-    <string name="socket_msg_live_msg">正在处理视频…</string>
-    <string name="capy_to_clipboard">复制到剪切板</string>
-    <string name="capy_to_clip">复制到剪切板成功</string>
-    <string name="yeye_web_title">yeye支付</string>
-    <string name="red_tips_luck">祝你好运！</string>
-    <string name="fans_rank">粉丝贡献榜</string>
-    <string name="xingyunliwu_tips" formatted="false">恭喜%s获得%s倍幸运礼物大奖，获得%s金币</string>
-    <string name="danmu_tips">弹幕最多发送20字符</string>
     <string name="title_activity_fans_rank">FansRankActivity</string>
     <string name="title_activity_popularity">PopularityActivity</string>
-    <string name="zmd_tip1">你差一点就成为网红啦</string>
-    <string name="zmd_tip2">如何提升知名度</string>
-    <string name="zmd_tip3">知名度有什么用</string>
-    <string name="zmd_tip4">1、带你装逼带你飞，分分钟上热门</string>
-    <string name="zmd_tip5">2、专属头标彰显身份</string>
-    <string name="zmd_tip6">3、进场特效，粉丝关注不迷路</string>
-    <string name="zmd_tip7">更多特权敬请期待!</string>
-    <string name="room_hd">房间互动</string>
-    <string name="fans_count">粉丝量</string>
-    <string name="see_live">看直播</string>
-    <string name="way_live">开播</string>
-    <string name="send_gift">送礼物</string>
-    <string name="way_share">分享作品</string>
-    <string name="gift_center">礼物中心</string>
-    <string name="follows">已关注</string>
-    <string name="ta_home">Ta的主页</string>
+
+
+    <string name="singnature_title">Signature</string>
+    <string name="Tab_menu_my">Me</string>
+    <string name="tab_menu_room">Home</string>
+    <string name="scan_tips">Put the QR Code and Scan</string>
+    <string name="scan_tips_1">Put the QR Code and Scan</string>
+    <string name="scan_title">Scan QR Code</string>
+    <string name="Rank_title">The Red Chart</string>
+    <string name="socket_msg_live_on">Video Saved</string>
+    <string name="socket_msg_live_off">Failed to save the video</string>
+    <string name="socket_msg_conneting">reconnecting</string>
+    <string name="socket_msg_watch">Come back</string>
+    <string name="socket_msg_sevice_success">Enter the room successfully</string>
+    <string name="socket_msg_live_msg">dealing with the video</string>
+    <string name="capy_to_clipboard">Copy link</string>
+    <string name="capy_to_clip">Copied successfully</string>
+    <string name="yeye_web_title">other payment</string>
+    <string name="red_tips_luck">Good Luck</string>
+    <string name="fans_rank" >Top Fans</string>
+    <string name="xingyunliwu_tips" formatted="false">Congrats. to %s get %s times rewards，get %s coins</string>
+    <string name="danmu_tips">Danmuka only allow 20 letters</string>
+
+    <string name="zmd_tip1">You are almost become famous</string>
+    <string name="zmd_tip2">How to improve Popularity</string>
+    <string name="zmd_tip3">Good of popularity</string>
+    <string name="zmd_tip4">1. Bring you act cool bring you fly,bring you high high Yeye Live!</string>
+    <string name="zmd_tip5">2. Distinguished by Level and Icon</string>
+    <string name="zmd_tip6">3. Get the attention in each action</string>
+    <string name="zmd_tip7">More privileges are coming!</string>
+    <string name="room_hd">Interact with people</string>
+    <string name="fans_count">Fans Number</string>
+    <string name="see_live">Watch Live Show</string>
+    <string name="way_live">Start Live</string>
+    <string name="send_gift">Send Gift</string>
+    <string name="way_share">Share anything</string>
+
+    <string name="gift_center">Gift</string>
+    <string name="follows">Followed</string>
+    <string name="ta_home">Home Page</string>
 
 </resources>
