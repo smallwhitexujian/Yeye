@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -1001,6 +1002,11 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     }
 
     @Override
+    public boolean onZoomValueChanged(float factor) {
+        return super.onZoomValueChanged(factor);
+    }
+
+    @Override
     public void onCamera() {
         new ActionSheetDialog(this)
                 .builder()
@@ -1216,6 +1222,10 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         callFragment.notifyData();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

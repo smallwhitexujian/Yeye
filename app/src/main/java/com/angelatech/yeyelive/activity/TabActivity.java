@@ -11,12 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.TransactionValues;
-import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
 import com.angelatech.yeyelive.fragment.SevenRankFragment;
-import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.util.MyOnPageChangeListener;
 
 import java.util.ArrayList;

@@ -9,7 +9,6 @@ import com.angelatech.yeyelive.activity.MessageFansActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.MessageOfficialActivity;
 import com.angelatech.yeyelive.activity.MessageRedActivity;
-import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.TabMenuActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
@@ -24,6 +23,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.NotificationUtil;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.time.DateTimeTool;
 
 import org.json.JSONException;

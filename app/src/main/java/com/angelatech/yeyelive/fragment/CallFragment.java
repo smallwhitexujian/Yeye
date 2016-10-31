@@ -17,9 +17,12 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -182,6 +185,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private IDanmakuView mDanmakuView;
     private DanmuControl mDanmuControl;
+    private ScaleGestureDetector mScaleDetector;
+    private GestureDetector mGestureDetector;
 
     public void setDiamonds(String diamonds) {
         try {
@@ -234,6 +239,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
         //结束直播
         void closeLive();
+
+        //手势监听
+        boolean onZoomValueChanged(float factor);
+
+        boolean onSingleTapUp(MotionEvent e);
     }
 
     @Override
@@ -510,7 +520,53 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+        initialize(getActivity());
+        ly_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!mGestureDetector.onTouchEvent(event)) {
+                    return mScaleDetector.onTouchEvent(event);
+                }
+                return true;
+            }
+        });
+
     }
+
+    private void initialize(Context context) {
+        mScaleDetector = new ScaleGestureDetector(context, mScaleListener);
+        mGestureDetector = new GestureDetector(context, mGestureListener);
+    }
+
+    private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (callEvents != null) {
+                callEvents.onSingleTapUp(e);
+            }
+            return false;
+        }
+    };
+
+    private ScaleGestureDetector.SimpleOnScaleGestureListener mScaleListener = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        private float mScaleFactor = 1.0f;
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            return true;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            // factor > 1, zoom
+            // factor < 1, pinch
+            mScaleFactor *= detector.getScaleFactor();
+
+            // Don't let the object get too small or too large.
+            mScaleFactor = Math.max(0.01f, Math.min(mScaleFactor, 1.0f));
+            callEvents.onZoomValueChanged(mScaleFactor);
+            return callEvents != null && callEvents.onZoomValueChanged(mScaleFactor);
+        }
+    };
 
     /*监听输入事件*/
     private TextWatcher textWatcher = new TextWatcher() {
@@ -612,6 +668,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }
     }
+
 
     /**
      * 初始化列表

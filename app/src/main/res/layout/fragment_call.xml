@@ -335,7 +335,8 @@
             <include
                 android:id="@+id/giftView"
                 layout="@layout/view_giftlayout"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 
