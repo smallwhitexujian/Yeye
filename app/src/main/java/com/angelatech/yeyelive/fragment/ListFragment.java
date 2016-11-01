@@ -122,7 +122,7 @@ public class ListFragment extends BaseFragment {
         });
         clearTabColor();
         clearTabTextSize();
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(1);
         hotTab.setCompoundDrawables(null, null, null, drawable);
         hotTab.setTextSize(DisplayTool.dip2px(getActivity(), 18));
         hotTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
@@ -154,7 +154,7 @@ public class ListFragment extends BaseFragment {
                 StartActivityHelper.jumpActivityDefault(getActivity(), RankActivity.class);
                 break;
             case R.id.hot_textview:
-                viewPager.setCurrentItem(0);
+                viewPager.setCurrentItem(1);
                 clearTabColor();
                 hotTab.setCompoundDrawables(null, null, null, drawable);
                 hotTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
@@ -166,7 +166,7 @@ public class ListFragment extends BaseFragment {
                 followTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
                 break;
             case R.id.new_textview:
-                viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(0);
                 clearTabColor();
                 newTab.setCompoundDrawables(null, null, null, drawable);
                 newTab.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));

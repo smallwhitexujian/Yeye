@@ -230,7 +230,7 @@ public class MainActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(1);
         clearTabColor();
         clearTabTextSize();
         hotTab.setCompoundDrawables(null, null, null, drawable);

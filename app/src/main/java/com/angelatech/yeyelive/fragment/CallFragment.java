@@ -49,7 +49,6 @@ import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
-import com.angelatech.yeyelive.activity.TabActivity;
 import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
@@ -1008,7 +1007,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.diamonds:
                 setShowCocosView();
-                StartActivityHelper.jumpActivityDefault(getActivity(), TabActivity.class);
+                TabDialogFragment tabDialogFragment = new TabDialogFragment();
+                tabDialogFragment.show(getActivity().getSupportFragmentManager(), "");
                 break;
             case R.id.btn_danmu:
                 if (isdanmu) {

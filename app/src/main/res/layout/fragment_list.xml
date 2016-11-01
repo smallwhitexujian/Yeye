@@ -40,18 +40,7 @@
                 android:orientation="horizontal"
                 tools:ignore="RtlHardcoded">
 
-                <TextView
-                    android:id="@+id/hot_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:drawablePadding="4dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/live_hot"
-                    android:textColor="@color/color_d80c18"
-                    android:textSize="18sp" />
+
 
                 <TextView
                     android:id="@+id/new_textview"
@@ -59,14 +48,26 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
+
                     android:drawablePadding="4dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/live_new"
                     android:textColor="@color/color_d80c18"
                     android:textSize="18sp" />
-
+                <TextView
+                    android:id="@+id/hot_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="4dp"
+                    android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/live_hot"
+                    android:textColor="@color/color_d80c18"
+                    android:textSize="18sp" />
                 <TextView
                     android:id="@+id/follow_textview"
                     android:layout_width="match_parent"
