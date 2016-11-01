@@ -34,11 +34,13 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             String hotTab = context.getString(R.string.live_hot);
             String followTab = context.getString(R.string.live_follow);
             String newTab = context.getString(R.string.live_new);
-            tabTitles.add(hotTab);
+
             tabTitles.add(newTab);
+            tabTitles.add(hotTab);
             tabTitles.add(followTab);
-            fragments.put(hotTab, LiveVideoHotFragment.newInstance(1));
+
             fragments.put(newTab, NewFragment.newInstance(0));
+            fragments.put(hotTab, LiveVideoHotFragment.newInstance(1));
             fragments.put(followTab, LiveVideoHotFragment.newInstance(2));
         }
     }
