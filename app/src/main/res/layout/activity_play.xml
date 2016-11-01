@@ -149,7 +149,14 @@
                 android:src="@drawable/btn_room_concern_n"
                 android:visibility="gone"
                 tools:visibility="visible" />
-
+            <ImageView
+                android:id="@+id/btn_room_exchange"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:contentDescription="@null"
+                android:padding="8dp"
+                android:src="@drawable/btn_room_exchange_n"
+                android:visibility="visible" />
             <ImageView
                 android:id="@+id/btn_red"
                 android:layout_width="56dp"

@@ -140,12 +140,12 @@
         <include
             layout="@layout/view_gift"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <include
             layout="@layout/view_gift_s"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,7 +171,7 @@
         <LinearLayout
             android:id="@+id/ly_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -179,100 +179,79 @@
 
             <ImageView
                 android:id="@+id/img_open_send"
-                android:layout_width="50dp"
-                android:layout_height="56dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="@string/chatline"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_chat_n"
                 tools:ignore="RtlHardcoded" />
 
             <ImageView
                 android:id="@+id/btn_share"
-                android:layout_width="50dp"
-                android:layout_height="56dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="@string/share"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_share_n"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/btn_room_more"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/switch_camera"
+                android:src="@drawable/btn_room_more_n"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:ignore="RtlHardcoded" />
 
             <ImageView
                 android:id="@+id/btn_Follow"
-                android:layout_width="50dp"
-                android:layout_height="56dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="@string/follow"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:src="@drawable/btn_room_concern_n"
                 android:visibility="gone"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/button_call_switch_camera"
-                android:layout_width="50dp"
-                android:layout_height="56dp"
-                android:layout_gravity="bottom"
-                android:contentDescription="@string/switch_camera"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
-                android:src="@drawable/btn_room_exchange_n"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/button_beautiful"
-                android:layout_width="50dp"
-                android:layout_height="56dp"
-                android:layout_gravity="bottom"
-                android:contentDescription="@string/switch_camera"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
-                android:src="@drawable/btn_start_play_beautiful_s"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/button_lamp"
-                android:layout_width="50dp"
-                android:layout_height="56dp"
-                android:layout_gravity="bottom"
-                android:contentDescription="@string/switch_camera"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
-                android:src="@drawable/btn_start_play_flash_n"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                tools:ignore="RtlHardcoded" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
+            <ImageView
+                android:id="@+id/btn_room_exchange"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/switch_camera"
+                android:src="@drawable/btn_room_exchange_n"
+                android:visibility="visible"
+                tools:visibility="visible"
+                tools:ignore="RtlHardcoded" />
             <ImageView
                 android:id="@+id/giftbtn"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:contentDescription="@string/gift"
-                android:padding="10dp"
                 android:src="@drawable/btn_room_gift_n"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
@@ -336,17 +315,62 @@
                 android:id="@+id/giftView"
                 layout="@layout/view_giftlayout"
                 android:visibility="gone"
-                tools:visibility="gone"/>
+                tools:visibility="gone" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_toolbar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="46dp"
+        android:layout_marginLeft="105dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical"
+        tools:visibility="visible"
+        tools:ignore="RtlHardcoded">
+
+        <ImageView
+            android:id="@+id/button_beautiful"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/switch_camera"
+            android:src="@drawable/btn_start_play_beautiful_s"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/button_lamp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/switch_camera"
+            android:src="@drawable/btn_start_play_flash_n"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/button_call_switch_camera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/switch_camera"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/btn_room_reverse_camera_n"
+            android:visibility="gone"
+            tools:visibility="visible" />
     </LinearLayout>
 
     <com.angelatech.yeyelive.view.PeriscopeLayout
         android:id="@+id/PeriscopeLayout"
         android:layout_width="80dp"
         android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
+        tools:ignore="RtlHardcoded"
+        android:layout_alignBottom="@+id/ly_toolbar2"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="44dp"
-        tools:ignore="RtlHardcoded" />
-
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

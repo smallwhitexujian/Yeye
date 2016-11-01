@@ -41,6 +41,7 @@ import com.angelatech.yeyelive.mediaplayer.SurfaceViewHolderCallback;
 import com.angelatech.yeyelive.mediaplayer.VideoPlayer;
 import com.angelatech.yeyelive.mediaplayer.util.PlayerUtil;
 import com.angelatech.yeyelive.model.VideoModel;
+import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.thirdShare.SinaShare;
@@ -87,7 +88,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private RelativeLayout ly_playfinish;
     private SeekBar player_seekBar;
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
-    private ImageView btn_share, btn_Follow, player_play_btn, backBtn, btn_red;
+    private ImageView btn_share, btn_Follow, player_play_btn, backBtn, btn_red,btn_room_exchange;
     private VideoPlayer mVideoPlayer;
 
     private String path;
@@ -199,6 +200,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
         player_play_btn = (ImageView) findViewById(R.id.player_play_btn);
         btn_red = (ImageView) findViewById(R.id.btn_red);
+        btn_room_exchange = (ImageView) findViewById(R.id.btn_room_exchange);
         player_replay_btn = (Button) findViewById(R.id.player_replay_btn);
 
         btn_Follow = (ImageView) findViewById(R.id.btn_Follow);
@@ -227,6 +229,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         btn_back.setOnClickListener(click);
         tv_report.setOnClickListener(click);
         backBtn.setOnClickListener(click);
+        btn_room_exchange.setOnClickListener(click);
         layout_onClick.setOnClickListener(click);
         // 为进度条添加进度更改事件
         player_seekBar.setOnSeekBarChangeListener(change);
@@ -358,6 +361,14 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     uiHandler.postDelayed(runnable, 5000);
                     player_seekBar.setVisibility(View.VISIBLE);
                     player_ctl_layout.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.btn_room_exchange:
+                    WebTransportModel webTransportModel = new WebTransportModel();
+                    webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&time=" + System.currentTimeMillis();
+                    webTransportModel.title = getString(R.string.gift_center);
+                    if (!webTransportModel.url.isEmpty()) {
+                        StartActivityHelper.jumpActivity(PlayActivity.this, WebActivity.class, webTransportModel);
+                    }
                     break;
                 default:
                     break;

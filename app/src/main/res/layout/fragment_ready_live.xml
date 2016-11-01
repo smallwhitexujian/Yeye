@@ -180,7 +180,7 @@
             android:layout_toRightOf="@+id/layout_ticket"
             android:contentDescription="@string/switch_camera"
             android:padding="10dp"
-            android:src="@drawable/btn_room_exchange_n"
+            android:src="@drawable/btn_room_reverse_camera_n"
             tools:ignore="RtlHardcoded" />
 
 

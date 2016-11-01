@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <!-- 获取GPS经纬度权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 获取相机权限 -->
