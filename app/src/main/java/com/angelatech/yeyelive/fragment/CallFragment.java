@@ -126,7 +126,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView iv_vip;
     private ImageView btn_beautiful;
     private ImageView btn_lamp;
-    private ImageView btn_room_exchange;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
     private FrescoRoundView img_head, gif_img_head, gif_img_head_s;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
@@ -275,17 +274,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         return 0;
     }
 
-    //根据礼物ID获取礼物图片
-    public String getGiftimg(int giftId) {
-        int k = App.giftdatas.size();
-        for (int i = 0; i < k; i++) {
-            if (App.giftdatas.get(i).getID() == giftId) {
-                return App.giftdatas.get(i).getImageURL();
-            }
-        }
-        return "";
-    }
-
     private void initView() {
         if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
             liveUserModel = ChatRoomActivity.roomModel.getUserInfoDBModel();
@@ -320,7 +308,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         btn_room_more = (ImageView) controlView.findViewById(R.id.btn_room_more);
         btn_beautiful = (ImageView) controlView.findViewById(R.id.button_beautiful);
         btn_lamp = (ImageView) controlView.findViewById(R.id.button_lamp);
-        btn_room_exchange = (ImageView) controlView.findViewById(R.id.btn_room_exchange);
+        ImageView btn_room_exchange = (ImageView) controlView.findViewById(R.id.btn_room_exchange);
         iv_vip = (ImageView) controlView.findViewById(R.id.iv_vip);
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         diamondsStr = (TextView) controlView.findViewById(R.id.diamonds);
@@ -958,7 +946,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 callEvents.onSendGift(toPeople.uid, giftId, nNum);
                 giftView.setVisibility(View.GONE);
                 ly_toolbar.setVisibility(View.VISIBLE);
-                ly_toolbar2.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_Follow:
                 UserFollow();
@@ -1407,7 +1394,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_send.setVisibility(View.GONE);
                         ly_send.clearFocus();
                         ly_toolbar.setVisibility(View.VISIBLE);
-                        ly_toolbar2.setVisibility(View.VISIBLE);
                     }
                 }
                 break;

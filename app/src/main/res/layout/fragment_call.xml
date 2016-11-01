@@ -328,7 +328,7 @@
         android:layout_marginLeft="105dp"
         android:paddingBottom="5dp"
         android:orientation="vertical"
-        tools:visibility="visible"
+        android:visibility="gone"
         tools:ignore="RtlHardcoded">
 
         <ImageView
