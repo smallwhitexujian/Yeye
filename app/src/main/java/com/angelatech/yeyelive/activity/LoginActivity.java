@@ -33,6 +33,9 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.widget.LoginButton;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
@@ -210,6 +213,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     CacheDataManager.getInstance().deleteAll();
                     isLogin = true;
                     new Register(this, uiHandler).fbRegister((String) msg.obj, DeviceTool.getUniqueID(LoginActivity.this));
+
+//                    new GraphRequest(
+//                            AccessToken.getCurrentAccessToken(),
+//                            "read_custom_friendlists",
+//                            null,
+//                            HttpMethod.GET,
+//                            new GraphRequest.Callback() {
+//                                public void onCompleted(GraphResponse response) {
+//                                    DebugLogs.e("GraphResponse"+response.toString());
+//            /* handle the result */
+//                                }
+//                            }
+//                    ).executeAsync();
                 }
                 break;
             case FbProxy.FB_LOGIN_ERROR:
