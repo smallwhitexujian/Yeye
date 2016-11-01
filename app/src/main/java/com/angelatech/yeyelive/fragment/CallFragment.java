@@ -931,7 +931,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.diamonds:
                 setShowCocosView();
-                StartActivityHelper.jumpActivityDefault(getActivity(), TabActivity.class);
+                TabDialogFragment tabDialogFragment = new TabDialogFragment();
+                tabDialogFragment.show(getActivity().getSupportFragmentManager(), "");
                 break;
             case R.id.btn_danmu:
                 if (isdanmu) {

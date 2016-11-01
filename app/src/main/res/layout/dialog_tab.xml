@@ -3,13 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/circle_coner_bg"
     android:orientation="vertical">
-
-    <com.angelatech.yeyelive.view.HeaderLayout
-        android:id="@+id/headerLayout"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="45dp">
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="45dp" />
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="@string/fans_rank"
+        android:textColor="#FF262626"
+        android:textSize="17dp" />
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/btn_information_close_n" />
+</RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -29,9 +43,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@color/white"
-            android:textColor="@color/font_grey"
+            android:gravity="center"
+            android:textColor="@color/color_d80c18"
             android:textSize="16sp"
             tools:text="@string/rank_seven_dedicated" />
 
@@ -41,8 +55,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@color/white"
+            android:gravity="center"
             android:textColor="@color/font_grey"
             android:textSize="16sp"
             android:visibility="gone"
@@ -59,10 +73,11 @@
         android:paddingRight="100dp"
         android:scaleType="matrix"
         android:src="@color/color_d80c18" />
-
     <android.support.v4.view.ViewPager
-        android:layout_marginTop="5dp"
         android:id="@+id/mAbSlidingTabView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginBottom="10dp"
+       />
+
 </LinearLayout>
