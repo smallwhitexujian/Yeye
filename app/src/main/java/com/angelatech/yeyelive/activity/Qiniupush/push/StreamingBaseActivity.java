@@ -22,7 +22,6 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.Qiniupush.push.gles.FBO;
 import com.angelatech.yeyelive.activity.Qiniupush.push.ui.RotateLayout;
-import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.application.App;
 import com.qiniu.android.dns.DnsManager;
@@ -45,6 +44,7 @@ import com.qiniu.pili.droid.streaming.StreamingSessionListener;
 import com.qiniu.pili.droid.streaming.StreamingState;
 import com.qiniu.pili.droid.streaming.StreamingStateChangedListener;
 import com.qiniu.pili.droid.streaming.SurfaceTextureCallback;
+import com.will.common.log.DebugLogs;
 
 import org.json.JSONObject;
 

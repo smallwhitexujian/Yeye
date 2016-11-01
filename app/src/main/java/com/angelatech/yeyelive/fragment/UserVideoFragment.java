@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.PlayActivity;
-import com.angelatech.yeyelive.activity.Qiniupush.widget.DebugLogs;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.PlayRecord;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
@@ -233,7 +232,6 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
 
             @Override
             public void onSuccess(String response) {
-                DebugLogs.e("response9999" + response);
                 synchronized (lock) {
                     try {
                         CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {

@@ -17,9 +17,12 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -46,7 +49,7 @@ import com.angelatech.yeyelive.GlobalDef;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
-import com.angelatech.yeyelive.activity.TabActivity;
+import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.adapter.ChatLineAdapter;
 import com.angelatech.yeyelive.adapter.CustomerPageAdapter;
@@ -62,6 +65,7 @@ import com.angelatech.yeyelive.model.Danmu;
 import com.angelatech.yeyelive.model.GiftAnimationModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.OnlineListModel;
+import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
 import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.util.BinarySearch;
@@ -116,12 +120,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int MSG_ADAPTER_CHANGE = 25;
     private ImageView cameraSwitchButton;
 
-    private ImageView btn_Follow, btn_share, iv_vip, btn_beautiful, btn_lamp;
+    private ImageView btn_Follow;
+    private ImageView btn_share, btn_room_more;
+    private ImageView iv_vip;
+    private ImageView btn_beautiful;
+    private ImageView btn_lamp;
+    private ImageView btn_room_exchange;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
     private FrescoRoundView img_head, gif_img_head, gif_img_head_s;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
     private EditText txt_msg;
-    private LinearLayout ly_send, ly_toolbar, ly_main, giftView;                                    // 礼物界面
+    private LinearLayout ly_send, ly_toolbar, ly_toolbar2, ly_main, giftView;                                    // 礼物界面
     private Spinner roomPopSpinner, roomGiftNumSpinner;                                             // 礼物个数列表
     private int giftId;                                                                             // 礼物的ID
     private int isFollow;
@@ -182,6 +191,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private IDanmakuView mDanmakuView;
     private DanmuControl mDanmuControl;
+    private ScaleGestureDetector mScaleDetector;
+    private GestureDetector mGestureDetector;
 
     public void setDiamonds(String diamonds) {
         try {
@@ -234,6 +245,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
         //结束直播
         void closeLive();
+
+        //手势监听
+        boolean onZoomValueChanged(float factor);
+
+        boolean onSingleTapUp(MotionEvent e);
     }
 
     @Override
@@ -285,6 +301,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         ImageView giftBtn = (ImageView) controlView.findViewById(R.id.giftbtn);
         timer = (Chronometer) controlView.findViewById(R.id.chronometer);
         ly_toolbar = (LinearLayout) controlView.findViewById(R.id.ly_toolbar);
+        ly_toolbar2 = (LinearLayout) controlView.findViewById(R.id.ly_toolbar2);
         ly_send = (LinearLayout) controlView.findViewById(R.id.ly_send);
         ly_main = (LinearLayout) controlView.findViewById(R.id.ly_main);
         loveView = (PeriscopeLayout) controlView.findViewById(R.id.PeriscopeLayout);
@@ -299,8 +316,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         txt_online = (TextView) controlView.findViewById(R.id.txt_online);
         btn_Follow = (ImageView) controlView.findViewById(R.id.btn_Follow);
         btn_share = (ImageView) controlView.findViewById(R.id.btn_share);
+        btn_room_more = (ImageView) controlView.findViewById(R.id.btn_room_more);
         btn_beautiful = (ImageView) controlView.findViewById(R.id.button_beautiful);
         btn_lamp = (ImageView) controlView.findViewById(R.id.button_lamp);
+        btn_room_exchange = (ImageView) controlView.findViewById(R.id.btn_room_exchange);
         iv_vip = (ImageView) controlView.findViewById(R.id.iv_vip);
         gift_Diamonds = (TextView) controlView.findViewById(R.id.gift_Diamonds);
         diamondsStr = (TextView) controlView.findViewById(R.id.diamonds);
@@ -309,9 +328,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
         int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             rootView.setPadding(0, statusBarHeight, 0, 0);
-        }else{
+        } else {
             rootView.setPadding(0, 0, 0, statusBarHeight);
         }
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
@@ -328,9 +347,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         giftBtn.setOnClickListener(this);
         btn_Follow.setOnClickListener(this);
         btn_share.setOnClickListener(this);
+        btn_room_more.setOnClickListener(this);
         img_head.setOnClickListener(this);
         txt_barName.setOnClickListener(this);
         btn_lamp.setOnClickListener(this);
+        btn_room_exchange.setOnClickListener(this);
         btn_beautiful.setOnClickListener(this);
         gift_Recharge.setOnClickListener(this);
         btn_danmu.setOnClickListener(this);
@@ -510,7 +531,54 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+        initialize(getActivity());
+        ly_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!mGestureDetector.onTouchEvent(event)) {
+                    return mScaleDetector.onTouchEvent(event);
+                }
+                return true;
+            }
+        });
+
     }
+
+    private void initialize(Context context) {
+        mScaleDetector = new ScaleGestureDetector(context, mScaleListener);
+        mGestureDetector = new GestureDetector(context, mGestureListener);
+    }
+
+    private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (callEvents != null) {
+                callEvents.onSingleTapUp(e);
+            }
+            return false;
+        }
+    };
+
+    private ScaleGestureDetector.SimpleOnScaleGestureListener mScaleListener = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        private float mScaleFactor = 1.0f;
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            return true;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            // factor > 1, zoom
+            // factor < 1, pinch
+            mScaleFactor *= detector.getScaleFactor();
+
+            // Don't let the object get too small or too large.
+            mScaleFactor = Math.max(0.01f, Math.min(mScaleFactor, 1.0f));
+            callEvents.onZoomValueChanged(mScaleFactor);
+            return callEvents != null && callEvents.onZoomValueChanged(mScaleFactor);
+        }
+    };
 
     /*监听输入事件*/
     private TextWatcher textWatcher = new TextWatcher() {
@@ -612,6 +680,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }
     }
+
 
     /**
      * 初始化列表
@@ -801,8 +870,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (!userModel.userid.equals(liveUserModel.userid)) {
             cameraSwitchButton.setVisibility(View.GONE);
             btn_share.setVisibility(View.VISIBLE);
+            btn_room_more.setVisibility(View.GONE);
             UserIsFollow();
         } else {
+            btn_room_more.setVisibility(View.VISIBLE);
             cameraSwitchButton.setVisibility(View.VISIBLE);
             btn_share.setVisibility(View.VISIBLE);
             btn_Follow.setVisibility(View.GONE);
@@ -859,6 +930,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 txt_msg.setFocusableInTouchMode(true);
                 txt_msg.requestFocus();
                 ly_toolbar.setVisibility(View.GONE);
+                ly_toolbar2.setVisibility(View.GONE);
                 Utility.openKeybord(txt_msg, getActivity());
                 break;
             case R.id.giftbtn:
@@ -867,6 +939,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
+                ly_toolbar2.setVisibility(View.GONE);
                 break;
             case R.id.gift_send:
                 int nNum = Integer.parseInt(roomGiftNumSpinner.getSelectedItem().toString());
@@ -884,11 +957,27 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 callEvents.onSendGift(toPeople.uid, giftId, nNum);
                 giftView.setVisibility(View.GONE);
                 ly_toolbar.setVisibility(View.VISIBLE);
+                ly_toolbar2.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_Follow:
                 UserFollow();
                 callEvents.onSendMessage(GlobalDef.APPEND_FOLLOW, false);
                 btn_Follow.setClickable(false);
+                break;
+            case R.id.btn_room_more:
+                if (ly_toolbar2.getVisibility() == View.VISIBLE) {
+                    ly_toolbar2.setVisibility(View.GONE);
+                } else if (ly_toolbar2.getVisibility() == View.GONE) {
+                    ly_toolbar2.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.btn_room_exchange://房间跳转商城
+                WebTransportModel webTransportModel = new WebTransportModel();
+                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + liveUserModel.userid + "&token=" + liveUserModel.token + "&time=" + System.currentTimeMillis();
+                webTransportModel.title = getString(R.string.gift_center);
+                if (!webTransportModel.url.isEmpty()) {
+                    StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
+                }
                 break;
             case R.id.btn_share:
                 setShowCocosView();
@@ -989,7 +1078,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      * @param radioMessage
      */
     private void sendMarquee(BarInfoModel.RadioMessage radioMessage) {
-        if (isAdded()){
+        if (isAdded()) {
             marqueeLayout.invalidate();
             marquee_layout.setFocusable(true);
             marquee_layout.invalidate();
@@ -1027,8 +1116,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         try {
             if (radioMessage.code == 0) {//表示成功
                 if (radioMessage.type_code == 95) {//幸运礼物
-                    radioMessage.msg = String.format( getString(R.string.xingyunliwu_tips) ,radioMessage.from.name,radioMessage.multiple,radioMessage.coin_bonus);
-                    if( Float.parseFloat( radioMessage.multiple) > 0.5 && radioMessage.from_room.roomid == ChatRoomActivity.roomModel.getId() ) {
+                    radioMessage.msg = String.format(getString(R.string.xingyunliwu_tips), radioMessage.from.name, radioMessage.multiple, radioMessage.coin_bonus);
+                    if (Float.parseFloat(radioMessage.multiple) > 0.5 && radioMessage.from_room.roomid == ChatRoomActivity.roomModel.getId()) {
                         callEvents.playXingYunGift();
                     }
                 }
@@ -1183,9 +1272,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (ly_send.getVisibility() == View.VISIBLE) {
             ly_send.setVisibility(View.GONE);
             ly_toolbar.setVisibility(View.VISIBLE);
+            ly_toolbar2.setVisibility(View.GONE);
         } else if (giftView.getVisibility() == View.VISIBLE) {
             giftView.setVisibility(View.GONE);
             ly_toolbar.setVisibility(View.VISIBLE);
+            ly_toolbar2.setVisibility(View.GONE);
         }
     }
 
@@ -1252,6 +1343,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case MSG_OPEN_GIFT_LAYOUT:
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
+                ly_toolbar2.setVisibility(View.GONE);
                 setSpinnerItemSelectedByValue(roomPopSpinner, ((BasicUserInfoModel) msg.obj).nickname);
                 break;
             case HANDLER_GIFT_CHANGE_BACKGROUND:
@@ -1290,9 +1382,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (ly_main != null) {
                     int getVirtualBarHeigh = ScreenUtils.getVirtualBarHeigh(getActivity());
                     ViewGroup.LayoutParams params = ly_main.getLayoutParams();
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         params.height = App.screenDpx.heightPixels - (int) msg.obj + getVirtualBarHeigh;
-                    }else{
+                    } else {
                         params.height = App.screenDpx.heightPixels - (int) msg.obj;
                     }
                     params.width = App.screenDpx.widthPixels;
@@ -1301,6 +1393,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_send.setVisibility(View.VISIBLE);
                         ly_send.findFocus();
                         ly_toolbar.setVisibility(View.GONE);
+                        ly_toolbar2.setVisibility(View.GONE);
                     }
                 }
                 break;
@@ -1314,6 +1407,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_send.setVisibility(View.GONE);
                         ly_send.clearFocus();
                         ly_toolbar.setVisibility(View.VISIBLE);
+                        ly_toolbar2.setVisibility(View.VISIBLE);
                     }
                 }
                 break;
