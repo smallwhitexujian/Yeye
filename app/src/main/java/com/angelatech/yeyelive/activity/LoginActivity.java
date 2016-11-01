@@ -232,8 +232,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 Log.e("error--->", "error");
                 AccessToken.setCurrentAccessToken(null);
+                LoadingDialog.cancelLoadingDialog();
                 break;
             case WxProxy.WX_LOGIN:
+                LoadingDialog.cancelLoadingDialog();
                 LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 DebugLogs.e("======微信注册======");
                 new Register(this, uiHandler).wxRegister(msg.obj.toString(), DeviceTool.getUniqueID(this));
