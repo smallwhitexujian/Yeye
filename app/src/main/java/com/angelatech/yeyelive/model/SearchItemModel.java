@@ -15,7 +15,7 @@ public class SearchItemModel implements Serializable{
     public String sex;
     public String headurl;
     public String isfollow;
-    public String isv;
+    public String isv = "0";
 
 
 }

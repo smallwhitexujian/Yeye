@@ -102,22 +102,24 @@ public class SearchActivity extends WithBroadCastActivity {
                     helper.setImageResource(R.id.attention_btn, R.drawable.btn_focus);
                 }
                 //0 无 1 v 2 金v 9官
-                switch (item.isv){
-                    case "1":
-                        helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_white);
-                        helper.showView(R.id.iv_vip);
-                        break;
-                    case "2":
-                        helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_gold);
-                        helper.showView(R.id.iv_vip);
-                        break;
-                    case "9":
-                        helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_official);
-                        helper.showView(R.id.iv_vip);
-                        break;
-                    default:
-                        helper.hideView(R.id.iv_vip);
-                        break;
+                if (item.isv!=null){
+                    switch (item.isv){
+                        case "1":
+                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_white);
+                            helper.showView(R.id.iv_vip);
+                            break;
+                        case "2":
+                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_gold);
+                            helper.showView(R.id.iv_vip);
+                            break;
+                        case "9":
+                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_official);
+                            helper.showView(R.id.iv_vip);
+                            break;
+                        default:
+                            helper.hideView(R.id.iv_vip);
+                            break;
+                    }
                 }
                 helper.setOnClick(R.id.attention_btn, new View.OnClickListener() {
                     @Override
