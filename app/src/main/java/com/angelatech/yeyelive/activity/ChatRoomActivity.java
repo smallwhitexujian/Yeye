@@ -1119,6 +1119,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onPause();
         }
+        if (chatManager!=null){
+            chatManager.pause();
+        }
         super.onPause();
     }
 
@@ -1126,6 +1129,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     public void onResume() {
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onResume();
+        }
+        if (chatManager!=null){
+            chatManager.resume();
         }
         super.onResume();
     }

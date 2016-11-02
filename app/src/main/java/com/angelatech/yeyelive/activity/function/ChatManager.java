@@ -97,4 +97,16 @@ public class ChatManager {
     public void AddChatMessage(final ChatLineModel chatLineModel) {
         App.mChatlines.add(chatLineModel);
     }
+
+    public void pause() {
+        if (fixedThreadPool!=null){
+            fixedThreadPool.pause();
+        }
+    }
+
+    public void resume() {
+        if (fixedThreadPool!=null){
+            fixedThreadPool.resume();
+        }
+    }
 }

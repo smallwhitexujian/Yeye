@@ -36,9 +36,8 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     private ChatRoom chatRoom;
     private IShowUser iShowUser;
 
-    public ChatLineAdapter(Context context, List<T> data, IShowUser iShowUser) {
+    public ChatLineAdapter(Context context, IShowUser iShowUser) {
         this.mContext = context;
-        this.mData = data;
         this.iShowUser = iShowUser;
         meImageGetter = new MeImageGetter(context);
         chatRoom = new ChatRoom(mContext);
@@ -57,6 +56,19 @@ public class ChatLineAdapter<T> extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public void setDeviceList(List<T> list) {
+        if (list != null) {
+            mData = list;
+            notifyDataSetChanged();
+        }
+    }
+    public void clearDeviceList() {
+        if (mData != null) {
+            mData.clear();
+        }
+        notifyDataSetChanged();
     }
 
     @SuppressWarnings("unchecked")

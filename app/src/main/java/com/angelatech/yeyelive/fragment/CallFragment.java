@@ -117,7 +117,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int HANDLER_GIFT_CHANGE_BACKGROUND = 13;
     private final int SHOW_SOFT_KEYB = 14;
     private final int ONSHOW_SOFT_KEYB = 12;
-    private final int MSG_ADAPTER_CHANGE = 25;
     private ImageView cameraSwitchButton;
 
     private ImageView btn_Follow;
@@ -139,7 +138,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int numArray[] = {1, 10, 22, 55, 77, 100}; //礼物数量列表
     private ArrayList<GiftAnimationModel> giftModelList = new ArrayList<>();
     private GiftAnimationModel GiftAnimationModelA, GiftAnimationModelB;
-    private ChatLineAdapter<ChatLineModel> mAdapter;
+    private static ChatLineAdapter<ChatLineModel> mAdapter;
     private RelativeLayout ly_gift_view, ly_gift_view_s;                                                            //礼物特效view
     private TextView numText, numText1, numText_s, numText1_s;                                                      //礼物数量  阴影
     private TextView txt_from_user, txt_from_user_s;                                                  //发送礼物的人，礼物名称
@@ -519,17 +518,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
-        initialize(getActivity());
-        ly_main.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (!mGestureDetector.onTouchEvent(event)) {
-                    return mScaleDetector.onTouchEvent(event);
+        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+            initialize(getActivity());
+            ly_main.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
                 }
-                return true;
-            }
-        });
-
+            });
+        }
     }
 
     private void initialize(Context context) {
@@ -848,7 +845,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 img_head.setImageURI(VerificationUtil.getImageUrl100(liveUserModel.headurl));
             }
             //0 无 1 v 2 金v 9官
-            switch (liveUserModel.isv){
+            switch (liveUserModel.isv) {
                 case "1":
                     iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
                     iv_vip.setVisibility(View.VISIBLE);
@@ -1181,7 +1178,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             cocos2dxGift.destroy();
         }
         mDanmuControl.pause();
-        fragmentHandler.removeMessages(MSG_ADAPTER_CHANGE);
     }
 
     /**
@@ -1241,7 +1237,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
      */
     private void initChatMessage(final Context context) {
         if (mAdapter == null) {
-            mAdapter = new ChatLineAdapter<>(context, App.mChatlines, iShowUser);
+            mAdapter = new ChatLineAdapter<>(context, iShowUser);
         }
         if (chatline == null) {
             chatline = (ListView) controlView.findViewById(R.id.chatline);
@@ -1250,15 +1246,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.notifyDataSetChanged();
                     chatline.setAdapter(mAdapter);
+                    mAdapter.setDeviceList(App.mChatlines);
                 }
             });
         }
     }
 
     public void notifyData() {
-        fragmentHandler.obtainMessage(MSG_ADAPTER_CHANGE).sendToTarget();
+        if (isAdded()) {
+            mAdapter.setDeviceList(App.mChatlines);
+        }
     }
 
     @Override
@@ -1408,18 +1406,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_send.clearFocus();
                         ly_toolbar.setVisibility(View.VISIBLE);
                     }
-                }
-                break;
-            case MSG_ADAPTER_CHANGE:
-                if (isAdded()) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mAdapter != null) {
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    });
                 }
                 break;
         }
