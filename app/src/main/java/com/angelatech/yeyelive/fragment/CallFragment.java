@@ -847,10 +847,23 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             if (liveUserModel.headurl != null) {
                 img_head.setImageURI(VerificationUtil.getImageUrl100(liveUserModel.headurl));
             }
-            if (liveUserModel.isv.equals("1")) {
-                iv_vip.setVisibility(View.VISIBLE);
-            } else {
-                iv_vip.setVisibility(View.GONE);
+            //0 无 1 v 2 金v 9官
+            switch (liveUserModel.isv){
+                case "1":
+                    iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
+                    iv_vip.setVisibility(View.VISIBLE);
+                    break;
+                case "2":
+                    iv_vip.setImageResource(R.drawable.icon_identity_vip_gold);
+                    iv_vip.setVisibility(View.VISIBLE);
+                    break;
+                case "9":
+                    iv_vip.setImageResource(R.drawable.icon_identity_official);
+                    iv_vip.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    iv_vip.setVisibility(View.GONE);
+                    break;
             }
             txt_barName.setText(liveUserModel.nickname);
         }

@@ -169,8 +169,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         }
                         if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
-                        }
-                        if (!liveModel.isticket.equals("1")){
+                        }else{
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
                         }
                     } else {
@@ -199,11 +198,23 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             helper.setText(R.id.live_introduce, videoModel.introduce);
                         }
                     }
-                    //加V标识
-                    if (item.isv.equals("1")) {
-                        helper.showView(R.id.iv_vip);
-                    } else {
-                        helper.hideView(R.id.iv_vip);
+                    //0 无 1 v 2 金v 9官
+                    switch (item.isv){
+                        case "1":
+                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_white);
+                            helper.showView(R.id.iv_vip);
+                            break;
+                        case "2":
+                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_gold);
+                            helper.showView(R.id.iv_vip);
+                            break;
+                        case "9":
+                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_official);
+                            helper.showView(R.id.iv_vip);
+                            break;
+                        default:
+                            helper.hideView(R.id.iv_vip);
+                            break;
                     }
                     helper.setOnClick(R.id.user_face, new View.OnClickListener() {
                         @Override

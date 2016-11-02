@@ -449,11 +449,23 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         txt_fans.setText(user.fansNum);
         txt_follow.setText(user.followNum);
         txt_like.setText(user.Intimacy);
-
-        if (user.isv.equals("1")) {
-            iv_vip.setVisibility(View.VISIBLE);
-        } else {
-            iv_vip.setVisibility(View.GONE);
+        //0 无 1 v 2 金v 9官
+        switch (user.isv){
+            case "0":
+                iv_vip.setVisibility(View.GONE);
+                break;
+            case "1":
+                iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
+                iv_vip.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                iv_vip.setImageResource(R.drawable.icon_identity_vip_gold);
+                iv_vip.setVisibility(View.VISIBLE);
+                break;
+            case "9":
+                iv_vip.setImageResource(R.drawable.icon_identity_official);
+                iv_vip.setVisibility(View.VISIBLE);
+                break;
         }
     }
 }

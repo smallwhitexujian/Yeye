@@ -68,7 +68,7 @@
             android:layout_alignBottom="@id/user_face"
             android:layout_alignRight="@id/user_face"
             android:contentDescription="@null"
-            android:src="@drawable/icon_vip_mark"
+            android:src="@drawable/icon_identity_vip_white"
             android:visibility="gone" />
     </RelativeLayout>
 

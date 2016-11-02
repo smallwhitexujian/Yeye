@@ -549,10 +549,23 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         fansNum.setText(user.fansNum);
         fouceNum.setText(user.followNum);
 
-        if (user.isv.equals("1")) {
-            iv_vip.setVisibility(View.VISIBLE);
-        } else {
-            iv_vip.setVisibility(View.GONE);
+        //0 无 1 v 2 金v 9官
+        switch (user.isv){
+            case "0":
+                iv_vip.setVisibility(View.GONE);
+                break;
+            case "1":
+                iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
+                iv_vip.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                iv_vip.setImageResource(R.drawable.icon_identity_vip_gold);
+                iv_vip.setVisibility(View.VISIBLE);
+                break;
+            case "9":
+                iv_vip.setImageResource(R.drawable.icon_identity_official);
+                iv_vip.setVisibility(View.VISIBLE);
+                break;
         }
 
         if (loginUser.userid.equals(user.userid)) {

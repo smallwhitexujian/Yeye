@@ -1,10 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.View;
 import android.widget.ListView;
@@ -16,10 +13,8 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
-import com.angelatech.yeyelive.adapter.MyFragmentPagerAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.fragment.SevenRankFragment;
 import com.angelatech.yeyelive.handler.CommonDoHandler;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.RankModel;
@@ -102,6 +97,24 @@ public class FansRankActivity extends HeaderBaseActivity implements
                 } else {
                     helper.setImageResource(R.id.icon_sex, R.drawable.icon_information_girl);
                 }
+                //0 无 1 v 2 金v 9官
+                switch (item.isv){
+                    case "1":
+                        helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_white);
+                        helper.showView(R.id.iv_vip);
+                        break;
+                    case "2":
+                        helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_gold);
+                        helper.showView(R.id.iv_vip);
+                        break;
+                    case "9":
+                        helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_official);
+                        helper.showView(R.id.iv_vip);
+                        break;
+                    default:
+                        helper.hideView(R.id.iv_vip);
+                        break;
+                }
                 helper.setOnClick(R.id.rank_handler, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -111,11 +124,6 @@ public class FansRankActivity extends HeaderBaseActivity implements
                         //jumpUserInfo(item);
                     }
                 });
-                if (item.isv.equals("1")) {
-                    helper.showView(R.id.iv_vip);
-                } else {
-                    helper.hideView(R.id.iv_vip);
-                }
             }
         };
         liveView.setAdapter(adapter);

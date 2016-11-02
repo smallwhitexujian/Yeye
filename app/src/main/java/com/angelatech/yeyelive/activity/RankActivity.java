@@ -58,7 +58,7 @@ import java.util.Map;
  * com.angelatech.yeyelive.activity
  */
 
-public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnRefreshListener ,View.OnClickListener{
+public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnRefreshListener, View.OnClickListener {
     private BasicUserInfoDBModel userInfo;
     private MainEnter mainEnter;
     private CommonAdapter<RankModel> adapter;
@@ -66,7 +66,7 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
     private List<RankModel> rankModels = new ArrayList<>();
     private List<RankModel> rankLists = new ArrayList<>();
     private FrescoRoundView rankPic, rankPic2, rankPic3;
-    private ImageView iv_vip,iv_vip2,iv_vip3;
+    private ImageView iv_vip, iv_vip2, iv_vip3;
     private TextView rankName, rankName2, rankName3, rankCoins, rankCoins2, rankCoins3;
 
     @Override
@@ -101,10 +101,19 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
                         jumpUserInfo(item);
                     }
                 });
-                if (item.isv.equals("1")) {
-                    helper.showView(R.id.iv_vip);
-                } else {
-                    helper.hideView(R.id.iv_vip);
+                switch (item.isv){
+                    case "1":
+                        helper.setImageResource(R.id.iv_vip, R.drawable.icon_identity_vip_white);
+                        break;
+                    case "2":
+                        helper.setImageResource(R.id.iv_vip, R.drawable.icon_identity_vip_gold);
+                        break;
+                    case "9":
+                        helper.setImageResource(R.id.iv_vip, R.drawable.icon_identity_official);
+                        break;
+                    default:
+                        helper.hideView(R.id.iv_vip);
+                        break;
                 }
             }
         };
@@ -152,7 +161,7 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rank_handler:
                 jumpUserInfo(rankLists.get(0));
                 break;
@@ -197,24 +206,66 @@ public class RankActivity extends BaseActivity implements SwipyRefreshLayout.OnR
                         adapter.setData(rankModels);
                         rankPic.setImageURI(rankModels.get(0).imageurl);
                         rankName.setText(rankModels.get(0).name);
-                        if (!rankModels.get(0).isv.equals("1")) {
-                            iv_vip.setVisibility(View.GONE);
+                        switch (rankModels.get(0).isv){
+                            case "1":
+                                iv_vip.setVisibility(View.VISIBLE);
+                                iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
+                                break;
+                            case "2":
+                                iv_vip.setVisibility(View.VISIBLE);
+                                iv_vip.setImageResource(R.drawable.icon_identity_vip_gold);
+                                break;
+                            case "9":
+                                iv_vip.setVisibility(View.VISIBLE);
+                                iv_vip.setImageResource(R.drawable.icon_identity_official);
+                                break;
+                            default:
+                                iv_vip.setVisibility(View.GONE);
+                                break;
                         }
                         CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(RankActivity.this, R.color.color_eecc1b) + "'>" + rankModels.get(0).number + "</font>"
                                 + " <font color='" + ContextCompat.getColor(RankActivity.this, R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
                         rankCoins.setText(str);
                         rankPic2.setImageURI(rankModels.get(1).imageurl);
                         rankName2.setText(rankModels.get(1).name);
-                        if (!rankModels.get(1).isv.equals("1")) {
-                            iv_vip2.setVisibility(View.GONE);
+                        switch (rankModels.get(1).isv){
+                            case "1":
+                                iv_vip2.setVisibility(View.VISIBLE);
+                                iv_vip2.setImageResource(R.drawable.icon_identity_vip_white);
+                                break;
+                            case "2":
+                                iv_vip2.setVisibility(View.VISIBLE);
+                                iv_vip2.setImageResource(R.drawable.icon_identity_vip_gold);
+                                break;
+                            case "9":
+                                iv_vip2.setVisibility(View.VISIBLE);
+                                iv_vip2.setImageResource(R.drawable.icon_identity_official);
+                                break;
+                            default:
+                                iv_vip2.setVisibility(View.GONE);
+                                break;
                         }
                         CharSequence str2 = Html.fromHtml("<font color='" + ContextCompat.getColor(RankActivity.this, R.color.color_eecc1b) + "'>" + rankModels.get(1).number + "</font>"
                                 + " <font color='" + ContextCompat.getColor(RankActivity.this, R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
                         rankCoins2.setText(str2);
                         rankPic3.setImageURI(rankModels.get(2).imageurl);
                         rankName3.setText(rankModels.get(2).name);
-                        if (!rankModels.get(2).isv.equals("1")) {
-                            iv_vip3.setVisibility(View.GONE);
+                        switch (rankModels.get(2).isv){
+                            case "1":
+                                iv_vip3.setVisibility(View.VISIBLE);
+                                iv_vip3.setImageResource(R.drawable.icon_identity_vip_white);
+                                break;
+                            case "2":
+                                iv_vip3.setVisibility(View.VISIBLE);
+                                iv_vip3.setImageResource(R.drawable.icon_identity_vip_gold);
+                                break;
+                            case "9":
+                                iv_vip3.setVisibility(View.VISIBLE);
+                                iv_vip3.setImageResource(R.drawable.icon_identity_official);
+                                break;
+                            default:
+                                iv_vip3.setVisibility(View.GONE);
+                                break;
                         }
                         CharSequence str3 = Html.fromHtml("<font color='" + ContextCompat.getColor(RankActivity.this, R.color.color_eecc1b) + "'>" + rankModels.get(2).number + "</font>"
                                 + " <font color='" + ContextCompat.getColor(RankActivity.this, R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");

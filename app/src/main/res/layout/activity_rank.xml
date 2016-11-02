@@ -86,7 +86,7 @@
                 android:layout_alignRight="@id/rank_handler2"
                 android:layout_marginBottom="2dp"
                 android:contentDescription="@null"
-                android:src="@drawable/icon_vip_mark"
+                android:src="@drawable/icon_identity_vip_white"
                 android:visibility="visible"
                 tools:ignore="RtlHardcoded" />
 
@@ -149,7 +149,7 @@
                 android:layout_alignRight="@id/rank_handler"
                 android:layout_marginBottom="2dp"
                 android:contentDescription="@null"
-                android:src="@drawable/icon_vip_mark"
+                android:src="@drawable/icon_identity_vip_white"
                 android:visibility="visible"
                 tools:ignore="RtlHardcoded" />
 
@@ -210,7 +210,7 @@
                 android:layout_alignRight="@id/rank_handler3"
                 android:layout_marginBottom="2dp"
                 android:contentDescription="@null"
-                android:src="@drawable/icon_vip_mark"
+                android:src="@drawable/icon_identity_vip_white"
                 android:visibility="visible"
                 tools:ignore="RtlHardcoded" />
 

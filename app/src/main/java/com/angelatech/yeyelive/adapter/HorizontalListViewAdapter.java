@@ -54,11 +54,26 @@ public class HorizontalListViewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        if (data.get(position).isv.equals("1")) {
-            holder.iv_vip.setVisibility(View.VISIBLE);
-        } else {
-            holder.iv_vip.setVisibility(View.GONE);
+        //0 无 1 v 2 金v 9官
+        switch (data.get(position).isv){
+            case "0":
+                holder.iv_vip.setVisibility(View.GONE);
+                break;
+            case "1":
+                holder.iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
+                holder.iv_vip.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                holder.iv_vip.setImageResource(R.drawable.icon_identity_vip_gold);
+                holder.iv_vip.setVisibility(View.VISIBLE);
+                break;
+            case "9":
+                holder.iv_vip.setImageResource(R.drawable.icon_identity_official);
+                holder.iv_vip.setVisibility(View.VISIBLE);
+                break;
+            default:
+                holder.iv_vip.setVisibility(View.GONE);
+                break;
         }
         holder.mImage.setBackgroundResource(R.drawable.default_face_icon);
         holder.mImage.setImageURI(Uri.parse(VerificationUtil.getImageUrl(data.get(position).headphoto)));

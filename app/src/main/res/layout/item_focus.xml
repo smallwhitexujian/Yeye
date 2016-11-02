@@ -29,7 +29,7 @@
             android:layout_alignBottom="@id/user_head_photo"
             android:layout_alignRight="@id/user_head_photo"
             android:layout_marginBottom="2dp"
-            android:src="@drawable/icon_vip_mark"
+            android:src="@drawable/icon_identity_vip_white"
             android:visibility="gone" />
     </RelativeLayout>
 

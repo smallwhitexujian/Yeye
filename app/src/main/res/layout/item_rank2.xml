@@ -41,7 +41,7 @@
             android:layout_alignRight="@id/rank_handler"
             android:layout_marginBottom="2dp"
             android:contentDescription="@null"
-            android:src="@drawable/icon_vip_mark"
+            android:src="@drawable/icon_identity_vip_white"
             android:visibility="visible" />
     </RelativeLayout>
 
