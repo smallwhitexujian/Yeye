@@ -27,6 +27,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@null"
             android:src="@drawable/icon_sand_diamond" />
 
         <TextView
@@ -88,15 +89,15 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/icon_recharge_alipay"
                 android:drawablePadding="8dp"
-                android:gravity="center|start"
-                 />
+                android:gravity="center|start" />
 
             <ImageView
                 android:id="@+id/iv_choice_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
-                android:src="@drawable/icon_recharge_choice" />
+                android:contentDescription="@null"
+                android:src="@drawable/icon_top_up_list_selected" />
         </LinearLayout>
 
         <View
@@ -119,15 +120,15 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/icon_recharge_wechat"
                 android:drawablePadding="8dp"
-                android:gravity="center|start"
-                 />
+                android:gravity="center|start" />
 
             <ImageView
                 android:id="@+id/iv_choice_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:layout_gravity="right|bottom"
-                android:src="@drawable/icon_recharge_choice" />
+                android:src="@drawable/icon_top_up_list_selected" />
         </LinearLayout>
     </LinearLayout>
 

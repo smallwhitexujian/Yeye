@@ -28,7 +28,7 @@ public class PayManager {
     public static final int NOT_ALLOW_BUY = PREFIX + 5;//
     public static final int QUERY_INVENTORY_FINISH = PREFIX + 6;//
     public static final int ILLEGAL_SKU = PREFIX + 7;//
-    public static final int ADD_ITEM = PREFIX + 8;//
+    public static final int ADD_ITEM = PREFIX + 8;//  加币过程
 
     //Google Play 后台 RSA key
     public static final String RSA_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgl4YIZL9iip7VLjO4zsXJjlveSEoOAzAleGgXlB0J8r88pOc8rCVAeD6Ig3bQpltHfHSU8QScGe6v93eRIoxuKQxgXwj8HVxZ7B7rLGOIRmrmAP6zeFpIMzQd0HnYLuH28QiicVoFAhsK/zo32lFdEu+M4SeE7XpbIXedcSgNdoswi2cmwwF4gEXN08b/ecJ0+DdZnkQcyk9KQw1l5M4vFEjII/RQYmBiBjV3gS/++BBOJo4I80J5Uk/JGCYZPsSRl++2m5dNhrK5IxfE4AK88o5DHoLVay9KC9dGFEPA4gvecjltFVevjJwv+XrRE1GObVcS9GKKkijd8k4dU9CBQIDAQAB";

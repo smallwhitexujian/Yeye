@@ -23,7 +23,6 @@
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables,UselessParent">
 
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,12 +36,102 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="@string/balance"
                 android:textColor="@color/color_a1d4ff"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:ignore="RtlHardcoded" />
 
         </LinearLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:gravity="center_vertical|left"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/pay_channel"
+        android:textColor="@color/color_999999"
+        tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        tools:ignore="DisableBaselineAlignment">
+
+        <RelativeLayout
+            android:id="@+id/item_google"
+            android:layout_width="161dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/circle_coner_bg_ffffff"
+            tools:ignore="RtlHardcoded">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/logo_pay_googleplay" />
+
+            <ImageView
+                android:id="@+id/google_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_top_up_list_selected"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/item_digi"
+            android:layout_width="161dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="13dp"
+            android:layout_weight="1"
+            android:background="@drawable/circle_coner_bg_ffffff"
+            tools:ignore="RtlHardcoded">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/logo_pay_digi"
+                tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/digi_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_top_up_list_selected"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,8 +146,8 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="@string/select_coin"
-            android:textColor="@color/color_999999" />
-
+            android:textColor="@color/color_999999"
+            tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
     <View
@@ -73,11 +162,9 @@
         android:layout_weight="1"
         android:scrollbars="none" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="63dp"
         android:orientation="vertical">
 
         <TextView
@@ -100,8 +187,6 @@
             android:paddingRight="13dp"
             android:text="@string/text_desc"
             android:textColor="@color/color_999999"
-            android:textSize="13sp"
-
-            />
+            android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>

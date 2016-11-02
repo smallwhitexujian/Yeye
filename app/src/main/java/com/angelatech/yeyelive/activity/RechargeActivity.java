@@ -6,7 +6,9 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,18 +25,25 @@ import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.RechargeModel;
+import com.angelatech.yeyelive.pay.MimoPay.MimoPayLib;
+import com.angelatech.yeyelive.pay.MimoPay.MimopayModel;
 import com.angelatech.yeyelive.pay.PayType;
 import com.angelatech.yeyelive.pay.google.PayActivity;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StringHelper;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -46,23 +55,21 @@ import java.util.UUID;
 public class RechargeActivity extends PayActivity implements View.OnClickListener {
     private final int MSG_LOAD_PAY_MENU = 1;
     private final int MSG_ADD_ITEM = 2;
-
-
     private boolean isTest = false;
     private final int ORDER_FAILD = 0;//下单失败
     private ListView mRechargeListView;
     private CommonAdapter<RechargeModel> mCommonAdapter;
     private List<RechargeModel> mDatas;
-
     private TextView mBalanceTextView;
-
     private boolean isAvaliable = true;
     private GooglePay mGooglePay;
-    private BasicUserInfoDBModel user = CacheDataManager.getInstance().loadUser();
-
-
+    private MimoPayLib mimoPayLib;
+    private BasicUserInfoDBModel user;
+    private RelativeLayout item_google, item_digi;
     private TextView mRechargeTextView;
     private RechargeModel mRechargeModel;
+    private ImageView digi_selected, google_selected;
+    private boolean isMiMoPay = false;
 
 
     @Override
@@ -70,6 +77,8 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge_);
         mGooglePay = new GooglePay(this);
+        mimoPayLib = new MimoPayLib();
+        user = CacheDataManager.getInstance().loadUser();
         initView();
         setView();
     }
@@ -78,6 +87,13 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         mRechargeListView = (ListView) findViewById(R.id.recharge_listview);
         mBalanceTextView = (TextView) findViewById(R.id.recharge_balance_coin);
         mRechargeTextView = (TextView) findViewById(R.id.btn_submit_pay);
+        digi_selected = (ImageView) findViewById(R.id.digi_selected);
+        google_selected = (ImageView) findViewById(R.id.google_selected);
+        google_selected.setVisibility(View.VISIBLE);
+        item_google = (RelativeLayout) findViewById(R.id.item_google);
+        item_digi = (RelativeLayout) findViewById(R.id.item_digi);
+        item_google.setOnClickListener(this);
+        item_digi.setOnClickListener(this);
     }
 
     private void setView() {
@@ -85,7 +101,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         headerLayout.showLeftBackButton();
         mRechargeTextView.setOnClickListener(this);
         mDatas = new ArrayList<>();
-        loadMenu();
+        loadMenu(PayType.TYPE_GOOGLE);
         mCommonAdapter = new CommonAdapter<RechargeModel>(RechargeActivity.this, mDatas, R.layout.item_recharge_config) {
             @Override
             public void convert(ViewHolder helper, RechargeModel item, int position) {
@@ -102,8 +118,6 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         mRechargeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                RechargeModel model = mDatas.get(position);
-//                order(model);
                 mRechargeModel = mDatas.get(position);
                 for (int i = 0; i < mDatas.size(); i++) {
                     RechargeModel rechargeModel = mDatas.get(i);
@@ -116,13 +130,11 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 mCommonAdapter.notifyDataSetChanged();
             }
         });
-        //
         if (user != null && user.diamonds != null) {
             mBalanceTextView.setText(StringHelper.getThousandFormat(user.diamonds));
         } else {
             mBalanceTextView.setText("0");
         }
-
 
     }
 
@@ -139,11 +151,30 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 if (mRechargeModel != null && isAvaliable) {
                     order(mRechargeModel);
                 }
+                if (isMiMoPay) {
+                    LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
+                    orderDigi(mRechargeModel);
+                }
+                break;
+            case R.id.item_digi://digi支付
+                sethintSelected();
+                loadMenu(PayType.TYPE_MIMOPAY);
+                digi_selected.setVisibility(View.VISIBLE);
+                break;
+            case R.id.item_google://Google支付
+                sethintSelected();
+                loadMenu(PayType.TYPE_GOOGLE);
+                google_selected.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-    private void loadMenu() {
+    private void sethintSelected() {
+        digi_selected.setVisibility(View.GONE);
+        google_selected.setVisibility(View.GONE);
+    }
+
+    private void loadMenu(int type) {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -165,7 +196,15 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 }
             }
         };
-        mGooglePay.loadMenu(PayType.TYPE_GOOGLE, callback);
+        switch (type) {
+            case PayType.TYPE_GOOGLE:
+                isMiMoPay = false;
+                break;
+            case PayType.TYPE_MIMOPAY:
+                isMiMoPay = true;
+                break;
+        }
+        mGooglePay.loadMenu(type, callback);
     }
 
     private void addItem(Purchase purchase) {
@@ -201,6 +240,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     }
 
 
+    //订单,生成订单
     private void order(final RechargeModel model) {
         String key = Md5.md5(UUID.randomUUID().toString());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -216,7 +256,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 if (results != null) {
                     if (HttpFunction.isSuc(results.code)) {
                         if (results.data != null) {
-                            pay(model.sku, requestCode, results.data);
+                            pay(model.sku, requestCode, results.data);//调用支付过程
                         } else {
                             uiHandler.obtainMessage(ORDER_FAILD).sendToTarget();
                         }
@@ -228,6 +268,89 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         };
         mGooglePay.order(user.userid, user.token, key, model.sku, callback);
     }
+
+    //digi订单生成
+    private void orderDigi(final RechargeModel model) {
+        final String key = Md5.md5(UUID.randomUUID().toString());
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                super.onFailure(errorMap);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                LoadingDialog.cancelLoadingDialog();
+                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
+                }.getType());
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (results.data != null) {
+                            DebugLogs.d("-------订单生成完成-----》" + results.toString());
+                            MimopayModel mimopayModel = new MimopayModel();
+                            mimopayModel.UserId = user.userid;
+                            mimopayModel.productName = model.diamonds;
+                            mimopayModel.currency = getString(R.string.recharge_unit);
+                            mimopayModel.coins = model.amount;
+                            mimopayModel.transactionId = results.data;//订单
+                            mimopayModel.paymentid = MimoPayLib.DPOINT;
+                            mimoPayLib.initMimopay(RechargeActivity.this, mimopayModel);
+                            mimoPayLib.setcallBack(callBack);
+                        } else {
+                            uiHandler.obtainMessage(ORDER_FAILD).sendToTarget();
+                        }
+                    } else {
+                        onBusinessFaild(results.code);
+                    }
+                }
+            }
+        };
+        //服务器下载订单
+        mGooglePay.order(user.userid, user.token, key, model.sku, callback);
+    }
+
+    private MimoPayLib.CallBack callBack = new MimoPayLib.CallBack() {
+        @Override
+        public void cuccess() {
+            Map<String, String> map = new HashMap<>();
+            map.put("userid", user.userid);
+            map.put("token", user.token);
+            mGooglePay.getUserDiamond(map, httpCallback);
+        }
+
+        @Override
+        public void error() {
+
+        }
+
+        @Override
+        public void fatalerror() {
+
+        }
+    };
+
+    HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
+        @Override
+        public void onFailure(Map<String, ?> errorMap) {
+        }
+
+        @Override
+        public void onSuccess(String response) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.getString("code");
+                String data = jsonObject.getString("data");
+                if (code.equals(String.valueOf(HttpFunction.SUC_OK))) {
+                    user.diamonds = data;
+                    DebugLogs.d("-----查询金币------>"+user.diamonds);
+                    CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, user.diamonds, user.userid);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     @Override
     public void doHandler(Message msg) {
@@ -271,8 +394,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             case PayManager.ILLEGAL_SKU:
                 ToastUtils.showToast(this, getString(R.string.illegal_sku), Toast.LENGTH_SHORT);
                 break;
-            case PayManager.ADD_ITEM:
-//                ToastUtils.showToast(this, getString(R.string.purchase_succ), Toast.LENGTH_SHORT);
+            case PayManager.ADD_ITEM://加币
                 addItem((Purchase) msg.obj);
                 break;
             case CANCEL_PURCHASE:
@@ -310,6 +432,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         return super.onKeyDown(keyCode, event);
     }
 
+    //刷新金币
     private void refreshCoin() {
         user = CacheDataManager.getInstance().loadUser();
         if (user != null && user.diamonds != null) {

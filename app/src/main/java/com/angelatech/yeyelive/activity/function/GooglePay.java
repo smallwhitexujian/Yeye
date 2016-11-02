@@ -36,7 +36,7 @@ public class GooglePay extends HttpFunction{
 
 
     public void addItem(String userId, String token, Purchase purchase,HttpBusinessCallback callback){
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         String orderId = purchase.getDeveloperPayload();
         String extraStr = "@CQ+?>K&*N~";
         String sign = getCheckSign(userId + orderId, extraStr, "");
@@ -51,7 +51,7 @@ public class GooglePay extends HttpFunction{
         params.put("sign", sign);
         httpGet(CommonUrlConfig.RechargeDiamondAdd, params, callback);
     }
-
+    //订单生成
     public void order(String userid, String token,String key,String sku, HttpBusinessCallback callback){
         Map<String, String> params = new HashMap<>();
         String amount = "1";
@@ -59,11 +59,11 @@ public class GooglePay extends HttpFunction{
         String sign = getOrderSign(srcStr, key);
 
         params.put("userid", userid);
-        params.put("amount", amount);
+        params.put("amount", amount);//金币
         params.put("token", token);
-        params.put("iden", key);
-        params.put("sku", sku);
-        params.put("sign", sign);
+        params.put("iden", key);//订单
+        params.put("sku", sku); //商品
+        params.put("sign", sign);//前面
         httpGet(CommonUrlConfig.RechargeOrder, params, callback);
     }
 
@@ -76,7 +76,15 @@ public class GooglePay extends HttpFunction{
         return securityManager.getCheckSign(srcStr, extraStr, key);
     }
 
-
+    /**
+     * 查询用户 钻石 余额
+     *
+     * @param params   接口参数
+     * @param callback 回调
+     */
+    public void getUserDiamond(Map<String, String> params, HttpBusinessCallback callback) {
+        httpGet(CommonUrlConfig.GetUserDiamond, params, callback);
+    }
 
 
 }

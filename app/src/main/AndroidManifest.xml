@@ -241,7 +241,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
+        <!-- Add below to allow Mimopay activity -->
+        <activity
+            android:name="com.mimopay.MimopayActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateUnspecified|adjustPan"/>
         <service
             android:name=".service.IService"
             android:allowBackup="true"

@@ -5,12 +5,12 @@ package com.angelatech.yeyelive.model;
  */
 public class RechargeModel {
 
-    public int iconRid;//图片id
-    public long totalValue;//总价值
-    public String diamonds;
-    public String amount;
-    public String sku;
-    public String unit;//货币单位
+    public int iconRid;     //图片id
+    public long totalValue; //总价值
+    public String diamonds; //金币
+    public String amount;   //商品价格
+    public String sku;      //商品标识
+    public String unit;     //货币单位
     public int isCheck = 0;
 
     @Override

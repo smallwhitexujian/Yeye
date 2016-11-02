@@ -33,6 +33,8 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.facebook.AccessToken;
+import com.facebook.FacebookException;
+import com.facebook.FacebookRequestError;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
@@ -41,6 +43,8 @@ import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
+
+import org.json.JSONObject;
 
 /**
  * 手机登陆
@@ -209,10 +213,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case FbProxy.FB_LOGIN_SUCCESS:
                 LoadingDialog.showLoadingDialog(LoginActivity.this,null);
                 Log.e("success--->", "success");
+                Bundle bundle = new Bundle();
+                bundle.putString("limit", "1000");
+                new GraphRequest(AccessToken.getCurrentAccessToken(),
+                        "/me/invitable_friends",
+                        bundle,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            @Override
+                            public void onCompleted(GraphResponse response) {
+                                FacebookRequestError requestError = response.getError();
+                                FacebookException exception = (requestError == null) ? null : requestError.getException();
+                                if (response.getJSONObject() == null && exception == null) {
+                                    exception = new FacebookException("result error");
+                                }
+                                if (exception != null) {
+                                    DebugLogs.d("GraphRequest error :" + exception.getMessage() + ",trace :" + exception.getStackTrace());
+                                } else {
+                                    final JSONObject graphObject = response.getJSONObject();
+                                    DebugLogs.d("---------->" + graphObject.toString());
+                                }
+                            }
+                        }
+                ).executeAsync();
                 if (!isLogin) {
                     CacheDataManager.getInstance().deleteAll();
                     isLogin = true;
                     new Register(this, uiHandler).fbRegister((String) msg.obj, DeviceTool.getUniqueID(LoginActivity.this));
+
+
 
 //                    new GraphRequest(
 //                            AccessToken.getCurrentAccessToken(),

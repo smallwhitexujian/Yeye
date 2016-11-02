@@ -38,6 +38,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/icon_recharge_choice" />
+            android:src="@drawable/icon_top_up_list_selected" />
     </RelativeLayout>
 </LinearLayout>
