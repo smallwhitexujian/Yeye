@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -51,10 +52,9 @@ import static com.angelatech.yeyelive.R.id.headerLayout;
 public class TabDialogFragment extends DialogFragment {
     private ArrayList<Fragment> fragmentList;
     private ViewPager mAbSlidingTabView;
-    private ImageView btn_close;
     public static TextView Tab_1;
     private Fragment fragment_Tab_1;
-    private View view;
+    private View view,btn_close;
     private String userid;
 
     public void setUserid(String uid) {
@@ -64,9 +64,11 @@ public class TabDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        view = inflater.inflate(R.layout.dialog_tab, container, false);
 
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        getDialog().getWindow().getAttributes().windowAnimations= R.style.dialogAnim;
+        ;
+        view = inflater.inflate(R.layout.dialog_tab, container, false);
         fragmentList = new ArrayList<>();
 
         if (userid != null && userid.isEmpty()) {
@@ -80,20 +82,31 @@ public class TabDialogFragment extends DialogFragment {
     }
 
     private void initView(String tab1, ArrayList<Fragment> fragmentList) {
-        btn_close = (ImageView) view.findViewById(R.id.btn_close);
+
+        mAbSlidingTabView = (ViewPager) view.findViewById(R.id.mAbSlidingTabView);
+        btn_close = view.findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-        mAbSlidingTabView = (ViewPager) view.findViewById(R.id.mAbSlidingTabView);
-
         Tab_1 = (TextView) view.findViewById(R.id.Tab_1);
         Tab_1.setText(tab1);
 
         mAbSlidingTabView.setAdapter(new MyFragmentPagerAdapter(getChildFragmentManager(), fragmentList));
         mAbSlidingTabView.setCurrentItem(0);
         Tab_1.setSelected(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
     }
 }

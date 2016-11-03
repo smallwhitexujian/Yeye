@@ -75,6 +75,7 @@ public class SevenRankFragment extends BaseFragment implements
     private TextView rank_coin;
     private String roomid;
     private int type;
+    private RelativeLayout no_data_layout;
 
     public static SevenRankFragment newInstance(int position) {
         SevenRankFragment f = new SevenRankFragment();
@@ -111,7 +112,7 @@ public class SevenRankFragment extends BaseFragment implements
         LinearLayout bottom_layout = (LinearLayout) view.findViewById(R.id.bottom_layout);
         FrescoRoundView rank_my_pic = (FrescoRoundView) view.findViewById(R.id.rank_my_pic);
         rank_coin = (TextView) view.findViewById(R.id.rank_mycoin);
-
+        no_data_layout = (RelativeLayout) view.findViewById(R.id.no_data_layout);
         Bundle bundle = getArguments();
         if (bundle != null) {
             type = bundle.getInt("TYPE", 0);
@@ -213,6 +214,7 @@ public class SevenRankFragment extends BaseFragment implements
         @Override
         public void onFailure(Map<String, ?> errorMap) {
             LoadingDialog.cancelLoadingDialog();
+            no_data_layout.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -224,18 +226,25 @@ public class SevenRankFragment extends BaseFragment implements
                     CommonListResult<RankModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RankModel>>() {
                     }.getType());
                     if (datas == null) {
+                        no_data_layout.setVisibility(View.VISIBLE);
+
                         return;
                     }
-                    if (isAdded()){
+                    if (isAdded()) {
                         if (HttpFunction.isSuc(datas.code)) {
-                            rankModels.clear();
-                            rankModels.addAll(datas.data);
-                            adapter.setData(rankModels);
-                            CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
-                                    "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_eecc1b) + "'>" + datas.pernumber + "</font>"
-                                    + "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
-                            rank_coin.setText(str);
+                            if (datas.hasData() && datas.data.size() > 0) {
+                                rankModels.clear();
+                                rankModels.addAll(datas.data);
+                                adapter.setData(rankModels);
+                                CharSequence str = Html.fromHtml("<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.dedicate) + "</font>" +
+                                        "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_eecc1b) + "'>" + datas.pernumber + "</font>"
+                                        + "<font color='" + ContextCompat.getColor(getActivity(), R.color.color_999999) + "'>" + getString(R.string.rank_coin) + "</font>");
+                                rank_coin.setText(str);
+                            } else {
+                                no_data_layout.setVisibility(View.VISIBLE);
+                            }
                         } else {
+                            no_data_layout.setVisibility(View.VISIBLE);
                             onBusinessFaild(datas.code);
                         }
                         swipyRefreshLayout.setRefreshing(false);
