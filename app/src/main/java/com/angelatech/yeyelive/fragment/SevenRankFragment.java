@@ -230,7 +230,6 @@ public class SevenRankFragment extends BaseFragment implements
                             no_data_layout.setVisibility(View.VISIBLE);
                             return;
                         }
-
                         if (HttpFunction.isSuc(datas.code)) {
                             if (datas.hasData() && datas.data.size() > 0) {
                                 rankModels.clear();
