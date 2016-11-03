@@ -1100,7 +1100,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 chatlinemodel.type = 10;
                 chatlinemodel.message = radioMessage.msg;
                 App.mChatlines.add(chatlinemodel);
-                mAdapter.setDeviceList(App.mChatlines);
+                if(mAdapter!=null){
+                    mAdapter.setDeviceList(App.mChatlines);
+                }
             }
         });
     }
@@ -1246,7 +1248,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void run() {
                     chatline.setAdapter(mAdapter);
-                    mAdapter.setDeviceList(App.mChatlines);
+                    if(mAdapter!=null){
+                        mAdapter.setDeviceList(App.mChatlines);
+                    }
                 }
             });
         }
@@ -1254,7 +1258,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     public void notifyData() {
         if (isAdded()) {
-            mAdapter.setDeviceList(App.mChatlines);
+            if(mAdapter!=null){
+                mAdapter.setDeviceList(App.mChatlines);
+            }
         }
     }
 
