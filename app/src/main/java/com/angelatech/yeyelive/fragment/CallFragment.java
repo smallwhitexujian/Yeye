@@ -1100,7 +1100,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 chatlinemodel.type = 10;
                 chatlinemodel.message = radioMessage.msg;
                 App.mChatlines.add(chatlinemodel);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.setDeviceList(App.mChatlines);
             }
         });
     }
