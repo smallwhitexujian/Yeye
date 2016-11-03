@@ -969,7 +969,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_room_exchange://房间跳转商城
                 WebTransportModel webTransportModel = new WebTransportModel();
-                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + liveUserModel.userid + "&token=" + liveUserModel.token + "&time=" + System.currentTimeMillis();
+                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&hostid="+liveUserModel.userid+"&time=" + System.currentTimeMillis();
                 webTransportModel.title = getString(R.string.gift_center);
                 if (!webTransportModel.url.isEmpty()) {
                     StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
