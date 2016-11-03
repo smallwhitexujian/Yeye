@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.will.common.log.DebugLogs;
+import com.will.common.tool.view.DisplayTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
@@ -331,10 +333,12 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     break;
                 case R.id.btn_share:
                     //分享组件
+                   Bitmap img =  DisplayTool.snapShotWithoutStatusBar(PlayActivity.this);
+
                     ThirdShareDialog.Builder builder = new ThirdShareDialog.Builder(PlayActivity.this, getSupportFragmentManager(), null);
                     builder.setShareContent(videoModel.introduce, getString(R.string.shareDescription),
                             CommonUrlConfig.facebookURL + "?uid=" + videoModel.userid + "&videoid=" + videoModel.videoid,
-                            videoModel.barcoverurl);
+                            img);
                     builder.create().show();
                     break;
                 case R.id.tv_report:

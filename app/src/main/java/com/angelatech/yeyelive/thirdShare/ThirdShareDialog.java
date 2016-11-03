@@ -83,6 +83,14 @@ public class ThirdShareDialog extends Dialog {
             return this;
         }
 
+        public Builder setShareContent(String dialogTitle, String text, String url, Bitmap image) {
+            this.dialogTitle = dialogTitle;
+            this.text = text;
+            this.url = url;
+            this.img = image;
+            return this;
+        }
+
         public ThirdShareDialog create() {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             dialog = new ThirdShareDialog(mContext, R.style.Dialog);

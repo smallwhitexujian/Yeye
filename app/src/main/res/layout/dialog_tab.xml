@@ -3,81 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/circle_coner_bg"
+    android:background="@color/transparent"
     android:orientation="vertical">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="45dp">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center"
-        android:text="@string/fans_rank"
-        android:textColor="#FF262626"
-        android:textSize="17dp" />
-    <ImageView
-        android:id="@+id/btn_close"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/btn_information_close_n" />
-</RelativeLayout>
 
     <View
+        android:id="@+id/btn_close"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_grey_d5" />
+        android:layout_height="50dp" />
 
     <LinearLayout
-        android:id="@+id/L1"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@color/color_white"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/Tab_1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:textColor="@color/color_d80c18"
-            android:textSize="16sp"
-            tools:text="@string/rank_seven_dedicated" />
-
-        <TextView
-            android:id="@+id/Tab_2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:textColor="@color/font_grey"
-            android:textSize="16sp"
-            android:visibility="gone"
-            tools:text="@string/rank_history_dedicated" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+            <TextView
+                android:id="@+id/Tab_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:textColor="#FF262626"
+                android:textSize="18sp"
+                android:layout_margin="20dp"
+                tools:text="@string/rank_seven_dedicated" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mAbSlidingTabView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_bottom_line"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/white"
-        android:contentDescription="@null"
-        android:paddingLeft="100dp"
-        android:paddingRight="100dp"
-        android:scaleType="matrix"
-        android:src="@color/color_d80c18" />
-    <android.support.v4.view.ViewPager
-        android:id="@+id/mAbSlidingTabView"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginBottom="10dp"
-       />
 
 </LinearLayout>
