@@ -189,8 +189,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     private IDanmakuView mDanmakuView;
     private DanmuControl mDanmuControl;
-    private ScaleGestureDetector mScaleDetector;
-    private GestureDetector mGestureDetector;
+    private ScaleGestureDetector mScaleDetector = null;
+    private GestureDetector mGestureDetector= null;
 
     public void setDiamonds(String diamonds) {
         try {
@@ -518,7 +518,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
-        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+//        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             initialize(getActivity());
             ly_main.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -526,7 +526,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
                 }
             });
-        }
+//        }
     }
 
     private void initialize(Context context) {
@@ -1852,6 +1852,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mAdapter!=null){
+            mAdapter.clearDeviceList();
+            mAdapter = null;
+        }
         if (timeCount2 != null) {
             timeCount2.cancel();
         }
