@@ -518,7 +518,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
-//        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             initialize(getActivity());
             ly_main.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -526,7 +526,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
                 }
             });
-//        }
+        }
     }
 
     private void initialize(Context context) {

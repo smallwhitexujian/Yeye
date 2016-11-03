@@ -152,7 +152,6 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                     order(mRechargeModel);
                 }
                 if (isMiMoPay) {
-                    LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
                     orderDigi(mRechargeModel);
                 }
                 break;
@@ -175,6 +174,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     }
 
     private void loadMenu(int type) {
+        LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -183,6 +183,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 
             @Override
             public void onSuccess(String response) {
+                LoadingDialog.cancelLoadingDialog();
                 CommonListResult<RechargeModel> results = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RechargeModel>>() {
                 }.getType());
                 if (results != null) {
@@ -242,6 +243,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 
     //订单,生成订单
     private void order(final RechargeModel model) {
+        if (model ==null) return;
         String key = Md5.md5(UUID.randomUUID().toString());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -266,11 +268,15 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 }
             }
         };
-        mGooglePay.order(user.userid, user.token, key, model.sku, callback);
+        if(model.sku!=null){
+            mGooglePay.order(user.userid, user.token, key, model.sku, callback);
+        }
     }
 
     //digi订单生成
     private void orderDigi(final RechargeModel model) {
+        if (model ==null) return;
+        LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
         final String key = Md5.md5(UUID.randomUUID().toString());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -306,7 +312,9 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             }
         };
         //服务器下载订单
-        mGooglePay.order(user.userid, user.token, key, model.sku, callback);
+        if (model.sku!=null){
+            mGooglePay.order(user.userid, user.token, key, model.sku, callback);
+        }
     }
 
     private MimoPayLib.CallBack callBack = new MimoPayLib.CallBack() {
@@ -407,6 +415,16 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                     mCommonAdapter.setData(mDatas);
                     mCommonAdapter.notifyDataSetChanged();
                 }
+                mRechargeModel = mDatas.get(0);
+                for (int i = 0; i < mDatas.size(); i++) {
+                    RechargeModel rechargeModel = mDatas.get(i);
+                    if (i != 0) {
+                        rechargeModel.isCheck = 0;
+                    } else {
+                        rechargeModel.isCheck = 1;
+                    }
+                }
+                mCommonAdapter.notifyDataSetChanged();
                 break;
             case MSG_ADD_ITEM:
                 ToastUtils.showToast(this, getString(R.string.purchase_succ), Toast.LENGTH_SHORT);
