@@ -47,7 +47,6 @@ public class CommChooseDialog {
             mCallback = callback;
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-//            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);//指定会全局,可以在后台弹出
             dialog.show();
             Window window = dialog.getWindow();
             window.getDecorView().setPadding(0, 0, 0, 0);
@@ -60,10 +59,19 @@ public class CommChooseDialog {
             final TextView tv_choose = (TextView) window.findViewById(R.id.tv_choose);
             final TextView tips = (TextView) window.findViewById(R.id.tips);
             final ImageView iv_choose = (ImageView) window.findViewById(R.id.iv_choose_save);
-            if (model.isv.equals("1")) {
-                tips.setText(String.format(context.getString(R.string.tops_video), "50"));
-            } else {
-                tips.setText(String.format(context.getString(R.string.tops_video), "10"));
+            switch (model.isv){
+                case "1":
+                    tips.setText(String.format(context.getString(R.string.tops_video), "50"));
+                    break;
+                case "2":
+                    tips.setText(String.format(context.getString(R.string.tops_video), "200"));
+                    break;
+                case "9":
+                    tips.setVisibility(View.GONE);
+                    break;
+                default:
+                    tips.setText(String.format(context.getString(R.string.tops_video), "10"));
+                    break;
             }
             if (!isLiveUser) {
                 tips.setVisibility(View.GONE);
