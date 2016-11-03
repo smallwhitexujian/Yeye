@@ -90,7 +90,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private RelativeLayout ly_playfinish;
     private SeekBar player_seekBar;
     private TextView player_total_time, player_current_time, tv_report, player_split_line;
-    private ImageView btn_share, btn_Follow, player_play_btn, backBtn, btn_red,btn_room_exchange;
+    private ImageView btn_share, btn_Follow, player_play_btn, backBtn, btn_red, btn_room_exchange;
     private VideoPlayer mVideoPlayer;
 
     private String path;
@@ -120,14 +120,14 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //取消状态栏
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-        }else{
+        } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
@@ -219,6 +219,11 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         tv_report = (TextView) findViewById(R.id.tv_report);
         player_split_line = (TextView) findViewById(R.id.player_split_line);
         default_img.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int statusBarHeight = ScreenUtils.getStatusHeight(PlayActivity.this);
+            backBtn.setPadding(15, statusBarHeight, 0, 0);
+            tv_report.setPadding(0, statusBarHeight, 15, 0);
+        }
     }
 
     private void setView() {
@@ -368,7 +373,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     break;
                 case R.id.btn_room_exchange:
                     WebTransportModel webTransportModel = new WebTransportModel();
-                    webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&time=" + System.currentTimeMillis();
+                    webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&hostid=" + videoModel.userid + "&time=" + System.currentTimeMillis();
                     webTransportModel.title = getString(R.string.gift_center);
                     if (!webTransportModel.url.isEmpty()) {
                         StartActivityHelper.jumpActivity(PlayActivity.this, WebActivity.class, webTransportModel);
@@ -411,7 +416,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             public void onClick(View v) {
                 String aomunt = edit_coins.getText().toString();
                 String context = edit_context.getText().toString();
-                if (context.isEmpty()){
+                if (context.isEmpty()) {
                     context = getString(R.string.red_tips_luck);
                 }
                 double userDiamonds = Double.valueOf(userModel.diamonds);
@@ -457,7 +462,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                                 Cocos2dxGift.Cocos2dxGiftModel cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
                                 cocos2dxGiftModel.aniName = "fx_jixiangwu";
                                 cocos2dxGiftModel.exportJsonPath = "fx_jixiangwu/fx_jixiangwu.ExportJson";
-                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 2+1;
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(PlayActivity.this) / 2 + 1;
                                 cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(PlayActivity.this);
                                 cocos2dxGiftModel.speedScale = 0.005f;
                                 cocos2dxGiftModel.scale = 0.8f;

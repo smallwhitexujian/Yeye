@@ -260,7 +260,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:contentDescription="@string/gift"
                 android:src="@drawable/btn_room_gift_n"

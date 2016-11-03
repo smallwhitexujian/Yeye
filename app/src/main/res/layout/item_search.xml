@@ -10,16 +10,14 @@
 
     <RelativeLayout
         android:id="@+id/layout_user_face"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1">
+        android:layout_marginLeft="10dp">
         <!--头像-->
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/user_face"
             android:layout_width="39dp"
             android:layout_height="39dp"
-            android:layout_marginLeft="10dp"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/default_face_icon"
             fresco:roundAsCircle="true" />
