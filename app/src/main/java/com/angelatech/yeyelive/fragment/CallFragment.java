@@ -557,7 +557,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             // factor > 1, zoom
             // factor < 1, pinch
             mScaleFactor *= detector.getScaleFactor();
-
             // Don't let the object get too small or too large.
             mScaleFactor = Math.max(0.01f, Math.min(mScaleFactor, 1.0f));
             callEvents.onZoomValueChanged(mScaleFactor);

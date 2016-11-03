@@ -291,8 +291,7 @@ public class StreamingBaseActivity extends BaseActivity implements
             mCurrentZoom = (int) (mMaxZoom * factor);
             mCurrentZoom = Math.min(mCurrentZoom, mMaxZoom);
             mCurrentZoom = Math.max(0, mCurrentZoom);
-
-            Log.d(TAG, "zoom ongoing, scale: " + mCurrentZoom + ",factor:" + factor + ",maxZoom:" + mMaxZoom);
+            DebugLogs.d("zoom ongoing, scale: " + mCurrentZoom + ",factor:" + factor + ",maxZoom:" + mMaxZoom);
             if (!mHandler.hasMessages(MSG_SET_ZOOM)) {
                 mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ZOOM), ZOOM_MINIMUM_WAIT_MILLIS);
                 return true;

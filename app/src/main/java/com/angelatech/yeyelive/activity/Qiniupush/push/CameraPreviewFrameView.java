@@ -25,25 +25,25 @@ public class CameraPreviewFrameView extends GLSurfaceView {
 
     public CameraPreviewFrameView(Context context) {
         super(context);
-        initialize(context);
+//        initialize(context);
     }
 
     public CameraPreviewFrameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize(context);
+//        initialize(context);
     }
 
     public void setListener(Listener listener) {
         mListener = listener;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (!mGestureDetector.onTouchEvent(event)) {
-            return mScaleDetector.onTouchEvent(event);
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (!mGestureDetector.onTouchEvent(event)) {
+//            return mScaleDetector.onTouchEvent(event);
+//        }
+//        return false;
+//    }
 
     private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
