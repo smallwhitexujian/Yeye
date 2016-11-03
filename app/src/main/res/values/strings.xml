@@ -462,6 +462,6 @@
     <string name="gift_center">Gift</string>
     <string name="follows">Followed</string>
     <string name="ta_home">Home Page</string>
-    <string name="pay_channel">请选择支付方式</string>
+    <string name="pay_channel">Please select the payment method</string>
 
 </resources>
