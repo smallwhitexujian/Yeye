@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,6 +70,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private RechargeModel mRechargeModel;
     private ImageView digi_selected, google_selected;
     private boolean isMiMoPay = false;
+    private RelativeLayout item_google,item_digi;
 
 
     @Override
@@ -89,8 +91,8 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         digi_selected = (ImageView) findViewById(R.id.digi_selected);
         google_selected = (ImageView) findViewById(R.id.google_selected);
         google_selected.setVisibility(View.VISIBLE);
-        RelativeLayout item_google = (RelativeLayout) findViewById(R.id.item_google);
-        RelativeLayout item_digi = (RelativeLayout) findViewById(R.id.item_digi);
+        item_google = (RelativeLayout) findViewById(R.id.item_google);
+        item_digi = (RelativeLayout) findViewById(R.id.item_digi);
         item_google.setOnClickListener(this);
         item_digi.setOnClickListener(this);
     }
@@ -158,16 +160,20 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 sethintSelected();
                 loadMenu(PayType.TYPE_MIMOPAY);
                 digi_selected.setVisibility(View.VISIBLE);
+                item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_red));
                 break;
             case R.id.item_google://Google支付
                 sethintSelected();
                 loadMenu(PayType.TYPE_GOOGLE);
                 google_selected.setVisibility(View.VISIBLE);
+                item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_red));
                 break;
         }
     }
 
     private void sethintSelected() {
+        item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_ffffff));
+        item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_ffffff));
         digi_selected.setVisibility(View.GONE);
         google_selected.setVisibility(View.GONE);
     }
