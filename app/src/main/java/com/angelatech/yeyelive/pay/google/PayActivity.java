@@ -19,7 +19,7 @@ public class PayActivity extends HeaderBaseActivity implements CommonDoHandler {
     protected int requestCode = 1000;
 
     private final int PREFIX = 0xAA;
-    protected final int CANCEL_PURCHASE = PREFIX + 9;
+    protected final int CANCEL_PURCHASE = PREFIX + 9;//取消购买
     private final String KEY = "will.com";
 
     private CommonHandler<PayActivity> mHandler = new CommonHandler(this);
@@ -85,7 +85,9 @@ public class PayActivity extends HeaderBaseActivity implements CommonDoHandler {
 
 
     public void pay(String sku, int requestCode, String extraData) {
-        mPayManager.pay(PayActivity.this, sku, requestCode, extraData);
+        if (mPayManager != null){
+            mPayManager.pay(PayActivity.this, sku, requestCode, extraData);
+        }
     }
 
 

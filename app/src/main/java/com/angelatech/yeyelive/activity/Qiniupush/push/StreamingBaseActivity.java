@@ -188,6 +188,7 @@ public class StreamingBaseActivity extends BaseActivity implements
 //                .setPreferredVideoEncodingSize(960, 544)
                 .setEncodingSizeLevel(Config.ENCODING_LEVEL)
                 .setEncoderRCMode(StreamingProfile.EncoderRCModes.QUALITY_PRIORITY)
+//                .setAdaptiveBitrateEnable(true)//自动适应码率
 //                .setAVProfile(avProfile)
                 .setDnsManager(getMyDnsManager())//设置dns加速
                 .setStreamStatusConfig(new StreamingProfile.StreamStatusConfig(3))//设置每隔3秒钟进行回调
@@ -301,17 +302,6 @@ public class StreamingBaseActivity extends BaseActivity implements
     }
 
     @Override
-    public boolean onPreviewFrame(byte[] bytes, int width, int height) {
-//        deal with the yuv data.
-//        long start = System.currentTimeMillis();
-//        for (int i = 0; i < bytes.length; i++) {
-//            bytes[i] = 0x00;
-//        }
-//        Log.i(TAG, "old onPreviewFrame cost :" + (System.currentTimeMillis() - start));
-        return true;
-    }
-
-    @Override
     public void onSurfaceCreated() {
         mFBO.initialize(this);
     }
@@ -422,6 +412,11 @@ public class StreamingBaseActivity extends BaseActivity implements
 
     public void setStreamCallback(StreamCallback callback) {
         this.streamCallback = callback;
+    }
+
+    @Override
+    public boolean onPreviewFrame(byte[] bytes, int i, int i1, int i2, int i3, long l) {
+        return false;
     }
 
     public interface StreamCallback {

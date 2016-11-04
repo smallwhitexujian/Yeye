@@ -246,6 +246,10 @@
             android:name="com.mimopay.MimopayActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateUnspecified|adjustPan"/>
+
+        <activity
+            android:name="com.qiniu.pili.droid.streaming.screen.ScreenCaptureRequestActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <service
             android:name=".service.IService"
             android:allowBackup="true"

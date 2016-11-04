@@ -65,7 +65,6 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private GooglePay mGooglePay;
     private MimoPayLib mimoPayLib;
     private BasicUserInfoDBModel user;
-    private RelativeLayout item_google, item_digi;
     private TextView mRechargeTextView;
     private RechargeModel mRechargeModel;
     private ImageView digi_selected, google_selected;
@@ -90,8 +89,8 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         digi_selected = (ImageView) findViewById(R.id.digi_selected);
         google_selected = (ImageView) findViewById(R.id.google_selected);
         google_selected.setVisibility(View.VISIBLE);
-        item_google = (RelativeLayout) findViewById(R.id.item_google);
-        item_digi = (RelativeLayout) findViewById(R.id.item_digi);
+        RelativeLayout item_google = (RelativeLayout) findViewById(R.id.item_google);
+        RelativeLayout item_digi = (RelativeLayout) findViewById(R.id.item_digi);
         item_google.setOnClickListener(this);
         item_digi.setOnClickListener(this);
     }
