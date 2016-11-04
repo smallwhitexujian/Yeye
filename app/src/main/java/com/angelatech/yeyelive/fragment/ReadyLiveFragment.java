@@ -110,7 +110,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
     private void initView() {
         chatRoom = new ChatRoom(getActivity());
-        ready_layout = (RelativeLayout)controlView.findViewById(R.id.ready_layout);
+        ready_layout = (RelativeLayout) controlView.findViewById(R.id.ready_layout);
         spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
         btn_start = (Button) controlView.findViewById(R.id.btn_start);
@@ -132,7 +132,7 @@ public class ReadyLiveFragment extends BaseFragment {
         } else {
             liveUserModel = loginUserModel;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
             ready_layout.setPadding(0, statusBarHeight, 0, 0);
         }
@@ -406,24 +406,28 @@ public class ReadyLiveFragment extends BaseFragment {
 
             @Override
             public void onSuccess(final String response) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CommonListResult<coverInfoModel> commonListResult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<coverInfoModel>>() {
-                        }.getType());
-                        if (commonListResult != null) {
-                            if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))){
-
-                                if ( commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()){
-                                    setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
+                if (isAdded()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonListResult<coverInfoModel> commonListResult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<coverInfoModel>>() {
+                            }.getType());
+                            if (commonListResult != null) {
+                                if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))) {
+                                    if (commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()) {
+                                        setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         };
-        chatRoom.getRoomInfo(CommonUrlConfig.roomInfo, userid, token, callback);
+        if (chatRoom != null) {
+            chatRoom.getRoomInfo(CommonUrlConfig.roomInfo, userid, token, callback);
+        }
+
     }
 
     @Override
