@@ -522,6 +522,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+<<<<<<< HEAD
 //        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
         initialize(getActivity());
         ly_main.setOnTouchListener(new View.OnTouchListener() {
@@ -531,6 +532,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 //        }
+=======
+        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+            initialize(getActivity());
+            ly_main.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
+                }
+            });
+        }
+>>>>>>> 21f09b4e2b6470c347310701452db154bc914d4b
     }
 
     private void initialize(Context context) {
@@ -1123,7 +1135,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 chatlinemodel.type = 10;
                 chatlinemodel.message = radioMessage.msg;
                 App.mChatlines.add(chatlinemodel);
-                mAdapter.notifyDataSetChanged();
+                if(mAdapter!=null){
+                    mAdapter.setDeviceList(App.mChatlines);
+                }
             }
         });
     }
@@ -1269,7 +1283,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void run() {
                     chatline.setAdapter(mAdapter);
-                    mAdapter.setDeviceList(App.mChatlines);
+                    if(mAdapter!=null){
+                        mAdapter.setDeviceList(App.mChatlines);
+                    }
                 }
             });
         }
@@ -1277,7 +1293,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     public void notifyData() {
         if (isAdded()) {
-            mAdapter.setDeviceList(App.mChatlines);
+            if(mAdapter!=null){
+                mAdapter.setDeviceList(App.mChatlines);
+            }
         }
     }
 

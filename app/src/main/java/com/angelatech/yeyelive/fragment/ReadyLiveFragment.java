@@ -437,6 +437,7 @@ public class ReadyLiveFragment extends BaseFragment {
 
             @Override
             public void onSuccess(final String response) {
+<<<<<<< HEAD
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -447,14 +448,30 @@ public class ReadyLiveFragment extends BaseFragment {
 
                                 if (commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()) {
                                     setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
+=======
+                if (isAdded()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonListResult<coverInfoModel> commonListResult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<coverInfoModel>>() {
+                            }.getType());
+                            if (commonListResult != null) {
+                                if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))) {
+                                    if (commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()) {
+                                        setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
+                                    }
+>>>>>>> 21f09b4e2b6470c347310701452db154bc914d4b
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         };
-        chatRoom.getRoomInfo(CommonUrlConfig.roomInfo, userid, token, callback);
+        if (chatRoom != null) {
+            chatRoom.getRoomInfo(CommonUrlConfig.roomInfo, userid, token, callback);
+        }
+
     }
 
     @Override

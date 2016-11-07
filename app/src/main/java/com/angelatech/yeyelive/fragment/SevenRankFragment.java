@@ -219,18 +219,17 @@ public class SevenRankFragment extends BaseFragment implements
 
         @Override
         public void onSuccess(final String response) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    LoadingDialog.cancelLoadingDialog();
-                    CommonListResult<RankModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RankModel>>() {
-                    }.getType());
-                    if (datas == null) {
-                        no_data_layout.setVisibility(View.VISIBLE);
-
-                        return;
-                    }
-                    if (isAdded()) {
+            if (isAdded()) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LoadingDialog.cancelLoadingDialog();
+                        CommonListResult<RankModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RankModel>>() {
+                        }.getType());
+                        if (datas == null) {
+                            no_data_layout.setVisibility(View.VISIBLE);
+                            return;
+                        }
                         if (HttpFunction.isSuc(datas.code)) {
                             if (datas.hasData() && datas.data.size() > 0) {
                                 rankModels.clear();
@@ -249,8 +248,8 @@ public class SevenRankFragment extends BaseFragment implements
                         }
                         swipyRefreshLayout.setRefreshing(false);
                     }
-                }
-            });
+                });
+            }
         }
     };
 

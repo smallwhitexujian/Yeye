@@ -438,7 +438,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             public void onFailure(Map<String, ?> errorMap) {
                 DebugLogs.e("=========response=====保存录像失败");
                 if (!isRun) {
-                    LiveQiSaveVideo(isSave);
                     isRun = true;
                 }
             }
@@ -1142,7 +1141,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             exitRoom();
         }
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-            plUtils.onDestroy();
+            if(plUtils!=null){
+                plUtils.onDestroy();
+            }
         }
         super.onDestroy();
         System.gc();
