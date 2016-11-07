@@ -73,7 +73,8 @@ public class App extends Application {
     public static final String LIVE_PREVIEW = "PREVIEW"; //预览
 
     public static String loginPhone = null;
-    public static String price = "";
+    public static String price = "";            //门票房门票
+    public static String roompwd = "";          //密码房密码
     public static DisplayMetrics screenDpx;
     public static ArrayList<HashMap<String, Object>> marqueeData = new ArrayList<>();
 

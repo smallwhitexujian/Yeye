@@ -68,7 +68,8 @@ public class ReadyLiveFragment extends BaseFragment {
     private final int LIVE_USER = 2; //直播者
     private View controlView;
     private RelativeLayout ly_body;
-    private ImageView btn_sign_on_location, img_location_bg;
+    private LinearLayout layout_lock;
+    private ImageView btn_sign_on_location, img_location_bg, img_start_play_pwd;
     private ImageView btn_facebook, btn_webchatmoments, btn_wechat, btn_weibo;//facebook
     private EditText txt_title;
     private GpsTracker gpsTracker;
@@ -109,8 +110,9 @@ public class ReadyLiveFragment extends BaseFragment {
     }
 
     private void initView() {
+        App.roompwd = "";
         chatRoom = new ChatRoom(getActivity());
-        ready_layout = (RelativeLayout)controlView.findViewById(R.id.ready_layout);
+        ready_layout = (RelativeLayout) controlView.findViewById(R.id.ready_layout);
         spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
         btn_start = (Button) controlView.findViewById(R.id.btn_start);
@@ -125,6 +127,9 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         Front_cover = (FrescoRoundView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
+        layout_lock = (LinearLayout) controlView.findViewById(R.id.layout_lock);
+        img_start_play_pwd = (ImageView) controlView.findViewById(R.id.img_start_play_pwd);
+        layout_lock.setOnClickListener(this);
         loginUserModel = CacheDataManager.getInstance().loadUser();
         if (ChatRoomActivity.roomModel.getUserInfoDBModel() != null) {
             roomModel = ChatRoomActivity.roomModel;
@@ -132,7 +137,7 @@ public class ReadyLiveFragment extends BaseFragment {
         } else {
             liveUserModel = loginUserModel;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
             ready_layout.setPadding(0, statusBarHeight, 0, 0);
         }
@@ -141,6 +146,12 @@ public class ReadyLiveFragment extends BaseFragment {
             initTickets();
         } else {
             layout_ticket.setVisibility(View.GONE);
+        }
+
+        if (liveUserModel.ispwdroom.equals("1")) {
+            layout_lock.setVisibility(View.VISIBLE);
+        } else {
+            layout_lock.setVisibility(View.GONE);
         }
         getRoomInfo(loginUserModel.userid, loginUserModel.token);
     }
@@ -208,7 +219,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private void startLive() {
         img_location_bg.clearAnimation();
         rotateAnimation.cancel();
-        LiveVideoBroadcast(txt_title.getText().toString(), straddres, App.price);
+        LiveVideoBroadcast(txt_title.getText().toString(), straddres, App.price, App.roompwd);
     }
 
     @Override
@@ -293,6 +304,27 @@ public class ReadyLiveFragment extends BaseFragment {
             case R.id.Front_cover:
                 callEvents.onCamera();
                 break;
+            case R.id.layout_lock:
+                //设置密码
+                LockChooseDialogFragment.Callback callback = new LockChooseDialogFragment.Callback() {
+                    @Override
+                    public void onCancel() {
+                        App.roompwd = "";
+                        img_start_play_pwd.setImageResource(R.drawable.btn_start_play_passroom_n);
+                    }
+
+                    @Override
+                    public void onEnter(String password) {
+                        App.roompwd = password;
+                        ToastUtils.showToast(getActivity(), "房间密码已设置为:" +password);
+                        img_start_play_pwd.setImageResource(R.drawable.btn_start_play_passroom_s);
+                        spinnner.setSelection(0);
+                    }
+                };
+
+                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(callback, App.roompwd);
+                lockChooseDialogFragment.show(getActivity().getFragmentManager(), "");
+                break;
         }
     }
 
@@ -369,11 +401,10 @@ public class ReadyLiveFragment extends BaseFragment {
                 mLocationInfo.setText(straddres);
                 break;
         }
-
     }
 
     // 获取开播地址
-    private void LiveVideoBroadcast(String title, String area, String price) {
+    private void LiveVideoBroadcast(String title, String area, String price, String pwd) {
         LoadingDialog.showLoadingDialog(getActivity(), null);
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -395,7 +426,7 @@ public class ReadyLiveFragment extends BaseFragment {
         if (title.isEmpty()) {
             title = String.format(getString(R.string.formatted_2), loginUserModel.nickname);
         }
-        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, callback);
+        chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, pwd, callback);
     }
 
     private void getRoomInfo(String userid, String token) {
@@ -412,9 +443,9 @@ public class ReadyLiveFragment extends BaseFragment {
                         CommonListResult<coverInfoModel> commonListResult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<coverInfoModel>>() {
                         }.getType());
                         if (commonListResult != null) {
-                            if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))){
+                            if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))) {
 
-                                if ( commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()){
+                                if (commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()) {
                                     setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
                                 }
                             }

@@ -46,6 +46,7 @@ import com.angelatech.yeyelive.view.banner.BannerOnPageChangeListener;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.view.library.SwipyRefreshLayout;
@@ -141,7 +142,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
         adapter = new CommonAdapter<LiveVideoModel>(getActivity(), datas, R.layout.item_live_list) {
             @Override
             public void convert(ViewHolder helper, final LiveVideoModel item, int position) {
-                if (isAdded()){
+                if (isAdded()) {
                     if (item.type == 1) {
                         LiveModel liveModel = (LiveModel) item;
                         ViewGroup.LayoutParams para;
@@ -169,7 +170,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         }
                         if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
-                        }else{
+                        } else if (liveModel.ispwdroom.equals("1") && !liveModel.password.isEmpty()) {
+                            helper.setImageResource(R.id.icon_ticket, R.drawable.btn_home_passroom_s);
+                        } else {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
                         }
                     } else {
@@ -199,17 +202,17 @@ public class LiveVideoHotFragment extends BaseFragment implements
                         }
                     }
                     //0 无 1 v 2 金v 9官
-                    switch (item.isv){
+                    switch (item.isv) {
                         case "1":
-                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_white);
+                            helper.setImageResource(R.id.iv_vip, R.drawable.icon_identity_vip_white);
                             helper.showView(R.id.iv_vip);
                             break;
                         case "2":
-                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_vip_gold);
+                            helper.setImageResource(R.id.iv_vip, R.drawable.icon_identity_vip_gold);
                             helper.showView(R.id.iv_vip);
                             break;
                         case "9":
-                            helper.setImageResource(R.id.iv_vip,R.drawable.icon_identity_official);
+                            helper.setImageResource(R.id.iv_vip, R.drawable.icon_identity_official);
                             helper.showView(R.id.iv_vip);
                             break;
                         default:
@@ -285,7 +288,11 @@ public class LiveVideoHotFragment extends BaseFragment implements
             loginUser.Userid = userInfo.userid;
             loginUser.Token = userInfo.token;
             roomModel.setLoginUser(loginUser);
-            ChatRoom.enterChatRoom(getActivity(), roomModel);
+            if (liveModel.ispwdroom.equals("1") && !liveModel.password.isEmpty()) {
+                ChatRoom.enterPWDChatRoom(getActivity(), roomModel, liveModel.password);
+            } else {
+                ChatRoom.enterChatRoom(getActivity(), roomModel);
+            }
         } else {
             //回放视频
             StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, item);
@@ -442,6 +449,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
 
             @Override
             public void onSuccess(String response) {
+                DebugLogs.e("response" + response);
                 synchronized (lock) {
                     CommonVideoModel<LiveModel, VideoModel> result = JsonUtil.fromJson(response, new TypeToken<CommonVideoModel<LiveModel, VideoModel>>() {
                     }.getType());

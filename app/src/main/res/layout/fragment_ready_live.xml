@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ready_layout"
     android:layout_width="match_parent"
-    android:paddingTop="20dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="20dp">
 
     <RelativeLayout
         android:id="@+id/ly_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone"
         tools:ignore="UselessParent"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <EditText
             android:id="@+id/txt_title"
@@ -137,36 +139,72 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_ticket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="7dp"
             android:background="@color/color_30000000"
-            android:gravity="center_vertical"
-            android:paddingLeft="14dp"
-            android:paddingRight="10dp"
-            tools:ignore="RtlHardcoded">
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/layout_ticket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tickets"
-                android:textColor="@color/color_white" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="7dp"
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:paddingLeft="8dp"
-                android:src="@drawable/icon_tickets_golds_small"
-                tools:ignore="RtlSymmetry" />
+                android:gravity="center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="10dp"
+                tools:ignore="RtlHardcoded">
 
-            <Spinner
-                android:id="@+id/spinner"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tickets"
+                    android:textColor="@color/color_white" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:paddingLeft="8dp"
+                    android:src="@drawable/icon_tickets_golds_small"
+                    tools:ignore="RtlSymmetry" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_lock"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="7dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="10dp"
+                tools:ignore="RtlHardcoded">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ready_live_pwd"
+                    android:textColor="@color/color_white" />
+
+                <ImageView
+                    android:id="@+id/img_start_play_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:paddingLeft="8dp"
+                    android:src="@drawable/btn_start_play_passroom_n"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView
@@ -176,8 +214,8 @@
             android:layout_alignParentTop="true"
             android:layout_gravity="bottom"
             android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/layout_ticket"
-            android:layout_toRightOf="@+id/layout_ticket"
+            android:layout_centerHorizontal="true"
+
             android:contentDescription="@string/switch_camera"
             android:padding="10dp"
             android:src="@drawable/btn_room_reverse_camera_n"

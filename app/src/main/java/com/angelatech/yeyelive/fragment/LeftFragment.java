@@ -37,6 +37,7 @@ import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
 
@@ -194,6 +195,7 @@ public class LeftFragment extends HintFragment {
 
             @Override
             public void onSuccess(String response) {
+                DebugLogs.e("response" + response);
                 LoadingDialog.cancelLoadingDialog();
                 CommonListResult<BasicUserInfoDBModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<BasicUserInfoDBModel>>() {
                 }.getType());
@@ -265,7 +267,9 @@ public class LeftFragment extends HintFragment {
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_IS_PWDROOM, basicUserInfoDBModel.ispwdroom, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
+
         }
     }
 

@@ -59,6 +59,12 @@ public class BasicUserInfoDBModel implements Serializable {
      */
     @DatabaseField(columnName = "isticket")
     public String isticket = "0";
+
+    /**
+     * 直播密码房
+     */
+    @DatabaseField(columnName = "ispwdroom")
+    public String ispwdroom = "0";
     /**
      * 邮箱
      */
@@ -84,6 +90,7 @@ public class BasicUserInfoDBModel implements Serializable {
                 ", videoNum='" + videoNum + '\'' +
                 ", isv='" + isv + '\'' +
                 ", loginType='" + loginType + '\'' +
+                ", ispwdroom='" + ispwdroom + '\'' +
                 '}';
     }
 }
