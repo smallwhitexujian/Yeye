@@ -34,8 +34,11 @@ import com.angelatech.yeyelive.activity.Qiniupush.PLVideoTextureUtils;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.activity.function.UserControl;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.fragment.LockChooseDialogFragment;
+import com.angelatech.yeyelive.fragment.TicketsDialogFragment;
 import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.mediaplayer.SurfaceViewHolderCallback;
 import com.angelatech.yeyelive.mediaplayer.VideoPlayer;
@@ -49,10 +52,12 @@ import com.angelatech.yeyelive.thirdShare.ThirdShareDialog;
 import com.angelatech.yeyelive.thirdShare.WxShare;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ErrorHelper;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.will.common.log.DebugLogs;
 
@@ -240,7 +245,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         // 为进度条添加进度更改事件
         player_seekBar.setOnSeekBarChangeListener(change);
 
-        CommonHandler<PlayActivity> mCommonHandler = new CommonHandler<>(this);
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
@@ -255,6 +259,8 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                 UserIsFollow();
             }
         }
+
+        CommonHandler<PlayActivity> mCommonHandler = new CommonHandler<>(this);
         mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
         player_surfaceView.setVisibility(View.VISIBLE);
         // 为SurfaceHolder添加回调
@@ -262,7 +268,75 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         // 4.0版本之下需要设置的属性
         // 设置Surface不维护自己的缓冲区，而是等待屏幕的渲染引擎将内容推送到界面
         // player_surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        mVideoPlayer.prepare();
+
+        if (!videoModel.userid.equals(userModel.userid) && videoModel.ticketprice != null && !videoModel.ticketprice.isEmpty() && Integer.parseInt(videoModel.ticketprice) > 0) {
+            //门票房
+            ChatRoom chatRoom = new ChatRoom(this);
+
+            chatRoom.getVideoTickets(userModel.userid, userModel.token,
+                    String.valueOf(videoModel.videoid), new HttpBusinessCallback() {
+                        @Override
+                        public void onSuccess(String response) {
+                            DebugLogs.e("response" + response);
+                            Map map = JsonUtil.fromJson(response, Map.class);
+                            if (map != null) {
+                                if (HttpFunction.isSuc(map.get("code").toString())) {
+                                    String ticket = map.get("data").toString();
+                                    if (!ticket.equals("0")) {//需要门票
+                                        TicketsDialogFragment.Callback callback = new TicketsDialogFragment.Callback() {
+                                            @Override
+                                            public void onCancel() { finish(); }
+
+                                            @Override
+                                            public void onEnter() {
+                                                LoadingDialog.cancelLoadingDialog();
+                                                mVideoPlayer.prepare();
+                                            }
+                                        };
+                                        TicketsDialogFragment ticketsDialogFragment =
+                                                new TicketsDialogFragment(PlayActivity.this,callback,ticket,Integer.parseInt(videoModel.videoid),1);
+                                        ticketsDialogFragment.show(getFragmentManager(), "");
+                                    } else {
+                                        LoadingDialog.cancelLoadingDialog();
+                                        mVideoPlayer.prepare();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Map<String, ?> errorMap) {
+
+                        }
+                    });
+
+        } else if (!videoModel.userid.equals(userModel.userid) && videoModel.password != null && videoModel.password.length() == 4) {
+            //密码房
+            LockChooseDialogFragment.Callback callback = new LockChooseDialogFragment.Callback() {
+                @Override
+                public void onCancel() {
+                    //密码错误或者不想输入了
+                    finish();
+                }
+
+                @Override
+                public void onEnter(String password) {
+                    if (videoModel.password.equals(password)) {
+                        //密码正确
+                        mVideoPlayer.prepare();
+                    } else {
+                        ToastUtils.showToast(PlayActivity.this, R.string.roompwd_err);
+                    }
+                }
+            };
+
+            LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(PlayActivity.this, callback, App.roompwd, 1);
+            lockChooseDialogFragment.show(this.getFragmentManager(), "");
+
+        } else {
+            //普通房间
+            mVideoPlayer.prepare();
+        }
     }
 
     private SeekBar.OnSeekBarChangeListener change = new SeekBar.OnSeekBarChangeListener() {
@@ -370,7 +444,8 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     break;
                 case R.id.btn_room_exchange:
                     WebTransportModel webTransportModel = new WebTransportModel();
-                    webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&hostid=" + videoModel.userid + "&time=" + System.currentTimeMillis();
+                    webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid +
+                            "&token=" + userModel.token + "&hostid=" + videoModel.userid + "&time=" + System.currentTimeMillis();
                     webTransportModel.title = getString(R.string.gift_center);
                     if (!webTransportModel.url.isEmpty()) {
                         StartActivityHelper.jumpActivity(PlayActivity.this, WebActivity.class, webTransportModel);

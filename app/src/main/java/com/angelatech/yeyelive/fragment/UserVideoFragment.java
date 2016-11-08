@@ -147,7 +147,11 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                         loginUser.Userid = userInfo.userid;
                         loginUser.Token = userInfo.token;
                         roomModel.setLoginUser(loginUser);
-                        ChatRoom.enterChatRoom(getActivity(), roomModel);
+                        if (liveModel.ispwdroom.equals("1") && !liveModel.password.isEmpty()) {
+                            ChatRoom.enterPWDChatRoom(getActivity(), roomModel, liveModel.password);
+                        } else {
+                            ChatRoom.enterChatRoom(getActivity(), roomModel);
+                        }
                     }
                     getActivity().finish();
                 } else {

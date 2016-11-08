@@ -168,9 +168,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             helper.showView(R.id.live_introduce);
                             helper.setText(R.id.live_introduce, liveModel.introduce);
                         }
-                        if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
+                        if (liveModel.ticketprice  != null && Integer.parseInt(liveModel.ticketprice) > 0) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
-                        } else if (liveModel.ispwdroom.equals("1") && !liveModel.password.isEmpty()) {
+                        } else if ( liveModel.password != null &&  !liveModel.password.isEmpty()) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.btn_home_passroom_s);
                         } else {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
@@ -200,6 +200,15 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             helper.showView(R.id.live_introduce);
                             helper.setText(R.id.live_introduce, videoModel.introduce);
                         }
+
+                        if ( videoModel.ticketprice  != null && Integer.parseInt(videoModel.ticketprice) > 0) {
+                            helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
+                        } else if ( videoModel.password != null && !videoModel.password.isEmpty()) {
+                            helper.setImageResource(R.id.icon_ticket, R.drawable.btn_home_passroom_s);
+                        } else {
+                            helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
+                        }
+
                     }
                     //0 无 1 v 2 金v 9官
                     switch (item.isv) {

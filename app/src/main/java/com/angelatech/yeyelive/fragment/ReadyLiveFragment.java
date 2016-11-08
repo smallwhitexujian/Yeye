@@ -316,13 +316,13 @@ public class ReadyLiveFragment extends BaseFragment {
                     @Override
                     public void onEnter(String password) {
                         App.roompwd = password;
-                        ToastUtils.showToast(getActivity(), "房间密码已设置为:" +password);
+                        ToastUtils.showToast(getActivity(), "房间密码已设置为:" + password);
                         img_start_play_pwd.setImageResource(R.drawable.btn_start_play_passroom_s);
                         spinnner.setSelection(0);
                     }
                 };
 
-                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(callback, App.roompwd);
+                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(getActivity(),callback, App.roompwd,0);
                 lockChooseDialogFragment.show(getActivity().getFragmentManager(), "");
                 break;
         }

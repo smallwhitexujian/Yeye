@@ -37,7 +37,6 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
-
     /**
      * 获取所有的房间列表
      */

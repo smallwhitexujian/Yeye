@@ -24,4 +24,6 @@ public class LiveVideoModel implements Serializable {
     public String sex = "0";
     public String password;
     public String ispwdroom;
+    public String isticket = "0";//是否有门票
+    public String ticketprice = "0";
 }
