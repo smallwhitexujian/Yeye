@@ -3,11 +3,13 @@ package com.angelatech.yeyelive.fragment;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.angelatech.yeyelive.mediaplayer.handler.CommonHandler;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.Utility;
 import com.will.common.log.DebugLogs;
+import com.will.view.ToastUtils;
 
 /**
  * User: cbl
@@ -29,20 +32,22 @@ import com.will.common.log.DebugLogs;
  * Time: 18:11
  * 密码 dialog
  */
-public class LockChooseDialogFragment extends DialogFragment implements View.OnClickListener, CommonDoHandler {
+public class LockChooseDialogFragment extends DialogFragment implements View.OnClickListener {
 
     private View view;
     private EditText lock_password;
     private TextView dialog_btn_cancel, dialog_btn_enter, txt_p1, txt_p2, txt_p3, txt_p4;
     private BasicUserInfoDBModel loginUserInfo;
-    private CommonHandler<LockChooseDialogFragment> uiHandler;
     private final int MSG_ENTER_ROOM = 22;
     private Context context;
-    private String mPwd = "";
+    private String password = "";
+    private int type;  //0 设置密码  1 进房间的时候录入密码
 
-    public LockChooseDialogFragment(Callback callback, String pwd) {
+    public LockChooseDialogFragment(Context mcontext, Callback callback, String mPwd, int mtype) {
+        this.context = mcontext;
         this.mCallback = callback;
-        this.mPwd = pwd;
+        this.password = mPwd;
+        this.type = mtype;
     }
 
     public interface Callback {
@@ -61,16 +66,7 @@ public class LockChooseDialogFragment extends DialogFragment implements View.OnC
         view = inflater.inflate(R.layout.dialog_lock_choose, container, false);
         initView();
         setView();
-        uiHandler = new CommonHandler<>(this);
         return view;
-    }
-
-    @Override
-    public void doHandler(Message msg) {
-        switch (msg.what) {
-            case MSG_ENTER_ROOM:
-                break;
-        }
     }
 
     @Override
@@ -140,19 +136,28 @@ public class LockChooseDialogFragment extends DialogFragment implements View.OnC
                         dialog_btn_enter.setEnabled(true);
                         break;
                 }
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
-        if (mPwd != null && !mPwd.isEmpty()) {
-            lock_password.setText(mPwd);
+        if (type == 0 && password != null && !password.isEmpty()) {
+            lock_password.setText(password);
         }
+
+        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    mCallback.onCancel();
+                    dismiss();
+                    return true; // pretend we've processed it
+                } else
+                    return false; // pass on to be processed as normal
+            }
+        });
     }
+
 
     @Override
     public void onClick(View view) {
@@ -163,9 +168,20 @@ public class LockChooseDialogFragment extends DialogFragment implements View.OnC
                 dismiss();
                 break;
             case R.id.dialog_btn_enter:
-                Utility.closeKeybord(lock_password, getActivity());
-                mCallback.onEnter(lock_password.getText().toString());
-                dismiss();
+
+                if (type == 0) {
+                    Utility.closeKeybord(lock_password, getActivity());
+                    mCallback.onEnter(lock_password.getText().toString());
+                    dismiss();
+                } else {
+                    if (lock_password.getText().toString().equals(password)) {
+                        Utility.closeKeybord(lock_password, getActivity());
+                        mCallback.onEnter(lock_password.getText().toString());
+                        dismiss();
+                    } else {
+                        ToastUtils.showToast(context, R.string.roompwd_err);
+                    }
+                }
                 break;
         }
     }

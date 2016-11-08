@@ -146,7 +146,7 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
         adapter = new CommonAdapter<LiveVideoModel>(getActivity(), datas, R.layout.item_new_list) {
             @Override
             public void convert(ViewHolder helper, final LiveVideoModel item, int position) {
-                if (isAdded()){
+                if (isAdded()) {
                     if (item.type == 1) {
                         LiveModel liveModel = (LiveModel) item;
                         ViewGroup.LayoutParams para;
@@ -156,14 +156,18 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                         helper.getView(R.id.live_cover).setLayoutParams(para);
                         helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
                         helper.setText(R.id.iv_line, "LIVE");
-                        helper.setImageURI(R.id.live_cover,liveModel.headurl);
+                        helper.setImageURI(R.id.live_cover, liveModel.headurl);
                         if (liveModel.area == null || "".equals(liveModel.area)) {
                             helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                         } else {
                             helper.setText(R.id.area, liveModel.area);
                         }
-                        if (liveModel.isticket.equals("1") && Integer.parseInt(liveModel.ticketprice) > 0) {
+                        if ( liveModel.ticketprice != null && Integer.parseInt(liveModel.ticketprice) > 0) {
+                            helper.showView(R.id.ticket);
                             helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
+                        } else if ( liveModel.password != null && liveModel.password.length() == 4) {
+                            helper.showView(R.id.ticket);
+                            helper.setImageResource(R.id.ticket, R.drawable.btn_home_passroom_s);
                         } else {
                             helper.hideView(R.id.ticket);
                         }
@@ -181,6 +185,16 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                             helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                         } else {
                             helper.setText(R.id.area, item.area);
+                        }
+
+                        if (videoModel.ticketprice != null &&  !videoModel.ticketprice.isEmpty() && Integer.parseInt(videoModel.ticketprice) > 0) {
+                            helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
+                            helper.showView(R.id.ticket);
+                        } else if (videoModel.password != null && videoModel.password.length() == 4) {
+                            helper.setImageResource(R.id.ticket, R.drawable.btn_home_passroom_s);
+                            helper.showView(R.id.ticket);
+                        } else {
+                            helper.hideView(R.id.ticket);
                         }
                     }
                 }
@@ -235,7 +249,11 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
             loginUser.Userid = userInfo.userid;
             loginUser.Token = userInfo.token;
             roomModel.setLoginUser(loginUser);
-            ChatRoom.enterChatRoom(getActivity(), roomModel);
+            if (liveModel.ispwdroom.equals("1") && !liveModel.password.isEmpty()) {
+                ChatRoom.enterPWDChatRoom(getActivity(), roomModel, liveModel.password);
+            } else {
+                ChatRoom.enterChatRoom(getActivity(), roomModel);
+            }
         } else {
             //回放视频
             StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, item);

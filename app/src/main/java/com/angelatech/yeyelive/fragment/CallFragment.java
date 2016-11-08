@@ -522,17 +522,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
-<<<<<<< HEAD
-//        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
-        initialize(getActivity());
-        ly_main.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
-            }
-        });
-//        }
-=======
+
         if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             initialize(getActivity());
             ly_main.setOnTouchListener(new View.OnTouchListener() {
@@ -542,7 +532,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
             });
         }
->>>>>>> 21f09b4e2b6470c347310701452db154bc914d4b
     }
 
     private void initialize(Context context) {
@@ -989,7 +978,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 } else {
 
                     Bitmap img = DisplayTool.snapShotWithoutStatusBar(getActivity());
-                    RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(),img);
+                    RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(), img);
                     roomScreenshotsDialogFragment.show(getActivity().getFragmentManager(), "");
                 }
                 break;
@@ -998,7 +987,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 //隐藏工具栏
                 ly_toolbar2.setVisibility(View.GONE);
                 Bitmap img = DisplayTool.snapShotWithoutStatusBar(getActivity());
-                RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(),img);
+                RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(), img);
                 roomScreenshotsDialogFragment.show(getActivity().getFragmentManager(), "");
                 break;
             case R.id.btn_room_exchange://房间跳转商城
@@ -1135,7 +1124,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 chatlinemodel.type = 10;
                 chatlinemodel.message = radioMessage.msg;
                 App.mChatlines.add(chatlinemodel);
-                if(mAdapter!=null){
+                if (mAdapter != null) {
                     mAdapter.setDeviceList(App.mChatlines);
                 }
             }
@@ -1283,7 +1272,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void run() {
                     chatline.setAdapter(mAdapter);
-                    if(mAdapter!=null){
+                    if (mAdapter != null) {
                         mAdapter.setDeviceList(App.mChatlines);
                     }
                 }
@@ -1293,7 +1282,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
 
     public void notifyData() {
         if (isAdded()) {
-            if(mAdapter!=null){
+            if (mAdapter != null) {
                 mAdapter.setDeviceList(App.mChatlines);
             }
         }

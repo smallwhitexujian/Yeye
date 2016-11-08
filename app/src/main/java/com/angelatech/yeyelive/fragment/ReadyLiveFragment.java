@@ -316,13 +316,13 @@ public class ReadyLiveFragment extends BaseFragment {
                     @Override
                     public void onEnter(String password) {
                         App.roompwd = password;
-                        ToastUtils.showToast(getActivity(), "房间密码已设置为:" +password);
+                        ToastUtils.showToast(getActivity(), "房间密码已设置为:" + password);
                         img_start_play_pwd.setImageResource(R.drawable.btn_start_play_passroom_s);
                         spinnner.setSelection(0);
                     }
                 };
 
-                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(callback, App.roompwd);
+                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(getActivity(),callback, App.roompwd,0);
                 lockChooseDialogFragment.show(getActivity().getFragmentManager(), "");
                 break;
         }
@@ -437,18 +437,6 @@ public class ReadyLiveFragment extends BaseFragment {
 
             @Override
             public void onSuccess(final String response) {
-<<<<<<< HEAD
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CommonListResult<coverInfoModel> commonListResult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<coverInfoModel>>() {
-                        }.getType());
-                        if (commonListResult != null) {
-                            if (commonListResult.code.equals(String.valueOf(HttpFunction.SUC_OK))) {
-
-                                if (commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()) {
-                                    setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
-=======
                 if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -460,7 +448,6 @@ public class ReadyLiveFragment extends BaseFragment {
                                     if (commonListResult.hasData() && !commonListResult.data.get(0).barcover.isEmpty()) {
                                         setPhoto(Uri.parse(commonListResult.data.get(0).barcover));
                                     }
->>>>>>> 21f09b4e2b6470c347310701452db154bc914d4b
                                 }
                             }
                         }

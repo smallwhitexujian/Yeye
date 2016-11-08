@@ -70,13 +70,12 @@ public class ChatRoom extends HttpFunction {
             }
         };
 
-        LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(callback, App.roompwd);
+        LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(context,callback, roompwd,1);
         lockChooseDialogFragment.show(activity.getFragmentManager(), "");
     }
 
     //进ChatRoom房间
     //增加门票功能
-    //增加密码房功能
     public static void enterChatRoom(final Context context, final RoomModel roomModel) {
         ChatRoom chatRoom = new ChatRoom(context);
 
@@ -90,9 +89,18 @@ public class ChatRoom extends HttpFunction {
                             if (HttpFunction.isSuc(map.get("code").toString())) {
                                 String ticket = map.get("data").toString();
                                 if (!ticket.equals("0")) {//需要门票
-                                    TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment();
-                                    roomModel.setTicket(ticket);
-                                    ticketsDialogFragment.setRoomModel(roomModel);
+
+                                    TicketsDialogFragment.Callback callback = new TicketsDialogFragment.Callback() {
+                                        @Override
+                                        public void onCancel() {  }
+
+                                        @Override
+                                        public void onEnter() {
+                                            ChatRoom.closeChatRoom();
+                                            StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+                                        }
+                                    };
+                                    TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment(context,callback,ticket,roomModel.getId(),0);
                                     ticketsDialogFragment.show(activity.getFragmentManager(), "");
                                 } else {
                                     preEnterChatRoom(context);
@@ -117,11 +125,27 @@ public class ChatRoom extends HttpFunction {
      * @param roomId   房间id
      * @param callback 回调
      */
-    private void getRoomTickets(String userId, String token, String roomId, HttpBusinessCallback callback) {
+    public void getRoomTickets(String userId, String token, String roomId, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("userid", userId);
         params.put("toroomid", roomId);
+        httpGet(CommonUrlConfig.PayTicketsIsPay, params, callback);
+    }
+
+    /**
+     * 获取录播门票信息
+     *
+     * @param userId   uid
+     * @param token    token
+     * @param videoid   房间id
+     * @param callback 回调
+     */
+    public void getVideoTickets(String userId, String token, String videoid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("userid", userId);
+        params.put("videoid", videoid);
         httpGet(CommonUrlConfig.PayTicketsIsPay, params, callback);
     }
 
@@ -164,11 +188,11 @@ public class ChatRoom extends HttpFunction {
      * @param roomId   房间id
      * @param callback 回调
      */
-    public void payTicketsIsIns(String userId, String token, String roomId, HttpBusinessCallback callback) {
+    public void payTicketsIsIns(String userId, String token, String roomidtype, String roomId, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("userid", userId);
-        params.put("toroomid", roomId);
+        params.put(roomidtype, roomId);
         httpGet(CommonUrlConfig.PayTicketsIsIns, params, callback);
     }
 
