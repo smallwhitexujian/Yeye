@@ -31,9 +31,11 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.facebook.AccessToken;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
+import com.will.common.tool.DeviceTool;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.ArrayList;
@@ -48,12 +50,14 @@ public class SearchActivity extends WithBroadCastActivity {
     private final int MSG_SET_FOLLOW = 4;
     private final int MSG_CLEAR_DATA = 5;
 
+    private final int MSG_UPDATE_FRIEND_RESULT = 11;
+
     private ListView searchListView;
     private EditText searchEditText;
     private CommonAdapter<SearchItemModel> adapter;
     private volatile List<SearchItemModel> datas = new ArrayList<>();
 
-    private TextView searchCancel;
+    private TextView searchCancel,txt_title;
 
     private SearchUser searchUser;
     private BasicUserInfoDBModel model;
@@ -61,6 +65,8 @@ public class SearchActivity extends WithBroadCastActivity {
     private volatile String searchKey;
 
     private RelativeLayout noDataLayout;
+
+    private String before = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,7 @@ public class SearchActivity extends WithBroadCastActivity {
         searchEditText = (EditText) findViewById(R.id.search_input);
         searchListView = (ListView) findViewById(R.id.search_list);
         searchCancel = (TextView) findViewById(R.id.search_cancel);
+        txt_title = (TextView) findViewById(R.id.txt_title);
         noDataLayout = (RelativeLayout)findViewById(R.id.no_data_layout);
 
         adapter = new CommonAdapter<SearchItemModel>(this, datas, R.layout.item_search) {
@@ -184,6 +191,7 @@ public class SearchActivity extends WithBroadCastActivity {
 
         Utility.openKeybord(searchEditText, this);
         noDataLayout.setVisibility(View.GONE);
+        Responsefbfriends();
     }
 
     public Runnable searchTask = new Runnable() {
@@ -217,10 +225,34 @@ public class SearchActivity extends WithBroadCastActivity {
         searchUser.searchUser(model.userid, model.token, Encryption.utf8ToUnicode(searchKey), callback);
     }
 
+    private void Responsefbfriends() {
+        final HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {}
+
+            @Override
+            public void onSuccess(String response) {
+                CommonListResult<SearchItemModel> results = JsonUtil.fromJson(response, new TypeToken<CommonListResult<SearchItemModel>>() {
+                }.getType());
+                if (results != null && HttpFunction.isSuc(results.code)) {
+                    //before = results.before;
+                    if (results.hasData()) {
+                        uiHandler.obtainMessage(MSG_UPDATE_FRIEND_RESULT, 0, 0, results.data).sendToTarget();
+                    } else {
+                        uiHandler.obtainMessage(MSG_NO_DATA, 0, 0).sendToTarget();
+                    }
+                }
+            }
+        };
+
+        searchUser.getfbfriends(model.userid, model.token, before, AccessToken.getCurrentAccessToken().getToken(), callback);
+    }
+
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_UPDATE_SEARCH_RESULT:
+                txt_title.setVisibility(View.GONE);
                 if (searchKey == null || "".equals(searchKey)) {
                     return;
                 }
@@ -228,7 +260,14 @@ public class SearchActivity extends WithBroadCastActivity {
                 adapter.setData(datas);
                 adapter.notifyDataSetChanged();
                 break;
+            case MSG_UPDATE_FRIEND_RESULT:
+                txt_title.setVisibility(View.VISIBLE);
+                datas = (List<SearchItemModel>) msg.obj;
+                adapter.setData(datas);
+                adapter.notifyDataSetChanged();
+                break;
             case MSG_NO_DATA:
+                txt_title.setVisibility(View.GONE);
                 showNoDataLayout();
                 datas = new ArrayList<>();
                 adapter.setData(datas);
