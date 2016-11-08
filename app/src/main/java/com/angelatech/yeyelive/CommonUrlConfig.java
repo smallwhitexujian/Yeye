@@ -180,4 +180,8 @@ public class CommonUrlConfig {
 
     //获取facebook好友列表
     public static String getfbfriends = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/getfbfriends";
+
+    //审核支付开关
+    public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
+
 }

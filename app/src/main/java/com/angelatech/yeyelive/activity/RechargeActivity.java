@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private ListView mRechargeListView;
     private CommonAdapter<RechargeModel> mCommonAdapter;
     private List<RechargeModel> mDatas;
-    private TextView mBalanceTextView;
+    private TextView mBalanceTextView, recharge_tips;
     private boolean isAvaliable = true;
     private GooglePay mGooglePay;
     private MimoPayLib mimoPayLib;
@@ -71,6 +72,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private ImageView digi_selected, google_selected;
     private boolean isMiMoPay = false;
     private RelativeLayout item_google, item_digi;
+    private LinearLayout recharge_pay_model;
 
 
     @Override
@@ -88,13 +90,41 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         mRechargeListView = (ListView) findViewById(R.id.recharge_listview);
         mBalanceTextView = (TextView) findViewById(R.id.recharge_balance_coin);
         mRechargeTextView = (TextView) findViewById(R.id.btn_submit_pay);
+        recharge_tips = (TextView) findViewById(R.id.recharge_tips);
         digi_selected = (ImageView) findViewById(R.id.digi_selected);
         google_selected = (ImageView) findViewById(R.id.google_selected);
+        recharge_pay_model = (LinearLayout) findViewById(R.id.recharge_pay_model);
         google_selected.setVisibility(View.VISIBLE);
         item_google = (RelativeLayout) findViewById(R.id.item_google);
         item_digi = (RelativeLayout) findViewById(R.id.item_digi);
         item_google.setOnClickListener(this);
         item_digi.setOnClickListener(this);
+        Map<String, String> map = new HashMap<>();
+        map.put("userid", user.userid);
+        map.put("token", user.token);
+        mGooglePay.RechargeDisplay(map, new HttpBusinessCallback() {
+            @Override
+            public void onSuccess(final String response) {
+                super.onSuccess(response);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String data = jsonObject.getString("data");
+                            JSONObject object = new JSONObject(data);
+                            String isMimopay = object.getString("mimopay");
+                            if (!isMimopay.equals("0")) {//审核
+                                recharge_tips.setVisibility(View.VISIBLE);
+                                recharge_pay_model.setVisibility(View.VISIBLE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void setView() {
@@ -221,7 +251,6 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 
             @Override
             public void onSuccess(String response) {
-                DebugLogs.e("=====" + response);
                 CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
                 }.getType());
                 if (results != null) {

@@ -49,6 +49,7 @@
         android:background="@color/font_line" />
 
     <TextView
+        android:id="@+id/recharge_tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -57,15 +58,18 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
+        android:visibility="gone"
         android:text="@string/pay_channel"
         android:textColor="@color/color_999999"
         tools:ignore="RtlHardcoded,RtlSymmetry" />
 
     <LinearLayout
+        android:id="@+id/recharge_pay_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
         tools:ignore="DisableBaselineAlignment">
