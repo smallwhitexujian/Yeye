@@ -28,7 +28,7 @@ public class GooglePay extends HttpFunction{
 
 
     public void loadMenu(int type,HttpBusinessCallback callback){
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("sources", SOURCES_ANDROID+"");//android or ios
         params.put("type",type+"");
         httpGet(CommonUrlConfig.RechargeConfigList, params, callback);
@@ -68,11 +68,11 @@ public class GooglePay extends HttpFunction{
     }
 
 
-    protected String getOrderSign(String srcStr, String key) {
+    private String getOrderSign(String srcStr, String key) {
         return securityManager.getOrderSign(srcStr, key);
     }
 
-    protected String getCheckSign(String srcStr, String extraStr, String key) {
+    private String getCheckSign(String srcStr, String extraStr, String key) {
         return securityManager.getCheckSign(srcStr, extraStr, key);
     }
 
@@ -84,6 +84,11 @@ public class GooglePay extends HttpFunction{
      */
     public void getUserDiamond(Map<String, String> params, HttpBusinessCallback callback) {
         httpGet(CommonUrlConfig.GetUserDiamond, params, callback);
+    }
+
+
+    public void RechargeDisplay(Map<String, String> params, HttpBusinessCallback callback){
+        httpGet(CommonUrlConfig.RechargeDisplay, params, callback);
     }
 
 

@@ -177,4 +177,6 @@ public class CommonUrlConfig {
     public static String FriendHelist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHelist";
     //系统通知
     public static String SysNotice = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/SysNotice";
+    //审核支付开关
+    public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
 }
