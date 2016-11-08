@@ -65,6 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             if(oldVersion < DBConfig.DB_VERSION){
                 DatabaseUpdateHelper.upgradeTable(database,connectionSource,SystemMessageDBModel.class, DatabaseUpdateHelper.OPERATION_TYPE.ADD);
+                DatabaseUpdateHelper.upgradeTable(database,connectionSource,BasicUserInfoDBModel.class, DatabaseUpdateHelper.OPERATION_TYPE.ADD);
             }else if (mClasses != null) {
                 for (Class clazz : mClasses) {
                     TableUtils.dropTable(connectionSource, clazz, true);
