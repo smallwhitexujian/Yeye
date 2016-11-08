@@ -48,20 +48,31 @@
         android:layout_height="0.5dp"
         android:background="@color/color_grey_d5" />
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/none_data_layout" />
 
-        <ListView
-            android:id="@+id/search_list"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:divider="@color/color_grey_d5"
-            android:dividerHeight="0.5dp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:text="您可能认识" />
+
+            <ListView
+                android:id="@+id/search_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:divider="@color/color_grey_d5"
+                android:dividerHeight="0.5dp" />
+        </LinearLayout>
 
     </FrameLayout>
 

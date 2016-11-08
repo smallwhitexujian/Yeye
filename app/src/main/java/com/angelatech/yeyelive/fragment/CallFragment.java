@@ -93,6 +93,8 @@ import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.will.common.tool.view.DisplayTool;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -119,7 +121,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private final int ONSHOW_SOFT_KEYB = 12;
     private ImageView cameraSwitchButton;
 
-    private ImageView btn_Follow;
+    private ImageView btn_Follow, btn_room_screenshots;
     private ImageView btn_share, btn_room_more;
     private ImageView iv_vip;
     private ImageView btn_beautiful;
@@ -190,7 +192,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private IDanmakuView mDanmakuView;
     private DanmuControl mDanmuControl;
     private ScaleGestureDetector mScaleDetector = null;
-    private GestureDetector mGestureDetector= null;
+    private GestureDetector mGestureDetector = null;
 
     public void setDiamonds(String diamonds) {
         try {
@@ -314,6 +316,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
+        btn_room_screenshots = (ImageView) controlView.findViewById(R.id.btn_room_screenshots);
         int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             rootView.setPadding(0, statusBarHeight, 0, 0);
@@ -342,6 +345,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         btn_beautiful.setOnClickListener(this);
         gift_Recharge.setOnClickListener(this);
         btn_danmu.setOnClickListener(this);
+        btn_room_screenshots.setOnClickListener(this);
 
         grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -518,6 +522,17 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             }
         }).start();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+<<<<<<< HEAD
+//        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
+        initialize(getActivity());
+        ly_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
+            }
+        });
+//        }
+=======
         if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             initialize(getActivity());
             ly_main.setOnTouchListener(new View.OnTouchListener() {
@@ -527,6 +542,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
             });
         }
+>>>>>>> 21f09b4e2b6470c347310701452db154bc914d4b
     }
 
     private void initialize(Context context) {
@@ -595,6 +611,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (liveUserModel.userid.equals(userModel.userid)) {
             btn_lamp.setVisibility(View.VISIBLE);
             btn_beautiful.setVisibility(View.VISIBLE);
+            btn_room_screenshots.setVisibility(View.VISIBLE);
         }
     }
 
@@ -868,10 +885,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (!userModel.userid.equals(liveUserModel.userid)) {
             cameraSwitchButton.setVisibility(View.GONE);
             btn_share.setVisibility(View.VISIBLE);
-            btn_room_more.setVisibility(View.GONE);
+            //btn_room_more.setVisibility(View.GONE);
+            btn_room_more.setImageResource(R.drawable.btn_room_screenshots);
             UserIsFollow();
         } else {
-            btn_room_more.setVisibility(View.VISIBLE);
+            btn_room_more.setImageResource(R.drawable.btn_room_more_n);
+            // btn_room_more.setVisibility(View.VISIBLE);
             cameraSwitchButton.setVisibility(View.VISIBLE);
             btn_share.setVisibility(View.VISIBLE);
             btn_Follow.setVisibility(View.GONE);
@@ -962,15 +981,30 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 btn_Follow.setClickable(false);
                 break;
             case R.id.btn_room_more:
-                if (ly_toolbar2.getVisibility() == View.VISIBLE) {
-                    ly_toolbar2.setVisibility(View.GONE);
-                } else if (ly_toolbar2.getVisibility() == View.GONE) {
-                    ly_toolbar2.setVisibility(View.VISIBLE);
+                if (userModel.userid.equals(liveUserModel.userid)) {
+                    if (ly_toolbar2.getVisibility() == View.VISIBLE) {
+                        ly_toolbar2.setVisibility(View.GONE);
+                    } else if (ly_toolbar2.getVisibility() == View.GONE) {
+                        ly_toolbar2.setVisibility(View.VISIBLE);
+                    }
+                } else {
+
+                    Bitmap img = DisplayTool.snapShotWithoutStatusBar(getActivity());
+                    RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(),img);
+                    roomScreenshotsDialogFragment.show(getActivity().getFragmentManager(), "");
                 }
+                break;
+            //截屏
+            case R.id.btn_room_screenshots:
+                //隐藏工具栏
+                ly_toolbar2.setVisibility(View.GONE);
+                Bitmap img = DisplayTool.snapShotWithoutStatusBar(getActivity());
+                RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(),img);
+                roomScreenshotsDialogFragment.show(getActivity().getFragmentManager(), "");
                 break;
             case R.id.btn_room_exchange://房间跳转商城
                 WebTransportModel webTransportModel = new WebTransportModel();
-                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&hostid="+liveUserModel.userid+"&time=" + System.currentTimeMillis();
+                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&hostid=" + liveUserModel.userid + "&time=" + System.currentTimeMillis();
                 webTransportModel.title = getString(R.string.gift_center);
                 if (!webTransportModel.url.isEmpty()) {
                     StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
@@ -987,6 +1021,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (sharetitle.equals("")) {
                     sharetitle = getString(R.string.shareTitle);
                 }
+
                 builder.setShareContent(sharetitle, getString(R.string.shareDescription),
                         CommonUrlConfig.facebookURL + "?uid=" + liveUserModel.userid,
                         imageUrl);
@@ -1859,7 +1894,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mAdapter!=null){
+        if (mAdapter != null) {
             mAdapter.clearDeviceList();
             mAdapter = null;
         }

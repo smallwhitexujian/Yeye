@@ -222,7 +222,6 @@
                 android:layout_marginBottom="10dp"
                 android:contentDescription="@string/switch_camera"
                 android:src="@drawable/btn_room_more_n"
-                android:visibility="gone"
                 tools:visibility="visible"
                 tools:ignore="RtlHardcoded" />
 
@@ -341,6 +340,16 @@
         android:orientation="vertical"
         android:visibility="gone"
         tools:ignore="RtlHardcoded">
+        <ImageView
+            android:id="@+id/btn_room_screenshots"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/switch_camera"
+            android:src="@drawable/btn_room_screenshots"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/button_beautiful"
@@ -352,6 +361,7 @@
             android:src="@drawable/btn_start_play_beautiful_s"
             android:visibility="gone"
             tools:visibility="visible" />
+
 
         <ImageView
             android:id="@+id/button_lamp"

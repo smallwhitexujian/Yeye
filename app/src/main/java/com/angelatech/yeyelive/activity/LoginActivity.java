@@ -193,7 +193,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(LoginActivity.this, getString(R.string.login_suc));
                 BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
-                if (userInfo.userid != null && userInfo.nickname != null) {
+                if ( userInfo.userid != null && userInfo.nickname != null) {
                     if (Login.checkUserInfo(userInfo.userid)) {
                         StartActivityHelper.jumpActivity(this, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, TabMenuActivity.class, null);
                         finish();

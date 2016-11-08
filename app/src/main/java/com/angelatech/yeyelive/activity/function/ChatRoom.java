@@ -4,16 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
+import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.fragment.LockChooseDialogFragment;
 import com.angelatech.yeyelive.fragment.TicketsDialogFragment;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
+import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.HashMap;
@@ -48,14 +52,39 @@ public class ChatRoom extends HttpFunction {
         closeChatRoom();
     }
 
+    public static void enterPWDChatRoom(final Context context, final RoomModel roomModel, final String roompwd) {
+        LockChooseDialogFragment.Callback callback = new LockChooseDialogFragment.Callback() {
+            @Override
+            public void onCancel() {
+                //收起键盘
+            }
+
+            @Override
+            public void onEnter(String password) {
+                if (roompwd.equals(password)) {
+                    preEnterChatRoom(context);
+                    StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+                } else {
+                    ToastUtils.showToast(context,R.string.roompwd_err);
+                }
+            }
+        };
+
+        LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(callback, App.roompwd);
+        lockChooseDialogFragment.show(activity.getFragmentManager(), "");
+    }
+
     //进ChatRoom房间
     //增加门票功能
+    //增加密码房功能
     public static void enterChatRoom(final Context context, final RoomModel roomModel) {
         ChatRoom chatRoom = new ChatRoom(context);
+
         chatRoom.getRoomTickets(roomModel.getLoginUser().Userid, roomModel.getLoginUser().Token,
                 String.valueOf(roomModel.getId()), new HttpBusinessCallback() {
                     @Override
                     public void onSuccess(String response) {
+                        DebugLogs.e("response" + response);
                         Map map = JsonUtil.fromJson(response, Map.class);
                         if (map != null) {
                             if (HttpFunction.isSuc(map.get("code").toString())) {
@@ -207,11 +236,12 @@ public class ChatRoom extends HttpFunction {
     /**
      * 开播前拿一些需要的信息
      */
-    public void LiveVideoBroadcast(String url, BasicUserInfoDBModel userInfo, String introduce, String area, String price, HttpBusinessCallback callback) {
+    public void LiveVideoBroadcast(String url, BasicUserInfoDBModel userInfo, String introduce, String area, String price, String pwd, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userInfo.userid);
         params.put("token", userInfo.token);
         params.put("price", price);
+        params.put("pwd", pwd);
         params.put("introduce", Encryption.utf8ToUnicode(introduce));
         params.put("area", Encryption.utf8ToUnicode(area));
         httpGet(url, params, callback);
@@ -254,7 +284,7 @@ public class ChatRoom extends HttpFunction {
     /**
      * 统计活跃
      */
-    public void setMark(String url, String userId, String device,String model,String edition , HttpBusinessCallback callback) {
+    public void setMark(String url, String userId, String device, String model, String edition, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userId);
         params.put("Device", device);

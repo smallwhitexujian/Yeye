@@ -146,7 +146,6 @@ public class DisplayTool {
 			e.printStackTrace();
 		}
 		return hasNavigationBar;
-
 	}
 
 	/**
