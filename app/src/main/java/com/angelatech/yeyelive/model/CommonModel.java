@@ -13,6 +13,7 @@ public class CommonModel implements Serializable  {
     public int index;//页码
     public String pernumber;//排行榜金币
     public String perimageurl;//排行榜头像
+    //public String before; //fb分页
 
     @Override
     public String toString() {

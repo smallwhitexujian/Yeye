@@ -492,6 +492,11 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         }
     }
 
+    public void Screenshooter()
+    {
+        setScreenshooter();
+
+    }
 
     @Override
     public void doHandler(final Message msg) {

@@ -25,4 +25,12 @@ public class SearchUser extends FocusFans {
         httpGet(CommonUrlConfig.UserSearch, params, callback);
     }
 
+    public void getfbfriends(String userid, String token, String before, String accesstoken, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("before", before);
+        params.put("accesstoken",accesstoken);
+        httpGet(CommonUrlConfig.getfbfriends, params, callback);
+    }
 }

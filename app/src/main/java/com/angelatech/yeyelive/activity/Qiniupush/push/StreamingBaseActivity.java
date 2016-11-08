@@ -96,7 +96,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     private int mCurrentZoom = 0;
     private int mMaxZoom = 0;
     private FBO mFBO = new FBO();
-    private Screenshooter mScreenshooter = new Screenshooter();
+    public Screenshooter mScreenshooter = new Screenshooter();
     private Switcher mSwitcher = new Switcher();
     private EncodingOrientationSwitcher mEncodingOrientationSwitcher = new EncodingOrientationSwitcher();
     private StreamCallback streamCallback;
@@ -508,7 +508,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     /**
      * 设置截屏
      */
-    private void setScreenshooter() {
+    public void setScreenshooter() {
         mHandler.removeCallbacks(mScreenshooter);
         mHandler.postDelayed(mScreenshooter, 100);
     }
@@ -661,11 +661,14 @@ public class StreamingBaseActivity extends BaseActivity implements
 
     //截取图片
     private class Screenshooter implements Runnable {
+
+        public Bitmap bitmap;
+
         @Override
         public void run() {
             final String fileName = "PLStreaming_" + System.currentTimeMillis() + ".jpg";
             mMediaStreamingManager.captureFrame(100, 100, new FrameCapturedCallback() {
-                private Bitmap bitmap;
+
 
                 @Override
                 public void onFrameCaptured(Bitmap bmp) {
@@ -673,10 +676,12 @@ public class StreamingBaseActivity extends BaseActivity implements
                         return;
                     }
                     bitmap = bmp;
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
+
                                 saveToSDCard(fileName, bitmap);
                             } catch (IOException e) {
                                 e.printStackTrace();
