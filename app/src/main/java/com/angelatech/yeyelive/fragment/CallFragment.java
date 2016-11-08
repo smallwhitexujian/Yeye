@@ -712,7 +712,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             grid_online.setColumnWidth(itemWidth);
             grid_online.setStretchMode(GridView.NO_STRETCH);
             grid_online.setNumColumns(onlineCount);
-            horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity(), showList);
+            horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity());
+            horizontalListViewAdapter.setData(showList);
             grid_online.setAdapter(horizontalListViewAdapter);
         }
     }
@@ -758,7 +759,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void run() {
                     if (horizontalListViewAdapter != null) {
-                        horizontalListViewAdapter.notifyDataSetChanged();
+                        horizontalListViewAdapter.setData(showList);
                     }
                 }
             });

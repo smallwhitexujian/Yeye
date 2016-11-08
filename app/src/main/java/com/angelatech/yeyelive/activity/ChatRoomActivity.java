@@ -90,6 +90,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 视频直播主界面
@@ -234,7 +235,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         plVideoTextureView = (PLVideoTextureView) findViewById(R.id.plVideoView);
         qiNiuUpload = new QiniuUpload(this);
         mObtain = new PictureObtain();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = ScreenUtils.getStatusHeight(ChatRoomActivity.this);
             button_call_disconnect.setPadding(0, statusBarHeight, 0, 0);
         }
@@ -547,6 +548,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                     setStartStreaming(roomModel.getRtmpip());
                 }
                 callFragment.setHintCocosView();
+                chatRoom.SysNotice(CommonUrlConfig.SysNotice, userModel.userid, userModel.token, callback);
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                     if (loginMessage != null && loginMessage.code.equals("0")) {
@@ -852,7 +854,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
                 break;
             case Cocos2dxGiftCallback.MSG_FINISH://一个特效播放结束通知
-                if(bigGift.size() >=0){
+                if (bigGift.size() >= 0) {
                     bigGift.remove(0);
                     startPlayBigGift();
                 }
@@ -1118,7 +1120,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onPause();
         }
-        if (chatManager!=null){
+        if (chatManager != null) {
             chatManager.pause();
         }
         super.onPause();
@@ -1129,7 +1131,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             plUtils.onResume();
         }
-        if (chatManager!=null){
+        if (chatManager != null) {
             chatManager.resume();
         }
         super.onResume();
@@ -1141,7 +1143,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             exitRoom();
         }
         if (roomModel.getRoomType().equals(App.LIVE_WATCH)) {
-            if(plUtils!=null){
+            if (plUtils != null) {
                 plUtils.onDestroy();
             }
         }
@@ -1213,6 +1215,48 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             }
         });
     }
+
+    private HttpBusinessCallback callback = new HttpBusinessCallback() {
+        @Override
+        public void onSuccess(final String response) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Map map = JsonUtil.fromJson(response, Map.class);
+                    if (map != null) {
+                        if (HttpFunction.isSuc(map.get("code").toString())) {
+                            List<String> list = (ArrayList<String>) map.get("data");
+                            ChatLineModel chatlinemodel = new ChatLineModel();
+                            Random random = new Random();
+                            ChatLineModel.from from = new ChatLineModel.from();
+                            from.name = userModel.nickname;
+                            from.uid = userModel.userid;
+                            from.headphoto = userModel.headurl;
+                            from.level = "0";
+                            chatlinemodel.from = from;
+                            chatlinemodel.type = 9;
+                            chatlinemodel.isFirst = true;
+                            try {
+                                JSONObject jsonObject = new JSONObject(String.valueOf(list.get(random.nextInt(list.size()))));
+                                String notice = jsonObject.getString("notice");
+                                chatlinemodel.message = String.valueOf(notice);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            chatManager.AddChatMessage(chatlinemodel);
+                            callFragment.notifyData();
+                        } else {
+                            onBusinessFaild(map.get("code").toString());
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(Map<String, ?> errorMap) {
+        }
+    };
 
     private void setSocketMessage(String socketMessage) {
         ChatLineModel chatlinemodel = new ChatLineModel();

@@ -70,7 +70,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private RechargeModel mRechargeModel;
     private ImageView digi_selected, google_selected;
     private boolean isMiMoPay = false;
-    private RelativeLayout item_google,item_digi;
+    private RelativeLayout item_google, item_digi;
 
 
     @Override
@@ -149,37 +149,36 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit_pay:
-                if (mRechargeModel != null && isAvaliable) {
-                    order(mRechargeModel);
-                }
                 if (isMiMoPay) {
                     orderDigi(mRechargeModel);
+                } else if (mRechargeModel != null && isAvaliable) {
+                    order(mRechargeModel);
                 }
                 break;
             case R.id.item_digi://digi支付
                 sethintSelected();
                 loadMenu(PayType.TYPE_MIMOPAY);
                 digi_selected.setVisibility(View.VISIBLE);
-                item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_red));
+                item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_red));
                 break;
             case R.id.item_google://Google支付
                 sethintSelected();
                 loadMenu(PayType.TYPE_GOOGLE);
                 google_selected.setVisibility(View.VISIBLE);
-                item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_red));
+                item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_red));
                 break;
         }
     }
 
     private void sethintSelected() {
-        item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_ffffff));
-        item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this,R.drawable.circle_coner_bg_ffffff));
+        item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_ffffff));
+        item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_ffffff));
         digi_selected.setVisibility(View.GONE);
         google_selected.setVisibility(View.GONE);
     }
 
     private void loadMenu(int type) {
-        LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
+        LoadingDialog.showLoadingDialog(RechargeActivity.this, null);
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -248,7 +247,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
 
     //订单,生成订单
     private void order(final RechargeModel model) {
-        if (model ==null) return;
+        if (model == null) return;
         String key = Md5.md5(UUID.randomUUID().toString());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -273,15 +272,15 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 }
             }
         };
-        if(model.sku!=null){
+        if (model.sku != null) {
             mGooglePay.order(user.userid, user.token, key, model.sku, callback);
         }
     }
 
     //digi订单生成
     private void orderDigi(final RechargeModel model) {
-        if (model ==null) return;
-        LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
+        if (model == null) return;
+        LoadingDialog.showLoadingDialog(RechargeActivity.this, null);
         final String key = Md5.md5(UUID.randomUUID().toString());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -317,7 +316,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             }
         };
         //服务器下载订单
-        if (model.sku!=null){
+        if (model.sku != null) {
             mGooglePay.order(user.userid, user.token, key, model.sku, callback);
         }
     }
@@ -355,7 +354,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 String data = jsonObject.getString("data");
                 if (code.equals(String.valueOf(HttpFunction.SUC_OK))) {
                     user.diamonds = data;
-                    DebugLogs.d("-----查询金币------>"+user.diamonds);
+                    DebugLogs.d("-----查询金币------>" + user.diamonds);
                     CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, user.diamonds, user.userid);
                 }
             } catch (JSONException e) {

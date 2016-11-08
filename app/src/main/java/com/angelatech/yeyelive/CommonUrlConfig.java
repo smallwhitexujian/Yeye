@@ -175,4 +175,6 @@ public class CommonUrlConfig {
     public static String MallIndex = (isDebug ? TEST_HOST_URL : HOST_URL)  + "YeYe/Mall/index";
     //用户的关注和粉丝
     public static String FriendHelist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHelist";
+    //系统通知
+    public static String SysNotice = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/SysNotice";
 }

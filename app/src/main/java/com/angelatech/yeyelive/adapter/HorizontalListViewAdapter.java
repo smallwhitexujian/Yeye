@@ -18,22 +18,29 @@ import java.util.List;
 public class HorizontalListViewAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<OnlineListModel> data;
+    private List<OnlineListModel> mData;
 
-    public HorizontalListViewAdapter(Context context, List<OnlineListModel> data) {
+    public HorizontalListViewAdapter(Context context) {
         this.mContext = context;
-        this.data = data;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);//LayoutInflater.from(mContext);
+    }
+
+    public void setData(List<OnlineListModel> data){
+        if(data!=null){
+            mData = data;
+            notifyDataSetChanged();
+        }
+
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        return mData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return mData.get(position);
     }
 
     @Override
@@ -55,7 +62,7 @@ public class HorizontalListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //0 无 1 v 2 金v 9官
-        switch (data.get(position).isv){
+        switch (mData.get(position).isv){
             case "0":
                 holder.iv_vip.setVisibility(View.GONE);
                 break;
@@ -76,8 +83,7 @@ public class HorizontalListViewAdapter extends BaseAdapter {
                 break;
         }
         holder.mImage.setBackgroundResource(R.drawable.default_face_icon);
-        holder.mImage.setImageURI(Uri.parse(VerificationUtil.getImageUrl(data.get(position).headphoto)));
-
+        holder.mImage.setImageURI(Uri.parse(VerificationUtil.getImageUrl(mData.get(position).headphoto)));
         return convertView;
     }
 

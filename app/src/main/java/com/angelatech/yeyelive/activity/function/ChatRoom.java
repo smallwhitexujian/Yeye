@@ -339,5 +339,12 @@ public class ChatRoom extends HttpFunction {
         params.put("token", token);
         httpGet(url, params, callback);
     }
+    //房间系统通知语
+    public void SysNotice(String url, String userid, String token,HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        httpGet(url, params, callback);
+    }
 
 }
