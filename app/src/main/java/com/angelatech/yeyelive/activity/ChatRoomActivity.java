@@ -1242,14 +1242,16 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                             chatlinemodel.type = 9;
                             chatlinemodel.isFirst = true;
                             try {
-                                JSONObject jsonObject = new JSONObject(String.valueOf(list.get(random.nextInt(list.size()))));
-                                String notice = jsonObject.getString("notice");
-                                chatlinemodel.message = String.valueOf(notice);
+                                if (list.size()>0){
+                                    JSONObject jsonObject = new JSONObject(String.valueOf(list.get(random.nextInt(list.size()))));
+                                    String notice = jsonObject.getString("notice");
+                                    chatlinemodel.message = String.valueOf(notice);
+                                    chatManager.AddChatMessage(chatlinemodel);
+                                    callFragment.notifyData();
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            chatManager.AddChatMessage(chatlinemodel);
-                            callFragment.notifyData();
                         } else {
                             onBusinessFaild(map.get("code").toString());
                         }
