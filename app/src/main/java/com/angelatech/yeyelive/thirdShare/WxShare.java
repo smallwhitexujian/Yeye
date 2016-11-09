@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 
 import com.angelatech.yeyelive.wxapi.WXInterface;
+import com.sina.weibo.sdk.utils.ImageUtils;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
@@ -82,7 +83,7 @@ public class WxShare {
     public void shareImage(Bitmap bmp, String text, int scene) {
         wxMediaMessage.mediaObject = new WXImageObject(bmp);
         wxMediaMessage.description = text;
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60, true);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60 *( bmp.getHeight() / bmp.getWidth()), true);
         bmp.recycle();
         wxMediaMessage.setThumbImage(thumbBmp);
         send.transaction = "img";

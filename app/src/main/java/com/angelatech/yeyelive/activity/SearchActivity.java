@@ -191,7 +191,10 @@ public class SearchActivity extends WithBroadCastActivity {
 
         Utility.openKeybord(searchEditText, this);
         noDataLayout.setVisibility(View.GONE);
-        Responsefbfriends();
+        if(AccessToken.getCurrentAccessToken() != null &&AccessToken.getCurrentAccessToken().getToken() != null )
+        {
+            Responsefbfriends();
+        }
     }
 
     public Runnable searchTask = new Runnable() {

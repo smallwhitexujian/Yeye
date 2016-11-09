@@ -977,10 +977,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_toolbar2.setVisibility(View.VISIBLE);
                     }
                 } else {
-
-                    Bitmap img = DisplayTool.snapShotWithoutStatusBar(getActivity());
-                    RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(), img);
-                    roomScreenshotsDialogFragment.show(getActivity().getFragmentManager(), "");
+                    App.chatRoomApplication.setScreenshooter();
                 }
                 break;
             //截屏
@@ -989,7 +986,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 ly_toolbar2.setVisibility(View.GONE);
 
                 App.chatRoomApplication.setScreenshooter();
-
 
                 break;
             case R.id.btn_room_exchange://房间跳转商城
