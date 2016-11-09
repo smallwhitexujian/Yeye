@@ -84,7 +84,9 @@ public class WxShare {
         wxMediaMessage.mediaObject = new WXImageObject(bmp);
         wxMediaMessage.description = text;
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60 *( bmp.getHeight() / bmp.getWidth()), true);
-        bmp.recycle();
+        if(bmp != null && !bmp.isRecycled()) {
+            bmp.recycle();
+        }
         wxMediaMessage.setThumbImage(thumbBmp);
         send.transaction = "img";
         send.message = wxMediaMessage;
