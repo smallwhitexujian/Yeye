@@ -668,24 +668,26 @@ public class StreamingBaseActivity extends BaseActivity implements
         public void run() {
             int streamHeight = ScreenUtils.getScreenHeight(StreamingBaseActivity.this);
             int streamWidth = ScreenUtils.getScreenWidth(StreamingBaseActivity.this);
-            mMediaStreamingManager.captureFrame(streamWidth,streamHeight, new FrameCapturedCallback() {
-                @Override
-                public void onFrameCaptured(Bitmap bmp) {
-                    if (bmp == null) {
-                        return;
-                    }
-                    bitmap = bmp;
-                    DebugLogs.e(bitmap.toString());
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            RoomScreenshotsDialogFragment roomScreenshotsDialogFragment =
-                                    new RoomScreenshotsDialogFragment(StreamingBaseActivity.this, bitmap);
-                            roomScreenshotsDialogFragment.show(getFragmentManager(), "");
+            if (mMediaStreamingManager!=null){
+                mMediaStreamingManager.captureFrame(streamWidth,streamHeight, new FrameCapturedCallback() {
+                    @Override
+                    public void onFrameCaptured(Bitmap bmp) {
+                        if (bmp == null) {
+                            return;
                         }
-                    }).start();
-                }
-            });
+                        bitmap = bmp;
+                        DebugLogs.e(bitmap.toString());
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                RoomScreenshotsDialogFragment roomScreenshotsDialogFragment =
+                                        new RoomScreenshotsDialogFragment(StreamingBaseActivity.this, bitmap);
+                                roomScreenshotsDialogFragment.show(getFragmentManager(), "");
+                            }
+                        }).start();
+                    }
+                });
+            }
         }
     }
 }
