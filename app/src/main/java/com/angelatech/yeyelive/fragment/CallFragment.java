@@ -987,9 +987,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             case R.id.btn_room_screenshots:
                 //隐藏工具栏
                 ly_toolbar2.setVisibility(View.GONE);
-                Bitmap img = DisplayTool.snapShotWithoutStatusBar(getActivity());
-                RoomScreenshotsDialogFragment roomScreenshotsDialogFragment = new RoomScreenshotsDialogFragment(getActivity(), img);
-                roomScreenshotsDialogFragment.show(getActivity().getFragmentManager(), "");
+
+                App.chatRoomApplication.setScreenshooter();
+
+
                 break;
             case R.id.btn_room_exchange://房间跳转商城
                 WebTransportModel webTransportModel = new WebTransportModel();

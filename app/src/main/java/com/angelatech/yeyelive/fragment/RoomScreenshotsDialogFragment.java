@@ -69,14 +69,11 @@ public class RoomScreenshotsDialogFragment extends DialogFragment implements Vie
         return view;
     }
 
-    public RoomScreenshotsDialogFragment(Context mcontext,  Bitmap img) {
+    public RoomScreenshotsDialogFragment(Context mcontext, Bitmap img) {
         this.context = mcontext;
         image = img;
-
         saveImage(img);
-
     }
-
 
     private void saveImage(Bitmap bmp) {
         File appDir = new File(Environment.getExternalStorageDirectory(), "yeye/camera");
@@ -101,28 +98,6 @@ public class RoomScreenshotsDialogFragment extends DialogFragment implements Vie
         intent.setData(uri);
         context.sendBroadcast(intent);
     }
-
-    private void saveFile(Bitmap bm, String fileName, String path) throws IOException {
-        String subForder = SAVE_PIC_PATH + path;
-        File foder = new File(subForder);
-        if (!foder.exists()) {
-            foder.mkdirs();
-        }
-        File myCaptureFile = new File(subForder, fileName);
-        if (!myCaptureFile.exists()) {
-            myCaptureFile.createNewFile();
-        }
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
-        bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
-        bos.flush();
-        bos.close();
-
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = Uri.fromFile(foder);
-        intent.setData(uri);
-        context.sendBroadcast(intent);
-    }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -154,6 +129,10 @@ public class RoomScreenshotsDialogFragment extends DialogFragment implements Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_close:
+                if (image != null) {
+                    image.recycle();
+                    image = null;
+                }
                 dismiss();
                 break;
             case R.id.btn_WXSceneSession:
@@ -172,8 +151,11 @@ public class RoomScreenshotsDialogFragment extends DialogFragment implements Vie
         @Override
         public void callBackSuccess(int shareType) {
             switch (shareType) {
-
                 case WxShare.SHARE_TYPE_WX:
+                    if (image != null) {
+                        image.recycle();
+                        image = null;
+                    }
                     dismiss();
                     break;
             }

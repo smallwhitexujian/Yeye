@@ -24,6 +24,8 @@ import com.angelatech.yeyelive.activity.Qiniupush.push.gles.FBO;
 import com.angelatech.yeyelive.activity.Qiniupush.push.ui.RotateLayout;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.application.App;
+import com.angelatech.yeyelive.fragment.RoomScreenshotsDialogFragment;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.qiniu.android.dns.DnsManager;
 import com.qiniu.android.dns.IResolver;
 import com.qiniu.android.dns.NetworkInfo;
@@ -160,7 +162,7 @@ public class StreamingBaseActivity extends BaseActivity implements
         } else {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -172,7 +174,7 @@ public class StreamingBaseActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(Config.SCREEN_ORIENTATION);
-        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)){
+        if (ChatRoomActivity.roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             init();
         }
     }
@@ -218,7 +220,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if(mMediaStreamingManager!=null){
+        if (mMediaStreamingManager != null) {
             mMediaStreamingManager.resume();
         }
     }
@@ -228,10 +230,10 @@ public class StreamingBaseActivity extends BaseActivity implements
         super.onPause();
         mIsReady = false;
         mShutterButtonPressed = false;
-        if(mHandler!=null){
+        if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }
-        if(mMediaStreamingManager!=null){
+        if (mMediaStreamingManager != null) {
             mMediaStreamingManager.pause();
         }
     }
@@ -239,7 +241,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mMediaStreamingManager!=null){
+        if (mMediaStreamingManager != null) {
             mMediaStreamingManager.destroy();
         }
     }
@@ -478,7 +480,6 @@ public class StreamingBaseActivity extends BaseActivity implements
 
     /**
      * 设置美颜强度
-     *
      */
     public void setBeauty() {
         CameraStreamingSetting.FaceBeautySetting fbSetting = mCameraStreamingSetting.getFaceBeautySetting();
@@ -666,8 +667,10 @@ public class StreamingBaseActivity extends BaseActivity implements
 
         @Override
         public void run() {
-            final String fileName = "PLStreaming_" + System.currentTimeMillis() + ".jpg";
-            mMediaStreamingManager.captureFrame(100, 100, new FrameCapturedCallback() {
+            //final String fileName = "PLStreaming_" + System.currentTimeMillis() + ".jpg";
+            int streamHeight = ScreenUtils.getScreenHeight(StreamingBaseActivity.this);
+            int streamWidth = ScreenUtils.getScreenWidth(StreamingBaseActivity.this);
+            mMediaStreamingManager.captureFrame(streamWidth,streamHeight, new FrameCapturedCallback() {
 
 
                 @Override
@@ -677,20 +680,14 @@ public class StreamingBaseActivity extends BaseActivity implements
                     }
                     bitmap = bmp;
 
+                    DebugLogs.e(bitmap.toString());
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-
-                                saveToSDCard(fileName, bitmap);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } finally {
-                                if (bitmap != null) {
-                                    bitmap.recycle();
-                                    bitmap = null;
-                                }
-                            }
+                            RoomScreenshotsDialogFragment roomScreenshotsDialogFragment =
+                                    new RoomScreenshotsDialogFragment(StreamingBaseActivity.this, bitmap);
+                            roomScreenshotsDialogFragment.show(getFragmentManager(), "");
                         }
                     }).start();
                 }
