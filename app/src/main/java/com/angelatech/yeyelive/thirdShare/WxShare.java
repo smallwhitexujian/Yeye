@@ -83,8 +83,8 @@ public class WxShare {
         wxMediaMessage.mediaObject = new WXImageObject(bmp);
         wxMediaMessage.description = text;
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60 *( bmp.getHeight() / bmp.getWidth()), true);
+        if(bmp != null && !bmp.isRecycled()) {
         // 如果图片还没有回收，强制回收
-        if (!bmp.isRecycled()) {
             bmp.recycle();
         }
         wxMediaMessage.setThumbImage(thumbBmp);
