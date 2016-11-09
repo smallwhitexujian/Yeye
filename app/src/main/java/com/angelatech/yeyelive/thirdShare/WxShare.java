@@ -3,8 +3,8 @@ package com.angelatech.yeyelive.thirdShare;
 import android.app.Activity;
 import android.graphics.Bitmap;
 
+import com.angelatech.yeyelive.wxapi.WXEntryActivity;
 import com.angelatech.yeyelive.wxapi.WXInterface;
-import com.sina.weibo.sdk.utils.ImageUtils;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
@@ -12,7 +12,6 @@ import com.tencent.mm.sdk.modelmsg.WXTextObject;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.angelatech.yeyelive.wxapi.WXEntryActivity;
 
 /**
  * User: cbl
@@ -85,6 +84,7 @@ public class WxShare {
         wxMediaMessage.description = text;
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 60, 60 *( bmp.getHeight() / bmp.getWidth()), true);
         if(bmp != null && !bmp.isRecycled()) {
+        // 如果图片还没有回收，强制回收
             bmp.recycle();
         }
         wxMediaMessage.setThumbImage(thumbBmp);

@@ -185,12 +185,12 @@ public class StreamingBaseActivity extends BaseActivity implements
         StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(16, 1000 * 700, 48);
         StreamingProfile.AVProfile avProfile = new StreamingProfile.AVProfile(vProfile, aProfile);
         mProfile = new StreamingProfile();
-        mProfile.setVideoQuality(StreamingProfile.VIDEO_QUALITY_MEDIUM1)
+        mProfile.setVideoQuality(StreamingProfile.VIDEO_QUALITY_MEDIUM2)
                 .setAudioQuality(StreamingProfile.AUDIO_QUALITY_MEDIUM1)
 //                .setPreferredVideoEncodingSize(960, 544)
                 .setEncodingSizeLevel(Config.ENCODING_LEVEL)
                 .setEncoderRCMode(StreamingProfile.EncoderRCModes.QUALITY_PRIORITY)
-//                .setAdaptiveBitrateEnable(true)//自动适应码率
+                .setAdaptiveBitrateEnable(true)//自动适应码率
 //                .setAVProfile(avProfile)
                 .setDnsManager(getMyDnsManager())//设置dns加速
                 .setStreamStatusConfig(new StreamingProfile.StreamStatusConfig(3))//设置每隔3秒钟进行回调
@@ -662,36 +662,32 @@ public class StreamingBaseActivity extends BaseActivity implements
 
     //截取图片
     private class Screenshooter implements Runnable {
-
         public Bitmap bitmap;
 
         @Override
         public void run() {
-            //final String fileName = "PLStreaming_" + System.currentTimeMillis() + ".jpg";
             int streamHeight = ScreenUtils.getScreenHeight(StreamingBaseActivity.this);
             int streamWidth = ScreenUtils.getScreenWidth(StreamingBaseActivity.this);
-            mMediaStreamingManager.captureFrame(streamWidth,streamHeight, new FrameCapturedCallback() {
-
-
-                @Override
-                public void onFrameCaptured(Bitmap bmp) {
-                    if (bmp == null) {
-                        return;
-                    }
-                    bitmap = bmp;
-
-                    DebugLogs.e(bitmap.toString());
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            RoomScreenshotsDialogFragment roomScreenshotsDialogFragment =
-                                    new RoomScreenshotsDialogFragment(StreamingBaseActivity.this, bitmap);
-                            roomScreenshotsDialogFragment.show(getFragmentManager(), "");
+            if (mMediaStreamingManager!=null){
+                mMediaStreamingManager.captureFrame(streamWidth,streamHeight, new FrameCapturedCallback() {
+                    @Override
+                    public void onFrameCaptured(Bitmap bmp) {
+                        if (bmp == null) {
+                            return;
                         }
-                    }).start();
-                }
-            });
+                        bitmap = bmp;
+                        DebugLogs.e(bitmap.toString());
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                RoomScreenshotsDialogFragment roomScreenshotsDialogFragment =
+                                        new RoomScreenshotsDialogFragment(StreamingBaseActivity.this, bitmap);
+                                roomScreenshotsDialogFragment.show(getFragmentManager(), "");
+                            }
+                        }).start();
+                    }
+                });
+            }
         }
     }
 }
