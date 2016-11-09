@@ -68,7 +68,6 @@ public class ReadyLiveFragment extends BaseFragment {
     private final int LIVE_USER = 2; //直播者
     private View controlView;
     private RelativeLayout ly_body;
-    private LinearLayout layout_lock;
     private ImageView btn_sign_on_location, img_location_bg, img_start_play_pwd;
     private ImageView btn_facebook, btn_webchatmoments, btn_wechat, btn_weibo;//facebook
     private EditText txt_title;
@@ -89,7 +88,6 @@ public class ReadyLiveFragment extends BaseFragment {
     private RoomModel roomModel;
     private ImageView buttonCamera;
     private FrescoRoundView Front_cover;
-    private RelativeLayout ready_layout;
 
     public interface OnCallEvents {
         //开始直播
@@ -112,7 +110,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private void initView() {
         App.roompwd = "";
         chatRoom = new ChatRoom(getActivity());
-        ready_layout = (RelativeLayout) controlView.findViewById(R.id.ready_layout);
+        RelativeLayout ready_layout = (RelativeLayout) controlView.findViewById(R.id.ready_layout);
         spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
         btn_start = (Button) controlView.findViewById(R.id.btn_start);
@@ -127,7 +125,7 @@ public class ReadyLiveFragment extends BaseFragment {
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
         Front_cover = (FrescoRoundView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
-        layout_lock = (LinearLayout) controlView.findViewById(R.id.layout_lock);
+        LinearLayout layout_lock = (LinearLayout) controlView.findViewById(R.id.layout_lock);
         img_start_play_pwd = (ImageView) controlView.findViewById(R.id.img_start_play_pwd);
         layout_lock.setOnClickListener(this);
         loginUserModel = CacheDataManager.getInstance().loadUser();

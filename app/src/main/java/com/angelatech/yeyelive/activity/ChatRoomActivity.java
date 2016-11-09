@@ -142,6 +142,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     private PLVideoTextureUtils plUtils;
     private PLVideoTextureView plVideoTextureView;
     private boolean ispull = false;
+    private int toastTip = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,9 +162,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             initQiniuSDK();
         }
-        if (Build.VERSION.SDK_INT >= 23) {
-            permissionCheck();
-        }
+        permissionCheck();
         initView();
         findView();
         //魅族适配
@@ -205,10 +204,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             case PERMISSION_REQUEST_CODE:
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        int toastTip = 0;
-                        if (Manifest.permission.CAMERA.equals(permissions[i])) {
+                        if (Manifest.permission.CAMERA.equals(permissions[i])) {//相机权限
                             toastTip = R.string.no_camera_permission;
-                        } else if (Manifest.permission.RECORD_AUDIO.equals(permissions[i])) {
+                        } else if (Manifest.permission.RECORD_AUDIO.equals(permissions[i])) {//录音权限
                             toastTip = R.string.no_record_audio_permission;
                         }
                         if (toastTip != 0) {
@@ -1236,7 +1234,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                             chatlinemodel.type = 9;
                             chatlinemodel.isFirst = true;
                             try {
-                                if (list.size()>0){
+                                if (list.size() > 0) {
                                     JSONObject jsonObject = new JSONObject(String.valueOf(list.get(random.nextInt(list.size()))));
                                     String notice = jsonObject.getString("notice");
                                     chatlinemodel.message = String.valueOf(notice);
