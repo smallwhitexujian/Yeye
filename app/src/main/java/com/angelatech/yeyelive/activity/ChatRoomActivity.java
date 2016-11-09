@@ -162,7 +162,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             initQiniuSDK();
         }
-        permissionCheck();
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionCheck();
+        }
         initView();
         findView();
         //魅族适配
