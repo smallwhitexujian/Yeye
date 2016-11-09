@@ -93,8 +93,6 @@ import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.will.common.tool.view.DisplayTool;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -874,7 +872,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (!userModel.userid.equals(liveUserModel.userid)) {
             cameraSwitchButton.setVisibility(View.GONE);
             btn_share.setVisibility(View.VISIBLE);
-            //btn_room_more.setVisibility(View.GONE);
+            btn_room_more.setVisibility(View.GONE);
             btn_room_more.setImageResource(R.drawable.btn_room_screenshots);
             UserIsFollow();
         } else {
@@ -976,17 +974,13 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     } else if (ly_toolbar2.getVisibility() == View.GONE) {
                         ly_toolbar2.setVisibility(View.VISIBLE);
                     }
-                } else {
-                    App.chatRoomApplication.setScreenshooter();
                 }
                 break;
             //截屏
             case R.id.btn_room_screenshots:
                 //隐藏工具栏
                 ly_toolbar2.setVisibility(View.GONE);
-
                 App.chatRoomApplication.setScreenshooter();
-
                 break;
             case R.id.btn_room_exchange://房间跳转商城
                 WebTransportModel webTransportModel = new WebTransportModel();
