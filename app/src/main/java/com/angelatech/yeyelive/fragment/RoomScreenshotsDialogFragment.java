@@ -1,5 +1,6 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -8,35 +9,16 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
-import com.angelatech.yeyelive.mediaplayer.handler.CommonHandler;
-import com.angelatech.yeyelive.thirdShare.FbShare;
-import com.angelatech.yeyelive.thirdShare.QqShare;
 import com.angelatech.yeyelive.thirdShare.ShareListener;
-import com.angelatech.yeyelive.thirdShare.SinaShare;
 import com.angelatech.yeyelive.thirdShare.WxShare;
-import com.angelatech.yeyelive.util.CacheDataManager;
-import com.angelatech.yeyelive.util.Utility;
-import com.will.common.log.DebugLogs;
-import com.will.common.tool.time.DateTimeTool;
-import com.will.view.ToastUtils;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,8 +30,8 @@ import java.io.IOException;
  * Time: 18:11
  * 截屏
  */
+@SuppressLint("ValidFragment")
 public class RoomScreenshotsDialogFragment extends DialogFragment implements View.OnClickListener {
-
     private View view;
     private Context context;
     private WxShare wxShare;
@@ -84,7 +66,9 @@ public class RoomScreenshotsDialogFragment extends DialogFragment implements Vie
         File file = new File(appDir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            if(!bmp.isRecycled()){
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            }
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {

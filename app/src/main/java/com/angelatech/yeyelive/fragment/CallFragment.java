@@ -93,8 +93,6 @@ import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.will.common.tool.view.DisplayTool;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -871,7 +869,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         if (!userModel.userid.equals(liveUserModel.userid)) {
             cameraSwitchButton.setVisibility(View.GONE);
             btn_share.setVisibility(View.VISIBLE);
-            //btn_room_more.setVisibility(View.GONE);
+            btn_room_more.setVisibility(View.GONE);
+
             UserIsFollow();
         } else {
             // btn_room_more.setVisibility(View.VISIBLE);
@@ -971,6 +970,13 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     ly_toolbar2.setVisibility(View.VISIBLE);
                 }
 
+                if (userModel.userid.equals(liveUserModel.userid)) {
+                    if (ly_toolbar2.getVisibility() == View.VISIBLE) {
+                        ly_toolbar2.setVisibility(View.GONE);
+                    } else if (ly_toolbar2.getVisibility() == View.GONE) {
+                        ly_toolbar2.setVisibility(View.VISIBLE);
+                    }
+                }
                 break;
 
             case R.id.btn_room_exchange://房间跳转商城
