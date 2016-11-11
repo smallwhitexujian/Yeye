@@ -1,6 +1,5 @@
 package com.angelatech.yeyelive;
 
-
 import com.angelatech.yeyelive.application.App;
 
 /**

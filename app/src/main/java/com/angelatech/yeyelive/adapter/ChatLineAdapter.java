@@ -21,6 +21,7 @@ import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.util.Clickable;
 import com.angelatech.yeyelive.util.MeImageGetter;
 import com.angelatech.yeyelive.util.VerificationUtil;
+import com.will.common.string.StringFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,7 @@ public class ChatLineAdapter<T> extends BaseAdapter {
             notifyDataSetChanged();
         }
     }
+
     public void clearDeviceList() {
         if (mData != null) {
             mData.clear();
@@ -140,6 +142,11 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                     e.printStackTrace();
                 }
             } else {//纯文字
+
+                if (StringFilter.check(chatline.message)) {
+                    App.chatRoomApplication.finish();
+                    return convertView;
+                }
                 View.OnClickListener fromUserListener = new View.OnClickListener() {
                     //如下定义自己的动作
                     public void onClick(View v) {
@@ -183,17 +190,17 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                     } else if (sChatContent.startsWith(GlobalDef.APPEND_SHARED)) {
                         sChatContent = chatline.from.name + " " + mContext.getString(R.string.append_sherad);
                     }
-                    holder.tv_content.setShadowLayer(1,2,2,R.color.transparent);
+                    holder.tv_content.setShadowLayer(1, 2, 2, R.color.transparent);
                     holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_FFEE00) + "'>" + sChatContent + "</font>"));
                 }
             }
         } else if (chatline.type == 9) {
             //进入房间系统提示
             holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_FFEE00) + "'>" + chatline.message + "</font>"));
-            holder.tv_content.setShadowLayer(1,2,2,R.color.transparent);
+            holder.tv_content.setShadowLayer(1, 2, 2, R.color.transparent);
         } else if (chatline.type == 10) {
             //系统消息类型
-            holder.tv_content.setShadowLayer(1,2,2,R.color.transparent);
+            holder.tv_content.setShadowLayer(1, 2, 2, R.color.transparent);
             holder.tv_content.append(Html.fromHtml("<font color='" + ContextCompat.getColor(mContext, R.color.color_FFEE00) + "'>" + chatline.message + "</font>"));
         }
         return convertView;

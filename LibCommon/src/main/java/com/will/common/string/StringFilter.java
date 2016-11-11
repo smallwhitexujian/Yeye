@@ -1,5 +1,10 @@
 package com.will.common.string;
 
+import com.will.common.string.security.Md5;
+import com.will.common.tool.time.DateTimeTool;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 /**
@@ -62,7 +67,22 @@ public class StringFilter {
     }
 
 
+    //检查是否有非法字符
+    public static boolean check(String msg)
+    {
+        try {
+            if(msg.equals(Md5.get32MD5Uper(DateTimeTool.GetDateTimeNow("yyyyMMddhh")))){
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-
-
+        return false;
+    }
 }
