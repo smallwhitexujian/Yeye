@@ -167,7 +167,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ChatRoom chatRoom;
     private Cocos2dxView cocos2dxView;
     private Cocos2dxGift cocos2dxGift;
-    private FrameLayout giftLayout;
     private LinearLayout ViewgiftLayout;
 
     private GridView grid_online;
@@ -187,7 +186,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView btn_danmu;
     private boolean isdanmu = false;
 
-    private IDanmakuView mDanmakuView;
     private DanmuControl mDanmuControl;
     private ScaleGestureDetector mScaleDetector = null;
     private GestureDetector mGestureDetector = null;
@@ -322,7 +320,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         }
         marqueeLayout = (LinearLayout) controlView.findViewById(R.id.marquee);
         marquee_layout = (LinearLayout) controlView.findViewById(R.id.marquee_layout);
-        mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
+        IDanmakuView mDanmakuView = (IDanmakuView) controlView.findViewById(R.id.danmakuView);
         btn_danmu = (ImageView) controlView.findViewById(R.id.btn_danmu);
         mDanmuControl.setDanmakuView(mDanmakuView);
         ly_main.setOnClickListener(this);
@@ -641,7 +639,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         scaleInfo.width = ScreenUtils.getScreenWidth(getActivity());
         scaleInfo.height = ScreenUtils.getScreenHeight(getActivity());
         cocos2dxView.setScaleInfo(scaleInfo);
-        giftLayout = cocos2dxView.getFrameLayout();
+        FrameLayout giftLayout = cocos2dxView.getFrameLayout();
         ViewgiftLayout.addView(giftLayout);
     }
 
@@ -870,7 +868,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             cameraSwitchButton.setVisibility(View.GONE);
             btn_share.setVisibility(View.VISIBLE);
             btn_room_more.setVisibility(View.GONE);
-
             UserIsFollow();
         } else {
             // btn_room_more.setVisibility(View.VISIBLE);
