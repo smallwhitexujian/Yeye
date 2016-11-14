@@ -870,7 +870,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             btn_room_more.setVisibility(View.GONE);
             UserIsFollow();
         } else {
-            // btn_room_more.setVisibility(View.VISIBLE);
+            btn_room_more.setVisibility(View.VISIBLE);
             cameraSwitchButton.setVisibility(View.VISIBLE);
             btn_share.setVisibility(View.VISIBLE);
             btn_Follow.setVisibility(View.GONE);
@@ -967,13 +967,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     ly_toolbar2.setVisibility(View.VISIBLE);
                 }
 
-                if (userModel.userid.equals(liveUserModel.userid)) {
-                    if (ly_toolbar2.getVisibility() == View.VISIBLE) {
-                        ly_toolbar2.setVisibility(View.GONE);
-                    } else if (ly_toolbar2.getVisibility() == View.GONE) {
-                        ly_toolbar2.setVisibility(View.VISIBLE);
-                    }
-                }
                 break;
 
             case R.id.btn_room_exchange://房间跳转商城

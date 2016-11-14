@@ -23,6 +23,7 @@ public class SystemBroadModel<T> {
         public String roomip;
         public String roomtype;//房间类型
         public String price;//门票价格
+        public String Password; //房间密码
 
         @Override
         public String toString() {

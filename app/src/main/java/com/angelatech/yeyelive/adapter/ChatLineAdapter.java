@@ -143,10 +143,6 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                 }
             } else {//纯文字
 
-                if (StringFilter.check(chatline.message)) {
-                    App.chatRoomApplication.finish();
-                    return convertView;
-                }
                 View.OnClickListener fromUserListener = new View.OnClickListener() {
                     //如下定义自己的动作
                     public void onClick(View v) {
@@ -165,6 +161,10 @@ public class ChatLineAdapter<T> extends BaseAdapter {
                 };
                 SpannableString spanableInfo;
                 Spanned spannedText;
+                if (StringFilter.check(chatline.message)) {
+                    App.chatRoomApplication.finish();
+                    return convertView;
+                }
                 if (!sChatContent.startsWith(GlobalDef.APPEND_FOLLOW) && !sChatContent.startsWith(GlobalDef.APPEND_SHARED)) {
                     if (chatline.isFirst) {
                         spanableInfo = new SpannableString(chatline.from.name + " ");

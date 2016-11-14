@@ -52,6 +52,7 @@ public class ChatRoom extends HttpFunction {
         closeChatRoom();
     }
 
+    //密码房
     public static void enterPWDChatRoom(final Context context, final RoomModel roomModel, final String roompwd) {
         LockChooseDialogFragment.Callback callback = new LockChooseDialogFragment.Callback() {
             @Override

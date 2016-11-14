@@ -170,7 +170,12 @@ public class RoomModel implements Serializable {
     private int livenum = 0;
     private int livecoin = 0;
     private String livetime = "00:00:01";
-    private BasicUserInfoDBModel userInfoDBModel; //直播者信息
+    private BasicUserInfoDBModel userInfoDBModel; //
+    private String pwd;
+
+    public String getPwd(){return pwd;}
+
+    public void setPwd(String pwd){this.pwd = pwd;}
 
     public String getTicket() {
         return ticket;
