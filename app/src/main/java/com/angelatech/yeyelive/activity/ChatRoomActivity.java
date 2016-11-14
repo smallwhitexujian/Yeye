@@ -551,6 +551,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                     if (loginMessage != null && loginMessage.code.equals("0")) {
+                        face.setVisibility(View.GONE);
+                        LoadingDialog.cancelLoadingDialog();
                         long coin = loginMessage.coin;
                         //更新金币
                         userModel.diamonds = String.valueOf(coin);
@@ -1285,9 +1287,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     }
 
     @Override
-    public void onPrepared(PLMediaPlayer plMediaPlayer) {
-        face.setVisibility(View.GONE);
-        LoadingDialog.cancelLoadingDialog();
+    public void onPrepared(PLMediaPlayer plMediaPlayer) {//流媒体连接成功
+//        face.setVisibility(View.GONE);
+//        LoadingDialog.cancelLoadingDialog();
     }
 
     @Override
