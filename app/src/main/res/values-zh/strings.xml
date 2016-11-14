@@ -114,7 +114,7 @@
     <string name="search_pull_blacklist">拉黑</string>
     <string name="search_report">举报</string>
     <string name="formatted_1" formatted="false">送给你：%s</string>
-    <string name="formatted_2" formatted="false">我是%s欢迎大家进我的舞台！</string>
+    <string name="formatted_2" formatted="false">我是%s欢迎大家进我的Yeye Live！</string>
     <string name="gift_code1012">您的金币不够.</string>
     <!--我的-->
     <string name="attention">我的关注</string>
@@ -289,7 +289,7 @@
     <string name="btn_login">登录</string>
     <string name="btn_login_facebook">Facebook 登录</string>
     <string name="btn_wechat">微信登录</string>
-    <string name="room_system_message" formatted="false">欢迎 %s，来到 Yeye 直播!</string>
+    <string name="room_system_message" formatted="false">欢迎 %s 来到 Yeye 直播!</string>
     <string name="share_to">分享到: </string>
     <string name="share_we_chat">微信</string>
     <string name="share_we_chat_pyq">朋友圈</string>

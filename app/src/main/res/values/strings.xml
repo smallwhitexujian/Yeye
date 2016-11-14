@@ -117,7 +117,7 @@
     <string name="search_pull_blacklist">Blacklist</string>
     <string name="search_report">Report</string>
     <string name="formatted_1" formatted="false">Send You：%s</string>
-    <string name="formatted_2" formatted="false">I am %s Welcome to my Program.</string>
+    <string name="formatted_2" formatted="false">I am %s Welcome to my Yeye Live!</string>
     <string name="gift_code1012">Your coins is not enough.</string>
     <!--我的-->
     <string name="attention">Following</string>
@@ -292,7 +292,7 @@
     <string name="login_text_desc">Agreement of User</string>
     <string name="btn_login">Login</string>
     <string name="btn_login_facebook">Login by Facebook</string>
-    <string name="room_system_message" formatted="false">Welcome %s，to Yeye Live!</string>
+    <string name="room_system_message" formatted="false">Welcome %s to Yeye Live!</string>
     <string name="share_to">Share to:</string>
     <string name="share_we_chat">Wechat</string>
     <string name="share_we_chat_pyq">Wechat Moment</string>
