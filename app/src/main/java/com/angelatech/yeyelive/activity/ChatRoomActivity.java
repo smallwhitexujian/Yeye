@@ -446,12 +446,12 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             @Override
             public void onSuccess(String response) {
                 DebugLogs.e("=========response=====保存录像" + response);
-                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-                if (results != null) {
-                    if (!HttpFunction.isSuc(results.code)) {
-                        onBusinessFaild(results.code);
-                    }
-                }
+//                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+//                if (results != null) {
+//                    if (!HttpFunction.isSuc(results.code)) {
+//                        onBusinessFaild(results.code);
+//                    }
+//                }
             }
         };
         chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLivenum(), isSave, callback);
