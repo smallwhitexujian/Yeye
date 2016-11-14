@@ -314,7 +314,7 @@ public class ReadyLiveFragment extends BaseFragment {
                     @Override
                     public void onEnter(String password) {
                         App.roompwd = password;
-                        ToastUtils.showToast(getActivity(), "房间密码已设置为:" + password);
+                        ToastUtils.showToast(getActivity(), getString(R.string.setpassword) + password);
                         img_start_play_pwd.setImageResource(R.drawable.btn_start_play_passroom_s);
                         spinnner.setSelection(0);
                     }

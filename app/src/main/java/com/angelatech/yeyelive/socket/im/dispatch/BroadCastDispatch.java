@@ -110,7 +110,7 @@ public class BroadCastDispatch extends Dispatchable {
                                 String content = mContext.getString(R.string.notify_live_content, result.nickname);
 
                                 if(roomtype.equals("1")){
-                                    if (Integer.valueOf(roomPrice) >0){
+                                    if (Integer.valueOf(roomPrice) >0 || roomModel.getPwd().length() == 4){
                                         NotificationUtil.launchNoticeWithData2(mContext, requestCode, ticker, title, content, TabMenuActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);
                                     }else{
                                         NotificationUtil.launchNoticeWithData(mContext, requestCode, ticker, title, content, ChatRoomActivity.class, TransactionValues.UI_2_UI_KEY_OBJECT, roomModel);

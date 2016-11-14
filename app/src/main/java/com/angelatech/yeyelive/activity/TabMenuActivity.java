@@ -130,7 +130,7 @@ public class TabMenuActivity extends BaseActivity {
             loginUser.Userid = userModel.userid;
             loginUser.Token = userModel.token;
             roomModel.setLoginUser(loginUser);
-            if (!roomModel.getPwd().isEmpty()) {
+            if (roomModel.getPwd().length() == 4) {
                 ChatRoom.enterPWDChatRoom(TabMenuActivity.this, roomModel, roomModel.getPwd());
             } else {
                 ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);
@@ -259,7 +259,8 @@ public class TabMenuActivity extends BaseActivity {
             loginUser.Userid = userModel.userid;
             loginUser.Token = userModel.token;
             roomModel.setLoginUser(loginUser);
-            if (!roomModel.getPwd().isEmpty()) {
+
+            if ( roomModel.getPwd().length() == 4) {
                 ChatRoom.enterPWDChatRoom(TabMenuActivity.this, roomModel, roomModel.getPwd());
             } else {
                 ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);

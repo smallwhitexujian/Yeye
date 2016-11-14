@@ -12,6 +12,7 @@ import com.angelatech.yeyelive.fragment.LockChooseDialogFragment;
 import com.angelatech.yeyelive.fragment.TicketsDialogFragment;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
+import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -78,12 +79,10 @@ public class ChatRoom extends HttpFunction {
     //增加门票功能
     public static void enterChatRoom(final Context context, final RoomModel roomModel) {
         ChatRoom chatRoom = new ChatRoom(context);
-
         chatRoom.getRoomTickets(roomModel.getLoginUser().Userid, roomModel.getLoginUser().Token,
                 String.valueOf(roomModel.getId()), new HttpBusinessCallback() {
                     @Override
                     public void onSuccess(String response) {
-                        DebugLogs.e("response" + response);
                         Map map = JsonUtil.fromJson(response, Map.class);
                         if (map != null) {
                             if (HttpFunction.isSuc(map.get("code").toString())) {

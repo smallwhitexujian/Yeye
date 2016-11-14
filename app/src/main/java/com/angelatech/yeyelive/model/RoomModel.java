@@ -171,11 +171,11 @@ public class RoomModel implements Serializable {
     private int livecoin = 0;
     private String livetime = "00:00:01";
     private BasicUserInfoDBModel userInfoDBModel; //
-    private String pwd;
+    private String password;
 
-    public String getPwd(){return pwd;}
+    public String getPwd(){return password;}
 
-    public void setPwd(String pwd){this.pwd = pwd;}
+    public void setPwd(String pwd){this.password = pwd;}
 
     public String getTicket() {
         return ticket;
@@ -216,6 +216,8 @@ public class RoomModel implements Serializable {
                 ", livetime='" + livetime + '\'' +
                 ", userInfoDBModel=" + userInfoDBModel +
                 ", liveid='" + liveid + '\'' +
+                ", pwd='" + password + '\'' +
+                ", ticket='" + ticket + '\'' +
                 '}';
     }
 }
