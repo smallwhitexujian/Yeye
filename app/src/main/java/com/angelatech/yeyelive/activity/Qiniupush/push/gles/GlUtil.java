@@ -158,7 +158,6 @@ public class GlUtil {
         } catch (IOException e) {
             return null;
         }
-
         return body.toString();
     }
 }

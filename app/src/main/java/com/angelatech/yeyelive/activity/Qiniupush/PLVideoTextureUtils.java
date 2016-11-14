@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.angelatech.yeyelive.activity.Qiniupush.widget.MediaController;
 import com.angelatech.yeyelive.activity.Qiniupush.widget.Utils;
+import com.angelatech.yeyelive.application.App;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
@@ -59,7 +60,6 @@ public class PLVideoTextureUtils {
     private View LoadingView;
     private int mRotation = 0;
     private PLVideoCallBack callBack;
-    private boolean isDebug = true;
     private long isRunTiem = 0;
     private SeekBar mProgress;
     private long mDuration;
@@ -336,7 +336,7 @@ public class PLVideoTextureUtils {
 
 
     private void showToastTips(final String tips) {
-        if (!isDebug) {
+        if (!App.isDebug) {
             return;
         }
         mcontext.runOnUiThread(new Runnable() {

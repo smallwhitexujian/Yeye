@@ -298,8 +298,10 @@ public class LiveVideoHotFragment extends BaseFragment implements
             loginUser.Token = userInfo.token;
             roomModel.setLoginUser(loginUser);
             if (liveModel.ispwdroom.equals("1") && !liveModel.password.isEmpty()) {
+                LoadingDialog.cancelLoadingDialog();
                 ChatRoom.enterPWDChatRoom(getActivity(), roomModel, liveModel.password);
             } else {
+                LoadingDialog.cancelLoadingDialog();
                 ChatRoom.enterChatRoom(getActivity(), roomModel);
             }
         } else {
