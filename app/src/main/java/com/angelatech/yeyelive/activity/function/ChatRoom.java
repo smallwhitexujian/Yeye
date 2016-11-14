@@ -70,7 +70,6 @@ public class ChatRoom extends HttpFunction {
                 }
             }
         };
-
         LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(context,callback, roompwd,1);
         lockChooseDialogFragment.show(activity.getFragmentManager(), "");
     }

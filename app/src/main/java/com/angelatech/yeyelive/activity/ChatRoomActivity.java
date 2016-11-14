@@ -446,12 +446,12 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
             @Override
             public void onSuccess(String response) {
                 DebugLogs.e("=========response=====保存录像" + response);
-                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
-                if (results != null) {
-                    if (!HttpFunction.isSuc(results.code)) {
-                        onBusinessFaild(results.code);
-                    }
-                }
+//                CommonModel results = JsonUtil.fromJson(response, CommonModel.class);
+//                if (results != null) {
+//                    if (!HttpFunction.isSuc(results.code)) {
+//                        onBusinessFaild(results.code);
+//                    }
+//                }
             }
         };
         chatRoom.LiveQiSaveVideo(CommonUrlConfig.LiveQiSaveVideo, CacheDataManager.getInstance().loadUser(), roomModel.getLiveid(), roomModel.getLivenum(), isSave, callback);
@@ -551,6 +551,8 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 try {
                     BarInfoModel loginMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.class);
                     if (loginMessage != null && loginMessage.code.equals("0")) {
+                        face.setVisibility(View.GONE);
+                        LoadingDialog.cancelLoadingDialog();
                         long coin = loginMessage.coin;
                         //更新金币
                         userModel.diamonds = String.valueOf(coin);
@@ -1285,9 +1287,9 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
     }
 
     @Override
-    public void onPrepared(PLMediaPlayer plMediaPlayer) {
-        face.setVisibility(View.GONE);
-        LoadingDialog.cancelLoadingDialog();
+    public void onPrepared(PLMediaPlayer plMediaPlayer) {//流媒体连接成功
+//        face.setVisibility(View.GONE);
+//        LoadingDialog.cancelLoadingDialog();
     }
 
     @Override

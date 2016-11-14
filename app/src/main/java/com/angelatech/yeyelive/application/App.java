@@ -36,6 +36,7 @@ public class App extends Application {
 
     //常量区
     public static boolean isDebug = false ;
+
     public static boolean isLogin = false;// 判断用户是否登录
     public static boolean isQiNiu = true; // 是否使用七牛服务器
 
