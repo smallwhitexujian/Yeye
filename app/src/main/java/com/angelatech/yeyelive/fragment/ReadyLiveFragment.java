@@ -180,6 +180,7 @@ public class ReadyLiveFragment extends BaseFragment {
         if (roomModel.getRoomType().equals(App.LIVE_PREVIEW)) {
             getLocationCity();
             mLocationInfo.setText(straddres);
+            App.chatRoomApplication.setOpenFB();
         }
     }
 

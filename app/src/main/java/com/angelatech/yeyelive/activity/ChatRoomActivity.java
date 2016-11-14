@@ -313,7 +313,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         mMediaStreamingManager.setAudioSourceCallback(this);
         setStreamCallback(streamCallback);
         setFocusAreaIndicator();//设置聚焦功能
-        setBeauty();//设置默认美颜功能
+//        setBeauty();//设置默认美颜功能
     }
 
     public void onClick(View v) {

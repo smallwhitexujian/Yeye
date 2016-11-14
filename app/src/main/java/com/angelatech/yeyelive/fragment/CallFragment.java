@@ -256,6 +256,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         fragmentManager = getFragmentManager();
         initControls();
         initCocos2dx();
+        btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_n);
+        bVideoFilter = !bVideoFilter;
         return controlView;
     }
 
@@ -882,6 +884,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_beautiful://美颜
+                App.chatRoomApplication.setBeauty();//设置默认美颜功能
                 if (bVideoFilter) {
                     btn_beautiful.setImageResource(R.drawable.btn_start_play_beautiful_s);
                     App.chatRoomApplication.setOpenFB();

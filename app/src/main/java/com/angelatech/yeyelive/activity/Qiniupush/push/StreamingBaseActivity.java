@@ -98,7 +98,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     private int mCurrentZoom = 0;
     private int mMaxZoom = 0;
     private FBO mFBO = new FBO();
-    public Screenshooter mScreenshooter = new Screenshooter();
+    private Screenshooter mScreenshooter = new Screenshooter();
     private Switcher mSwitcher = new Switcher();
     private EncodingOrientationSwitcher mEncodingOrientationSwitcher = new EncodingOrientationSwitcher();
     private StreamCallback streamCallback;
@@ -485,7 +485,7 @@ public class StreamingBaseActivity extends BaseActivity implements
         CameraStreamingSetting.FaceBeautySetting fbSetting = mCameraStreamingSetting.getFaceBeautySetting();
         fbSetting.beautyLevel = 50 / 100.0f;
         fbSetting.whiten = 50 / 100.0f;
-        fbSetting.redden = 50 / 100.0f;
+        fbSetting.redden = 70 / 100.0f;
         mMediaStreamingManager.updateFaceBeautySetting(fbSetting);
     }
 
