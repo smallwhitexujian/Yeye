@@ -43,6 +43,7 @@ import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.mediaplayer.SurfaceViewHolderCallback;
 import com.angelatech.yeyelive.mediaplayer.VideoPlayer;
 import com.angelatech.yeyelive.mediaplayer.util.PlayerUtil;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
@@ -55,15 +56,16 @@ import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.will.common.log.DebugLogs;
-
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
+import com.xj.frescolib.View.FrescoRoundView;
 
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 import org.cocos2dx.lib.util.Cocos2dxGift;
@@ -91,16 +93,17 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private SurfaceView player_surfaceView;
     private Button player_replay_btn, btn_back;
     private LinearLayout player_ctl_layout, layout_onClick;
-    private RelativeLayout ly_playfinish;
+    private RelativeLayout ly_playfinish, top_view;
     private SeekBar player_seekBar;
-    private TextView player_total_time, player_current_time, tv_report, player_split_line;
-    private ImageView btn_share, btn_Follow, player_play_btn, backBtn, btn_red, btn_room_exchange;
+    private TextView player_total_time, player_current_time, tv_report, txt_likenum, player_split_line, txt_barname;
+    private ImageView btn_share, iv_vip, btn_Follow, player_play_btn, backBtn, btn_red, btn_room_exchange;
     private VideoPlayer mVideoPlayer;
 
     private String path;
     private int isFollow = 0;
     private VideoModel videoModel;
     private BasicUserInfoDBModel userModel;
+    private FrescoRoundView img_head;
     private FrescoDrawee default_img;
     private Cocos2dxView cocos2dxView = new Cocos2dxView();
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
@@ -208,7 +211,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         btn_red = (ImageView) findViewById(R.id.btn_red);
         btn_room_exchange = (ImageView) findViewById(R.id.btn_room_exchange);
         player_replay_btn = (Button) findViewById(R.id.player_replay_btn);
-
+        top_view = (RelativeLayout) findViewById(R.id.top_view);
+        img_head = (FrescoRoundView) findViewById(R.id.img_head);
+        iv_vip = (ImageView) findViewById(R.id.iv_vip);
         btn_Follow = (ImageView) findViewById(R.id.btn_Follow);
         btn_share = (ImageView) findViewById(R.id.btn_share);
         btn_back = (Button) findViewById(R.id.btn_back);
@@ -220,13 +225,20 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         ly_playfinish = (RelativeLayout) findViewById(R.id.ly_playfinish);
         player_total_time = (TextView) findViewById(R.id.player_total_time);
         player_current_time = (TextView) findViewById(R.id.player_current_time);
+        txt_barname = (TextView) findViewById(R.id.txt_barname);
         tv_report = (TextView) findViewById(R.id.tv_report);
+        txt_likenum = (TextView) findViewById(R.id.txt_likenum);
         player_split_line = (TextView) findViewById(R.id.player_split_line);
         default_img.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = ScreenUtils.getStatusHeight(PlayActivity.this);
             backBtn.setPadding(15, statusBarHeight, 0, 0);
             tv_report.setPadding(0, statusBarHeight, 15, 0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.FILL_PARENT,
+                    RelativeLayout.LayoutParams.FILL_PARENT);
+            layoutParams.setMargins(15, statusBarHeight, 0, 0);
+            top_view.setLayoutParams(layoutParams);
         }
     }
 
@@ -242,6 +254,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         backBtn.setOnClickListener(click);
         btn_room_exchange.setOnClickListener(click);
         layout_onClick.setOnClickListener(click);
+        img_head.setOnClickListener(click);
         // 为进度条添加进度更改事件
         player_seekBar.setOnSeekBarChangeListener(change);
 
@@ -257,6 +270,28 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             default_img.setImageURI(videoModel.barcoverurl);
             if (!videoModel.userid.equals(userModel.userid)) {
                 UserIsFollow();
+            }
+
+            img_head.setImageURI(VerificationUtil.getImageUrl100(videoModel.headurl));
+            txt_barname.setText(videoModel.nickname);
+            txt_likenum.setText(videoModel.playnum);
+            //0 无 1 v 2 金v 9官
+            switch (videoModel.isv) {
+                case "1":
+                    iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
+                    iv_vip.setVisibility(View.VISIBLE);
+                    break;
+                case "2":
+                    iv_vip.setImageResource(R.drawable.icon_identity_vip_gold);
+                    iv_vip.setVisibility(View.VISIBLE);
+                    break;
+                case "9":
+                    iv_vip.setImageResource(R.drawable.icon_identity_official);
+                    iv_vip.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    iv_vip.setVisibility(View.GONE);
+                    break;
             }
         }
 
@@ -285,7 +320,9 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                                     if (!ticket.equals("0")) {//需要门票
                                         TicketsDialogFragment.Callback callback = new TicketsDialogFragment.Callback() {
                                             @Override
-                                            public void onCancel() { finish(); }
+                                            public void onCancel() {
+                                                finish();
+                                            }
 
                                             @Override
                                             public void onEnter() {
@@ -294,7 +331,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                                             }
                                         };
                                         TicketsDialogFragment ticketsDialogFragment =
-                                                new TicketsDialogFragment(PlayActivity.this,callback,ticket,Integer.parseInt(videoModel.videoid),1);
+                                                new TicketsDialogFragment(PlayActivity.this, callback, ticket, Integer.parseInt(videoModel.videoid), 1);
                                         ticketsDialogFragment.show(getFragmentManager(), "");
                                     } else {
                                         LoadingDialog.cancelLoadingDialog();
@@ -449,6 +486,13 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     webTransportModel.title = getString(R.string.gift_center);
                     if (!webTransportModel.url.isEmpty()) {
                         StartActivityHelper.jumpActivity(PlayActivity.this, WebActivity.class, webTransportModel);
+                    }
+                    break;
+                case R.id.img_head:
+                    if (videoModel != null) {
+                        BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                        userInfoModel.Userid = videoModel.userid;
+                        StartActivityHelper.jumpActivity(PlayActivity.this, FriendUserInfoActivity.class, userInfoModel);
                     }
                     break;
                 default:
