@@ -22,6 +22,7 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
+import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.base.WithBroadCastActivity;
 import com.angelatech.yeyelive.activity.function.FocusFans;
 import com.angelatech.yeyelive.activity.function.UserControl;
@@ -34,6 +35,7 @@ import com.angelatech.yeyelive.handler.CommonHandler;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
+import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.SearchItemModel;
 import com.angelatech.yeyelive.util.BroadCastHelper;
@@ -326,17 +328,18 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.user_face: //点用户头像也进入用户详情页
-//                if (baseInfo != null) {
-//                    PicViewModel picViewModel = new PicViewModel();
-//                    picViewModel.url = baseInfo.headurl;
-//                    picViewModel.defaultPic = R.drawable.default_face_icon;
-//                    if (App.chatRoomApplication != null && App.chatRoomApplication.callFragment != null) {
-//                        App.chatRoomApplication.callFragment.setShowCocosView();
-//                    }
-//                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
-//                }
-//                dismiss();
-//                break;
+                if (baseInfo != null) {
+                    PicViewModel picViewModel = new PicViewModel();
+                    picViewModel.url = baseInfo.headurl + "?imageView\\1\\w\\1000\\h\\1000";
+                    picViewModel.defaultPic = R.drawable.default_face_icon;
+                    if (App.chatRoomApplication != null && App.chatRoomApplication.callFragment != null) {
+                        App.chatRoomApplication.callFragment.setShowCocosView();
+                    }
+                    DebugLogs.e("headurl:" +  picViewModel.url );
+                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
+                }
+                dismiss();
+                break;
             case R.id.recharge_btn://个人资料
                 if (App.chatRoomApplication != null) {
                     CommDialog.Callback callback = new CommDialog.Callback() {
