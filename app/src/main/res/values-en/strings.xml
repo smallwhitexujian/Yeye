@@ -458,5 +458,6 @@
     <string name="txt_dialog_lock_choose_title">This live show need password</string>
     <string name="roompwd_err">Invalid Password</string>
     <string name="setpassword">The password is :</string>
+    <string name="facebook_firs">Facebook Friends</string>
 
 </resources>

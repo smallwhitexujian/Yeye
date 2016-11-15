@@ -65,7 +65,7 @@
                 android:layout_height="45dp"
                 android:gravity="center"
                 android:visibility="gone"
-                android:text="您可能认识" />
+                android:text="@string/facebook_firs" />
 
             <ListView
                 android:id="@+id/search_list"
@@ -75,8 +75,5 @@
                 android:divider="@color/color_grey_d5"
                 android:dividerHeight="0.5dp" />
         </LinearLayout>
-
     </FrameLayout>
-
-
 </LinearLayout>
