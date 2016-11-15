@@ -8,19 +8,28 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 
+import com.android.vending.billing.util.Purchase;
+import com.angelatech.yeyelive.activity.function.GooglePay;
+import com.angelatech.yeyelive.db.BaseKey;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.RoomInfo;
 import com.angelatech.yeyelive.receiver.IServiceReceiver;
 import com.angelatech.yeyelive.receiver.NetworkReceiver;
 import com.angelatech.yeyelive.socket.WillProtocol;
 import com.angelatech.yeyelive.socket.room.RoomConnectManager;
 import com.angelatech.yeyelive.util.BroadCastHelper;
+import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.web.HttpFunction;
 import com.framework.socket.model.SocketConfig;
+import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
+import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 后台服务类
@@ -124,6 +133,36 @@ public class IService extends Service {
      */
     public void quitRoom() {
         roomConnectManager.stop();
+    }
+
+    /**
+     *  订单支付成功请求服务器处理加币
+     */
+    public void addItem(Context context, Purchase purchase, final String userId, String token, final Handler uiHandler) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                super.onFailure(errorMap);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                CommonParseModel<String> results = JsonUtil.fromJson(response, new TypeToken<CommonParseModel<String>>() {
+                }.getType());
+                if (results != null) {
+                    if (HttpFunction.isSuc(results.code)) {
+                        //更新金币显示
+                        if (results.data != null) {
+                            CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, results.data, userId);
+                        }
+                    } else {
+                        onBusinessFaild(results.code);
+                    }
+                }
+            }
+        };
+        GooglePay mGooglePay = new GooglePay(context);
+        mGooglePay.addItem(userId, token, purchase, callback);
     }
 
 

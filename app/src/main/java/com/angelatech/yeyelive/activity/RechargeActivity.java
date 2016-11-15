@@ -56,7 +56,7 @@ import java.util.UUID;
  */
 public class RechargeActivity extends PayActivity implements View.OnClickListener {
     private final int MSG_LOAD_PAY_MENU = 1;
-    private final int MSG_ADD_ITEM = 2;
+    public final static int MSG_ADD_ITEM = 2;
     private boolean isTest = false;
     private final int ORDER_FAILD = 0;//下单失败
     private ListView mRechargeListView;
@@ -73,7 +73,6 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private boolean isMiMoPay = false;
     private RelativeLayout item_google, item_digi;
     private LinearLayout recharge_pay_model;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,7 +165,12 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         } else {
             mBalanceTextView.setText("0");
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshCoin();
     }
 
     @Override
@@ -270,13 +274,13 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         String userId = user.userid;
         String token = user.token;
         mGooglePay.addItem(userId, token, purchase, callback);
-
     }
 
 
     //订单,生成订单
     private void order(final RechargeModel model) {
         if (model == null) return;
+        LoadingDialog.showLoadingDialog(RechargeActivity.this,null);
         String key = Md5.md5(UUID.randomUUID().toString());
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
@@ -461,6 +465,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 break;
             case MSG_ADD_ITEM:
                 ToastUtils.showToast(this, getString(R.string.purchase_succ), Toast.LENGTH_SHORT);
+                LoadingDialog.cancelLoadingDialog();
                 refreshCoin();
                 break;
             case ORDER_FAILD:
@@ -487,7 +492,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private void refreshCoin() {
         user = CacheDataManager.getInstance().loadUser();
         if (user != null && user.diamonds != null) {
-            mBalanceTextView.setText(StringHelper.getThousandFormat(user.diamonds));
+            mBalanceTextView.setText(user.diamonds);
         } else {
             mBalanceTextView.setText("0");
         }
