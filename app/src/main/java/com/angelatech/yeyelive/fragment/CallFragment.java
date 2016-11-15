@@ -729,7 +729,15 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (index >= 0) { //存在用户 替换
                     showList.remove(index);
                 }
-                showList.add(BinarySearch.binSearch(showList, 0, showList.size(), onlineNotice.user), onlineNotice.user);
+
+                int pos = BinarySearch.binSearch(showList, 0, showList.size(), onlineNotice.user);
+                if(!onlineNotice.user.isrobot.equals("1")){
+
+                    PopLinkData.add(onlineNotice.user);
+                    PopAdapter.add(onlineNotice.user);
+                }
+
+                showList.add(pos, onlineNotice.user);
             }
         } else {
             if (index >= 0) {

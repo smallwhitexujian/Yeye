@@ -341,27 +341,9 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.recharge_btn://个人资料
-                if (App.chatRoomApplication != null) {
-                    CommDialog.Callback callback = new CommDialog.Callback() {
-                        @Override
-                        public void onCancel() {
-                        }
 
-                        @Override
-                        public void onOK() {
-                            if (App.chatRoomApplication != null) {
-                                App.chatRoomApplication.exitRoom();
-                            }
-                            StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
-                            dismiss();
-                        }
-                    };
-                    CommDialog commDialog = new CommDialog();
-                    commDialog.CommDialog(mActivity, getString(R.string.finish_room), true, callback);
-                } else {
                     StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
                     dismiss();
-                }
                 break;
         }
     }

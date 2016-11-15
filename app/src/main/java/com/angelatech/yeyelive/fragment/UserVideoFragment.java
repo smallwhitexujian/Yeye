@@ -28,6 +28,7 @@ import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
 import com.will.view.library.SwipyRefreshLayout;
@@ -47,7 +48,6 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
     private final int MSG_NO_DATA = 2;
     private final int MSG_HAVE_DATA = 3;
     private final int MSG_SETADPTER = 4;
-
 
     private View view;
     private GridView mGridView;
@@ -158,9 +158,28 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                     if (App.chatRoomApplication != null) {
                         App.chatRoomApplication.closeLive();
                     }
-                    VideoModel videoModel = (VideoModel) item;
+                    final VideoModel videoModel = (VideoModel) item;
                     //回放视频
-                    StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, videoModel);
+                    if (App.chatRoomApplication != null) {
+                        CommDialog.Callback callback = new CommDialog.Callback() {
+                            @Override
+                            public void onCancel() {
+                            }
+
+                            @Override
+                            public void onOK() {
+                                if (App.chatRoomApplication != null) {
+                                    App.chatRoomApplication.exitRoom();
+                                }
+                                StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, videoModel);
+                            }
+                        };
+                        CommDialog commDialog = new CommDialog();
+                        commDialog.CommDialog(getActivity(), getString(R.string.finish_room), true, callback);
+                    }
+                    else {
+                        StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, videoModel);
+                    }
                 }
 
             }
