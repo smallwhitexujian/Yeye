@@ -646,23 +646,37 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void setHintCocosView() {
-        if (ViewgiftLayout != null) {
-            ViewgiftLayout.setVisibility(View.GONE);
-            ViewgiftLayout.clearFocus();
-            ViewgiftLayout.setFocusable(false);
-            if (cocos2dxView != null) {
-                cocos2dxView.onPause();
-            }
+        if (isAdded()){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ViewgiftLayout != null) {
+                        ViewgiftLayout.setVisibility(View.GONE);
+                        ViewgiftLayout.clearFocus();
+                        ViewgiftLayout.setFocusable(false);
+                        if (cocos2dxView != null) {
+                            cocos2dxView.onPause();
+                        }
+                    }
+                }
+            });
         }
     }
 
     public void setShowCocosView() {
-        if (ViewgiftLayout != null) {
-            ViewgiftLayout.setFocusable(true);
-            ViewgiftLayout.setVisibility(View.VISIBLE);
-            if (cocos2dxView != null) {
-                cocos2dxView.onResume();
-            }
+        if (isAdded()){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ViewgiftLayout != null) {
+                        ViewgiftLayout.setFocusable(true);
+                        ViewgiftLayout.setVisibility(View.VISIBLE);
+                        if (cocos2dxView != null) {
+                            cocos2dxView.onResume();
+                        }
+                    }
+                }
+            });
         }
     }
 

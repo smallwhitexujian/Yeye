@@ -813,6 +813,21 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 }
                             }
                             break;
+                        case 85:
+                            for (int m = 0; m < gift_Num; m++) {
+                                cocos2dxGiftModel = new Cocos2dxGift.Cocos2dxGiftModel();
+                                cocos2dxGiftModel.aniName = "fx_wawa";
+                                cocos2dxGiftModel.exportJsonPath = "fx_wawa/fx_wawa.ExportJson";
+                                cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this)/ 2;
+                                cocos2dxGiftModel.speedScale = 1f;
+                                bigGift.add(cocos2dxGiftModel);
+                                if (!isStart) {
+                                    isStart = true;
+                                    startPlayBigGift();
+                                }
+                            }
+                            break;
                     }
 
                     GiftModel giftmodelInfo = chatRoom.getGifPath(giftModel.giftid);

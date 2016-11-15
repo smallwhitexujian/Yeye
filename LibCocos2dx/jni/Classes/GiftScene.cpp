@@ -65,6 +65,16 @@ void GiftScene::loadAnimation(const GiftModel gift,const GiftControlModel contro
                 armature->addChild(m2);
                 armature->addChild(m3);
             }
+    if(strcmp(gift.aniName,"fx_wawa") == 0)
+                {
+                    LOGD("oooooo");
+                    ParticleSystem* m1 = ParticleSystemQuad::create("fx_wawa/fx_wawa0.plist");
+                    ParticleSystem* m2 = ParticleSystemQuad::create("fx_wawa/fx_wawa1.plist");
+                    ParticleSystem* m3 = ParticleSystemQuad::create("fx_wawa/zuanshi.plist");
+                    armature->addChild(m1);
+                    armature->addChild(m2);
+                    armature->addChild(m3);
+                }
     this->addChild(armature);
 	armature->getAnimation()->playWithIndex(0);
 }

@@ -1584,12 +1584,10 @@
     }
   ],
   "config_file_path": [
-    "zuanshi.plist",
     "fx_wawa0.plist",
     "fx_wawa1.plist"
   ],
   "config_png_path": [
-    "zuanshi.png",
     "fx_wawa0.png",
     "fx_wawa1.png"
   ]
