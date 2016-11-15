@@ -10,16 +10,16 @@
         android:id="@+id/gift_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
         android:orientation="horizontal"
+        android:visibility="visible"
         tools:ignore="RtlHardcoded" />
 
     <SurfaceView
         android:id="@+id/player_surfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <com.xj.frescolib.View.FrescoDrawee
         android:id="@+id/default_img"
@@ -38,17 +38,21 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+            <include
+                android:id="@+id/include"
+                layout="@layout/view_live_top2"
+                android:layout_width="138dp"
+                android:layout_height="wrap_content" />
+
             <ImageView
                 android:id="@+id/backBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="4dp"
                 android:contentDescription="@null"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="10dp"
-                android:paddingTop="15dp"
-                android:src="@drawable/back"
+                android:padding="5dp"
+                android:src="@drawable/btn_start_play_live_close"
                 tools:ignore="RtlHardcoded" />
 
             <View
@@ -59,7 +63,10 @@
                 android:id="@+id/tv_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toEndOf="@+id/include"
+                android:layout_toRightOf="@+id/include"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="15dp"
@@ -149,6 +156,7 @@
                 android:src="@drawable/btn_room_concern_n"
                 android:visibility="gone"
                 tools:visibility="visible" />
+
             <ImageView
                 android:id="@+id/btn_room_exchange"
                 android:layout_width="56dp"
@@ -157,6 +165,7 @@
                 android:padding="8dp"
                 android:src="@drawable/btn_room_exchange_n"
                 android:visibility="visible" />
+
             <ImageView
                 android:id="@+id/btn_red"
                 android:layout_width="56dp"

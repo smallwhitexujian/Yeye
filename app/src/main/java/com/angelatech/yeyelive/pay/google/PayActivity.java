@@ -1,7 +1,8 @@
-package com.angelatech.yeyelive.pay.google; /***
+package com.angelatech.yeyelive.pay.google;
+
+/***
  * 支付activity
  */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
