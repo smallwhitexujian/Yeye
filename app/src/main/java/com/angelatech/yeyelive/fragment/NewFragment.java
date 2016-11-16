@@ -156,7 +156,7 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                         helper.getView(R.id.live_cover).setLayoutParams(para);
                         helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
                         helper.setText(R.id.iv_line, "LIVE");
-                        helper.setImageURI(R.id.live_cover, liveModel.headurl);
+                        helper.setImageURI(R.id.live_cover, liveModel.barcoverurl);
                         if (liveModel.area == null || "".equals(liveModel.area)) {
                             helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                         } else {
@@ -180,7 +180,7 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                         helper.getView(R.id.live_cover).setLayoutParams(para);
                         helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
                         helper.setText(R.id.iv_line, "REC");
-                        helper.setImageURI(R.id.live_cover, videoModel.headurl);
+                        helper.setImageURI(R.id.live_cover, videoModel.barcoverurl);
                         if (item.area == null || "".equals(item.area)) {
                             helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                         } else {
