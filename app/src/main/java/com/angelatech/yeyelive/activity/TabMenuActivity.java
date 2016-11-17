@@ -285,7 +285,10 @@ public class TabMenuActivity extends BaseActivity {
             userModel = CacheDataManager.getInstance().loadUser();
             String str = String.valueOf(SystemMessage.getInstance().getQueryAllpot(BaseKey.NOTIFICATION_ISREAD, userModel.userid).size());
             if (str.equals("0")) {
+                pot.setVisibility(View.GONE);
                 SystemMessage.getInstance().clearUnReadTag(TabMenuActivity.this);
+            }else{
+                pot.setVisibility(View.VISIBLE);
             }
             if (systemMessage.haveNewSystemMsg(TabMenuActivity.this)) {
                 pot.setVisibility(View.VISIBLE);
