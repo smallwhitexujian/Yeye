@@ -29,7 +29,7 @@ public class MimopayModel {
     public int paymentid;           //支付类型
     public String productName;      //商品ID
     public String transactionId;    //订单
-    public String currency = "IDR"; //币种
+    public String currency = "MYR"; //币种
     public String coins = "0";      //单价
 
     @Override
