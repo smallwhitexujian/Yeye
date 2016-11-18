@@ -236,6 +236,7 @@ public class CommChooseDialog {
         }
     }
 
+
     /**
      * 通用dialog
      *

@@ -441,7 +441,7 @@
     <string name="capy_to_clip">Copied successfully</string>
     <string name="yeye_web_title">other payment</string>
     <string name="red_tips_luck">Good Luck</string>
-    <string name="fans_rank" >Top Fans</string>
+    <string name="fans_rank">Top Fans</string>
     <string name="xingyunliwu_tips" formatted="false">Congrats. to %s get %s times rewards，get %s coins</string>
     <string name="danmu_tips">Danmuka only allow 20 letters</string>
 
@@ -468,5 +468,6 @@
     <string name="roompwd_err">Invalid Password</string>
     <string name="setpassword">The password is :</string>
     <string name="facebook_firs">Facebook Friends</string>
+    <string name="title_activity_pay">PayActivity</string>
 
 </resources>

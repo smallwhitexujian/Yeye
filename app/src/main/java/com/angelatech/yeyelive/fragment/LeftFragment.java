@@ -15,6 +15,7 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
+import com.angelatech.yeyelive.activity.PayActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
@@ -160,7 +161,8 @@ public class LeftFragment extends HintFragment {
                 }
                 break;
             case R.id.layout_diamond:
-                StartActivityHelper.jumpActivityDefault(getActivity(), RechargeActivity.class);
+                StartActivityHelper.jumpActivityDefault(getActivity(), PayActivity.class);
+
                 break;
             case R.id.layout_video:
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
@@ -174,6 +176,7 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.btn_qcode:
                 StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
+
                 break;
             case R.id.layout_gift:
                 WebTransportModel webTransportModel = new WebTransportModel();
