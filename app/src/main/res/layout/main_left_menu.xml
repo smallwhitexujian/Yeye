@@ -26,7 +26,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_me_qcode"
+                android:src="@drawable/btn_me_myqcode"
                 tools:ignore="RtlHardcoded" />
 
             <RelativeLayout
@@ -164,10 +164,63 @@
             android:textColor="@color/color_999999"
             android:textSize="12sp" />
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/color_grey_d5" />
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/attention_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_attention"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="834"
+                    android:textColor="#FF666666"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="关注"
+                    android:textColor="#FF666666"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fans_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_fans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="834"
+                    android:textColor="#FF666666"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="粉丝"
+                    android:textColor="#FF666666"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -182,7 +235,8 @@
 
             <!-- -->
             <RelativeLayout
-                android:id="@+id/attention_layout"
+                android:id="@+id/layout_diamond"
+
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:background="@color/white"
@@ -196,13 +250,12 @@
                     android:drawableLeft="@drawable/icon_me_my_focus"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="@string/attention"
-                    android:textColor="@color/color_232323"
+                    android:text="我的钱包"
+                    android:textColor="#FF666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
                 <TextView
-                    android:id="@+id/user_attention"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -220,28 +273,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/color_grey_d5" />
-
             <RelativeLayout
-                android:id="@+id/fans_layout"
+                android:id="@+id/ly_qcode"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:background="@color/white"
                 android:gravity="center">
-
                 <TextView
                     android:id="@+id/fans_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
-                    android:drawableLeft="@drawable/icon_me_my_fans"
+                    android:drawableLeft="@drawable/icon_me_scanning_qcode"
                     android:drawablePadding="8dp"
-                    android:text="@string/fans"
-                    android:textColor="@color/color_232323"
+                    android:text="扫一扫"
+                    android:textColor="#FF666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
                 <TextView
-                    android:id="@+id/user_fans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -254,7 +304,169 @@
                     tools:ignore="RelativeOverlap,RtlHardcoded" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+
+            <RelativeLayout
+                android:id="@+id/layout_gift"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/gift_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/gift_item"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
+                    android:drawableLeft="@drawable/icon_me_gift_mall"
+                    android:drawablePadding="8dp"
+                    android:text="Yeye商场"
+                    android:textColor="#FF666666"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/textView8"
+                    android:src="@drawable/icon_me_tips_hot" />
+            </RelativeLayout>
+
             <!--分割 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+
+            <!--分割 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_systemMsg"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_message_notice"
+                    android:drawablePadding="8dp"
+                    android:text="@string/system_msg"
+                    android:textColor="#FF666666"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/message_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
+            </RelativeLayout>
+            <!--分割 -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_mygoods"
+                    android:drawablePadding="8dp"
+                    android:text="我的商品"
+                    android:textColor="#FF666666"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
+
+            </RelativeLayout>
+            <!--分割 -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_mystore"
+                    android:drawablePadding="8dp"
+                    android:text="小金屋"
+                    android:textColor="#FF666666"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
+
+            </RelativeLayout>
+
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -274,7 +486,7 @@
                     android:drawableLeft="@drawable/icon_me_video_playback"
                     android:drawablePadding="8dp"
                     android:text="@string/activity_title_video"
-                    android:textColor="@color/color_232323"
+                    android:textColor="#FF666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
@@ -293,161 +505,6 @@
 
             </RelativeLayout>
 
-            <!--分割 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/color_grey_d5" />
-            <!--分割 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="10dp" />
-
-            <RelativeLayout
-                android:id="@+id/layout_diamond"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@color/white"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/diamond_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:drawableLeft="@drawable/icon_me_my_golds"
-                    android:drawablePadding="8dp"
-                    android:text="@string/diamond"
-                    android:textColor="@color/color_232323"
-                    android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
-
-                <TextView
-                    android:id="@+id/user_diamond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="17dp"
-                    android:drawablePadding="13dp"
-                    android:drawableRight="@drawable/btn_next"
-                    android:gravity="center"
-                    android:textColor="@color/color_a6a6a6"
-                    android:textSize="14sp"
-                    tools:ignore="RelativeOverlap,RtlHardcoded" />
-
-            </RelativeLayout>
-            <!--分割 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/color_grey_d5" />
-
-            <RelativeLayout
-                android:id="@+id/layout_gift"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@color/white"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:drawableLeft="@drawable/icon_me_gift_mall"
-                    android:drawablePadding="8dp"
-                    android:text="@string/gift_center"
-                    android:textColor="@color/color_232323"
-                    android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
-
-                <TextView
-                    android:id="@+id/gift_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="17dp"
-                    android:drawablePadding="13dp"
-                    android:drawableRight="@drawable/btn_next"
-                    android:gravity="center"
-                    android:textColor="@color/color_a6a6a6"
-                    android:textSize="14sp"
-                    tools:ignore="RelativeOverlap,RtlHardcoded" />
-            </RelativeLayout>
-            <!--分割 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/color_grey_d5" />
-
-            <RelativeLayout
-                android:id="@+id/layout_systemMsg"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@color/white"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:drawableLeft="@drawable/icon_me_message_notice"
-                    android:drawablePadding="8dp"
-                    android:text="@string/system_msg"
-                    android:textColor="@color/color_232323"
-                    android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
-
-                <TextView
-                    android:id="@+id/message_notice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="17dp"
-                    android:drawablePadding="13dp"
-                    android:drawableRight="@drawable/btn_next"
-                    android:gravity="center"
-                    android:textColor="@color/color_a6a6a6"
-                    android:textSize="14sp"
-                    tools:ignore="RelativeOverlap,RtlHardcoded" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/color_grey_d5" />
-
-            <RelativeLayout
-                android:id="@+id/layout_Invite_friend"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@color/white"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:drawableLeft="@drawable/icon_me_invitation"
-                    android:drawablePadding="8dp"
-                    android:text="@string/Invite_facebook_friends"
-                    android:textColor="@color/color_232323"
-                    android:textSize="14sp"
-                    tools:ignore="RtlHardcoded" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="17dp"
-                    android:drawablePadding="13dp"
-                    android:drawableRight="@drawable/btn_next"
-                    android:gravity="center"
-                    android:textColor="@color/color_a6a6a6"
-                    android:textSize="14sp"
-                    tools:ignore="RelativeOverlap,RtlHardcoded" />
-
-            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -498,6 +555,12 @@
                 android:layout_height="0.5dp"
                 android:background="@color/color_grey_d5" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_d5" />
+
     </LinearLayout>
 </ScrollView>
 
