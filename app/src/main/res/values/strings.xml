@@ -469,5 +469,27 @@
     <string name="setpassword">The password is :</string>
     <string name="facebook_firs">Facebook Friends</string>
     <string name="title_activity_pay">PayActivity</string>
+    <string name="me_pay">我的钱包</string>
+    <string name="txt_sao">扫一扫</string>
+    <string name="yeye_sc">Yeye商场</string>
+    <string name="me_goods">我的商品</string>
+    <string name="mystore">小金屋</string>
+    <string name="pwd_desc">为了您的账号安全，请设置安全密码</string>
+    <string name="now_set">立即设置</string>
+    <string name="not_set">以后再说</string>
+    <string name="payment">付款</string>
+    <string name="collection">收款</string>
+    <string name="bankcard">银行卡</string>
+    <string name="yeyequn">Yeye券</string>
+    <string name="yeyecoin">Yeye币</string>
+    <string name="yeye_quan">Yeye 生活圈</string>
+    <string name="transfer">转账</string>
+    <string name="phone_top">手机充值</string>
+    <string name="movie">看电影</string>
+    <string name="hotel">酒店</string>
+    <string name="food">美食</string>
+    <string name="ktv">KTV</string>
+    <string name="plane">飞机票</string>
+    <string name="ticket">火车票</string>
 
 </resources>

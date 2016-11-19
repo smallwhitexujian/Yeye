@@ -30,7 +30,6 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.model.WebTransportModel;
-import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;

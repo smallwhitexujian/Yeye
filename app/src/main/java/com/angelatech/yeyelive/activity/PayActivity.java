@@ -75,7 +75,7 @@ public class PayActivity extends Activity implements View.OnClickListener {
 
                     }
                 };
-                dialog.CommDialog(this, "为了您的账号安全，请设置安全密码", true,  callback,"立即设置","以后再说");
+                dialog.CommDialog(this, getString(R.string.pwd_desc), true,  callback,getString(R.string.now_set),getString(R.string.not_set));
                 break;
         }
     }

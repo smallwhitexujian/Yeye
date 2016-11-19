@@ -182,16 +182,15 @@
                     android:id="@+id/user_attention"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="834"
-                    android:textColor="#FF666666"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="关注"
-                    android:textColor="#FF666666"
+                    android:text="@string/live_follow"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -207,16 +206,15 @@
                     android:id="@+id/user_fans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="834"
-                    android:textColor="#FF666666"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="粉丝"
-                    android:textColor="#FF666666"
+                    android:text="@string/search_fans"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -250,8 +248,8 @@
                     android:drawableLeft="@drawable/icon_me_my_focus"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="我的钱包"
-                    android:textColor="#FF666666"
+                    android:text="@string/me_pay"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
@@ -280,14 +278,13 @@
                 android:background="@color/white"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/fans_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
                     android:drawableLeft="@drawable/icon_me_scanning_qcode"
                     android:drawablePadding="8dp"
-                    android:text="扫一扫"
-                    android:textColor="#FF666666"
+                    android:text="@string/txt_sao"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
@@ -340,9 +337,9 @@
                     android:layout_marginStart="18dp"
                     android:drawableLeft="@drawable/icon_me_gift_mall"
                     android:drawablePadding="8dp"
-                    android:text="Yeye商场"
-                    android:textColor="#FF666666"
-                    android:textSize="14sp"
+                    android:text="@string/yeye_sc"
+                    android:textColor="@color/color_ff666666"
+                    android:textSize="14dp"
                     tools:ignore="RtlHardcoded" />
 
                 <ImageView
@@ -379,7 +376,7 @@
                     android:drawableLeft="@drawable/icon_me_message_notice"
                     android:drawablePadding="8dp"
                     android:text="@string/system_msg"
-                    android:textColor="#FF666666"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
@@ -413,8 +410,8 @@
                     android:layout_marginLeft="18dp"
                     android:drawableLeft="@drawable/icon_me_mygoods"
                     android:drawablePadding="8dp"
-                    android:text="我的商品"
-                    android:textColor="#FF666666"
+                    android:text="@string/me_goods"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
                 <TextView
@@ -447,8 +444,8 @@
                     android:layout_marginLeft="18dp"
                     android:drawableLeft="@drawable/icon_me_mystore"
                     android:drawablePadding="8dp"
-                    android:text="小金屋"
-                    android:textColor="#FF666666"
+                    android:text="@string/mystore"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
                 <TextView
@@ -486,7 +483,7 @@
                     android:drawableLeft="@drawable/icon_me_video_playback"
                     android:drawablePadding="8dp"
                     android:text="@string/activity_title_video"
-                    android:textColor="#FF666666"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
 
@@ -535,7 +532,7 @@
                     android:gravity="left|center"
                     android:paddingLeft="18dp"
                     android:text="@string/setting"
-                    android:textColor="@color/color_232323"
+                    android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded,RtlSymmetry" />
 

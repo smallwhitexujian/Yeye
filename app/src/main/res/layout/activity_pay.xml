@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="我的钱包"
+                android:text="@string/me_pay"
                 android:textColor="#FFFFFFFF"
                 android:textSize="17dp" />
 
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="付款"
+                    android:text="@string/payment"
                     android:textColor="#FFFFFFFF" />
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="收款"
+                    android:text="@string/collection"
                     android:textColor="#FFFFFFFF" />
             </LinearLayout>
 
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="银行卡"
+                    android:text="@string/bankcard"
                     android:textColor="#FFFFFFFF" />
             </LinearLayout>
 
@@ -132,13 +132,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yeye券"
-                android:textColor="#FF666666"
+                android:text="@string/yeyequn"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
 
             <TextView
@@ -152,13 +153,14 @@
         </LinearLayout>
 
         <View
-            android:layout_width="1dp"
+            android:layout_width="0.5dp"
             android:layout_height="35dp"
             android:background="#FFA9A9A9" />
 
         <LinearLayout
             android:id="@+id/layout_diamond"
             android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -167,8 +169,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yeye币"
-                android:textColor="#FF666666"
+                android:text="@string/yeyecoin"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
 
             <TextView
@@ -199,9 +201,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="14dp"
-        android:text="Yeye 生活圈"
+        android:text="@string/yeye_quan"
         android:textColor="#FF999999"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        android:id="@+id/textView9" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -227,8 +230,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="转账"
-                android:textColor="#FF666666"
+                android:text="@string/transfer"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -251,8 +254,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="手机充值"
-                android:textColor="#FF666666"
+                android:text="@string/phone_top"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -274,8 +277,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="看电影"
-                android:textColor="#FF666666"
+                android:text="@string/movie"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -306,8 +309,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="酒店"
-                android:textColor="#FF666666"
+                android:text="@string/hotel"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -329,8 +332,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="美食"
-                android:textColor="#FF666666"
+                android:text="@string/food"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -351,8 +354,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="KTV"
-                android:textColor="#FF666666"
+                android:text="@string/ktv"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -382,8 +385,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="飞机票"
-                android:textColor="#FF666666"
+                android:text="@string/plane"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -406,8 +409,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="火车票"
-                android:textColor="#FF666666"
+                android:text="@string/ticket"
+                android:textColor="@color/color_ff666666"
                 android:textSize="14dp" />
         </LinearLayout>
 
