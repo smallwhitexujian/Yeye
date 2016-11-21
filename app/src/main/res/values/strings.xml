@@ -491,5 +491,7 @@
     <string name="ktv">KTV</string>
     <string name="plane">飞机票</string>
     <string name="ticket">火车票</string>
+    <string name="goods_purchase">购买</string>
+    <string name="goods_coupons">我的点券:</string>
 
 </resources>
