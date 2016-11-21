@@ -181,7 +181,6 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                         StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, videoModel);
                     }
                 }
-
             }
         });
         mGridView.setAdapter(adapter);

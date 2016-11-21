@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,8 +16,8 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
+import com.angelatech.yeyelive.activity.PayActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
-import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.TestScanActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
@@ -29,7 +30,6 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.model.WebTransportModel;
-import com.angelatech.yeyelive.thirdLogin.FbProxy;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -51,9 +51,10 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, diamond, user_nick, user_sign, user_video, message_notice;
-    private RelativeLayout attentionLayout, fansLayout, settingLayout,
-            layout_diamond, layout_video, layout_Invite_friend, layout_systemMsg, layout_gift;
+    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice;
+    private RelativeLayout  settingLayout,ly_qcode,
+            layout_diamond, layout_video, layout_systemMsg, layout_gift;
+    private LinearLayout fansLayout,attentionLayout;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
@@ -101,18 +102,16 @@ public class LeftFragment extends HintFragment {
         fans = (TextView) view.findViewById(R.id.user_fans);//粉丝
         attention = (TextView) view.findViewById(R.id.user_attention);//关注
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);//亲密度
-        diamond = (TextView) view.findViewById(R.id.user_diamond);
         message_notice = (TextView) view.findViewById(R.id.message_notice);
 
         layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
-        fansLayout = (RelativeLayout) view.findViewById(R.id.fans_layout);
-        attentionLayout = (RelativeLayout) view.findViewById(R.id.attention_layout);
+        fansLayout = (LinearLayout) view.findViewById(R.id.fans_layout);
+        attentionLayout = (LinearLayout) view.findViewById(R.id.attention_layout);
         settingLayout = (RelativeLayout) view.findViewById(R.id.setting_layout);
         layout_diamond = (RelativeLayout) view.findViewById(R.id.layout_diamond);
         layout_video = (RelativeLayout) view.findViewById(R.id.layout_video);
-        layout_Invite_friend = (RelativeLayout) view.findViewById(R.id.layout_Invite_friend);
         layout_gift = (RelativeLayout) view.findViewById(R.id.layout_gift);
-
+        ly_qcode = (RelativeLayout) view.findViewById(R.id.ly_qcode);
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
         userFace = (FrescoRoundView) view.findViewById(R.id.user_face);
@@ -131,7 +130,7 @@ public class LeftFragment extends HintFragment {
         layout_diamond.setOnClickListener(this);
         layout_video.setOnClickListener(this);
         btn_qcode.setOnClickListener(this);
-        layout_Invite_friend.setOnClickListener(this);
+        ly_qcode.setOnClickListener(this);
     }
 
     @Override
@@ -160,19 +159,23 @@ public class LeftFragment extends HintFragment {
                 }
                 break;
             case R.id.layout_diamond:
-                StartActivityHelper.jumpActivityDefault(getActivity(), RechargeActivity.class);
+                StartActivityHelper.jumpActivityDefault(getActivity(), PayActivity.class);
+
                 break;
             case R.id.layout_video:
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
                 break;
-            case R.id.layout_Invite_friend:
-                FbProxy fbProxy = new FbProxy();
-                fbProxy.inviteFriend(getActivity());
-                break;
+//            case R.id.layout_Invite_friend:
+//                FbProxy fbProxy = new FbProxy();
+//                fbProxy.inviteFriend(getActivity());
+//                break;
             case R.id.layout_systemMsg:
                 StartActivityHelper.jumpActivityDefault(getActivity(), MessageNotificationActivity.class);
                 break;
             case R.id.btn_qcode:
+                StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
+                break;
+            case R.id.ly_qcode:
                 StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
                 break;
             case R.id.layout_gift:
@@ -230,7 +233,6 @@ public class LeftFragment extends HintFragment {
 
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
-                diamond.setText(String.format("%s", basicUserInfoDBModel.diamonds));
                 userFace.setImageURI(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
                 if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
