@@ -499,5 +499,13 @@
     <string name="product_tips">请上传商品图片</string>
     <string name="product_tips1">商品已提交审核</string>
     <string name="product_voucher">卷</string>
+    <string name="gold_hous">小金屋</string>
+    <string name="gold_hous_tips">如有疑问请咨询Yeye官方客服 666-6666666</string>
+    <string name="gold_tips">添加商品</string>
+    <string name="gold_state_1">已上架</string>
+    <string name="gold_state_2">审核中</string>
+    <string name="gold_btn_edit">编辑</string>
+    <string name="gold_state_3">已下架</string>
+    <string name="gold_state_4">不通过</string>
 
 </resources>

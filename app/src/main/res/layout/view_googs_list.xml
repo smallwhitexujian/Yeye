@@ -67,20 +67,6 @@
             android:textSize="16sp"
             tools:text="auth_google_play_services_client_google_display_name" />
 
-        <TextView
-            android:id="@+id/commodity_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/qweqw"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="37dp"
-            android:background="@drawable/bg_room_goods_pointicon"
-            android:gravity="center"
-            android:textColor="#FF594800"
-            android:textSize="12sp"
-            tools:ignore="RtlHardcoded"
-            tools:text="5000卷" />
-
         <ImageView
             android:id="@+id/goodsnum_more"
             android:layout_width="wrap_content"
@@ -147,5 +133,20 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="#0FFFFFFF" />
+
+        <TextView
+            android:id="@+id/commodity_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_room_goods_pointicon"
+            android:gravity="center"
+            android:textColor="#FF594800"
+            android:textSize="12sp"
+            tools:ignore="RtlHardcoded"
+            tools:text="5000卷"
+            android:layout_above="@+id/view"
+            android:layout_alignLeft="@+id/qweqw"
+            android:layout_alignStart="@+id/qweqw"
+            android:layout_marginBottom="19dp" />
     </RelativeLayout>
 </RelativeLayout>

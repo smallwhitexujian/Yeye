@@ -249,6 +249,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name=".activity.GoldHousActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseAppTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <!-- Add below to allow Mimopay activity -->
         <activity
             android:name="com.mimopay.MimopayActivity"

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/circle_coner_bg_fffbf2ff"
+        tools:ignore="UselessParent">
+
+        <com.xj.frescolib.View.FrescoDrawee
+            android:id="@+id/gold_cover"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            fresco:roundedCornerRadius="8dp" />
+
+        <TextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/gold_cover"
+            android:layout_alignLeft="@+id/gold_cover"
+            android:layout_alignStart="@+id/gold_cover"
+            android:background="@drawable/bg_goldhous_goods_state"
+            android:gravity="center"
+            android:text="@string/gold_state_2"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/gold_cover"
+            android:layout_toRightOf="@+id/gold_cover"
+            android:textColor="#FF444444"
+            android:textSize="14sp"
+            tools:text="现货发售Apple/苹果 iPhone 7 苹果7代手机港版/大陆国行美版电信…" />
+
+        <TextView
+            android:id="@+id/commodity_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/name"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/bg_room_goods_pointicon"
+            android:gravity="center"
+            android:textColor="#FF594800"
+            android:textSize="12sp"
+            tools:ignore="RtlHardcoded"
+            tools:text="5000卷" />
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="22dp"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/circle_coner_bg_gold_edit"
+            android:minWidth="50dp"
+            android:text="@string/gold_btn_edit"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</RelativeLayout>
