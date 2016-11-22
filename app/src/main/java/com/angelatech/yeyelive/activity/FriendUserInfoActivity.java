@@ -58,12 +58,12 @@ import java.util.Map;
  */
 public class FriendUserInfoActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView btn_back,btn_more;
+    private ImageView btn_back, btn_more;
     private FrescoRoundView user_face;
     private ImageView iv_vip;
     private TextView user_nick;
     private ImageView user_sex;
-    private TextView user_id;
+    private TextView user_id, txt_title;
     private TextView user_sign;         //个性签名
     private LinearLayout ly_follow, ly_fans, ly_like;
     private TextView txt_follow, txt_fans, txt_like;
@@ -116,6 +116,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         grid_online = (GridView) findViewById(R.id.grid_online);
         attentionsBtn = (Button) findViewById(R.id.attentions_btn);
         btn_more = (ImageView) findViewById(R.id.btn_more);
+        txt_title = (TextView) findViewById(R.id.txt_title);
     }
 
     private void setView() {
@@ -137,6 +138,13 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
             userVideoFragment = new UserVideoFragment();
             userVideoFragment.setFuserid(baseInfo.Userid);
             fragments.add(userVideoFragment);
+        }
+        if (baseInfo.Userid.equals(loginUser.userid)) {
+            txt_title.setText(R.string.me_home);
+            btn_more.setVisibility(View.GONE);
+        } else {
+            txt_title.setText(R.string.ta_home);
+            btn_more.setVisibility(View.VISIBLE);
         }
         grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -173,7 +181,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 startActivity(fansactivity);
                 break;
             case R.id.ly_like:
-                StartActivityHelper.jumpActivity(FriendUserInfoActivity.this,PopularityActivity.class,loadUser);
+                StartActivityHelper.jumpActivity(FriendUserInfoActivity.this, PopularityActivity.class, loadUser);
                 break;
             case R.id.attentions_btn:
                 if (baseInfo != null) {
@@ -194,6 +202,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                                     @Override
                                     public void onFailure(Map<String, ?> errorMap) {
                                     }
+
                                     @Override
                                     public void onSuccess(String response) {
                                         Map map = JsonUtil.fromJson(response, Map.class);
@@ -218,6 +227,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                                     @Override
                                     public void onFailure(Map<String, ?> errorMap) {
                                     }
+
                                     @Override
                                     public void onSuccess(String response) {
                                         Map map = JsonUtil.fromJson(response, Map.class);
@@ -288,18 +298,18 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                     }
                     if (HttpFunction.isSuc(datas.code) && datas.hasData()) {
 
-                            showList.clear();
-                            if (datas.data.size() > 3) {
-                                for (int i = 0; i < 3; i++) {
-                                    showList.add(datas.data.get(i));
-                                }
-                            } else {
-                                showList.addAll(datas.data);
+                        showList.clear();
+                        if (datas.data.size() > 3) {
+                            for (int i = 0; i < 3; i++) {
+                                showList.add(datas.data.get(i));
                             }
-                            uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
+                        } else {
+                            showList.addAll(datas.data);
+                        }
+                        uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
 
                     } else {
-                       // onBusinessFaild(datas.code);
+                        // onBusinessFaild(datas.code);
                     }
                 }
             };
@@ -450,7 +460,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         txt_follow.setText(user.followNum);
         txt_like.setText(user.Intimacy);
         //0 无 1 v 2 金v 9官
-        switch (user.isv){
+        switch (user.isv) {
             case "0":
                 iv_vip.setVisibility(View.GONE);
                 break;

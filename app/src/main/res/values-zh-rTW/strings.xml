@@ -483,4 +483,5 @@
     <string name="ktv">KTV</string>
     <string name="plane">飞机票</string>
     <string name="ticket">火车票</string>
+    <string name="me_home">我的主页</string>
 </resources>
