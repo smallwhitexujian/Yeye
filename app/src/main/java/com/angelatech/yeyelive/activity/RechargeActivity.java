@@ -69,10 +69,11 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     private BasicUserInfoDBModel user;
     private TextView mRechargeTextView;
     private RechargeModel mRechargeModel;
-    private ImageView digi_selected, google_selected;
+    private ImageView digi_selected, google_selected,Celcom_selected;
     private boolean isMiMoPay = false;
-    private RelativeLayout item_google, item_digi;
-    private LinearLayout recharge_pay_model;
+    private RelativeLayout item_google, item_digi,item_Celcom;
+    private LinearLayout recharge_pay_model,recharge_pay_model_1;
+    private int payType = MimoPayLib.DPOINT;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,12 +93,16 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         recharge_tips = (TextView) findViewById(R.id.recharge_tips);
         digi_selected = (ImageView) findViewById(R.id.digi_selected);
         google_selected = (ImageView) findViewById(R.id.google_selected);
+        Celcom_selected = (ImageView) findViewById(R.id.Celcom_selected);
         recharge_pay_model = (LinearLayout) findViewById(R.id.recharge_pay_model);
+        recharge_pay_model_1 = (LinearLayout) findViewById(R.id.recharge_pay_model_1);
         google_selected.setVisibility(View.VISIBLE);
+        item_Celcom = (RelativeLayout) findViewById(R.id.item_Celcom);
         item_google = (RelativeLayout) findViewById(R.id.item_google);
         item_digi = (RelativeLayout) findViewById(R.id.item_digi);
         item_google.setOnClickListener(this);
         item_digi.setOnClickListener(this);
+        item_Celcom.setOnClickListener(this);
         Map<String, String> map = new HashMap<>();
         map.put("userid", user.userid);
         map.put("token", user.token);
@@ -116,6 +121,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                             if (!isMimopay.equals("0")) {//审核
                                 recharge_tips.setVisibility(View.VISIBLE);
                                 recharge_pay_model.setVisibility(View.VISIBLE);
+//                                recharge_pay_model_1.setVisibility(View.VISIBLE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -184,7 +190,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.btn_submit_pay:
                 if (isMiMoPay) {
-                    orderDigi(mRechargeModel);
+                    orderDigi(mRechargeModel,payType);
                 } else if (mRechargeModel != null && isAvaliable) {
                     order(mRechargeModel);
                 }
@@ -192,6 +198,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
             case R.id.item_digi://digi支付
                 sethintSelected();
                 loadMenu(PayType.TYPE_MIMOPAY);
+                payType = MimoPayLib.DPOINT;
                 digi_selected.setVisibility(View.VISIBLE);
                 item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_red));
                 break;
@@ -201,14 +208,23 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 google_selected.setVisibility(View.VISIBLE);
                 item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_red));
                 break;
+            case R.id.item_Celcom:
+                sethintSelected();
+                loadMenu(PayType.TYPE_MIMOPAY);
+                payType = MimoPayLib.CELCOM;
+                Celcom_selected.setVisibility(View.VISIBLE);
+                item_Celcom.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_red));
+                break;
         }
     }
 
     private void sethintSelected() {
         item_digi.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_ffffff));
         item_google.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_ffffff));
+        item_Celcom.setBackground(ContextCompat.getDrawable(RechargeActivity.this, R.drawable.circle_coner_bg_ffffff));
         digi_selected.setVisibility(View.GONE);
         google_selected.setVisibility(View.GONE);
+        Celcom_selected.setVisibility(View.GONE);
     }
 
     private void loadMenu(int type) {
@@ -311,7 +327,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
     }
 
     //digi订单生成
-    private void orderDigi(final RechargeModel model) {
+    private void orderDigi(final RechargeModel model,final int type) {
         if (model == null) return;
         LoadingDialog.showLoadingDialog(RechargeActivity.this, null);
         final String key = Md5.md5(UUID.randomUUID().toString());
@@ -336,7 +352,7 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                             mimopayModel.currency = getString(R.string.recharge_unit);
                             mimopayModel.coins = model.amount;
                             mimopayModel.transactionId = results.data;//订单
-                            mimopayModel.paymentid = MimoPayLib.DPOINT;
+                            mimopayModel.paymentid = type;
                             mimoPayLib.initMimopay(RechargeActivity.this, mimopayModel);
                             mimoPayLib.setcallBack(callBack);
                         } else {

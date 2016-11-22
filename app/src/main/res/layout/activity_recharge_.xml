@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="60dp"
         android:background="@color/color_f6f6f6">
 
         <LinearLayout
@@ -58,9 +58,9 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:visibility="gone"
         android:text="@string/pay_channel"
         android:textColor="@color/color_999999"
+        android:visibility="gone"
         tools:ignore="RtlHardcoded,RtlSymmetry" />
 
     <LinearLayout
@@ -69,10 +69,11 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
-        android:visibility="gone"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        tools:ignore="DisableBaselineAlignment">
+        android:visibility="gone"
+        tools:ignore="DisableBaselineAlignment"
+        tools:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/item_google"
@@ -132,6 +133,55 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/recharge_pay_model_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        tools:ignore="DisableBaselineAlignment"
+        tools:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/item_Celcom"
+            android:layout_width="161dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/circle_coner_bg_ffffff"
+            tools:ignore="RtlHardcoded">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/logo_pay_celcom" />
+
+            <ImageView
+                android:id="@+id/Celcom_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_top_up_list_selected"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="161dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="13dp"
+            android:layout_weight="1"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -177,7 +227,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/text_view_border"
             android:gravity="center"
             android:text="@string/button_top_up_submit" />
@@ -186,7 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="13dp"
             android:paddingRight="13dp"
             android:text="@string/text_desc"

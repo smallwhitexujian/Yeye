@@ -524,6 +524,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             ly_main.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    if (giftView.getVisibility() == View.VISIBLE) {
+                        giftView.setVisibility(View.GONE);
+                        ly_toolbar.setVisibility(View.VISIBLE);
+                        ly_toolbar2.setVisibility(View.GONE);
+                    }
                     return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
                 }
             });

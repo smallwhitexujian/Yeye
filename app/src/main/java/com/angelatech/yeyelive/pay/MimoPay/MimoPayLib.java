@@ -36,9 +36,9 @@ import java.util.ArrayList;
  */
 
 public class MimoPayLib {
-    private static int MPOINT = 10;//Maxis
+    public static int MPOINT = 10;//Maxis
     public static int DPOINT = 11;//Digi
-    private static int CELCOM = 12;//Celcom
+    public static int CELCOM = 12;//Celcom
     private boolean mbGateway = true;//设置正式环境和测试环境
     private Mimopay mMimopay = null;//初始化mimopay支付
     private CallBack callback;
@@ -125,7 +125,7 @@ public class MimoPayLib {
         mMimopay.enableGateway(!App.isDebug);
         // enableLog Mimopay SDK的内部日志打印。如果设置为启用,所有日志打印出来在你的应用程序的日志。这是非常有用的在开发阶段
         // 请注意:“enableGateway(真正的)将禁用日志曾称,如果你仍然想看看日志在生产时,那么你需要去重新调用enableLog(真正的)
-        mMimopay.enableLog(App.isDebug);
+        mMimopay.enableLog(true);
         switch (mimopayModel.paymentid) {
             case 10: // mpoint
                 paymentMPoint(mimopayModel.currency, mimopayModel.coins);
