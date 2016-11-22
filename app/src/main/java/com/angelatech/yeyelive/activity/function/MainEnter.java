@@ -107,6 +107,8 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+
+    //上传商品接口
     public void UserMallIns(String url, String userid, String token, String tradename, String tradeurl, String price, String describe, String contact, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
@@ -119,6 +121,27 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+
+    //获取主播商品接口
+    public void LiveUserMallList(String url, String userid, String token, String liveuserid, String pageindex, String pagesize,HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("liveuserid", liveuserid);//主笔id
+        params.put("tradeurl", pageindex);//商品地址
+        params.put("price", pagesize);//商品价格
+        httpGet(url, params, callback);
+    }
+
+    //小金屋查询接口
+    public void UserMallList(String url, String userid, String token, String pageindex, String pagesize,HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("pageindex", pageindex);//商品地址
+        params.put("pagesize", pagesize);//商品价格
+        httpGet(url, params, callback);
+    }
 }
 
 

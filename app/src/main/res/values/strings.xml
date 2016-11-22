@@ -506,5 +506,6 @@
     <string name="btn_link">联系客服</string>
     <string name="product_tips">请上传商品图片</string>
     <string name="product_tips1">商品已提交审核</string>
+    <string name="product_voucher">卷</string>
 
 </resources>

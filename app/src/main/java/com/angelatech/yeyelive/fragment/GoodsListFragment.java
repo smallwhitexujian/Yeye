@@ -13,17 +13,19 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
-import com.angelatech.yeyelive.model.RankModel;
+import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
 
@@ -57,13 +59,13 @@ import java.util.Map;
 
 public class GoodsListFragment extends BaseFragment {
     private View view;
-    private BasicUserInfoDBModel userInfo;
     private FrescoDrawee commodity;
     private RelativeLayout details;
     private TextView title, commodity_price, numText, Coupons;
     private Button purchase;
     private ListView googs_list;
-    private List<RankModel> rankModels = new ArrayList<>();
+    private List<ProductModel> rankModels = new ArrayList<>();
+    private BasicUserInfoDBModel liveUserInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,10 +91,10 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     private void initData() {
-        CommonAdapter<RankModel> adapter = new CommonAdapter<RankModel>(getActivity(), rankModels, R.layout.item_goods_list) {
+        CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), rankModels, R.layout.item_goods_list) {
             @Override
-            public void convert(ViewHolder helper, final RankModel item, int position) {
-                helper.setImageURI(R.id.commodity, item.imageurl);
+            public void convert(ViewHolder helper, final ProductModel item, int position) {
+                helper.setImageURI(R.id.commodity, item.tradeurl);
             }
         };
         googs_list.setAdapter(adapter);
@@ -103,9 +105,12 @@ public class GoodsListFragment extends BaseFragment {
                 setDetails(rankModels.get(position));
             }
         });
-        userInfo = CacheDataManager.getInstance().loadUser();
+        liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
+        BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
         MainEnter mainEnter = new MainEnter(getActivity());
-        mainEnter.loadRank(CommonUrlConfig.RankingList, userInfo.userid, userInfo.token, callback);
+        //TODO
+//        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token,liveUserInfo.userid,"1","1000", callback);
+        mainEnter.UserMallList(CommonUrlConfig.UserMallList, userInfo.userid, userInfo.token,"1","1000", callback);
     }
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -119,8 +124,8 @@ public class GoodsListFragment extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    LoadingDialog.cancelLoadingDialog();
-                    CommonListResult<RankModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<RankModel>>() {
+                    DebugLogs.d("------->"+response);
+                    CommonListResult<ProductModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<ProductModel>>() {
                     }.getType());
                     if (datas == null) {
                         return;
@@ -136,12 +141,12 @@ public class GoodsListFragment extends BaseFragment {
         }
     };
 
-    private void setDetails(RankModel model) {
+    private void setDetails(ProductModel model) {
         numText.setText("1");
-        commodity.setImageURI(model.imageurl);
-        title.setText(model.name);
-        commodity_price.setText(model.number);
-        Coupons.setText(getString(R.string.goods_coupons) + 1231231);
+        commodity.setImageURI(model.tradeurl);
+        title.setText(model.tradename);
+        commodity_price.setText(model.voucher+getString(R.string.product_voucher));
+        Coupons.setText(getString(R.string.goods_coupons) + 1231231);//TODO
     }
 
 

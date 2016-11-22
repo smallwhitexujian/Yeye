@@ -184,6 +184,10 @@ public class CommonUrlConfig {
     public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
     //上传商品接口
     public static String UserMallIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallIns";
+    //获取主播商品列表
+    public static String LiveUserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/LiveUserMallList";
+    //获取小金屋的商品列表
+    public static String UserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallList";
 
 }
 
