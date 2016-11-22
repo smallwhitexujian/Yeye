@@ -182,5 +182,8 @@ public class CommonUrlConfig {
 
     //审核支付开关
     public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
+    //上传商品接口
+    public static String UserMallIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallIns";
 
 }
+

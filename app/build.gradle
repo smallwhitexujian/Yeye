@@ -98,5 +98,4 @@ dependencies {
     compile files('libs/Angela.jar')
     compile files('libs/Mimopay_all_new_api22.jar')
     compile files('libs/pldroid-media-streaming-2.1.1.jar')
-    compile 'com.jakewharton:butterknife:8.4.0'
 }

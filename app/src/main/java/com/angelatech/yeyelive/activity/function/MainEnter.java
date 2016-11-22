@@ -99,13 +99,26 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
-    public void ScanRecharge(String url, String userid, String token, String key,HttpBusinessCallback callback) {
+    public void ScanRecharge(String url, String userid, String token, String key, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
         params.put("key", key);
         httpGet(url, params, callback);
     }
+
+    public void UserMallIns(String url, String userid, String token, String tradename, String tradeurl, String price, String describe, String contact, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("tradename", tradename);//商品名称
+        params.put("tradeurl", tradeurl);//商品地址
+        params.put("price", price);//商品价格
+        params.put("describe", describe);//商品描述
+        params.put("contact", contact);//联系方式
+        httpGet(url, params, callback);
+    }
+
 }
 
 

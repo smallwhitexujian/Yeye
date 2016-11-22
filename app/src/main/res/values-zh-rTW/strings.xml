@@ -485,4 +485,17 @@
     <string name="ticket">火车票</string>
     <string name="goods_purchase">购买</string>
     <string name="goods_coupons">我的点券:</string>
+    <string name="uploadProducts">上传商品</string>
+    <string name="products_upload">点击添加</string>
+    <string name="product_name">请输入商品名称</string>
+    <string name="product_price">请输入商品价格</string>
+    <string name="product_describe">对您的商品进行详细介绍,建议50字以内</string>
+    <string name="product_link">联系方式</string>
+    <string name="product_facebook">请输入Facebook账号</string>
+    <string name="product_wx">请输入微信账号</string>
+    <string name="product_phone1">请输入手机号码</string>
+    <string name="confirm_upload">确认上传</string>
+    <string name="btn_link">联系客服</string>
+    <string name="product_tips">请上传商品图片</string>
+    <string name="product_tips1">商品已提交审核</string>
 </resources>
