@@ -190,5 +190,7 @@ public class CommonUrlConfig {
     public static String UserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallList";
     //修改商品信息
     public static String UserMallUpt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallUpt";
+    //一键下单,
+    public static String VoucherMallExg = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/VoucherMallExg";
 }
 

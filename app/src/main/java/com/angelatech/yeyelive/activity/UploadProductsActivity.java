@@ -93,9 +93,11 @@ public class UploadProductsActivity extends HeaderBaseActivity {
             btn_upload.setImageURI(productModel.tradeurl);
             picPath = productModel.tradeurl;
             String[] temp = productModel.contact.split(",");
-            product_facebook.setText(temp[0]);
-            product_weichat.setText(temp[1]);
-            product_phone.setText(temp[2]);
+            if (temp.length > 3){
+                product_facebook.setText(temp[0]);
+                product_weichat.setText(temp[1]);
+                product_phone.setText(temp[2]);
+            }
             textView10.setText("");
         }
     }
@@ -269,7 +271,7 @@ public class UploadProductsActivity extends HeaderBaseActivity {
         if (picPath.isEmpty()) {
             return;
         }
-        mainEnter.UserMallUpt(CommonUrlConfig.UserMallIns, userInfo.userid, userInfo.token, name, picPath, price, describe, contact, mallId, callback);
+        mainEnter.UserMallUpt(CommonUrlConfig.UserMallUpt, userInfo.userid, userInfo.token, name, picPath, price, describe, contact, mallId, callback);
     }
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -288,7 +290,11 @@ public class UploadProductsActivity extends HeaderBaseActivity {
                         return;
                     }
                     if (HttpFunction.isSuc(common.code)) {
-                        ToastUtils.showToast(UploadProductsActivity.this, getString(R.string.product_tips1));
+                        if (isMidfiy){
+                            ToastUtils.showToast(UploadProductsActivity.this, getString(R.string.product_midfey));
+                        }else{
+                            ToastUtils.showToast(UploadProductsActivity.this, getString(R.string.product_tips1));
+                        }
                         finish();
                     } else {
                         onBusinessFaild(common.code);

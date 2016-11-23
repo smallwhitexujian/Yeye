@@ -156,6 +156,16 @@ public class MainEnter extends HttpFunction {
         params.put("mallid", mallid);//商品id
         httpGet(url, params, callback);
     }
+
+    //下单,
+    public void VoucherMallExg(String url, String userid, String token, String mallid, String num, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("mallid", mallid);//商品名称
+        params.put("num", num);//商品图片
+        httpGet(url, params, callback);
+    }
 }
 
 

@@ -19,13 +19,14 @@ import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
-import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
 
@@ -62,10 +63,13 @@ public class GoodsListFragment extends BaseFragment {
     private FrescoDrawee commodity;
     private RelativeLayout details;
     private TextView title, commodity_price, numText, Coupons;
-    private Button purchase;
     private ListView googs_list;
-    private List<ProductModel> rankModels = new ArrayList<>();
+    private List<ProductModel> productModels = new ArrayList<>();
     private BasicUserInfoDBModel liveUserInfo;
+    private MainEnter mainEnter;
+    private BasicUserInfoDBModel userInfo;
+    private int mPosition;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.view_googs_list, container, false);
@@ -83,7 +87,7 @@ public class GoodsListFragment extends BaseFragment {
         Coupons = (TextView) view.findViewById(R.id.Coupons);
         ImageView goodsnum_more = (ImageView) view.findViewById(R.id.goodsnum_more);
         ImageView goodsnum_less = (ImageView) view.findViewById(R.id.goodsnum_less);
-        purchase = (Button) view.findViewById(R.id.purchase);
+        Button purchase = (Button) view.findViewById(R.id.purchase);
         commodity_price = (TextView) view.findViewById(R.id.commodity_price);
         goodsnum_more.setOnClickListener(this);
         goodsnum_less.setOnClickListener(this);
@@ -91,7 +95,11 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     private void initData() {
-        CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), rankModels, R.layout.item_goods_list) {
+        liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
+        userInfo = CacheDataManager.getInstance().loadUser();
+        mainEnter = new MainEnter(getActivity());
+
+        CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), productModels, R.layout.item_goods_list) {
             @Override
             public void convert(ViewHolder helper, final ProductModel item, int position) {
                 helper.setImageURI(R.id.commodity, item.tradeurl);
@@ -102,13 +110,11 @@ public class GoodsListFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 details.setVisibility(View.VISIBLE);
-                setDetails(rankModels.get(position));
+                setDetails(productModels.get(position));
+                mPosition = position;
             }
         });
-        liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
-        BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
-        MainEnter mainEnter = new MainEnter(getActivity());
-        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token,liveUserInfo.userid,"1","1000", callback);
+        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token, liveUserInfo.userid, "1", "1000", callback);
     }
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -128,8 +134,8 @@ public class GoodsListFragment extends BaseFragment {
                         return;
                     }
                     if (HttpFunction.isSuc(datas.code)) {
-                        rankModels.clear();
-                        rankModels.addAll(datas.data);
+                        productModels.clear();
+                        productModels.addAll(datas.data);
                     } else {
                         onBusinessFaild(datas.code);
                     }
@@ -142,7 +148,7 @@ public class GoodsListFragment extends BaseFragment {
         numText.setText("1");
         commodity.setImageURI(model.tradeurl);
         title.setText(model.tradename);
-        commodity_price.setText(model.voucher+getString(R.string.product_voucher));
+        commodity_price.setText(model.voucher + getString(R.string.product_voucher));
 //        Coupons.setText(getString(R.string.goods_coupons) + 1231231);//TODO 我自己的卷
     }
 
@@ -160,20 +166,52 @@ public class GoodsListFragment extends BaseFragment {
                 }
                 break;
             case R.id.purchase:
-                CommDialog dialog = new CommDialog();
-                CommDialog.Callback callback = new CommDialog.Callback() {
-                    @Override
-                    public void onCancel() {
-
-                    }
-
-                    @Override
-                    public void onOK() {
-
-                    }
-                };
-                dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true,  callback,getString(R.string.now_set),getString(R.string.not_set));
+//                CommDialog dialog = new CommDialog();
+//                CommDialog.Callback callback = new CommDialog.Callback() {
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onOK() {
+//
+//                    }
+//                };
+//                dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
+                String num = numText.getText().toString();
+                VoucherMallExg(productModels.get(mPosition).mallid, num);
                 break;
         }
     }
+
+    private void VoucherMallExg(String mallid, String num) {
+        mainEnter.VoucherMallExg(CommonUrlConfig.VoucherMallExg, userInfo.userid, userInfo.token, mallid, num, callback2);
+    }
+
+    private HttpBusinessCallback callback2 = new HttpBusinessCallback() {
+        @Override
+        public void onFailure(Map<String, ?> errorMap) {
+
+        }
+
+        @Override
+        public void onSuccess(final String response) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    CommonModel commonModel = JsonUtil.fromJson(response, CommonModel.class);
+                    if (commonModel == null) {
+                        return;
+                    }
+                    if (HttpFunction.isSuc(commonModel.code)) {//下单成功
+                        ToastUtils.showToast(getActivity(), getString(R.string.product_order));
+                        details.setVisibility(View.GONE);
+                    } else {
+                        onBusinessFaild(commonModel.code);
+                    }
+                }
+            });
+        }
+    };
 }
