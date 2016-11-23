@@ -15,10 +15,10 @@ import com.angelatech.yeyelive.Constant;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.FansActivity;
 import com.angelatech.yeyelive.activity.FocusOnActivity;
+import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.GoldHousActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PayActivity;
-import com.angelatech.yeyelive.activity.PicViewActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.TestScanActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
@@ -27,8 +27,8 @@ import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
-import com.angelatech.yeyelive.model.PicViewModel;
 import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
@@ -154,10 +154,14 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.user_face:
                 if (userInfo != null) {
-                    PicViewModel picViewModel = new PicViewModel();
-                    picViewModel.url = userInfo.headurl;
-                    picViewModel.defaultPic = R.drawable.default_face_icon;
-                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
+//                    PicViewModel picViewModel = new PicViewModel();
+//                    picViewModel.url = userInfo.headurl;
+//                    picViewModel.defaultPic = R.drawable.default_face_icon;
+//                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
+
+                    BasicUserInfoModel usermodel = new BasicUserInfoModel();
+                    usermodel.Userid = userInfo.userid;
+                    StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, usermodel);
                 }
                 break;
             case R.id.layout_diamond:

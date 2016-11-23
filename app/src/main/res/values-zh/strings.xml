@@ -507,5 +507,7 @@
     <string name="gold_btn_edit">编辑</string>
     <string name="gold_state_3">已下架</string>
     <string name="gold_state_4">不通过</string>
+    <string name="me_home">我的主页</string>
+
 
 </resources>

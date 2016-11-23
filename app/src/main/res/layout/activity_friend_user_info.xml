@@ -24,6 +24,7 @@
             android:layout_marginTop="5dp"
             android:contentDescription="@null"
             android:src="@drawable/btn_nav_back_g" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -32,7 +33,8 @@
             android:gravity="center|center_vertical"
             android:text="@string/ta_home"
             android:textColor="#FF262626"
-            android:textSize="17dp" />
+            android:textSize="17dp"
+            android:id="@+id/txt_title" />
 
         <ImageView
             android:id="@+id/btn_more"
@@ -43,12 +45,14 @@
             android:contentDescription="@null"
             android:src="@drawable/btn_nav_more_g" />
     </LinearLayout>
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:id="@+id/layout_user_face"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+       android:layout_centerInParent="true"
         android:layout_marginTop="10dp">
         <!--头像-->
         <com.xj.frescolib.View.FrescoRoundView
@@ -71,6 +75,16 @@
             android:src="@drawable/icon_identity_vip_white"
             android:visibility="gone" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/btn_goshop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/btn_goshop"
+        android:layout_margin="12dp"
+        />
+</RelativeLayout>
 
     <!--昵称-->
     <LinearLayout

@@ -73,12 +73,12 @@ public class GoldHousActivity extends BaseActivity {
                 helper.setText(R.id.commodity_price, item.voucher);
                 switch (item.state) {
                     case "0"://审核中
-                        helper.setText(R.id.state, getText(R.string.gold_state_1));
+                        helper.setText(R.id.state, getText(R.string.gold_state_2));
                         helper.showView(R.id.btn_edit);
                         break;
                     case "1"://已上架
                         helper.hideView(R.id.btn_edit);
-                        helper.setText(R.id.state, getText(R.string.gold_state_2));
+                        helper.setText(R.id.state, getText(R.string.gold_state_1));
                         break;
                     case "2"://已下架
                         helper.hideView(R.id.btn_edit);

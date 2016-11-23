@@ -22,10 +22,10 @@ import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
 
@@ -66,7 +66,6 @@ public class GoodsListFragment extends BaseFragment {
     private ListView googs_list;
     private List<ProductModel> rankModels = new ArrayList<>();
     private BasicUserInfoDBModel liveUserInfo;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.view_googs_list, container, false);
@@ -88,6 +87,7 @@ public class GoodsListFragment extends BaseFragment {
         commodity_price = (TextView) view.findViewById(R.id.commodity_price);
         goodsnum_more.setOnClickListener(this);
         goodsnum_less.setOnClickListener(this);
+        purchase.setOnClickListener(this);
     }
 
     private void initData() {
@@ -108,9 +108,7 @@ public class GoodsListFragment extends BaseFragment {
         liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
         BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
         MainEnter mainEnter = new MainEnter(getActivity());
-        //TODO
-//        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token,liveUserInfo.userid,"1","1000", callback);
-        mainEnter.UserMallList(CommonUrlConfig.UserMallList, userInfo.userid, userInfo.token,"1","1000", callback);
+        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token,liveUserInfo.userid,"1","1000", callback);
     }
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -124,7 +122,6 @@ public class GoodsListFragment extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    DebugLogs.d("------->"+response);
                     CommonListResult<ProductModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<ProductModel>>() {
                     }.getType());
                     if (datas == null) {
@@ -146,7 +143,7 @@ public class GoodsListFragment extends BaseFragment {
         commodity.setImageURI(model.tradeurl);
         title.setText(model.tradename);
         commodity_price.setText(model.voucher+getString(R.string.product_voucher));
-        Coupons.setText(getString(R.string.goods_coupons) + 1231231);//TODO
+//        Coupons.setText(getString(R.string.goods_coupons) + 1231231);//TODO 我自己的卷
     }
 
 
@@ -161,6 +158,21 @@ public class GoodsListFragment extends BaseFragment {
                 if (Integer.valueOf(numText.getText().toString()) > 1) {
                     numText.setText(String.valueOf(Integer.valueOf(numText.getText().toString()) - 1));
                 }
+                break;
+            case R.id.purchase:
+                CommDialog dialog = new CommDialog();
+                CommDialog.Callback callback = new CommDialog.Callback() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onOK() {
+
+                    }
+                };
+                dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true,  callback,getString(R.string.now_set),getString(R.string.not_set));
                 break;
         }
     }

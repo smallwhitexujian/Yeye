@@ -1,7 +1,7 @@
 package com.angelatech.yeyelive.activity;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,14 +11,12 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.angelatech.yeyelive.view.CommChooseDialog;
 import com.angelatech.yeyelive.view.CommDialog;
 
 /**
  * 钱包页面
  */
 public class PayActivity extends Activity implements View.OnClickListener {
-
     private ImageView btn_back;
     private TextView txt_coin;
     private BasicUserInfoDBModel userInfo;
