@@ -123,7 +123,7 @@ public class MainEnter extends HttpFunction {
 
 
     //获取主播商品接口
-    public void LiveUserMallList(String url, String userid, String token, String liveuserid, String pageindex, String pagesize,HttpBusinessCallback callback){
+    public void LiveUserMallList(String url, String userid, String token, String liveuserid, String pageindex, String pagesize, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
@@ -134,12 +134,26 @@ public class MainEnter extends HttpFunction {
     }
 
     //小金屋查询接口
-    public void UserMallList(String url, String userid, String token, String pageindex, String pagesize,HttpBusinessCallback callback){
+    public void UserMallList(String url, String userid, String token, String pageindex, String pagesize, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
         params.put("pageindex", pageindex);//商品地址
         params.put("pagesize", pagesize);//商品价格
+        httpGet(url, params, callback);
+    }
+
+    //修改商品
+    public void UserMallUpt(String url, String userid, String token, String tradename, String tradeurl, String price, String describe, String contact, String mallid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("tradename", tradename);//商品名称
+        params.put("tradeurl", tradeurl);//商品图片
+        params.put("price", price);//商品价格
+        params.put("describe", describe);//商品描述
+        params.put("contact", contact);//联系方式
+        params.put("mallid", mallid);//商品id
         httpGet(url, params, callback);
     }
 }

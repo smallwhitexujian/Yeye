@@ -55,6 +55,7 @@ public class GoldHousActivity extends BaseActivity {
     private List<ProductModel> productModel = new ArrayList<>();
     private ListView list;
     private CommonAdapter<ProductModel> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,28 +67,32 @@ public class GoldHousActivity extends BaseActivity {
     private void initData() {
         adapter = new CommonAdapter<ProductModel>(this, productModel, R.layout.item_gold_list) {
             @Override
-            public void convert(ViewHolder helper, final ProductModel item, int position) {
+            public void convert(ViewHolder helper, final ProductModel item, final int position) {
                 helper.setImageURI(R.id.gold_cover, item.tradeurl);
                 helper.setText(R.id.name, item.tradename);
                 helper.setText(R.id.commodity_price, item.voucher);
                 switch (item.state) {
                     case "0"://审核中
                         helper.setText(R.id.state, getText(R.string.gold_state_1));
+                        helper.showView(R.id.btn_edit);
                         break;
                     case "1"://已上架
+                        helper.hideView(R.id.btn_edit);
                         helper.setText(R.id.state, getText(R.string.gold_state_2));
                         break;
                     case "2"://已下架
+                        helper.hideView(R.id.btn_edit);
                         helper.setText(R.id.state, getString(R.string.gold_state_3));
                         break;
                     case "3"://审核不通过
+                        helper.hideView(R.id.btn_edit);
                         helper.setText(R.id.state, getString(R.string.gold_state_4));
                         break;
                 }
                 helper.setOnClick(R.id.btn_edit, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        StartActivityHelper.jumpActivity(GoldHousActivity.this, UploadProductsActivity.class, productModel.get(position));
                     }
                 });
             }
@@ -98,7 +103,7 @@ public class GoldHousActivity extends BaseActivity {
     }
 
     private void initView() {
-        LoadingDialog.showLoadingDialog(this,null);
+        LoadingDialog.showLoadingDialog(this, null);
         list = (ListView) findViewById(R.id.list);
         ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
         ImageView btn_upload_product = (ImageView) findViewById(R.id.btn_upload_product);

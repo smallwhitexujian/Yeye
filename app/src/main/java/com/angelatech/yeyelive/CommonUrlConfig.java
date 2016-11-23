@@ -188,6 +188,7 @@ public class CommonUrlConfig {
     public static String LiveUserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/LiveUserMallList";
     //获取小金屋的商品列表
     public static String UserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallList";
-
+    //修改商品信息
+    public static String UserMallUpt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallUpt";
 }
 
