@@ -58,6 +58,17 @@ public class MainEnter extends HttpFunction {
     /**
      * 获取个人资料
      */
+    public void createqrcode(String url, String userid, String touserid, String token, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("toUserId", touserid);
+        params.put("token", token);
+        httpGet(url, params, callback);
+    }
+
+    /**
+     * 获取个人资料
+     */
     public void loadUserInfo(String url, String userid, String touserid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
@@ -67,6 +78,17 @@ public class MainEnter extends HttpFunction {
         params.put("token", token);
         httpGet(url, params, callback);
     }
+    /**
+     * 检查安全支付密码
+     */
+    public void CheckPayPassword(String url, String userid, String token, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+
+        params.put("token", token);
+        httpGet(url, params, callback);
+    }
+
 
     /**
      * 排行榜
@@ -99,7 +121,7 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
-    public void ScanRecharge(String url, String userid, String token, String key,HttpBusinessCallback callback) {
+    public void ScanRecharge(String url, String userid, String token, String key, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);

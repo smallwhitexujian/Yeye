@@ -183,4 +183,15 @@ public class CommonUrlConfig {
     //审核支付开关
     public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
 
+    //生成二维码
+    public static String createqrcode = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/qrcode";
+
+    //二维码
+    public static String qrcode ="http://file.iamyeye.com/user/qrcoce/";
+
+
+    //检查支付密码
+    public static String CheckPayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/CheckPayPassword";
+
+
 }

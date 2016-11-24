@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -125,7 +126,25 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }
-            } else {
+            }
+            //好友二维码
+
+            else if(result.contains("yeye://friend?userId=")){
+                String userid = result.replace("yeye://friend?userId=","");
+                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                userInfoModel.Userid = userid;
+                StartActivityHelper.jumpActivity(TestScanActivity.this, FriendUserInfoActivity.class, userInfoModel);
+                finish();
+            }
+            //支付二维码
+            else if(result.contains("yeye://charge?userId=")){
+                String userid = result.replace("yeye://charge?userId=","");
+                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                userInfoModel.Userid = userid;
+                StartActivityHelper.jumpActivity(TestScanActivity.this, FriendUserInfoActivity.class, userInfoModel);
+                finish();
+            }
+            else {
                 LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(TestScanActivity.this, result);
             }

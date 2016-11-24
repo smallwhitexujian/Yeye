@@ -385,13 +385,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FansRankActivity"
-            android:label="@string/title_activity_fans_rank" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PopularityActivity"
-            android:label="@string/title_activity_popularity" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PayActivity"
-            android:label="@string/title_activity_pay"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RecodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TransferAccountsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_pay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF222222"
+    android:orientation="vertical"
+    tools:context="com.angelatech.yeyelive.activity.PayActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:src="@drawable/btn_nav_back_w" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/me_pay"
+            android:textColor="#FFFFFFFF"
+            android:textSize="17dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="17dp"
+            android:src="@drawable/btn_nav_more_w" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="415dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="42dp"
+        android:background="@drawable/bg_dialog_solid_ffffff"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.xj.frescolib.View.FrescoRoundView
+                android:id="@+id/user_face"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="8dp"
+                fresco:fadeDuration="300"
+                fresco:placeholderImage="@drawable/default_face_icon"
+                fresco:roundAsCircle="true" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txt_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="尖尖小耳朵"
+                    android:textColor="#FF262626"
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/txt_userid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID:7897897"
+                    android:textColor="#FFB2B2B2"
+                    android:textSize="12dp" />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/img_sex"
+                android:src="@drawable/icon_information_girl" />
+        </LinearLayout>
+
+        <com.xj.frescolib.View.FrescoDrawee
+            android:id="@+id/img_recode"
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            fresco:actualImageScaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="扫一扫加关注，更多惊喜等你来！"
+            android:textSize="14dp"
+            android:textColor="@color/color_ff999999" />
+    </LinearLayout>
+</LinearLayout>

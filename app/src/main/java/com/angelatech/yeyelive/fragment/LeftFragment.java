@@ -19,6 +19,7 @@ import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PayActivity;
 import com.angelatech.yeyelive.activity.PicViewActivity;
+import com.angelatech.yeyelive.activity.RecodeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.TestScanActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
@@ -54,9 +55,9 @@ public class LeftFragment extends HintFragment {
     private View view;
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice;
-    private RelativeLayout  settingLayout,ly_qcode,
+    private RelativeLayout settingLayout, ly_qcode,
             layout_diamond, layout_video, layout_systemMsg, layout_gift;
-    private LinearLayout fansLayout,attentionLayout;
+    private LinearLayout fansLayout, attentionLayout;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
@@ -179,14 +180,16 @@ public class LeftFragment extends HintFragment {
                 StartActivityHelper.jumpActivityDefault(getActivity(), MessageNotificationActivity.class);
                 break;
             case R.id.btn_qcode:
-                StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
+                //打开二维码页面
+                StartActivityHelper.jumpActivity(getActivity(), RecodeActivity.class,0);
+
                 break;
             case R.id.ly_qcode:
                 StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
                 break;
             case R.id.layout_gift:
                 WebTransportModel webTransportModel = new WebTransportModel();
-                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userInfo.userid + "&token=" + userInfo.token+"&time="+System.currentTimeMillis();
+                webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userInfo.userid + "&token=" + userInfo.token + "&time=" + System.currentTimeMillis();
                 webTransportModel.title = getString(R.string.gift_center);
                 if (!webTransportModel.url.isEmpty()) {
                     StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
@@ -248,7 +251,7 @@ public class LeftFragment extends HintFragment {
                 }
 
                 //0 无 1 v 2 金v 9官
-                switch (basicUserInfoDBModel.isv){
+                switch (basicUserInfoDBModel.isv) {
                     case "1":
                         iv_vip.setImageResource(R.drawable.icon_identity_vip_white);
                         iv_vip.setVisibility(View.VISIBLE);

@@ -47,6 +47,7 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.datasource.DataSource;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -66,6 +67,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private final int START_LIVE_CODE = 1;
     private final int MSG_LOCATION_SUCCESS = 12;
     private final int LIVE_USER = 2; //直播者
+    private final int SPINNNER_CHANGE = 20023;
     private View controlView;
     private RelativeLayout ly_body;
     private ImageView btn_sign_on_location, img_location_bg, img_start_play_pwd;
@@ -194,6 +196,8 @@ public class ReadyLiveFragment extends BaseFragment {
         Front_cover.setOnClickListener(this);
         buttonCamera.setOnClickListener(this);
 
+
+
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
             text = txt_title.getText().toString();
@@ -224,6 +228,7 @@ public class ReadyLiveFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.btn_start:
                 img_location_bg.setVisibility(View.GONE);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
@@ -321,7 +326,7 @@ public class ReadyLiveFragment extends BaseFragment {
                     }
                 };
 
-                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(getActivity(),callback, App.roompwd,0);
+                LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(getActivity(), callback, App.roompwd, 0);
                 lockChooseDialogFragment.show(getActivity().getFragmentManager(), "");
                 break;
         }
@@ -357,6 +362,11 @@ public class ReadyLiveFragment extends BaseFragment {
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
+            case SPINNNER_CHANGE:
+                App.roompwd = "";
+                img_start_play_pwd.setImageResource(R.drawable.btn_start_play_passroom_n);
+                break;
+
             case START_LIVE_CODE:
                 JSONObject json;
                 try {
@@ -492,6 +502,9 @@ public class ReadyLiveFragment extends BaseFragment {
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     App.price = String.valueOf(spinnnerList.get(position));
                                     parent.setVisibility(View.VISIBLE);
+                                    if (position > 0) {
+                                        fragmentHandler.obtainMessage(SPINNNER_CHANGE).sendToTarget();
+                                    }
                                 }
 
                                 @Override

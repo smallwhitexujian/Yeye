@@ -492,5 +492,7 @@
     <string name="plane">飞机票</string>
     <string name="ticket">火车票</string>
     <string name="me_home">我的主页</string>
+    <string name="title_activity_recode">RecodeActivity</string>
+    <string name="title_activity_transfer_accounts">TransferAccountsActivity</string>
 
 </resources>
