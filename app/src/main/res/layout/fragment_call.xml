@@ -32,11 +32,11 @@
         android:id="@+id/ly_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,12 +151,12 @@
         <include
             layout="@layout/view_gift"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <include
             layout="@layout/view_gift_s"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -193,9 +193,9 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
                 android:contentDescription="@string/chatline"
                 android:src="@drawable/btn_room_chat_n"
                 tools:ignore="RtlHardcoded" />
@@ -205,62 +205,64 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:contentDescription="@string/share"
                 android:src="@drawable/btn_room_share_n"
                 android:visibility="gone"
-                tools:visibility="visible"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/btn_room_more"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:contentDescription="@string/switch_camera"
                 android:src="@drawable/btn_room_more_n"
-                tools:visibility="visible"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/btn_Follow"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:contentDescription="@string/follow"
                 android:src="@drawable/btn_room_concern_n"
                 android:visibility="gone"
-                tools:visibility="visible"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:visibility="visible" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
+
             <ImageView
                 android:id="@+id/btn_room_exchange"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:contentDescription="@string/switch_camera"
                 android:src="@drawable/btn_room_exchange_n"
                 android:visibility="visible"
-                tools:visibility="visible"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:visibility="visible" />
+
             <ImageView
                 android:id="@+id/giftbtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"
                 android:contentDescription="@string/gift"
                 android:src="@drawable/btn_room_gift_n"
                 tools:ignore="RtlHardcoded" />
@@ -336,8 +338,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="46dp"
         android:layout_marginLeft="105dp"
-        android:paddingBottom="5dp"
         android:orientation="vertical"
+        android:paddingBottom="5dp"
         android:visibility="gone"
         tools:ignore="RtlHardcoded">
 
@@ -368,12 +370,28 @@
             android:id="@+id/button_call_switch_camera"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:contentDescription="@string/switch_camera"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
+            android:contentDescription="@string/switch_camera"
             android:src="@drawable/btn_room_reverse_camera_n"
             android:visibility="gone"
             tools:visibility="visible" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/open_goods_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="94dp"
+        android:contentDescription="@null"
+        android:src="@drawable/btn_room_open_goods_list"
+        tools:ignore="RtlHardcoded" />
+
+    <fragment
+        android:id="@+id/goods_list"
+        android:name="com.angelatech.yeyelive.fragment.GoodsListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/view_googs_list" />
 </RelativeLayout>

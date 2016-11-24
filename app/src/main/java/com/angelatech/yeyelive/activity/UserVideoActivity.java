@@ -330,6 +330,11 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
                         }
 
                         @Override
+                        public void onUpQinniuResult(String key) {
+
+                        }
+
+                        @Override
                         public void onUpProgress(String key, double percent) {
                         }
                     });

@@ -81,6 +81,11 @@ public class QiniuUpload implements CommonDoHandler {
             }
 
             @Override
+            public void onUpQinniuResult(String key) {
+
+            }
+
+            @Override
             public void onUpProgress(String key, double percent) {
 
             }
@@ -103,8 +108,8 @@ public class QiniuUpload implements CommonDoHandler {
         mQiniuSimpleManager.upPhoto(mQiniuToken, data, key, upCompletionHandler, uploadOptions);
     }
 
-    private void callWebServer(String userid, String token, String imageName, String id,String type) {
-        mHandler.post(new CallServerTask(userid, token, imageName, id,type));
+    private void callWebServer(String userid, String token, String imageName, String id, String type) {
+        mHandler.post(new CallServerTask(userid, token, imageName, id, type));
     }
 
 
@@ -112,16 +117,16 @@ public class QiniuUpload implements CommonDoHandler {
         mHandler.post(new CertificateTask(userid, token, data, key, upCompletionHandler));
     }
 
-    public void doUpload(final String userid, final String token, final String data, String key,final String id,final String type) {
+    public void doUpload(final String userid, final String token, final String data, String key, final String id, final String type) {
         UpCompletionHandler upCompletionHandler = new SimpleUpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
                 mQiniuToken = null;//每次调用一边就清空
-                Log.e("QiniuProxy", "====" + key +"====="+data+"======"+ info.toString() + "====" + response);
-                DebugLogs.e("=====" +info.toString());
-                if(info.isOK()){
+                Log.e("QiniuProxy", "====" + key + "=====" + data + "======" + info.toString() + "====" + response);
+                DebugLogs.e("=====" + info.toString());
+                if (info.isOK()) {
                     if (response == null) {
-                        if(mQiniuResultCallback != null){
+                        if (mQiniuResultCallback != null) {
                             mQiniuResultCallback.onUpQiniuError();
                         }
                     } else {
@@ -129,14 +134,18 @@ public class QiniuUpload implements CommonDoHandler {
                             //{"error":"file exists"}
                             String hash = response.getString("hash");
                             String keyStr = response.getString("key");
-                            callWebServer(userid, token, key, id,type);
+                            if (mQiniuResultCallback != null) {
+                                mQiniuResultCallback.onUpQinniuResult(key);
+                            }
+                            if (!type.equals("10")) {
+                                callWebServer(userid, token, key, id, type);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                }
-                else{
-                    if(mQiniuResultCallback != null){
+                } else {
+                    if (mQiniuResultCallback != null) {
                         mQiniuResultCallback.onUpQiniuError();
                     }
                 }
@@ -146,9 +155,9 @@ public class QiniuUpload implements CommonDoHandler {
     }
 
 
-    public void doUpload(String userid, String token, String data,String id,String type) {
+    public void doUpload(String userid, String token, String data, String id, String type) {
         //随便传递一个key值
-        doUpload(userid,token,data,"",id ,type);
+        doUpload(userid, token, data, "", id, type);
     }
 
 
@@ -168,7 +177,7 @@ public class QiniuUpload implements CommonDoHandler {
 
         }
 
-        public CertificateTask(String userid, String token, String srcFilePath,UpCompletionHandler upCompletionHandler) {
+        public CertificateTask(String userid, String token, String srcFilePath, UpCompletionHandler upCompletionHandler) {
             this.mUserId = userid;
             this.mToken = token;
             this.mSrcFilePath = srcFilePath;
@@ -192,22 +201,22 @@ public class QiniuUpload implements CommonDoHandler {
                     if (result != null) {
                         if (HttpFunction.isSuc(result.code)) {
                             DebugLogs.e("=====" + result.data);
-                            if(result.data != null ){
+                            if (result.data != null) {
                                 String suffix = StringHelper.getExtensionName(mSrcFilePath);
-                                mQiniuToken =  result.data.uptoken;
-                                mKey = result.data.filename+"."+suffix;
+                                mQiniuToken = result.data.uptoken;
+                                mKey = result.data.filename + "." + suffix;
                                 upload(mSrcFilePath, mKey, mUpCompletionHandler, new UploadOptions(null, null, false,
-                                        new UpProgressHandler(){
-                                            public void progress(String key, double percent){
-                                                if(mQiniuResultCallback != null){
-                                                    mQiniuResultCallback.onUpProgress(key,percent);
+                                        new UpProgressHandler() {
+                                            public void progress(String key, double percent) {
+                                                if (mQiniuResultCallback != null) {
+                                                    mQiniuResultCallback.onUpProgress(key, percent);
                                                 }
                                             }
                                         }, null));
                             }
                         } else {
                             //提示
-                            onBusinessFaild(result.code, response);
+//                            onBusinessFaild(result.code, response);
                         }
                     }
                 }
@@ -224,7 +233,7 @@ public class QiniuUpload implements CommonDoHandler {
         private String mImageName;
         private String mId;
 
-        public CallServerTask(String userId, String token, String imageName, String id,String type) {
+        public CallServerTask(String userId, String token, String imageName, String id, String type) {
             this.mUserId = userId;
             this.mToken = token;
             this.mImageName = imageName;
@@ -245,14 +254,13 @@ public class QiniuUpload implements CommonDoHandler {
                     DebugLogs.e("====" + response);
                     Map map = JsonUtil.fromJson(response, Map.class);
                     if (HttpFunction.isSuc((String) map.get("code"))) {
-                        mHandler.obtainMessage(MSG_UPLOAD_SUC,map.get("data")).sendToTarget();
-                    }
-                    else {
+                        mHandler.obtainMessage(MSG_UPLOAD_SUC, map.get("data")).sendToTarget();
+                    } else {
                         onBusinessFaild((String) map.get("code"));
                     }
                 }
             };
-            mQiniuUtil.callBusinessServer(upType,mUserId, mToken, mImageName, mId, businessCallback);
+            mQiniuUtil.callBusinessServer(upType, mUserId, mToken, mImageName, mId, businessCallback);
         }
 
     }
@@ -262,28 +270,27 @@ public class QiniuUpload implements CommonDoHandler {
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_UPLOAD_SUC:
-                if(mQiniuResultCallback != null){
-                    mQiniuResultCallback.onUpQiniuSuc((String)msg.obj);
+                if (mQiniuResultCallback != null) {
+                    mQiniuResultCallback.onUpQiniuSuc((String) msg.obj);
                 }
                 break;
         }
 
     }
 
-    public String createUniqueName(String userId,String filename){
-        if(userId == null){
+    public String createUniqueName(String userId, String filename) {
+        if (userId == null) {
             throw new IllegalArgumentException();
         }
         long timestamp = System.currentTimeMillis();
-        String newName = Md5.get32MD5Lower(userId+timestamp);
+        String newName = Md5.get32MD5Lower(userId + timestamp);
         return newName;
 
     }
 
-    public void setQiniuResultCallback(QiniuResultCallback callback){
+    public void setQiniuResultCallback(QiniuResultCallback callback) {
         mQiniuResultCallback = callback;
     }
-
 
 
     public interface QiniuResultCallback {
@@ -292,8 +299,10 @@ public class QiniuUpload implements CommonDoHandler {
          */
         //获取上传token失败
         void onUpTokenError();
+
         //上传到七牛服务器失败
         void onUpQiniuError();
+
         //上传七牛成功回调业务
         void onCallServerError();
 
@@ -302,6 +311,7 @@ public class QiniuUpload implements CommonDoHandler {
          */
         void onUpQiniuSuc(String key);
 
+        void onUpQinniuResult(String key);
 
         void onUpProgress(String key, double percent);
 

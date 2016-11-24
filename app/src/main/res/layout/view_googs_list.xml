@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/googs_list"
+        android:layout_width="78dp"
+        android:layout_height="320dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="84dp"
+        android:background="@color/transparent"
+        android:divider="@color/transparent"
+        android:dividerHeight="10dp"
+        android:scrollbars="none"
+        android:visibility="gone"
+        tools:ignore="RtlHardcoded"
+        tools:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_90000000"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/qweqw"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_room_goods_list_box"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="RtlHardcoded">
+
+            <com.xj.frescolib.View.FrescoDrawee
+                android:id="@+id/commodity"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="@null"
+                fresco:roundedCornerRadius="8dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/qweqw"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/qweqw"
+            android:layout_toRightOf="@+id/qweqw"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="#e0e0e0"
+            android:textSize="16sp"
+            tools:text="auth_google_play_services_client_google_display_name" />
+
+        <ImageView
+            android:id="@+id/goodsnum_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/title"
+            android:layout_alignRight="@+id/title"
+            android:layout_alignTop="@+id/numText"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_room_goodsnum_more" />
+
+        <TextView
+            android:id="@+id/numText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/goodsnum_less"
+            android:layout_alignTop="@+id/goodsnum_less"
+            android:layout_toLeftOf="@+id/goodsnum_more"
+            android:layout_toStartOf="@+id/goodsnum_more"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="1"
+            android:textColor="#e0e0e0"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/goodsnum_less"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/commodity_price"
+            android:layout_toLeftOf="@+id/numText"
+            android:layout_toStartOf="@+id/numText"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_room_goodsnum_less" />
+
+        <Button
+            android:id="@+id/purchase"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#FFD80C18"
+            android:text="@string/goods_purchase"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/Coupons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/purchase"
+            android:layout_alignBottom="@+id/purchase"
+            android:layout_alignLeft="@+id/commodity_price"
+            android:layout_alignStart="@+id/commodity_price"
+            android:textColor="#e0e0e0"
+            android:textSize="14sp"
+            tools:text="我的点券:42812312" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_above="@+id/purchase"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#0FFFFFFF" />
+
+        <TextView
+            android:id="@+id/commodity_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_room_goods_pointicon"
+            android:gravity="center"
+            android:textColor="#FF594800"
+            android:textSize="12sp"
+            tools:ignore="RtlHardcoded"
+            tools:text="5000卷"
+            android:layout_marginBottom="18dp"
+            android:layout_above="@+id/view"
+            android:layout_alignLeft="@+id/qweqw"
+            android:layout_alignStart="@+id/qweqw" />
+    </RelativeLayout>
+</RelativeLayout>

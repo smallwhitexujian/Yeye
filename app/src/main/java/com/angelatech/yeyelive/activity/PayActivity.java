@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
 import android.os.Message;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import java.util.Map;
 /**
  * 钱包页面
  */
+
 public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView btn_back;

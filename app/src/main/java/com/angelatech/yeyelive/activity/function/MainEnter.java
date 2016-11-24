@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.string.Encryption;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.HashMap;
@@ -126,6 +127,66 @@ public class MainEnter extends HttpFunction {
         params.put("userid", userid);
         params.put("token", token);
         params.put("key", key);
+        httpGet(url, params, callback);
+    }
+
+
+    //上传商品接口
+    public void UserMallIns(String url, String userid, String token, String tradename, String tradeurl, String price, String describe, String contact, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("tradename", Encryption.utf8ToUnicode(tradename));//商品名称
+        params.put("tradeurl", tradeurl);//商品地址
+        params.put("price", price);//商品价格
+        params.put("describe", Encryption.utf8ToUnicode(describe));//商品描述
+        params.put("contact", contact);//联系方式
+        httpGet(url, params, callback);
+    }
+
+
+    //获取主播商品接口
+    public void LiveUserMallList(String url, String userid, String token, String liveuserid, String pageindex, String pagesize, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("liveuserid", liveuserid);//主笔id
+        params.put("tradeurl", pageindex);//商品地址
+        params.put("price", pagesize);//商品价格
+        httpGet(url, params, callback);
+    }
+
+    //小金屋查询接口
+    public void UserMallList(String url, String userid, String token, String pageindex, String pagesize, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("pageindex", pageindex);//商品地址
+        params.put("pagesize", pagesize);//商品价格
+        httpGet(url, params, callback);
+    }
+
+    //修改商品
+    public void UserMallUpt(String url, String userid, String token, String tradename, String tradeurl, String price, String describe, String contact, String mallid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("tradename", Encryption.utf8ToUnicode(tradename));//商品名称
+        params.put("tradeurl", tradeurl);//商品图片
+        params.put("price", price);//商品价格
+        params.put("describe", Encryption.utf8ToUnicode(describe));//商品描述
+        params.put("contact", contact);//联系方式
+        params.put("mallid", mallid);//商品id
+        httpGet(url, params, callback);
+    }
+
+    //下单,
+    public void VoucherMallExg(String url, String userid, String token, String mallid, String num, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("mallid", mallid);//商品名称
+        params.put("num", num);//商品图片
         httpGet(url, params, callback);
     }
 }

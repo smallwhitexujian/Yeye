@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/re"
+        android:scrollbars="none"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_f9f9f9"
+            android:orientation="vertical">
+
+            <com.angelatech.yeyelive.view.HeaderLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/headerLayout"
+                android:background="@color/color_grey_d5" />
+
+            <com.xj.frescolib.View.FrescoDrawee
+                android:id="@+id/btn_upload"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/view2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                fresco:placeholderImage="@drawable/btn_goods_upload_pic"
+                fresco:roundedCornerRadius="8dp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/btn_upload"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:text="@string/products_upload"
+                android:textColor="#e0e0e0"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_upload"
+                android:layout_marginTop="30dp"
+                android:background="@color/color_grey_d5" />
+
+            <EditText
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view3"
+                android:background="@color/white"
+                android:hint="@string/product_name"
+                android:maxLines="1"
+                android:paddingLeft="20dp"
+                android:textColorHint="#e0e0e0"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignBottom="@+id/product_name"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="20dp"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <EditText
+                android:id="@+id/product_price"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view4"
+                android:background="@color/white"
+                android:hint="@string/product_price"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingLeft="20dp"
+                android:textColorHint="#e0e0e0"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignBottom="@+id/product_price"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="20dp"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignBottom="@+id/product_describe"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_below="@+id/view6"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:text="@string/product_link"
+                android:textColor="#999999"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignBottom="@+id/textView11"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <EditText
+                android:id="@+id/product_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view7"
+                android:background="@color/white"
+                android:hint="@string/product_facebook"
+                android:maxLines="1"
+                android:paddingLeft="20dp"
+                android:textColorHint="#e0e0e0"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/product_facebook"
+                android:layout_marginLeft="20dp"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <EditText
+                android:id="@+id/product_weichat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view8"
+                android:background="@color/white"
+                android:hint="@string/product_wx"
+                android:maxLines="1"
+                android:paddingLeft="20dp"
+                android:textColorHint="#e0e0e0"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <View
+                android:id="@+id/view9"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/product_weichat"
+                android:layout_marginLeft="20dp"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <EditText
+                android:id="@+id/product_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view9"
+                android:background="@color/white"
+                android:hint="@string/product_phone1"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:paddingLeft="20dp"
+                android:textColorHint="#e0e0e0"
+                tools:ignore="RtlHardcoded,RtlSymmetry,TextFields" />
+
+            <View
+                android:id="@+id/view10"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/product_phone"
+                android:background="@color/color_grey_d5"
+                tools:ignore="RtlHardcoded" />
+
+            <EditText
+                android:id="@+id/product_describe"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/product_price"
+                android:background="@color/white"
+                android:gravity="top"
+                android:hint="@string/product_describe"
+                android:maxLength="50"
+                android:paddingLeft="20dp"
+                android:paddingTop="16sp"
+                android:textColorHint="#e0e0e0"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/view11"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/re"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/color_grey_d5"
+        tools:ignore="RtlHardcoded" />
+
+    <RelativeLayout
+        android:id="@+id/re"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="#FFD80C18"
+            android:text="@string/confirm_upload"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/btn_Link"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btn_confirm"
+            android:layout_toStartOf="@+id/btn_confirm"
+            android:background="#FFFFA23D"
+            android:text="@string/btn_link"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+</RelativeLayout>

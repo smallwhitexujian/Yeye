@@ -183,6 +183,7 @@ public class CommonUrlConfig {
     //审核支付开关
     public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
 
+
     //生成二维码
     public static String createqrcode = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/qrcode";
 
@@ -194,4 +195,16 @@ public class CommonUrlConfig {
     public static String CheckPayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/CheckPayPassword";
 
 
+    //上传商品接口
+    public static String UserMallIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallIns";
+    //获取主播商品列表
+    public static String LiveUserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/LiveUserMallList";
+    //获取小金屋的商品列表
+    public static String UserMallList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallList";
+    //修改商品信息
+    public static String UserMallUpt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallUpt";
+    //一键下单,
+    public static String VoucherMallExg = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/VoucherMallExg";
+
 }
+

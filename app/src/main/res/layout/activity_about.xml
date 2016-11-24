@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_f6f6f6"
@@ -46,14 +47,16 @@
             android:layout_weight="1"
             android:paddingLeft="18dp"
             android:text="@string/lisence_hint"
-            android:textColor="@color/color_232323" />
+            android:textColor="@color/color_232323"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@null"
             android:paddingRight="14dp"
-            android:src="@drawable/btn_next" />
+            android:src="@drawable/btn_next"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
     </LinearLayout>
 
     <View

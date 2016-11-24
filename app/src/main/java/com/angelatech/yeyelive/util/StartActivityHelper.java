@@ -46,7 +46,6 @@ public class StartActivityHelper {
         Intent intent = new Intent(context, activityClass);
         intent.putExtra(TransactionValues.UI_2_UI_KEY_OBJECT, model);
         intent.setAction(action);
-
         intent.setFlags(flag);
         context.startActivity(intent);
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="68dp"
+    android:layout_height="68dp"
+    android:background="@drawable/bg_room_goods_list_box"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.xj.frescolib.View.FrescoDrawee
+        android:id="@+id/commodity"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:contentDescription="@null"
+        fresco:roundedCornerRadius="8dp" />
+</LinearLayout>

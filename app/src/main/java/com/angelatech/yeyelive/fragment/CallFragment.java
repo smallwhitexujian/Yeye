@@ -123,7 +123,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView btn_share, btn_room_more;
     private ImageView iv_vip;
     private ImageView btn_beautiful;
-    private ImageView btn_lamp;
+    private ImageView btn_lamp,open_goods_list;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
     private FrescoRoundView img_head, gif_img_head, gif_img_head_s;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
@@ -168,11 +168,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private Cocos2dxView cocos2dxView;
     private Cocos2dxGift cocos2dxGift;
     private LinearLayout ViewgiftLayout;
+    private ListView googs_list;
 
     private GridView grid_online;
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
-    private RelativeLayout rootView;
+    private RelativeLayout rootView,details;
     private int mVisibleHeight;
     private FragmentManager fragmentManager;
     //软件盘弹起后所占高度阀值
@@ -280,12 +281,14 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         chatRoom = new ChatRoom(getActivity());
         cameraSwitchButton = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         txt_msg = (EditText) controlView.findViewById(R.id.txt_msg);
+        googs_list = (ListView) controlView.findViewById(R.id.googs_list);
         Button btn_send = (Button) controlView.findViewById(R.id.btn_send);
         chatline = (ListView) controlView.findViewById(R.id.chatline);
         ViewgiftLayout = (LinearLayout) controlView.findViewById(R.id.gift_layout);
         initChatMessage(getActivity());
         ImageView img_open_send = (ImageView) controlView.findViewById(R.id.img_open_send);
         ImageView giftBtn = (ImageView) controlView.findViewById(R.id.giftbtn);
+        open_goods_list = (ImageView) controlView.findViewById(R.id.open_goods_list);
         timer = (Chronometer) controlView.findViewById(R.id.chronometer);
         ly_toolbar = (LinearLayout) controlView.findViewById(R.id.ly_toolbar);
         ly_toolbar2 = (LinearLayout) controlView.findViewById(R.id.ly_toolbar2);
@@ -314,6 +317,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         TextView gift_Recharge = (TextView) controlView.findViewById(R.id.gift_Recharge);
         grid_online = (GridView) controlView.findViewById(R.id.grid_online);
         rootView = (RelativeLayout) controlView.findViewById(R.id.rootView);
+        details = (RelativeLayout) controlView.findViewById(R.id.details);
         int statusBarHeight = ScreenUtils.getStatusHeight(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             rootView.setPadding(0, statusBarHeight, 0, 0);
@@ -342,6 +346,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
         btn_beautiful.setOnClickListener(this);
         gift_Recharge.setOnClickListener(this);
         btn_danmu.setOnClickListener(this);
+        open_goods_list.setOnClickListener(this);
 
         grid_online.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -529,6 +534,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         ly_toolbar.setVisibility(View.VISIBLE);
                         ly_toolbar2.setVisibility(View.GONE);
                     }
+                    if (googs_list.getVisibility() == View.VISIBLE) {
+                        googs_list.setVisibility(View.GONE);
+                        open_goods_list.setVisibility(View.VISIBLE);
+                        details.setVisibility(View.GONE);
+                    }
                     return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
                 }
             });
@@ -651,7 +661,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void setHintCocosView() {
-        if (isAdded()){
+        if (isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -669,7 +679,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void setShowCocosView() {
-        if (isAdded()){
+        if (isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -750,12 +760,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 }
 
                 int pos = BinarySearch.binSearch(showList, 0, showList.size(), onlineNotice.user);
-                if(!onlineNotice.user.isrobot.equals("1")){
-
+                if (!onlineNotice.user.isrobot.equals("1")) {
                     PopLinkData.add(onlineNotice.user);
                     PopAdapter.add(onlineNotice.user);
                 }
-
                 showList.add(pos, onlineNotice.user);
             }
         } else {
@@ -964,6 +972,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 if (gridViews.size() == 0) {
                     fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
                 }
+                googs_list.setVisibility(View.GONE);
+                open_goods_list.setVisibility(View.VISIBLE);
+                details.setVisibility(View.GONE);
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
                 ly_toolbar2.setVisibility(View.GONE);
@@ -1061,6 +1072,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     txt_msg.setHint(R.string.send_barrage);
                 }
                 isdanmu = !isdanmu;
+                break;
+            case R.id.open_goods_list:
+                googs_list.setVisibility(View.VISIBLE);
+                open_goods_list.setVisibility(View.GONE);
+                details.setVisibility(View.GONE);
                 break;
         }
     }
@@ -1313,6 +1329,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             giftView.setVisibility(View.GONE);
             ly_toolbar.setVisibility(View.VISIBLE);
             ly_toolbar2.setVisibility(View.GONE);
+            googs_list.setVisibility(View.GONE);
+            open_goods_list.setVisibility(View.VISIBLE);
+            details.setVisibility(View.GONE);
         }
     }
 
@@ -1380,6 +1399,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
                 ly_toolbar2.setVisibility(View.GONE);
+                googs_list.setVisibility(View.GONE);
+                open_goods_list.setVisibility(View.VISIBLE);
+                details.setVisibility(View.GONE);
                 setSpinnerItemSelectedByValue(roomPopSpinner, ((BasicUserInfoModel) msg.obj).nickname);
                 break;
             case HANDLER_GIFT_CHANGE_BACKGROUND:

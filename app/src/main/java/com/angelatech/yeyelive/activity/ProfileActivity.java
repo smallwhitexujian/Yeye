@@ -294,6 +294,11 @@ public class ProfileActivity extends HeaderBaseActivity {
                         }
 
                         @Override
+                        public void onUpQinniuResult(String key) {
+
+                        }
+
+                        @Override
                         public void onUpProgress(String key, double percent) {
 
                         }
