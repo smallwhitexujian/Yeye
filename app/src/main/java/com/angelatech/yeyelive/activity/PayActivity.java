@@ -114,7 +114,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     }
                 };
                 dialog.CommDialog(PayActivity.this, getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
-
                 break;
         }
     }

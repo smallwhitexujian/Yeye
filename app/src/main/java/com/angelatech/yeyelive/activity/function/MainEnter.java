@@ -79,6 +79,7 @@ public class MainEnter extends HttpFunction {
         params.put("token", token);
         httpGet(url, params, callback);
     }
+
     /**
      * 检查安全支付密码
      */
@@ -187,6 +188,13 @@ public class MainEnter extends HttpFunction {
         params.put("token", token);
         params.put("mallid", mallid);//商品名称
         params.put("num", num);//商品图片
+        httpGet(url, params, callback);
+    }
+
+    public void UesrMallOrderList(String url, String userid, String token, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
         httpGet(url, params, callback);
     }
 }

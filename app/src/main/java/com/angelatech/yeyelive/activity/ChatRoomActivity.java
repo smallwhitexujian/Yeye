@@ -417,7 +417,6 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
                 exitRoom();
             }
-
             @Override
             public void onOK() {
                 restartConnection();

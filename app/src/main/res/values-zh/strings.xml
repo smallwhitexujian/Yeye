@@ -510,6 +510,7 @@
     <string name="me_home">我的主页</string>
     <string name="product_order">下单成功</string>
     <string name="product_midfey">商品已修改</string>
+    <string name="my_product">我的商品</string>
 
 
 </resources>

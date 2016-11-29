@@ -19,6 +19,7 @@ public class BaseKey {
     public final static String USER_IS_TICKET = "isticket";
     public final static String USER_IS_PWDROOM = "ispwdroom";
     public final static String USER_EMAIL = "email";
+    public final static String USER_VOUCHER = "voucher";
     public final static String USER_FANS= "fansNum";
     public final static String USER_IS_V= "isv";
     public final static String NOTIFICATION_ISREAD= "isread";

@@ -362,10 +362,10 @@ public class TabMenuActivity extends BaseActivity {
     }
 
     public void mark(final Context context, String userId) {
-        //不符合策略则不进行统计
-        if (!markStrategy(context)) {
-            return;
-        }
+//        //不符合策略则不进行统计
+//        if (!markStrategy(context)) {
+//            return;
+//        }
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -379,7 +379,7 @@ public class TabMenuActivity extends BaseActivity {
                 Date dt = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 long today = Long.valueOf(sdf.format(dt));
-                sp.putValue(context, ACCOUNT_TIME_STAMP, today);
+//                sp.putValue(context, ACCOUNT_TIME_STAMP, today);
             }
         };
         ChatRoom chatRoom = new ChatRoom(this);

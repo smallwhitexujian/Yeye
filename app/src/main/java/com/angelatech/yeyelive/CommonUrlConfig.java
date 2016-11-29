@@ -134,11 +134,9 @@ public class CommonUrlConfig {
     public static String Agreement = (isDebug ? TEST_HOST_URL : HOST_URL) + "/Web/ServiceProvision.html";
 
     public static String ExtensionList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/LiveVideo/ExtensionList";
-
     //七牛
     public static String GetQiniuUpToken = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Picture/GetQiniuUpToken";
     public static String PicQiniu = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Picture/PicQiniu";
-
     //支付接口
     //下单
     public static String RechargeOrder = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Recharge/RechargeOrder";
@@ -176,25 +174,16 @@ public class CommonUrlConfig {
     public static String FriendHelist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHelist";
     //系统通知
     public static String SysNotice = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/livevideo/SysNotice";
-
     //获取facebook好友列表
     public static String getfbfriends = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/getfbfriends";
-
     //审核支付开关
     public static String RechargeDisplay = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/RechargeDisplay";
-
-
     //生成二维码
     public static String createqrcode = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/qrcode";
-
     //二维码
     public static String qrcode ="http://file.iamyeye.com/user/qrcoce/";
-
-
     //检查支付密码
     public static String CheckPayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/CheckPayPassword";
-
-
     //上传商品接口
     public static String UserMallIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallIns";
     //获取主播商品列表
@@ -205,6 +194,7 @@ public class CommonUrlConfig {
     public static String UserMallUpt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallUpt";
     //一键下单,
     public static String VoucherMallExg = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/VoucherMallExg";
-
+    //用户订单查询
+    public static String UesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/UesrMallOrderList";
 }
 

@@ -72,6 +72,9 @@ public class BasicUserInfoDBModel implements Serializable {
     public String email = "";
     @DatabaseField(columnName = "role")
     public int role = 0; //1 是巡管
+    @DatabaseField(columnName = "voucher")
+    public double voucher;
+
     @Override
     public String toString() {
         return "BasicUserInfoDBModel{" +
@@ -91,6 +94,7 @@ public class BasicUserInfoDBModel implements Serializable {
                 ", isv='" + isv + '\'' +
                 ", loginType='" + loginType + '\'' +
                 ", ispwdroom='" + ispwdroom + '\'' +
+                ", voucher='" + voucher + '\'' +
                 '}';
     }
 }
