@@ -9,14 +9,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.function.UserInfoDialog;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
+import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.angelatech.yeyelive.web.HttpFunction;
+import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
+import com.will.web.handle.HttpBusinessCallback;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zbar.ZBarView;
@@ -50,7 +61,7 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
     private QRCodeView mQRCodeView;
     private BasicUserInfoDBModel userInfo;
     private WebTransportModel webTransportModel;
-
+    private UserInfoDialog userInfoDialog;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
@@ -139,16 +150,53 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
             //支付二维码
             else if(result.contains("yeye://charge?userId=")){
                 String userid = result.replace("yeye://charge?userId=","");
-                BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
-                userInfoModel.Userid = userid;
-                StartActivityHelper.jumpActivity(TestScanActivity.this, FriendUserInfoActivity.class, userInfoModel);
-                finish();
+                mQRCodeView.stopCamera();
+                loaduserinfo(userid);
+
             }
             else {
                 LoadingDialog.cancelLoadingDialog();
                 ToastUtils.showToast(TestScanActivity.this, result);
             }
         }
+    }
+
+    /**
+     * 查询 用户信息
+     */
+    private void loaduserinfo(String userid) {
+        if (userInfoDialog == null) {
+            userInfoDialog = new UserInfoDialog(this);
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userInfo.userid);
+        params.put("token", userInfo.token);
+        params.put("touserid", userid);
+
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                CommonListResult<BasicUserInfoDBModel> results = JsonUtil.fromJson(response, new TypeToken<CommonListResult<BasicUserInfoDBModel>>() {
+                }.getType());
+                if (results != null) {
+                    DebugLogs.e("sfsdfsadfasdfaf:"+response);
+                    if (HttpFunction.isSuc(results.code)) {
+                        if (results.hasData()) {
+
+                            StartActivityHelper.jumpActivity(TestScanActivity.this, TransferActivity.class,  results.data.get(0));
+                            finish();
+                        }
+                    } else {
+                        onBusinessFaild(results.code);
+                    }
+                }
+            }
+        };
+        userInfoDialog.httpGet(CommonUrlConfig.UserInformation, params, callback);
     }
 
     @Override

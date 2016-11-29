@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_transfer_accounts"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF9F9F9"
+
+    tools:context="com.angelatech.yeyelive.activity.TransferAccountsActivity">
+
+    <RelativeLayout
+        android:id="@+id/ly_top"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFFFF">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/transfer"
+            android:textColor="#FF262626"
+            android:textSize="17dp" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:src="@drawable/btn_nav_back_g" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_userinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ly_top"
+        android:orientation="vertical">
+
+        <com.xj.frescolib.View.FrescoRoundView
+            android:id="@+id/user_face"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/default_face_icon"
+            fresco:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/txt_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="6dp"
+            android:text="尖尖小耳朵"
+            android:textColor="#FF262626"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/txt_userid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="ID:7897897"
+            android:textColor="#FFB2B2B2"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ly_body"
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        android:layout_below="@id/ly_userinfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/search_transfer_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="14dp"
+            android:text="转账金额"
+            android:textColor="#FF999999"
+            android:textSize="14dp" />
+
+        <EditText
+            android:id="@+id/txt_money"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="14dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/icon_transfer_quan"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:hint="0.00"
+            android:inputType="numberDecimal"
+            android:lines="1"
+            android:textColorHint="#FFD9D9D9"
+            android:textSize="40dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFE9E9E9" />
+
+        <EditText
+            android:id="@+id/txt_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:hint="转账备注(20字以内)"
+            android:lines="1"
+            android:maxLength="20"
+            android:textColorHint="#FFD9D9D9"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit_pay"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ly_body"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/startlive_btn_redbg"
+        android:text="确定转账"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16dp" />
+</RelativeLayout>

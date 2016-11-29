@@ -510,6 +510,8 @@
     <string name="me_home">我的主页</string>
     <string name="product_order">下单成功</string>
     <string name="product_midfey">商品已修改</string>
+    <string name="pay_pwd_success">安全密码设置成功！</string>
+    <string name="plese_input_pay_password">请输入支付密码</string>
     <string name="my_product">我的商品</string>
 
 

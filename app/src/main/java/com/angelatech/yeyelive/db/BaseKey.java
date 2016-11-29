@@ -8,7 +8,8 @@ package com.angelatech.yeyelive.db;
  */
 public class BaseKey {
     public final static String USER_USERID = "userid";
-    public final static String USER_DIAMOND = "diamonds"; //钻石
+    public final static String USER_DIAMOND = "diamonds"; //金币
+    public final static String USER_VOUCHER = "voucher"; //券
     public final static String USER_NICKNAME = "nickname"; //昵称
     public final static String USER_SIGN = "sign"; //签名
     public final static String USER_HEAD_URL = "headurl";

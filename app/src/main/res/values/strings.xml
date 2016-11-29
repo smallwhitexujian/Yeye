@@ -523,6 +523,12 @@
     <string name="gold_state_4">不通过</string>
     <string name="product_order">下单成功</string>
     <string name="product_midfey">商品已修改</string>
+    <string name="title_activity_transfer">TransferActivity</string>
+    <string name="title_activity_set_pay_pwd">SetPayPwdActivity</string>
+    <string name="set_pay_pwd">设置安全密码</string>
+    <string name="pay_pwd_success">安全密码设置成功！</string>
+    <string name="plese_input_pay_password">请输入支付密码</string>
+    <string name="title_activity_transfer_complete">TransferCompleteActivity</string>
     <string name="my_product">我的商品</string>
 
 </resources>

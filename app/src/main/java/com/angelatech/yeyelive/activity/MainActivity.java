@@ -154,7 +154,6 @@ public class MainActivity extends BaseActivity {
         img_live.setOnClickListener(this);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fragmentManager = getSupportFragmentManager();
-
     }
 
     private void setPhoto() {
@@ -279,7 +278,6 @@ public class MainActivity extends BaseActivity {
             chatRoom.loadGiftList(CommonUrlConfig.PropList, userModel.token, callback);
         }
     }
-
 
     @Override
     public void doHandler(Message msg) {

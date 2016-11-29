@@ -77,4 +77,14 @@ public class PhoneLogin extends Login {
         httpGet(CommonUrlConfig.FindPassword, params, callback);
     }
 
+    public void setPayPwd(String phone, String code, String password,String userid, String token,HttpBusinessCallback callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userId", userid);
+        params.put("token", token);
+        params.put("payPassword", password);
+        params.put("verifycode",code);
+        params.put("phone",phone);
+        httpGet(CommonUrlConfig.UpdatePayPassword, params, callback);
+    }
+
 }
