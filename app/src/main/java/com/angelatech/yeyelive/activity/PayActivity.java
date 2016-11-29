@@ -17,6 +17,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
+import com.umeng.analytics.MobclickAgent;
 import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -31,10 +32,10 @@ import java.util.Map;
 public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView btn_back;
-    private TextView txt_coin;
+    private TextView txt_coin, txt_voucher;
     private BasicUserInfoDBModel userInfo;
     private LinearLayout layout_diamond;
-    private LinearLayout ly_qcode, ly_card, ly_wallet_collection,ly_transfer;
+    private LinearLayout ly_qcode, ly_card, ly_wallet_collection, ly_transfer;
     private MainEnter mainEnter;
 
     @Override
@@ -53,6 +54,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         ly_card = (LinearLayout) findViewById(R.id.ly_card);
         ly_wallet_collection = (LinearLayout) findViewById(R.id.ly_wallet_collection);
         ly_transfer = (LinearLayout) findViewById(R.id.ly_transfer);
+        txt_voucher = (TextView) findViewById(R.id.txt_voucher);
         ly_transfer.setOnClickListener(this);
         ly_wallet_collection.setOnClickListener(this);
         btn_back.setOnClickListener(this);
@@ -62,10 +64,17 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setView() {
+        mainEnter = new MainEnter(this);
+        userInfo = CacheDataManager.getInstance().loadUser();
+        CheckPayPassword();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         userInfo = CacheDataManager.getInstance().loadUser();
         txt_coin.setText(userInfo.diamonds);
-        mainEnter = new MainEnter(this);
-        CheckPayPassword();
+        txt_voucher.setText(userInfo.voucher);
     }
 
     //检查设置安全密码 CheckPayPassword
@@ -86,7 +95,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     String data = jsobj.optString("data");
                     if (data.equals("2000")) {
                         uiHandler.obtainMessage(1).sendToTarget();
-
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -110,6 +118,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
                     @Override
                     public void onOK() {
+                        StartActivityHelper.jumpActivityDefault(PayActivity.this, SetPayPwdActivity.class);
+
 
                     }
                 };

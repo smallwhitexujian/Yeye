@@ -41,7 +41,11 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/search_transfer_bg" />
+            android:background="@drawable/search_transfer_bg"
+            android:lines="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="20dp"
+            android:maxLength="26" />
 
         <Button
             android:layout_width="50dp"
@@ -69,7 +73,7 @@
         android:paddingLeft="14dp"
         android:text="最近"
         android:textColor="#FF999999"
-        android:textSize="14dp" />
+        android:textSize="15dp" />
 
     <View
         android:layout_width="match_parent"

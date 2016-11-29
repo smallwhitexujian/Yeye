@@ -248,7 +248,6 @@
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.GoldHousActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
@@ -409,6 +408,16 @@
         <activity
             android:name=".activity.TransferAccountsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TransferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".activity.SetPayPwdActivity"
+            android:label="@string/title_activity_set_pay_pwd" />
+        <activity
+            android:name=".activity.TransferCompleteActivity"
+            android:label="@string/title_activity_transfer_complete"></activity>
     </application>
 
 </manifest>

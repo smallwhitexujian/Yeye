@@ -38,6 +38,10 @@ public class BasicUserInfoDBModel implements Serializable {
     public String followNum;
     @DatabaseField(columnName = "intimacy")
     public String Intimacy;
+    //yeye券
+    @DatabaseField(columnName = "voucher")
+    public String voucher;
+
     /**
      * 我的视频
      */
@@ -84,6 +88,7 @@ public class BasicUserInfoDBModel implements Serializable {
                 ", headurl='" + headurl + '\'' +
                 ", sign='" + sign + '\'' +
                 ", diamonds='" + diamonds + '\'' +
+                ", voucher='" + voucher + '\'' +
                 ", fansNum='" + fansNum + '\'' +
                 ", followNum='" + followNum + '\'' +
                 ", Intimacy='" + Intimacy + '\'' +
