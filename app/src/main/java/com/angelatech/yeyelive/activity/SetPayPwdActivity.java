@@ -23,7 +23,6 @@ import com.angelatech.yeyelive.activity.function.PhoneLogin;
 import com.angelatech.yeyelive.activity.function.Register;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
-import com.angelatech.yeyelive.model.LoginUserModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.ErrorHelper;
 import com.angelatech.yeyelive.util.JsonUtil;
@@ -34,7 +33,6 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.security.Md5;
-import com.will.common.tool.DeviceTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -176,9 +174,7 @@ public class SetPayPwdActivity extends HeaderBaseActivity {
             case R.id.login_btn:
                 mLoginBtn.setEnabled(false);
                 LoadingDialog.showLoadingDialog(this, null);
-
                 findPassword();
-
                 break;
             case R.id.send_btn:
                 countryCode = mAreaText.getText().toString().replace("+", "");
@@ -214,27 +210,26 @@ public class SetPayPwdActivity extends HeaderBaseActivity {
             LoadingDialog.cancelLoadingDialog();
             ToastUtils.showToast(this, getString(R.string.password_error));
         } else if (!phoneCode.isEmpty() && !password.isEmpty()) {
+            mPhoneLogin.setPayPwd(StringHelper.stringMerge(countryCode, loginUserId), phoneCode, Md5.md5(password), userInfo.userid, userInfo.token, new HttpBusinessCallback() {
+                @Override
+                public void onFailure(Map<String, ?> errorMap) {
+                    LoadingDialog.cancelLoadingDialog();
+                }
 
-                mPhoneLogin.setPayPwd(StringHelper.stringMerge(countryCode, loginUserId), phoneCode, Md5.md5(password), userInfo.userid, userInfo.token, new HttpBusinessCallback() {
-                    @Override
-                    public void onFailure(Map<String, ?> errorMap) {
-                        LoadingDialog.cancelLoadingDialog();
-                    }
-
-                    @Override
-                    public void onSuccess(String response) {
-                        LoadingDialog.cancelLoadingDialog();
-                        DebugLogs.e("response9:" + response);
-                        Map result = JsonUtil.fromJson(response, Map.class);
-                        if (result != null) {
-                            if (HttpFunction.isSuc(result.get("code").toString())) {
-                                uiHandler.sendEmptyMessage(MSG_FIND_PASSWORD_SUCCESS);
-                            } else {
-                                uiHandler.obtainMessage(MSG_FIND_PASSWORD_ERROR, result.get("code")).sendToTarget();
-                            }
+                @Override
+                public void onSuccess(String response) {
+                    LoadingDialog.cancelLoadingDialog();
+                    DebugLogs.e("response9:" + response);
+                    Map result = JsonUtil.fromJson(response, Map.class);
+                    if (result != null) {
+                        if (HttpFunction.isSuc(result.get("code").toString())) {
+                            uiHandler.sendEmptyMessage(MSG_FIND_PASSWORD_SUCCESS);
+                        } else {
+                            uiHandler.obtainMessage(MSG_FIND_PASSWORD_ERROR, result.get("code")).sendToTarget();
                         }
                     }
-                });
+                }
+            });
         }
         mLoginBtn.setEnabled(true);
     }

@@ -86,5 +86,4 @@ public class PhoneLogin extends Login {
         params.put("phone",phone);
         httpGet(CommonUrlConfig.UpdatePayPassword, params, callback);
     }
-
 }

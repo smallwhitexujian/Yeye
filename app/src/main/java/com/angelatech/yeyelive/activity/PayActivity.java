@@ -2,7 +2,6 @@ package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
 import android.os.Message;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +16,6 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.umeng.analytics.MobclickAgent;
 import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -31,6 +29,7 @@ import java.util.Map;
 
 public class PayActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final int MSG_NO_SET_PWD = 1;
     private ImageView btn_back;
     private TextView txt_coin, txt_voucher;
     private BasicUserInfoDBModel userInfo;
@@ -90,27 +89,25 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onSuccess(String response) {
                 DebugLogs.e("response" + response);
-
                 JSONObject jsobj;
                 try {
                     jsobj = new JSONObject(response);
                     String code = jsobj.optString("code");
                     if (code.equals("6002")) {
-                        uiHandler.obtainMessage(1).sendToTarget();
+                        uiHandler.obtainMessage(MSG_NO_SET_PWD).sendToTarget();
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         };
-
         mainEnter.CheckPayPassword(CommonUrlConfig.CheckPayPassword, userInfo.userid, userInfo.token, callback);
     }
 
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
-            case 1:
+            case MSG_NO_SET_PWD:
                 CommDialog dialog = new CommDialog();
                 CommDialog.Callback callback = new CommDialog.Callback() {
                     @Override
@@ -121,12 +118,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onOK() {
                         StartActivityHelper.jumpActivityDefault(PayActivity.this, SetPayPwdActivity.class);
-
-
                     }
                 };
                 dialog.CommDialog(PayActivity.this, getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
-
                 break;
         }
     }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.SetPayPwdActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
@@ -23,12 +24,17 @@ import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +71,10 @@ public class GoodsListFragment extends BaseFragment {
     private TextView title, commodity_price, numText, Coupons;
     private ListView googs_list;
     private List<ProductModel> productModels = new ArrayList<>();
-    private BasicUserInfoDBModel liveUserInfo;
     private MainEnter mainEnter;
     private BasicUserInfoDBModel userInfo;
     private int mPosition;
+    private boolean isPayPass = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,10 +101,10 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     private void initData() {
-        liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
+        BasicUserInfoDBModel liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
         userInfo = CacheDataManager.getInstance().loadUser();
         mainEnter = new MainEnter(getActivity());
-
+        CheckPayPassword(0);
         CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), productModels, R.layout.item_goods_list) {
             @Override
             public void convert(ViewHolder helper, final ProductModel item, int position) {
@@ -149,7 +155,7 @@ public class GoodsListFragment extends BaseFragment {
         commodity.setImageURI(model.tradeurl);
         title.setText(model.tradename);
         commodity_price.setText(model.voucher + getString(R.string.product_voucher));
-//        Coupons.setText(getString(R.string.goods_coupons) + 1231231);//TODO 我自己的卷
+        Coupons.setText(getString(R.string.goods_coupons) + userInfo.voucher);
     }
 
 
@@ -166,27 +172,60 @@ public class GoodsListFragment extends BaseFragment {
                 }
                 break;
             case R.id.purchase:
-//                CommDialog dialog = new CommDialog();
-//                CommDialog.Callback callback = new CommDialog.Callback() {
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onOK() {
-//
-//                    }
-//                };
-//                dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
-                String num = numText.getText().toString();
-                VoucherMallExg(productModels.get(mPosition).mallid, num);
+                if (!isPayPass) {
+                    CheckPayPassword(1);
+                } else {
+                    String num = numText.getText().toString();
+                    VoucherMallExg(productModels.get(mPosition).mallid, num);
+                }
                 break;
         }
     }
 
     private void VoucherMallExg(String mallid, String num) {
         mainEnter.VoucherMallExg(CommonUrlConfig.VoucherMallExg, userInfo.userid, userInfo.token, mallid, num, callback2);
+    }
+
+    //检查设置安全密码 CheckPayPassword
+    private void CheckPayPassword(final int type) {
+        HttpBusinessCallback callback = new HttpBusinessCallback() {
+            @Override
+            public void onFailure(Map<String, ?> errorMap) {
+                LoadingDialog.cancelLoadingDialog();
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                DebugLogs.e("response" + response);
+                JSONObject jsobj;
+                try {
+                    jsobj = new JSONObject(response);
+                    String code = jsobj.optString("code");
+                    if (code.equals("1000")) {//设置了支付密码
+                        isPayPass = true;
+                    }
+                    if (code.equals("6002")) {
+                        if (type == 1) {
+                            final CommDialog dialog = new CommDialog();
+                            CommDialog.Callback callback = new CommDialog.Callback() {
+                                @Override
+                                public void onCancel() {
+                                }
+
+                                @Override
+                                public void onOK() {
+                                    StartActivityHelper.jumpActivityDefault(getActivity(), SetPayPwdActivity.class);
+                                }
+                            };
+                            dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        };
+        mainEnter.CheckPayPassword(CommonUrlConfig.CheckPayPassword, userInfo.userid, userInfo.token, callback);
     }
 
     private HttpBusinessCallback callback2 = new HttpBusinessCallback() {

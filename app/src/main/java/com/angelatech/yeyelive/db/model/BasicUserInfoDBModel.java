@@ -13,7 +13,6 @@ import java.io.Serializable;
 
 @DatabaseTable(tableName = DBConfig.TABLE_BASIC_USER_INFO)
 public class BasicUserInfoDBModel implements Serializable {
-
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;//
     @DatabaseField(columnName = "userid", unique = true)
@@ -41,7 +40,6 @@ public class BasicUserInfoDBModel implements Serializable {
     //yeye券
     @DatabaseField(columnName = "voucher")
     public String voucher;
-
     /**
      * 我的视频
      */
@@ -76,6 +74,7 @@ public class BasicUserInfoDBModel implements Serializable {
     public String email = "";
     @DatabaseField(columnName = "role")
     public int role = 0; //1 是巡管
+
     @Override
     public String toString() {
         return "BasicUserInfoDBModel{" +

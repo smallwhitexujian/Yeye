@@ -512,6 +512,26 @@
     <string name="product_midfey">商品已修改</string>
     <string name="pay_pwd_success">安全密码设置成功！</string>
     <string name="plese_input_pay_password">请输入支付密码</string>
+    <string name="my_product">我的商品</string>
+    <string name="receipt_address">收货信息</string>
+    <string name="comfirm_order">确认下单</string>
+    <string name="add_address">添加收货地址</string>
+    <string name="tips_order">订单号:</string>
+    <string name="order_state">未下单</string>
+    <string name="order_state_1">未发货</string>
+    <string name="order_state_2">已发货</string>
+    <string name="order_state_3">已签收</string>
+    <string name="order_time">下单时间:</string>
+    <string name="edit_str">修改</string>
+    <string name="address_save">保存</string>
+    <string name="address_hint_phone">收货人电话</string>
+    <string name="address_hint_name">收货人姓名</string>
+    <string name="address_tips">添加地址</string>
+    <string name="product_confirm_order">下单成功</string>
+    <string name="edit_address_tips">修改收货地址</string>
+    <string name="return_success">提交成功</string>
+    <string name="tips_address">请填写收货地址</string>
+    <string name="confirm_order_success">下单成功</string>
 
 
     <string name="txt_orderid">订单号：</string>

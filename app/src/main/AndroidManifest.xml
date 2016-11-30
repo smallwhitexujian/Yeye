@@ -248,6 +248,12 @@
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name=".activity.ProductActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.GoldHousActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
@@ -261,6 +267,64 @@
         <activity
             android:name="com.qiniu.pili.droid.streaming.screen.ScreenCaptureRequestActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name=".activity.FriendUserInfoActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.RelationActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.FansRankActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PopularityActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.PayActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.RecodeActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.TransferAccountsActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name=".activity.TransferActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.SetPayPwdActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.TransferCompleteActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:label="@string/title_activity_transfer_complete"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ProductAddressActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <service
             android:name=".service.IService"
@@ -388,39 +452,9 @@
         </receiver>
 
         <activity
-            android:name=".activity.FriendUserInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.RelationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.FansRankActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PopularityActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PayActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.RecodeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.TransferAccountsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.TransferActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".activity.SetPayPwdActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.TransferCompleteActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.UesrVoucherBillListActivity"
             android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

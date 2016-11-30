@@ -19,9 +19,8 @@ import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.GoldHousActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PayActivity;
-
+import com.angelatech.yeyelive.activity.ProductActivity;
 import com.angelatech.yeyelive.activity.RecodeActivity;
-
 import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.TestScanActivity;
 import com.angelatech.yeyelive.activity.UserInfoActivity;
@@ -57,7 +56,7 @@ public class LeftFragment extends HintFragment {
     private MainEnter mainEnter;
     private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice;
 
-    private RelativeLayout  settingLayout,ly_qcode,gold_hous,
+    private RelativeLayout settingLayout, ly_qcode, gold_hous, my_product,
             layout_diamond, layout_video, layout_systemMsg, layout_gift;
     private LinearLayout fansLayout, attentionLayout;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
@@ -108,7 +107,7 @@ public class LeftFragment extends HintFragment {
         attention = (TextView) view.findViewById(R.id.user_attention);//关注
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);//亲密度
         message_notice = (TextView) view.findViewById(R.id.message_notice);
-        gold_hous = (RelativeLayout)view.findViewById(R.id.gold_hous);
+        gold_hous = (RelativeLayout) view.findViewById(R.id.gold_hous);
         layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
         fansLayout = (LinearLayout) view.findViewById(R.id.fans_layout);
         attentionLayout = (LinearLayout) view.findViewById(R.id.attention_layout);
@@ -117,6 +116,7 @@ public class LeftFragment extends HintFragment {
         layout_video = (RelativeLayout) view.findViewById(R.id.layout_video);
         layout_gift = (RelativeLayout) view.findViewById(R.id.layout_gift);
         ly_qcode = (RelativeLayout) view.findViewById(R.id.ly_qcode);
+        my_product = (RelativeLayout) view.findViewById(R.id.my_product);
         editImageView = (ImageView) view.findViewById(R.id.btn_edit);
         sexImageView = (ImageView) view.findViewById(R.id.user_sex);
         userFace = (FrescoRoundView) view.findViewById(R.id.user_face);
@@ -137,6 +137,7 @@ public class LeftFragment extends HintFragment {
         btn_qcode.setOnClickListener(this);
         ly_qcode.setOnClickListener(this);
         gold_hous.setOnClickListener(this);
+        my_product.setOnClickListener(this);
     }
 
     @Override
@@ -183,7 +184,7 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.btn_qcode:
                 //打开二维码页面
-                StartActivityHelper.jumpActivity(getActivity(), RecodeActivity.class,0);
+                StartActivityHelper.jumpActivity(getActivity(), RecodeActivity.class, 0);
 
                 break;
             case R.id.ly_qcode:
@@ -199,6 +200,9 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.gold_hous:
                 StartActivityHelper.jumpActivityDefault(getActivity(), GoldHousActivity.class);
+                break;
+            case R.id.my_product:
+                StartActivityHelper.jumpActivityDefault(getActivity(), ProductActivity.class);
                 break;
         }
     }
@@ -286,6 +290,7 @@ public class LeftFragment extends HintFragment {
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_PWDROOM, basicUserInfoDBModel.ispwdroom, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, basicUserInfoDBModel.voucher, basicUserInfoDBModel.userid);
 
         }
     }
