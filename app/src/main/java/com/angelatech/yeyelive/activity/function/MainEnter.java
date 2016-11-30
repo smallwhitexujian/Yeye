@@ -191,14 +191,33 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+    //我的商品列表
     public void UesrMallOrderList(String url, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
         httpGet(url, params, callback);
     }
+
+    //我添加地址
+    public void UserOrderEidt(String url, String userid, String token, String oid, String address, String username, String tel, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("oid", oid);
+        params.put("address", Encryption.utf8ToUnicode(address));
+        params.put("username", Encryption.utf8ToUnicode(username));
+        params.put("tel", tel);
+        httpGet(url, params, callback);
+    }
+
+    //我确认订单
+    public void UserConfirmOrder(String url, String userid, String token, String oid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("confirm", "1");
+        params.put("oid", oid);
+        httpGet(url, params, callback);
+    }
 }
-
-
-
-

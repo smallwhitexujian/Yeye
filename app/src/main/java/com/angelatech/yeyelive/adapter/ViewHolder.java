@@ -146,6 +146,11 @@ public class ViewHolder {
         view.setVisibility(View.GONE);
     }
 
+    public void invisibleView(int viewId) {
+        View view = getView(viewId);
+        view.setVisibility(View.INVISIBLE);
+    }
+
     public void showView(int viewId) {
         View view = getView(viewId);
         view.setVisibility(View.VISIBLE);

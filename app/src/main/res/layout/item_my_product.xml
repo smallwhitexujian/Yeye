@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/order_str"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="14dp"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp"
+        tools:ignore="RtlSymmetry"
+        tools:text="订单号:8759827349889723" />
+
+    <View
+        android:id="@+id/view12"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignBottom="@+id/order_str"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="14dp"
+        android:background="@color/font_line" />
+
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/gold_cover"
+        android:layout_alignLeft="@+id/gold_cover"
+        android:layout_alignStart="@+id/gold_cover"
+        android:background="@drawable/bg_orderlist_state"
+        android:gravity="center"
+        android:text="@string/gold_state_2"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <com.xj.frescolib.View.FrescoDrawee
+        android:id="@+id/gold_cover"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/view12"
+        android:layout_margin="14dp"
+        fresco:roundedCornerRadius="8dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/gold_cover"
+        android:layout_toEndOf="@+id/gold_cover"
+        android:layout_toRightOf="@+id/gold_cover"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#FF444444"
+        android:textSize="14sp"
+        tools:text="现货发售Apple/苹果 iPhone 7 苹果7代手机港版/大陆国行美版电信…" />
+
+    <TextView
+        android:id="@+id/commodity_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/state"
+        android:layout_marginBottom="6dp"
+        android:layout_toEndOf="@+id/gold_cover"
+        android:layout_toRightOf="@+id/gold_cover"
+        android:background="@drawable/bg_room_goods_pointicon"
+        android:gravity="center"
+        android:textColor="#FF594800"
+        android:textSize="12sp"
+        tools:ignore="RtlHardcoded"
+        tools:text="5000卷" />
+
+    <View
+        android:id="@+id/view13"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/gold_cover"
+        android:layout_marginLeft="14dp"
+        android:background="@color/font_line" />
+
+    <TextView
+        android:id="@+id/order_time"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_below="@+id/gold_cover"
+        android:gravity="center_vertical"
+        android:paddingLeft="14dp"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp"
+        tools:ignore="RtlSymmetry"
+        tools:text="下单时间: 2016/11/23  17:14:45" />
+
+    <View
+        android:id="@+id/view14"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/order_time"
+        android:background="@color/font_line" />
+
+    <LinearLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/order_time"
+        android:minHeight="96dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:text="@string/receipt_address"
+            android:textColor="@color/color_d9d9d9"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/name_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_999999"
+            android:textSize="14sp"
+            tools:text="刘胜男    1234567890" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_999999"
+            android:textSize="14sp"
+            tools:text="浙江省杭州市西湖区文一西路378号" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view14"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:drawableLeft="@drawable/btn_mygoods_order_edit"
+        android:drawablePadding="6dp"
+        android:text="@string/edit_str"
+        android:textColor="@color/color_888888" />
+
+    <View
+        android:id="@+id/view15"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/details"
+        android:background="@color/font_line" />
+
+    <Button
+        android:id="@+id/confirm_order"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view15"
+        android:layout_marginBottom="7dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/circle_coner_bg_ffffff"
+        android:gravity="center"
+        android:minHeight="90dp"
+        android:paddingBottom="9dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="9dp"
+        android:text="@string/comfirm_order"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/view16"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/confirm_order"
+        android:background="@color/font_line" />
+
+    <Button
+        android:id="@+id/add_address"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_below="@+id/view14"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/circle_coner_bg_ffffff"
+        android:gravity="center"
+        android:minHeight="90dp"
+        android:paddingBottom="9dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="9dp"
+        android:text="@string/add_address"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp" />
+</RelativeLayout>

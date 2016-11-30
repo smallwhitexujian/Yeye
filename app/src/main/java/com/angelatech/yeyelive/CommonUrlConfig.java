@@ -185,7 +185,7 @@ public class CommonUrlConfig {
     //检查支付密码
     public static String CheckPayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/CheckPayPassword";
     //设置支付密码
-    public static String UpdatePayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/UpdatePayPassword";
+    public static String UpdatePayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/accounts/UpdatePayPassword";
     //上传商品接口
     public static String UserMallIns = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserMallIns";
     //获取主播商品列表
@@ -200,5 +200,7 @@ public class CommonUrlConfig {
     public static String transfer = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/accounts/transfer";
     //用户订单查询
     public static String UesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/UesrMallOrderList";
+    //添加地址
+    public static String UserOrderEidt =  (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserOrderEidt";
 }
 

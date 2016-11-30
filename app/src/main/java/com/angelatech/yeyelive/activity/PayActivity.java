@@ -2,7 +2,6 @@ package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
 import android.os.Message;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +16,6 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
-import com.umeng.analytics.MobclickAgent;
 import com.will.common.log.DebugLogs;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -88,12 +86,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onSuccess(String response) {
                 DebugLogs.e("response" + response);
-
                 JSONObject jsobj;
                 try {
                     jsobj = new JSONObject(response);
-                    String data = jsobj.optString("data");
-                    if (data.equals("2000")) {
+                    String code = jsobj.optString("code");
+                    if (code.equals("1000")) {//设置了支付密码
                         uiHandler.obtainMessage(1).sendToTarget();
                     }
                 } catch (Exception ex) {
@@ -101,7 +98,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         };
-
         mainEnter.CheckPayPassword(CommonUrlConfig.CheckPayPassword, userInfo.userid, userInfo.token, callback);
     }
 
@@ -119,8 +115,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onOK() {
                         StartActivityHelper.jumpActivityDefault(PayActivity.this, SetPayPwdActivity.class);
-
-
                     }
                 };
                 dialog.CommDialog(PayActivity.this, getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));

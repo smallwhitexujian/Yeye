@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
+import com.angelatech.yeyelive.activity.SetPayPwdActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
@@ -23,6 +24,7 @@ import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
@@ -69,7 +71,6 @@ public class GoodsListFragment extends BaseFragment {
     private TextView title, commodity_price, numText, Coupons;
     private ListView googs_list;
     private List<ProductModel> productModels = new ArrayList<>();
-    private BasicUserInfoDBModel liveUserInfo;
     private MainEnter mainEnter;
     private BasicUserInfoDBModel userInfo;
     private int mPosition;
@@ -100,10 +101,10 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     private void initData() {
-        liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
+        BasicUserInfoDBModel liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
         userInfo = CacheDataManager.getInstance().loadUser();
         mainEnter = new MainEnter(getActivity());
-        CheckPayPassword();
+        CheckPayPassword(0);
         CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), productModels, R.layout.item_goods_list) {
             @Override
             public void convert(ViewHolder helper, final ProductModel item, int position) {
@@ -172,20 +173,8 @@ public class GoodsListFragment extends BaseFragment {
                 break;
             case R.id.purchase:
                 if (!isPayPass) {
-                    final CommDialog dialog = new CommDialog();
-                    CommDialog.Callback callback = new CommDialog.Callback() {
-                        @Override
-                        public void onCancel() {
-                            dialog.cancelDialog();
-                        }
-
-                        @Override
-                        public void onOK() {
-                            dialog.cancelDialog();
-                        }
-                    };
-                    dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
-                }else{
+                    CheckPayPassword(1);
+                } else {
                     String num = numText.getText().toString();
                     VoucherMallExg(productModels.get(mPosition).mallid, num);
                 }
@@ -198,7 +187,7 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     //检查设置安全密码 CheckPayPassword
-    private void CheckPayPassword() {
+    private void CheckPayPassword(final int type) {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -211,9 +200,25 @@ public class GoodsListFragment extends BaseFragment {
                 JSONObject jsobj;
                 try {
                     jsobj = new JSONObject(response);
-                    String data = jsobj.optString("data");
-                    if (data.equals("2000")) {//设置了支付密码
-                        isPayPass = false;
+                    String code = jsobj.optString("code");
+                    if (code.equals("1000")) {//设置了支付密码
+                        isPayPass = true;
+                    }
+                    if (code.equals("6002")) {
+                        if (type == 1) {
+                            final CommDialog dialog = new CommDialog();
+                            CommDialog.Callback callback = new CommDialog.Callback() {
+                                @Override
+                                public void onCancel() {
+                                }
+
+                                @Override
+                                public void onOK() {
+                                    StartActivityHelper.jumpActivityDefault(getActivity(), SetPayPwdActivity.class);
+                                }
+                            };
+                            dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
+                        }
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

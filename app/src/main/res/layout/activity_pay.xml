@@ -24,7 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="17dp"
-                android:src="@drawable/btn_nav_back_w" />
+                android:src="@drawable/btn_nav_back_w"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -33,19 +34,22 @@
                 android:gravity="center"
                 android:text="@string/me_pay"
                 android:textColor="#FFFFFFFF"
-                android:textSize="17dp" />
+                android:textSize="17sp"
+                tools:ignore="InefficientWeight" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="17dp"
-                android:src="@drawable/btn_nav_more_w" />
+                android:src="@drawable/btn_nav_more_w"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment">
 
             <LinearLayout
                 android:id="@+id/ly_qcode"
@@ -53,12 +57,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/btn_my_wallet_payment" />
+                    android:src="@drawable/btn_my_wallet_payment"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -74,13 +80,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/btn_my_wallet_collection" />
+                    android:src="@drawable/btn_my_wallet_collection"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,12 +104,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/btn_my_wallet_bankcard" />
+                    android:src="@drawable/btn_my_wallet_bankcard"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,14 +136,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
-            android:src="@drawable/icon_my_wallet_rema_more_left" />
+            android:src="@drawable/icon_my_wallet_rema_more_left"
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -141,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/yeyequn"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/txt_voucher"
@@ -150,7 +161,8 @@
                 android:layout_marginTop="6dp"
                 android:text="0"
                 android:textColor="#FFA9A9A9"
-                android:textSize="14dp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -162,8 +174,8 @@
         <LinearLayout
             android:id="@+id/layout_diamond"
             android:layout_width="0dp"
-            android:layout_marginLeft="20dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -173,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/yeyecoin"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/txt_coin"
@@ -182,7 +194,8 @@
                 android:layout_marginTop="6dp"
                 android:text="0"
                 android:textColor="#FFA9A9A9"
-                android:textSize="14dp" />
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -190,6 +203,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
+            android:contentDescription="@null"
             android:src="@drawable/icon_my_wallet_rema_more_right" />
 
     </LinearLayout>
@@ -200,19 +214,19 @@
         android:background="#FFE9E9E9" />
 
     <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="14dp"
         android:text="@string/yeye_quan"
         android:textColor="#FF999999"
-        android:textSize="14dp"
-        android:id="@+id/textView9" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
 
         <LinearLayout
             android:id="@+id/ly_transfer"
@@ -227,6 +241,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_transfer" />
 
             <TextView
@@ -235,7 +250,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/transfer"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -250,6 +265,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_phone_top" />
 
             <TextView
@@ -259,7 +275,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/phone_top"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -274,6 +290,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_movie" />
 
             <TextView
@@ -282,7 +299,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/movie"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -291,7 +308,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="1dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -305,6 +323,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_hotel" />
 
             <TextView
@@ -314,7 +333,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/hotel"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -329,6 +348,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_food" />
 
             <TextView
@@ -337,7 +357,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/food"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -351,6 +371,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_ktv" />
 
             <TextView
@@ -359,7 +380,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/ktv"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -368,7 +389,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="1dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -382,6 +404,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_plane_ticket" />
 
             <TextView
@@ -390,7 +413,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/plane"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -406,6 +429,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:src="@drawable/btn_my_wallet_quick_train_ticket" />
 
             <TextView
@@ -414,7 +438,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/ticket"
                 android:textColor="@color/color_ff666666"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -422,7 +446,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:orientation="vertical"
+            tools:ignore="UselessLeaf" />
     </LinearLayout>
 </LinearLayout>
