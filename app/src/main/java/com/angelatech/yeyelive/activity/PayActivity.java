@@ -7,34 +7,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
-import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
-import com.angelatech.yeyelive.view.LoadingDialog;
-import com.will.common.log.DebugLogs;
-import com.will.web.handle.HttpBusinessCallback;
-
-import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * 钱包页面
  */
 
 public class PayActivity extends BaseActivity implements View.OnClickListener {
-
     private static final int MSG_NO_SET_PWD = 1;
-    private ImageView btn_back;
     private TextView txt_coin, txt_voucher;
     private BasicUserInfoDBModel userInfo;
-    private LinearLayout layout_diamond,ly_voucher;
-    private LinearLayout ly_qcode, ly_card, ly_wallet_collection, ly_transfer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,15 +32,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        btn_back = (ImageView) findViewById(R.id.btn_back);
-        layout_diamond = (LinearLayout) findViewById(R.id.layout_diamond);
+        ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
+        LinearLayout layout_diamond = (LinearLayout) findViewById(R.id.layout_diamond);
         txt_coin = (TextView) findViewById(R.id.txt_coin);
-        ly_qcode = (LinearLayout) findViewById(R.id.ly_qcode);
-        ly_card = (LinearLayout) findViewById(R.id.ly_card);
-        ly_wallet_collection = (LinearLayout) findViewById(R.id.ly_wallet_collection);
-        ly_transfer = (LinearLayout) findViewById(R.id.ly_transfer);
+        LinearLayout ly_qcode = (LinearLayout) findViewById(R.id.ly_qcode);
+        LinearLayout ly_card = (LinearLayout) findViewById(R.id.ly_card);
+        LinearLayout ly_wallet_collection = (LinearLayout) findViewById(R.id.ly_wallet_collection);
+        LinearLayout ly_transfer = (LinearLayout) findViewById(R.id.ly_transfer);
         txt_voucher = (TextView) findViewById(R.id.txt_voucher);
-        ly_voucher = (LinearLayout) findViewById(R.id.ly_voucher);
+        LinearLayout ly_voucher = (LinearLayout) findViewById(R.id.ly_voucher);
         ly_transfer.setOnClickListener(this);
         ly_wallet_collection.setOnClickListener(this);
         btn_back.setOnClickListener(this);
@@ -74,36 +61,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         txt_coin.setText(userInfo.diamonds);
         txt_voucher.setText(userInfo.voucher);
         if (userInfo.ispaypassword == 0){
-            uiHandler.obtainMessage(1).sendToTarget();
+            uiHandler.obtainMessage(MSG_NO_SET_PWD).sendToTarget();
         }
     }
-
-    //检查设置安全密码 CheckPayPassword
-    private void CheckPayPassword() {
-        HttpBusinessCallback callback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-                LoadingDialog.cancelLoadingDialog();
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                DebugLogs.e("response" + response);
-                JSONObject jsobj;
-                try {
-                    jsobj = new JSONObject(response);
-                    String code = jsobj.optString("code");
-                    if (code.equals("6002")) {
-                        uiHandler.obtainMessage(MSG_NO_SET_PWD).sendToTarget();
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
-        mainEnter.CheckPayPassword(CommonUrlConfig.CheckPayPassword, userInfo.userid, userInfo.token, callback);
-    }
-
 
     @Override
     public void doHandler(Message msg) {
@@ -139,7 +99,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 StartActivityHelper.jumpActivityDefault(PayActivity.this, TestScanActivity.class);
                 break;
             case R.id.ly_card:
-
                 break;
             case R.id.ly_wallet_collection:
                 StartActivityHelper.jumpActivity(PayActivity.this, RecodeActivity.class, 1);

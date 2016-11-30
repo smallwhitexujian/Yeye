@@ -317,7 +317,6 @@
         <activity
             android:name=".activity.TransferCompleteActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
-            android:label="@string/title_activity_transfer_complete"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
