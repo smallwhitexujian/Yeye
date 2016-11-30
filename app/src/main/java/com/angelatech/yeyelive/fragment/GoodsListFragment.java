@@ -26,6 +26,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.CommDialog;
+import com.angelatech.yeyelive.view.DialogInputPwd;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -71,6 +72,7 @@ public class GoodsListFragment extends BaseFragment {
     private List<ProductModel> productModels = new ArrayList<>();
     private MainEnter mainEnter;
     private BasicUserInfoDBModel userInfo;
+    private BasicUserInfoDBModel liveInfo;
     private int mPosition;
 
     @Override
@@ -98,7 +100,7 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     private void initData() {
-        BasicUserInfoDBModel liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
+        liveInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
         userInfo = CacheDataManager.getInstance().loadUser();
         mainEnter = new MainEnter(getActivity());
         CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), productModels, R.layout.item_goods_list) {
@@ -116,7 +118,7 @@ public class GoodsListFragment extends BaseFragment {
                 mPosition = position;
             }
         });
-        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token, liveUserInfo.userid, "1", "1000", callback);
+        mainEnter.LiveUserMallList(CommonUrlConfig.LiveUserMallList, userInfo.userid, userInfo.token, liveInfo.userid, "1", "1000", callback);
     }
 
     private HttpBusinessCallback callback = new HttpBusinessCallback() {
@@ -183,9 +185,20 @@ public class GoodsListFragment extends BaseFragment {
                     dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
                 }
                 if (userInfo.ispaypassword ==1){
-                    //TODO 输入密码框,错误密码提示,下单成功提示
-                    String num = numText.getText().toString();
-                    VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5("123456"));
+                    //TODO 错误密码提示,下单成功提示
+                    DialogInputPwd dialogInputPwd = new DialogInputPwd();
+                    dialogInputPwd.CommDialog(getActivity(),liveInfo.nickname, new DialogInputPwd.Callback() {
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onOK(String pwd) {
+                            String num = numText.getText().toString();
+                            VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5(pwd));
+                        }
+                    });
                 }
                 break;
         }

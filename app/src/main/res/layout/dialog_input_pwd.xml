@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="@string/dialog_title_tips"
+            android:textColor="@color/color_666666"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/title"
+            android:background="@color/font_line" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view"
+            android:layout_marginTop="19dp"
+            android:gravity="center"
+            android:textColor="@color/color_999999"
+            android:textSize="14sp"
+            tools:text="向xxx转账" />
+
+        <TextView
+            android:id="@+id/commodity_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_room_goods_pointicon"
+            android:gravity="center"
+            android:textColor="#FF594800"
+            android:textSize="12sp"
+            tools:ignore="RtlHardcoded"
+            tools:text="5000卷" />
+
+        <FrameLayout
+            android:id="@+id/lock_view"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/commodity_price"
+            android:layout_marginBottom="27dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/lock_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@null"
+                android:cursorVisible="false"
+                android:focusable="true"
+                android:inputType="numberPassword"
+                android:maxLength="4" />
+
+            <TableRow
+                android:id="@+id/shape_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/bg_shape_d5d5d5"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/tv_p1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/icon_room_lock_password"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/v1"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_grey_d5" />
+
+                <ImageView
+                    android:id="@+id/tv_p2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/icon_room_lock_password"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/v2"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_grey_d5" />
+
+                <ImageView
+                    android:id="@+id/tv_p3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/icon_room_lock_password"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/v3"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_grey_d5" />
+
+                <ImageView
+                    android:id="@+id/tv_p4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/icon_room_lock_password"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/v4"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_grey_d5" />
+
+                <ImageView
+                    android:id="@+id/tv_p5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/icon_room_lock_password"
+                    android:visibility="invisible" />
+
+                <View
+                    android:id="@+id/v5"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_grey_d5" />
+
+                <ImageView
+                    android:id="@+id/tv_p6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@null"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:src="@drawable/icon_room_lock_password"
+                    android:visibility="invisible" />
+            </TableRow>
+        </FrameLayout>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/lock_view"
+            android:background="@color/font_line" />
+
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="@string/button_cancel"
+                android:textColor="#007AFF" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/font_line" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="@string/button_confirm"
+                android:textColor="#FF3B30" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -531,5 +531,8 @@
     <string name="tips_address">请填写收货地址</string>
     <string name="confirm_order_success">下单成功</string>
     <string name="password_error_tips">交易密码错误</string>
+    <string name="dialog_title_tips">请输入安全密码</string>
+    <string name="dialog_tips_1">向</string>
+    <string name="dialog_tips_2">支付</string>
 
 </resources>
