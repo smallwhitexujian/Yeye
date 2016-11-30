@@ -210,5 +210,8 @@ public class CommonUrlConfig {
 
     //转账
     public static String transfer = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/accounts/transfer";
+
+    //交易记录
+    public static String UesrVoucherBillList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UesrVoucherBillList";
 }
 

@@ -414,10 +414,13 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".activity.SetPayPwdActivity"
-            android:label="@string/title_activity_set_pay_pwd" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.TransferCompleteActivity"
-            android:label="@string/title_activity_transfer_complete"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UesrVoucherBillListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

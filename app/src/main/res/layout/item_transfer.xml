@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/layout_user_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp">
+        <!--头像-->
+        <com.xj.frescolib.View.FrescoRoundView
+            android:id="@+id/user_face"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/default_face_icon"
+            fresco:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/iv_vip"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignBottom="@id/user_face"
+            android:layout_alignRight="@id/user_face"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_identity_vip_white"
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/user_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:maxLines="1"
+        android:textColor="@color/color_222222"
+        android:textSize="16sp"
+        tools:text="昵称" />
+    <TextView
+        android:id="@+id/userid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:maxLines="1"
+
+        android:textColor="#FFB2B2B2"
+        android:textSize="12sp"
+        tools:text="ID" />
+</LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -55,6 +55,15 @@ public class UserInfoDialog extends UserControl{
         httpGet(url, params, callback);
     }
 
+    public void getBillList(String url,String token,String userid,String pagesize,String pageindex,HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", userid);
+        params.put("token", token);
+        params.put("pagesize", pagesize);
+        params.put("pageindex", pageindex);
+        httpGet(url,params,callback);
+    }
+
     public boolean isFollow(String followCode){
         return !HAVE_NO_FOLLOW.equals(followCode);
     }

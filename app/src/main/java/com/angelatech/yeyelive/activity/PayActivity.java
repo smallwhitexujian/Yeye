@@ -34,7 +34,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private ImageView btn_back;
     private TextView txt_coin, txt_voucher;
     private BasicUserInfoDBModel userInfo;
-    private LinearLayout layout_diamond;
+    private LinearLayout layout_diamond,ly_voucher;
     private LinearLayout ly_qcode, ly_card, ly_wallet_collection, ly_transfer;
     private MainEnter mainEnter;
 
@@ -55,12 +55,14 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         ly_wallet_collection = (LinearLayout) findViewById(R.id.ly_wallet_collection);
         ly_transfer = (LinearLayout) findViewById(R.id.ly_transfer);
         txt_voucher = (TextView) findViewById(R.id.txt_voucher);
+        ly_voucher = (LinearLayout) findViewById(R.id.ly_voucher);
         ly_transfer.setOnClickListener(this);
         ly_wallet_collection.setOnClickListener(this);
         btn_back.setOnClickListener(this);
         layout_diamond.setOnClickListener(this);
         ly_qcode.setOnClickListener(this);
         ly_card.setOnClickListener(this);
+        ly_voucher.setOnClickListener(this);
     }
 
     private void setView() {
@@ -92,8 +94,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 JSONObject jsobj;
                 try {
                     jsobj = new JSONObject(response);
-                    String data = jsobj.optString("data");
-                    if (data.equals("2000")) {
+                    String code = jsobj.optString("code");
+                    if (code.equals("6002")) {
                         uiHandler.obtainMessage(1).sendToTarget();
                     }
                 } catch (Exception ex) {
@@ -149,6 +151,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.ly_transfer:
                 StartActivityHelper.jumpActivityDefault(PayActivity.this, TransferAccountsActivity.class);
+                break;
+            case R.id.ly_voucher:
+                StartActivityHelper.jumpActivityDefault(PayActivity.this,UesrVoucherBillListActivity.class);
                 break;
         }
     }

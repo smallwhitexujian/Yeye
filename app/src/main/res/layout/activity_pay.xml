@@ -129,6 +129,7 @@
             android:src="@drawable/icon_my_wallet_rema_more_left" />
 
         <LinearLayout
+            android:id="@+id/ly_voucher"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

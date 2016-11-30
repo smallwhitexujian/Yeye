@@ -18,7 +18,7 @@ import com.angelatech.yeyelive.fragment.payPwdDialogFragment;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
-import com.will.view.ToastUtils;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.xj.frescolib.View.FrescoRoundView;
 
 import java.util.Map;
@@ -107,14 +107,20 @@ public class TransferActivity extends BaseActivity {
                 if (code == 1000) {
                     userInfo.voucher = result.get("data").toString();
                     CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER,  userInfo.voucher,  userInfo.userid);
-                    msg = baseInfo.nickname + "已成功收到您的转账";
-                } else {
+                    msg = baseInfo.nickname + getString(R.string.txt_successfully);
+                }
+                else if(code == 6002){
+                    uiHandler.sendEmptyMessage(MSG_FIND_TRANSFER_ERROR);
+                    return;
+                }
+                else {
                     switch (code) {
                         case 6005:
-                            msg = "余额不足";
+                            msg = getString(R.string.lack_of_balance);
                             break;
+
                         default:
-                            msg = "转账失败";
+                            msg = getString(R.string.transfer_failure);
                             break;
                     }
                 }
@@ -131,12 +137,17 @@ public class TransferActivity extends BaseActivity {
     public void doHandler(Message msg) {
         switch (msg.what) {
             case MSG_FIND_TRANSFER_ERROR:
-                if (msg.obj.toString().equals("6003")) {
-                    ToastUtils.showToast(this, "交易密码错误！");
-                    pay();
-                } else {
-                    StartActivityHelper.jumpActivityDefault(TransferActivity.this, TransferCompleteActivity.class);
-                }
+                CommDialog dialog = new CommDialog();
+                CommDialog.Callback callback = new CommDialog.Callback() {
+                    @Override
+                    public void onCancel() {
+                    }
+                    @Override
+                    public void onOK() {
+                        StartActivityHelper.jumpActivityDefault(TransferActivity.this, SetPayPwdActivity.class);
+                    }
+                };
+                dialog.CommDialog(TransferActivity.this, getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
                 break;
         }
     }

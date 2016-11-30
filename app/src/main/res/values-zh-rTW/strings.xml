@@ -512,4 +512,19 @@
     <string name="product_midfey">商品已修改</string>
     <string name="pay_pwd_success">安全密码设置成功！</string>
     <string name="plese_input_pay_password">请输入支付密码</string>
+    <string name="txt_orderid">订单号：</string>
+    <string name="txt_targetuseridx">对方ID:</string>
+    <string name="txt_pay_descript">交易说明:</string>
+    <string name="txt_tradedate">交易时间:</string>
+    <string name="txt_sales_goods">销售商品</string>
+    <string name="txt_recharge">代理充券</string>
+    <string name="txt_buy_goods">购买商品</string>
+    <string name="txt_tradelist">交易记录</string>
+    <string name="pay_pwd_err">交易密码错误！</string>
+    <string name="continued_transfer">继续转账</string>
+    <string name="transfer_success">转账成功</string>
+    <string name="re_transfer">重新转账</string>
+    <string name="transfer_failure">转账失败</string>
+    <string name="lack_of_balance">余额不足</string>
+    <string name="txt_successfully">已成功收到您的转账</string>
 </resources>

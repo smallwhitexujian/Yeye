@@ -1,25 +1,22 @@
 package com.angelatech.yeyelive.activity;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
-import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.BasicUserInfoModel;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 
+/**
+ * 转账成功/失败页面
+ */
 public class TransferCompleteActivity extends BaseActivity {
 
     private ImageView btn_back, img_state;
     private TextView txt_msg, txt_remark;
     private Button btn_close;
-    private BasicUserInfoDBModel baseInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +35,17 @@ public class TransferCompleteActivity extends BaseActivity {
             if(type == 1000) {
                 img_state.setImageResource(R.drawable.icon_transfer_tips_succe);
                 txt_remark.setVisibility(View.VISIBLE);
-                btn_close.setText("继续转账");
-                txt_msg.setText("转账成功");
+                btn_close.setText(R.string.continued_transfer);
+                txt_msg.setText(R.string.transfer_success);
                 txt_remark.setText(bundle.getString("msg"));
             }
             else {
                 img_state.setImageResource(R.drawable.icon_transfer_tips_fail);
                 txt_remark.setVisibility(View.GONE);
                 txt_msg.setText(bundle.getString("msg"));
-                btn_close.setText("重新转账");
+                btn_close.setText(R.string.re_transfer);
             }
         }
-
     }
 
     private void findView() {
@@ -63,7 +59,6 @@ public class TransferCompleteActivity extends BaseActivity {
         txt_msg = (TextView) findViewById(R.id.txt_msg);
         txt_remark = (TextView) findViewById(R.id.txt_remark);
         btn_close = (Button) findViewById(R.id.btn_close);
-
     }
 
     @Override
@@ -77,5 +72,4 @@ public class TransferCompleteActivity extends BaseActivity {
                 break;
         }
     }
-
 }

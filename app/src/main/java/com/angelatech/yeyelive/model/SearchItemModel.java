@@ -11,6 +11,7 @@ public class SearchItemModel implements Serializable{
     public static final String HAVE_NO_FOLLOW = "0";
 
     public String userid;
+    public String idx;
     public String nickname;
     public String sex;
     public String headurl;
