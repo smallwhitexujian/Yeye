@@ -248,7 +248,6 @@ public class LeftFragment extends HintFragment {
                 if (basicUserInfoDBModel.nickname != null && !"".equals(basicUserInfoDBModel.nickname)) {
                     user_nick.setText(basicUserInfoDBModel.nickname);
                 }
-
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
                 userFace.setImageURI(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl));
@@ -291,7 +290,7 @@ public class LeftFragment extends HintFragment {
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_PWDROOM, basicUserInfoDBModel.ispwdroom, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, basicUserInfoDBModel.voucher, basicUserInfoDBModel.userid);
-
+                CacheDataManager.getInstance().update(BaseKey.ISPWDROOM, basicUserInfoDBModel.ispaypassword, basicUserInfoDBModel.userid);
         }
     }
 

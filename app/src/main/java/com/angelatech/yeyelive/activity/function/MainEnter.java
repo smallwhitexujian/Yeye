@@ -81,18 +81,6 @@ public class MainEnter extends HttpFunction {
     }
 
     /**
-     * 检查安全支付密码
-     */
-    public void CheckPayPassword(String url, String userid, String token, HttpBusinessCallback callback) {
-        Map<String, String> params = new HashMap<>();
-        params.put("userid", userid);
-
-        params.put("token", token);
-        httpGet(url, params, callback);
-    }
-
-
-    /**
      * 排行榜
      */
     public void loadSevenRank(String url, String userid, String token, String roomid, HttpBusinessCallback callback) {
@@ -182,12 +170,13 @@ public class MainEnter extends HttpFunction {
     }
 
     //下单,
-    public void VoucherMallExg(String url, String userid, String token, String mallid, String num, HttpBusinessCallback callback) {
+    public void VoucherMallExg(String url, String userid, String token, String mallid, String num, String paypassword,HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
         params.put("mallid", mallid);//商品名称
         params.put("num", num);//商品图片
+        params.put("paypassword", paypassword);//密码
         httpGet(url, params, callback);
     }
 

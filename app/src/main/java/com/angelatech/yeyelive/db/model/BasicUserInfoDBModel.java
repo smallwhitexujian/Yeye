@@ -74,6 +74,8 @@ public class BasicUserInfoDBModel implements Serializable {
     public String email = "";
     @DatabaseField(columnName = "role")
     public int role = 0; //1 是巡管
+    @DatabaseField(columnName = "ispaypassword")
+    public int ispaypassword = 0; //1 是巡管
 
     @Override
     public String toString() {

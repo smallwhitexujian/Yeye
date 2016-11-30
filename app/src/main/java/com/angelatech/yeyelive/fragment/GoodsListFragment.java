@@ -29,12 +29,10 @@ import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
+import com.will.common.string.Encryption;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +72,6 @@ public class GoodsListFragment extends BaseFragment {
     private MainEnter mainEnter;
     private BasicUserInfoDBModel userInfo;
     private int mPosition;
-    private boolean isPayPass = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +101,6 @@ public class GoodsListFragment extends BaseFragment {
         BasicUserInfoDBModel liveUserInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
         userInfo = CacheDataManager.getInstance().loadUser();
         mainEnter = new MainEnter(getActivity());
-        CheckPayPassword(0);
         CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), productModels, R.layout.item_goods_list) {
             @Override
             public void convert(ViewHolder helper, final ProductModel item, int position) {
@@ -172,60 +168,31 @@ public class GoodsListFragment extends BaseFragment {
                 }
                 break;
             case R.id.purchase:
-                if (!isPayPass) {
-                    CheckPayPassword(1);
-                } else {
+                if(userInfo.ispaypassword==0){//未设置密码
+                    final CommDialog dialog = new CommDialog();
+                    CommDialog.Callback callback = new CommDialog.Callback() {
+                        @Override
+                        public void onCancel() {
+                        }
+
+                        @Override
+                        public void onOK() {
+                            StartActivityHelper.jumpActivityDefault(getActivity(), SetPayPwdActivity.class);
+                        }
+                    };
+                    dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
+                }
+                if (userInfo.ispaypassword ==1){
+                    //TODO 输入密码框,错误密码提示,下单成功提示
                     String num = numText.getText().toString();
-                    VoucherMallExg(productModels.get(mPosition).mallid, num);
+                    VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5("123456"));
                 }
                 break;
         }
     }
 
-    private void VoucherMallExg(String mallid, String num) {
-        mainEnter.VoucherMallExg(CommonUrlConfig.VoucherMallExg, userInfo.userid, userInfo.token, mallid, num, callback2);
-    }
-
-    //检查设置安全密码 CheckPayPassword
-    private void CheckPayPassword(final int type) {
-        HttpBusinessCallback callback = new HttpBusinessCallback() {
-            @Override
-            public void onFailure(Map<String, ?> errorMap) {
-                LoadingDialog.cancelLoadingDialog();
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                DebugLogs.e("response" + response);
-                JSONObject jsobj;
-                try {
-                    jsobj = new JSONObject(response);
-                    String code = jsobj.optString("code");
-                    if (code.equals("1000")) {//设置了支付密码
-                        isPayPass = true;
-                    }
-                    if (code.equals("6002")) {
-                        if (type == 1) {
-                            final CommDialog dialog = new CommDialog();
-                            CommDialog.Callback callback = new CommDialog.Callback() {
-                                @Override
-                                public void onCancel() {
-                                }
-
-                                @Override
-                                public void onOK() {
-                                    StartActivityHelper.jumpActivityDefault(getActivity(), SetPayPwdActivity.class);
-                                }
-                            };
-                            dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
-                        }
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
-        mainEnter.CheckPayPassword(CommonUrlConfig.CheckPayPassword, userInfo.userid, userInfo.token, callback);
+    private void VoucherMallExg(String mallid, String num,String paypassword) {
+        mainEnter.VoucherMallExg(CommonUrlConfig.VoucherMallExg, userInfo.userid, userInfo.token, mallid, num, paypassword,callback2);
     }
 
     private HttpBusinessCallback callback2 = new HttpBusinessCallback() {
@@ -242,6 +209,9 @@ public class GoodsListFragment extends BaseFragment {
                     CommonModel commonModel = JsonUtil.fromJson(response, CommonModel.class);
                     if (commonModel == null) {
                         return;
+                    }
+                    if (commonModel.code.equals("6003")){
+                        ToastUtils.showToast(getActivity(), getString(R.string.password_error_tips));
                     }
                     if (HttpFunction.isSuc(commonModel.code)) {//下单成功
                         ToastUtils.showToast(getActivity(), getString(R.string.product_order));

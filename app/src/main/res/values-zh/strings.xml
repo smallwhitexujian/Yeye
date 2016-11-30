@@ -532,6 +532,7 @@
     <string name="return_success">提交成功</string>
     <string name="tips_address">请填写收货地址</string>
     <string name="confirm_order_success">下单成功</string>
+    <string name="password_error_tips">交易密码错误</string>
 
 
 </resources>
