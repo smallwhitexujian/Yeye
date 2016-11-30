@@ -623,6 +623,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
                 break;
             case GlobalDef.WM_OUT_RadioBroadcast: //收到广播
+                DebugLogs.e("广播111111111" +msg.obj.toString());
                 BarInfoModel.RadioMessage radioMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.RadioMessage.class);
                 callFragment.RadioBroad(radioMessage);
                 break;

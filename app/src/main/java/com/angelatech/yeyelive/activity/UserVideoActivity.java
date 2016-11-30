@@ -234,7 +234,6 @@ public class UserVideoActivity extends HeaderBaseActivity implements SwipyRefres
         }
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

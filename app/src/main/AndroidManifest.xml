@@ -312,7 +312,6 @@
         <activity
             android:name=".activity.SetPayPwdActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
-            android:label="@string/title_activity_set_pay_pwd"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
@@ -452,6 +451,9 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.UesrVoucherBillListActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.android.vending.billing.util.Md5;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
+import com.angelatech.yeyelive.activity.SetPayPwdActivity;
 import com.angelatech.yeyelive.activity.TransferAccountsActivity;
 import com.angelatech.yeyelive.activity.TransferActivity;
 import com.angelatech.yeyelive.activity.TransferCompleteActivity;
@@ -31,6 +32,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
+import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
@@ -182,9 +184,6 @@ public class payPwdDialogFragment extends DialogFragment implements View.OnClick
                 dismiss();
                 break;
             case R.id.dialog_btn_enter:
-                //Utility.closeKeybord(pay_password, context);
-//                mCallback.onEnter(lock_password.getText().toString());
-//                dismiss();
 
                 transfer(touserid, Md5.md5(pay_password.getText().toString()), String.valueOf(money), remark);
 
@@ -217,13 +216,14 @@ public class payPwdDialogFragment extends DialogFragment implements View.OnClick
             public void onSuccess(String response) {
 
                 Map result = JsonUtil.fromJson(response, Map.class);
-                DebugLogs.e("sfsdfsadfasdf454af:" + response);
                 if (result != null) {
                     if (result.get("code").toString().equals("6003")) {
                         Looper.prepare();
-                        ToastUtils.showToast(getActivity(), "交易密码错误！");
+                        ToastUtils.showToast(getActivity(), R.string.pay_pwd_err);
                         Looper.loop();
-                    } else {
+                    }
+
+                    else {
                         mCallback.onEnter(response);
                         dismiss();
                         Utility.closeKeybord(pay_password, context);

@@ -1168,7 +1168,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                         callEvents.playXingYunGift();
                     }
                 }
-                if (radioMessage.type == 0 || radioMessage.type == 93) {                                //0或92公聊显示
+                if (radioMessage.type == 0 || radioMessage.type == 93) {                                //0或93公聊显示
                     sendPublicMessage(radioMessage);
                 } else if (radioMessage.type == 62) {                                                   //62礼物消息
                 } else if (radioMessage.type == 9) {                                                    //9他人发的弹幕

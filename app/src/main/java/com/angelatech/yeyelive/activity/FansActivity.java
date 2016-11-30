@@ -258,7 +258,6 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
         HttpBusinessCallback httpCallback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
-
             }
 
             @Override

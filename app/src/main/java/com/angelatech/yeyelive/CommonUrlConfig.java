@@ -198,6 +198,10 @@ public class CommonUrlConfig {
     public static String VoucherMallExg = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/VoucherMallExg";
     //转账
     public static String transfer = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/accounts/transfer";
+
+    //交易记录
+    public static String UesrVoucherBillList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UesrVoucherBillList";
+
     //用户订单查询
     public static String UesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/UesrMallOrderList";
     //添加地址

@@ -91,6 +91,19 @@ public class ViewHolder {
         return this;
     }
 
+    /**
+     * 为TextView设置字符串
+     *
+     * @param viewId
+     * @param text
+     * @return
+     */
+    public ViewHolder setText(int viewId, int text) {
+        TextView view = getView(viewId);
+        view.setText(text);
+        return this;
+    }
+
     public ViewHolder setTextBackground(int viewId, Drawable drawable) {
         TextView view = getView(viewId);
         view.setBackground(drawable);
