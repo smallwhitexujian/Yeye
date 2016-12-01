@@ -57,7 +57,6 @@ import java.util.Map;
  * 他人用户信息页面
  */
 public class FriendUserInfoActivity extends BaseActivity implements View.OnClickListener {
-
     private ImageView btn_back, btn_more;
     private FrescoRoundView user_face;
     private ImageView iv_vip;
@@ -425,7 +424,6 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                     if (HttpFunction.isSuc((String) map.get("code"))) {
                         Map data = (Map) map.get("data");
                         isFollowCode = (String) data.get("isfollow");
-
                         uiHandler.sendEmptyMessage(MSG_LOAD_STATUS);
                     } else {
                         onBusinessFaild((String) map.get("code"));

@@ -124,6 +124,7 @@ public class FocusOnActivity extends WithBroadCastHeaderActivity implements Swip
                 FocusModel focusModel = data.get(position);
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                 userInfoModel.Userid = focusModel.userid;
+                userInfoModel.nickname = focusModel.nickname;
                 StartActivityHelper.jumpActivity(FocusOnActivity.this, FriendUserInfoActivity.class, userInfoModel);
             }
         });

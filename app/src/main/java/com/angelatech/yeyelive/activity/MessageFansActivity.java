@@ -105,6 +105,7 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
                         public void onClick(View v) {
                             BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                             userInfoModel.Userid = fromUserid;
+                            userInfoModel.nickname = nickname;
                             StartActivityHelper.jumpActivity(MessageFansActivity.this, FriendUserInfoActivity.class, userInfoModel);
                         }
                     });
@@ -120,12 +121,14 @@ public class MessageFansActivity extends HeaderBaseActivity implements SwipyRefr
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 JSONObject msgJsonObj;
-                String fromUserid;
+                String fromUserid,nickName;
                 try {
                     msgJsonObj = new JSONObject(systemMsg.get(position).data);
                     fromUserid = msgJsonObj.getString("fromuserid");
+                    nickName = msgJsonObj.getString("nickname");
                     BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                     userInfoModel.Userid = fromUserid;
+                    userInfoModel.nickname = nickName;
                     StartActivityHelper.jumpActivity(MessageFansActivity.this, FriendUserInfoActivity.class, userInfoModel);
                 } catch (JSONException e) {
                     e.printStackTrace();

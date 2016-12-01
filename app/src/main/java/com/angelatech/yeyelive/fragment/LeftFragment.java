@@ -163,9 +163,9 @@ public class LeftFragment extends HintFragment {
 //                    picViewModel.url = userInfo.headurl;
 //                    picViewModel.defaultPic = R.drawable.default_face_icon;
 //                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
-
                     BasicUserInfoModel usermodel = new BasicUserInfoModel();
                     usermodel.Userid = userInfo.userid;
+                    usermodel.nickname = userInfo.nickname;
                     StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, usermodel);
                 }
                 break;

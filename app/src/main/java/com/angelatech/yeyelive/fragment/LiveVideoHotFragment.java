@@ -246,6 +246,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
     private void jumpUserInfo(LiveVideoModel item) {
         BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
         userInfoModel.Userid = item.userid;
+        userInfoModel.nickname = item.nickname;
         if (isAdded()) {
             StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, userInfoModel);
         }

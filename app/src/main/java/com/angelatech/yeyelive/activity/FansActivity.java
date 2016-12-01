@@ -146,6 +146,7 @@ public class FansActivity extends WithBroadCastHeaderActivity implements SwipyRe
                 FocusModel focusModel = data.get(position);
                 BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
                 userInfoModel.Userid = focusModel.userid;
+                userInfoModel.nickname = focusModel.nickname;
                 StartActivityHelper.jumpActivity(FansActivity.this, FriendUserInfoActivity.class, userInfoModel);
             }
         });
