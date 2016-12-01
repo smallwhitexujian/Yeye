@@ -1,11 +1,17 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -25,6 +31,7 @@ import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.DialogInputPwd;
 import com.angelatech.yeyelive.view.LoadingDialog;
@@ -66,14 +73,20 @@ import java.util.Map;
 public class GoodsListFragment extends BaseFragment {
     private View view;
     private FrescoDrawee commodity;
-    private RelativeLayout details;
-    private TextView title, commodity_price, numText, Coupons;
+    private RelativeLayout details, input_pwd;
+    private TextView product_title, commodity_price, numText, Coupons;
     private ListView googs_list;
     private List<ProductModel> productModels = new ArrayList<>();
     private MainEnter mainEnter;
     private BasicUserInfoDBModel userInfo;
-    private BasicUserInfoDBModel liveInfo;
     private int mPosition;
+    private StringBuilder builder;
+    private BasicUserInfoDBModel liveInfo;
+    private TextView strName, commodityPrice, title;
+    private String str;
+    private ImageView[] imageViews;
+    private EditText lock_password;
+    private String num;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,17 +99,79 @@ public class GoodsListFragment extends BaseFragment {
     private void initView() {
         googs_list = (ListView) view.findViewById(R.id.googs_list);
         details = (RelativeLayout) view.findViewById(R.id.details);
+        input_pwd = (RelativeLayout) view.findViewById(R.id.input_pwd);
         commodity = (FrescoDrawee) view.findViewById(R.id.commodity);
-        title = (TextView) view.findViewById(R.id.title);
+        product_title = (TextView) view.findViewById(R.id.product_title);
         numText = (TextView) view.findViewById(R.id.numText);
         Coupons = (TextView) view.findViewById(R.id.Coupons);
+        title = (TextView) view.findViewById(R.id.title);
         ImageView goodsnum_more = (ImageView) view.findViewById(R.id.goodsnum_more);
         ImageView goodsnum_less = (ImageView) view.findViewById(R.id.goodsnum_less);
         Button purchase = (Button) view.findViewById(R.id.purchase);
         commodity_price = (TextView) view.findViewById(R.id.commodity_price);
+
+        builder = new StringBuilder();
+        ImageView tv_p1 = (ImageView) view.findViewById(R.id.tv_p1);
+        ImageView tv_p2 = (ImageView) view.findViewById(R.id.tv_p2);
+        ImageView tv_p3 = (ImageView) view.findViewById(R.id.tv_p3);
+        ImageView tv_p4 = (ImageView) view.findViewById(R.id.tv_p4);
+        ImageView tv_p5 = (ImageView) view.findViewById(R.id.tv_p5);
+        ImageView tv_p6 = (ImageView) view.findViewById(R.id.tv_p6);
+        lock_password = (EditText) view.findViewById(R.id.lock_password);
+        imageViews = new ImageView[]{tv_p1, tv_p2, tv_p3, tv_p4, tv_p5, tv_p6};
+        strName = (TextView) view.findViewById(R.id.name);
+        commodityPrice = (TextView) view.findViewById(R.id.commodityPrice);
+        Button btn_ok = (Button) view.findViewById(R.id.btn_ok);
+        Button btn_cancel = (Button) view.findViewById(R.id.btn_cancel);
         goodsnum_more.setOnClickListener(this);
         goodsnum_less.setOnClickListener(this);
         purchase.setOnClickListener(this);
+        lock_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 0) {
+                    return;
+                }
+                if (builder.length() < 6) {
+                    builder.append(s.toString());
+                    setTextValue(getActivity(), builder, imageViews, lock_password);
+                }
+                s.delete(0, s.length());
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input_pwd.setVisibility(View.GONE);
+            }
+        });
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input_pwd.setVisibility(View.GONE);
+                VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5(str));
+            }
+        });
+        lock_password.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP) {
+                    delTextValue(builder, imageViews);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initData() {
@@ -151,7 +226,7 @@ public class GoodsListFragment extends BaseFragment {
     private void setDetails(ProductModel model) {
         numText.setText("1");
         commodity.setImageURI(model.tradeurl);
-        title.setText(model.tradename);
+        product_title.setText(model.tradename);
         commodity_price.setText(model.voucher + getString(R.string.product_voucher));
         Coupons.setText(getString(R.string.goods_coupons) + userInfo.voucher);
     }
@@ -170,7 +245,7 @@ public class GoodsListFragment extends BaseFragment {
                 }
                 break;
             case R.id.purchase:
-                if(userInfo.ispaypassword==0){//未设置密码
+                if (userInfo.ispaypassword == 0) {//未设置密码
                     final CommDialog dialog = new CommDialog();
                     CommDialog.Callback callback = new CommDialog.Callback() {
                         @Override
@@ -184,28 +259,19 @@ public class GoodsListFragment extends BaseFragment {
                     };
                     dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
                 }
-                if (userInfo.ispaypassword ==1){
-                    //TODO 错误密码提示,下单成功提示
-                    DialogInputPwd dialogInputPwd = new DialogInputPwd();
-                    dialogInputPwd.CommDialog(getActivity(),liveInfo.nickname, new DialogInputPwd.Callback() {
-                        @Override
-                        public void onCancel() {
-
-                        }
-
-                        @Override
-                        public void onOK(String pwd) {
-                            String num = numText.getText().toString();
-                            VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5(pwd));
-                        }
-                    });
+                if (userInfo.ispaypassword == 1) {
+                    num = numText.getText().toString();
+                    String pirce = String.valueOf(Integer.valueOf(num) * Float.valueOf(productModels.get(mPosition).voucher));
+                    commodityPrice.setText(pirce);
+                    strName.setText(getString(R.string.dialog_tips_1) + liveInfo.nickname + getString(R.string.dialog_tips_2));
+                    input_pwd.setVisibility(View.VISIBLE);
                 }
                 break;
         }
     }
 
-    private void VoucherMallExg(String mallid, String num,String paypassword) {
-        mainEnter.VoucherMallExg(CommonUrlConfig.VoucherMallExg, userInfo.userid, userInfo.token, mallid, num, paypassword,callback2);
+    private void VoucherMallExg(String mallid, String num, String paypassword) {
+        mainEnter.VoucherMallExg(CommonUrlConfig.VoucherMallExg, userInfo.userid, userInfo.token, mallid, num, paypassword, callback2);
     }
 
     private HttpBusinessCallback callback2 = new HttpBusinessCallback() {
@@ -223,12 +289,18 @@ public class GoodsListFragment extends BaseFragment {
                     if (commonModel == null) {
                         return;
                     }
-                    if (commonModel.code.equals("6003")){
-                        ToastUtils.showToast(getActivity(), getString(R.string.password_error_tips));
+                    if (commonModel.code.equals("6003")) {
+                        title.setText(getString(R.string.tips_error));
+                        title.setTextColor(ContextCompat.getColor(getActivity(), R.color.color_d80c18));
+                        input_pwd.setVisibility(View.VISIBLE);
+                    }
+                    if (commonModel.code.equals("5000")) {
+                        ToastUtils.showToast(getActivity(), getString(R.string.tips_eyu));
                     }
                     if (HttpFunction.isSuc(commonModel.code)) {//下单成功
-                        ToastUtils.showToast(getActivity(), getString(R.string.product_order));
                         details.setVisibility(View.GONE);
+                        DialogInputPwd dialogInputPwd = new DialogInputPwd();
+                        dialogInputPwd.CommDialog(getActivity());
                     } else {
                         onBusinessFaild(commonModel.code);
                     }
@@ -236,4 +308,33 @@ public class GoodsListFragment extends BaseFragment {
             });
         }
     };
+
+    //设置密码显示
+    private void setTextValue(Context context, StringBuilder builder, ImageView[] imageViews, EditText editText) {
+        try {
+            str = builder.toString();
+            int len = str.length();
+            if (len <= 6 && len > 0) {
+                imageViews[len - 1].setVisibility(View.VISIBLE);
+            }
+            if (len == 6) {//设置密码
+                Utility.closeKeybord(editText, context);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //删除密码设置
+    private void delTextValue(StringBuilder builder, ImageView[] imageViews) {
+        str = builder.toString();
+        int len = str.length();
+        if (len == 0) {
+            return;
+        }
+        if (len > 0 && len <= 6) {
+            builder.delete(len - 1, len);
+        }
+        imageViews[len - 1].setVisibility(View.INVISIBLE);
+    }
 }

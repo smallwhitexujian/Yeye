@@ -101,7 +101,7 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
                     case "0"://订单生成（未下单）
                         helper.setText(R.id.state, getString(R.string.order_state));
                         helper.setText(R.id.confirm_order, getString(R.string.comfirm_order));
-                        helper.setTextColor(R.id.confirm_order, ContextCompat.getColor(ProductActivity.this, R.color.color_999999));
+                        helper.setTextColor(R.id.confirm_order, ContextCompat.getColor(ProductActivity.this,R.color.color_999999));
                         break;
                     case "10"://下单成功（未发货）
                         helper.hideView(R.id.btn_edit);

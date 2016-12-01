@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:visibility="visible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/dialog_tips_success"
+            android:textColor="@color/color_d80c18"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:text="@string/dialog_tips_content"
+            android:textColor="@color/color_999999"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_go"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tips"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/circle_coner_bg_ffffff"
+            android:minWidth="160dp"
+            android:text="@string/dialog_tips_btn"
+            android:textColor="@color/color_999999"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>

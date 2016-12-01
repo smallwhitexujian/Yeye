@@ -1007,9 +1007,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 } else if (ly_toolbar2.getVisibility() == View.GONE) {
                     ly_toolbar2.setVisibility(View.VISIBLE);
                 }
-
                 break;
-
             case R.id.btn_room_exchange://房间跳转商城
                 WebTransportModel webTransportModel = new WebTransportModel();
                 webTransportModel.url = CommonUrlConfig.MallIndex + "?userid=" + userModel.userid + "&token=" + userModel.token + "&hostid=" + liveUserModel.userid + "&time=" + System.currentTimeMillis();

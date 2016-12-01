@@ -51,7 +51,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/product_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -71,8 +71,8 @@
             android:id="@+id/goodsnum_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/title"
-            android:layout_alignRight="@+id/title"
+            android:layout_alignEnd="@+id/product_title"
+            android:layout_alignRight="@+id/product_title"
             android:layout_alignTop="@+id/numText"
             android:contentDescription="@null"
             android:src="@drawable/btn_room_goodsnum_more" />
@@ -138,15 +138,17 @@
             android:id="@+id/commodity_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/view"
+            android:layout_alignLeft="@+id/qweqw"
+            android:layout_alignStart="@+id/qweqw"
+            android:layout_marginBottom="18dp"
             android:background="@drawable/bg_room_goods_pointicon"
             android:gravity="center"
             android:textColor="#FF594800"
             android:textSize="12sp"
             tools:ignore="RtlHardcoded"
-            tools:text="5000卷"
-            android:layout_marginBottom="18dp"
-            android:layout_above="@+id/view"
-            android:layout_alignLeft="@+id/qweqw"
-            android:layout_alignStart="@+id/qweqw" />
+            tools:text="5000卷" />
     </RelativeLayout>
+
+    <include layout="@layout/dialog_input_pwd" />
 </RelativeLayout>

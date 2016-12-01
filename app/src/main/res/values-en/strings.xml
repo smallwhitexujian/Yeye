@@ -549,5 +549,10 @@
     <string name="dialog_title_tips">请输入安全密码</string>
     <string name="dialog_tips_1">向</string>
     <string name="dialog_tips_2">支付</string>
+    <string name="tips_eyu">余额不足</string>
+    <string name="tips_error">密码错误请重新输入</string>
+    <string name="dialog_tips_success">恭喜您购买成功</string>
+    <string name="dialog_tips_content">请在我的个人中心-我的商品中完善订单信息</string>
+    <string name="dialog_tips_btn"><![CDATA[前往我的商品>>]]></string>
 
 </resources>
