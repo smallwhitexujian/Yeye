@@ -26,6 +26,7 @@
             android:src="@drawable/btn_nav_back_g" />
 
         <TextView
+            android:id="@+id/txt_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
@@ -33,8 +34,7 @@
             android:gravity="center|center_vertical"
             android:text="@string/ta_home"
             android:textColor="#FF262626"
-            android:textSize="17dp"
-            android:id="@+id/txt_title" />
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/btn_more"
@@ -45,46 +45,48 @@
             android:contentDescription="@null"
             android:src="@drawable/btn_nav_more_g" />
     </LinearLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
-        android:id="@+id/layout_user_face"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:layout_centerInParent="true"
-        android:layout_marginTop="10dp">
-        <!--头像-->
-        <com.xj.frescolib.View.FrescoRoundView
-            android:id="@+id/user_face"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="2dp"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/default_face_icon"
-            fresco:roundAsCircle="true" />
 
-        <ImageView
-            android:id="@+id/iv_vip"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/layout_user_face"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/user_face"
-            android:layout_alignRight="@id/user_face"
-            android:contentDescription="@null"
-            android:src="@drawable/icon_identity_vip_white"
-            android:visibility="gone" />
-    </RelativeLayout>
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp">
+            <!--头像-->
+            <com.xj.frescolib.View.FrescoRoundView
+                android:id="@+id/user_face"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="2dp"
+                fresco:fadeDuration="300"
+                fresco:placeholderImage="@drawable/default_face_icon"
+                fresco:roundAsCircle="true" />
 
-    <ImageView
-        android:id="@+id/btn_goshop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/btn_goshop"
-        android:layout_margin="12dp"
-        />
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_vip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/user_face"
+                android:layout_alignRight="@id/user_face"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_identity_vip_white"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/btn_goshop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="12dp"
+            android:contentDescription="@null"
+            android:src="@drawable/btn_goshop" />
+    </RelativeLayout>
 
     <!--昵称-->
     <LinearLayout
@@ -101,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/color_000000"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/user_sex"
@@ -143,7 +145,7 @@
             android:layout_height="wrap_content"
             android:text="@string/singnature_title"
             android:textColor="#FFD9D9D9"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <ImageView
             android:layout_width="0dp"
@@ -171,6 +173,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -186,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FF666666"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,7 +197,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/follow"
                 android:textColor="#FF666666"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -211,7 +214,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FF666666"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -219,7 +222,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/search_fans"
                 android:textColor="#FF666666"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -236,7 +239,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FF666666"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -244,7 +247,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/search_intimacy"
                 android:textColor="#FF666666"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -268,7 +271,7 @@
             android:layout_marginLeft="15dp"
             android:text="@string/fans_rank"
             android:textColor="#FF666666"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -306,14 +309,14 @@
         android:id="@+id/attentions_btn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/btn_bg_d9"
-        android:layout_marginBottom="5dp"
         android:text="@string/follows"
         android:textColor="#ffffff"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:visibility="gone" />
 </LinearLayout>
 

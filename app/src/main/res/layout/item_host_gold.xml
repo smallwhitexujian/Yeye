@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.xj.frescolib.View.FrescoDrawee
+        android:id="@+id/pic"
+        android:layout_width="match_parent"
+        android:layout_height="360dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignBottom="@+id/pic"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/white"
+        android:minWidth="100dp"
+        tools:ignore="RelativeOverlap" />
+
+    <TextView
+        android:id="@+id/commodity_price"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:minWidth="80dp"
+        android:layout_alignLeft="@+id/textView13"
+        android:layout_alignStart="@+id/textView13"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/bg_room_goods_pointicon"
+        android:gravity="center"
+        android:textColor="#FF594800"
+        android:textSize="12sp"
+        tools:ignore="RtlHardcoded"
+        tools:text="5000000卷" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:minHeight="68dp"
+        android:layout_below="@+id/pic"
+        android:layout_toLeftOf="@+id/textView13"
+        android:layout_toStartOf="@+id/textView13"
+        android:padding="10dp"
+        tools:text="30片正品八杯水补水美白保湿淡斑面膜贴秋冬男女祛痘去黄暗沉清斑" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView13"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/startlive_btn_redbg"
+        android:minWidth="72dp"
+        android:text="@string/btn_stop_str"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/view21"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView14"
+        android:background="@color/font_line" />
+</RelativeLayout>

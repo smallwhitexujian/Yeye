@@ -204,22 +204,24 @@ public class GoodsListFragment extends BaseFragment {
 
         @Override
         public void onSuccess(final String response) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    CommonListResult<ProductModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<ProductModel>>() {
-                    }.getType());
-                    if (datas == null) {
-                        return;
+            if (isAdded()){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonListResult<ProductModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<ProductModel>>() {
+                        }.getType());
+                        if (datas == null) {
+                            return;
+                        }
+                        if (HttpFunction.isSuc(datas.code)) {
+                            productModels.clear();
+                            productModels.addAll(datas.data);
+                        } else {
+                            onBusinessFaild(datas.code);
+                        }
                     }
-                    if (HttpFunction.isSuc(datas.code)) {
-                        productModels.clear();
-                        productModels.addAll(datas.data);
-                    } else {
-                        onBusinessFaild(datas.code);
-                    }
-                }
-            });
+                });
+            }
         }
     };
 

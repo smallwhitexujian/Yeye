@@ -17,6 +17,7 @@ import com.angelatech.yeyelive.model.CommonModel;
 import com.angelatech.yeyelive.model.MyProductModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.ScreenUtils;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -201,6 +202,7 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
         headerLayout.showLeftBackButton();
         headerLayout.showTitle(getString(R.string.my_product));
         list = (ListView) findViewById(R.id.message_notice_list);
+        list.setDividerHeight(ScreenUtils.dip2px(ProductActivity.this, 10));
         swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
         swipyRefreshLayout.setOnRefreshListener(this);
         swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);

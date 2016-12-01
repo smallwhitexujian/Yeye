@@ -554,5 +554,7 @@
     <string name="dialog_tips_success">恭喜您购买成功</string>
     <string name="dialog_tips_content">请在我的个人中心-我的商品中完善订单信息</string>
     <string name="dialog_tips_btn"><![CDATA[前往我的商品>>]]></string>
+    <string name="live_host">商城</string>
+    <string name="btn_stop_str">购买</string>
 
 </resources>

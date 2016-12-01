@@ -44,7 +44,6 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
-import com.angelatech.yeyelive.view.CommDialog;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
@@ -335,15 +334,14 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
                     if (App.chatRoomApplication != null && App.chatRoomApplication.callFragment != null) {
                         App.chatRoomApplication.callFragment.setShowCocosView();
                     }
-                    DebugLogs.e("headurl:" +  picViewModel.url );
+                    DebugLogs.e("headurl:" + picViewModel.url);
                     StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
                 }
                 dismiss();
                 break;
             case R.id.recharge_btn://个人资料
-
-                    StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
-                    dismiss();
+                StartActivityHelper.jumpActivity(mActivity, FriendUserInfoActivity.class, baseInfo);
+                dismiss();
                 break;
         }
     }
@@ -535,7 +533,7 @@ public class UserInfoDialogFragment extends DialogFragment implements View.OnCli
         fouceNum.setText(user.followNum);
 
         //0 无 1 v 2 金v 9官
-        switch (user.isv){
+        switch (user.isv) {
             case "0":
                 iv_vip.setVisibility(View.GONE);
                 break;

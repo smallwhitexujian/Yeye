@@ -453,6 +453,7 @@
         <activity
             android:name=".activity.UesrVoucherBillListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.HostGoldHousActivity" />
 
     </application>
 

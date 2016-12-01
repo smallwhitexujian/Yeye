@@ -62,7 +62,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
     private FrescoRoundView user_face;
     private ImageView iv_vip;
     private TextView user_nick;
-    private ImageView user_sex;
+    private ImageView user_sex, btn_goshop;
     private TextView user_id, txt_title;
     private TextView user_sign;         //个性签名
     private LinearLayout ly_follow, ly_fans, ly_like;
@@ -81,11 +81,9 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
     private final int MSG_REPORT_SUC = 10;
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
-    private HorizontalUserRankListViewAdapter horizontalListViewAdapter;
     private List<RankModel> showList;
 
     private ViewPager mviewPager;
-    private UserVideoFragment userVideoFragment;
     private MainEnter mainEnter;
     private String isFollowCode;
 
@@ -116,6 +114,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         grid_online = (GridView) findViewById(R.id.grid_online);
         attentionsBtn = (Button) findViewById(R.id.attentions_btn);
         btn_more = (ImageView) findViewById(R.id.btn_more);
+        btn_goshop = (ImageView) findViewById(R.id.btn_goshop);
         txt_title = (TextView) findViewById(R.id.txt_title);
     }
 
@@ -126,6 +125,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         ly_like.setOnClickListener(this);
         attentionsBtn.setOnClickListener(this);
         btn_more.setOnClickListener(this);
+        btn_goshop.setOnClickListener(this);
     }
 
     private void initData() {
@@ -135,7 +135,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             baseInfo = (BasicUserInfoModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
-            userVideoFragment = new UserVideoFragment();
+            UserVideoFragment userVideoFragment = new UserVideoFragment();
             userVideoFragment.setFuserid(baseInfo.Userid);
             fragments.add(userVideoFragment);
         }
@@ -241,6 +241,9 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                         });
                 dialog.show();
                 break;
+            case R.id.btn_goshop:
+                StartActivityHelper.jumpActivity(FriendUserInfoActivity.this, HostGoldHousActivity.class,baseInfo);
+                break;
         }
     }
 
@@ -307,7 +310,6 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                             showList.addAll(datas.data);
                         }
                         uiHandler.obtainMessage(RANK_LOAD_SUC).sendToTarget();
-
                     } else {
                         // onBusinessFaild(datas.code);
                     }
@@ -338,7 +340,7 @@ public class FriendUserInfoActivity extends BaseActivity implements View.OnClick
                 grid_online.setNumColumns(showList.size());
                 grid_online.setColumnWidth(itemWidth);
                 grid_online.setStretchMode(GridView.NO_STRETCH);
-                horizontalListViewAdapter = new HorizontalUserRankListViewAdapter(FriendUserInfoActivity.this, showList);
+                HorizontalUserRankListViewAdapter horizontalListViewAdapter = new HorizontalUserRankListViewAdapter(FriendUserInfoActivity.this, showList);
                 grid_online.setAdapter(horizontalListViewAdapter);
                 horizontalListViewAdapter.notifyDataSetChanged();
                 break;
