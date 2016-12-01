@@ -29,6 +29,17 @@
         android:layout_marginLeft="14dp"
         android:background="@color/font_line" />
 
+
+    <com.xj.frescolib.View.FrescoDrawee
+        android:id="@+id/gold_cover"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/view12"
+        android:layout_margin="14dp"
+        fresco:roundedCornerRadius="8dp" />
+
     <TextView
         android:id="@+id/state"
         android:layout_width="wrap_content"
@@ -41,16 +52,6 @@
         android:text="@string/gold_state_2"
         android:textColor="@color/white"
         android:textSize="12sp" />
-
-    <com.xj.frescolib.View.FrescoDrawee
-        android:id="@+id/gold_cover"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/view12"
-        android:layout_margin="14dp"
-        fresco:roundedCornerRadius="8dp" />
 
     <TextView
         android:id="@+id/name"
