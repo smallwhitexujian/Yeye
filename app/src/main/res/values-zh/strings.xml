@@ -568,6 +568,11 @@
     <string name="telphone">电话</string>
     <string name="ttm_address">收货地址</string>
     <string name="ttm_send_product">点击发货</string>
+    <string name="express_name">快递名称</string>
+    <string name="express_num">快递单号</string>
+    <string name="express_confirm">立刻设置</string>
+    <string name="tips_tijiao">提交成功</string>
+    <string name="tips_success">发货成功</string>
 
 
 </resources>

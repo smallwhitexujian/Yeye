@@ -206,5 +206,7 @@ public class CommonUrlConfig {
     public static String UserOrderEidt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserOrderEidt";
     //交易管理
     public static String LiveUesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/LiveUesrMallOrderList";
+    //填写快递信息
+    public static String liveUserOrderEidt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/liveUserOrderEidt";
 }
 

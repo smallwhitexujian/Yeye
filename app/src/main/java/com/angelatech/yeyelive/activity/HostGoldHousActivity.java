@@ -87,7 +87,7 @@ public class HostGoldHousActivity extends HeaderBaseActivity implements SwipyRef
     private StringBuilder builder;
     private EditText lock_password;
     private ImageView[] imageViews;
-    private TextView strName, commodityPrice, title;
+    private TextView title;
     private String str;
 
     @Override
@@ -229,9 +229,9 @@ public class HostGoldHousActivity extends HeaderBaseActivity implements SwipyRef
             input_pwd.setVisibility(View.VISIBLE);
             lock_password = (EditText) window.findViewById(R.id.lock_password);
             imageViews = new ImageView[]{tv_p1, tv_p2, tv_p3, tv_p4, tv_p5, tv_p6};
-            strName = (TextView) window.findViewById(R.id.name);
+            TextView strName = (TextView) window.findViewById(R.id.name);
             title = (TextView) window.findViewById(R.id.title);
-            commodityPrice = (TextView) window.findViewById(R.id.commodityPrice);
+            TextView commodityPrice = (TextView) window.findViewById(R.id.commodityPrice);
             Button btn_ok = (Button) window.findViewById(R.id.btn_ok);
             Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
             commodityPrice.setText(productModels.get(mPosition).voucher);

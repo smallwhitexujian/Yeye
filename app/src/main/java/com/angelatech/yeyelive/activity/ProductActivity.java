@@ -89,7 +89,7 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
                 helper.setText(R.id.order_time, getString(R.string.order_time) + item.lastupttime);
                 helper.setText(R.id.name_phone, item.username + "       " + item.phone);
                 helper.setText(R.id.address, item.useraddress);
-                helper.setImageURI(R.id.gold_cover,item.imageurl);
+                helper.setImageURI(R.id.gold_cover, item.imageurl);
                 if (item.useraddress == null) {
                     helper.invisibleView(R.id.details);
                     helper.showView(R.id.add_address);
@@ -103,7 +103,17 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
                     case "0"://订单生成（未下单）
                         helper.setText(R.id.state, getString(R.string.order_state));
                         helper.setText(R.id.confirm_order, getString(R.string.comfirm_order));
-                        helper.setTextColor(R.id.confirm_order, ContextCompat.getColor(ProductActivity.this,R.color.color_999999));
+                        helper.setTextColor(R.id.confirm_order, ContextCompat.getColor(ProductActivity.this, R.color.color_999999));
+                        helper.setOnClick(R.id.confirm_order, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (item.useraddress != null && !item.useraddress.isEmpty()) {
+                                    mainEnter.UserConfirmOrder(CommonUrlConfig.UserOrderEidt, userModel.userid, userModel.token, item.id, callback2);
+                                } else {
+                                    ToastUtils.showToast(ProductActivity.this, getString(R.string.tips_address));
+                                }
+                            }
+                        });
                         break;
                     case "10"://下单成功（未发货）
                         helper.hideView(R.id.btn_edit);
@@ -136,16 +146,7 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
                         StartActivityHelper.jumpActivity(ProductActivity.this, ProductAddressActivity.class, item);
                     }
                 });
-                helper.setOnClick(R.id.confirm_order, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (item.useraddress != null && !item.useraddress.isEmpty()) {
-                            mainEnter.UserConfirmOrder(CommonUrlConfig.UserOrderEidt, userModel.userid, userModel.token, item.id, callback2);
-                        } else {
-                            ToastUtils.showToast(ProductActivity.this, getString(R.string.tips_address));
-                        }
-                    }
-                });
+
             }
         };
 

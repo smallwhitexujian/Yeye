@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/input_pwd"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:visibility="visible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/express_name"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@drawable/circle_coner_bg_ffffff"
+            android:hint="@string/express_name"
+            android:paddingLeft="14dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColorHint="@color/color_999999"
+            android:textSize="14sp"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/express_num"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/express_name"
+            android:background="@drawable/circle_coner_bg_ffffff"
+            android:hint="@string/express_num"
+            android:paddingLeft="14dp"
+            android:textColorHint="@color/color_999999"
+            android:textSize="14sp"
+            tools:ignore="RtlSymmetry" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="28dp"
+            android:layout_below="@+id/express_num"
+            android:background="@color/font_line" />
+
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="@string/express_cancel"
+                android:textColor="@color/color_999999" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/font_line" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="@string/express_confirm"
+                android:textColor="#FF3B30" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

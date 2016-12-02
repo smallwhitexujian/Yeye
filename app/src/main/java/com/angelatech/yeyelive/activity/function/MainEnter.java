@@ -211,12 +211,32 @@ public class MainEnter extends HttpFunction {
     }
 
     //交易管理
-    public void LiveUesrMallOrderList(String url, String userid, String token, String pageindex, String pagesize, HttpBusinessCallback callback) {
+    public void LiveUesrMallOrderList(String url, String userid, String token, int pageindex, int pagesize, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
-        params.put("pageindex", pageindex);
-        params.put("pagesize", pagesize);
+        params.put("pageindex", String.valueOf(pageindex));
+        params.put("pagesize", String.valueOf(pagesize));
+        httpGet(url, params, callback);
+    }
+
+    //填写快递地址
+    public void liveUserOrderEidt(String url, String userid, String token, String kudi, String oid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("kuidi", Encryption.utf8ToUnicode(kudi));
+        params.put("oid", oid);
+        httpGet(url, params, callback);
+    }
+
+    //主播发货接口
+    public void liveUserOrderEidt(String url, String userid, String token, String oid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("delivery", "1");
+        params.put("oid", oid);
         httpGet(url, params, callback);
     }
 }
