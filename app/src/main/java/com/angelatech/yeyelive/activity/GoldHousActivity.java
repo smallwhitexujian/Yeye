@@ -124,6 +124,7 @@ public class GoldHousActivity extends BaseActivity {
                 StartActivityHelper.jumpActivityDefault(GoldHousActivity.this, UploadProductsActivity.class);
                 break;
             case R.id.Transaction_m:
+                StartActivityHelper.jumpActivityDefault(GoldHousActivity.this, TransactionManagementActivity.class);
                 break;
         }
     }

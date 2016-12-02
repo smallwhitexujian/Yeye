@@ -454,6 +454,7 @@
             android:name=".activity.UesrVoucherBillListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.HostGoldHousActivity" />
+        <activity android:name=".activity.TransactionManagementActivity" />
 
     </application>
 

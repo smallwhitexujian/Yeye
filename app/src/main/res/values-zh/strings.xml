@@ -560,6 +560,14 @@
     <string name="dialog_tips_btn"><![CDATA[前往我的商品>>]]></string>
     <string name="live_host">商城</string>
     <string name="btn_stop_str">购买</string>
+    <string name="transaction_title">交易管理</string>
+    <string name="tmm_product">商品</string>
+    <string name="ttm_num">数量</string>
+    <string name="jine">金额</string>
+    <string name="shouhuoren">收货人</string>
+    <string name="telphone">电话</string>
+    <string name="ttm_address">收货地址</string>
+    <string name="ttm_send_product">点击发货</string>
 
 
 </resources>

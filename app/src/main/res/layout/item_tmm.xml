@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view22"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/font_line" />
+
+    <com.xj.frescolib.View.FrescoRoundView
+        android:id="@+id/hander_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        fresco:placeholderImage="@drawable/default_face_icon" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view22"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="11dp"
+        android:layout_toEndOf="@+id/hander_pic"
+        android:layout_toRightOf="@+id/hander_pic"
+        android:maxLines="1"
+        android:textColor="#FF262626"
+        tools:text="尖尖小儿朵" />
+
+    <TextView
+        android:id="@+id/idx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/hander_pic"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/hander_pic"
+        android:layout_toRightOf="@+id/hander_pic"
+        android:maxLines="1"
+        android:textColor="#FFB2B2B2"
+        android:textSize="12sp"
+        tools:text="ID:12356765432" />
+
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view22"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:textColor="#FFD80C18"
+        tools:text="未发货" />
+
+    <View
+        android:id="@+id/view23"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/hander_pic"
+        android:layout_marginLeft="10dp"
+        android:background="@color/font_line" />
+
+    <TextView
+        android:id="@+id/order_str"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view23"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp"
+        tools:text="订单号: 482834823129712" />
+
+    <TextView
+        android:id="@+id/order_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view23"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp"
+        tools:text="2016/11/23  17:14:45" />
+
+    <View
+        android:id="@+id/view24"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/order_str"
+        android:layout_marginLeft="10dp"
+        android:background="@color/font_line" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/order_str"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_999999"
+            android:text="@string/tmm_product" />
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:paddingRight="14dp"
+            android:textColor="@color/color_666666"
+            tools:ignore="RtlSymmetry"
+            tools:text="现货发售Apple/苹果 iPhone 7 苹果7代手机港版/大陆国行美版电信版" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view25"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginLeft="12dp"
+        android:background="@color/font_line" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view25"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:textColor="@color/color_999999"
+            android:text="@string/ttm_num" />
+
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_666666"
+            tools:text="2" />
+
+        <View
+            android:id="@+id/view26"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="11dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/font_line" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="0.4"
+            android:textColor="@color/color_999999"
+            android:text="@string/jine" />
+
+        <TextView
+            android:id="@+id/commodityPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_666666"
+            tools:text="84733.00" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view27"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignLeft="@+id/view24"
+        android:layout_alignStart="@+id/view24"
+        android:layout_below="@+id/linearLayout3"
+        android:background="@color/font_line" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view27"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:textColor="@color/color_999999"
+            android:text="@string/shouhuoren" />
+
+        <TextView
+            android:id="@+id/toName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_666666"
+            tools:text="骚动" />
+
+        <View
+            android:id="@+id/view28"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="11dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/font_line" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="0.4"
+            android:textColor="@color/color_999999"
+            android:text="@string/telphone" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_666666"
+            tools:text="12345467812" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view29"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignLeft="@+id/view24"
+        android:layout_alignStart="@+id/view24"
+        android:layout_below="@+id/linearLayout4"
+        android:background="@color/font_line" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view29"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:minHeight="80dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_999999"
+            android:text="@string/ttm_address" />
+
+        <TextView
+            android:id="@+id/address_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/color_666666"
+            tools:text="浙江省杭州市西湖区文一路132号4-3-701" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view30"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignLeft="@+id/view24"
+        android:layout_alignStart="@+id/view24"
+        android:layout_below="@+id/linearLayout5"
+        android:background="@color/font_line" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view30"
+        android:layout_marginBottom="9dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/circle_coner_bg_ffffff"
+        android:minHeight="90dp"
+        android:minWidth="90dp"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp"
+        android:text="@string/ttm_send_product" />
+
+    <View
+        android:id="@+id/view33"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/btn_confirm"
+        android:background="@color/font_line" />
+</RelativeLayout>

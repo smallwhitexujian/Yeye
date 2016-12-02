@@ -169,7 +169,7 @@ public class CommonUrlConfig {
     //扫描二维码 支付
     public static String ScanRecharge = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/recharge/ScanRecharge";
     //商城
-    public static String MallIndex = (isDebug ? TEST_HOST_URL : HOST_URL)  + "YeYe/Mall/index";
+    public static String MallIndex = (isDebug ? TEST_HOST_URL : HOST_URL) + "YeYe/Mall/index";
     //用户的关注和粉丝
     public static String FriendHelist = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/FriendHelist";
     //系统通知
@@ -181,7 +181,7 @@ public class CommonUrlConfig {
     //生成二维码
     public static String createqrcode = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/qrcode";
     //二维码
-    public static String qrcode ="http://file.iamyeye.com/user/qrcoce/";
+    public static String qrcode = "http://file.iamyeye.com/user/qrcoce/";
     //检查支付密码
     public static String CheckPayPassword = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/user/CheckPayPassword";
     //设置支付密码
@@ -198,13 +198,13 @@ public class CommonUrlConfig {
     public static String VoucherMallExg = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/VoucherMallExg";
     //转账
     public static String transfer = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/accounts/transfer";
-
     //交易记录
     public static String UesrVoucherBillList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UesrVoucherBillList";
-
     //用户订单查询
     public static String UesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/UesrMallOrderList";
     //添加地址
-    public static String UserOrderEidt =  (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserOrderEidt";
+    public static String UserOrderEidt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/UserOrderEidt";
+    //交易管理
+    public static String LiveUesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/LiveUesrMallOrderList";
 }
 

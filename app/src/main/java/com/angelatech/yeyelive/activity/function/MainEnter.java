@@ -170,7 +170,7 @@ public class MainEnter extends HttpFunction {
     }
 
     //下单,
-    public void VoucherMallExg(String url, String userid, String token, String mallid, String num, String paypassword,HttpBusinessCallback callback) {
+    public void VoucherMallExg(String url, String userid, String token, String mallid, String num, String paypassword, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
@@ -207,6 +207,16 @@ public class MainEnter extends HttpFunction {
         params.put("token", token);
         params.put("confirm", "1");
         params.put("oid", oid);
+        httpGet(url, params, callback);
+    }
+
+    //交易管理
+    public void LiveUesrMallOrderList(String url, String userid, String token, String pageindex, String pagesize, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("token", token);
+        params.put("pageindex", pageindex);
+        params.put("pagesize", pagesize);
         httpGet(url, params, callback);
     }
 }

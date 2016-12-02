@@ -36,7 +36,6 @@ import java.util.Map;
  * 交易记录
  */
 public class UesrVoucherBillListActivity extends BaseActivity implements SwipyRefreshLayout.OnRefreshListener {
-
     private ImageView btn_back;
     private BasicUserInfoDBModel loginUser = null;
     private final int pageSize = 10;
@@ -84,9 +83,7 @@ public class UesrVoucherBillListActivity extends BaseActivity implements SwipyRe
             @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void convert(ViewHolder helper, UesrVoucherBillModel item, int position) {
-
                 helper.setText(R.id.txt_orderid, getString(R.string.txt_orderid) + item.orderid);
-
                 helper.setText(R.id.txt_targetuseridx, getString(R.string.txt_targetuseridx) + item.targetuseridx);
                 helper.setText(R.id.txt_descript, getString(R.string.txt_pay_descript) + item.descript);
                 helper.setText(R.id.txt_tradedate, getString(R.string.txt_tradedate) + item.tradedate);

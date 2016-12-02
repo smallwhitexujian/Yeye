@@ -215,6 +215,7 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
             @Override
             public void run() {
                 if (direction == SwipyRefreshLayoutDirection.TOP) {
+                    swipyRefreshLayout.setRefreshing(false);
                     mainEnter.UesrMallOrderList(CommonUrlConfig.UesrMallOrderList, userModel.userid, userModel.token, callback);
                 }
             }
