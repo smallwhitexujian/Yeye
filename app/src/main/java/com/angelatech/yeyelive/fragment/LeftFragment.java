@@ -257,7 +257,6 @@ public class LeftFragment extends HintFragment {
                 } else {
                     sexImageView.setImageResource(R.drawable.icon_information_girl);
                 }
-
                 //0 无 1 v 2 金v 9官
                 switch (basicUserInfoDBModel.isv) {
                     case "1":
@@ -276,20 +275,13 @@ public class LeftFragment extends HintFragment {
                         iv_vip.setVisibility(View.GONE);
                         break;
                 }
-                if (basicUserInfoDBModel.isv.equals("1")) {
-                    iv_vip.setVisibility(View.VISIBLE);
-                } else {
-                    iv_vip.setVisibility(View.GONE);
-                }
                 CacheDataManager.getInstance().update(BaseKey.USER_FANS, basicUserInfoDBModel.fansNum, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_V, basicUserInfoDBModel.isv, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_HEAD_URL, basicUserInfoDBModel.headurl, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, basicUserInfoDBModel.diamonds, basicUserInfoDBModel.userid);
-                CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, basicUserInfoDBModel.voucher, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_PWDROOM, basicUserInfoDBModel.ispwdroom, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
-                CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, basicUserInfoDBModel.voucher, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.ISPWDROOM, basicUserInfoDBModel.ispaypassword, basicUserInfoDBModel.userid);
         }
     }
