@@ -591,5 +591,6 @@
     <string name="express_confirm">立刻设置</string>
     <string name="tips_tijiao">提交成功</string>
     <string name="tips_success">发货成功</string>
+    <string name="chage_my_pwd">更改安全密码</string>
 
 </resources>
