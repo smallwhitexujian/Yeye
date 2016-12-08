@@ -48,7 +48,7 @@ public class EditActivity extends HeaderBaseActivity {
     private Boolean boolCanSave = false;
     private View line1,line2,line3;
     private final int USER_SIGN_LEN_LIMIT = 70;
-    private final int USER_NAME_LEN_LIMIT = 12;
+    private final int USER_NAME_LEN_LIMIT = 24;
     private final int USER_EMAIL_LEN_LIMIT = 50;
     private final int MSG_INPUT_USER_NAME_LIMIT = 1;
     private final int MSG_INPUT_USER_SIGN_LIMIT = 2;
@@ -105,6 +105,7 @@ public class EditActivity extends HeaderBaseActivity {
                 layout_sign.setVisibility(View.GONE);
                 layout_nickName.setVisibility(View.VISIBLE);
                 tv_nickName.setText(model.nickname);
+                tv_nickName.setText("我的名字就是这么这么我的名字就是这么这么么么么么么么么长么么么么么么么长");
                 tv_nickName.selectAll();
                 line2.setVisibility(View.GONE);
                 line3.setVisibility(View.GONE);
@@ -236,7 +237,7 @@ public class EditActivity extends HeaderBaseActivity {
                 case "1":
                     editStart = tv_nickName.getSelectionStart();
                     editEnd = tv_nickName.getSelectionEnd();
-                    if (temp.length() > USER_NAME_LEN_LIMIT) {
+                    if (temp.length() > USER_NAME_LEN_LIMIT && editStart > 0) {
                         editable.delete(editStart - 1, editEnd);
                     }
                     uiHandler.obtainMessage(MSG_INPUT_USER_NAME_LIMIT, 0, 0, editable.toString()).sendToTarget();
@@ -244,7 +245,7 @@ public class EditActivity extends HeaderBaseActivity {
                 case "2":
                     editStart = et_sign.getSelectionStart();
                     editEnd = et_sign.getSelectionEnd();
-                    if (temp.length() > USER_SIGN_LEN_LIMIT) {
+                    if (temp.length() > USER_SIGN_LEN_LIMIT && editStart > 0) {
                         editable.delete(editStart - 1, editEnd);
                     }
                     uiHandler.obtainMessage(MSG_INPUT_USER_SIGN_LIMIT, 0, 0, editable.toString()).sendToTarget();
