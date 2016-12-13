@@ -23,5 +23,5 @@ public class BaseKey {
     public final static String USER_FANS= "fansNum";
     public final static String USER_IS_V= "isv";
     public final static String NOTIFICATION_ISREAD= "isread";
-    public final static String ISPWDROOM = "ispwdroom";
+    public final static String ISPWDpassword = "ispaypassword";
 }

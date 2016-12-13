@@ -21,6 +21,7 @@ import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
 import com.angelatech.yeyelive.activity.function.PhoneLogin;
 import com.angelatech.yeyelive.activity.function.Register;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CountrySelectItemModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
@@ -223,6 +224,7 @@ public class SetPayPwdActivity extends HeaderBaseActivity {
                     Map result = JsonUtil.fromJson(response, Map.class);
                     if (result != null) {
                         if (HttpFunction.isSuc(result.get("code").toString())) {
+                            CacheDataManager.getInstance().update(BaseKey.ISPWDpassword, 1, userInfo.userid);
                             uiHandler.sendEmptyMessage(MSG_FIND_PASSWORD_SUCCESS);
                         } else {
                             uiHandler.obtainMessage(MSG_FIND_PASSWORD_ERROR, result.get("code")).sendToTarget();

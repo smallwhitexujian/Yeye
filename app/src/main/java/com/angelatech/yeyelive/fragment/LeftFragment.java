@@ -285,7 +285,7 @@ public class LeftFragment extends HintFragment {
                 if (basicUserInfoDBModel.voucher!=null){
                     CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, basicUserInfoDBModel.voucher, basicUserInfoDBModel.userid);
                 }
-                CacheDataManager.getInstance().update(BaseKey.ISPWDROOM, basicUserInfoDBModel.ispaypassword, basicUserInfoDBModel.userid);
+                CacheDataManager.getInstance().update(BaseKey.ISPWDpassword, basicUserInfoDBModel.ispaypassword, basicUserInfoDBModel.userid);
         }
     }
 
