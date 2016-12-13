@@ -461,7 +461,7 @@
     <string name="roompwd_err">房间密码错误</string>
     <string name="setpassword">房间密码已设置为:</string>
     <string name="facebook_firs">Facebook好友</string>
-    <string name="me_pay">我的钱包</string>
+    <string name="me_pay">Yeye钱包</string>
     <string name="txt_sao">扫一扫</string>
     <string name="yeye_sc">Yeye商场</string>
     <string name="me_goods">我的商品</string>
@@ -510,6 +510,7 @@
     <string name="me_home">我的主页</string>
     <string name="product_order">下单成功</string>
     <string name="product_midfey">商品已修改</string>
+    <string name="set_pay_pwd">设置安全密码</string>
     <string name="pay_pwd_success">安全密码设置成功！</string>
     <string name="plese_input_pay_password">请输入支付密码</string>
     <string name="txt_orderid">订单号：</string>
