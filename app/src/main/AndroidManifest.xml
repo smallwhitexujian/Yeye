@@ -66,12 +66,6 @@
             </intent-filter>
         </activity>
 
-        <!-- 主界面 -->
-        <activity
-            android:name=".activity.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Qiniupush.push.SWCodecCameraStreamingActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

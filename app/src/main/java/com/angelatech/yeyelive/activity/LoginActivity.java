@@ -149,6 +149,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.phone_login:
                 DebugLogs.e("phone---->start");
                 StartActivityHelper.jumpActivityDefault(this, LoginPasswordActivity.class);
+                finish();
                 break;
             case R.id.license_link:
                 WebTransportModel webTransportModel = new WebTransportModel();

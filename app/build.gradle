@@ -68,9 +68,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':LibCommon')
     compile project(':LibNotification')
-    compile project(':LibSocket')
+    //    compile project(':LibSocket')
     compile project(':LibView')
-    compile project(':LibWeb')
+    //    compile project(':LibWeb')
     compile project(':LibGooglePay')
     compile project(':LibQiniu')
     compile 'com.android.support:multidex:'
@@ -98,4 +98,10 @@ dependencies {
     compile files('libs/Angela.jar')
     compile files('libs/Mimopay_all_new_api22.jar')
     compile files('libs/pldroid-media-streaming-2.1.0.jar')
+    //okhttp
+    compile files('libs/libWeb.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile files('libs/libS.jar')
+//    compile files('libs/libView.jar')
 }

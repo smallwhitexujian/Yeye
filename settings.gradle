@@ -1,1 +1,1 @@
-include ':app', ':LibCommon', ':LibNotification', ':LibSocket', ':LibWeb', ':LibView', ':LibGooglePay', ':LibQiniu', 'LibCocos2dx'
+include ':app', ':LibCommon', ':LibNotification', ':LibView', ':LibGooglePay', ':LibQiniu', 'LibCocos2dx'

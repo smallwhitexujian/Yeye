@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -64,7 +65,13 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
 
     private void setView() {
         headerLayout.showTitle(R.string.activity_login_password);
-        headerLayout.showLeftBackButton();
+        headerLayout.showLeftBackButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StartActivityHelper.jumpActivityDefault(LoginPasswordActivity.this, LoginActivity.class);
+                finish();
+            }
+        });
         mAreaText.setText(StringHelper.formatStr(getString(R.string.phone_login_area_prefix), getString(R.string.phone_login_default_country_area_num), ""));
         mSelectCountry.setText(getString(R.string.phone_login_default_country));
         mSelectCountry.setOnClickListener(this);
@@ -104,7 +111,7 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
                 }
                 break;
             case MSG_LOGIN_NOW: //自动登录
-                LoadingDialog.showLoadingDialog(this,null);
+                LoadingDialog.showLoadingDialog(this, null);
                 login(autoLogin.countryCode + autoLogin.phone, autoLogin.password);
                 break;
         }
@@ -186,4 +193,16 @@ public class LoginPasswordActivity extends HeaderBaseActivity {
             }
         }
     };
+
+    /**
+     * 点击物理返回按钮**
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            StartActivityHelper.jumpActivityDefault(LoginPasswordActivity.this, LoginActivity.class);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
