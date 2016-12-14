@@ -89,6 +89,7 @@ public class ProductActivity extends HeaderBaseActivity implements SwipyRefreshL
                 helper.setText(R.id.order_time, getString(R.string.order_time) + item.lastupttime);
                 helper.setText(R.id.name_phone, item.username + "       " + item.phone);
                 helper.setText(R.id.address, item.useraddress);
+                helper.setText(R.id.express_info, item.kuaidino);
                 helper.setImageURI(R.id.gold_cover, item.imageurl);
                 if (item.useraddress == null) {
                     helper.invisibleView(R.id.details);

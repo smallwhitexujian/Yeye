@@ -221,4 +221,19 @@
         android:text="@string/add_address"
         android:textColor="@color/color_999999"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/express_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/add_address"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/add_address"
+        android:layout_below="@+id/details"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp"
+        tools:text="快递信息显示" />
 </RelativeLayout>
