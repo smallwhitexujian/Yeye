@@ -37,6 +37,7 @@ import com.angelatech.yeyelive.view.DialogInputPwd;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -83,10 +84,10 @@ public class GoodsListFragment extends BaseFragment {
     private StringBuilder builder;
     private BasicUserInfoDBModel liveInfo;
     private TextView strName, commodityPrice, title;
-    private String str;
+    private String str;//密码
     private ImageView[] imageViews;
     private EditText lock_password;
-    private String num;
+    private String num;//个数
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -153,6 +154,12 @@ public class GoodsListFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 input_pwd.setVisibility(View.GONE);
+                lock_password.setText("");
+                str = "";
+                builder.delete(0, builder.length());
+                for (int i = 0; i < 6; i++) {
+                    imageViews[i].setVisibility(View.INVISIBLE);
+                }
             }
         });
         btn_ok.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +167,12 @@ public class GoodsListFragment extends BaseFragment {
             public void onClick(View v) {
                 input_pwd.setVisibility(View.GONE);
                 VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5(str));
+                str = "";
+                builder.delete(0, builder.length());
+                lock_password.setText("");
+                for (int i = 0; i < 6; i++) {
+                    imageViews[i].setVisibility(View.INVISIBLE);
+                }
             }
         });
         lock_password.setOnKeyListener(new View.OnKeyListener() {
@@ -204,7 +217,7 @@ public class GoodsListFragment extends BaseFragment {
 
         @Override
         public void onSuccess(final String response) {
-            if (isAdded()){
+            if (isAdded()) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -262,6 +275,7 @@ public class GoodsListFragment extends BaseFragment {
                     dialog.CommDialog(getActivity(), getString(R.string.pwd_desc), true, callback, getString(R.string.now_set), getString(R.string.not_set));
                 }
                 if (userInfo.ispaypassword == 1) {
+                    lock_password.setFocusable(true);
                     num = numText.getText().toString();
                     String pirce = String.valueOf(Integer.valueOf(num) * Float.valueOf(productModels.get(mPosition).voucher));
                     commodityPrice.setText(pirce);
@@ -316,6 +330,7 @@ public class GoodsListFragment extends BaseFragment {
         try {
             str = builder.toString();
             int len = str.length();
+            DebugLogs.d("--长度-->" + len);
             if (len <= 6 && len > 0) {
                 imageViews[len - 1].setVisibility(View.VISIBLE);
             }

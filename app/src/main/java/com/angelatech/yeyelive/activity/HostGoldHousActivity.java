@@ -264,6 +264,7 @@ public class HostGoldHousActivity extends HeaderBaseActivity implements SwipyRef
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
+                    dialog = null;
                 }
             });
             btn_ok.setOnClickListener(new View.OnClickListener() {
@@ -314,6 +315,7 @@ public class HostGoldHousActivity extends HeaderBaseActivity implements SwipyRef
                     if (HttpFunction.isSuc(commonModel.code)) {//下单成功
                         if (dialog != null) {
                             dialog.dismiss();
+                            dialog = null;
                         }
                         DialogInputPwd dialogInputPwd = new DialogInputPwd();
                         dialogInputPwd.CommDialog(HostGoldHousActivity.this);
