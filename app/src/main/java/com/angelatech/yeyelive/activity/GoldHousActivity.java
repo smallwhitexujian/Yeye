@@ -21,6 +21,8 @@ import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.google.gson.reflect.TypeToken;
+import com.will.view.library.SwipyRefreshLayout;
+import com.will.view.library.SwipyRefreshLayoutDirection;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.ArrayList;
@@ -51,8 +53,11 @@ import java.util.Map;
  * com.angelatech.yeyelive.activity
  */
 
-public class GoldHousActivity extends BaseActivity {
+public class GoldHousActivity extends BaseActivity implements SwipyRefreshLayout.OnRefreshListener {
     private List<ProductModel> productModel = new ArrayList<>();
+    private SwipyRefreshLayout swipyRefreshLayout;
+    private MainEnter mainEnter;
+    private BasicUserInfoDBModel userInfo;
     private ListView list;
     private CommonAdapter<ProductModel> adapter;
 
@@ -85,7 +90,7 @@ public class GoldHousActivity extends BaseActivity {
                         helper.setText(R.id.state, getString(R.string.gold_state_3));
                         break;
                     case "3"://审核不通过
-                        helper.hideView(R.id.btn_edit);
+                        helper.showView(R.id.btn_edit);
                         helper.setText(R.id.state, getString(R.string.gold_state_4));
                         break;
                 }
@@ -97,14 +102,17 @@ public class GoldHousActivity extends BaseActivity {
                 });
             }
         };
-        BasicUserInfoDBModel userInfo = CacheDataManager.getInstance().loadUser();
-        MainEnter mainEnter = new MainEnter(this);
+        userInfo = CacheDataManager.getInstance().loadUser();
+        mainEnter = new MainEnter(this);
         mainEnter.UserMallList(CommonUrlConfig.UserMallList, userInfo.userid, userInfo.token, "1", "1000", callback);
     }
 
     private void initView() {
         LoadingDialog.showLoadingDialog(this, null);
         list = (ListView) findViewById(R.id.list);
+        swipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.pullToRefreshView);
+        swipyRefreshLayout.setOnRefreshListener(this);
+        swipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
         ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
         ImageView btn_upload_product = (ImageView) findViewById(R.id.btn_upload_product);
         TextView transaction_m = (TextView) findViewById(R.id.Transaction_m);
@@ -141,6 +149,7 @@ public class GoldHousActivity extends BaseActivity {
                 @Override
                 public void run() {
                     LoadingDialog.cancelLoadingDialog();
+                    swipyRefreshLayout.setRefreshing(false);
                     CommonListResult<ProductModel> datas = JsonUtil.fromJson(response, new TypeToken<CommonListResult<ProductModel>>() {
                     }.getType());
                     if (datas == null) {
@@ -158,4 +167,16 @@ public class GoldHousActivity extends BaseActivity {
             });
         }
     };
+
+    @Override
+    public void onRefresh(final SwipyRefreshLayoutDirection direction) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (direction == SwipyRefreshLayoutDirection.TOP) {
+                    mainEnter.UserMallList(CommonUrlConfig.UserMallList, userInfo.userid, userInfo.token, "1", "1000", callback);
+                }
+            }
+        });
+    }
 }

@@ -227,6 +227,7 @@ public class GoodsListFragment extends BaseFragment {
                             return;
                         }
                         if (HttpFunction.isSuc(datas.code)) {
+                            DebugLogs.d("--------_>" + productModels.toString());
                             productModels.clear();
                             productModels.addAll(datas.data);
                         } else {
@@ -241,7 +242,7 @@ public class GoodsListFragment extends BaseFragment {
     private void setDetails(ProductModel model) {
         numText.setText("1");
         commodity.setImageURI(model.tradeurl);
-        product_title.setText(model.tradename);
+        product_title.setText(model.describe);
         commodity_price.setText(model.voucher + getString(R.string.product_voucher));
         Coupons.setText(getString(R.string.goods_coupons) + userInfo.voucher);
     }

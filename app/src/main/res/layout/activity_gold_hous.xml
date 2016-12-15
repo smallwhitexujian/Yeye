@@ -43,15 +43,22 @@
         android:textSize="14sp"
         tools:ignore="RelativeOverlap,RtlSymmetry" />
 
-    <ListView
-        android:id="@+id/list"
+    <com.will.view.library.SwipyRefreshLayout
+        android:id="@+id/pullToRefreshView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/sucai"
         android:layout_marginTop="170dp"
-        android:divider="@color/transparent"
-        android:dividerHeight="10dp"
-        android:scrollbars="none" />
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:scrollbars="none" />
+    </com.will.view.library.SwipyRefreshLayout>
 
     <TextView
         android:layout_width="wrap_content"

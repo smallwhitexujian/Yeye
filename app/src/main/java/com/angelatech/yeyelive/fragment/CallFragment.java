@@ -947,6 +947,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     ly_toolbar.setVisibility(View.VISIBLE);
                     giftView.setVisibility(View.GONE);
                 }
+                if (googs_list.getVisibility() == View.VISIBLE) {
+                    googs_list.setVisibility(View.GONE);
+                    open_goods_list.setVisibility(View.VISIBLE);
+                    details.setVisibility(View.GONE);
+                }
                 if (!liveUserModel.userid.equals(userModel.userid)) {
                     if (NetWorkUtil.isNetworkConnected(getActivity())) {
                         doHeart();
