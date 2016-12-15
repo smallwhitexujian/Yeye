@@ -19,6 +19,7 @@ import com.angelatech.yeyelive.activity.FriendUserInfoActivity;
 import com.angelatech.yeyelive.activity.GoldHousActivity;
 import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PayActivity;
+import com.angelatech.yeyelive.activity.PopularityActivity;
 import com.angelatech.yeyelive.activity.ProductActivity;
 import com.angelatech.yeyelive.activity.RecodeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
@@ -54,11 +55,11 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice;
+    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice,txt_like;
 
     private RelativeLayout settingLayout, ly_qcode, gold_hous, my_product,
             layout_diamond, layout_video, layout_systemMsg, layout_gift;
-    private LinearLayout fansLayout, attentionLayout;
+    private LinearLayout fansLayout, attentionLayout,ly_like;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
@@ -106,10 +107,12 @@ public class LeftFragment extends HintFragment {
         fans = (TextView) view.findViewById(R.id.user_fans);//粉丝
         attention = (TextView) view.findViewById(R.id.user_attention);//关注
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);//亲密度
+        txt_like = (TextView) view.findViewById(R.id.txt_like);//亲密度
         message_notice = (TextView) view.findViewById(R.id.message_notice);
         gold_hous = (RelativeLayout) view.findViewById(R.id.gold_hous);
         layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
         fansLayout = (LinearLayout) view.findViewById(R.id.fans_layout);
+        ly_like = (LinearLayout) view.findViewById(R.id.ly_like);
         attentionLayout = (LinearLayout) view.findViewById(R.id.attention_layout);
         settingLayout = (RelativeLayout) view.findViewById(R.id.setting_layout);
         layout_diamond = (RelativeLayout) view.findViewById(R.id.layout_diamond);
@@ -138,11 +141,15 @@ public class LeftFragment extends HintFragment {
         ly_qcode.setOnClickListener(this);
         gold_hous.setOnClickListener(this);
         my_product.setOnClickListener(this);
+        ly_like.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ly_like:
+                StartActivityHelper.jumpActivity(getActivity(), PopularityActivity.class, userInfo);
+                break;
             case R.id.attention_layout:
                 StartActivityHelper.jumpActivityDefault(getActivity(), FocusOnActivity.class);
                 break;
@@ -250,6 +257,7 @@ public class LeftFragment extends HintFragment {
                 }
                 attention.setText(basicUserInfoDBModel.followNum);
                 fans.setText(String.format("%s", basicUserInfoDBModel.fansNum));
+                txt_like.setText(String.format("%s", basicUserInfoDBModel.followNum));
                 userFace.setImageURI(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
                 if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
