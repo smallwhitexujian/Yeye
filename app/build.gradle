@@ -9,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 21
-        versionName "2.1.4"
+        versionName "2.1.6"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "x86_64", "mips"
@@ -21,15 +21,6 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("key/Yeye.jks")
-            storePassword "4&12FUI9?:>45\$^%\$12765!"
-            keyAlias ""
-            keyPassword "4&12FUI9?:>45\$^%\$12765!"
-        }
     }
 
     buildTypes {
