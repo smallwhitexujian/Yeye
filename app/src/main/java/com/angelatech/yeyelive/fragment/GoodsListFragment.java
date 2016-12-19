@@ -44,8 +44,6 @@ import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -78,7 +76,6 @@ public class GoodsListFragment extends BaseFragment {
     private RelativeLayout details, input_pwd;
     private TextView product_title, commodity_price, numText, Coupons;
     private ListView googs_list;
-    private List<ProductModel> productModels = new ArrayList<>();
     private MainEnter mainEnter;
     private BasicUserInfoDBModel userInfo;
     private int mPosition;
@@ -167,7 +164,7 @@ public class GoodsListFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 input_pwd.setVisibility(View.GONE);
-                VoucherMallExg(productModels.get(mPosition).mallid, num, Encryption.MD5(str));
+                VoucherMallExg(App.productModels.get(mPosition).mallid, num, Encryption.MD5(str));
                 str = "";
                 builder.delete(0, builder.length());
                 lock_password.setText("");
@@ -192,7 +189,7 @@ public class GoodsListFragment extends BaseFragment {
         liveInfo = ChatRoomActivity.roomModel.getUserInfoDBModel();
         userInfo = CacheDataManager.getInstance().loadUser();
         mainEnter = new MainEnter(getActivity());
-        CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), productModels, R.layout.item_goods_list) {
+        CommonAdapter<ProductModel> adapter = new CommonAdapter<ProductModel>(getActivity(), App.productModels, R.layout.item_goods_list) {
             @Override
             public void convert(ViewHolder helper, final ProductModel item, int position) {
                 helper.setImageURI(R.id.commodity, item.tradeurl);
@@ -203,7 +200,7 @@ public class GoodsListFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 details.setVisibility(View.VISIBLE);
-                setDetails(productModels.get(position));
+                setDetails(App.productModels.get(position));
                 mPosition = position;
             }
         });
@@ -228,9 +225,9 @@ public class GoodsListFragment extends BaseFragment {
                             return;
                         }
                         if (HttpFunction.isSuc(datas.code)) {
-                            productModels.clear();
-                            productModels.addAll(datas.data);
-                            if (productModels.size() <= 0) {
+                            App.productModels.clear();
+                            App.productModels.addAll(datas.data);
+                            if (App.productModels.size() <= 0) {
                                 App.chatRoomApplication.callFragment.open_goods_list.setVisibility(View.GONE);
                             } else {
                                 App.chatRoomApplication.callFragment.open_goods_list.setVisibility(View.VISIBLE);
@@ -283,7 +280,7 @@ public class GoodsListFragment extends BaseFragment {
                 if (userInfo.ispaypassword == 1) {
                     lock_password.setFocusable(true);
                     num = numText.getText().toString();
-                    String pirce = String.valueOf(Integer.valueOf(num) * Float.valueOf(productModels.get(mPosition).voucher));
+                    String pirce = String.valueOf(Integer.valueOf(num) * Float.valueOf(App.productModels.get(mPosition).voucher));
                     commodityPrice.setText(pirce);
                     strName.setText(getString(R.string.dialog_tips_1) + liveInfo.nickname + getString(R.string.dialog_tips_2));
                     input_pwd.setVisibility(View.VISIBLE);

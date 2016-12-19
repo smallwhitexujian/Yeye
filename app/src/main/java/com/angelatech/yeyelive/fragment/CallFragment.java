@@ -536,7 +536,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     }
                     if (googs_list.getVisibility() == View.VISIBLE) {
                         googs_list.setVisibility(View.GONE);
-                        open_goods_list.setVisibility(View.VISIBLE);
+                        if(App.productModels.size()<= 0){
+                            open_goods_list.setVisibility(View.GONE);
+                        }else{
+                            open_goods_list.setVisibility(View.VISIBLE);
+                        }
                         details.setVisibility(View.GONE);
                     }
                     return mGestureDetector.onTouchEvent(event) || mScaleDetector.onTouchEvent(event);
@@ -978,7 +982,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
                 }
                 googs_list.setVisibility(View.GONE);
-                open_goods_list.setVisibility(View.VISIBLE);
+                if(App.productModels.size()<= 0){
+                    open_goods_list.setVisibility(View.GONE);
+                }else{
+                    open_goods_list.setVisibility(View.VISIBLE);
+                }
                 details.setVisibility(View.GONE);
                 giftView.setVisibility(View.VISIBLE);
                 ly_toolbar.setVisibility(View.GONE);
@@ -1333,7 +1341,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             ly_toolbar.setVisibility(View.VISIBLE);
             ly_toolbar2.setVisibility(View.GONE);
             googs_list.setVisibility(View.GONE);
-            open_goods_list.setVisibility(View.VISIBLE);
+            if(App.productModels.size()<= 0){
+                open_goods_list.setVisibility(View.GONE);
+            }else{
+                open_goods_list.setVisibility(View.VISIBLE);
+            }
             details.setVisibility(View.GONE);
         }
     }
@@ -1403,7 +1415,11 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 ly_toolbar.setVisibility(View.GONE);
                 ly_toolbar2.setVisibility(View.GONE);
                 googs_list.setVisibility(View.GONE);
-                open_goods_list.setVisibility(View.VISIBLE);
+                if(App.productModels.size()<= 0){
+                    open_goods_list.setVisibility(View.GONE);
+                }else{
+                    open_goods_list.setVisibility(View.VISIBLE);
+                }
                 details.setVisibility(View.GONE);
                 setSpinnerItemSelectedByValue(roomPopSpinner, ((BasicUserInfoModel) msg.obj).nickname);
                 break;

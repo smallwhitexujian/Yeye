@@ -12,6 +12,7 @@ import com.angelatech.yeyelive.db.DBConfig;
 import com.angelatech.yeyelive.db.DatabaseHelper;
 import com.angelatech.yeyelive.model.ChatLineModel;
 import com.angelatech.yeyelive.model.GiftModel;
+import com.angelatech.yeyelive.model.ProductModel;
 import com.angelatech.yeyelive.service.IService;
 import com.angelatech.yeyelive.util.SPreferencesTool;
 import com.angelatech.yeyelive.util.ScreenUtils;
@@ -54,7 +55,7 @@ public class App extends Application {
     public static ChatRoomActivity chatRoomApplication = null;                       // 保持ChatRoom存在
     public static ArrayList<ChatLineModel> mChatlines = new ArrayList<>();          // 房间数据存储
     public static List<GiftModel> giftdatas = new ArrayList<>();                    // 礼物数据存储
-
+    public static List<ProductModel> productModels = new ArrayList<>();
     public static boolean isLiveNotify = true; // 直播提醒开关
     public static boolean isofficialNotify = true; // 官方提醒开关
     public static boolean isredNotify = true; // 红包提醒开关
