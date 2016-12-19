@@ -528,7 +528,6 @@
     <string name="plese_input_pay_password">Security Password</string>
 
 
-
     <string name="txt_orderid">Order ID：</string>
     <string name="txt_targetuseridx">Buyer ID:</string>
     <string name="txt_pay_descript"> Description:</string>
@@ -591,4 +590,5 @@
     <string name="tips_tijiao">Summit Successful</string>
     <string name="tips_success">Shipping Success</string>
     <string name="chage_my_pwd">Change Security Password</string>
+    <string name="proxy_recharge">Proxy Recharge</string>
 </resources>
