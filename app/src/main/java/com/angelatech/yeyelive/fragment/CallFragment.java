@@ -123,7 +123,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView btn_share, btn_room_more;
     private ImageView iv_vip;
     private ImageView btn_beautiful;
-    private ImageView btn_lamp,open_goods_list;
+    public ImageView btn_lamp,open_goods_list;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
     private FrescoRoundView img_head, gif_img_head, gif_img_head_s;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW

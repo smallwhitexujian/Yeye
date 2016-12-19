@@ -24,6 +24,7 @@ import com.angelatech.yeyelive.activity.SetPayPwdActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonModel;
@@ -227,9 +228,13 @@ public class GoodsListFragment extends BaseFragment {
                             return;
                         }
                         if (HttpFunction.isSuc(datas.code)) {
-                            DebugLogs.d("--------_>" + productModels.toString());
                             productModels.clear();
                             productModels.addAll(datas.data);
+                            if (productModels.size() <= 0) {
+                                App.chatRoomApplication.callFragment.open_goods_list.setVisibility(View.GONE);
+                            } else {
+                                App.chatRoomApplication.callFragment.open_goods_list.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             onBusinessFaild(datas.code);
                         }
