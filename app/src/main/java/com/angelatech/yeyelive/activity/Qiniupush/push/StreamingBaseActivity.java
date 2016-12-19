@@ -190,7 +190,7 @@ public class StreamingBaseActivity extends BaseActivity implements
 //                .setPreferredVideoEncodingSize(960, 544)
                 .setEncodingSizeLevel(Config.ENCODING_LEVEL)
                 .setEncoderRCMode(StreamingProfile.EncoderRCModes.QUALITY_PRIORITY)
-                .setAdaptiveBitrateEnable(true)//自动适应码率
+//                .setAdaptiveBitrateEnable(true)//自动适应码率
 //                .setAVProfile(avProfile)
                 .setDnsManager(getMyDnsManager())//设置dns加速
                 .setStreamStatusConfig(new StreamingProfile.StreamStatusConfig(3))//设置每隔3秒钟进行回调
@@ -417,7 +417,7 @@ public class StreamingBaseActivity extends BaseActivity implements
     }
 
     @Override
-    public boolean onPreviewFrame(byte[] bytes, int i, int i1, int i2, int i3, long l) {
+    public boolean onPreviewFrame(byte[] bytes, int i, int i1) {
         return false;
     }
 
