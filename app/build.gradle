@@ -59,9 +59,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':LibCommon')
     compile project(':LibNotification')
-    //    compile project(':LibSocket')
     compile project(':LibView')
-    //    compile project(':LibWeb')
     compile project(':LibGooglePay')
     compile project(':LibQiniu')
     compile 'com.android.support:multidex:'
@@ -94,5 +92,4 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile files('libs/libS.jar')
-//    compile files('libs/libView.jar')
 }
