@@ -42,10 +42,10 @@ public class LoadingDialog {
                 return;
             }
             loadingDialog = new AlertDialog.Builder(con).create();
-            loadingDialog.setCanceledOnTouchOutside(false);
             loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));// set background was transparent
             loadingDialog.getWindow().setDimAmount(0f);// 设置弹框遮盖层隐藏
+            loadingDialog.setCanceledOnTouchOutside(false);
             if (!loadingDialog.isShowing()) {
                 loadingDialog.show();
             }

@@ -120,4 +120,14 @@ public class Utility {
             return 3;//栈里找不到，返回3
         }
     }
+
+
+    private static long lastClickTime = System.currentTimeMillis();
+
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        lastClickTime = time;
+        return timeD >= 1000;
+    }
 }

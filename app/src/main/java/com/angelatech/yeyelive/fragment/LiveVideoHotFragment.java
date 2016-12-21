@@ -39,6 +39,7 @@ import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.UriHelper;
+import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.banner.Banner;
@@ -261,7 +262,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     ToastUtils.showToast(getActivity(), getString(R.string.continue_to_watch));
                 }
-                startLive(item);
+                if (Utility.isFastDoubleClick()){
+                    startLive(item);
+                }
             }
         });
         listView.setAdapter(adapter);

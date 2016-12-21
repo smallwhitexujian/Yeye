@@ -31,12 +31,10 @@ import java.util.Map;
 public class ChatRoom extends HttpFunction {
     private Context context;
     private static Activity activity;
-    private static boolean isgoin = false;
 
     public ChatRoom(Context context) {
         super(context);
         activity = (Activity) context;
-        isgoin = false;
     }
 
     //根据礼物ID获取礼物链接
@@ -88,8 +86,7 @@ public class ChatRoom extends HttpFunction {
                     @Override
                     public void onSuccess(String response) {
                         Map map = JsonUtil.fromJson(response, Map.class);
-                        if (map != null && !isgoin) {
-                            isgoin = true;
+                        if (map != null) {
                             if (HttpFunction.isSuc(map.get("code").toString())) {
                                 String ticket = map.get("data").toString();
                                 if (!ticket.equals("0")) {//需要门票
@@ -102,14 +99,14 @@ public class ChatRoom extends HttpFunction {
                                         public void onEnter() {
                                             ChatRoom.closeChatRoom();
                                             LoadingDialog.cancelLoadingDialog();
-                                            StartActivityHelper.jumpActivity(context, Intent.FLAG_ACTIVITY_SINGLE_TOP, ChatRoomActivity.class, roomModel);
+                                            StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
                                         }
                                     };
                                     TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment(context, callback, ticket, roomModel.getId(), 0);
                                     ticketsDialogFragment.show(activity.getFragmentManager(), "");
                                 } else {
                                     preEnterChatRoom(context);
-                                    StartActivityHelper.jumpActivity(context, Intent.FLAG_ACTIVITY_SINGLE_TOP, ChatRoomActivity.class, roomModel);
+                                    StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
                                 }
                             }
                         }
@@ -222,7 +219,6 @@ public class ChatRoom extends HttpFunction {
         if (App.chatRoomApplication != null) {
             try {
                 App.chatRoomApplication.exitRoom();
-                activity = null;
                 Thread.sleep(400);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -345,6 +341,7 @@ public class ChatRoom extends HttpFunction {
         params.put("token", token);
         httpGet(url, params, callback);
     }
+
     //房间系统通知语
     public void SysNotice(String url, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();

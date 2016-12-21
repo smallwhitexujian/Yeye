@@ -623,7 +623,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                 }
                 break;
             case GlobalDef.WM_OUT_RadioBroadcast: //收到广播
-                DebugLogs.e("广播111111111" +msg.obj.toString());
+                DebugLogs.e("广播111111111" + msg.obj.toString());
                 BarInfoModel.RadioMessage radioMessage = JsonUtil.fromJson(msg.obj.toString(), BarInfoModel.RadioMessage.class);
                 callFragment.RadioBroad(radioMessage);
                 break;
@@ -819,7 +819,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
                                 cocos2dxGiftModel.aniName = "fx_wawa";
                                 cocos2dxGiftModel.exportJsonPath = "fx_wawa/fx_wawa.ExportJson";
                                 cocos2dxGiftModel.x = ScreenUtils.getScreenWidth(this) / 2;
-                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this)/ 2;
+                                cocos2dxGiftModel.y = ScreenUtils.getScreenHeight(this) / 2;
                                 cocos2dxGiftModel.speedScale = 1f;
                                 bigGift.add(cocos2dxGiftModel);
                                 if (!isStart) {
@@ -1183,6 +1183,7 @@ public class ChatRoomActivity extends StreamingBaseActivity implements CallFragm
         }
         App.mChatlines.clear();
         boolCloseRoom = true;
+        App.productModels = null;
         App.chatRoomApplication = null;
         Cocos2dxGiftCallback.onDestroy();
     }
