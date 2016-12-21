@@ -168,6 +168,10 @@ public class UploadProductsActivity extends HeaderBaseActivity {
                 }
                 break;
             case R.id.btn_Link:
+                Intent data=new Intent(Intent.ACTION_SENDTO);
+                data.setData(Uri.parse("support@iamyeye.com"));
+                data.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.product_update));
+                startActivity(data);
                 break;
         }
     }

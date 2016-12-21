@@ -450,7 +450,7 @@
     <string name="way_live">开播</string>
     <string name="send_gift">送礼物</string>
     <string name="way_share">分享作品</string>
-
+    <string name="gold_transaction_m">商品管理</string>
     <string name="gift_center">礼物中心</string>
     <string name="follows">已关注</string>
     <string name="ta_home">Ta的主页</string>
@@ -574,4 +574,5 @@
     <string name="tips_success">发货成功</string>
     <string name="chage_my_pwd">更改安全密码</string>
     <string name="proxy_recharge">代理充值</string>
+    <string name="product_update">播商上传商品问题反馈</string>
 </resources>

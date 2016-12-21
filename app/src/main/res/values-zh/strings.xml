@@ -536,7 +536,7 @@
     <string name="dialog_title_tips">请输入安全密码</string>
     <string name="dialog_tips_1">向</string>
     <string name="dialog_tips_2">支付</string>
-
+    <string name="gold_transaction_m">商品管理</string>
 
     <string name="txt_orderid">订单号：</string>
     <string name="txt_targetuseridx">对方ID:</string>
@@ -575,6 +575,7 @@
     <string name="tips_success">发货成功</string>
     <string name="chage_my_pwd">更改安全密码</string>
     <string name="proxy_recharge">代理充值</string>
+    <string name="product_update">播商上传商品问题反馈</string>
 
 
 </resources>
