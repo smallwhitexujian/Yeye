@@ -7,7 +7,7 @@ import com.angelatech.yeyelive.application.App;
  */
 public class CommonUrlConfig {
     private static boolean isDebug = App.isDebug;
-    private static String TEST_HOST_URL = "http://weblivetest.iamyeye.com/";
+    private static String TEST_HOST_URL = "https://weblivetest.iamyeye.com/";
     private static String HOST_URL = "http://liveapi.iamyeye.com/";
     public static final String OUT_IP = isDebug ? "47.88.190.205" : "dtlogin.iamyeye.com";
     public static final int OUT_PORT = isDebug ? 13302 : 13302;
