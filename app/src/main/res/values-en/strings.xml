@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Yeye Live</string>
     <!-- header -->
-    <string name="empty_header_str"/>
+    <string name="empty_header_str" />
     <!--Login-->
     <string name="login_id_hint">Account/Phone</string>
     <string name="login_password_hint">Password</string>
@@ -284,7 +284,7 @@
     <string name="sure">Sure</string>
     <string name="purchase_cancel">purchase cancel</string>
     <string name="google_play_useless">Google Play Not Available</string>
-    <string name="un"/>
+    <string name="un" />
     <string name="login_text_desc">Agreement of User</string>
     <string name="btn_login">Login</string>
     <string name="btn_login_facebook">Login by Facebook</string>
@@ -432,7 +432,7 @@
     <string name="capy_to_clip">Copied successfully</string>
     <string name="yeye_web_title">other payment</string>
     <string name="red_tips_luck">Good Luck</string>
-    <string name="fans_rank" >Top Fans</string>
+    <string name="fans_rank">Top Fans</string>
     <string name="xingyunliwu_tips" formatted="false">Congrats. to %s get %s times rewards，get %s coins</string>
     <string name="danmu_tips">Danmuka only allow 20 letters</string>
 
@@ -518,7 +518,6 @@
     <string name="plese_input_pay_password">Security Password</string>
 
 
-
     <string name="txt_orderid">Order ID：</string>
     <string name="txt_targetuseridx">Buyer ID:</string>
     <string name="txt_pay_descript"> Description:</string>
@@ -583,5 +582,6 @@
     <string name="chage_my_pwd">Change Security Password</string>
     <string name="proxy_recharge">Proxy Recharge</string>
     <string name="product_update">Problem about uploading Merchants</string>
+    <string name="comfirm_Security_Password">Comfirm Security Password</string>
 
 </resources>

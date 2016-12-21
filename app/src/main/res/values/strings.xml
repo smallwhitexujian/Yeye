@@ -592,4 +592,5 @@
     <string name="chage_my_pwd">Change Security Password</string>
     <string name="proxy_recharge">Proxy Recharge</string>
     <string name="product_update">Problem about uploading Merchants</string>
+    <string name="comfirm_Security_Password">Comfirm Security Password</string>
 </resources>

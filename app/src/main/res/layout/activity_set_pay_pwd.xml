@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_f6f6f6"
@@ -169,14 +170,14 @@
         android:layout_height="44dp"
         android:background="@color/color_ffffff"
         android:gravity="left|center"
-        android:hint="确认安全密码"
+        android:hint="@string/comfirm_Security_Password"
         android:inputType="numberPassword"
         android:lines="1"
-
         android:maxLength="6"
         android:paddingLeft="19dp"
         android:textColorHint="@color/color_a6a6a6"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="RtlSymmetry" />
 
     <View
         android:layout_width="match_parent"

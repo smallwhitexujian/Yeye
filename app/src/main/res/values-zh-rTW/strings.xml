@@ -575,4 +575,5 @@
     <string name="chage_my_pwd">更改安全密码</string>
     <string name="proxy_recharge">代理充值</string>
     <string name="product_update">播商上传商品问题反馈</string>
+    <string name="comfirm_Security_Password">确认安全密码</string>
 </resources>
