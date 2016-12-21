@@ -168,10 +168,13 @@ public class UploadProductsActivity extends HeaderBaseActivity {
                 }
                 break;
             case R.id.btn_Link:
-                Intent data=new Intent(Intent.ACTION_SENDTO);
-                data.setData(Uri.parse("support@iamyeye.com"));
-                data.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.product_update));
-                startActivity(data);
+                String[] email = {"support@iamyeye.com"}; // 需要注意，email必须以数组形式传入
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822"); // 设置邮件格式
+                intent.putExtra(Intent.EXTRA_EMAIL, email); // 接收人
+                intent.putExtra(Intent.EXTRA_CC, email); // 抄送人
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.product_update)); // 主题
+                startActivity(Intent.createChooser(intent, ""));
                 break;
         }
     }
