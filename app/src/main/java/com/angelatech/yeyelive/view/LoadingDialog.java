@@ -46,7 +46,9 @@ public class LoadingDialog {
             loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));// set background was transparent
             loadingDialog.getWindow().setDimAmount(0f);// 设置弹框遮盖层隐藏
-            loadingDialog.show();
+            if (!loadingDialog.isShowing()) {
+                loadingDialog.show();
+            }
             if (loadingDialog !=null){
                 Window window = loadingDialog.getWindow();
                 window.setGravity(Gravity.CENTER);// 居顶显示

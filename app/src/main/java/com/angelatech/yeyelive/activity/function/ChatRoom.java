@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.activity.function;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
@@ -12,11 +13,10 @@ import com.angelatech.yeyelive.fragment.LockChooseDialogFragment;
 import com.angelatech.yeyelive.fragment.TicketsDialogFragment;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
-import com.angelatech.yeyelive.model.SystemMessage;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -29,13 +29,14 @@ import java.util.Map;
  * 房间入口
  */
 public class ChatRoom extends HttpFunction {
-
-    static Context context;
-    static Activity activity;
+    private Context context;
+    private static Activity activity;
+    private static boolean isgoin = false;
 
     public ChatRoom(Context context) {
         super(context);
-        ChatRoom.activity = (Activity) context;
+        activity = (Activity) context;
+        isgoin = false;
     }
 
     //根据礼物ID获取礼物链接
@@ -55,6 +56,7 @@ public class ChatRoom extends HttpFunction {
 
     //密码房
     public static void enterPWDChatRoom(final Context context, final RoomModel roomModel, final String roompwd) {
+        LoadingDialog.showLoadingDialog(context, "");
         LockChooseDialogFragment.Callback callback = new LockChooseDialogFragment.Callback() {
             @Override
             public void onCancel() {
@@ -65,45 +67,49 @@ public class ChatRoom extends HttpFunction {
             public void onEnter(String password) {
                 if (roompwd.equals(password)) {
                     preEnterChatRoom(context);
-                    StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+                    LoadingDialog.cancelLoadingDialog();
+                    StartActivityHelper.jumpActivity(context, Intent.FLAG_ACTIVITY_SINGLE_TOP, ChatRoomActivity.class, roomModel);
                 } else {
-                    ToastUtils.showToast(context,R.string.roompwd_err);
+                    ToastUtils.showToast(context, R.string.roompwd_err);
                 }
             }
         };
-        LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(context,callback, roompwd,1);
+        LockChooseDialogFragment lockChooseDialogFragment = new LockChooseDialogFragment(context, callback, roompwd, 1);
         lockChooseDialogFragment.show(activity.getFragmentManager(), "");
     }
 
     //进ChatRoom房间
     //增加门票功能
     public static void enterChatRoom(final Context context, final RoomModel roomModel) {
+        LoadingDialog.showLoadingDialog(context, "");
         ChatRoom chatRoom = new ChatRoom(context);
         chatRoom.getRoomTickets(roomModel.getLoginUser().Userid, roomModel.getLoginUser().Token,
                 String.valueOf(roomModel.getId()), new HttpBusinessCallback() {
                     @Override
                     public void onSuccess(String response) {
                         Map map = JsonUtil.fromJson(response, Map.class);
-                        if (map != null) {
+                        if (map != null && !isgoin) {
+                            isgoin = true;
                             if (HttpFunction.isSuc(map.get("code").toString())) {
                                 String ticket = map.get("data").toString();
                                 if (!ticket.equals("0")) {//需要门票
-
                                     TicketsDialogFragment.Callback callback = new TicketsDialogFragment.Callback() {
                                         @Override
-                                        public void onCancel() {  }
+                                        public void onCancel() {
+                                        }
 
                                         @Override
                                         public void onEnter() {
                                             ChatRoom.closeChatRoom();
-                                            StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+                                            LoadingDialog.cancelLoadingDialog();
+                                            StartActivityHelper.jumpActivity(context, Intent.FLAG_ACTIVITY_SINGLE_TOP, ChatRoomActivity.class, roomModel);
                                         }
                                     };
-                                    TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment(context,callback,ticket,roomModel.getId(),0);
+                                    TicketsDialogFragment ticketsDialogFragment = new TicketsDialogFragment(context, callback, ticket, roomModel.getId(), 0);
                                     ticketsDialogFragment.show(activity.getFragmentManager(), "");
                                 } else {
                                     preEnterChatRoom(context);
-                                    StartActivityHelper.jumpActivity(context, ChatRoomActivity.class, roomModel);
+                                    StartActivityHelper.jumpActivity(context, Intent.FLAG_ACTIVITY_SINGLE_TOP, ChatRoomActivity.class, roomModel);
                                 }
                             }
                         }
@@ -137,7 +143,7 @@ public class ChatRoom extends HttpFunction {
      *
      * @param userId   uid
      * @param token    token
-     * @param videoid   房间id
+     * @param videoid  房间id
      * @param callback 回调
      */
     public void getVideoTickets(String userId, String token, String videoid, HttpBusinessCallback callback) {
@@ -216,6 +222,7 @@ public class ChatRoom extends HttpFunction {
         if (App.chatRoomApplication != null) {
             try {
                 App.chatRoomApplication.exitRoom();
+                activity = null;
                 Thread.sleep(400);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -339,7 +346,7 @@ public class ChatRoom extends HttpFunction {
         httpGet(url, params, callback);
     }
     //房间系统通知语
-    public void SysNotice(String url, String userid, String token,HttpBusinessCallback callback){
+    public void SysNotice(String url, String userid, String token, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);

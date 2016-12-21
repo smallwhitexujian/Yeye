@@ -125,6 +125,7 @@
             android:name=".activity.PlayActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.ChangePasswordActivity"
@@ -258,9 +259,6 @@
             android:name="com.mimopay.MimopayActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateUnspecified|adjustPan" />
-        <activity
-            android:name="com.qiniu.pili.droid.streaming.screen.ScreenCaptureRequestActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name=".activity.FriendUserInfoActivity"

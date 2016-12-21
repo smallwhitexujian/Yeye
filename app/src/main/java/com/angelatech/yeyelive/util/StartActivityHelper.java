@@ -52,6 +52,15 @@ public class StartActivityHelper {
 
     //对外功能区域
     @SuppressWarnings("unchecked")
+    public static <T extends Serializable> void jumpActivity(Context context, int flag, Class<? extends Activity> activityClass, T model) {
+        Intent intent = new Intent(context, activityClass);
+        intent.putExtra(TransactionValues.UI_2_UI_KEY_OBJECT, model);
+        intent.setFlags(flag);
+        context.startActivity(intent);
+    }
+
+    //对外功能区域
+    @SuppressWarnings("unchecked")
     public static <T extends Serializable> void jumpActivity(Context context, Class<? extends Activity> activityClass, T model) {
         Intent intent = new Intent(context, activityClass);
         intent.putExtra(TransactionValues.UI_2_UI_KEY_OBJECT, model);
