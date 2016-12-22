@@ -93,7 +93,7 @@ public class UploadProductsActivity extends HeaderBaseActivity {
             btn_upload.setImageURI(productModel.tradeurl);
             picPath = productModel.tradeurl;
             String[] temp = productModel.contact.split(",");
-            if (temp.length > 3){
+            if (temp.length > 3) {
                 product_facebook.setText(temp[0]);
                 product_weichat.setText(temp[1]);
                 product_phone.setText(temp[2]);
@@ -175,6 +175,24 @@ public class UploadProductsActivity extends HeaderBaseActivity {
                 intent.putExtra(Intent.EXTRA_CC, email); // 抄送人
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.product_update)); // 主题
                 startActivity(Intent.createChooser(intent, ""));
+                //系统分享文字
+//                Intent intent = new Intent(Intent.ACTION_SEND);
+//                intent.setType("text/plain");
+//                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+//                intent.putExtra(Intent.EXTRA_TEXT, "哈哈哈");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(Intent.createChooser(intent, getTitle()));
+
+//                //分享图片
+//                String imagePath = Environment.getExternalStorageDirectory() + File.separator + "test.jpg";
+//                //由文件得到uri
+//                Uri imageUri = Uri.fromFile(new File(imagePath));
+//                //输出：file:///storage/emulated/0/test.jpg
+//                Intent shareIntent = new Intent();
+//                shareIntent.setAction(Intent.ACTION_SEND);
+//                shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+//                shareIntent.setType("image/*");
+//                startActivity(Intent.createChooser(shareIntent, "分享到"));
                 break;
         }
     }
@@ -297,9 +315,9 @@ public class UploadProductsActivity extends HeaderBaseActivity {
                         return;
                     }
                     if (HttpFunction.isSuc(common.code)) {
-                        if (isMidfiy){
+                        if (isMidfiy) {
                             ToastUtils.showToast(UploadProductsActivity.this, getString(R.string.product_midfey));
-                        }else{
+                        } else {
                             ToastUtils.showToast(UploadProductsActivity.this, getString(R.string.product_tips1));
                         }
                         finish();

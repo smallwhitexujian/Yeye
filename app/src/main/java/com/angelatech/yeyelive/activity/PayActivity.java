@@ -115,7 +115,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 webTransportModel.url = "https://quan.iamyeye.com/app";
                 webTransportModel.title = getString(R.string.proxy_recharge);
                 if (!webTransportModel.url.isEmpty()) {
-                    StartActivityHelper.jumpActivityDefault(PayActivity.this, WebActivity.class);
+                    StartActivityHelper.jumpActivity(PayActivity.this, WebActivity.class,webTransportModel);
                 }
                 break;
             case R.id.btn_more:

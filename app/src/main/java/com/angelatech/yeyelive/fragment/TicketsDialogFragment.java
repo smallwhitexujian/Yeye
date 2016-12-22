@@ -1,11 +1,11 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,13 +15,9 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.mediaplayer.handler.CommonDoHandler;
-import com.angelatech.yeyelive.mediaplayer.handler.CommonHandler;
-import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -37,8 +33,8 @@ import java.util.Map;
  * Time: 18:11
  * 门票 dialog
  */
+@SuppressLint("ValidFragment")
 public class TicketsDialogFragment extends DialogFragment implements View.OnClickListener {
-
     private View view;
     private TextView tv_cancel, tv_go_pay, tv_pay_coin;
     private BasicUserInfoDBModel loginUserInfo;

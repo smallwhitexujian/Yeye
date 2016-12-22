@@ -1,14 +1,13 @@
 package com.angelatech.yeyelive.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -22,18 +21,11 @@ import android.widget.TextView;
 import com.android.vending.billing.util.Md5;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
-import com.angelatech.yeyelive.activity.SetPayPwdActivity;
-import com.angelatech.yeyelive.activity.TransferAccountsActivity;
-import com.angelatech.yeyelive.activity.TransferActivity;
-import com.angelatech.yeyelive.activity.TransferCompleteActivity;
 import com.angelatech.yeyelive.activity.function.UserInfoDialog;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
-import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.util.Utility;
-import com.angelatech.yeyelive.view.CommDialog;
-import com.angelatech.yeyelive.web.HttpFunction;
 import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -47,6 +39,7 @@ import java.util.Map;
  * Time: 18:11
  * 支付密码 dialog
  */
+@SuppressLint("ValidFragment")
 public class payPwdDialogFragment extends DialogFragment implements View.OnClickListener {
 
     private View view;
@@ -214,7 +207,6 @@ public class payPwdDialogFragment extends DialogFragment implements View.OnClick
 
             @Override
             public void onSuccess(String response) {
-
                 Map result = JsonUtil.fromJson(response, Map.class);
                 if (result != null) {
                     if (result.get("code").toString().equals("6003")) {

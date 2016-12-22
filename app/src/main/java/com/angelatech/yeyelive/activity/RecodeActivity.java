@@ -50,9 +50,7 @@ public class RecodeActivity extends Activity implements View.OnClickListener {
     }
 
     private void createqrcode() {
-
         String recodeurl = CommonUrlConfig.createqrcode + "?userid=" + userInfo.userid + "&toUserId=" + userInfo.userid + "&token=" + userInfo.token;
-
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             int type = (Integer) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_INT);

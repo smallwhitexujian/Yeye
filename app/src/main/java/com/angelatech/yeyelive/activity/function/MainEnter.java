@@ -150,8 +150,8 @@ public class MainEnter extends HttpFunction {
         Map<String, String> params = new HashMap<>();
         params.put("userid", userid);
         params.put("token", token);
-        params.put("pageindex", pageindex);//商品地址
-        params.put("pagesize", pagesize);//商品价格
+        params.put("pageindex", pageindex);
+        params.put("pagesize", pagesize);
         httpGet(url, params, callback);
     }
 

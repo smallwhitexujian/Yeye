@@ -192,7 +192,6 @@ public class SevenRankFragment extends BaseFragment implements
     }
 
     private void load() {
-
         if (userInfo != null && !roomid.isEmpty()) {
             if (type == 0) {
                 mainEnter.loadSevenRank(CommonUrlConfig.RankListByRoom, userInfo.userid, userInfo.token, roomid, callback);
