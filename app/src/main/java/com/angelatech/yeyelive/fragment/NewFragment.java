@@ -158,15 +158,16 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                         helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_live_ing));
                         helper.setText(R.id.iv_line, "LIVE");
                         helper.setImageURI(R.id.live_cover, liveModel.barcoverurl);
+                        helper.setText(R.id.user_name, liveModel.nickname);
                         if (liveModel.area == null || "".equals(liveModel.area)) {
                             helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                         } else {
                             helper.setText(R.id.area, liveModel.area);
                         }
-                        if ( liveModel.ticketprice != null && Integer.parseInt(liveModel.ticketprice) > 0) {
+                        if (liveModel.ticketprice != null && Integer.parseInt(liveModel.ticketprice) > 0) {
                             helper.showView(R.id.ticket);
                             helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
-                        } else if ( liveModel.password != null && liveModel.password.length() == 4) {
+                        } else if (liveModel.password != null && liveModel.password.length() == 4) {
                             helper.showView(R.id.ticket);
                             helper.setImageResource(R.id.ticket, R.drawable.btn_home_passroom_s);
                         } else {
@@ -182,13 +183,14 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                         helper.setTextBackground(R.id.iv_line, ContextCompat.getDrawable(getActivity(), R.drawable.icon_home_play_back));
                         helper.setText(R.id.iv_line, "REC");
                         helper.setImageURI(R.id.live_cover, videoModel.barcoverurl);
+                        helper.setText(R.id.user_name, videoModel.nickname);
                         if (item.area == null || "".equals(item.area)) {
                             helper.setText(R.id.area, getString(R.string.live_hot_default_area));
                         } else {
                             helper.setText(R.id.area, item.area);
                         }
 
-                        if (videoModel.ticketprice != null &&  !videoModel.ticketprice.isEmpty() && Integer.parseInt(videoModel.ticketprice) > 0) {
+                        if (videoModel.ticketprice != null && !videoModel.ticketprice.isEmpty() && Integer.parseInt(videoModel.ticketprice) > 0) {
                             helper.setImageResource(R.id.ticket, R.drawable.icon_tickets_golds_big);
                             helper.showView(R.id.ticket);
                         } else if (videoModel.password != null && videoModel.password.length() == 4) {
@@ -213,7 +215,7 @@ public class NewFragment extends BaseFragment implements SwipyRefreshLayout.OnRe
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     ToastUtils.showToast(getActivity(), getString(R.string.continue_to_watch));
                 }
-                if (Utility.isFastDoubleClick()){
+                if (Utility.isFastDoubleClick()) {
                     startLive(item);
                 }
             }

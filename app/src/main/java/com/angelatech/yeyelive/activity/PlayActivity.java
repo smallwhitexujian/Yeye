@@ -95,7 +95,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private LinearLayout player_ctl_layout, layout_onClick;
     private RelativeLayout ly_playfinish, top_view;
     private SeekBar player_seekBar;
-    private TextView player_total_time, player_current_time, tv_report, txt_likenum, player_split_line, txt_barname;
+    private TextView player_total_time,player_current_time, tv_report, txt_likenum, player_split_line, txt_barname,str_context;
     private ImageView btn_share, iv_vip, btn_Follow, player_play_btn, backBtn, btn_red, btn_room_exchange;
     private VideoPlayer mVideoPlayer;
 
@@ -227,18 +227,31 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         player_current_time = (TextView) findViewById(R.id.player_current_time);
         txt_barname = (TextView) findViewById(R.id.txt_barname);
         tv_report = (TextView) findViewById(R.id.tv_report);
+        str_context = (TextView) findViewById(R.id.str_context);
         txt_likenum = (TextView) findViewById(R.id.txt_likenum);
         player_split_line = (TextView) findViewById(R.id.player_split_line);
         default_img.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = ScreenUtils.getStatusHeight(PlayActivity.this);
-            backBtn.setPadding(15, statusBarHeight, 0, 0);
-            tv_report.setPadding(0, statusBarHeight, 15, 0);
+
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.FILL_PARENT,
-                    RelativeLayout.LayoutParams.FILL_PARENT);
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(15, statusBarHeight, 0, 0);
             top_view.setLayoutParams(layoutParams);
+            backBtn.setPadding(15, statusBarHeight, 0, 0);
+            RelativeLayout.LayoutParams lp1 = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            lp1.setMargins(15, statusBarHeight, 0, 0);
+            lp1.setMargins(ScreenUtils.dip2px(getApplicationContext(),10), statusBarHeight+ScreenUtils.dip2px(getApplicationContext(),52), 15, 0);
+            tv_report.setLayoutParams(lp1);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(15, statusBarHeight, 0, 0);
+            lp.setMargins(ScreenUtils.dip2px(getApplicationContext(),148), statusBarHeight+ScreenUtils.dip2px(getApplicationContext(),10), 0, 30);
+            str_context.setLayoutParams(lp);
         }
     }
 
@@ -275,6 +288,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
             img_head.setImageURI(VerificationUtil.getImageUrl100(videoModel.headurl));
             txt_barname.setText(videoModel.nickname);
             txt_likenum.setText(videoModel.playnum);
+            str_context.setText(videoModel.introduce);
             //0 无 1 v 2 金v 9官
             switch (videoModel.isv) {
                 case "1":

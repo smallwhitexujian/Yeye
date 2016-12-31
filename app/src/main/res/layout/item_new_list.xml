@@ -21,6 +21,24 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@drawable/bg_home_userinfo_top"
+        android:contentDescription="@null"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:ignore="RelativeOverlap,RtlHardcoded"
+        tools:text="mingziaisdiasud" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/live_cover"
         android:background="@drawable/bg_home_location_bottom"
         android:contentDescription="@null"
