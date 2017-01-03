@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.angelatech.yeyelive.view.HeaderLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/headerLayout"
+        android:background="@color/font_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.xj.frescolib.View.FrescoRoundView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="15dp"
+            fresco:placeholderImage="@drawable/default_face_icon" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/balance"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/str_vourcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/text"
+                android:layout_toRightOf="@+id/text"
+                android:drawableLeft="@drawable/vourcher"
+                android:drawablePadding="10dp"
+                android:textColor="@color/btn_bg_red"
+                android:textSize="14sp"
+                tools:text="1111111" />
+
+            <TextView
+                android:id="@+id/str_coins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_coins"
+                android:drawablePadding="10dp"
+                android:textColor="@color/btn_bg_red"
+                android:textSize="14sp"
+                tools:text="1111111"
+                android:layout_below="@+id/str_vourcher"
+                android:layout_alignLeft="@+id/str_vourcher"
+                android:layout_alignStart="@+id/str_vourcher"
+                android:layout_marginTop="10dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
