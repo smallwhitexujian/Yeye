@@ -2,6 +2,7 @@ package com.angelatech.yeyelive.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.angelatech.yeyelive .R;
+import com.angelatech.yeyelive.R;
 
 
 /**
@@ -19,12 +20,13 @@ import com.angelatech.yeyelive .R;
  */
 public class HeaderLayout extends LinearLayout {
     LayoutInflater mInflater;
-    RelativeLayout header;
+    RelativeLayout header,rootView;
     TextView titleView;
     LinearLayout leftContainer, rightContainer;
     Button backBtn, submit;
     View imageViewLayout;
     TextView rightButton;
+
 
     public HeaderLayout(Context context) {
         super(context);
@@ -39,6 +41,7 @@ public class HeaderLayout extends LinearLayout {
     private void init() {
         mInflater = LayoutInflater.from(getContext());
         header = (RelativeLayout) mInflater.inflate(R.layout.base_common_header, null, false);
+        rootView  = (RelativeLayout)header.findViewById(R.id.rootView);
         titleView = (TextView) header.findViewById(R.id.titleView);
         leftContainer = (LinearLayout) header.findViewById(R.id.leftContainer);
         rightContainer = (LinearLayout) header.findViewById(R.id.rightContainer);
@@ -183,4 +186,7 @@ public class HeaderLayout extends LinearLayout {
         backBtn.setTextColor(color);
     }
 
+    public void setBackground(Drawable drawable){
+        rootView.setBackground(drawable);
+    }
 }

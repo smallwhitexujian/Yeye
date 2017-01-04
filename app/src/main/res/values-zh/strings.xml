@@ -577,6 +577,19 @@
     <string name="proxy_recharge">代理充值</string>
     <string name="product_update">播商上传商品问题反馈</string>
     <string name="comfirm_Security_Password">确认安全密码</string>
+    <string name="vourcher_btn_str">兑换中心</string>
+    <string name="voucher_btn_weichat">微信支付</string>
+    <string name="voucher_btn_payssion">payssion支付</string>
+    <string name="voucher_tips_1">代理充值</string>
+    <string name="china_86_135_0687_5591">China：+86 135 0687 5591</string>
+    <string name="malaysia_60_16_626_9403">Malaysia：+60 16 626 9403</string>
+    <string name="whatapp_60_16_626_9403">Whatapp：+60 16 626 9403</string>
+    <string name="email_angela_iamyeye_com">Email：angela@iamyeye.com</string>
+    <string name="voucher_tips_2">充值请认准官方代理,谨防被骗</string>
+    <string name="selling_price">售价：</string>
+    <string name="tips_voucher">券</string>
+    <string name="rmb">元</string>
+    <string name="online_recharge_title">充值中心</string>
 
 
 </resources>

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
-import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.ActionSheetDialog;
@@ -111,12 +110,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 StartActivityHelper.jumpActivityDefault(PayActivity.this, TransferAccountsActivity.class);
                 break;
             case R.id.ly_voucher:
-                WebTransportModel webTransportModel = new WebTransportModel();
-                webTransportModel.url = "https://quan.iamyeye.com/app";
-                webTransportModel.title = getString(R.string.proxy_recharge);
-                if (!webTransportModel.url.isEmpty()) {
-                    StartActivityHelper.jumpActivity(PayActivity.this, WebActivity.class,webTransportModel);
-                }
+                StartActivityHelper.jumpActivityDefault(PayActivity.this, PayVoucher.class);
                 break;
             case R.id.btn_more:
                 ActionSheetDialog dialog = new ActionSheetDialog(PayActivity.this);

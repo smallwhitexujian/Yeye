@@ -7,6 +7,7 @@ import com.angelatech.yeyelive.application.App;
  */
 public class CommonUrlConfig {
     private static boolean isDebug = App.isDebug;
+    private static String NEW_HOST_URL = "http://api.iamyeye.com/";
     private static String TEST_HOST_URL = "http://weblivetest.iamyeye.com/";
     private static String HOST_URL = "http://liveapi.iamyeye.com/";
     public static final String OUT_IP = isDebug ? "47.88.190.205" : "dtlogin.iamyeye.com";
@@ -208,5 +209,7 @@ public class CommonUrlConfig {
     public static String LiveUesrMallOrderList = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/Malls/LiveUesrMallOrderList";
     //填写快递信息
     public static String liveUserOrderEidt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/liveUserOrderEidt";
+    //兑换券的列表
+    public static String money2ticket = NEW_HOST_URL + "config/money2ticket";
 }
 

@@ -239,4 +239,12 @@ public class MainEnter extends HttpFunction {
         params.put("oid", oid);
         httpGet(url, params, callback);
     }
+
+    public void money2ticket(String url , HttpBusinessCallback callback ){
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", "");
+        params.put("token", "");
+        httpGet(url, params, callback);
+    }
+
 }
