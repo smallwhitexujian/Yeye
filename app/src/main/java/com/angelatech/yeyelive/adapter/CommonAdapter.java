@@ -33,7 +33,11 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return listData.size();
+        if (listData!=null){
+            return listData.size();
+        }else{
+            return 0;
+        }
     }
 
     @Override
