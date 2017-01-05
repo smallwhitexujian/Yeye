@@ -10,6 +10,7 @@ public class CommonUrlConfig {
     private static String NEW_HOST_URL = "http://api.iamyeye.com/";
     private static String TEST_HOST_URL = "http://weblivetest.iamyeye.com/";
     private static String HOST_URL = "http://liveapi.iamyeye.com/";
+    public static String Sign_key = "C763vs3AKL";
     public static final String OUT_IP = isDebug ? "47.88.190.205" : "dtlogin.iamyeye.com";
     public static final int OUT_PORT = isDebug ? 13302 : 13302;
 
@@ -211,5 +212,7 @@ public class CommonUrlConfig {
     public static String liveUserOrderEidt = (isDebug ? TEST_HOST_URL : HOST_URL) + channel + "/malls/liveUserOrderEidt";
     //兑换券的列表
     public static String money2ticket = NEW_HOST_URL + "config/money2ticket";
+    //用户添加券yeye
+    public static String voucherAdd = NEW_HOST_URL + "voucher/add";
 }
 

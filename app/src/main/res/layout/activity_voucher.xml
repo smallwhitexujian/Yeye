@@ -48,9 +48,12 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:orientation="horizontal">
 
         <com.xj.frescolib.View.FrescoRoundView
+            android:id="@+id/hander_pic"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
@@ -83,7 +86,8 @@
                 android:drawablePadding="10dp"
                 android:textColor="@color/btn_bg_red"
                 android:textSize="14sp"
-                tools:text="1111111" />
+                tools:text="1111111"
+                tools:ignore="RtlHardcoded" />
 
             <TextView
                 android:id="@+id/str_coins"
@@ -97,7 +101,8 @@
                 android:drawablePadding="10dp"
                 android:textColor="@color/color_FFEE00"
                 android:textSize="14sp"
-                tools:text="1111111" />
+                tools:text="1111111"
+                tools:ignore="RtlHardcoded" />
         </RelativeLayout>
 
         <TextView
@@ -109,7 +114,8 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/vourcher_btn_str"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
     <View
@@ -178,6 +184,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:numColumns="auto_fit"
+            android:layout_marginTop="6dp"
             android:scrollbars="none"
             android:verticalSpacing="8dp"
             tools:ignore="UselessLeaf" />

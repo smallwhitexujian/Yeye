@@ -240,11 +240,22 @@ public class MainEnter extends HttpFunction {
         httpGet(url, params, callback);
     }
 
-    public void money2ticket(String url , HttpBusinessCallback callback ){
+    //金币兑换券
+    public void money2ticket(String url, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", "");
         params.put("token", "");
         httpGet(url, params, callback);
+    }
+
+
+    //给用户添加券
+    public void voucherAdd(String url, String userid, String num, String sign, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", userid);
+        params.put("num", num);
+        params.put("sign", sign);
+        httpPost(url, params, callback);
     }
 
 }

@@ -589,4 +589,6 @@
     <string name="tips_voucher">券</string>
     <string name="rmb">元</string>
     <string name="online_recharge_title">充值中心</string>
+    <string name="recharge_success">充值成功</string>
+    <string name="recharge_failure">充值失败</string>
 </resources>
