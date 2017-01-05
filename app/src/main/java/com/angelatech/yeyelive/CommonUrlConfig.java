@@ -214,5 +214,7 @@ public class CommonUrlConfig {
     public static String money2ticket = NEW_HOST_URL + "config/money2ticket";
     //用户添加券yeye
     public static String voucherAdd = NEW_HOST_URL + "voucher/add";
+    //录像时间
+    public static String videoTime = NEW_HOST_URL + "video/time";
 }
 

@@ -257,5 +257,12 @@ public class MainEnter extends HttpFunction {
         params.put("sign", sign);
         httpPost(url, params, callback);
     }
-
+    //获取录像的接口
+    public void videoTime(String url, String userid, String pid, String sign, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("uid", userid);
+        params.put("pid", pid);
+        params.put("sign", sign);
+        httpPost(url, params, callback);
+    }
 }

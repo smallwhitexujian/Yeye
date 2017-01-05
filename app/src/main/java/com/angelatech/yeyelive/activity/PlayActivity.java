@@ -33,6 +33,7 @@ import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.Qiniupush.PLVideoTextureUtils;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.activity.function.UserControl;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.BaseKey;
@@ -44,6 +45,7 @@ import com.angelatech.yeyelive.mediaplayer.SurfaceViewHolderCallback;
 import com.angelatech.yeyelive.mediaplayer.VideoPlayer;
 import com.angelatech.yeyelive.mediaplayer.util.PlayerUtil;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.VideoModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
@@ -62,6 +64,7 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.will.common.log.DebugLogs;
+import com.will.common.string.security.Md5;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoDrawee;
@@ -73,6 +76,7 @@ import org.cocos2dx.lib.util.Cocos2dxView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -95,7 +99,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private LinearLayout player_ctl_layout, layout_onClick;
     private RelativeLayout ly_playfinish, top_view;
     private SeekBar player_seekBar;
-    private TextView player_total_time,player_current_time, tv_report, txt_likenum, player_split_line, txt_barname,str_context;
+    private TextView player_total_time, player_current_time, tv_report, txt_likenum, player_split_line, txt_barname, str_context;
     private ImageView btn_share, iv_vip, btn_Follow, player_play_btn, backBtn, btn_red, btn_room_exchange;
     private VideoPlayer mVideoPlayer;
 
@@ -109,6 +113,8 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     private Cocos2dxGift cocos2dxGift = new Cocos2dxGift();
     private boolean boolReport = false; //是否举报
     private volatile int time = 5000;
+    private MainEnter mainEnter;
+    private TextView vodioTime;
 
     Runnable runnable = new Runnable() {
         @Override
@@ -204,6 +210,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
     }
 
     private void initView() {
+        mainEnter = new MainEnter(getApplication());
         default_img = (FrescoDrawee) findViewById(R.id.default_img);
         player_seekBar = (SeekBar) findViewById(R.id.player_seekBar);
         player_surfaceView = (SurfaceView) findViewById(R.id.player_surfaceView);
@@ -224,6 +231,7 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         LoadingDialog.showLoadingDialog(PlayActivity.this, null);
         ly_playfinish = (RelativeLayout) findViewById(R.id.ly_playfinish);
         player_total_time = (TextView) findViewById(R.id.player_total_time);
+        vodioTime = (TextView) findViewById(R.id.vodioTime);
         player_current_time = (TextView) findViewById(R.id.player_current_time);
         txt_barname = (TextView) findViewById(R.id.txt_barname);
         tv_report = (TextView) findViewById(R.id.tv_report);
@@ -244,15 +252,16 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp1.setMargins(15, statusBarHeight, 0, 0);
-            lp1.setMargins(ScreenUtils.dip2px(getApplicationContext(),10), statusBarHeight+ScreenUtils.dip2px(getApplicationContext(),52), 15, 0);
+            lp1.setMargins(ScreenUtils.dip2px(getApplicationContext(), 10), statusBarHeight + ScreenUtils.dip2px(getApplicationContext(), 52), 15, 0);
             tv_report.setLayoutParams(lp1);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(15, statusBarHeight, 0, 0);
-            lp.setMargins(ScreenUtils.dip2px(getApplicationContext(),148), statusBarHeight+ScreenUtils.dip2px(getApplicationContext(),10), 0, 30);
+            lp.setMargins(ScreenUtils.dip2px(getApplicationContext(), 148), statusBarHeight + ScreenUtils.dip2px(getApplicationContext(), 10), 0, 30);
             str_context.setLayoutParams(lp);
         }
+
     }
 
     private void setView() {
@@ -308,7 +317,28 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
                     break;
             }
         }
-
+        Map<String, String> params = new HashMap<>();
+        params.put("uid", videoModel.userid);
+        params.put("pid", videoModel.videoid);
+        String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
+        DebugLogs.d("----------->"+Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
+        DebugLogs.d("----------->"+sign);
+        mainEnter.videoTime(CommonUrlConfig.videoTime, videoModel.userid, videoModel.videoid, sign, new HttpBusinessCallback() {
+            @Override
+            public void onSuccess(final String response) {
+                super.onSuccess(response);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DebugLogs.e("------>" + response);
+                        CommonParseModel<String> commonParseModel = JsonUtil.fromJson(response, CommonParseModel.class);
+                        if (commonParseModel != null && commonParseModel.code.equals("1000")) {
+                            vodioTime.setText(commonParseModel.data);
+                        }
+                    }
+                });
+            }
+        });
         CommonHandler<PlayActivity> mCommonHandler = new CommonHandler<>(this);
         mVideoPlayer = new VideoPlayer(player_surfaceView, mCommonHandler, path);
         player_surfaceView.setVisibility(View.VISIBLE);
@@ -321,7 +351,6 @@ public class PlayActivity extends BaseActivity implements PLVideoTextureUtils.PL
         if (!videoModel.userid.equals(userModel.userid) && videoModel.ticketprice != null && !videoModel.ticketprice.isEmpty() && Integer.parseInt(videoModel.ticketprice) > 0) {
             //门票房
             ChatRoom chatRoom = new ChatRoom(this);
-
             chatRoom.getVideoTickets(userModel.userid, userModel.token,
                     String.valueOf(videoModel.videoid), new HttpBusinessCallback() {
                         @Override
