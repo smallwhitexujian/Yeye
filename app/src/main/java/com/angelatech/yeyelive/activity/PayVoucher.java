@@ -92,7 +92,7 @@ public class PayVoucher extends BaseActivity {
     }
 
     private void initView() {
-        kindPay = 1;
+        kindPay = 2;
         ButterKnife.bind(this);
         voucherModels = new ArrayList<>();
         mainEnter = new MainEnter(this);
@@ -114,7 +114,7 @@ public class PayVoucher extends BaseActivity {
             @Override
             public void convert(ViewHolder helper, VoucherModel item, int position) {
                 helper.setText(R.id.Price, voucherModels.get(position).key + getString(R.string.tips_voucher));
-                helper.setText(R.id.rmb, getString(R.string.selling_price) + voucherModels.get(position).key + getString(R.string.rmb));
+                helper.setText(R.id.rmb, getString(R.string.selling_price) + voucherModels.get(position).key + "MYR");
             }
         };
         menu.setAdapter(adapter);

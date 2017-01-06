@@ -21,7 +21,6 @@ import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
@@ -76,8 +75,8 @@ public class MoneyChangerActivity extends BaseActivity {
         adapter = new CommonAdapter<VoucherModel>(getApplication(), voucherModels, R.layout.item_changer_money) {
             @Override
             public void convert(ViewHolder helper, VoucherModel item, int position) {
-                helper.setText(R.id.coins, item.key + "币");
-                helper.setText(R.id.voucher, item.value + "券");
+                helper.setText(R.id.voucher, item.key + "券");
+                helper.setText(R.id.coins, item.value + "MYR");
                 if (item.isCheck == 0) {
                     helper.hideView(R.id.selected);
                 } else {

@@ -48,9 +48,9 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:paddingTop="10dp"
+        android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:orientation="horizontal">
+        android:paddingTop="10dp">
 
         <com.xj.frescolib.View.FrescoRoundView
             android:id="@+id/hander_pic"
@@ -88,8 +88,8 @@
                 android:drawablePadding="10dp"
                 android:textColor="@color/btn_bg_red"
                 android:textSize="14sp"
-                tools:text="1111111"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:text="1111111" />
 
             <TextView
                 android:id="@+id/str_coins"
@@ -103,12 +103,12 @@
                 android:drawablePadding="10dp"
                 android:textColor="@color/color_FFEE00"
                 android:textSize="14sp"
-                tools:text="1111111"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:text="1111111" />
         </RelativeLayout>
 
         <TextView
-                android:id="@+id/btn_changer"
+            android:id="@+id/btn_changer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
@@ -135,7 +135,8 @@
         android:layout_below="@+id/view2"
         android:background="@color/white"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/weichat"
@@ -146,7 +147,8 @@
             android:drawablePadding="6dp"
             android:gravity="center"
             android:text="@string/voucher_btn_weichat"
-            android:textColor="@color/color_d80c18" />
+            android:textColor="#787878"
+            android:visibility="gone" />
 
         <View
             android:layout_width="0.5dp"
@@ -158,11 +160,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableBottom="@color/transparent"
+            android:drawableBottom="@drawable/btn_navigation_bar_hot_n"
             android:drawablePadding="6dp"
             android:gravity="center"
             android:text="@string/voucher_btn_payssion"
-            android:textColor="#787878" />
+            android:textColor="@color/color_d80c18" />
     </LinearLayout>
 
     <View
@@ -185,9 +187,9 @@
             android:id="@+id/menu"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="6dp"
             android:layout_weight="1"
             android:numColumns="auto_fit"
-            android:layout_marginTop="6dp"
             android:scrollbars="none"
             android:verticalSpacing="8dp"
             tools:ignore="UselessLeaf" />
