@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.thirdShare;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
@@ -18,10 +19,8 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.util.LoadBitmap;
-import com.angelatech.yeyelive.util.Utility;
 import com.facebook.datasource.DataSource;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.will.view.ToastUtils;
 
 
 public class ThirdShareDialog extends Dialog {
@@ -152,8 +151,7 @@ public class ThirdShareDialog extends Dialog {
                     fbshare.postStatusUpdate(dialogTitle, text, url, imageUrl);
                     break;
                 case R.id.tv_cancel:
-                    Utility.copy(url, mContext);
-                    ToastUtils.showToast(mContext, mContext.getString(R.string.capy_to_clip));
+                    shareText(mContext, text + url);
                     break;
             }
             dialog.dismiss();
@@ -165,4 +163,24 @@ public class ThirdShareDialog extends Dialog {
             }
         };
     }
+
+    //分享文字
+    public static void shareText(Context context, String str) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, str);
+        shareIntent.setType("text/plain");
+        //设置分享列表的标题，并且每次都显示分享列表
+        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.shareto)));
+    }
+
+    //分享单张图片
+    public static void shareSingleImage(Context context, Uri str) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, str);
+        shareIntent.setType("image/*");
+        context.startActivity(Intent.createChooser(shareIntent, "分享到"));
+    }
+
 }

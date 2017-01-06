@@ -591,4 +591,5 @@
     <string name="online_recharge_title">充值中心</string>
     <string name="recharge_success">充值成功</string>
     <string name="recharge_failure">充值失败</string>
+    <string name="shareto">分享到</string>
 </resources>
