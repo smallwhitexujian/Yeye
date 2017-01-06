@@ -138,7 +138,6 @@ public class PayVoucher extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-
         switch (v.getId()) {
             case R.id.weichat:
                 clearTabColor();
