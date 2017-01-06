@@ -31,4 +31,5 @@ public class VoucherModel implements Serializable {
     public String key; //金钱
     public String value;//券
     public String remart;//内容
+    public int isCheck = 0;
 }

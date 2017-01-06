@@ -265,4 +265,12 @@ public class MainEnter extends HttpFunction {
         params.put("sign", sign);
         httpPost(url, params, callback);
     }
+
+    //获取金币兑换列表
+    public void gold2ticket(String url, HttpBusinessCallback callback){
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", "");
+        params.put("token", "");
+        httpGet(url, params, callback);
+    }
 }

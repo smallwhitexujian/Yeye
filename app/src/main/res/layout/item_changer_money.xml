@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_coins"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_000000"
+            android:textSize="16sp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            tools:text="70dpasdas" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@null"
+            android:src="@drawable/vourcher"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/voucher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="80dp"
+            android:paddingRight="30dp"
+            android:textColor="@color/btn_bg_red"
+            android:textSize="16sp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            tools:text="70dpasdas" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_top_up_list_selected"
+        android:visibility="gone" />
+</RelativeLayout>

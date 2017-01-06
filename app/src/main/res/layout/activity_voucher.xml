@@ -57,7 +57,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
-            fresco:placeholderImage="@drawable/default_face_icon" />
+            fresco:placeholderImage="@drawable/default_face_icon"
+            tools:ignore="RtlHardcoded" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -65,7 +66,8 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            tools:ignore="RtlHardcoded">
 
             <TextView
                 android:id="@+id/text"
@@ -106,6 +108,7 @@
         </RelativeLayout>
 
         <TextView
+                android:id="@+id/btn_changer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"

@@ -324,6 +324,12 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
+            android:name=".activity.MoneyChangerActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
             android:name="com.payssion.android.sdk.PayssionActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.PayssionTrans"/>

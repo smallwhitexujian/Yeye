@@ -25,6 +25,7 @@ import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
+import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.google.gson.reflect.TypeToken;
 import com.payssion.android.sdk.PayssionActivity;
 import com.payssion.android.sdk.model.PayRequest;
@@ -70,6 +71,8 @@ public class PayVoucher extends BaseActivity {
     RelativeLayout headerLayout;
     @BindView(R.id.hander_pic)
     FrescoRoundView handerPic;
+    @BindView(R.id.btn_changer)
+    TextView btnChanger;
 
     private Drawable drawable, drawable2;
     private List<VoucherModel> voucherModels;
@@ -104,6 +107,7 @@ public class PayVoucher extends BaseActivity {
         weichat.setOnClickListener(this);
         payssion.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        btnChanger.setOnClickListener(this);
 
         mainEnter.money2ticket(CommonUrlConfig.money2ticket, callback);
         adapter = new CommonAdapter<VoucherModel>(getApplication(), voucherModels, R.layout.item_voucher) {
@@ -134,9 +138,10 @@ public class PayVoucher extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        clearTabColor();
+
         switch (v.getId()) {
             case R.id.weichat:
+                clearTabColor();
                 kindPay = 1;
                 weichat.setCompoundDrawables(null, null, null, drawable);
                 payssion.setCompoundDrawables(null, null, null, drawable2);
@@ -144,6 +149,7 @@ public class PayVoucher extends BaseActivity {
                 payssion.setTextColor(ContextCompat.getColor(this, R.color.color_787878));
                 break;
             case R.id.payssion:
+                clearTabColor();
                 kindPay = 2;
                 payssion.setCompoundDrawables(null, null, null, drawable);
                 weichat.setCompoundDrawables(null, null, null, drawable2);
@@ -152,6 +158,9 @@ public class PayVoucher extends BaseActivity {
                 break;
             case R.id.backBtn:
                 finish();
+                break;
+            case R.id.btn_changer:
+                StartActivityHelper.jumpActivityDefault(PayVoucher.this, MoneyChangerActivity.class);
                 break;
         }
     }
@@ -262,8 +271,8 @@ public class PayVoucher extends BaseActivity {
                         .setOrderId(TrackId) // your order id
                         .setDescription("yeye payssion") //订单说明
                         .setSecretKey(Secret_Key) //Secret Key
-                        .setPayerEmail(payEmail) //付款人人邮箱
-                        .setPayerName(pauName)); //付款人姓名
+                        .setPayerEmail(payEmail) //付款y用户昵称
+                        .setPayerName(pauName)); //付款用户id
         PayVoucher.this.startActivityForResult(intent, 0);
     }
 
