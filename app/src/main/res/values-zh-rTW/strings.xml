@@ -288,7 +288,6 @@
     <string name="login_text_desc">用户条款</string>
     <string name="btn_login">登录</string>
     <string name="btn_login_facebook">Facebook 登录</string>
-    <string name="btn_wechat">微信登录</string>
     <string name="room_system_message" formatted="false">欢迎 %s 来到 Yeye 直播!</string>
     <string name="share_to">分享到: </string>
     <string name="share_we_chat">微信</string>
@@ -415,7 +414,6 @@
     <string name="system_fans_msg">粉丝消息</string>
     <string name="system_follow">关注了你</string>
     <string name="red_deft_txt">留言！</string>
-    <string name="system_rad_queren">确认发送</string>
     <string name="system_red_more_coins">至少10金币</string>
     <string name="singnature_title">个性签名</string>
     <string name="Tab_menu_my">我的</string>

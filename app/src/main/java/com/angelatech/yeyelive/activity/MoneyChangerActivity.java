@@ -162,7 +162,6 @@ public class MoneyChangerActivity extends BaseActivity {
                                                 e.printStackTrace();
                                             }
                                         }
-                                        ToastUtils.showToast(MoneyChangerActivity.this, response);
                                     }
                                 });
                             }
