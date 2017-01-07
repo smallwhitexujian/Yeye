@@ -32,6 +32,7 @@ import com.payssion.android.sdk.model.PayRequest;
 import com.payssion.android.sdk.model.PayResponse;
 import com.will.common.log.DebugLogs;
 import com.will.common.string.security.Md5;
+import com.will.common.tool.DeviceTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
@@ -120,13 +121,33 @@ public class PayVoucher extends BaseActivity {
         menu.setAdapter(adapter);
         menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 switch (kindPay) {
                     case 1://weichat支付
 
                         break;
                     case 2://paySsion支付
-                        payssionPay(Double.valueOf(voucherModels.get(i).key), System.currentTimeMillis() + "", userInfo.nickname, userInfo.userid);
+                        mainEnter.doorder(CommonUrlConfig.doorder, userInfo.userid, voucherModels.get(i).key, DeviceTool.getUniqueID(getApplication()), new HttpBusinessCallback() {
+                            @Override
+                            public void onSuccess(final String response) {
+                                super.onSuccess(response);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CommonParseModel commonModel = JsonUtil.fromJson(response, CommonParseModel.class);
+                                        if (commonModel != null && commonModel.code.equals("1000")) {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(commonModel.data.toString());
+                                                String orderid = jsonObject.getString("orderid");
+                                                payssionPay(Double.valueOf(voucherModels.get(i).key), orderid, userInfo.nickname, userInfo.userid);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
                         break;
                     default:
                         break;
