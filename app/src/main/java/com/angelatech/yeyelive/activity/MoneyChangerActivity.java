@@ -23,7 +23,6 @@ import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
@@ -39,6 +38,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by donghao on 17-1-6.
+ *
  */
 
 public class MoneyChangerActivity extends BaseActivity {
