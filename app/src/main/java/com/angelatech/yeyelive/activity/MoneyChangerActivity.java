@@ -15,15 +15,21 @@ import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
+import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.google.gson.reflect.TypeToken;
+import com.will.common.log.DebugLogs;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,14 +136,35 @@ public class MoneyChangerActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_submit:
-                mainEnter.voucher2gold(CommonUrlConfig.voucher2gold,userInfo.userid,voucherModels.get(mPosition).key,new HttpBusinessCallback(){
+                String voucher = voucherModels.get(mPosition).key;
+                String str = voucher.substring(0, voucher.length() - 3);
+                mainEnter.voucher2gold(CommonUrlConfig.voucher2gold, userInfo.userid, str, new HttpBusinessCallback() {
                     @Override
                     public void onSuccess(final String response) {
                         super.onSuccess(response);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ToastUtils.showToast(MoneyChangerActivity.this,response);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CommonParseModel model = JsonUtil.fromJson(response, CommonParseModel.class);
+                                        if (model != null && model.code.equals("10000")) {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(model.data.toString());
+                                                String diamonds = jsonObject.getString("diamonds");
+                                                String voucher = jsonObject.getString("voucher");
+                                                strCoins.setText(diamonds);
+                                                strVourcher.setText(voucher);
+                                                CacheDataManager.getInstance().update(BaseKey.USER_DIAMOND, diamonds, userInfo.userid);
+                                                CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, voucher, userInfo.userid);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        ToastUtils.showToast(MoneyChangerActivity.this, response);
+                                    }
+                                });
                             }
                         });
                     }

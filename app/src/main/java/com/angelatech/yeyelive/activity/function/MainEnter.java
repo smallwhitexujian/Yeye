@@ -5,7 +5,6 @@ import android.content.Context;
 import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.web.HttpFunction;
-import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
 import com.will.common.string.security.Md5;
 import com.will.web.handle.HttpBusinessCallback;
@@ -291,13 +290,11 @@ public class MainEnter extends HttpFunction {
     }
 
     //兑换接口
-    public void voucher2gold(String url,String uid, String voucher,  HttpBusinessCallback callback) {
+    public void voucher2gold(String url, String uid, String voucher, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
-        params.put("voucher", String.valueOf(voucher));
+        params.put("voucher", voucher);
         params.put("uid", uid);
         String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
-        DebugLogs.d("------->"+Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
-        DebugLogs.d("------->"+sign);
         params.put("sign", sign);
         httpPost(url, params, callback);
     }
