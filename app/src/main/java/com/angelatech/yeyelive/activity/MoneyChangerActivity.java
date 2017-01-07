@@ -23,7 +23,6 @@ import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.google.gson.reflect.TypeToken;
-import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
 
