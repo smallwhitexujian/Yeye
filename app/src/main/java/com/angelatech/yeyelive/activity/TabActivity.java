@@ -43,7 +43,7 @@ import java.util.ArrayList;
  * 排行榜
  */
 
-public class TabActivity extends HeaderBaseActivity  {
+public class TabActivity extends HeaderBaseActivity {
     private ArrayList<Fragment> fragmentList;
     public static int currIndex = 0;
     private ViewPager mAbSlidingTabView;
@@ -60,11 +60,9 @@ public class TabActivity extends HeaderBaseActivity  {
         fragmentList = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String userid =  getIntent().getStringExtra("USERID");
-
-            fragment_Tab_1 = SevenRankFragment.newInstance(1,userid);
-        }
-        else {
+            String userid = getIntent().getStringExtra("USERID");
+            fragment_Tab_1 = SevenRankFragment.newInstance(1, userid);
+        } else {
             fragment_Tab_1 = SevenRankFragment.newInstance(1);
         }
         fragmentList.add(fragment_Tab_1);

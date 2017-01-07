@@ -55,6 +55,7 @@ public class MoneyChangerActivity extends BaseActivity {
     private MainEnter mainEnter;
     private List<VoucherModel> voucherModels;
     private int mPosition = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,7 @@ public class MoneyChangerActivity extends BaseActivity {
         adapter = new CommonAdapter<VoucherModel>(getApplication(), voucherModels, R.layout.item_changer_money) {
             @Override
             public void convert(ViewHolder helper, VoucherModel item, int position) {
-                helper.setText(R.id.voucher, item.key + "券");
+                helper.setText(R.id.voucher, item.key + getString(R.string.tips_voucher));
                 helper.setText(R.id.coins, item.value + "MYR");
                 if (item.isCheck == 0) {
                     helper.hideView(R.id.selected);
@@ -129,7 +130,18 @@ public class MoneyChangerActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_submit:
-                ToastUtils.showToast(MoneyChangerActivity.this,voucherModels.get(mPosition).value);
+                mainEnter.voucher2gold(CommonUrlConfig.voucher2gold,userInfo.userid,voucherModels.get(mPosition).key,new HttpBusinessCallback(){
+                    @Override
+                    public void onSuccess(final String response) {
+                        super.onSuccess(response);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.showToast(MoneyChangerActivity.this,response);
+                            }
+                        });
+                    }
+                });
                 break;
         }
     }

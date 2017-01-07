@@ -218,5 +218,9 @@ public class CommonUrlConfig {
     public static String videoTime = NEW_HOST_URL + "video/time";
     //金币兑换yeye
     public static String gold2ticket = NEW_HOST_URL + "config/gold2ticket";
+    //下订单接口
+    public static String doorder = NEW_HOST_URL + "pay/doorder";
+    //兑换接口
+    public static String voucher2gold = NEW_HOST_URL + "voucher/voucher2gold";
 }
 

@@ -2,9 +2,12 @@ package com.angelatech.yeyelive.activity.function;
 
 import android.content.Context;
 
+import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
+import com.will.common.string.security.Md5;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.util.HashMap;
@@ -257,6 +260,7 @@ public class MainEnter extends HttpFunction {
         params.put("sign", sign);
         httpPost(url, params, callback);
     }
+
     //获取录像的接口
     public void videoTime(String url, String userid, String pid, String sign, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
@@ -267,10 +271,34 @@ public class MainEnter extends HttpFunction {
     }
 
     //获取金币兑换列表
-    public void gold2ticket(String url, HttpBusinessCallback callback){
+    public void gold2ticket(String url, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", "");
         params.put("token", "");
         httpGet(url, params, callback);
+    }
+
+    //券的下单接口
+    public void doorder(String url, String userid, String amount, String iden, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("uid", userid);
+        params.put("amount", amount);
+        params.put("appid", "");
+        params.put("iden", iden);
+        String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
+        params.put("sign", sign);
+        httpPost(url, params, callback);
+    }
+
+    //兑换接口
+    public void voucher2gold(String url,String uid, String voucher,  HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("voucher", String.valueOf(voucher));
+        params.put("uid", uid);
+        String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
+        DebugLogs.d("------->"+Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
+        DebugLogs.d("------->"+sign);
+        params.put("sign", sign);
+        httpPost(url, params, callback);
     }
 }
