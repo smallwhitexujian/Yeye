@@ -224,7 +224,7 @@ public class GoodsListFragment extends BaseFragment {
                         if (datas == null) {
                             return;
                         }
-                        if (HttpFunction.isSuc(datas.code)) {
+                        if (HttpFunction.isSuc(datas.code) &&  App.productModels!=null) {
                             App.productModels.clear();
                             App.productModels.addAll(datas.data);
                             if (App.productModels.size() <= 0) {
