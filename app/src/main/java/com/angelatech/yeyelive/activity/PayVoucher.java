@@ -241,9 +241,6 @@ public class PayVoucher extends BaseActivity {
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
                                                 }
-                                                ToastUtils.showToast(PayVoucher.this, getString(R.string.recharge_success));
-                                            } else {
-                                                ToastUtils.showToast(PayVoucher.this, getString(R.string.recharge_failure));
                                             }
                                         }
                                     }
