@@ -594,6 +594,8 @@
     <string name="moneyChange_center">兑换中心</string>
     <string name="btn_submit_mc">确认兑换</string>
     <string name="tips_str_mc">温馨提示：请在网络良好的情况下兑现，充值完成前不要进行其他无关的操作。如有问题，请联系客服：yeyelivesupport@gmail.com</string>
+    <string name="Money_changer_success">兑换成功</string>
+    <string name="Money_changer_faile">兑换失败</string>
 
 
 </resources>

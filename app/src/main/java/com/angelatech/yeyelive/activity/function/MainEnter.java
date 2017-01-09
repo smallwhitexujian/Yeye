@@ -278,10 +278,12 @@ public class MainEnter extends HttpFunction {
     }
 
     //券的下单接口
-    public void doorder(String url, String userid, String amount, String iden, HttpBusinessCallback callback) {
+    public void doorder(String url, String userid, String amount,String money, String iden, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("uid", userid);
         params.put("amount", amount);
+        params.put("money", money);
+        params.put("unit", "1");
         params.put("appid", "");
         params.put("iden", iden);
         String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
@@ -294,6 +296,15 @@ public class MainEnter extends HttpFunction {
         Map<String, String> params = new HashMap<>();
         params.put("voucher", voucher);
         params.put("uid", uid);
+        String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
+        params.put("sign", sign);
+        httpPost(url, params, callback);
+    }
+
+    //最新的券和金币
+    public void userMoney(String url, String userid, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("uid", userid);
         String sign = Md5.md5(Md5.formatUrlMap(params, true, true) + CommonUrlConfig.Sign_key);
         params.put("sign", sign);
         httpPost(url, params, callback);

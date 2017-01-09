@@ -31,7 +31,6 @@ import com.payssion.android.sdk.PayssionActivity;
 import com.payssion.android.sdk.model.PayRequest;
 import com.payssion.android.sdk.model.PayResponse;
 import com.will.common.log.DebugLogs;
-import com.will.common.string.security.Md5;
 import com.will.common.tool.DeviceTool;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -41,9 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,12 +119,13 @@ public class PayVoucher extends BaseActivity {
         menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+
                 switch (kindPay) {
                     case 1://weichat支付
 
                         break;
                     case 2://paySsion支付
-                        mainEnter.doorder(CommonUrlConfig.doorder, userInfo.userid, voucherModels.get(i).key, DeviceTool.getUniqueID(getApplication()), new HttpBusinessCallback() {
+                        mainEnter.doorder(CommonUrlConfig.doorder, userInfo.userid, voucherModels.get(i).key,voucherModels.get(i).value, DeviceTool.getUniqueID(getApplication()), new HttpBusinessCallback() {
                             @Override
                             public void onSuccess(final String response) {
                                 super.onSuccess(response);
@@ -222,11 +220,7 @@ public class PayVoucher extends BaseActivity {
                         String num = response.getAmount();
                         //you will have to query the payment state with the transId or orderId from your server
                         //as we will notify you server whenever there is a payment state change
-                        Map<String, String> pamer = new HashMap<>();
-                        pamer.put("userid", userInfo.userid);
-                        pamer.put("num", num);
-                        String sign = Md5.md5(Md5.formatUrlMap(pamer, true, true) + CommonUrlConfig.Sign_key);
-                        mainEnter.voucherAdd(CommonUrlConfig.voucherAdd, userInfo.userid, num, sign, new HttpBusinessCallback() {
+                        mainEnter.userMoney(CommonUrlConfig.userMoney,userInfo.userid,new HttpBusinessCallback(){
                             @Override
                             public void onSuccess(final String response) {
                                 super.onSuccess(response);
@@ -235,8 +229,7 @@ public class PayVoucher extends BaseActivity {
                                     public void run() {
                                         CommonParseModel commonModel = JsonUtil.fromJson(response, CommonParseModel.class);
                                         if (commonModel != null) {
-                                            DebugLogs.d("------>" + commonModel.toString());
-                                            if (commonModel.code.equals("10000")) {
+                                            if (commonModel.code.equals("1000")) {
                                                 try {
                                                     JSONObject jsonObject = new JSONObject(commonModel.data.toString());
                                                     String diamonds = jsonObject.getString("diamonds");

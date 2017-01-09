@@ -222,5 +222,7 @@ public class CommonUrlConfig {
     public static String doorder = NEW_HOST_URL + "pay/doorder";
     //兑换接口
     public static String voucher2gold = NEW_HOST_URL + "voucher/voucher2gold";
+    //获取最新的券和金币
+    public static String userMoney = NEW_HOST_URL + "user/money";
 }
 
