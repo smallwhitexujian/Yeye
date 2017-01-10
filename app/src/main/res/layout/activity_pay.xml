@@ -169,6 +169,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view1"
             android:layout_width="0.5dp"
             android:layout_height="35dp"
             android:background="#FFA9A9A9" />
