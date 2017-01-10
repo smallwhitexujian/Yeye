@@ -224,5 +224,7 @@ public class CommonUrlConfig {
     public static String voucher2gold = NEW_HOST_URL + "voucher/voucher2gold";
     //获取最新的券和金币
     public static String userMoney = NEW_HOST_URL + "user/money";
+    //开关
+    public static String configOnoff = NEW_HOST_URL + "config/onoff";
 }
 

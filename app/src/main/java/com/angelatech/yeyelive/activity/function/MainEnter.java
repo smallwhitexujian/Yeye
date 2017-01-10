@@ -309,4 +309,12 @@ public class MainEnter extends HttpFunction {
         params.put("sign", sign);
         httpPost(url, params, callback);
     }
+
+    //开关
+    public void configOnoff(String url, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", "");
+        params.put("token", "");
+        httpGet(url, params, callback);
+    }
 }

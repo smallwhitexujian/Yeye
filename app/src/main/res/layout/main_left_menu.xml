@@ -257,7 +257,6 @@
             <!-- -->
             <RelativeLayout
                 android:id="@+id/layout_diamond"
-
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:background="@color/white"

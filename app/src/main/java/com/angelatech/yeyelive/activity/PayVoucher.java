@@ -18,6 +18,7 @@ import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.adapter.CommonAdapter;
 import com.angelatech.yeyelive.adapter.ViewHolder;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
@@ -30,9 +31,7 @@ import com.google.gson.reflect.TypeToken;
 import com.payssion.android.sdk.PayssionActivity;
 import com.payssion.android.sdk.model.PayRequest;
 import com.payssion.android.sdk.model.PayResponse;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
-import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 import com.xj.frescolib.View.FrescoRoundView;
 
@@ -106,7 +105,18 @@ public class PayVoucher extends BaseActivity {
         payssion.setOnClickListener(this);
         backBtn.setOnClickListener(this);
         btnChanger.setOnClickListener(this);
-
+        int WeiChatNooff = (int)Double.parseDouble(App.configOnOff.get(2).value);
+        int PayssionNooff = (int)Double.parseDouble(App.configOnOff.get(3).value);
+        if (PayssionNooff == 1){
+            payssion.setVisibility(View.VISIBLE);
+        }else{
+            payssion.setVisibility(View.GONE);
+        }
+        if (WeiChatNooff == 1){
+            weichat.setVisibility(View.VISIBLE);
+        }else{
+            weichat.setVisibility(View.GONE);
+        }
         mainEnter.money2ticket(CommonUrlConfig.money2ticket, callback);
         adapter = new CommonAdapter<VoucherModel>(getApplication(), voucherModels, R.layout.item_voucher) {
             @Override

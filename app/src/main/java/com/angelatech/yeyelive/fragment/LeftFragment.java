@@ -28,11 +28,13 @@ import com.angelatech.yeyelive.activity.UserInfoActivity;
 import com.angelatech.yeyelive.activity.UserVideoActivity;
 import com.angelatech.yeyelive.activity.WebActivity;
 import com.angelatech.yeyelive.activity.function.MainEnter;
+import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.SystemMessage;
+import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
@@ -55,11 +57,11 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice,txt_like;
+    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice, txt_like;
 
     private RelativeLayout settingLayout, ly_qcode, gold_hous, my_product,
             layout_diamond, layout_video, layout_systemMsg, layout_gift;
-    private LinearLayout fansLayout, attentionLayout,ly_like;
+    private LinearLayout fansLayout, attentionLayout, ly_like;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
     private BasicUserInfoDBModel userInfo;
@@ -90,6 +92,7 @@ public class LeftFragment extends HintFragment {
             SystemMessage.getInstance().clearUnReadTag(getActivity());
         }
         message_notice.setText(str);
+        getConfig();
     }
 
     @Override
@@ -238,6 +241,34 @@ public class LeftFragment extends HintFragment {
         }
     }
 
+    private void getConfig() {
+        mainEnter.configOnoff(CommonUrlConfig.configOnoff, new HttpBusinessCallback() {
+            @Override
+            public void onSuccess(final String response) {
+                super.onSuccess(response);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonListResult<VoucherModel> voucherM = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                        }.getType());
+                        if (voucherM != null && voucherM.code.equals("1000")) {
+                            App.configOnOff.addAll(voucherM.data);
+                            if (App.configOnOff!=null ){
+                                int type = (int)Double.parseDouble(App.configOnOff.get(1).value);
+                                if (type == 1){
+                                    layout_diamond.setVisibility(View.VISIBLE);
+                                }else{
+                                    layout_diamond.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
     @Override
     public void doHandler(Message msg) {
         switch (msg.what) {
@@ -290,7 +321,7 @@ public class LeftFragment extends HintFragment {
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_TICKET, basicUserInfoDBModel.isticket, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_IS_PWDROOM, basicUserInfoDBModel.ispwdroom, basicUserInfoDBModel.userid);
                 CacheDataManager.getInstance().update(BaseKey.USER_EMAIL, basicUserInfoDBModel.email, basicUserInfoDBModel.userid);
-                if (basicUserInfoDBModel.voucher!=null){
+                if (basicUserInfoDBModel.voucher != null) {
                     CacheDataManager.getInstance().update(BaseKey.USER_VOUCHER, basicUserInfoDBModel.voucher, basicUserInfoDBModel.userid);
                 }
                 CacheDataManager.getInstance().update(BaseKey.ISPWDpassword, basicUserInfoDBModel.ispaypassword, basicUserInfoDBModel.userid);
