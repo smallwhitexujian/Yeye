@@ -29,6 +29,7 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.google.gson.reflect.TypeToken;
 import com.payssion.android.sdk.PayssionActivity;
+import com.payssion.android.sdk.PayssionConfig;
 import com.payssion.android.sdk.model.PayRequest;
 import com.payssion.android.sdk.model.PayResponse;
 import com.will.common.tool.DeviceTool;
@@ -105,6 +106,8 @@ public class PayVoucher extends BaseActivity {
         payssion.setOnClickListener(this);
         backBtn.setOnClickListener(this);
         btnChanger.setOnClickListener(this);
+        PayssionConfig.enablePM("fpx_my|hlb_my|maybank2u_my|cimb_my|affinepg_my|amb_my|rhb_my|molpay|webcash_my|unionpay_cn|tenpay_cn|alipay_cn");
+        PayssionConfig.setLanguage("ms");
         int WeiChatNooff = (int)Double.parseDouble(App.configOnOff.get(2).value);
         int PayssionNooff = (int)Double.parseDouble(App.configOnOff.get(3).value);
         if (PayssionNooff == 1){
@@ -285,9 +288,9 @@ public class PayVoucher extends BaseActivity {
                         .setAPIKey(key_api) //Payssion帐户API Key
                         .setAmount(amount) //订单金额
                         .setCurrency("MYR") //货币USD
-//                        .setPMId("CashU") //支付方式id
+//                        .setPMId("fpx_my") //支付方式id
                         .setPayerRef("yeye") //支付方式的其他参数
-//                        .setLanguage(language)
+//                        .setLanguage(PLanguage.ZH_SIMPLIFIED)
                         .setOrderId(TrackId) // your order id
                         .setDescription("yeye payssion") //订单说明
                         .setSecretKey(Secret_Key) //Secret Key

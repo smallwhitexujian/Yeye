@@ -82,8 +82,8 @@ public class MoneyChangerActivity extends BaseActivity {
         adapter = new CommonAdapter<VoucherModel>(getApplication(), voucherModels, R.layout.item_changer_money) {
             @Override
             public void convert(ViewHolder helper, VoucherModel item, int position) {
-                helper.setText(R.id.voucher, item.key + "MYR");
-                helper.setText(R.id.coins, item.value + getString(R.string.tips_voucher));
+                helper.setText(R.id.voucher, item.key + getString(R.string.tips_voucher));
+                helper.setText(R.id.coins, item.value + "MYR");
                 if (item.isCheck == 0) {
                     helper.hideView(R.id.selected);
                 } else {
