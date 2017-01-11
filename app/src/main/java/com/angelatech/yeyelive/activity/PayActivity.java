@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
-import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.StartActivityHelper;
@@ -25,7 +24,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private TextView txt_coin, txt_voucher;
     private BasicUserInfoDBModel userInfo;
     private LinearLayout layout_diamond;
-    private View view1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
         layout_diamond = (LinearLayout) findViewById(R.id.layout_diamond);
         txt_coin = (TextView) findViewById(R.id.txt_coin);
-        view1 = (View)findViewById(R.id.view1);
         LinearLayout ly_qcode = (LinearLayout) findViewById(R.id.ly_qcode);
         LinearLayout ly_card = (LinearLayout) findViewById(R.id.ly_card);
         LinearLayout ly_wallet_collection = (LinearLayout) findViewById(R.id.ly_wallet_collection);
@@ -69,14 +66,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         if (userInfo.ispaypassword == 0) {
             uiHandler.obtainMessage(MSG_NO_SET_PWD).sendToTarget();
         }
-        int Coins = (int)Double.parseDouble(App.configOnOff.get(0).value);
-        if(Coins == 1){
-            layout_diamond.setVisibility(View.VISIBLE);
-            view1.setVisibility(View.VISIBLE);
-        }else{
-            layout_diamond.setVisibility(View.GONE);
-            view1.setVisibility(View.GONE);
-        }
+
     }
 
     @Override

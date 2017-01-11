@@ -21,6 +21,7 @@ import com.angelatech.yeyelive.activity.MessageNotificationActivity;
 import com.angelatech.yeyelive.activity.PayActivity;
 import com.angelatech.yeyelive.activity.PopularityActivity;
 import com.angelatech.yeyelive.activity.ProductActivity;
+import com.angelatech.yeyelive.activity.RechargeActivity;
 import com.angelatech.yeyelive.activity.RecodeActivity;
 import com.angelatech.yeyelive.activity.SettingActivity;
 import com.angelatech.yeyelive.activity.TestScanActivity;
@@ -57,10 +58,10 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice, txt_like;
+    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice, txt_like,coins;
 
     private RelativeLayout settingLayout, ly_qcode, gold_hous, my_product,
-            layout_diamond, layout_video, layout_systemMsg, layout_gift;
+            layout_diamond, layout_video, layout_systemMsg, layout_gift,diamond;
     private LinearLayout fansLayout, attentionLayout, ly_like;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
@@ -102,7 +103,6 @@ public class LeftFragment extends HintFragment {
 
     private void initView() {
         mainEnter = new MainEnter(getActivity());
-
         user_nick = (TextView) view.findViewById(R.id.user_nick);
         user_sign = (TextView) view.findViewById(R.id.user_sign);
         user_video = (TextView) view.findViewById(R.id.user_video);
@@ -111,6 +111,7 @@ public class LeftFragment extends HintFragment {
         attention = (TextView) view.findViewById(R.id.user_attention);//关注
         intimacy = (TextView) view.findViewById(R.id.user_intimacy);//亲密度
         txt_like = (TextView) view.findViewById(R.id.txt_like);//亲密度
+        coins = (TextView) view.findViewById(R.id.coins);//亲密度
         message_notice = (TextView) view.findViewById(R.id.message_notice);
         gold_hous = (RelativeLayout) view.findViewById(R.id.gold_hous);
         layout_systemMsg = (RelativeLayout) view.findViewById(R.id.layout_systemMsg);
@@ -119,6 +120,7 @@ public class LeftFragment extends HintFragment {
         attentionLayout = (LinearLayout) view.findViewById(R.id.attention_layout);
         settingLayout = (RelativeLayout) view.findViewById(R.id.setting_layout);
         layout_diamond = (RelativeLayout) view.findViewById(R.id.layout_diamond);
+        diamond = (RelativeLayout) view.findViewById(R.id.diamond);
         layout_video = (RelativeLayout) view.findViewById(R.id.layout_video);
         layout_gift = (RelativeLayout) view.findViewById(R.id.layout_gift);
         ly_qcode = (RelativeLayout) view.findViewById(R.id.ly_qcode);
@@ -139,6 +141,7 @@ public class LeftFragment extends HintFragment {
         editImageView.setOnClickListener(this);
         userFace.setOnClickListener(this);
         layout_diamond.setOnClickListener(this);
+        diamond.setOnClickListener(this);
         layout_video.setOnClickListener(this);
         btn_qcode.setOnClickListener(this);
         ly_qcode.setOnClickListener(this);
@@ -152,6 +155,9 @@ public class LeftFragment extends HintFragment {
         switch (v.getId()) {
             case R.id.ly_like:
                 StartActivityHelper.jumpActivity(getActivity(), PopularityActivity.class, userInfo);
+                break;
+            case R.id.diamond:
+                StartActivityHelper.jumpActivityDefault(getActivity(), RechargeActivity.class);
                 break;
             case R.id.attention_layout:
                 StartActivityHelper.jumpActivityDefault(getActivity(), FocusOnActivity.class);
@@ -169,10 +175,6 @@ public class LeftFragment extends HintFragment {
                 break;
             case R.id.user_face:
                 if (userInfo != null) {
-//                    PicViewModel picViewModel = new PicViewModel();
-//                    picViewModel.url = userInfo.headurl;
-//                    picViewModel.defaultPic = R.drawable.default_face_icon;
-//                    StartActivityHelper.jumpActivity(getContext(), PicViewActivity.class, picViewModel);
                     BasicUserInfoModel usermodel = new BasicUserInfoModel();
                     usermodel.Userid = userInfo.userid;
                     usermodel.nickname = userInfo.nickname;
@@ -185,17 +187,12 @@ public class LeftFragment extends HintFragment {
             case R.id.layout_video:
                 StartActivityHelper.jumpActivityDefault(getActivity(), UserVideoActivity.class);
                 break;
-//            case R.id.layout_Invite_friend:
-//                FbProxy fbProxy = new FbProxy();
-//                fbProxy.inviteFriend(getActivity());
-//                break;
             case R.id.layout_systemMsg:
                 StartActivityHelper.jumpActivityDefault(getActivity(), MessageNotificationActivity.class);
                 break;
             case R.id.btn_qcode:
                 //打开二维码页面
                 StartActivityHelper.jumpActivity(getActivity(), RecodeActivity.class, 0);
-
                 break;
             case R.id.ly_qcode:
                 StartActivityHelper.jumpActivityDefault(getActivity(), TestScanActivity.class);
@@ -260,6 +257,12 @@ public class LeftFragment extends HintFragment {
                                 }else{
                                     layout_diamond.setVisibility(View.GONE);
                                 }
+                                int Coins = (int)Double.parseDouble(App.configOnOff.get(0).value);
+                                if(Coins == 1){
+                                    diamond.setVisibility(View.VISIBLE);
+                                }else{
+                                    diamond.setVisibility(View.GONE);
+                                }
                             }
                         }
                     }
@@ -291,6 +294,7 @@ public class LeftFragment extends HintFragment {
                 txt_like.setText(String.format("%s", basicUserInfoDBModel.followNum));
                 userFace.setImageURI(VerificationUtil.getImageUrl150(basicUserInfoDBModel.headurl));
                 user_video.setText(String.format("%s", basicUserInfoDBModel.videoNum));
+                coins.setText(userInfo.diamonds);
                 if (Constant.SEX_MALE.equals(basicUserInfoDBModel.sex)) {
                     sexImageView.setImageResource(R.drawable.icon_information_boy);
                 } else {

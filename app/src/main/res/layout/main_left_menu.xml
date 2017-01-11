@@ -254,7 +254,47 @@
                 android:layout_height="0.5dp"
                 android:layout_marginTop="10dp" />
 
-            <!-- -->
+            <!--钱包 -->
+            <RelativeLayout
+                android:id="@+id/diamond"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@drawable/icon_me_my_golds"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="@string/recharge_title"
+                    android:textColor="@color/color_ff666666"
+                    android:textSize="14sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/coins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="17dp"
+                    android:drawablePadding="13dp"
+                    android:drawableRight="@drawable/btn_next"
+                    android:gravity="center"
+                    android:textColor="@color/color_a6a6a6"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap,RtlHardcoded" />
+            </RelativeLayout>
+
+            <!--分割 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_grey_d5" />
+
+            <!--钱包 -->
             <RelativeLayout
                 android:id="@+id/layout_diamond"
                 android:layout_width="match_parent"
