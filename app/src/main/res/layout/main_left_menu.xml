@@ -269,7 +269,7 @@
                     android:drawableLeft="@drawable/icon_me_my_golds"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="@string/recharge_title"
+                    android:text="@string/diamond"
                     android:textColor="@color/color_ff666666"
                     android:textSize="14sp"
                     tools:ignore="RtlHardcoded" />
