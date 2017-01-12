@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonParseModel;
+import com.angelatech.yeyelive.model.SelecTypeModel;
 import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
@@ -65,8 +67,6 @@ public class PayVoucher extends BaseActivity {
     GridView menu;
     @BindView(R.id.backBtn)
     ImageView backBtn;
-    @BindView(R.id.headerLayout)
-    RelativeLayout headerLayout;
     @BindView(R.id.hander_pic)
     FrescoRoundView handerPic;
     @BindView(R.id.btn_changer)
@@ -80,12 +80,18 @@ public class PayVoucher extends BaseActivity {
     private static String Secret_Key = "20a9631e6ab7c064d9c62a85a9ee8ec9";
     private static int kindPay = 1;//默认微信支付
     private MainEnter mainEnter;
+    private RelativeLayout rootView;
+    private TextView title;
+    private List<SelecTypeModel> listDatas = new ArrayList<>();
+    private CommonAdapter<SelecTypeModel> commonAdapter;
+    private int mPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voucher);
         ButterKnife.bind(this);
+        initData();
         initView();
     }
 
@@ -95,6 +101,10 @@ public class PayVoucher extends BaseActivity {
         voucherModels = new ArrayList<>();
         mainEnter = new MainEnter(this);
         userInfo = CacheDataManager.getInstance().loadUser();
+        rootView = (RelativeLayout) findViewById(R.id.rootView);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        ImageView btnBack = (ImageView) findViewById(R.id.btnBack);
+        title = (TextView)findViewById(R.id.title);
         drawable = ContextCompat.getDrawable(this, R.drawable.btn_navigation_bar_hot_n);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         drawable2 = ContextCompat.getDrawable(this, R.color.transparent);
@@ -106,18 +116,19 @@ public class PayVoucher extends BaseActivity {
         payssion.setOnClickListener(this);
         backBtn.setOnClickListener(this);
         btnChanger.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
         PayssionConfig.enablePM("fpx_my|hlb_my|maybank2u_my|cimb_my|affinepg_my|amb_my|rhb_my|molpay|webcash_my|unionpay_cn|tenpay_cn|alipay_cn");
         PayssionConfig.setLanguage("ms");
-        int WeiChatNooff = (int)Double.parseDouble(App.configOnOff.get(2).value);
-        int PayssionNooff = (int)Double.parseDouble(App.configOnOff.get(3).value);
-        if (PayssionNooff == 1){
+        int WeiChatNooff = (int) Double.parseDouble(App.configOnOff.get(2).value);
+        int PayssionNooff = (int) Double.parseDouble(App.configOnOff.get(3).value);
+        if (PayssionNooff == 1) {
             payssion.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             payssion.setVisibility(View.GONE);
         }
-        if (WeiChatNooff == 1){
+        if (WeiChatNooff == 1) {
             weichat.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             weichat.setVisibility(View.GONE);
         }
         mainEnter.money2ticket(CommonUrlConfig.money2ticket, callback);
@@ -132,39 +143,64 @@ public class PayVoucher extends BaseActivity {
         menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-
                 switch (kindPay) {
                     case 1://weichat支付
 
                         break;
                     case 2://paySsion支付
-                        mainEnter.doorder(CommonUrlConfig.doorder, userInfo.userid, voucherModels.get(i).key,voucherModels.get(i).value, DeviceTool.getUniqueID(getApplication()), new HttpBusinessCallback() {
-                            @Override
-                            public void onSuccess(final String response) {
-                                super.onSuccess(response);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        CommonParseModel commonModel = JsonUtil.fromJson(response, CommonParseModel.class);
-                                        if (commonModel != null && commonModel.code.equals("1000")) {
-                                            try {
-                                                JSONObject jsonObject = new JSONObject(commonModel.data.toString());
-                                                String orderid = jsonObject.getString("orderid");
-                                                payssionPay(Double.valueOf(voucherModels.get(i).key), orderid, userInfo.nickname, userInfo.userid);
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                        });
+                        mPosition = i;
+                        rootView.setVisibility(View.VISIBLE);
+                        title.setText(String.format("%sMYR", voucherModels.get(mPosition).key));
                         break;
                     default:
                         break;
                 }
             }
         });
+
+        commonAdapter = new CommonAdapter<SelecTypeModel>(this, listDatas, R.layout.item_pay_select_type) {
+            @Override
+            public void convert(ViewHolder helper, SelecTypeModel item, int position) {
+                helper.setText(R.id.str, listDatas.get(position).getKey());
+            }
+        };
+        listView.setAdapter(commonAdapter);
+        commonAdapter.notifyDataSetChanged();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String PMID = listDatas.get(i).getValue();
+                rootView.setVisibility(View.GONE);
+                doOrder(PMID);
+            }
+        });
+    }
+
+    private void initData() {
+        SelecTypeModel selec1 = new SelecTypeModel("Myclear FPX", "fpx_my");
+        SelecTypeModel selec2 = new SelecTypeModel("Hong Leong", "hlb_my");
+        SelecTypeModel selec3 = new SelecTypeModel("Maybank2u", "maybank2u_my");
+        SelecTypeModel selec4 = new SelecTypeModel("CIMB Clicks", "cimb_my");
+        SelecTypeModel selec5 = new SelecTypeModel("Affin Bank", "affinepg_my");
+        SelecTypeModel selec6 = new SelecTypeModel("Am online", "amb_my");
+        SelecTypeModel selec7 = new SelecTypeModel("RHB Now", "rhb_my");
+        SelecTypeModel selec8 = new SelecTypeModel("MOLPay", "molpay");
+        SelecTypeModel selec9 = new SelecTypeModel("Webcash", "webcash_my");
+        SelecTypeModel selec10 = new SelecTypeModel("支付宝（Alipay）", "alipay_cn");
+        SelecTypeModel selec11 = new SelecTypeModel("财付通/微信支付（Tenpay）", "tenpay_cn");
+        SelecTypeModel selec12 = new SelecTypeModel("银联（UnionPay）", "unionpay_cn");
+        listDatas.add(selec1);
+        listDatas.add(selec2);
+        listDatas.add(selec3);
+        listDatas.add(selec4);
+        listDatas.add(selec5);
+        listDatas.add(selec6);
+        listDatas.add(selec7);
+        listDatas.add(selec8);
+        listDatas.add(selec9);
+        listDatas.add(selec10);
+        listDatas.add(selec11);
+        listDatas.add(selec12);
     }
 
     @Override
@@ -189,6 +225,9 @@ public class PayVoucher extends BaseActivity {
                 break;
             case R.id.backBtn:
                 finish();
+                break;
+            case R.id.btnBack:
+                rootView.setVisibility(View.GONE);
                 break;
             case R.id.btn_changer:
                 StartActivityHelper.jumpActivityDefault(PayVoucher.this, MoneyChangerActivity.class);
@@ -233,7 +272,7 @@ public class PayVoucher extends BaseActivity {
                         String num = response.getAmount();
                         //you will have to query the payment state with the transId or orderId from your server
                         //as we will notify you server whenever there is a payment state change
-                        mainEnter.userMoney(CommonUrlConfig.userMoney,userInfo.userid,new HttpBusinessCallback(){
+                        mainEnter.userMoney(CommonUrlConfig.userMoney, userInfo.userid, new HttpBusinessCallback() {
                             @Override
                             public void onSuccess(final String response) {
                                 super.onSuccess(response);
@@ -277,10 +316,34 @@ public class PayVoucher extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void doOrder(final String pmid) {
+        mainEnter.doorder(CommonUrlConfig.doorder, userInfo.userid, voucherModels.get(mPosition).key, voucherModels.get(mPosition).value, DeviceTool.getUniqueID(getApplication()), new HttpBusinessCallback() {
+            @Override
+            public void onSuccess(final String response) {
+                super.onSuccess(response);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonParseModel commonModel = JsonUtil.fromJson(response, CommonParseModel.class);
+                        if (commonModel != null && commonModel.code.equals("1000")) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(commonModel.data.toString());
+                                String orderid = jsonObject.getString("orderid");
+                                payssionPay(Double.valueOf(voucherModels.get(mPosition).key), orderid, pmid, userInfo.nickname, userInfo.userid);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     /**
      * payssion支付订单
      */
-    private void payssionPay(Double amount, String TrackId, String payEmail, String pauName) {
+    public void payssionPay(Double amount, String TrackId, String pmid, String payEmail, String pauName) {
         Intent intent = new Intent(PayVoucher.this, PayssionActivity.class);
         intent.putExtra(PayssionActivity.ACTION_REQUEST,
                 new PayRequest()
@@ -288,7 +351,7 @@ public class PayVoucher extends BaseActivity {
                         .setAPIKey(key_api) //Payssion帐户API Key
                         .setAmount(amount) //订单金额
                         .setCurrency("MYR") //货币USD
-//                        .setPMId("fpx_my") //支付方式id
+                        .setPMId(pmid) //支付方式id
                         .setPayerRef("yeye") //支付方式的其他参数
 //                        .setLanguage(PLanguage.ZH_SIMPLIFIED)
                         .setOrderId(TrackId) // your order id

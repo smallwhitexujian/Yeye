@@ -480,9 +480,14 @@ public class RechargeActivity extends PayActivity implements View.OnClickListene
                 mCommonAdapter.notifyDataSetChanged();
                 break;
             case MSG_ADD_ITEM:
-                ToastUtils.showToast(this, getString(R.string.purchase_succ), Toast.LENGTH_SHORT);
-                LoadingDialog.cancelLoadingDialog();
-                refreshCoin();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtils.showToast(getApplicationContext(), getString(R.string.purchase_succ), Toast.LENGTH_SHORT);
+                        LoadingDialog.cancelLoadingDialog();
+                        refreshCoin();
+                    }
+                });
                 break;
             case ORDER_FAILD:
                 ToastUtils.showToast(this, getString(R.string.server_require_faild), Toast.LENGTH_SHORT);
