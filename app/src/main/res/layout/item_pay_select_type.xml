@@ -16,7 +16,7 @@
             android:id="@+id/str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_999999"
+            android:textColor="@color/color_000000"
             android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>
