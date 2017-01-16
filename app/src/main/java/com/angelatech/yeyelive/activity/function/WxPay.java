@@ -35,7 +35,6 @@ public class WxPay extends HttpFunction {
     }
 
     public void goWxClient(Context context, WxOrder WxOrder) {
-
         new WXInterface(context).payWxClient(WxOrder);
     }
 

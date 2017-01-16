@@ -21,16 +21,19 @@ import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.TransactionValues;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.BaseKey;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.fragment.LeftFragment;
 import com.angelatech.yeyelive.fragment.ListFragment;
 import com.angelatech.yeyelive.model.BasicUserInfoModel;
+import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonParseListModel;
 import com.angelatech.yeyelive.model.GiftModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.SystemMessage;
+import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.util.CacheDataManager;
 import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.SPreferencesTool;
@@ -44,9 +47,6 @@ import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
 import com.will.web.handle.HttpBusinessCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -88,6 +88,7 @@ public class TabMenuActivity extends BaseActivity {
     private ListFragment listFragment;
     private TextView btn_list, btn_me, pot;
     private RoomModel roomModel = null;
+    private MainEnter mainEnter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,7 @@ public class TabMenuActivity extends BaseActivity {
 
     //数据初始化
     private void initData() {
+        mainEnter = new MainEnter(getApplicationContext());
         versionCode = Utility.getVersionCode(TabMenuActivity.this);
         versionName = Utility.getVersionName(TabMenuActivity.this);
         roomSoundState roomsoundState = roomSoundState.getInstance();
@@ -136,6 +138,13 @@ public class TabMenuActivity extends BaseActivity {
                 ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);
             }
         }
+        mainEnter.configImage(CommonUrlConfig.configImage,new HttpBusinessCallback(){
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                DebugLogs.e("------->"+response);
+            }
+        });
     }
 
     @Override
@@ -259,8 +268,7 @@ public class TabMenuActivity extends BaseActivity {
             loginUser.Userid = userModel.userid;
             loginUser.Token = userModel.token;
             roomModel.setLoginUser(loginUser);
-
-            if ( roomModel.getPwd().length() == 4) {
+            if (roomModel.getPwd().length() == 4) {
                 ChatRoom.enterPWDChatRoom(TabMenuActivity.this, roomModel, roomModel.getPwd());
             } else {
                 ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);
@@ -287,7 +295,7 @@ public class TabMenuActivity extends BaseActivity {
             if (str.equals("0")) {
                 pot.setVisibility(View.GONE);
                 SystemMessage.getInstance().clearUnReadTag(TabMenuActivity.this);
-            }else{
+            } else {
                 pot.setVisibility(View.VISIBLE);
             }
             if (systemMessage.haveNewSystemMsg(TabMenuActivity.this)) {
@@ -319,30 +327,21 @@ public class TabMenuActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String data = jsonObject.getString("data");
-                            JSONObject json = new JSONObject(data);
-                            String AppURL = json.getString("AppURL");
-                            String Content = json.getString("Content");
-                            String apkVersion = json.getString("AppVersion");
-                            int isUp = Integer.valueOf(json.getString("isUp"));
-//                            if (isUp == 1) {
-//                                SPreferencesTool.getInstance().saveUpLoadApk(TabMenuActivity.this, true, apkVersion, Content, AppURL);
-//                            }
-                            if (Integer.valueOf(apkVersion) > Integer.valueOf(versionCode)) {
+                        CommonListResult<VoucherModel> reult = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                        }.getType());
+                        if (reult != null && reult.code.equals("1000")) {
+                            String apkVersion = reult.data.get(1).value;
+                            if (Double.valueOf(apkVersion) > Double.valueOf(versionCode)) {
                                 UploadApp uploadApp = new UploadApp(Utility.getSDCardDir(TabMenuActivity.this, App.FILEPATH_UPAPK));
-                                uploadApp.showUpApk(TabMenuActivity.this, Content, AppURL, isUp);
+                                uploadApp.showUpApk(TabMenuActivity.this, reult.data.get(0).value, "", 0);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                     }
                 });
             }
         };
         ChatRoom chatRoom = new ChatRoom(this);
-        chatRoom.upApk(CommonUrlConfig.apkUp, versionCode, callback);
+        chatRoom.upApk(CommonUrlConfig.configVersion, versionCode, callback);
     }
 
     private boolean markStrategy(Context context) {
