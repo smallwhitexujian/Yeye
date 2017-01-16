@@ -123,7 +123,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private ImageView btn_share, btn_room_more;
     private ImageView iv_vip;
     private ImageView btn_beautiful;
-    public ImageView btn_lamp,open_goods_list;
+    public ImageView btn_lamp, open_goods_list;
     private TextView txt_barName, txt_likeNum, txt_online, gift_Diamonds, txt_room_des, diamondsStr;
     private FrescoRoundView img_head, gif_img_head, gif_img_head_s;
     private PeriscopeLayout loveView;                                                               // 显示心的VIEW
@@ -173,7 +173,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
     private GridView grid_online;
     private HorizontalListViewAdapter horizontalListViewAdapter;
     private List<OnlineListModel> showList = new ArrayList<>();
-    private RelativeLayout rootView,details;
+    private RelativeLayout rootView, details;
     private int mVisibleHeight;
     private FragmentManager fragmentManager;
     //软件盘弹起后所占高度阀值
@@ -536,10 +536,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     }
                     if (googs_list.getVisibility() == View.VISIBLE) {
                         googs_list.setVisibility(View.GONE);
-                        if(App.productModels.size()<= 0){
-                            open_goods_list.setVisibility(View.GONE);
-                        }else{
-                            open_goods_list.setVisibility(View.VISIBLE);
+                        if (App.productModels != null) {
+                            if (App.productModels.size() <= 0) {
+                                open_goods_list.setVisibility(View.GONE);
+                            } else {
+                                open_goods_list.setVisibility(View.VISIBLE);
+                            }
                         }
                         details.setVisibility(View.GONE);
                     }
@@ -982,10 +984,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                     fragmentHandler.sendEmptyMessage(MSG_ADAPTER_NOTIFY_GIFT);
                 }
                 googs_list.setVisibility(View.GONE);
-                if(App.productModels.size()<= 0){
-                    open_goods_list.setVisibility(View.GONE);
-                }else{
-                    open_goods_list.setVisibility(View.VISIBLE);
+                if (App.productModels != null) {
+                    if (App.productModels.size() <= 0) {
+                        open_goods_list.setVisibility(View.GONE);
+                    } else {
+                        open_goods_list.setVisibility(View.VISIBLE);
+                    }
                 }
                 details.setVisibility(View.GONE);
                 giftView.setVisibility(View.VISIBLE);
@@ -1341,10 +1345,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
             ly_toolbar.setVisibility(View.VISIBLE);
             ly_toolbar2.setVisibility(View.GONE);
             googs_list.setVisibility(View.GONE);
-            if(App.productModels.size()<= 0){
-                open_goods_list.setVisibility(View.GONE);
-            }else{
-                open_goods_list.setVisibility(View.VISIBLE);
+            if (App.productModels != null) {
+                if (App.productModels.size() <= 0) {
+                    open_goods_list.setVisibility(View.GONE);
+                } else {
+                    open_goods_list.setVisibility(View.VISIBLE);
+                }
             }
             details.setVisibility(View.GONE);
         }
@@ -1415,10 +1421,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener {
                 ly_toolbar.setVisibility(View.GONE);
                 ly_toolbar2.setVisibility(View.GONE);
                 googs_list.setVisibility(View.GONE);
-                if(App.productModels.size()<= 0){
-                    open_goods_list.setVisibility(View.GONE);
-                }else{
-                    open_goods_list.setVisibility(View.VISIBLE);
+                if (App.productModels != null) {
+                    if (App.productModels.size() <= 0) {
+                        open_goods_list.setVisibility(View.GONE);
+                    } else {
+                        open_goods_list.setVisibility(View.VISIBLE);
+                    }
                 }
                 details.setVisibility(View.GONE);
                 setSpinnerItemSelectedByValue(roomPopSpinner, ((BasicUserInfoModel) msg.obj).nickname);

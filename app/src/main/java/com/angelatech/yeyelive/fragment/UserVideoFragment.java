@@ -121,7 +121,6 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (isHost) {
-                    // ToastUtils.showToast(getActivity(), R.string.forbid_host_watch_record);
                     return;
                 }
                 LiveVideoModel item = (LiveVideoModel) parent.getItemAtPosition(position);
@@ -131,11 +130,9 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                         RoomModel roomModel = new RoomModel();
                         roomModel.setId(Integer.parseInt(liveModel.roomid));
                         roomModel.setName(liveModel.introduce);
-
                         roomModel.setIp(liveModel.roomserverip.split(":")[0]);
                         roomModel.setPort(Integer.parseInt(liveModel.roomserverip.split(":")[1]));
                         roomModel.setRtmpip(liveModel.rtmpserverip);
-
                         roomModel.setRoomType(App.LIVE_WATCH);
                         roomModel.setIdx(liveModel.roomidx);
                         BasicUserInfoDBModel user = new BasicUserInfoDBModel();
@@ -153,7 +150,6 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                             ChatRoom.enterChatRoom(getActivity(), roomModel);
                         }
                     }
-                    getActivity().finish();
                 } else {
                     if (App.chatRoomApplication != null) {
                         App.chatRoomApplication.closeLive();
@@ -176,8 +172,7 @@ public class UserVideoFragment extends BaseLazyFragment implements SwipyRefreshL
                         };
                         CommDialog commDialog = new CommDialog();
                         commDialog.CommDialog(getActivity(), getString(R.string.finish_room), true, callback);
-                    }
-                    else {
+                    } else {
                         StartActivityHelper.jumpActivity(getActivity(), PlayActivity.class, videoModel);
                     }
                 }

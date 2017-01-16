@@ -58,10 +58,10 @@ public class LeftFragment extends HintFragment {
     private final int MSG_LOAD_SUC = 1;
     private View view;
     private MainEnter mainEnter;
-    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice, txt_like,coins;
+    private TextView id, intimacy, attention, fans, user_nick, user_sign, user_video, message_notice, txt_like, coins;
 
     private RelativeLayout settingLayout, ly_qcode, gold_hous, my_product,
-            layout_diamond, layout_video, layout_systemMsg, layout_gift,diamond;
+            layout_diamond, layout_video, layout_systemMsg, layout_gift, diamond;
     private LinearLayout fansLayout, attentionLayout, ly_like;
     private ImageView editImageView, sexImageView, iv_vip, btn_qcode;
     private FrescoRoundView userFace;
@@ -243,30 +243,32 @@ public class LeftFragment extends HintFragment {
             @Override
             public void onSuccess(final String response) {
                 super.onSuccess(response);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CommonListResult<VoucherModel> voucherM = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
-                        }.getType());
-                        if (voucherM != null && voucherM.code.equals("1000")) {
-                            App.configOnOff.addAll(voucherM.data);
-                            if (App.configOnOff!=null ){
-                                int type = (int)Double.parseDouble(App.configOnOff.get(1).value);
-                                if (type == 1){
-                                    layout_diamond.setVisibility(View.VISIBLE);
-                                }else{
-                                    layout_diamond.setVisibility(View.GONE);
-                                }
-                                int Coins = (int)Double.parseDouble(App.configOnOff.get(0).value);
-                                if(Coins == 1){
-                                    diamond.setVisibility(View.VISIBLE);
-                                }else{
-                                    diamond.setVisibility(View.GONE);
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonListResult<VoucherModel> voucherM = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                            }.getType());
+                            if (voucherM != null && voucherM.code.equals("1000")) {
+                                App.configOnOff.addAll(voucherM.data);
+                                if (App.configOnOff != null) {
+                                    int type = (int) Double.parseDouble(App.configOnOff.get(1).value);
+                                    if (type == 1) {
+                                        layout_diamond.setVisibility(View.VISIBLE);
+                                    } else {
+                                        layout_diamond.setVisibility(View.GONE);
+                                    }
+                                    int Coins = (int) Double.parseDouble(App.configOnOff.get(0).value);
+                                    if (Coins == 1) {
+                                        diamond.setVisibility(View.VISIBLE);
+                                    } else {
+                                        diamond.setVisibility(View.GONE);
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
