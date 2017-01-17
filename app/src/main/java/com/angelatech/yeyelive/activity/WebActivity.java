@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.activity;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
@@ -38,7 +40,9 @@ public class WebActivity extends HeaderBaseActivity {
     public static final String PARAM_KEY = WebActivity.class.getName() + "_PARAM_KEY";
     private WebView mWebView;
     private String type;
+    private AppInterface appInterface;
     private WebTransportModel mWebTransportModel;
+    private Button button3;
     @SuppressLint("AddJavascriptInterface")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,19 +57,23 @@ public class WebActivity extends HeaderBaseActivity {
         if (mParamStr != null && mUrl != null) {
             mUrl = mUrl + "?" + mParamStr;
         }
+        mWebView.addJavascriptInterface(appInterface, "appInterface");
+        appInterface.buy(12314);
         mWebView.loadUrl(mUrl);
-        //增加接口方法,让html页面调用
-        mWebView.addJavascriptInterface(new Object(){
-            @JavascriptInterface
-            public void clickOnAndroid(){
-                finish();
-            }
-        },"demo");
+//        //增加接口方法,让html页面调用
+//        mWebView.addJavascriptInterface(new Object(){
+//            @JavascriptInterface
+//            public void clickOnAndroid(){
+//                finish();
+//            }
+//        },"demo");
     }
 
     private void initView() {
         headerLayout = (HeaderLayout) findViewById(R.id.headerLayout);
         headerLayout.showTitle(mWebTransportModel.title);
+        button3 = (Button)findViewById(R.id.button3);
+
         headerLayout.showLeftBackButton(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +84,44 @@ public class WebActivity extends HeaderBaseActivity {
         if (type.equals(getString(R.string.gift_center))){
             headerLayout.setVisibility(View.GONE);
         }
+        appInterface = new AppInterface(getApplication());
         mWebView = (WebView) findViewById(R.id.web_webview);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appInterface.buy(12312);
+            }
+        });
+    }
+
+    /**
+     * Android与JS通信的接口
+     */
+    class AppInterface {
+        private Context mCtx;
+
+        public AppInterface(Context mCtx) {
+            this.mCtx = mCtx;
+        }
+
+        //Android调用JS
+        @JavascriptInterface
+        public void buy(final long goodId) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:buy(" + goodId + ")");
+                }
+            });
+        }
+
+        //JS调用Android，这里只是在Android端写好的方法
+        @JavascriptInterface
+        public void showDetail(long goodId) {
+            //做你需要做的事情
+        }
+
+        //
     }
 
     private void setView() {
