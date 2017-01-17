@@ -226,5 +226,9 @@ public class CommonUrlConfig {
     public static String userMoney = NEW_HOST_URL + "user/money";
     //开关
     public static String configOnoff = NEW_HOST_URL + "config/onoff";
+    //新的更新接口
+    public static String configVersion = NEW_HOST_URL + "config/version";
+    //获取切图
+    public static String configImage = NEW_HOST_URL + "config/pimage";
 }
 

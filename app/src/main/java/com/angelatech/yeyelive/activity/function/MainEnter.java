@@ -278,7 +278,7 @@ public class MainEnter extends HttpFunction {
     }
 
     //券的下单接口
-    public void doorder(String url, String userid, String amount,String money, String iden, HttpBusinessCallback callback) {
+    public void doorder(String url, String userid, String amount, String money, String iden, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("uid", userid);
         params.put("amount", amount);
@@ -312,6 +312,15 @@ public class MainEnter extends HttpFunction {
 
     //开关
     public void configOnoff(String url, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", "");
+        params.put("token", "");
+        httpGet(url, params, callback);
+    }
+
+    //获取首页按钮图片
+    //开关
+    public void configImage(String url, HttpBusinessCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userid", "");
         params.put("token", "");
