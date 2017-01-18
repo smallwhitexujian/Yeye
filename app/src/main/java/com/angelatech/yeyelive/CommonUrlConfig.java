@@ -230,5 +230,9 @@ public class CommonUrlConfig {
     public static String configVersion = NEW_HOST_URL + "config/version";
     //获取切图
     public static String configImage = NEW_HOST_URL + "config/pimage";
+    //获取开播标签
+    public static String getvideotag = NEW_HOST_URL + "config/getvideotag";
+    //上传开播标签
+    public static String addtag = NEW_HOST_URL + "config/addtag";
 }
 

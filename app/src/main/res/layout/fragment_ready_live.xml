@@ -11,22 +11,144 @@
         android:id="@+id/ly_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone"
         tools:ignore="UselessParent"
-        tools:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_30000000"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="7dp"
+
+                android:gravity="center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="10dp"
+                tools:ignore="ObsoleteLayoutParam,RtlHardcoded">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tickets"
+                    android:textColor="@color/color_white" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:paddingLeft="8dp"
+                    android:src="@drawable/icon_tickets_golds_small"
+                    tools:ignore="RtlSymmetry" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="7dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="10dp"
+                tools:ignore="ObsoleteLayoutParam,RtlHardcoded,UseCompoundDrawables">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ready_live_pwd"
+                    android:textColor="@color/color_white" />
+
+                <ImageView
+                    android:id="@+id/img_start_play_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:paddingLeft="8dp"
+                    android:src="@drawable/btn_start_play_passroom_n"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/button_call_switch_camera"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="5dp"
+            android:contentDescription="@string/switch_camera"
+            android:padding="10dp"
+            android:src="@drawable/btn_room_reverse_camera_n"
+            tools:ignore="RtlHardcoded" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Front_cover"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="@string/last_cover"
+            android:textColor="#FEFEFE"
+            android:textSize="12dp"
+            tools:ignore="SpUsage" />
+
+        <com.xj.frescolib.View.FrescoRoundView
+            android:id="@+id/Front_cover"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@+id/button_call_switch_camera"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/btn_start_play_upload_cover"
+            fresco:roundAsCircle="true" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/startlive_btn_redbg"
+            android:text="@string/btn_begin_live"
+            android:textColor="@color/color_fefefe" />
 
         <EditText
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_start"
-            android:layout_marginBottom="50dp"
-            android:layout_marginTop="158dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="31dp"
             android:background="@null"
             android:gravity="center"
             android:hint="@string/begin_live_title"
@@ -36,11 +158,15 @@
             android:textSize="20sp" />
 
         <LinearLayout
+            android:id="@+id/address_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_start"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txt_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="42dp"
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
 
@@ -139,122 +265,40 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/type_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_30000000"
-            android:orientation="vertical">
+            android:layout_above="@+id/btn_start"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/address_layout"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/layout_ticket"
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="7dp"
-
-                android:gravity="center_vertical"
-                android:paddingLeft="14dp"
+                android:paddingLeft="20dp"
                 android:paddingRight="10dp"
-                tools:ignore="RtlHardcoded">
+                android:text="@string/tips_ready_live"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tickets"
-                    android:textColor="@color/color_white" />
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:numColumns="auto_fit"
+                android:scrollbars="none"
+                android:verticalSpacing="8dp"
+                tools:ignore="UselessLeaf" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:paddingLeft="8dp"
-                    android:src="@drawable/icon_tickets_golds_small"
-                    tools:ignore="RtlSymmetry" />
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_lock"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="7dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="14dp"
-                android:paddingRight="10dp"
-                tools:ignore="RtlHardcoded">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ready_live_pwd"
-                    android:textColor="@color/color_white" />
-
-                <ImageView
-                    android:id="@+id/img_start_play_pwd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:paddingLeft="8dp"
-                    android:src="@drawable/btn_start_play_passroom_n"
-                    tools:ignore="RtlSymmetry" />
-
-            </LinearLayout>
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/button_call_switch_camera"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="5dp"
-            android:layout_centerHorizontal="true"
-
-            android:contentDescription="@string/switch_camera"
-            android:padding="10dp"
-            android:src="@drawable/btn_room_reverse_camera_n"
-            tools:ignore="RtlHardcoded" />
-
-
-        <Button
-            android:id="@+id/btn_start"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:background="@drawable/startlive_btn_redbg"
-            android:text="@string/btn_begin_live"
-            android:textColor="@color/color_fefefe" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/Front_cover"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:text="@string/last_cover"
-            android:textColor="#FEFEFE"
-            android:textSize="12dp"
-            tools:ignore="SpUsage" />
-
-        <com.xj.frescolib.View.FrescoRoundView
-            android:id="@+id/Front_cover"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_below="@+id/button_call_switch_camera"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/btn_start_play_upload_cover"
-            fresco:roundAsCircle="true" />
     </RelativeLayout>
 </RelativeLayout>

@@ -614,4 +614,5 @@
     <string name="tips_str_mc">Any problem about the top up, please contact support@iamyeye.com</string>
     <string name="Money_changer_success">兑换成功</string>
     <string name="Money_changer_faile">兑换失败</string>
+    <string name="tips_ready_live">直播区域：</string>
 </resources>

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,11 +26,15 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.ChatRoomActivity;
 import com.angelatech.yeyelive.activity.function.ChatRoom;
+import com.angelatech.yeyelive.adapter.CommonAdapter;
+import com.angelatech.yeyelive.adapter.ViewHolder;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.CommonParseModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.Ticket;
+import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.model.coverInfoModel;
 import com.angelatech.yeyelive.thirdShare.FbShare;
 import com.angelatech.yeyelive.thirdShare.QqShare;
@@ -47,7 +52,6 @@ import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
 import com.facebook.datasource.DataSource;
 import com.google.gson.reflect.TypeToken;
-import com.will.common.log.DebugLogs;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
@@ -58,6 +62,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -83,6 +88,8 @@ public class ReadyLiveFragment extends BaseFragment {
     private Bitmap img = null;
     private Animation rotateAnimation;
     private TextView mLocationInfo;
+    private String typeKind = "";
+    private String getTypeKind = "";
     private List<String> spinnnerList = new ArrayList<>();
     private ArrayAdapter<String> spinnnerAdapter;
     private Spinner spinnner;
@@ -90,6 +97,9 @@ public class ReadyLiveFragment extends BaseFragment {
     private RoomModel roomModel;
     private ImageView buttonCamera;
     private FrescoRoundView Front_cover;
+    private ArrayList<String> typeList;
+    private GridView gridView;
+    private CommonAdapter<String> commonAdapter;
 
     public interface OnCallEvents {
         //开始直播
@@ -112,6 +122,7 @@ public class ReadyLiveFragment extends BaseFragment {
     private void initView() {
         App.roompwd = "";
         chatRoom = new ChatRoom(getActivity());
+        typeList = new ArrayList<>();
         RelativeLayout ready_layout = (RelativeLayout) controlView.findViewById(R.id.ready_layout);
         spinnner = (Spinner) controlView.findViewById(R.id.spinner);
         txt_title = (EditText) controlView.findViewById(R.id.txt_title);
@@ -125,6 +136,7 @@ public class ReadyLiveFragment extends BaseFragment {
         buttonCamera = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
+        gridView = (GridView) controlView.findViewById(R.id.gridView);
         Front_cover = (FrescoRoundView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         LinearLayout layout_lock = (LinearLayout) controlView.findViewById(R.id.layout_lock);
@@ -154,6 +166,29 @@ public class ReadyLiveFragment extends BaseFragment {
             layout_lock.setVisibility(View.GONE);
         }
         getRoomInfo(loginUserModel.userid, loginUserModel.token);
+        commonAdapter = new CommonAdapter<String>(getActivity(), typeList, R.layout.item_type) {
+            @Override
+            public void convert(ViewHolder helper, String item, int position) {
+                helper.setText(R.id.type_1, typeList.get(position));
+            }
+        };
+        gridView.setAdapter(commonAdapter);
+        gridView.setSelection(0);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                for (int m = 0; m < adapterView.getCount(); m++) {
+                    View v = adapterView.getChildAt(m);
+                    if (position == m) {
+                        v.findViewById(R.id.type_1).setBackgroundResource(R.drawable.bg_circle_red);
+                    } else {
+                        v.findViewById(R.id.type_1).setBackgroundResource(R.drawable.bg_circle_wirte);
+                    }
+                }
+                typeKind = typeList.get(position);
+                commonAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     //初始化门票功能,
@@ -196,8 +231,6 @@ public class ReadyLiveFragment extends BaseFragment {
         Front_cover.setOnClickListener(this);
         buttonCamera.setOnClickListener(this);
 
-
-
         if (!roomModel.getRoomType().equals(App.LIVE_WATCH)) {
             ly_body.setVisibility(View.VISIBLE);
             text = txt_title.getText().toString();
@@ -220,15 +253,28 @@ public class ReadyLiveFragment extends BaseFragment {
 
     //开播
     private void startLive() {
-        img_location_bg.clearAnimation();
-        rotateAnimation.cancel();
-        LiveVideoBroadcast(txt_title.getText().toString(), straddres, App.price, App.roompwd);
+        chatRoom.addtag(CommonUrlConfig.addtag, loginUserModel.userid, typeKind, new HttpBusinessCallback() {
+            @Override
+            public void onSuccess(final String response) {
+                super.onSuccess(response);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonParseModel commonParseModel = JsonUtil.fromJson(response, CommonParseModel.class);
+                        if (commonParseModel != null && commonParseModel.code.equals("1000")) {
+                            img_location_bg.clearAnimation();
+                            rotateAnimation.cancel();
+                            LiveVideoBroadcast(txt_title.getText().toString(), straddres, App.price, App.roompwd);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.btn_start:
                 img_location_bg.setVisibility(View.GONE);
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
@@ -466,6 +512,41 @@ public class ReadyLiveFragment extends BaseFragment {
         };
         if (chatRoom != null) {
             chatRoom.getRoomInfo(CommonUrlConfig.roomInfo, userid, token, callback);
+            chatRoom.getvideotag(CommonUrlConfig.getvideotag, new HttpBusinessCallback() {
+                @Override
+                public void onSuccess(final String response) {
+                    super.onSuccess(response);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonListResult<VoucherModel> result = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                            }.getType());
+                            if (result != null && result.code.equals("1000")) {
+                                Locale locale = getResources().getConfiguration().locale;
+                                String language = locale.getLanguage();
+                                switch (language) {
+                                    case "en":
+                                        getTypeKind = result.data.get(1).value;
+                                        break;
+                                    case "zh":
+                                        getTypeKind = result.data.get(0).value;
+                                        break;
+                                    default:
+                                        getTypeKind = result.data.get(1).value;
+                                        break;
+
+                                }
+                                String[] str = getTypeKind.split(",");
+                                for (int i = 0; i < str.length; i++) {
+                                    typeList.add(str[i]);
+                                }
+                                typeKind = getTypeKind.split(",")[0];
+                                commonAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            });
         }
 
     }

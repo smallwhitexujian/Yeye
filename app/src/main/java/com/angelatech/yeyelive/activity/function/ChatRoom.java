@@ -17,7 +17,9 @@ import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.web.HttpFunction;
+import com.will.common.log.DebugLogs;
 import com.will.common.string.Encryption;
+import com.will.common.string.security.Md5;
 import com.will.view.ToastUtils;
 import com.will.web.handle.HttpBusinessCallback;
 
@@ -350,4 +352,25 @@ public class ChatRoom extends HttpFunction {
         httpGet(url, params, callback);
     }
 
+    //房间系统通知语
+    public void getvideotag(String url, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userid", "");
+        params.put("token", "");
+        httpGet(url, params, callback);
+    }
+
+    //房间系统通知语
+    public void addtag(String url, String userid, String type, HttpBusinessCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", userid);
+        params.put("name", type);
+        params.put("type", "0");
+        DebugLogs.e("-----?" + type);
+        DebugLogs.e("-----?" + "id=" + userid + "&name=" + type + "&type=" + 0 + CommonUrlConfig.Sign_key);
+        String sign = Md5.md5("id=" + userid + "&name=" + type + "&type=" + 0 + CommonUrlConfig.Sign_key);
+        DebugLogs.e("-----?" + sign);
+        params.put("sign", sign);
+        httpPost(url, params, callback);
+    }
 }
