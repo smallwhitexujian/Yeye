@@ -229,7 +229,7 @@ public class CommonUrlConfig {
     //新的更新接口
     public static String configVersion = NEW_HOST_URL + "config/version";
     //获取切图
-    public static String configImage = NEW_HOST_URL + "config/pimage";
+    public static String configImage = NEW_HOST_URL + "config/androidimage";
     //获取开播标签
     public static String getvideotag = NEW_HOST_URL + "config/getvideotag";
     //上传开播标签

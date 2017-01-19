@@ -169,9 +169,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             helper.showView(R.id.live_introduce);
                             helper.setText(R.id.live_introduce, liveModel.introduce);
                         }
-                        if (liveModel.ticketprice  != null && Integer.parseInt(liveModel.ticketprice) > 0) {
+                        if (liveModel.ticketprice != null && Integer.parseInt(liveModel.ticketprice) > 0) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
-                        } else if ( liveModel.password != null &&  !liveModel.password.isEmpty()) {
+                        } else if (liveModel.password != null && !liveModel.password.isEmpty()) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.btn_home_passroom_s);
                         } else {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
@@ -202,9 +202,9 @@ public class LiveVideoHotFragment extends BaseFragment implements
                             helper.setText(R.id.live_introduce, videoModel.introduce);
                         }
 
-                        if ( videoModel.ticketprice  != null && Integer.parseInt(videoModel.ticketprice) > 0) {
+                        if (videoModel.ticketprice != null && Integer.parseInt(videoModel.ticketprice) > 0) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_tickets_golds_big);
-                        } else if ( videoModel.password != null && !videoModel.password.isEmpty()) {
+                        } else if (videoModel.password != null && !videoModel.password.isEmpty()) {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.btn_home_passroom_s);
                         } else {
                             helper.setImageResource(R.id.icon_ticket, R.drawable.icon_home_click_play);
@@ -262,7 +262,7 @@ public class LiveVideoHotFragment extends BaseFragment implements
                 if (NetWorkUtil.getActiveNetWorkType(getActivity()) == NetWorkUtil.TYPE_MOBILE) {
                     ToastUtils.showToast(getActivity(), getString(R.string.continue_to_watch));
                 }
-                if (Utility.isFastDoubleClick()){
+                if (Utility.isFastDoubleClick()) {
                     startLive(item);
                 }
             }
@@ -545,8 +545,16 @@ public class LiveVideoHotFragment extends BaseFragment implements
                                         WebTransportModel webTransportModel = new WebTransportModel();
                                         webTransportModel.url = data.url;
                                         webTransportModel.title = getString(R.string.banner_title);
-                                        if (!webTransportModel.url.isEmpty()) {
-                                            StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
+                                        if (data.url.contains("userid=")) {
+                                            BasicUserInfoModel userInfoModel = new BasicUserInfoModel();
+                                            userInfoModel.Userid = data.url.split("userid=")[1];
+                                            if (isAdded()) {
+                                                StartActivityHelper.jumpActivity(getActivity(), FriendUserInfoActivity.class, userInfoModel);
+                                            }
+                                        }else{
+                                            if (!webTransportModel.url.isEmpty()) {
+                                                StartActivityHelper.jumpActivity(getActivity(), WebActivity.class, webTransportModel);
+                                            }
                                         }
                                     }
                                 }

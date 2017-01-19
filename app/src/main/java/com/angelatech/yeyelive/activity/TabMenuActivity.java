@@ -3,6 +3,7 @@ package com.angelatech.yeyelive.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ import com.will.common.tool.DeviceTool;
 import com.will.web.handle.HttpBusinessCallback;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -88,7 +90,9 @@ public class TabMenuActivity extends BaseActivity {
     private ListFragment listFragment;
     private TextView btn_list, btn_me, pot;
     private RoomModel roomModel = null;
-    private MainEnter mainEnter ;
+    private MainEnter mainEnter;
+    private ArrayList<VoucherModel> listImages;
+    private Utility utility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +117,29 @@ public class TabMenuActivity extends BaseActivity {
         img_live.setOnClickListener(this);
         layout_list.setOnClickListener(this);
         layout_me.setOnClickListener(this);
+
+        if (utility.getImage("1007") != null) {
+            btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
+            Bitmap bitmap = utility.getImage("1007");
+            Drawable drawable = new BitmapDrawable(bitmap);
+            drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+            btn_me.setCompoundDrawables(null, drawable, null, null);
+        }
+        if (utility.getImage("1004") != null) {
+            btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
+            Bitmap bitmap = utility.getImage("1004");
+            Drawable drawable2 = new BitmapDrawable(bitmap);
+            drawable2.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+            btn_list.setCompoundDrawables(null, drawable2, null, null);
+        }
+        if (utility.getImage("1005") != null) {
+            img_live.setImageBitmap(utility.getImage("1005"));
+        }
     }
 
     //数据初始化
     private void initData() {
+        utility = new Utility();
         mainEnter = new MainEnter(getApplicationContext());
         versionCode = Utility.getVersionCode(TabMenuActivity.this);
         versionName = Utility.getVersionName(TabMenuActivity.this);
@@ -124,6 +147,7 @@ public class TabMenuActivity extends BaseActivity {
         roomsoundState.init(this);
         systemMessage = new SystemMessage();
         userModel = CacheDataManager.getInstance().loadUser();
+        listImages = new ArrayList<>();
         mark(TabMenuActivity.this, userModel.userid);
         loadGiftList();
         initFragment();
@@ -138,11 +162,25 @@ public class TabMenuActivity extends BaseActivity {
                 ChatRoom.enterChatRoom(TabMenuActivity.this, roomModel);
             }
         }
-        mainEnter.configImage(CommonUrlConfig.configImage,new HttpBusinessCallback(){
+        mainEnter.configImage(CommonUrlConfig.configImage, new HttpBusinessCallback() {
             @Override
-            public void onSuccess(String response) {
+            public void onSuccess(final String response) {
                 super.onSuccess(response);
-                DebugLogs.e("------->"+response);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonListResult<VoucherModel> responseData = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                        }.getType());
+                        if (responseData != null && responseData.code.equals("1000")) {
+                            listImages.addAll(responseData.data);
+                            for (int i = 0; i < listImages.size(); i++) {
+                                String url = listImages.get(i).value;
+                                int fileName = 1000 + i;
+                                utility.setSaveImage(url, String.valueOf(fileName));
+                            }
+                        }
+                    }
+                });
             }
         });
     }
@@ -161,16 +199,30 @@ public class TabMenuActivity extends BaseActivity {
                 clearSelectIcon();
                 setSelectedMenu(R.id.layout_people);
                 btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
-                Drawable drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_s);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+                Drawable drawable;
+                if (utility.getImage("1008") != null) {
+                    Bitmap bitmap = utility.getImage("1008");
+                    drawable = new BitmapDrawable(bitmap);
+                    drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+                } else {
+                    drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_s);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+                }
                 btn_me.setCompoundDrawables(null, drawable, null, null);
                 break;
             case R.id.layout_room:
                 clearSelectIcon();
                 setSelectedMenu(R.id.layout_room);
                 btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
-                Drawable drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_s);
-                drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
+                Drawable drawable2;
+                if (utility.getImage("1004") != null) {
+                    Bitmap bitmap = utility.getImage("1004");
+                    drawable2 = new BitmapDrawable(bitmap);
+                    drawable2.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+                } else {
+                    drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_s);
+                    drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
+                }
                 btn_list.setCompoundDrawables(null, drawable2, null, null);
                 break;
         }
@@ -249,11 +301,26 @@ public class TabMenuActivity extends BaseActivity {
     }
 
     private void clearSelectIcon() {
-        Drawable drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_n);
-        drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
+        Bitmap bitmap = utility.getImage("1007");
+        Drawable drawable2;
+        if (bitmap!=null){
+            drawable2 = new BitmapDrawable(bitmap);
+            drawable2.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+        }else{
+            drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_n);
+            drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
+        }
         btn_me.setCompoundDrawables(null, drawable2, null, null);
-        Drawable drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_n);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+
+        Drawable drawable;
+        Bitmap bitmap2 = utility.getImage("1003");
+        if (bitmap2!=null){
+            drawable = new BitmapDrawable(bitmap2);
+            drawable.setBounds(0, 0, bitmap2.getWidth(), bitmap2.getHeight());//必须设置图片大小，否则不显示
+        }else{
+            drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_n);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+        }
         btn_list.setCompoundDrawables(null, drawable, null, null);
         btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
         btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
