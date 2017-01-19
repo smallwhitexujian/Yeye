@@ -19,7 +19,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.HeaderBaseActivity;
@@ -42,7 +42,8 @@ public class WebActivity extends HeaderBaseActivity {
     private String type;
     private AppInterface appInterface;
     private WebTransportModel mWebTransportModel;
-    private Button button3;
+    private ProgressBar mProgressBar;
+
     @SuppressLint("AddJavascriptInterface")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,22 +59,13 @@ public class WebActivity extends HeaderBaseActivity {
             mUrl = mUrl + "?" + mParamStr;
         }
         mWebView.addJavascriptInterface(appInterface, "appInterface");
-        appInterface.buy(12314);
         mWebView.loadUrl(mUrl);
-//        //增加接口方法,让html页面调用
-//        mWebView.addJavascriptInterface(new Object(){
-//            @JavascriptInterface
-//            public void clickOnAndroid(){
-//                finish();
-//            }
-//        },"demo");
     }
 
     private void initView() {
         headerLayout = (HeaderLayout) findViewById(R.id.headerLayout);
         headerLayout.showTitle(mWebTransportModel.title);
-        button3 = (Button)findViewById(R.id.button3);
-
+        mProgressBar = (ProgressBar) findViewById(R.id.myProgressBar);
         headerLayout.showLeftBackButton(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,17 +73,11 @@ public class WebActivity extends HeaderBaseActivity {
             }
         });
         type = mWebTransportModel.title;
-        if (type.equals(getString(R.string.gift_center))){
+        if (type.equals(getString(R.string.gift_center))) {
             headerLayout.setVisibility(View.GONE);
         }
         appInterface = new AppInterface(getApplication());
         mWebView = (WebView) findViewById(R.id.web_webview);
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                appInterface.buy(12312);
-            }
-        });
     }
 
     /**
@@ -147,6 +133,7 @@ public class WebActivity extends HeaderBaseActivity {
         /**WebViewClient主要帮助WebView处理各种通知、请求事件**/
         mWebView.setWebViewClient(new WebViewClient() {
 
+
             @Override
             public void onLoadResource(WebView view, String url) {
                 super.onLoadResource(view, url);
@@ -162,6 +149,7 @@ public class WebActivity extends HeaderBaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                appInterface.buy(12312);
             }
 
             @Override
@@ -242,6 +230,15 @@ public class WebActivity extends HeaderBaseActivity {
             public void onRequestFocus(WebView view) {
                 super.onRequestFocus(view);
             }
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                mProgressBar.setProgress(newProgress);
+                if (newProgress == 100) {
+                    mProgressBar.setVisibility(View.GONE);
+                }
+            }
         });
 
     }
@@ -260,8 +257,7 @@ public class WebActivity extends HeaderBaseActivity {
             if (mWebView.canGoBack()) {
                 mWebView.goBack();
                 return true;
-            }
-            else{
+            } else {
                 finish();
                 return true;
             }
