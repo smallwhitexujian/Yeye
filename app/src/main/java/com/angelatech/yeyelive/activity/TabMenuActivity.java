@@ -93,6 +93,7 @@ public class TabMenuActivity extends BaseActivity {
     private MainEnter mainEnter;
     private ArrayList<VoucherModel> listImages;
     private Utility utility;
+    private  ImageView img_live;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,39 +103,21 @@ public class TabMenuActivity extends BaseActivity {
             roomModel = (RoomModel) getIntent().getSerializableExtra(TransactionValues.UI_2_UI_KEY_OBJECT);
         }
         setContentView(R.layout.activity_tab_menu);
-        initData();
         initView();
+        initData();
     }
 
     private void initView() {
         btn_list = (TextView) findViewById(R.id.iv_tab_room);
         btn_me = (TextView) findViewById(R.id.iv_tab_people);
         pot = (TextView) findViewById(R.id.pot);
-        ImageView img_live = (ImageView) findViewById(R.id.img_live);
+        img_live = (ImageView) findViewById(R.id.img_live);
         LinearLayout layout_list = (LinearLayout) findViewById(R.id.layout_room);
         RelativeLayout layout_me = (RelativeLayout) findViewById(R.id.layout_people);
 
         img_live.setOnClickListener(this);
         layout_list.setOnClickListener(this);
         layout_me.setOnClickListener(this);
-
-        if (utility.getImage("1007") != null) {
-            btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
-            Bitmap bitmap = utility.getImage("1007");
-            Drawable drawable = new BitmapDrawable(bitmap);
-            drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
-            btn_me.setCompoundDrawables(null, drawable, null, null);
-        }
-        if (utility.getImage("1004") != null) {
-            btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
-            Bitmap bitmap = utility.getImage("1004");
-            Drawable drawable2 = new BitmapDrawable(bitmap);
-            drawable2.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
-            btn_list.setCompoundDrawables(null, drawable2, null, null);
-        }
-        if (utility.getImage("1005") != null) {
-            img_live.setImageBitmap(utility.getImage("1005"));
-        }
     }
 
     //数据初始化
@@ -177,6 +160,23 @@ public class TabMenuActivity extends BaseActivity {
                                 String url = listImages.get(i).value;
                                 int fileName = 1000 + i;
                                 utility.setSaveImage(url, String.valueOf(fileName));
+                            }
+                            if (utility.getImage("1007") != null) {
+                                btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
+                                Bitmap bitmap = utility.getImage("1007");
+                                Drawable drawable = new BitmapDrawable(bitmap);
+                                drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+                                btn_me.setCompoundDrawables(null, drawable, null, null);
+                            }
+                            if (utility.getImage("1004") != null) {
+                                btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
+                                Bitmap bitmap = utility.getImage("1004");
+                                Drawable drawable2 = new BitmapDrawable(bitmap);
+                                drawable2.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());//必须设置图片大小，否则不显示
+                                btn_list.setCompoundDrawables(null, drawable2, null, null);
+                            }
+                            if (utility.getImage("1005") != null) {
+                                img_live.setImageBitmap(utility.getImage("1005"));
                             }
                         }
                     }

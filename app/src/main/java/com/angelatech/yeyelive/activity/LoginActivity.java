@@ -17,10 +17,13 @@ import com.angelatech.yeyelive.CommonUrlConfig;
 import com.angelatech.yeyelive.R;
 import com.angelatech.yeyelive.activity.base.BaseActivity;
 import com.angelatech.yeyelive.activity.function.Login;
+import com.angelatech.yeyelive.activity.function.MainEnter;
 import com.angelatech.yeyelive.activity.function.Register;
 import com.angelatech.yeyelive.activity.function.Start;
 import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
+import com.angelatech.yeyelive.model.CommonListResult;
+import com.angelatech.yeyelive.model.VoucherModel;
 import com.angelatech.yeyelive.model.WebTransportModel;
 import com.angelatech.yeyelive.service.IServiceHelper;
 import com.angelatech.yeyelive.service.IServiceValues;
@@ -29,7 +32,9 @@ import com.angelatech.yeyelive.thirdLogin.LoginManager;
 import com.angelatech.yeyelive.thirdLogin.WxProxy;
 import com.angelatech.yeyelive.util.BroadCastHelper;
 import com.angelatech.yeyelive.util.CacheDataManager;
+import com.angelatech.yeyelive.util.JsonUtil;
 import com.angelatech.yeyelive.util.StartActivityHelper;
+import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.view.LoadingDialog;
 import com.angelatech.yeyelive.view.NomalAlertDialog;
 import com.facebook.AccessToken;
@@ -39,10 +44,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
 import com.will.common.tool.network.NetWorkUtil;
 import com.will.view.ToastUtils;
+import com.will.web.handle.HttpBusinessCallback;
 
 import org.json.JSONObject;
 
@@ -63,6 +70,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private com.facebook.CallbackManager callbackManager;
     private LoginButton loginButton;
     private boolean isLogin = false;
+    private Utility utility;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         iv_we_chat.setOnClickListener(this);
         mLinceseLink.setText(Html.fromHtml("<u>" + getString(R.string.lisence_title) + "</u>"));
         mLinceseLink.setOnClickListener(this);
+        MainEnter mainEnter = new MainEnter(this);
+        utility = new Utility();
+        mainEnter.configImage(CommonUrlConfig.configImage, new HttpBusinessCallback() {
+            @Override
+            public void onSuccess(final String response) {
+                super.onSuccess(response);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonListResult<VoucherModel> responseData = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                        }.getType());
+                        if (responseData != null && responseData.code.equals("1000")) {
+                            for (int i = 0; i < responseData.data.size(); i++) {
+                                String url = responseData.data.get(i).value;
+                                int fileName = 1000 + i;
+                                utility.setSaveImage(url, String.valueOf(fileName));
+                            }
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void initData() {

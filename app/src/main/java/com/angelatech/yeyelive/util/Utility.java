@@ -182,7 +182,7 @@ public class Utility {
         FileOutputStream fileOutputStream = null;
         //文件夹不存在，则创建它
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
         }
         try {
             fileOutputStream = new FileOutputStream(path + ".png");
@@ -195,7 +195,7 @@ public class Utility {
 
     public Bitmap getImage(String path) {
         Bitmap bitmap = null;
-        String imgPath =  Environment.getExternalStorageDirectory().getPath() + "/Yeye/Live" + path+".png";
+        String imgPath =  Environment.getExternalStorageDirectory().getPath() + "/Yeye/" + path+".png";
         File file = new File(imgPath);
         if (file.exists()) {
             bitmap = BitmapFactory.decodeFile(imgPath);
@@ -231,7 +231,7 @@ public class Utility {
             if (msg.what == 0x123) {
 //                image.setImageBitmap(bitmap);
                 //点击图片后将图片保存到SD卡跟目录下的Test文件夹内
-                SavaImage(bitmap, Environment.getExternalStorageDirectory().getPath() + "/Yeye/Live" + path);
+                SavaImage(bitmap, Environment.getExternalStorageDirectory().getPath() + "/Yeye/" + path);
             }
         }
     };
