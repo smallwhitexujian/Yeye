@@ -39,7 +39,10 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        //得到缓存的fragment
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        //得到tag,
+        String fragmentTag = fragment.getTag();
         this.mFm.beginTransaction().show(fragment).commitAllowingStateLoss();
         return fragment;
     }

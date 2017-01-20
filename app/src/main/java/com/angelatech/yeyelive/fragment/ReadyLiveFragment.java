@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.angelatech.yeyelive.application.App;
 import com.angelatech.yeyelive.db.model.BasicUserInfoDBModel;
 import com.angelatech.yeyelive.model.CommonListResult;
 import com.angelatech.yeyelive.model.CommonParseModel;
+import com.angelatech.yeyelive.model.LableModel;
 import com.angelatech.yeyelive.model.RoomModel;
 import com.angelatech.yeyelive.model.Ticket;
 import com.angelatech.yeyelive.model.VoucherModel;
@@ -97,9 +99,8 @@ public class ReadyLiveFragment extends BaseFragment {
     private RoomModel roomModel;
     private ImageView buttonCamera;
     private FrescoRoundView Front_cover;
-    private ArrayList<String> typeList;
-    private GridView gridView;
-    private CommonAdapter<String> commonAdapter;
+    private ArrayList<LableModel> typeList;
+    private CommonAdapter<LableModel> commonAdapter;
 
     public interface OnCallEvents {
         //开始直播
@@ -136,7 +137,7 @@ public class ReadyLiveFragment extends BaseFragment {
         buttonCamera = (ImageView) controlView.findViewById(R.id.button_call_switch_camera);
         btn_wechat = (ImageView) controlView.findViewById(R.id.btn_wechat);
         btn_weibo = (ImageView) controlView.findViewById(R.id.btn_weibo);
-        gridView = (GridView) controlView.findViewById(R.id.gridView);
+        GridView gridView = (GridView) controlView.findViewById(R.id.gridView);
         Front_cover = (FrescoRoundView) controlView.findViewById(R.id.Front_cover);
         LinearLayout layout_ticket = (LinearLayout) controlView.findViewById(R.id.layout_ticket);
         LinearLayout layout_lock = (LinearLayout) controlView.findViewById(R.id.layout_lock);
@@ -166,26 +167,36 @@ public class ReadyLiveFragment extends BaseFragment {
             layout_lock.setVisibility(View.GONE);
         }
         getRoomInfo(loginUserModel.userid, loginUserModel.token);
-        commonAdapter = new CommonAdapter<String>(getActivity(), typeList, R.layout.item_type) {
+        commonAdapter = new CommonAdapter<LableModel>(getActivity(), typeList, R.layout.item_type) {
             @Override
-            public void convert(ViewHolder helper, String item, int position) {
-                helper.setText(R.id.type_1, typeList.get(position));
+            public void convert(ViewHolder helper, LableModel item, int position) {
+                helper.setText(R.id.type_1, typeList.get(position).lable);
+                if (item.isCinle) {
+                    helper.setTextBackground(R.id.type_1, ContextCompat.getDrawable(getActivity(), R.drawable.bg_circle_red));
+                } else {
+                    helper.setTextBackground(R.id.type_1, ContextCompat.getDrawable(getActivity(), R.drawable.bg_circle_wirte));
+                }
             }
         };
+
         gridView.setAdapter(commonAdapter);
         gridView.setSelection(0);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                for (int m = 0; m < adapterView.getCount(); m++) {
-                    View v = adapterView.getChildAt(m);
-                    if (position == m) {
-                        v.findViewById(R.id.type_1).setBackgroundResource(R.drawable.bg_circle_red);
-                    } else {
-                        v.findViewById(R.id.type_1).setBackgroundResource(R.drawable.bg_circle_wirte);
-                    }
+//                for (int m = 0; m < adapterView.getCount(); m++) {
+//                    View v = adapterView.getChildAt(m);
+//                    if (position == m) {
+//                        v.findViewById(R.id.type_1).setBackgroundResource(R.drawable.bg_circle_red);
+//                    } else {
+//                        v.findViewById(R.id.type_1).setBackgroundResource(R.drawable.bg_circle_wirte);
+//                    }
+//                }
+                if (!typeList.get(position).isCinle) {
+                    typeList.get(position).isCinle = true;
+                } else {
+                    typeList.get(position).isCinle = false;
                 }
-                typeKind = typeList.get(position);
                 commonAdapter.notifyDataSetChanged();
             }
         });
@@ -253,7 +264,23 @@ public class ReadyLiveFragment extends BaseFragment {
 
     //开播
     private void startLive() {
-        chatRoom.addtag(CommonUrlConfig.addtag, loginUserModel.userid, typeKind, new HttpBusinessCallback() {
+        String str = "";
+        typeKind = "";
+        int y = 0;
+        for (LableModel s : typeList) {
+            if (s.isCinle) {
+                y++;
+                typeKind += "," + s.lable;
+            }
+        }
+        if (y > 3) {
+            ToastUtils.showToast(getActivity(), "标签只能选择三个");
+            return;
+        }
+        if (typeKind.length() > 1) {
+            str = typeKind.substring(1, typeKind.length());
+        }
+        chatRoom.addtag(CommonUrlConfig.addtag, loginUserModel.userid, str, new HttpBusinessCallback() {
             @Override
             public void onSuccess(final String response) {
                 super.onSuccess(response);
@@ -484,7 +511,7 @@ public class ReadyLiveFragment extends BaseFragment {
         chatRoom.LiveVideoBroadcast(CommonUrlConfig.LiveVideoBroadcast, loginUserModel, title, area, price, pwd, callback);
     }
 
-    private void getRoomInfo(String userid, String token) {
+    private void getRoomInfo(String userid, final String token) {
         HttpBusinessCallback callback = new HttpBusinessCallback() {
             @Override
             public void onFailure(Map<String, ?> errorMap) {
@@ -516,35 +543,39 @@ public class ReadyLiveFragment extends BaseFragment {
                 @Override
                 public void onSuccess(final String response) {
                     super.onSuccess(response);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonListResult<VoucherModel> result = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
-                            }.getType());
-                            if (result != null && result.code.equals("1000")) {
-                                Locale locale = getResources().getConfiguration().locale;
-                                String language = locale.getLanguage();
-                                switch (language) {
-                                    case "en":
-                                        getTypeKind = result.data.get(1).value;
-                                        break;
-                                    case "zh":
-                                        getTypeKind = result.data.get(0).value;
-                                        break;
-                                    default:
-                                        getTypeKind = result.data.get(1).value;
-                                        break;
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                CommonListResult<VoucherModel> result = JsonUtil.fromJson(response, new TypeToken<CommonListResult<VoucherModel>>() {
+                                }.getType());
+                                if (result != null && result.code.equals("1000")) {
+                                    Locale locale = getResources().getConfiguration().locale;
+                                    String language = locale.getLanguage();
+                                    switch (language) {
+                                        case "en":
+                                            getTypeKind = result.data.get(1).value;
+                                            break;
+                                        case "zh":
+                                            getTypeKind = result.data.get(0).value;
+                                            break;
+                                        default:
+                                            getTypeKind = result.data.get(1).value;
+                                            break;
 
+                                    }
+                                    String[] str = getTypeKind.split(",");
+                                    for (int i = 0; i < str.length; i++) {
+                                        LableModel model = new LableModel();
+                                        model.lable = str[i];
+                                        model.isCinle = i == 0;
+                                        typeList.add(model);
+                                    }
+                                    commonAdapter.notifyDataSetChanged();
                                 }
-                                String[] str = getTypeKind.split(",");
-                                for (int i = 0; i < str.length; i++) {
-                                    typeList.add(str[i]);
-                                }
-                                typeKind = getTypeKind.split(",")[0];
-                                commonAdapter.notifyDataSetChanged();
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             });
         }
