@@ -615,4 +615,7 @@
     <string name="Money_changer_success">Exchange Successful</string>
     <string name="Money_changer_faile">Exchange Fail</string>
     <string name="tips_ready_live">Broadcast area：</string>
+    <string name="daily_bonus">Daily Bonus</string>
+    <string name="daily_comfir">领取奖励</string>
+    <string name="daily_tips">新的一天，新的开始，yeye陪你一起发现新的世界</string>
 </resources>

@@ -43,6 +43,7 @@ import com.angelatech.yeyelive.util.UploadApp;
 import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.util.roomSoundState;
+import com.angelatech.yeyelive.view.DayDialog;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
@@ -183,6 +184,14 @@ public class TabMenuActivity extends BaseActivity {
                 });
             }
         });
+        DayDialog dayDialog = new DayDialog();
+        ArrayList<VoucherModel> listdata = new ArrayList<>();
+        for (int i = 0; i< 7 ;i++){
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel.key = i+"";
+            listdata.add(voucherModel);
+        }
+        dayDialog.DayDialog(TabMenuActivity.this,listdata);
     }
 
     @Override

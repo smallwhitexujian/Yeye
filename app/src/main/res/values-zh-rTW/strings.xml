@@ -596,4 +596,7 @@
     <string name="Money_changer_success">兑换成功</string>
     <string name="Money_changer_faile">兑换失败</string>
     <string name="tips_ready_live">直播区域：</string>
+    <string name="daily_bonus">每天登陆奖励</string>
+    <string name="daily_comfir">领取奖励</string>
+    <string name="daily_tips">新的一天，新的开始，yeye陪你一起发现新的世界</string>
 </resources>
