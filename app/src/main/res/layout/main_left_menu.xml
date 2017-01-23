@@ -368,6 +368,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                android:visibility="gone"
                 android:background="@color/color_grey_d5" />
 
             <RelativeLayout
@@ -375,6 +376,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:gravity="center">
 
                 <TextView
@@ -469,6 +471,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:background="@color/white"
+                android:visibility="visible"
                 android:gravity="center">
 
                 <TextView

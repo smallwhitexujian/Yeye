@@ -185,7 +185,7 @@ public class Utility {
             file.mkdirs();
         }
         try {
-            fileOutputStream = new FileOutputStream(path + ".png");
+            fileOutputStream = new FileOutputStream(path + ".png",true);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
             fileOutputStream.close();
         } catch (Exception e) {
