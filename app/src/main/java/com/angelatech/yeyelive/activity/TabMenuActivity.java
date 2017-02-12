@@ -44,14 +44,17 @@ import com.angelatech.yeyelive.util.Utility;
 import com.angelatech.yeyelive.util.VerificationUtil;
 import com.angelatech.yeyelive.util.roomSoundState;
 import com.angelatech.yeyelive.view.FrescoBitmapUtils;
+import com.facebook.drawee.drawable.ScalingUtils;
 import com.google.gson.reflect.TypeToken;
 import com.will.common.log.DebugLogs;
 import com.will.common.tool.DeviceTool;
 import com.will.web.handle.HttpBusinessCallback;
+import com.xj.frescolib.View.FrescoDrawee;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -92,9 +95,11 @@ public class TabMenuActivity extends BaseActivity {
     private RoomModel roomModel = null;
     private MainEnter mainEnter;
     private ArrayList<VoucherModel> listImages;
+    private HashMap<Integer ,String >map ;
     private Utility utility;
     private  ImageView img_live;
     private int ImageSize = 20;
+    private FrescoDrawee fresco_home,fresco_me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +114,13 @@ public class TabMenuActivity extends BaseActivity {
     }
 
     private void initView() {
+        map = new HashMap<>();
         btn_list = (TextView) findViewById(R.id.iv_tab_room);
         btn_me = (TextView) findViewById(R.id.iv_tab_people);
         pot = (TextView) findViewById(R.id.pot);
         img_live = (ImageView) findViewById(R.id.img_live);
+        fresco_home = (FrescoDrawee)findViewById(R.id.fresco_home);
+        fresco_me = (FrescoDrawee)findViewById(R.id.fresco_me);
         LinearLayout layout_list = (LinearLayout) findViewById(R.id.layout_room);
         RelativeLayout layout_me = (RelativeLayout) findViewById(R.id.layout_people);
 
@@ -160,6 +168,7 @@ public class TabMenuActivity extends BaseActivity {
                             for (int i = 0; i < listImages.size(); i++) {
                                 String url = listImages.get(i).value;
                                 int fileName = 1000 + i;
+                                map.put(fileName,url);
                                 utility.setSaveImage(url, String.valueOf(fileName));
                             }
                             if (utility.getImage("1007") != null) {
@@ -167,14 +176,16 @@ public class TabMenuActivity extends BaseActivity {
                                 Bitmap bitmap = utility.getImage("1007");
                                 Drawable drawable = new BitmapDrawable(bitmap);
                                 drawable.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
-                                btn_me.setCompoundDrawables(null, drawable, null, null);
+//                                btn_me.setCompoundDrawables(null, drawable, null, null);
+                                fresco_home.setImageURI(map.get(1007));
                             }
                             if (utility.getImage("1004") != null) {
                                 btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
                                 Bitmap bitmap = utility.getImage("1004");
                                 Drawable drawable2 = new BitmapDrawable(bitmap);
                                 drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
-                                btn_list.setCompoundDrawables(null, drawable2, null, null);
+//                                btn_list.setCompoundDrawables(null, drawable2, null, null);
+                                fresco_home.setImageURI(map.get(1004));
                             }
                             if (utility.getImage("1005") != null) {
                                 img_live.setImageBitmap(utility.getImage("1005"));
@@ -210,14 +221,13 @@ public class TabMenuActivity extends BaseActivity {
                 btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
                 Drawable drawable;
                 if (utility.getImage("1008") != null) {
-                    Bitmap bitmap = utility.getImage("1008");
-                    drawable = new BitmapDrawable(bitmap);
-                    drawable.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
+                    fresco_me.setImageURI(map.get(1008));
+                    fresco_me.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
                 } else {
                     drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_s);
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+                    btn_me.setCompoundDrawables(null, drawable, null, null);
                 }
-                btn_me.setCompoundDrawables(null, drawable, null, null);
                 break;
             case R.id.layout_room:
                 clearSelectIcon();
@@ -225,14 +235,13 @@ public class TabMenuActivity extends BaseActivity {
                 btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
                 Drawable drawable2;
                 if (utility.getImage("1004") != null) {
-                    Bitmap bitmap = utility.getImage("1004");
-                    drawable2 = new BitmapDrawable(bitmap);
-                    drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
+                    fresco_home.setImageURI(map.get(1004));
+                    fresco_home.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
                 } else {
                     drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_s);
                     drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
+                    btn_list.setCompoundDrawables(null, drawable2, null, null);
                 }
-                btn_list.setCompoundDrawables(null, drawable2, null, null);
                 break;
         }
     }
@@ -310,27 +319,25 @@ public class TabMenuActivity extends BaseActivity {
     }
 
     private void clearSelectIcon() {
-        Bitmap bitmap = utility.getImage("1007");
         Drawable drawable2;
-        if (bitmap!=null){
-            drawable2 = new BitmapDrawable(bitmap);
-            drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
+        if (utility.getImage("1007")!=null){
+            fresco_me.setImageURI(map.get(1007));
+            fresco_me.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
         }else{
             drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_n);
             drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
+            btn_me.setCompoundDrawables(null, drawable2, null, null);
         }
-        btn_me.setCompoundDrawables(null, drawable2, null, null);
 
         Drawable drawable;
-        Bitmap bitmap2 = utility.getImage("1003");
-        if (bitmap2!=null){
-            drawable = new BitmapDrawable(bitmap2);
-            drawable.setBounds(0, 0, bitmap2.getWidth()+ImageSize, bitmap2.getHeight()+ImageSize);//必须设置图片大小，否则不显示
+        if (utility.getImage("1003")!=null){
+            fresco_home.setImageURI(map.get(1003));
+            fresco_home.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
         }else{
             drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_n);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+            btn_list.setCompoundDrawables(null, drawable, null, null);
         }
-        btn_list.setCompoundDrawables(null, drawable, null, null);
         btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
         btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
     }

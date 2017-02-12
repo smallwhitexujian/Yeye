@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,22 +13,25 @@
         android:id="@+id/contentFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0.5dp"
         android:layout_above="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="0.5dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_above="@+id/linearLayout"
-        android:background="@color/font_line"/>
+        android:background="@color/font_line" />
     <!--底部-->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@color/color_ffffff"
         android:baselineAligned="false"
         android:clipChildren="false"
@@ -41,14 +45,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <com.xj.frescolib.View.FrescoDrawee
+                android:id="@+id/fresco_home"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                fresco:failureImageScaleType="centerInside"
+                fresco:placeholderImage="@drawable/btn_menu_home_s"
+                fresco:placeholderImageScaleType="centerInside" />
+
             <TextView
                 android:id="@+id/iv_tab_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:contentDescription="@null"
-                android:drawablePadding="2dp"
-                android:drawableTop="@drawable/btn_menu_home_s"
                 android:gravity="center"
                 android:text="@string/tab_menu_room"
                 android:textColor="@color/color_d80c18"
@@ -84,21 +92,30 @@
                 android:id="@+id/pot"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:layout_alignRight="@+id/iv_tab_people"
+                android:layout_alignEnd="@+id/fresco_me"
+                android:layout_alignRight="@+id/fresco_me"
+                android:layout_alignTop="@+id/fresco_me"
                 android:background="@drawable/circular_red"
                 android:contentDescription="@null"
                 tools:ignore="RtlHardcoded"
                 tools:visibility="visible" />
 
+            <com.xj.frescolib.View.FrescoDrawee
+                android:id="@+id/fresco_me"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                fresco:failureImageScaleType="centerInside"
+                fresco:placeholderImage="@drawable/btn_menu_me_n" />
+
             <TextView
                 android:id="@+id/iv_tab_people"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_below="@+id/fresco_me"
+                android:layout_centerHorizontal="true"
                 android:contentDescription="@null"
-                android:drawablePadding="2dp"
-                android:drawableTop="@drawable/btn_menu_me_n"
-                android:gravity="center"
                 android:text="@string/Tab_menu_my"
                 android:textColor="@color/color_999999"
                 android:textSize="10dp" />
