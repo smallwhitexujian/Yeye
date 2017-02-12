@@ -1,9 +1,9 @@
 package com.angelatech.yeyelive.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,11 +95,10 @@ public class TabMenuActivity extends BaseActivity {
     private RoomModel roomModel = null;
     private MainEnter mainEnter;
     private ArrayList<VoucherModel> listImages;
-    private HashMap<Integer ,String >map ;
+    private HashMap<Integer, String> map;
     private Utility utility;
-    private  ImageView img_live;
-    private int ImageSize = 20;
-    private FrescoDrawee fresco_home,fresco_me;
+    private ImageView img_live;
+    private FrescoDrawee fresco_home, fresco_me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,14 +112,15 @@ public class TabMenuActivity extends BaseActivity {
         initData();
     }
 
+    @SuppressLint("UseSparseArrays")
     private void initView() {
         map = new HashMap<>();
         btn_list = (TextView) findViewById(R.id.iv_tab_room);
         btn_me = (TextView) findViewById(R.id.iv_tab_people);
         pot = (TextView) findViewById(R.id.pot);
         img_live = (ImageView) findViewById(R.id.img_live);
-        fresco_home = (FrescoDrawee)findViewById(R.id.fresco_home);
-        fresco_me = (FrescoDrawee)findViewById(R.id.fresco_me);
+        fresco_home = (FrescoDrawee) findViewById(R.id.fresco_home);
+        fresco_me = (FrescoDrawee) findViewById(R.id.fresco_me);
         LinearLayout layout_list = (LinearLayout) findViewById(R.id.layout_room);
         RelativeLayout layout_me = (RelativeLayout) findViewById(R.id.layout_people);
 
@@ -168,25 +168,13 @@ public class TabMenuActivity extends BaseActivity {
                             for (int i = 0; i < listImages.size(); i++) {
                                 String url = listImages.get(i).value;
                                 int fileName = 1000 + i;
-                                map.put(fileName,url);
+                                map.put(fileName, url);
                                 utility.setSaveImage(url, String.valueOf(fileName));
                             }
-                            if (utility.getImage("1007") != null) {
-                                btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
-                                Bitmap bitmap = utility.getImage("1007");
-                                Drawable drawable = new BitmapDrawable(bitmap);
-                                drawable.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
-//                                btn_me.setCompoundDrawables(null, drawable, null, null);
-                                fresco_home.setImageURI(map.get(1007));
-                            }
-                            if (utility.getImage("1004") != null) {
-                                btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
-                                Bitmap bitmap = utility.getImage("1004");
-                                Drawable drawable2 = new BitmapDrawable(bitmap);
-                                drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
-//                                btn_list.setCompoundDrawables(null, drawable2, null, null);
-                                fresco_home.setImageURI(map.get(1004));
-                            }
+                            fresco_me.setImageURI(map.get(1007));
+                            fresco_home.setImageURI(map.get(1004));
+                            fresco_me.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
+                            fresco_home.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
                             if (utility.getImage("1005") != null) {
                                 img_live.setImageBitmap(utility.getImage("1005"));
                             }
@@ -320,20 +308,20 @@ public class TabMenuActivity extends BaseActivity {
 
     private void clearSelectIcon() {
         Drawable drawable2;
-        if (utility.getImage("1007")!=null){
+        if (utility.getImage("1007") != null) {
             fresco_me.setImageURI(map.get(1007));
             fresco_me.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
-        }else{
+        } else {
             drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_n);
             drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
             btn_me.setCompoundDrawables(null, drawable2, null, null);
         }
 
         Drawable drawable;
-        if (utility.getImage("1003")!=null){
+        if (utility.getImage("1003") != null) {
             fresco_home.setImageURI(map.get(1003));
             fresco_home.setImageImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
-        }else{
+        } else {
             drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_n);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
             btn_list.setCompoundDrawables(null, drawable, null, null);
