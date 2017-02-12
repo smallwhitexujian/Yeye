@@ -94,6 +94,7 @@ public class TabMenuActivity extends BaseActivity {
     private ArrayList<VoucherModel> listImages;
     private Utility utility;
     private  ImageView img_live;
+    private int ImageSize = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,14 +166,14 @@ public class TabMenuActivity extends BaseActivity {
                                 btn_me.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_999999));
                                 Bitmap bitmap = utility.getImage("1007");
                                 Drawable drawable = new BitmapDrawable(bitmap);
-                                drawable.setBounds(0, 0, bitmap.getWidth()+20, bitmap.getHeight()+20);//必须设置图片大小，否则不显示
+                                drawable.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
                                 btn_me.setCompoundDrawables(null, drawable, null, null);
                             }
                             if (utility.getImage("1004") != null) {
                                 btn_list.setTextColor(ContextCompat.getColor(TabMenuActivity.this, R.color.color_d80c18));
                                 Bitmap bitmap = utility.getImage("1004");
                                 Drawable drawable2 = new BitmapDrawable(bitmap);
-                                drawable2.setBounds(0, 0, bitmap.getWidth()+20, bitmap.getHeight()+20);//必须设置图片大小，否则不显示
+                                drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
                                 btn_list.setCompoundDrawables(null, drawable2, null, null);
                             }
                             if (utility.getImage("1005") != null) {
@@ -211,7 +212,7 @@ public class TabMenuActivity extends BaseActivity {
                 if (utility.getImage("1008") != null) {
                     Bitmap bitmap = utility.getImage("1008");
                     drawable = new BitmapDrawable(bitmap);
-                    drawable.setBounds(0, 0, bitmap.getWidth()+20, bitmap.getHeight()+20);//必须设置图片大小，否则不显示
+                    drawable.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
                 } else {
                     drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_s);
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
@@ -226,7 +227,7 @@ public class TabMenuActivity extends BaseActivity {
                 if (utility.getImage("1004") != null) {
                     Bitmap bitmap = utility.getImage("1004");
                     drawable2 = new BitmapDrawable(bitmap);
-                    drawable2.setBounds(0, 0, bitmap.getWidth()+20, bitmap.getHeight()+20);//必须设置图片大小，否则不显示
+                    drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
                 } else {
                     drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_s);
                     drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
@@ -313,7 +314,7 @@ public class TabMenuActivity extends BaseActivity {
         Drawable drawable2;
         if (bitmap!=null){
             drawable2 = new BitmapDrawable(bitmap);
-            drawable2.setBounds(0, 0, bitmap.getWidth()+20, bitmap.getHeight()+20);//必须设置图片大小，否则不显示
+            drawable2.setBounds(0, 0, bitmap.getWidth()+ImageSize, bitmap.getHeight()+ImageSize);//必须设置图片大小，否则不显示
         }else{
             drawable2 = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_me_n);
             drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());//必须设置图片大小，否则不显示
@@ -324,7 +325,7 @@ public class TabMenuActivity extends BaseActivity {
         Bitmap bitmap2 = utility.getImage("1003");
         if (bitmap2!=null){
             drawable = new BitmapDrawable(bitmap2);
-            drawable.setBounds(0, 0, bitmap2.getWidth()+20, bitmap2.getHeight()+20);//必须设置图片大小，否则不显示
+            drawable.setBounds(0, 0, bitmap2.getWidth()+ImageSize, bitmap2.getHeight()+ImageSize);//必须设置图片大小，否则不显示
         }else{
             drawable = ContextCompat.getDrawable(TabMenuActivity.this, R.drawable.btn_menu_home_n);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
