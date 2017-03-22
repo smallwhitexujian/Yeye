@@ -19,7 +19,7 @@
         android:layout_height="140dp"
         android:layout_marginTop="100dp" />
 
-    <com.angelatech.yeyelive.view.PeriscopeLayout
+    <com.angelatech.yeyelive1.view.PeriscopeLayout
         android:id="@+id/PeriscopeLayout"
         android:layout_width="80dp"
         android:layout_height="300dp"
@@ -391,7 +391,7 @@
 
     <fragment
         android:id="@+id/goods_list"
-        android:name="com.angelatech.yeyelive.fragment.GoodsListFragment"
+        android:name="com.angelatech.yeyelive1.fragment.GoodsListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/view_googs_list" />

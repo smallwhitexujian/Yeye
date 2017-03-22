@@ -165,7 +165,7 @@ public class OkHttpManager extends HttpManager {
 
 
     /**
-     * post  from 请求(一般使用这个)
+     * post from 请求(一般使用这个)
      */
     public void postRequest(String url, RequestBody params, final HttpCallback callback) {
         if (url == null || url.equals("")) {

@@ -23,7 +23,7 @@
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
    public *;
  }
--keepclassmembers class com.angelatech.yeyelive.activity.WebActivity$addJavascriptInterface{
+-keepclassmembers class yeyelive1.activity.WebActivity$addJavascriptInterface{
     public *;
 }
 #保留JavascriptInterface中的方法
@@ -32,7 +32,7 @@
 }
 
 #这个根据自己的project来设置，这个类用来与js交互，所以这个类中的 字段 ，方法， 等尽量保持
--keepclassmembers public class com.angelatech.yeyelive.activity.WebActivity{
+-keepclassmembers public class yeyelive1.activity.WebActivity{
    <fields>;
    <methods>;
    public *;
@@ -112,7 +112,7 @@
 # 微信
 -dontwarn com.tencent.mm.**
 -keep class com.tencent.mm.**{*;}
--keep class com.angelatech.yeyelive.wxapi.**{*;}
+-keep class yeyelive1.wxapi.**{*;}
 
 #音视频
 -dontwarn com.will.libmedia.**
@@ -134,7 +134,7 @@
 -keep class com.tencent.open.PKDialog {*;}
 -keep class com.tencent.open.PKDialog$*
 -keep class com.tencent.open.PKDialog$* {*;}
--keep class com.angelatech.yeyelive.qqapi.**{*;}
+-keep class yeyelive1.qqapi.**{*;}
 
 # PayssionSDK
 -keep public class com.payssion.android.sdk.* {*; }
@@ -181,8 +181,8 @@
 -keep class com.google.gson.examples.android.model.** { *; }
 
 #####自己项目
--keep public class com.angelatech.yeyelive.model**{*;}
--keep public class com.angelatech.yeyelive.thirdLogin**{*;}
+-keep public class yeyelive1.model**{*;}
+-keep public class yeyelive1.thirdLogin**{*;}
 
 #db
 -keep class com.j256.**
@@ -192,7 +192,7 @@
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
 
--keep public class com.angelatech.yeyelive.db.model**{*;}
+-keep public class yeyelive1.db.model**{*;}
 
 
 ###趣拍的SDK

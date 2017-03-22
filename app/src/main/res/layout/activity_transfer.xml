@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="#FFF9F9F9"
 
-    tools:context="com.angelatech.yeyelive.activity.TransferAccountsActivity">
+    tools:context="com.angelatech.yeyelive1.activity.TransferAccountsActivity">
 
     <RelativeLayout
         android:id="@+id/ly_top"

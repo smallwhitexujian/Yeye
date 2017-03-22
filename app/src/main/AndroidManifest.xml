@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.angelatech.yeyelive">
+    package="com.angelatech.yeyelive1">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -49,7 +49,7 @@
         android:required="true" />
 
     <application
-        android:name=".application.App"
+        android:name="com.angelatech.yeyelive1.application.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -58,7 +58,7 @@
         android:theme="@android:style/Theme.Holo.Light.NoActionBar"
         android:uiOptions="splitActionBarWhenNarrow">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.angelatech.yeyelive1.activity.LoginActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,190 +68,190 @@
         </activity>
 
         <activity
-            android:name=".activity.Qiniupush.push.SWCodecCameraStreamingActivity"
+            android:name="com.angelatech.yeyelive1.activity.Qiniupush.push.SWCodecCameraStreamingActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ChatRoomActivity"
+            android:name="com.angelatech.yeyelive1.activity.ChatRoomActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".activity.LiveFinishActivity"
+            android:name="com.angelatech.yeyelive1.activity.LiveFinishActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize|adjustUnspecified" />
 
         <!-- 手机登录 -->
         <activity
-            android:name=".activity.RegisterFindPWDActivity"
+            android:name="com.angelatech.yeyelive1.activity.RegisterFindPWDActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.LoginPasswordActivity"
+            android:name="com.angelatech.yeyelive1.activity.LoginPasswordActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <!-- 设置 -->
         <activity
-            android:name=".activity.SettingActivity"
+            android:name="com.angelatech.yeyelive1.activity.SettingActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name="com.angelatech.yeyelive1.activity.ProfileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 
         <!-- 选择国家 -->
         <activity
-            android:name=".activity.CountrySelectActivity"
+            android:name="com.angelatech.yeyelive1.activity.CountrySelectActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SearchActivity"
+            android:name="com.angelatech.yeyelive1.activity.SearchActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.UserVideoActivity"
+            android:name="com.angelatech.yeyelive1.activity.UserVideoActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|adjustUnspecified" />
         <activity
-            android:name=".activity.PlayActivity"
+            android:name="com.angelatech.yeyelive1.activity.PlayActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.ChangePasswordActivity"
+            android:name="com.angelatech.yeyelive1.activity.ChangePasswordActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.UserInfoActivity"
+            android:name="com.angelatech.yeyelive1.activity.UserInfoActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.FansActivity"
+            android:name="com.angelatech.yeyelive1.activity.FansActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.FocusOnActivity"
+            android:name="com.angelatech.yeyelive1.activity.FocusOnActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.EditActivity"
+            android:name="com.angelatech.yeyelive1.activity.EditActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.PicViewActivity"
+            android:name="com.angelatech.yeyelive1.activity.PicViewActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.PhoneBindActivity"
+            android:name="com.angelatech.yeyelive1.activity.PhoneBindActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.AboutUsActivity"
+            android:name="com.angelatech.yeyelive1.activity.AboutUsActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.WebActivity"
+            android:name="com.angelatech.yeyelive1.activity.WebActivity"
             android:allowBackup="false"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.FeedbackActivity"
+            android:name="com.angelatech.yeyelive1.activity.FeedbackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.BlacklistActivity"
+            android:name="com.angelatech.yeyelive1.activity.BlacklistActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.RechargeWayActivity"
+            android:name="com.angelatech.yeyelive1.activity.RechargeWayActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.RechargeActivity"
+            android:name="com.angelatech.yeyelive1.activity.RechargeActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.TabActivity"
+            android:name="com.angelatech.yeyelive1.activity.TabActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MessageNotificationActivity"
+            android:name="com.angelatech.yeyelive1.activity.MessageNotificationActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MessageOfficialActivity"
+            android:name="com.angelatech.yeyelive1.activity.MessageOfficialActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MessageFansActivity"
+            android:name="com.angelatech.yeyelive1.activity.MessageFansActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.SettingNoticeActivity"
+            android:name="com.angelatech.yeyelive1.activity.SettingNoticeActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MessageRedActivity"
+            android:name="com.angelatech.yeyelive1.activity.MessageRedActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.TabMenuActivity"
+            android:name="com.angelatech.yeyelive1.activity.TabMenuActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.RankActivity"
+            android:name="com.angelatech.yeyelive1.activity.RankActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.TestScanActivity"
+            android:name="com.angelatech.yeyelive1.activity.TestScanActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.UploadProductsActivity"
+            android:name="com.angelatech.yeyelive1.activity.UploadProductsActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
-            android:name=".activity.ProductActivity"
+            android:name="com.angelatech.yeyelive1.activity.ProductActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.GoldHousActivity"
+            android:name="com.angelatech.yeyelive1.activity.GoldHousActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -262,70 +262,70 @@
             android:windowSoftInputMode="stateUnspecified|adjustPan" />
 
         <activity
-            android:name=".activity.FriendUserInfoActivity"
+            android:name="com.angelatech.yeyelive1.activity.FriendUserInfoActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.RelationActivity"
+            android:name="com.angelatech.yeyelive1.activity.RelationActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.FansRankActivity"
+            android:name="com.angelatech.yeyelive1.activity.FansRankActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.PopularityActivity"
+            android:name="com.angelatech.yeyelive1.activity.PopularityActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.PayActivity"
+            android:name="com.angelatech.yeyelive1.activity.PayActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.RecodeActivity"
+            android:name="com.angelatech.yeyelive1.activity.RecodeActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.TransferAccountsActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
-        <activity
-            android:name=".activity.TransferActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".activity.SetPayPwdActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".activity.TransferCompleteActivity"
-            android:configChanges="keyboard|screenLayout|screenSize|orientation"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".activity.ProductAddressActivity"
+            android:name="com.angelatech.yeyelive1.activity.TransferAccountsActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
-            android:name=".activity.PayVoucher"
+            android:name="com.angelatech.yeyelive1.activity.TransferActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.angelatech.yeyelive1.activity.SetPayPwdActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.angelatech.yeyelive1.activity.TransferCompleteActivity"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.angelatech.yeyelive1.activity.ProductAddressActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
-            android:name=".activity.MoneyChangerActivity"
+            android:name="com.angelatech.yeyelive1.activity.PayVoucher"
+            android:configChanges="keyboard|screenLayout|screenSize|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name="com.angelatech.yeyelive1.activity.MoneyChangerActivity"
             android:configChanges="keyboard|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -340,7 +340,7 @@
             android:theme="@style/NoAchtionBar"/>
 
         <service
-            android:name=".service.IService"
+            android:name="com.angelatech.yeyelive1.service.IService"
             android:allowBackup="true"
             android:enabled="true"
             android:persistent="true">
@@ -351,12 +351,12 @@
 
         <!-- 接收微信的请求及返回值 -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.angelatech.yeyelive1.wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:name=".wxapi.WXPayEntryActivity"
+            android:name="com.angelatech.yeyelive1.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent" />
@@ -434,12 +434,12 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
 
-            <data android:scheme="com.angelatech.yeyelive" />
+            <data android:scheme="com.angelatech.yeyelive1" />
         </intent-filter>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.angelatech.yeyelive.fileprovider"
+            android:authorities="com.angelatech.yeyelive1.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -465,10 +465,10 @@
         </receiver>
 
         <activity
-            android:name=".activity.UesrVoucherBillListActivity"
+            android:name="com.angelatech.yeyelive1.activity.UesrVoucherBillListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.HostGoldHousActivity" />
-        <activity android:name=".activity.TransactionManagementActivity" />
+        <activity android:name="com.angelatech.yeyelive1.activity.HostGoldHousActivity" />
+        <activity android:name="com.angelatech.yeyelive1.activity.TransactionManagementActivity" />
 
     </application>
 

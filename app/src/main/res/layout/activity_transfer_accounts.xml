@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFF9F9F9"
     android:orientation="vertical"
-    tools:context="com.angelatech.yeyelive.activity.TransferAccountsActivity">
+    tools:context="com.angelatech.yeyelive1.activity.TransferAccountsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

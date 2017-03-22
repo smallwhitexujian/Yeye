@@ -5,8 +5,6 @@ import android.telephony.SmsManager;
 import java.util.List;
 
 public class SendSMSTool {
-	
-	
 	// 发消息
 	public static void sendSmsMessage(String phoneNumber, String content) {
 		SmsManager smsManager = SmsManager.getDefault();

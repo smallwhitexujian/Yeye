@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.angelatech.yeyelive.view.PicView
+    <com.angelatech.yeyelive1.view.PicView
         android:id="@+id/picture_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

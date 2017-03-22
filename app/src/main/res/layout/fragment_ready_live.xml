@@ -132,7 +132,7 @@
             android:layout_height="41dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="140dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/startlive_btn_redbg"
@@ -276,6 +276,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
 

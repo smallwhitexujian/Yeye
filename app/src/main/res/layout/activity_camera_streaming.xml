@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
-        <com.angelatech.yeyelive.activity.Qiniupush.push.CameraPreviewFrameView
+        <com.angelatech.yeyelive1.activity.Qiniupush.push.CameraPreviewFrameView
             android:id="@+id/cameraPreview_surfaceView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
